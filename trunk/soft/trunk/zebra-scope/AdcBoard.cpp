@@ -331,8 +331,12 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 unsigned short AdcBoard::CalcReg(float v)
 {
+	//todo: 1, 
+	float min = 1.41f;
+	float max = 3.60f;
+	float step = 65536/(max - min);
 	//calibrite from vio@2s60;
-	//unsigned int reg = (int)((3.60f-v)*29925);  //29925 = 65536/(3.6-1.41)
+	//unsigned int reg = (int)((max-v)*step);
 
 	//
 	unsigned int reg = (int)((3.00f-v)*31000);
@@ -396,6 +400,9 @@ bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 
 bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 {
+
+	//todo: 1, add gpib code to specify the input signal/clock;
+
 	float fs = signalSettings.clockFreq;
 	TimeDomainReport &tdReport = report.tdReport;
 
