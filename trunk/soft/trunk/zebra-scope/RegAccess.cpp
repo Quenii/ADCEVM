@@ -35,7 +35,7 @@ RegAccess::RegAccess(QWidget *parent, Qt::WFlags flags)
  	QSpacerItem* verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
  
  	layout->addItem(verticalSpacer);
-	QShortcut * m_shortcut = new QShortcut(QKeySequence(tr("F5", "×Ô¶¯Ö´ÐÐ")), parent);
+
 
 }
 
