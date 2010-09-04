@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'ControlPanel.ui'
 **
-** Created: Mon Aug 23 00:23:45 2010
+** Created: Sat Sep 4 20:42:22 2010
 **      by: Qt User Interface Compiler version 4.5.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -202,10 +202,6 @@ public:
         vaDoubleSpinBox->setObjectName(QString::fromUtf8("vaDoubleSpinBox"));
         sizePolicy1.setHeightForWidth(vaDoubleSpinBox->sizePolicy().hasHeightForWidth());
         vaDoubleSpinBox->setSizePolicy(sizePolicy1);
-        vaDoubleSpinBox->setMinimum(1.5);
-        vaDoubleSpinBox->setMaximum(3.3);
-        vaDoubleSpinBox->setSingleStep(0.1);
-        vaDoubleSpinBox->setValue(1.8);
 
         gridLayout->addWidget(vaDoubleSpinBox, 1, 1, 1, 1);
 
@@ -226,10 +222,6 @@ public:
         vdDoubleSpinBox->setObjectName(QString::fromUtf8("vdDoubleSpinBox"));
         sizePolicy1.setHeightForWidth(vdDoubleSpinBox->sizePolicy().hasHeightForWidth());
         vdDoubleSpinBox->setSizePolicy(sizePolicy1);
-        vdDoubleSpinBox->setMinimum(1.5);
-        vdDoubleSpinBox->setMaximum(3.3);
-        vdDoubleSpinBox->setSingleStep(0.1);
-        vdDoubleSpinBox->setValue(1.8);
 
         gridLayout->addWidget(vdDoubleSpinBox, 2, 1, 1, 1);
 

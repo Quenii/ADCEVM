@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'AdcBoard.hpp'
 **
-** Created: Mon Aug 23 00:23:46 2010
+** Created: Sat Sep 4 20:42:21 2010
 **      by: The Qt Meta Object Compiler version 61 (Qt 4.5.3)
 **
 ** WARNING! All changes made in this file will be lost!
