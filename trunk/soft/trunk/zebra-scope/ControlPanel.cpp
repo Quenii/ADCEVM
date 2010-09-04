@@ -235,12 +235,13 @@ void ControlPanel::uiSignalSettings(SignalSettings& settings)
 void ControlPanel::setUiAdcSettings(const AdcSettings& settings)
 {
 	ui.adcTypeLineEdit->setText(settings.adcType);
-	/*settings.va = ui.vaDoubleSpinBox->value();
-	settings.vd = ui.vdDoubleSpinBox->value();
-	settings.bitcount = ui.bitCountSpinBox->value();
-	settings.vpp = ui.vppLineEdit->text().toFloat();
-	settings.coding = (AdcCoding) ui.codingComboBox->currentIndex();
-	settings.phase - ui.phaseLineEdit->text()->toFloat();*/
+
+	ui.vaDoubleSpinBox->setValue(settings.va);
+	ui.vdDoubleSpinBox->setValue(settings.vd);
+	ui.bitCountSpinBox->setValue(settings.bitcount);
+	ui.vppLineEdit->setText("N/A");//(settings.vpp);
+	ui.codingComboBox->setCurrentIndex(settings.coding);
+	ui.phaseLineEdit->setText("N/A");//(settings.phase);
 
 }
 
