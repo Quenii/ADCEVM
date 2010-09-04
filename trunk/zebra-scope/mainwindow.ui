@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindowClass</class>
+ <widget class="QMainWindow" name="MainWindowClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>662</width>
+    <height>596</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>CETC58 ADC Analyzer</string>
+  </property>
+  <property name="dockNestingEnabled">
+   <bool>false</bool>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>1</width>
+     <height>1</height>
+    </size>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>662</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QDockWidget" name="dockWidgetControlPanel">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>291</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>291</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Control Panel</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QScrollArea" name="scrollArea">
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAsNeeded</enum>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="scrollAreaWidgetContents">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>271</width>
+          <height>505</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
+          <widget class="ControlPanel" name="controlPanel" native="true"/>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockWidgetWave">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Time-domain</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_4"/>
+  </widget>
+  <widget class="QDockWidget" name="dockWidgetFFT">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Freq-domain</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_5"/>
+  </widget>
+  <widget class="QDockWidget" name="dockWidgetLogicWave">
+   <property name="allowedAreas">
+    <set>Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Logic Wave</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_2"/>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ControlPanel</class>
+   <extends>QWidget</extends>
+   <header>controlpanel.hpp</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="mainwindow.qrc"/>
+ </resources>
+ <connections/>
+</ui>
