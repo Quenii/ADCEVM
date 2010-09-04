@@ -328,24 +328,37 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	emit boardReport(report);
 }
 
+
+unsigned short AdcBoard::CalcReg(float v)
+{
+	//calibrite from vio@2s60;
+	//unsigned int reg = (int)((3.60f-v)*29925);  //29925 = 65536/(3.6-1.41)
+
+	//
+	unsigned int reg = (int)((3.00f-v)*31000);
+	unsigned short temp = reg;
+	return temp;
+}
+
 bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 {	
 	float vio = adcSettings.vd;
+
 	//配置2656，控制板卡电压
-	if (!writeReg(5, vio))  //控制VIO电压到1.8V
+	if (!writeReg(5, CalcReg(vio)) ) //控制VIO电压到1.8V
 		return false;
 
 	if (!writeReg(6, 0x0004))  //执行 通道E
 		return false;
 
 	//writeReg(5, 0x8000);  //控制VD电压到1.8V
-	if (!writeReg(5, adcSettings.vd))
+	if (!writeReg(5, CalcReg(adcSettings.vd)))
 		return false;
 	if (!writeReg(6, 0x0000))  //执行 通道A
 		return false;
 
 	//writeReg(5, 0x77FF);  //控制VA电压到1.8V
-	if (!writeReg(5, adcSettings.va))
+	if (!writeReg(5, CalcReg(adcSettings.va)))
 		return false;
 	if (!writeReg(6, 0x0002))  //执行 通道C
 		return false;

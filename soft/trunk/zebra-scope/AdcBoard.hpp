@@ -66,6 +66,8 @@ protected:
 private:
 	bool writeIOCmd(unsigned short addr, bool dirRead, unsigned short data);
 
+	unsigned short CalcReg(float v);
+
 signals:
 	void devListChanged(const QList<AdcBoardInfo>& lst);
 	void boardReport(const AdcBoardReport& report);
