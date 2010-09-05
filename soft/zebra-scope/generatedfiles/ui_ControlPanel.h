@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'ControlPanel.ui'
 **
-** Created: Sun Sep 5 10:12:26 2010
+** Created: Sun Sep 5 10:25:06 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -125,6 +125,7 @@ public:
             ControlPanel->setObjectName(QString::fromUtf8("ControlPanel"));
         ControlPanel->resize(282, 1060);
         verticalLayout_3 = new QVBoxLayout(ControlPanel);
+        verticalLayout_3->setContentsMargins(0, 0, 0, 0);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         groupBox_DeviceList = new QGroupBox(ControlPanel);
         groupBox_DeviceList->setObjectName(QString::fromUtf8("groupBox_DeviceList"));

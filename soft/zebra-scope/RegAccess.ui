@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>666</width>
+    <width>674</width>
     <height>459</height>
    </rect>
   </property>
@@ -230,28 +230,28 @@
     <widget class="QWidget" name="widget" native="true">
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="1" column="0">
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="pushButtonSaveSettings">
         <property name="text">
          <string>保存设置</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="pushButtonReadSettings">
         <property name="text">
          <string>读入设置</string>
         </property>
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="pushButtonBack2Top">
         <property name="text">
          <string>至首行</string>
         </property>
        </widget>
       </item>
       <item row="1" column="3">
-       <widget class="QPushButton" name="pushButton_6">
+       <widget class="QPushButton" name="pushButtonStep">
         <property name="text">
          <string>单步执行</string>
         </property>
