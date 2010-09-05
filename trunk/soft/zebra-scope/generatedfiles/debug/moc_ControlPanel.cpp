@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ControlPanel.hpp'
 **
-** Created: Sun Sep 5 10:12:25 2010
+** Created: Sun Sep 5 14:04:37 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ControlPanel[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -39,11 +39,13 @@ static const uint qt_meta_data_ControlPanel[] = {
      114,  108,   13,   13, 0x08,
      142,   13,   13,   13, 0x08,
      178,   13,   13,   13, 0x08,
-     218,   13,   13,   13, 0x08,
-     256,   13,   13,   13, 0x08,
-     296,   13,   13,   13, 0x08,
-     335,   13,   13,   13, 0x08,
-     374,   13,   13,   13, 0x08,
+     217,   13,   13,   13, 0x08,
+     257,   13,   13,   13, 0x08,
+     299,   13,   13,   13, 0x08,
+     342,   13,   13,   13, 0x08,
+     382,   13,   13,   13, 0x08,
+     421,   13,   13,   13, 0x08,
+     460,   13,   13,   13, 0x08,
 
        0        // eod
 };
@@ -54,8 +56,10 @@ static const char qt_meta_stringdata_ControlPanel[] = {
     "rpt\0updateReport(AdcBoardReport)\0index\0"
     "devItemClicked(QModelIndex)\0"
     "on_pushButtonAccessToRegs_clicked()\0"
+    "on_pushButtonEditAdcSettings_clicked()\0"
     "on_pushButtonApplyAdcSettings_clicked()\0"
-    "on_pushButtonSignalSettings_clicked()\0"
+    "on_pushButtonEditSignalSettings_clicked()\0"
+    "on_pushButtonApplySignalSettings_clicked()\0"
     "on_pushButtonStartDynamicTest_clicked()\0"
     "on_pushButtonStopDynamicTest_clicked()\0"
     "on_pushButtonStartStaticTest_clicked()\0"
@@ -96,15 +100,17 @@ int ControlPanel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 2: updateReport((*reinterpret_cast< const AdcBoardReport(*)>(_a[1]))); break;
         case 3: devItemClicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
         case 4: on_pushButtonAccessToRegs_clicked(); break;
-        case 5: on_pushButtonApplyAdcSettings_clicked(); break;
-        case 6: on_pushButtonSignalSettings_clicked(); break;
-        case 7: on_pushButtonStartDynamicTest_clicked(); break;
-        case 8: on_pushButtonStopDynamicTest_clicked(); break;
-        case 9: on_pushButtonStartStaticTest_clicked(); break;
-        case 10: on_pushButtonStopStaticTest_clicked(); break;
+        case 5: on_pushButtonEditAdcSettings_clicked(); break;
+        case 6: on_pushButtonApplyAdcSettings_clicked(); break;
+        case 7: on_pushButtonEditSignalSettings_clicked(); break;
+        case 8: on_pushButtonApplySignalSettings_clicked(); break;
+        case 9: on_pushButtonStartDynamicTest_clicked(); break;
+        case 10: on_pushButtonStopDynamicTest_clicked(); break;
+        case 11: on_pushButtonStartStaticTest_clicked(); break;
+        case 12: on_pushButtonStopStaticTest_clicked(); break;
         default: ;
         }
-        _id -= 11;
+        _id -= 13;
     }
     return _id;
 }

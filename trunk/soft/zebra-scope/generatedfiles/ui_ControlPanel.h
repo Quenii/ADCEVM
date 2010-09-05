@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'ControlPanel.ui'
 **
-** Created: Sun Sep 5 10:25:06 2010
+** Created: Sun Sep 5 14:06:08 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -63,8 +63,10 @@ public:
     QLineEdit *phaseLineEdit;
     QSpacerItem *horizontalSpacer_9;
     QSpacerItem *horizontalSpacer_6;
-    QPushButton *pushButtonApplyAdcSettings;
     QComboBox *codingComboBox;
+    QHBoxLayout *horizontalLayout_7;
+    QPushButton *pushButtonEditAdcSettings;
+    QPushButton *pushButtonApplyAdcSettings;
     QGroupBox *groupBox_2;
     QGridLayout *gridLayout_3;
     QGridLayout *gridLayout_4;
@@ -78,8 +80,10 @@ public:
     QLabel *labl_26;
     QLineEdit *signalPowerLineEdit;
     QSpacerItem *horizontalSpacer_10;
-    QPushButton *pushButtonSignalSettings;
     QSpacerItem *horizontalSpacer_8;
+    QHBoxLayout *horizontalLayout_6;
+    QPushButton *pushButtonEditSignalSettings;
+    QPushButton *pushButtonApplySignalSettings;
     QGroupBox *groupBox_3;
     QVBoxLayout *verticalLayout_2;
     QWidget *dynamicTestButtons;
@@ -301,18 +305,32 @@ public:
 
         gridLayout->addItem(horizontalSpacer_6, 7, 2, 1, 1);
 
-        pushButtonApplyAdcSettings = new QPushButton(groupBox);
-        pushButtonApplyAdcSettings->setObjectName(QString::fromUtf8("pushButtonApplyAdcSettings"));
-        sizePolicy1.setHeightForWidth(pushButtonApplyAdcSettings->sizePolicy().hasHeightForWidth());
-        pushButtonApplyAdcSettings->setSizePolicy(sizePolicy1);
-        pushButtonApplyAdcSettings->setFont(font);
-
-        gridLayout->addWidget(pushButtonApplyAdcSettings, 7, 1, 1, 1);
-
         codingComboBox = new QComboBox(groupBox);
         codingComboBox->setObjectName(QString::fromUtf8("codingComboBox"));
 
         gridLayout->addWidget(codingComboBox, 5, 1, 1, 1);
+
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setObjectName(QString::fromUtf8("horizontalLayout_7"));
+        pushButtonEditAdcSettings = new QPushButton(groupBox);
+        pushButtonEditAdcSettings->setObjectName(QString::fromUtf8("pushButtonEditAdcSettings"));
+        sizePolicy1.setHeightForWidth(pushButtonEditAdcSettings->sizePolicy().hasHeightForWidth());
+        pushButtonEditAdcSettings->setSizePolicy(sizePolicy1);
+        pushButtonEditAdcSettings->setFont(font);
+
+        horizontalLayout_7->addWidget(pushButtonEditAdcSettings);
+
+        pushButtonApplyAdcSettings = new QPushButton(groupBox);
+        pushButtonApplyAdcSettings->setObjectName(QString::fromUtf8("pushButtonApplyAdcSettings"));
+        pushButtonApplyAdcSettings->setEnabled(false);
+        sizePolicy1.setHeightForWidth(pushButtonApplyAdcSettings->sizePolicy().hasHeightForWidth());
+        pushButtonApplyAdcSettings->setSizePolicy(sizePolicy1);
+        pushButtonApplyAdcSettings->setFont(font);
+
+        horizontalLayout_7->addWidget(pushButtonApplyAdcSettings);
+
+
+        gridLayout->addLayout(horizontalLayout_7, 7, 1, 1, 1);
 
 
         gridLayout_2->addLayout(gridLayout, 0, 0, 1, 1);
@@ -389,19 +407,33 @@ public:
 
         horizontalSpacer_10 = new QSpacerItem(75, 0, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout_4->addItem(horizontalSpacer_10, 3, 0, 1, 1);
-
-        pushButtonSignalSettings = new QPushButton(groupBox_2);
-        pushButtonSignalSettings->setObjectName(QString::fromUtf8("pushButtonSignalSettings"));
-        sizePolicy1.setHeightForWidth(pushButtonSignalSettings->sizePolicy().hasHeightForWidth());
-        pushButtonSignalSettings->setSizePolicy(sizePolicy1);
-        pushButtonSignalSettings->setFont(font);
-
-        gridLayout_4->addWidget(pushButtonSignalSettings, 3, 1, 1, 1);
+        gridLayout_4->addItem(horizontalSpacer_10, 4, 0, 1, 1);
 
         horizontalSpacer_8 = new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout_4->addItem(horizontalSpacer_8, 3, 2, 1, 1);
+        gridLayout_4->addItem(horizontalSpacer_8, 4, 2, 1, 1);
+
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
+        pushButtonEditSignalSettings = new QPushButton(groupBox_2);
+        pushButtonEditSignalSettings->setObjectName(QString::fromUtf8("pushButtonEditSignalSettings"));
+        sizePolicy1.setHeightForWidth(pushButtonEditSignalSettings->sizePolicy().hasHeightForWidth());
+        pushButtonEditSignalSettings->setSizePolicy(sizePolicy1);
+        pushButtonEditSignalSettings->setFont(font);
+
+        horizontalLayout_6->addWidget(pushButtonEditSignalSettings);
+
+        pushButtonApplySignalSettings = new QPushButton(groupBox_2);
+        pushButtonApplySignalSettings->setObjectName(QString::fromUtf8("pushButtonApplySignalSettings"));
+        pushButtonApplySignalSettings->setEnabled(false);
+        sizePolicy1.setHeightForWidth(pushButtonApplySignalSettings->sizePolicy().hasHeightForWidth());
+        pushButtonApplySignalSettings->setSizePolicy(sizePolicy1);
+        pushButtonApplySignalSettings->setFont(font);
+
+        horizontalLayout_6->addWidget(pushButtonApplySignalSettings);
+
+
+        gridLayout_4->addLayout(horizontalLayout_6, 4, 1, 1, 1);
 
 
         gridLayout_3->addLayout(gridLayout_4, 0, 0, 1, 1);
@@ -643,6 +675,7 @@ public:
         labl_13->setText(QApplication::translate("ControlPanel", "V", 0, QApplication::UnicodeUTF8));
         labl_8->setText(QApplication::translate("ControlPanel", "\347\274\226\347\240\201\346\226\271\345\274\217", 0, QApplication::UnicodeUTF8));
         labl_9->setText(QApplication::translate("ControlPanel", "\347\233\270\344\275\215\350\256\276\347\275\256", 0, QApplication::UnicodeUTF8));
+        pushButtonEditAdcSettings->setText(QApplication::translate("ControlPanel", "\347\274\226\350\276\221", 0, QApplication::UnicodeUTF8));
         pushButtonApplyAdcSettings->setText(QApplication::translate("ControlPanel", "\350\256\276\347\275\256", 0, QApplication::UnicodeUTF8));
         groupBox_2->setTitle(QApplication::translate("ControlPanel", "\346\227\266\351\222\237\344\277\241\345\217\267\350\256\276\347\275\256", 0, QApplication::UnicodeUTF8));
         labl_14->setText(QApplication::translate("ControlPanel", "\346\227\266\351\222\237\351\242\221\347\216\207", 0, QApplication::UnicodeUTF8));
@@ -651,7 +684,8 @@ public:
         labl_18->setText(QApplication::translate("ControlPanel", "dBm", 0, QApplication::UnicodeUTF8));
         labl_25->setText(QApplication::translate("ControlPanel", "Hz", 0, QApplication::UnicodeUTF8));
         labl_26->setText(QApplication::translate("ControlPanel", "Hz", 0, QApplication::UnicodeUTF8));
-        pushButtonSignalSettings->setText(QApplication::translate("ControlPanel", "\350\256\276\347\275\256", 0, QApplication::UnicodeUTF8));
+        pushButtonEditSignalSettings->setText(QApplication::translate("ControlPanel", "\347\274\226\350\276\221", 0, QApplication::UnicodeUTF8));
+        pushButtonApplySignalSettings->setText(QApplication::translate("ControlPanel", "\350\256\276\347\275\256", 0, QApplication::UnicodeUTF8));
         groupBox_3->setTitle(QString());
         pushButtonStartDynamicTest->setText(QApplication::translate("ControlPanel", "\345\212\250\346\200\201\346\265\213\350\257\225", 0, QApplication::UnicodeUTF8));
         pushButtonStopDynamicTest->setText(QApplication::translate("ControlPanel", "\345\201\234\346\255\242", 0, QApplication::UnicodeUTF8));

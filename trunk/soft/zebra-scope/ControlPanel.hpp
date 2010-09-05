@@ -38,8 +38,13 @@ signals:
 private slots:
 	void devItemClicked(const QModelIndex& index);
 	void on_pushButtonAccessToRegs_clicked();
+
+	void on_pushButtonEditAdcSettings_clicked();
 	void on_pushButtonApplyAdcSettings_clicked();
-	void on_pushButtonSignalSettings_clicked();
+
+	void on_pushButtonEditSignalSettings_clicked();
+	void on_pushButtonApplySignalSettings_clicked();
+	
 	
 	void on_pushButtonStartDynamicTest_clicked();
 	void on_pushButtonStopDynamicTest_clicked();
