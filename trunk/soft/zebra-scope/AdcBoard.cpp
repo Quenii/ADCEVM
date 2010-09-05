@@ -16,7 +16,7 @@
 #endif // _DEBUG
 
 #ifdef MATLAB   //defined in AdcBoardTypes.hpp
-	#include "libalgo_wrapper.h"
+#include "libalgo_wrapper.h"
 #endif // MATLAB
 
 #pragma comment(lib, "CyAPI.lib")
@@ -86,10 +86,10 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	usbDev = new CCyUSBDevice((HANDLE)(widget->winId()));
 
 	m_settings.beginGroup("AdcBoard");
-	
+
 	m_adcSettings.readSettings(m_settings);
 	m_signalSettings.readSettings(m_settings);
-	
+
 	setAdcSettings(m_adcSettings);
 	setSignalSettings(m_signalSettings);
 }
@@ -98,7 +98,7 @@ AdcBoard::~AdcBoard()
 {
 	m_adcSettings.writeSettings(m_settings);
 	m_signalSettings.writeSettings(m_settings);
-	
+
 	m_settings.endGroup();
 
 	if (usbDev)
@@ -120,7 +120,7 @@ void AdcBoard::setDynamicOn(bool on /* = true */)
 	{
 		m_timerId = startTimer(500);
 	}
-	
+
 	if (!on && m_timerId)
 	{
 		killTimer(m_timerId);
@@ -168,7 +168,7 @@ bool AdcBoard::read(unsigned short addr, unsigned short *buf, unsigned int len)
 	{
 		return false;
 	}
-	
+
 	long bRead = b2Read;
 	if (!usbDev->BulkInEndPt->XferData((unsigned char*)&bulkIOBuff[0], bRead))
 		return false;
@@ -189,7 +189,7 @@ bool AdcBoard::writeIOCmd(unsigned short addr, bool dirRead, unsigned short data
 		return false;
 
 	if (bulkIOBuff.size() < 4) bulkIOBuff.resize(4);
-	
+
 	bulkIOBuff[0] = 0xbc95;
 	bulkIOBuff[1] = addr;
 	bulkIOBuff[2] = dirRead ?  0xFF00 : 0x00FF;
@@ -245,7 +245,7 @@ bool AdcBoard::readReg24b(unsigned short addr,unsigned short& val)
 	//	return false;
 	//}
 
-//	val = buff[0];
+	//	val = buff[0];
 
 	return 	true;
 }
@@ -259,7 +259,7 @@ bool AdcBoard::writeReg24b(unsigned short addr,unsigned short val)
 
 void AdcBoard::changeSampleRate(uint sampleFreq)
 {
-	
+
 }
 void AdcBoard::timerEvent(QTimerEvent* event)
 {
@@ -284,7 +284,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	{
 		Q_ASSERT(false);
 	}
- 
+
 	if (usbDev->IsOpen() && (usbDev->DeviceCount()))
 	{
 		buff.resize(buffer_cnt);
@@ -298,13 +298,22 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		unsigned short* p = &buff[0];
 		bool okay = read(0x1005, &buff[0], buffer_cnt);
 		Q_ASSERT(okay);
-		
- 	for (int i = 0; i < tdReport.samples.size(); i+=4)
+
+		if (tdReport.rawSamples.size() != buff.size())
 		{
+			tdReport.rawSamples.resize(buff.size());
+		}
+		for (int i = 0; i < tdReport.samples.size(); i+=4)
+		{
+			tdReport.rawSamples[i+0] = buff[i+3];
+			tdReport.rawSamples[i+1] = buff[i+2];
+			tdReport.rawSamples[i+2] = buff[i+1];
+			tdReport.rawSamples[i+3] = buff[i+0];
+
 			tdReport.samples[i+0] = (buff[i+3]/max-1)*vpp;
 			tdReport.samples[i+1] = (buff[i+2]/max-1)*vpp;
 			tdReport.samples[i+2] = (buff[i+1]/max-1)*vpp;
-			tdReport.samples[i+3] = (buff[i+0]/max-1)*vpp;
+			tdReport.samples[i+3] = (buff[i+0]/max-1)*vpp;	
 		}
 	}
 	else
@@ -449,7 +458,7 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 void AdcBoard::powerStatus(PowerStatus& powerStatus)
 {
 
-/*	writeReg(9, 0xFFFF);  //select 3548, work at default mode
+	/*	writeReg(9, 0xFFFF);  //select 3548, work at default mode
 	writeReg(9, 0xFFFF);  //select 3548, work at default mode
 	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
