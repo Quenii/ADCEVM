@@ -508,6 +508,18 @@
 			SourceControlFiles="false"
 			>
 			<File
+				RelativePath=".\generatedfiles\release\moc_AdcBoard.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\generatedfiles\debug\moc_AdcBoard.cpp"
 				>
 				<FileConfiguration
@@ -527,30 +539,6 @@
 						Name="VCCLCompilerTool"
 						ObjectFile="$(IntDir)\$(InputName)1.obj"
 						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\generatedfiles\release\moc_AdcBoard.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\generatedfiles\release\moc_ControlPanel.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
 			</File>
@@ -578,10 +566,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\Debug\moc_mainwindow.cpp"
+				RelativePath=".\generatedfiles\release\moc_ControlPanel.cpp"
 				>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -594,6 +582,18 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\GeneratedFiles\Debug\moc_mainwindow.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -637,10 +637,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\generatedfiles\debug\moc_RegAccessItem.cpp"
+				RelativePath=".\generatedfiles\release\moc_RegAccessItem.cpp"
 				>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -649,10 +649,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\generatedfiles\release\moc_RegAccessItem.cpp"
+				RelativePath=".\generatedfiles\debug\moc_RegAccessItem.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -696,6 +696,18 @@
 				RelativePath=".\generatedfiles\ui_RegAccessItem.h"
 				>
 			</File>
+			<Filter
+				Name="Release"
+				Filter="cpp;moc"
+				SourceControlFiles="false"
+				>
+			</Filter>
+			<Filter
+				Name="Debug"
+				Filter="cpp;moc"
+				SourceControlFiles="false"
+				>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

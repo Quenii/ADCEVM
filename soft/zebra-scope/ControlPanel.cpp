@@ -166,6 +166,18 @@ void ControlPanel::updateReport(const AdcBoardReport &rpt)
 
 }
 
+void ControlPanel::on_pushButtonEditAdcSettings_clicked()
+{
+	ui.pushButtonEditAdcSettings->setEnabled(false);
+	ui.pushButtonApplyAdcSettings->setEnabled(true);
+}
+
+void ControlPanel::on_pushButtonEditSignalSettings_clicked()
+{
+	ui.pushButtonEditSignalSettings->setEnabled(false);
+	ui.pushButtonApplySignalSettings->setEnabled(true);
+}
+
 void ControlPanel::on_pushButtonApplyAdcSettings_clicked()
 {
 	uiAdcSettings(adcSettings);
@@ -174,9 +186,12 @@ void ControlPanel::on_pushButtonApplyAdcSettings_clicked()
 	{
 		Q_ASSERT(false);
 	}
+
+	ui.pushButtonEditAdcSettings->setEnabled(true);
+	ui.pushButtonApplyAdcSettings->setEnabled(false);
 }
 
-void ControlPanel::on_pushButtonSignalSettings_clicked()
+void ControlPanel::on_pushButtonApplySignalSettings_clicked()
 {
 	uiSignalSettings(signalSettings);
 	AdcBoard& board = *(AdcBoard::instance());
@@ -184,6 +199,9 @@ void ControlPanel::on_pushButtonSignalSettings_clicked()
 	{
 		Q_ASSERT(false);
 	}
+
+	ui.pushButtonEditSignalSettings->setEnabled(true);
+	ui.pushButtonApplySignalSettings->setEnabled(false);
 }
 
 void ControlPanel::on_pushButtonStartDynamicTest_clicked()
