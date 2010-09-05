@@ -1,10 +1,10 @@
 /********************************************************************************
-** Form generated from reading ui file 'RegAccess.ui'
+** Form generated from reading UI file 'RegAccess.ui'
 **
-** Created: Sat Sep 4 20:42:22 2010
-**      by: Qt User Interface Compiler version 4.5.3
+** Created: Sun Sep 5 10:12:26 2010
+**      by: Qt User Interface Compiler version 4.6.3
 **
-** WARNING! All changes made in this file will be lost when recompiling ui file!
+** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
 #ifndef UI_REGACCESS_H
@@ -267,7 +267,6 @@ public:
         pushButton_6->setText(QApplication::translate("FormRegAccess", "\345\215\225\346\255\245\346\211\247\350\241\214", 0, QApplication::UnicodeUTF8));
         pushButtonAutoExec->setText(QApplication::translate("FormRegAccess", "\350\207\252\345\212\250\346\211\247\350\241\214", 0, QApplication::UnicodeUTF8));
         groupBoxRegAcessItems->setTitle(QString());
-        Q_UNUSED(FormRegAccess);
     } // retranslateUi
 
 };

@@ -1,10 +1,10 @@
 /********************************************************************************
-** Form generated from reading ui file 'ControlPanel.ui'
+** Form generated from reading UI file 'ControlPanel.ui'
 **
-** Created: Sat Sep 4 20:42:22 2010
-**      by: Qt User Interface Compiler version 4.5.3
+** Created: Sun Sep 5 10:12:26 2010
+**      by: Qt User Interface Compiler version 4.6.3
 **
-** WARNING! All changes made in this file will be lost when recompiling ui file!
+** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
 #ifndef UI_CONTROLPANEL_H
@@ -416,7 +416,7 @@ public:
         dynamicTestButtons = new QWidget(groupBox_3);
         dynamicTestButtons->setObjectName(QString::fromUtf8("dynamicTestButtons"));
         horizontalLayout_2 = new QHBoxLayout(dynamicTestButtons);
-        horizontalLayout_2->setMargin(0);
+        horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         pushButtonStartDynamicTest = new QPushButton(dynamicTestButtons);
         pushButtonStartDynamicTest->setObjectName(QString::fromUtf8("pushButtonStartDynamicTest"));
@@ -435,7 +435,7 @@ public:
         staticTestButtons = new QWidget(groupBox_3);
         staticTestButtons->setObjectName(QString::fromUtf8("staticTestButtons"));
         horizontalLayout_4 = new QHBoxLayout(staticTestButtons);
-        horizontalLayout_4->setMargin(0);
+        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
         horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
         pushButtonStartStaticTest = new QPushButton(staticTestButtons);
         pushButtonStartStaticTest->setObjectName(QString::fromUtf8("pushButtonStartStaticTest"));
@@ -673,7 +673,6 @@ public:
         labl_35->setText(QApplication::translate("ControlPanel", "mW", 0, QApplication::UnicodeUTF8));
         pushButtonAccessToRegs->setText(QApplication::translate("ControlPanel", "\345\217\202\346\225\260\350\256\276\347\275\256", 0, QApplication::UnicodeUTF8));
         labl_2->setText(QApplication::translate("ControlPanel", "Parameters", 0, QApplication::UnicodeUTF8));
-        Q_UNUSED(ControlPanel);
     } // retranslateUi
 
 };

@@ -1,10 +1,10 @@
 /********************************************************************************
-** Form generated from reading ui file 'mainwindow.ui'
+** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sat Sep 4 20:42:22 2010
-**      by: Qt User Interface Compiler version 4.5.3
+** Created: Sun Sep 5 10:12:26 2010
+**      by: Qt User Interface Compiler version 4.6.3
 **
-** WARNING! All changes made in this file will be lost when recompiling ui file!
+** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
 #ifndef UI_MAINWINDOW_H
@@ -68,7 +68,7 @@ public:
         centralWidget->setMaximumSize(QSize(1, 1));
         horizontalLayout = new QHBoxLayout(centralWidget);
         horizontalLayout->setSpacing(6);
-        horizontalLayout->setMargin(11);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
         MainWindowClass->setCentralWidget(centralWidget);
@@ -96,7 +96,7 @@ public:
         dockWidgetContents->setObjectName(QString::fromUtf8("dockWidgetContents"));
         verticalLayout = new QVBoxLayout(dockWidgetContents);
         verticalLayout->setSpacing(6);
-        verticalLayout->setMargin(11);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         scrollArea = new QScrollArea(dockWidgetContents);
         scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
@@ -107,7 +107,7 @@ public:
         scrollAreaWidgetContents->setGeometry(QRect(0, 0, 271, 505));
         gridLayout = new QGridLayout(scrollAreaWidgetContents);
         gridLayout->setSpacing(6);
-        gridLayout->setMargin(11);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         controlPanel = new ControlPanel(scrollAreaWidgetContents);
         controlPanel->setObjectName(QString::fromUtf8("controlPanel"));
@@ -161,7 +161,6 @@ public:
         dockWidgetWave->setWindowTitle(QApplication::translate("MainWindowClass", "Time-domain", 0, QApplication::UnicodeUTF8));
         dockWidgetFFT->setWindowTitle(QApplication::translate("MainWindowClass", "Freq-domain", 0, QApplication::UnicodeUTF8));
         dockWidgetLogicWave->setWindowTitle(QApplication::translate("MainWindowClass", "Logic Wave", 0, QApplication::UnicodeUTF8));
-        Q_UNUSED(MainWindowClass);
     } // retranslateUi
 
 };
