@@ -211,6 +211,7 @@ void ControlPanel::on_pushButtonStartDynamicTest_clicked()
 	ui.pushButtonStartDynamicTest->setEnabled(false);
 	ui.pushButtonStopDynamicTest->setEnabled(true);	
 	ui.staticTestButtons->setEnabled(false);
+	AdcBoard::instance()->setDynamicOn(true);
 }
 
 void ControlPanel::on_pushButtonStopDynamicTest_clicked()
@@ -218,6 +219,7 @@ void ControlPanel::on_pushButtonStopDynamicTest_clicked()
 	ui.pushButtonStopDynamicTest->setEnabled(false);
 	ui.pushButtonStartDynamicTest->setEnabled(true);	
 	ui.staticTestButtons->setEnabled(true);
+	AdcBoard::instance()->setDynamicOn(false);
 }
 
 void ControlPanel::on_pushButtonStartStaticTest_clicked()
