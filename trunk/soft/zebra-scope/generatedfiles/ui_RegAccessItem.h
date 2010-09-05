@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'RegAccessItem.ui'
 **
-** Created: Sun Sep 5 10:12:26 2010
+** Created: Sun Sep 5 11:37:50 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -20,6 +20,7 @@
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
+#include <QtGui/QPushButton>
 #include <QtGui/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -28,6 +29,8 @@ class Ui_RegAccessItemClass
 {
 public:
     QHBoxLayout *horizontalLayout;
+    QPushButton *pushButtonArrowOff;
+    QPushButton *pushButtonArrowOn;
     QCheckBox *checkBox;
     QLabel *labelNo;
     QComboBox *cbOperation;
@@ -40,10 +43,34 @@ public:
     {
         if (RegAccessItemClass->objectName().isEmpty())
             RegAccessItemClass->setObjectName(QString::fromUtf8("RegAccessItemClass"));
-        RegAccessItemClass->resize(442, 20);
+        RegAccessItemClass->resize(492, 20);
         horizontalLayout = new QHBoxLayout(RegAccessItemClass);
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        pushButtonArrowOff = new QPushButton(RegAccessItemClass);
+        pushButtonArrowOff->setObjectName(QString::fromUtf8("pushButtonArrowOff"));
+        pushButtonArrowOff->setEnabled(false);
+        pushButtonArrowOff->setMinimumSize(QSize(20, 20));
+        pushButtonArrowOff->setMaximumSize(QSize(20, 20));
+        pushButtonArrowOff->setIconSize(QSize(16, 16));
+        pushButtonArrowOff->setFlat(true);
+
+        horizontalLayout->addWidget(pushButtonArrowOff);
+
+        pushButtonArrowOn = new QPushButton(RegAccessItemClass);
+        pushButtonArrowOn->setObjectName(QString::fromUtf8("pushButtonArrowOn"));
+        pushButtonArrowOn->setEnabled(false);
+        pushButtonArrowOn->setMinimumSize(QSize(20, 20));
+        pushButtonArrowOn->setMaximumSize(QSize(20, 20));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/MainWindow/res/Arrow Right.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/MainWindow/res/Arrow Right.png"), QSize(), QIcon::Disabled, QIcon::Off);
+        pushButtonArrowOn->setIcon(icon);
+        pushButtonArrowOn->setIconSize(QSize(16, 16));
+        pushButtonArrowOn->setFlat(true);
+
+        horizontalLayout->addWidget(pushButtonArrowOn);
+
         checkBox = new QCheckBox(RegAccessItemClass);
         checkBox->setObjectName(QString::fromUtf8("checkBox"));
 
@@ -108,6 +135,8 @@ public:
     void retranslateUi(QWidget *RegAccessItemClass)
     {
         RegAccessItemClass->setWindowTitle(QApplication::translate("RegAccessItemClass", "Form", 0, QApplication::UnicodeUTF8));
+        pushButtonArrowOff->setText(QString());
+        pushButtonArrowOn->setText(QString());
         checkBox->setText(QString());
         labelNo->setText(QApplication::translate("RegAccessItemClass", "1", 0, QApplication::UnicodeUTF8));
         cbOperation->clear();

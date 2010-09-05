@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'RegAccess.ui'
 **
-** Created: Sun Sep 5 10:12:26 2010
+** Created: Sun Sep 5 13:33:26 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -55,10 +55,10 @@ public:
     QLabel *label_7;
     QWidget *widget;
     QGridLayout *gridLayout_3;
-    QPushButton *pushButton_3;
-    QPushButton *pushButton_4;
-    QPushButton *pushButton_5;
-    QPushButton *pushButton_6;
+    QPushButton *pushButtonSaveSettings;
+    QPushButton *pushButtonReadSettings;
+    QPushButton *pushButtonBack2Top;
+    QPushButton *pushButtonStep;
     QPushButton *pushButtonAutoExec;
     QGroupBox *groupBoxRegAcessItems;
 
@@ -66,7 +66,7 @@ public:
     {
         if (FormRegAccess->objectName().isEmpty())
             FormRegAccess->setObjectName(QString::fromUtf8("FormRegAccess"));
-        FormRegAccess->resize(666, 459);
+        FormRegAccess->resize(674, 459);
         horizontalLayout = new QHBoxLayout(FormRegAccess);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         widget_3 = new QWidget(FormRegAccess);
@@ -197,25 +197,25 @@ public:
         widget->setObjectName(QString::fromUtf8("widget"));
         gridLayout_3 = new QGridLayout(widget);
         gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
-        pushButton_3 = new QPushButton(widget);
-        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
+        pushButtonSaveSettings = new QPushButton(widget);
+        pushButtonSaveSettings->setObjectName(QString::fromUtf8("pushButtonSaveSettings"));
 
-        gridLayout_3->addWidget(pushButton_3, 1, 0, 1, 1);
+        gridLayout_3->addWidget(pushButtonSaveSettings, 1, 0, 1, 1);
 
-        pushButton_4 = new QPushButton(widget);
-        pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
+        pushButtonReadSettings = new QPushButton(widget);
+        pushButtonReadSettings->setObjectName(QString::fromUtf8("pushButtonReadSettings"));
 
-        gridLayout_3->addWidget(pushButton_4, 1, 1, 1, 1);
+        gridLayout_3->addWidget(pushButtonReadSettings, 1, 1, 1, 1);
 
-        pushButton_5 = new QPushButton(widget);
-        pushButton_5->setObjectName(QString::fromUtf8("pushButton_5"));
+        pushButtonBack2Top = new QPushButton(widget);
+        pushButtonBack2Top->setObjectName(QString::fromUtf8("pushButtonBack2Top"));
 
-        gridLayout_3->addWidget(pushButton_5, 1, 2, 1, 1);
+        gridLayout_3->addWidget(pushButtonBack2Top, 1, 2, 1, 1);
 
-        pushButton_6 = new QPushButton(widget);
-        pushButton_6->setObjectName(QString::fromUtf8("pushButton_6"));
+        pushButtonStep = new QPushButton(widget);
+        pushButtonStep->setObjectName(QString::fromUtf8("pushButtonStep"));
 
-        gridLayout_3->addWidget(pushButton_6, 1, 3, 1, 1);
+        gridLayout_3->addWidget(pushButtonStep, 1, 3, 1, 1);
 
         pushButtonAutoExec = new QPushButton(widget);
         pushButtonAutoExec->setObjectName(QString::fromUtf8("pushButtonAutoExec"));
@@ -261,10 +261,10 @@ public:
         );
         label_9->setText(QApplication::translate("FormRegAccess", "\351\207\207\346\240\267\347\216\207", 0, QApplication::UnicodeUTF8));
         label_7->setText(QApplication::translate("FormRegAccess", "MHz", 0, QApplication::UnicodeUTF8));
-        pushButton_3->setText(QApplication::translate("FormRegAccess", "\344\277\235\345\255\230\350\256\276\347\275\256", 0, QApplication::UnicodeUTF8));
-        pushButton_4->setText(QApplication::translate("FormRegAccess", "\350\257\273\345\205\245\350\256\276\347\275\256", 0, QApplication::UnicodeUTF8));
-        pushButton_5->setText(QApplication::translate("FormRegAccess", "\350\207\263\351\246\226\350\241\214", 0, QApplication::UnicodeUTF8));
-        pushButton_6->setText(QApplication::translate("FormRegAccess", "\345\215\225\346\255\245\346\211\247\350\241\214", 0, QApplication::UnicodeUTF8));
+        pushButtonSaveSettings->setText(QApplication::translate("FormRegAccess", "\344\277\235\345\255\230\350\256\276\347\275\256", 0, QApplication::UnicodeUTF8));
+        pushButtonReadSettings->setText(QApplication::translate("FormRegAccess", "\350\257\273\345\205\245\350\256\276\347\275\256", 0, QApplication::UnicodeUTF8));
+        pushButtonBack2Top->setText(QApplication::translate("FormRegAccess", "\350\207\263\351\246\226\350\241\214", 0, QApplication::UnicodeUTF8));
+        pushButtonStep->setText(QApplication::translate("FormRegAccess", "\345\215\225\346\255\245\346\211\247\350\241\214", 0, QApplication::UnicodeUTF8));
         pushButtonAutoExec->setText(QApplication::translate("FormRegAccess", "\350\207\252\345\212\250\346\211\247\350\241\214", 0, QApplication::UnicodeUTF8));
         groupBoxRegAcessItems->setTitle(QString());
     } // retranslateUi

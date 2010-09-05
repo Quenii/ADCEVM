@@ -79,7 +79,7 @@ void ControlPanel::on_pushButtonAccessToRegs_clicked()
 	if (!regAccess)
 	{
 		regAccess = new RegAccess(0, 0);
-		regAccess->setAttribute(Qt::WA_DeleteOnClose,false);
+		regAccess->setAttribute(Qt::WA_DeleteOnClose,true);
 	}
 
 	regAccess->show();
