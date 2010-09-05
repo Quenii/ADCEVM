@@ -53,7 +53,9 @@ public:
 
 	void adcSettings(AdcSettings& adcSettings) { adcSettings = m_adcSettings; }
 	void signalSettings(SignalSettings& signalSettings) { signalSettings = m_signalSettings; }	
+	void powerStatus(PowerStatus& powerStatus);
 
+	void setDynamicOn(bool on = true);
 
 protected:
 	void timerEvent (QTimerEvent * event);
@@ -92,6 +94,7 @@ private:
 	AdcSettings m_adcSettings;
 	SignalSettings m_signalSettings;
 	QSettings m_settings;
+	int m_timerId;
 };
 
 

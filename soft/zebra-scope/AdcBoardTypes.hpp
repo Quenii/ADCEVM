@@ -150,6 +150,7 @@ struct FreqDomainReport
 
 struct AdcBoardReport
 {
+	PowerStatus powerStatus;
 	FreqDomainReport fdReport;
 	TimeDomainReport tdReport;
 };
