@@ -272,7 +272,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	tdReport.samples.resize(buffer_cnt);
 
 	float vpp = m_adcSettings.vpp;
-	float max = (1 << m_adcSettings.bitcount);
+	float max = (1 << (m_adcSettings.bitcount - 1));
 	if (m_adcSettings.coding == AdcCodingOffset)
 	{
 	}
