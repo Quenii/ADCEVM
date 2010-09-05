@@ -93,6 +93,8 @@ void ControlPanel::devItemClicked(const QModelIndex& index)
 
 void ControlPanel::updateReport(const AdcBoardReport &rpt)
 {
+	setUiPowerStatus(rpt.powerStatus);
+
 	// td report
 	const TimeDomainReport& tdRpt = rpt.tdReport;
 	const FreqDomainReport& fdRpt = rpt.fdReport;
@@ -227,8 +229,7 @@ void ControlPanel::on_pushButtonStartStaticTest_clicked()
 }
 
 void ControlPanel::on_pushButtonStopStaticTest_clicked()
-{
-		
+{		
 	ui.pushButtonStopStaticTest->setEnabled(false);	
 	ui.pushButtonStartStaticTest->setEnabled(true);
 	ui.dynamicTestButtons->setEnabled(true);
@@ -257,13 +258,23 @@ void ControlPanel::setUiAdcSettings(const AdcSettings& settings)
 	ui.vaDoubleSpinBox->setValue(settings.va);
 	ui.vdDoubleSpinBox->setValue(settings.vd);
 	ui.bitCountSpinBox->setValue(settings.bitcount);
-	ui.vppLineEdit->setText("N/A");//(settings.vpp);
+	ui.vppLineEdit->setText(QString("%1").arg(settings.vpp));
 	ui.codingComboBox->setCurrentIndex(settings.coding);
-	ui.phaseLineEdit->setText("N/A");//(settings.phase);
+	ui.phaseLineEdit->setText(QString("%1").arg(settings.phase));
 
 }
 
 void ControlPanel::setUiSignalSettings(const SignalSettings& settings)
 {
 
+}
+
+
+void ControlPanel::setUiPowerStatus(const PowerStatus& status)
+{
+	ui.vaLineEdit->setText(QString("%1").arg(status.va));
+	ui.vdLineEdit->setText(QString("%1").arg(status.vd));
+	ui.iaLineEdit->setText(QString("%1").arg(status.ia));
+	ui.idLineEdit->setText(QString("%1").arg(status.id));
+	ui.powerLineEdit->setText(QString("%1").arg(status.power));
 }

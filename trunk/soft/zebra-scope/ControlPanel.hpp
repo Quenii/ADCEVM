@@ -27,6 +27,7 @@ public:
 	void setUiAdcSettings(const AdcSettings& settings);
 	void setUiSignalSettings(const SignalSettings& settings);
 
+	void setUiPowerStatus(const PowerStatus& status);
 
 public slots:
 	void setDevList(const QList<AdcBoardInfo>& lst);

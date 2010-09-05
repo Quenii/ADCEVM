@@ -78,6 +78,7 @@ AdcBoard* AdcBoard::_inst = 0;
 AdcBoard::AdcBoard(QObject* parent /* = 0 */) 
 : QObject(parent)
 , pi(3.141592653589793f)
+, m_timerId(0)
 {
 	widget = new DummyWidget();
 	bool okay = connect(widget, SIGNAL(devChanged()), this, SLOT(devChanged()));
@@ -110,6 +111,20 @@ AdcBoard::~AdcBoard()
 	{
 		delete widget;
 		widget = 0;
+	}
+}
+
+void AdcBoard::setDynamicOn(bool on /* = true */)
+{
+	if (on && !m_timerId)
+	{
+		m_timerId = startTimer(500);
+	}
+	
+	if (!on && m_timerId)
+	{
+		killTimer(m_timerId);
+		m_timerId = 0;
 	}
 }
 
@@ -249,6 +264,9 @@ void AdcBoard::changeSampleRate(uint sampleFreq)
 void AdcBoard::timerEvent(QTimerEvent* event)
 {
 	//return ;
+
+	PowerStatus& powerStatus = report.powerStatus;
+	this->powerStatus(powerStatus);
 
 	TimeDomainReport& tdReport = report.tdReport;
 	tdReport.samples.resize(buffer_cnt);
@@ -426,4 +444,20 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 	m_signalSettings.writeSettings(m_settings);
 
 	return true;
+}
+
+void AdcBoard::powerStatus(PowerStatus& powerStatus)
+{
+
+/*	writeReg(9, 0xFFFF);  //select 3548, work at default mode
+	writeReg(9, 0xFFFF);  //select 3548, work at default mode
+	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
+	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
+	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
+	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+	read((0x0009, &buff, 1024);)
+	*/
+
 }
