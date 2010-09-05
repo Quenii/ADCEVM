@@ -10,6 +10,7 @@
 RegAccess::RegAccess(QWidget *parent, Qt::WFlags flags)
 : QWidget(parent, flags)
 , m_currentStep(-1)
+, m_bEnable_SlotRegAccessItemStateChanged(true)
 {
 	setupUi(this);
 
@@ -103,17 +104,25 @@ void RegAccess::on_pushButtonAutoExec_clicked()
 
 void RegAccess::slotRegAccessItemStateChanged(QWidget* widget)
 {
-	RegAccessItem* item = dynamic_cast<RegAccessItem*>(widget);
-	if (item)
-	{
-		int curr = item->labelNo->text().toInt();
-		int toCheck = (Qt::Checked == item->checkBox->checkState());
+	if (!m_bEnable_SlotRegAccessItemStateChanged) 
+		return ;
 
-		if ( curr >= 1 && toCheck )
-		{
-			m_regAccessItems[curr - 1]->checkBox->setCheckState(Qt::Checked);
-		}
+	RegAccessItem* item = dynamic_cast<RegAccessItem*>(widget);
+	if (! item)	
+		return ;
+
+	m_bEnable_SlotRegAccessItemStateChanged = false;
+
+	int curr = item->labelNo->text().toInt();
+	for (int i = 0; i < m_regAccessItems.count(); ++i)
+	{
+		if (i < curr)
+			m_regAccessItems[i]->checkBox->setCheckState(Qt::Checked);
+		else if (i > curr)		
+			m_regAccessItems[i]->checkBox->setCheckState(Qt::Unchecked);		
 	}	
+
+	m_bEnable_SlotRegAccessItemStateChanged = true;
 }
 
 void RegAccess::on_sbSampleRate_valueChanged()

@@ -47,5 +47,6 @@ private:
 	QVector<RegAccessItem*> m_regAccessItems;
 	int m_currentStep;
 	QSettings m_settings;
+	bool m_bEnable_SlotRegAccessItemStateChanged;
 };
 
