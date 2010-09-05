@@ -5,7 +5,7 @@
 #include <QMetaType>
 #include <QSettings>
 
-//#define MATLAB 
+#define MATLAB 1
 
 struct AdcBoardInfo 
 {

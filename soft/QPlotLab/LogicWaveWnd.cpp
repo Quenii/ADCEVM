@@ -41,15 +41,16 @@ LogicWaveWnd::~LogicWaveWnd()
 
 void LogicWaveWnd::update(const std::vector<unsigned short> & xdata)
 {
-	return ;
 	CTSLScope& scope = rawScope();
+
+	const int points2Display = 1024;
 
 	for (int i = 0; i < 16; ++i)
 	{
 		m_x.resize(0);//xdata.size());
 		m_y.resize(0);//xdata.size());
 
-		for (int j = 0; j < xdata.size(); ++j)
+		for (int j = 0; j < xdata.size() && j < points2Display; ++j)
 		{
 			int mask = 1 << i;
 			float val = ((xdata[j] & mask) ? .5f : 0) + i;
@@ -60,7 +61,9 @@ void LogicWaveWnd::update(const std::vector<unsigned short> & xdata)
 
 		}
 
-		scope.Channels[i].Data.SetXYData(&m_x[0], &m_y[0], m_x.size());
+
+		if (m_x.size() && m_y.size())
+			scope.Channels[i].Data.SetXYData(&m_x[0], &m_y[0], m_x.size());
 		//CTColor color = scope.Channels[0].Color;
 	}
 }
