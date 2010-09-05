@@ -1,10 +1,10 @@
 /********************************************************************************
-** Form generated from reading ui file 'RegAccessItem.ui'
+** Form generated from reading UI file 'RegAccessItem.ui'
 **
-** Created: Sat Sep 4 20:42:21 2010
-**      by: Qt User Interface Compiler version 4.5.3
+** Created: Sun Sep 5 10:12:26 2010
+**      by: Qt User Interface Compiler version 4.6.3
 **
-** WARNING! All changes made in this file will be lost when recompiling ui file!
+** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
 #ifndef UI_REGACCESSITEM_H
@@ -42,7 +42,7 @@ public:
             RegAccessItemClass->setObjectName(QString::fromUtf8("RegAccessItemClass"));
         RegAccessItemClass->resize(442, 20);
         horizontalLayout = new QHBoxLayout(RegAccessItemClass);
-        horizontalLayout->setMargin(0);
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         checkBox = new QCheckBox(RegAccessItemClass);
         checkBox->setObjectName(QString::fromUtf8("checkBox"));
@@ -118,7 +118,6 @@ public:
         );
         label_7->setText(QApplication::translate("RegAccessItemClass", "\345\234\260\345\235\200 0x", 0, QApplication::UnicodeUTF8));
         label_9->setText(QApplication::translate("RegAccessItemClass", "\345\200\274 0x", 0, QApplication::UnicodeUTF8));
-        Q_UNUSED(RegAccessItemClass);
     } // retranslateUi
 
 };

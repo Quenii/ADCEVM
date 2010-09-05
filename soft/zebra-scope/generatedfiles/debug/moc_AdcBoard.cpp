@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'AdcBoard.hpp'
 **
-** Created: Sun Sep 5 00:05:39 2010
-**      by: The Qt Meta Object Compiler version 61 (Qt 4.5.3)
+** Created: Sun Sep 5 10:12:25 2010
+**      by: The Qt Meta Object Compiler version 62 (Qt 4.6.3)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -10,8 +10,8 @@
 #include "../../AdcBoard.hpp"
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'AdcBoard.hpp' doesn't include <QObject>."
-#elif Q_MOC_OUTPUT_REVISION != 61
-#error "This file was generated using the moc from 4.5.3. It"
+#elif Q_MOC_OUTPUT_REVISION != 62
+#error "This file was generated using the moc from 4.6.3. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,13 +20,15 @@ QT_BEGIN_MOC_NAMESPACE
 static const uint qt_meta_data_AdcBoard[] = {
 
  // content:
-       2,       // revision
+       4,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   12, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
+       0,       // flags
+       2,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
       14,   10,    9,    9, 0x05,
@@ -50,9 +52,13 @@ const QMetaObject AdcBoard::staticMetaObject = {
       qt_meta_data_AdcBoard, 0 }
 };
 
+#ifdef Q_NO_DATA_RELOCATION
+const QMetaObject &AdcBoard::getStaticMetaObject() { return staticMetaObject; }
+#endif //Q_NO_DATA_RELOCATION
+
 const QMetaObject *AdcBoard::metaObject() const
 {
-    return &staticMetaObject;
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
 void *AdcBoard::qt_metacast(const char *_clname)
@@ -98,13 +104,15 @@ void AdcBoard::boardReport(const AdcBoardReport & _t1)
 static const uint qt_meta_data_DummyWidget[] = {
 
  // content:
-       2,       // revision
+       4,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   12, // methods
+       1,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
+       0,       // flags
+       1,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
       13,   12,   12,   12, 0x05,
@@ -121,9 +129,13 @@ const QMetaObject DummyWidget::staticMetaObject = {
       qt_meta_data_DummyWidget, 0 }
 };
 
+#ifdef Q_NO_DATA_RELOCATION
+const QMetaObject &DummyWidget::getStaticMetaObject() { return staticMetaObject; }
+#endif //Q_NO_DATA_RELOCATION
+
 const QMetaObject *DummyWidget::metaObject() const
 {
-    return &staticMetaObject;
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
 void *DummyWidget::qt_metacast(const char *_clname)
