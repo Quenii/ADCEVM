@@ -202,11 +202,11 @@ int RegAccess::nextStep()
 	}
 
 	gkhy::MfcMinus::Win32App::sleep(10);
+	
+	if (!okay) return -1;
 
 	if (lastItem) lastItem->showArrow(false);
 	item->showArrow(true);
-
-	if (!okay) return -1;
 
 	return 1;
 }
