@@ -41,6 +41,7 @@ LogicWaveWnd::~LogicWaveWnd()
 
 void LogicWaveWnd::update(const std::vector<unsigned short> & xdata)
 {
+	return ;
 	CTSLScope& scope = rawScope();
 
 	for (int i = 0; i < 16; ++i)
