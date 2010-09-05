@@ -40,6 +40,7 @@ void RegAccessItem::UiData(RegAccessItemData& data)
 {
 	data.checked = checkBox->isChecked();
 	data.operation = cbOperation->currentIndex();
-	data.addr = QString("0x%1").arg(lineEditAddr->text()).toUInt();
-	data.value = QString("0x%1").arg(lineEditValue->text()).toUInt();
+	//QString what = QString("0x%1").arg(lineEditAddr->text());
+	data.addr = QString("0x%1").arg(lineEditAddr->text()).toUInt(0, 16);
+	data.value = QString("0x%1").arg(lineEditValue->text()).toUInt(0, 16);
 }
