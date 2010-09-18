@@ -32,8 +32,8 @@ void RegAccessItem::setUiData(const RegAccessItemData& data)
 {
 	checkBox->setChecked(data.checked);
 	cbOperation->setCurrentIndex(data.operation);
-	lineEditAddr->setText(QString("%1").arg(data.addr, 8, 16, QChar('0')));
-	lineEditValue->setText(QString("%1").arg(data.value, 8, 16, QChar('0')));
+	lineEditAddr->setText(QString("%1").arg(data.addr, 3, 16, QChar('0')));
+	lineEditValue->setText(QString("%1").arg(data.value, 2, 16, QChar('0')));
 }
 
 void RegAccessItem::UiData(RegAccessItemData& data)
