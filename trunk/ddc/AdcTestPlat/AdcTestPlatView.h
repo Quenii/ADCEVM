@@ -101,8 +101,6 @@ public:
 
 public:
 	//void DrawSpectrum( void );
-	void DrawData( void );
-	void FFT(double * data, int n, bool isInverse );
 	void SetState( void );
 	
 // Overrides
