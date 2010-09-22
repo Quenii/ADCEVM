@@ -369,17 +369,17 @@ void CMainFrame::OnTestAdc()
 		// 找到了，修改初始采样频率
 		if ( pTestPlatView != NULL )
 		{
-			pTestPlatView->m_FFTDisp.m_dOrgSampFreq = 80.0;
-			pTestPlatView->m_FFTDisp1.m_dOrgSampFreq = 80.0;
-			pTestPlatView->m_FFTDisp2.m_dOrgSampFreq = 80.0;
-			pTestPlatView->m_FFTDisp3.m_dOrgSampFreq = 80.0;
-			pTestPlatView->m_FFTDisp4.m_dOrgSampFreq = 80.0;
+			pTestPlatView->m_FFTDisp[0].m_dOrgSampFreq = 80.0;
+			pTestPlatView->m_FFTDisp[1].m_dOrgSampFreq = 80.0;
+			pTestPlatView->m_FFTDisp[2].m_dOrgSampFreq = 80.0;
+			pTestPlatView->m_FFTDisp[3].m_dOrgSampFreq = 80.0;
+			pTestPlatView->m_FFTDisp[4].m_dOrgSampFreq = 80.0;
 			// 视图恢复
-			pTestPlatView->m_FFTDisp.ZoomRestore();
-			pTestPlatView->m_FFTDisp1.ZoomRestore();
-			pTestPlatView->m_FFTDisp2.ZoomRestore();
-			pTestPlatView->m_FFTDisp3.ZoomRestore();
-			pTestPlatView->m_FFTDisp4.ZoomRestore();
+			pTestPlatView->m_FFTDisp[0].ZoomRestore();
+			pTestPlatView->m_FFTDisp[1].ZoomRestore();
+			pTestPlatView->m_FFTDisp[2].ZoomRestore();
+			pTestPlatView->m_FFTDisp[3].ZoomRestore();
+			pTestPlatView->m_FFTDisp[4].ZoomRestore();
 		}
 	}
 }
@@ -448,17 +448,17 @@ void CMainFrame::OnTestAlg()
 		if ( pTestPlatView != NULL )
 		{
 
-			pTestPlatView->m_FFTDisp.m_dOrgSampFreq = 80.0 / 20;
-			pTestPlatView->m_FFTDisp1.m_dOrgSampFreq = 80.0 / 20;
-			pTestPlatView->m_FFTDisp2.m_dOrgSampFreq = 80.0 / 20;
-			pTestPlatView->m_FFTDisp3.m_dOrgSampFreq = 80.0 / 20;
-			pTestPlatView->m_FFTDisp4.m_dOrgSampFreq = 80.0 / 20;
+			pTestPlatView->m_FFTDisp[0].m_dOrgSampFreq = 80.0 / 20;
+			pTestPlatView->m_FFTDisp[1].m_dOrgSampFreq = 80.0 / 20;
+			pTestPlatView->m_FFTDisp[2].m_dOrgSampFreq = 80.0 / 20;
+			pTestPlatView->m_FFTDisp[3].m_dOrgSampFreq = 80.0 / 20;
+			pTestPlatView->m_FFTDisp[4].m_dOrgSampFreq = 80.0 / 20;
 			// 视图恢复
-			pTestPlatView->m_FFTDisp.ZoomRestore();
-			pTestPlatView->m_FFTDisp1.ZoomRestore();
-			pTestPlatView->m_FFTDisp2.ZoomRestore();
-			pTestPlatView->m_FFTDisp3.ZoomRestore();
-			pTestPlatView->m_FFTDisp4.ZoomRestore();
+			pTestPlatView->m_FFTDisp[0].ZoomRestore();
+			pTestPlatView->m_FFTDisp[1].ZoomRestore();
+			pTestPlatView->m_FFTDisp[2].ZoomRestore();
+			pTestPlatView->m_FFTDisp[3].ZoomRestore();
+			pTestPlatView->m_FFTDisp[4].ZoomRestore();
 		}
 	}
 }
@@ -1273,39 +1273,8 @@ void CMainFrame::OnMenuZoomIn()
 		{
 			//pTestPlatView->m_DataDisp.ZoomIn();
 			// 找到是第几个data视图
-			switch ( m_byDataIndex )
-			{
-				case 0:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp);
-					break;
-				}
-				case 1:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp1);
-					break;
-				}
-				case 2:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp2);
-					break;
-				}
-				case 3:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp3);
-					break;
-				}
-				case 4:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp4);
-					break;
-				}
-				default:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp);
-					break;
-				}
-			}
+
+			pDataDisp = &(pTestPlatView->m_DataDisp[m_byDataIndex]);
 			if ( pDataDisp != NULL )
 			{
 				pDataDisp->ZoomIn();
@@ -1342,39 +1311,7 @@ void CMainFrame::OnMenuZoomOut()
 		{
 			//pTestPlatView->m_DataDisp.ZoomOut();
 			// 找到是第几个data视图
-			switch ( m_byDataIndex )
-			{
-				case 0:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp);
-					break;
-				}
-				case 1:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp1);
-					break;
-				}
-				case 2:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp2);
-					break;
-				}
-				case 3:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp3);
-					break;
-				}
-				case 4:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp4);
-					break;
-				}
-				default:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp);
-					break;
-				}
-			}
+			pDataDisp = &(pTestPlatView->m_DataDisp[m_byDataIndex]);
 			if ( pDataDisp != NULL )
 			{
 				pDataDisp->ZoomOut();
@@ -1412,39 +1349,7 @@ void CMainFrame::OnMenuZoomRestore()
 		{
 			//pTestPlatView->m_DataDisp.ZoomRestore();
 			// 找到是第几个data视图
-			switch ( m_byDataIndex )
-			{
-				case 0:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp);
-					break;
-				}
-				case 1:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp1);
-					break;
-				}
-				case 2:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp2);
-					break;
-				}
-				case 3:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp3);
-					break;
-				}
-				case 4:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp4);
-					break;
-				}
-				default:
-				{
-					pDataDisp = &(pTestPlatView->m_DataDisp);
-					break;
-				}
-			}
+			pDataDisp = &(pTestPlatView->m_DataDisp[m_byDataIndex]);
 			if ( pDataDisp != NULL )
 			{
 				pDataDisp->ZoomRestore();
@@ -1527,41 +1432,9 @@ void CMainFrame::OnMenuFftZoomIn()
 		// 找到AdcTestPlatView
 		if ( pTestPlatView != NULL )
 		{
-			//pTestPlatView->m_FFTDisp.ZoomIn();
+			//pTestPlatView->m_FFTDisp[0].ZoomIn();
 			// 找到是第几个fft视图
-			switch ( m_byFftIndex )
-			{
-				case 0:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp);
-					break;
-				}
-				case 1:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp1);
-					break;
-				}
-				case 2:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp2);
-					break;
-				}
-				case 3:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp3);
-					break;
-				}
-				case 4:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp4);
-					break;
-				}
-				default:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp);
-					break;
-				}
-			}
+			pFftDisp = &(pTestPlatView->m_FFTDisp[m_byFftIndex]);
 			if ( pFftDisp != NULL )
 			{
 				pFftDisp->ZoomIn();
@@ -1598,39 +1471,7 @@ void CMainFrame::OnMenuFftZoomOut()
 		if ( pTestPlatView != NULL )
 		{
 			// 找到是第几个fft视图
-			switch ( m_byFftIndex )
-			{
-				case 0:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp);
-					break;
-				}
-				case 1:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp1);
-					break;
-				}
-				case 2:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp2);
-					break;
-				}
-				case 3:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp3);
-					break;
-				}
-				case 4:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp4);
-					break;
-				}
-				default:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp);
-					break;
-				}
-			}
+			pFftDisp = &(pTestPlatView->m_FFTDisp[m_byFftIndex]);
 			if ( pFftDisp != NULL )
 			{
 				pFftDisp->ZoomOut();
@@ -1666,41 +1507,9 @@ void CMainFrame::OnMenuFftZoomRestore()
 		// 找到AdcTestPlatView
 		if ( pTestPlatView != NULL )
 		{
-			//pTestPlatView->m_FFTDisp.ZoomRestore();
+			//pTestPlatView->m_FFTDisp[0].ZoomRestore();
 			// 找到是第几个fft视图
-			switch ( m_byFftIndex )
-			{
-				case 0:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp);
-					break;
-				}
-				case 1:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp1);
-					break;
-				}
-				case 2:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp2);
-					break;
-				}
-				case 3:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp3);
-					break;
-				}
-				case 4:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp4);
-					break;
-				}
-				default:
-				{
-					pFftDisp = &(pTestPlatView->m_FFTDisp);
-					break;
-				}
-			}
+			pFftDisp = &(pTestPlatView->m_FFTDisp[m_byFftIndex]);
 			if ( pFftDisp != NULL )
 			{
 				pFftDisp->ZoomRestore();
