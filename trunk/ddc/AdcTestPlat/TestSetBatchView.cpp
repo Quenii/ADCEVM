@@ -1289,17 +1289,17 @@ void CTestSetBatchView::SetR(int nR)
 		{
 			int nSampFreq = 80;					
 			// 通过r值设置视图显示的频率
-			pTestPlatView->m_FFTDisp.m_dOrgSampFreq = nSampFreq / nR;
-			pTestPlatView->m_FFTDisp1.m_dOrgSampFreq = nSampFreq / nR;
-			pTestPlatView->m_FFTDisp2.m_dOrgSampFreq = nSampFreq / nR;
-			pTestPlatView->m_FFTDisp3.m_dOrgSampFreq = nSampFreq / nR;
-			pTestPlatView->m_FFTDisp4.m_dOrgSampFreq = nSampFreq / nR;
+			pTestPlatView->m_FFTDisp[0].m_dOrgSampFreq = nSampFreq / nR;
+			pTestPlatView->m_FFTDisp[1].m_dOrgSampFreq = nSampFreq / nR;
+			pTestPlatView->m_FFTDisp[2].m_dOrgSampFreq = nSampFreq / nR;
+			pTestPlatView->m_FFTDisp[3].m_dOrgSampFreq = nSampFreq / nR;
+			pTestPlatView->m_FFTDisp[4].m_dOrgSampFreq = nSampFreq / nR;
 			// 通过调用视图恢复同步变量
-			pTestPlatView->m_FFTDisp.ZoomRestore();
-			pTestPlatView->m_FFTDisp1.ZoomRestore();
-			pTestPlatView->m_FFTDisp2.ZoomRestore();
-			pTestPlatView->m_FFTDisp3.ZoomRestore();
-			pTestPlatView->m_FFTDisp4.ZoomRestore();			
+			pTestPlatView->m_FFTDisp[0].ZoomRestore();
+			pTestPlatView->m_FFTDisp[1].ZoomRestore();
+			pTestPlatView->m_FFTDisp[2].ZoomRestore();
+			pTestPlatView->m_FFTDisp[3].ZoomRestore();
+			pTestPlatView->m_FFTDisp[4].ZoomRestore();			
 		}
 	}
 	

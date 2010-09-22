@@ -1158,16 +1158,16 @@ void CParamDialog::OnClose()
 				&& m_nSampFreq / m_nR3 > 0 && m_nSampFreq / m_nR4 > 0 )
 			{
 				//pTestPlatView->m_FFTDisp.m_dOrgSampFreq = m_nSampFreq / m_nR1;
-				pTestPlatView->m_FFTDisp1.m_dOrgSampFreq = m_nSampFreq / m_nR1;
-				pTestPlatView->m_FFTDisp2.m_dOrgSampFreq = m_nSampFreq / m_nR2;
-				pTestPlatView->m_FFTDisp3.m_dOrgSampFreq = m_nSampFreq / m_nR3;
-				pTestPlatView->m_FFTDisp4.m_dOrgSampFreq = m_nSampFreq / m_nR4;
+				pTestPlatView->m_FFTDisp[1].m_dOrgSampFreq = m_nSampFreq / m_nR1;
+				pTestPlatView->m_FFTDisp[2].m_dOrgSampFreq = m_nSampFreq / m_nR2;
+				pTestPlatView->m_FFTDisp[3].m_dOrgSampFreq = m_nSampFreq / m_nR3;
+				pTestPlatView->m_FFTDisp[4].m_dOrgSampFreq = m_nSampFreq / m_nR4;
 				// 通过调用视图恢复同步变量
-				pTestPlatView->m_FFTDisp.ZoomRestore();
-				pTestPlatView->m_FFTDisp1.ZoomRestore();
-				pTestPlatView->m_FFTDisp2.ZoomRestore();
-				pTestPlatView->m_FFTDisp3.ZoomRestore();
-				pTestPlatView->m_FFTDisp4.ZoomRestore();
+				pTestPlatView->m_FFTDisp[0].ZoomRestore();
+				pTestPlatView->m_FFTDisp[1].ZoomRestore();
+				pTestPlatView->m_FFTDisp[2].ZoomRestore();
+				pTestPlatView->m_FFTDisp[3].ZoomRestore();
+				pTestPlatView->m_FFTDisp[4].ZoomRestore();
 
 			}
 		}

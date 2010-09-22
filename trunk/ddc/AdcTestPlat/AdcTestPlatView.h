@@ -63,8 +63,8 @@ public:
 	mxArray* mxC;
 	mxArray* mxT;
 
-	CFFTDisp m_FFTDisp;
-	CDataDisp m_DataDisp;	
+// 	CFFTDisp m_FFTDisp;
+// 	CDataDisp m_DataDisp;	
 
 	double daI[MAX_DEPTH];
 	double daQ[MAX_DEPTH];
@@ -90,14 +90,8 @@ public:
 	CRect m_rcFFT3_FS, m_rcFFT4_FS, m_rcData3_FS, m_rcData4_FS;
 	
 	// 4个通道视图
-	CFFTDisp m_FFTDisp1;	
-	CFFTDisp m_FFTDisp2;	
-	CFFTDisp m_FFTDisp3;	
-	CFFTDisp m_FFTDisp4;
-	CDataDisp m_DataDisp1;
-	CDataDisp m_DataDisp2;
-	CDataDisp m_DataDisp3;
-	CDataDisp m_DataDisp4;	
+	CFFTDisp m_FFTDisp[5];	
+	CDataDisp m_DataDisp[5];
 
 public:
 	//void DrawSpectrum( void );
