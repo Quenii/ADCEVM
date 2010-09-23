@@ -27,7 +27,7 @@ public:
 		int nLvdsAck, int nParaSerSel, int nTest, int nDepth, int nM0, int nStart, 
 		CString strAPath, CString strBPath, CString strCPath, CString strDPath,
 		DWORD* pdwAParam, DWORD* pdwBParam, DWORD* pdwCParam, DWORD* pdwDParam,
-		int nSampFreq, int nR1, int nR2, int nR3, int nR4,
+		int nSampFreq, int nR[5]/*1, int nR2, int nR3, int nR4*/,
 		CWnd* pParent = NULL );
 
 // Dialog Data
@@ -65,7 +65,7 @@ public:
 	DWORD m_dwaDParam[DMA_SIZE];
 	DWORD m_dwaAllAddrParam[DMA_SIZE*4];
 	
-	int		m_nR1, m_nR2, m_nR3, m_nR4;
+	int		m_nR[5];//1, m_nR2, m_nR3, m_nR4;
 	CString	m_strR;
 	
 public:

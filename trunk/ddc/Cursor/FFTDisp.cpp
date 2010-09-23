@@ -750,11 +750,15 @@ void CFFTDisp::DrawCurve()
 
 		//////////////////////////////////////////////////////////////////////////
 		// 画标记
-#define MARK_NUM 5
+#define MARK_NUM 6
+#define MINGAP 200
 		double dMaxData;
 		int nPos;
 		int naPos[MARK_NUM];		
 		
+		int t;
+		bool bMax = FALSE;
+
 		for ( i = 0; i < MARK_NUM; i++ )
 		{
 			naPos[i] = -1;
@@ -763,20 +767,48 @@ void CFFTDisp::DrawCurve()
 		for ( i = 0; i < MARK_NUM; i++ )
 		{
 			dMaxData = -10000;
-			for ( j = 0; j < MAX_DEPTH/2; j++ )
+			//j>0, ignore DC
+			for ( j = 1; j < MAX_DEPTH/2; j++ )
 			{
 				
-				if ( j != naPos[0] && j != naPos[1] && j != naPos[2] 
-					&& j != naPos[3] && j != naPos[4] && m_daDispData[j] > dMaxData )
+// 				if ( j != naPos[0] && j != naPos[1] && j != naPos[2] 
+// 					&& j != naPos[3] && j != naPos[4] && m_daDispData[j] > dMaxData 
+// 					&& abs(j-naPos[0])>MINGAP && abs(j-naPos[1])>MINGAP && abs(j-naPos[2])>MINGAP 
+// 					&& abs(j-naPos[3])>MINGAP && abs(j-naPos[4])>MINGAP)
+// 				{
+// 					dMaxData = m_daDispData[j];
+// 					nPos = j;
+// 				}
+
+				if ( m_daDispData[j] > dMaxData)
 				{
-					dMaxData = m_daDispData[j];
-					nPos = j;
+					bMax = TRUE;
+					for (t=0; t<i; ++t)
+					{
+						if (j==naPos[t] || abs(j-naPos[t])<MINGAP)
+						{
+							bMax = FALSE;
+						}
+					}
+					if (bMax)
+					{
+						dMaxData = m_daDispData[j];
+						nPos = j;
+					}
 				}
 			}
-			naPos[i] = nPos;
+			for (t=i; t<MARK_NUM; ++t)
+			{
+				naPos[t] = nPos;
+			}
 			//TRACE( "pos = %d, data = %f\n", naPos[i], m_daDispData[ naPos[i] ] );
 		}
+
+		pOldFont = m_dcPlot.SelectObject( &m_fntTitle );
+		m_dcPlot.SetTextColor( RGB(0,255,255) );		
+
 		// 画标记
+		CString strMax;
 		for ( i = 0; i < MARK_NUM; i++ )
 		{
 			// 在当前显示的点数范围内才显示
@@ -785,14 +817,15 @@ void CFFTDisp::DrawCurve()
 				x = FFT_LEFT_MARGIN + (int)( (naPos[i]-m_nBeginPos) * dPointXpixel );			
 				y = FFT_TOP_MARGIN + nPicHeight - (int)((m_daDispData[ naPos[i] ] - m_dMinData)*dPointYpixel); 
 				DrawMark( x, y, 'x', RGB(0,255,255) );
+				strMax.Format( "(%.2f,%.2f)", naPos[i]*m_dOrgSampFreq/MAX_DEPTH, 
+					m_daDispData[ naPos[i] ] );
+				m_dcPlot.TextOut(x+3, y-3, strMax );
 			}			
 		}
 		////////////////////////////////////////////////////////////////////////
 
 		// 显示参数
 		////////////////////////////////////////////////////////////////////////
-		pOldFont = m_dcPlot.SelectObject( &m_fntTitle );
-		m_dcPlot.SetTextColor( RGB(0,255,255) );		
 		
 		if ( m_dVpp > 0 && m_bShowParam )
 		{
