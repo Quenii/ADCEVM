@@ -103,10 +103,10 @@ CParamDialog::CParamDialog(CWnd* pParent /*=NULL*/)
 	m_strCPath = _T("");
 	m_strDPath = _T("");
 	m_nSampFreq = 80;
-	m_nR1 = 20;
-	m_nR2 = 20;
-	m_nR3 = 20;
-	m_nR4 = 20;
+	m_nR[1] = 20;
+	m_nR[2] = 20;
+	m_nR[3] = 20;
+	m_nR[4] = 20;
 	m_strR = _T("20");
 	//}}AFX_DATA_INIT
 	memset( m_waIQData, 0, 4*IQ_SIZE*2*sizeof(short) );
@@ -142,7 +142,7 @@ CParamDialog::CParamDialog( int nChanSel, int nChanCogfigCtrl, int nDataOutModeS
 		int nLvdsAck, int nParaSerSel, int nTest, int nDepth, int nM0, int nStart, 
 		CString strAPath, CString strBPath, CString strCPath, CString strDPath,
 		DWORD* pdwAParam, DWORD* pdwBParam, DWORD* pdwCParam, DWORD* pdwDParam,
-		int nSampFreq, int nR1, int nR2, int nR3, int nR4,
+		int nSampFreq, int nR[5]/*1, int nR2, int nR3, int nR4*/,
 		CWnd* pParent )
 		: CDialog(CParamDialog::IDD, pParent)
 {
@@ -171,39 +171,46 @@ CParamDialog::CParamDialog( int nChanSel, int nChanCogfigCtrl, int nDataOutModeS
 		memcpy( m_dwaDParam, pdwDParam, DMA_SIZE*sizeof(DWORD) );
 	}
 	m_nSampFreq = nSampFreq;
-	m_nR1 = nR1;
-	m_nR2 = nR2;
-	m_nR3 = nR3;
-	m_nR4 = nR4;
-	// 显示r值
-	switch ( m_nChanSel )
+	int i;
+	for (i=1; i<5; ++i)
 	{
-		case 0:
-		{
-			m_strR.Format( "%d", m_nR1 );
-			break;
-		}
-		case 1:
-		{
-			m_strR.Format( "%d", m_nR2 );
-			break;
-		}
-		case 2:
-		{
-			m_strR.Format( "%d", m_nR3 );
-			break;
-		}
-		case 3:
-		{
-			m_strR.Format( "%d", m_nR4 );
-			break;
-		}
-		default:
-		{
-			m_strR.Format( "%d", m_nR1 );
-			break;
-		}
+		m_nR[i] = nR[i];
 	}
+
+	m_strR.Format( "%d", m_nR[m_nChanSel+1] );
+// 	m_nR1 = nR1;
+// 	m_nR2 = nR2;
+// 	m_nR3 = nR3;
+// 	m_nR4 = nR4;
+	// 显示r值
+// 	switch ( m_nChanSel )
+// 	{
+// 		case 0:
+// 		{
+// 			m_strR.Format( "%d", m_nR1 );
+// 			break;
+// 		}
+// 		case 1:
+// 		{
+// 			m_strR.Format( "%d", m_nR2 );
+// 			break;
+// 		}
+// 		case 2:
+// 		{
+// 			m_strR.Format( "%d", m_nR3 );
+// 			break;
+// 		}
+// 		case 3:
+// 		{
+// 			m_strR.Format( "%d", m_nR4 );
+// 			break;
+// 		}
+// 		default:
+// 		{
+// 			m_strR.Format( "%d", m_nR1 );
+// 			break;
+// 		}
+// 	}
 	
 	m_pParent = (CTestAlgView*)pParent;
 	
@@ -227,7 +234,7 @@ CParamDialog::CParamDialog( int nChanSel, int nChanCogfigCtrl, int nDataOutModeS
 	memset(m_dwaBAddr, 0x0, DMA_SIZE);
 	memset(m_dwaCAddr, 0x0, DMA_SIZE);
 	memset(m_dwaDAddr, 0x0, DMA_SIZE);
-	for ( int i = 0; i < ADDR_PARAM_SIZE; i++ )
+	for ( i = 0; i < ADDR_PARAM_SIZE; i++ )
 	{
 		m_dwaAAddr[i] = g_dwaAddr[i];
 		m_dwaBAddr[i] = g_dwaAddr[i]+0x100;
@@ -480,7 +487,7 @@ void CParamDialog::OnRadioChanSel()
 		GetDlgItem( IDC_STATIC_ADDR0+i )->SetWindowText( strParam );
 	}
 	// 显示r值(UpdateData使按钮的选择返回原来的项?)
-	m_strR.Format( "%d", m_nR1 );
+	m_strR.Format( "%d", m_nR[1] );
 	UpdateData( FALSE );
 	// SetWindowText使原来文件名文本框的内容被清零?
 	//strParam.Format( "%d", m_nR1 );
@@ -508,7 +515,7 @@ void CParamDialog::OnRadioChanSel2()
 		GetDlgItem( IDC_STATIC_ADDR0+i )->SetWindowText( strParam );
 	}
 	// 显示r值
-	m_strR.Format( "%d", m_nR2 );
+	m_strR.Format( "%d", m_nR[2] );
 	UpdateData( FALSE );
 	//strParam.Format( "%d", m_nR2 );
 	//GetDlgItem( IDC_EDIT_R )->SetWindowText( strParam );
@@ -534,7 +541,7 @@ void CParamDialog::OnRadioChanSel3()
 		GetDlgItem( IDC_STATIC_ADDR0+i )->SetWindowText( strParam );
 	}
 	// 显示r值
-	m_strR.Format( "%d", m_nR3 );
+	m_strR.Format( "%d", m_nR[3] );
 	UpdateData( FALSE );
 	//strParam.Format( "%d", m_nR3 );
 	//GetDlgItem( IDC_EDIT_R )->SetWindowText( strParam );
@@ -560,7 +567,7 @@ void CParamDialog::OnRadioChanSel4()
 		GetDlgItem( IDC_STATIC_ADDR0+i )->SetWindowText( strParam );
 	}
 	// 显示r值
-	m_strR.Format( "%d", m_nR4 );
+	m_strR.Format( "%d", m_nR[4] );
 	UpdateData( FALSE );
 	//strParam.Format( "%d", m_nR4 );
 	//GetDlgItem( IDC_EDIT_R )->SetWindowText( strParam );
@@ -1102,6 +1109,7 @@ void CParamDialog::OnClose()
 	
 	UpdateData( TRUE );
 	// 退出前保存现场
+	int i;
 	if ( m_pParent != NULL )
 	{		
 		m_pParent->m_nChanSel = m_nChanSel;
@@ -1113,10 +1121,7 @@ void CParamDialog::OnClose()
 		m_pParent->m_nDepth = m_nDepth;
 		m_pParent->m_nM0 = m_nM0;
 		m_pParent->m_nStart = m_nStart;
-		//GetDlgItem( IDC_EDIT_A )->GetWindowText( m_pParent->m_strAPath );
-		//GetDlgItem( IDC_EDIT_B )->GetWindowText( m_pParent->m_strBPath );
-		//GetDlgItem( IDC_EDIT_C )->GetWindowText( m_pParent->m_strCPath );
-		//GetDlgItem( IDC_EDIT_D )->GetWindowText( m_pParent->m_strDPath );
+
 		m_pParent->m_strAPath = m_strAPath;
 		m_pParent->m_strBPath = m_strBPath;
 		m_pParent->m_strCPath = m_strCPath;
@@ -1126,10 +1131,14 @@ void CParamDialog::OnClose()
 		memcpy( m_pParent->m_dwaCParam, m_dwaCParam, DMA_SIZE*sizeof(DWORD) );
 		memcpy( m_pParent->m_dwaDParam, m_dwaDParam, DMA_SIZE*sizeof(DWORD) );
 		m_pParent->m_nSampFreq = m_nSampFreq;
-		m_pParent->m_nR1 = m_nR1;
-		m_pParent->m_nR2 = m_nR2;
-		m_pParent->m_nR3 = m_nR3;
-		m_pParent->m_nR4 = m_nR4;
+		for (i=1; i<5; ++i)
+		{
+			m_pParent->m_nR[i] = m_nR[i];
+		}
+// 		m_pParent->m_nR1 = m_nR1;
+// 		m_pParent->m_nR2 = m_nR2;
+// 		m_pParent->m_nR3 = m_nR3;
+// 		m_pParent->m_nR4 = m_nR4;
 	}
 	// 有些参数设置到doc
 	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)(m_pParent->GetDocument());
@@ -1153,21 +1162,27 @@ void CParamDialog::OnClose()
 		if ( pTestPlatView != NULL )
 		{
 			if ( m_nSampFreq > 0 
-				&& m_nR1 > 0 && m_nR2 > 0 && m_nR3 > 0 && m_nR4 > 0
-				&& m_nSampFreq / m_nR1 > 0 && m_nSampFreq / m_nR2 > 0
-				&& m_nSampFreq / m_nR3 > 0 && m_nSampFreq / m_nR4 > 0 )
+				&& m_nR[1] > 0 && m_nR[2] > 0 && m_nR[3] > 0 && m_nR[4] > 0
+				&& m_nSampFreq / m_nR[1] > 0 && m_nSampFreq / m_nR[2] > 0
+				&& m_nSampFreq / m_nR[3] > 0 && m_nSampFreq / m_nR[4] > 0 )
 			{
 				//pTestPlatView->m_FFTDisp.m_dOrgSampFreq = m_nSampFreq / m_nR1;
-				pTestPlatView->m_FFTDisp[1].m_dOrgSampFreq = m_nSampFreq / m_nR1;
-				pTestPlatView->m_FFTDisp[2].m_dOrgSampFreq = m_nSampFreq / m_nR2;
-				pTestPlatView->m_FFTDisp[3].m_dOrgSampFreq = m_nSampFreq / m_nR3;
-				pTestPlatView->m_FFTDisp[4].m_dOrgSampFreq = m_nSampFreq / m_nR4;
+				for (i=0; i<5; ++i)
+				{
+					pTestPlatView->m_FFTDisp[i].m_dOrgSampFreq = m_nSampFreq / m_nR[i];
+//					pTestPlatView->m_FFTDisp[i].ZoomRestore();
+
+				}
+// 				pTestPlatView->m_FFTDisp[1].m_dOrgSampFreq = m_nSampFreq / m_nR1;
+// 				pTestPlatView->m_FFTDisp[2].m_dOrgSampFreq = m_nSampFreq / m_nR2;
+// 				pTestPlatView->m_FFTDisp[3].m_dOrgSampFreq = m_nSampFreq / m_nR3;
+// 				pTestPlatView->m_FFTDisp[4].m_dOrgSampFreq = m_nSampFreq / m_nR4;
 				// 通过调用视图恢复同步变量
-				pTestPlatView->m_FFTDisp[0].ZoomRestore();
-				pTestPlatView->m_FFTDisp[1].ZoomRestore();
-				pTestPlatView->m_FFTDisp[2].ZoomRestore();
-				pTestPlatView->m_FFTDisp[3].ZoomRestore();
-				pTestPlatView->m_FFTDisp[4].ZoomRestore();
+// 				pTestPlatView->m_FFTDisp[0].ZoomRestore();
+// 				pTestPlatView->m_FFTDisp[1].ZoomRestore();
+// 				pTestPlatView->m_FFTDisp[2].ZoomRestore();
+// 				pTestPlatView->m_FFTDisp[3].ZoomRestore();
+// 				pTestPlatView->m_FFTDisp[4].ZoomRestore();
 
 			}
 		}
@@ -1352,48 +1367,24 @@ void CParamDialog::OnChangeEditR()
 	
 	UpdateData( TRUE );
 	// 根据通道设置不同的r值
-	switch ( m_nChanSel )
-	{
-		case 0:
-		{
-			m_nR1 = atoi( m_strR );
-			break;
-		}
-		case 1:
-		{
-			m_nR2 = atoi( m_strR );
-			break;
-		}
-		case 2:
-		{
-			m_nR3 = atoi( m_strR );
-			break;
-		}
-		case 3:
-		{
-			m_nR4 = atoi( m_strR );
-			break;
-		}
-		default:
-		{
-			m_nR1 = atoi( m_strR );
-			break;
-		}
-	}
+
+	m_nR[m_nChanSel+1] = atoi( m_strR );
+	int i;
 	if (m_nChanConfigCtrl = 1)
 	{
-		m_nR1 = atoi( m_strR );
-		m_nR2 = atoi( m_strR );
-		m_nR3 = atoi( m_strR );
-		m_nR4 = atoi( m_strR );
+		for (i=1; i<5; ++i)
+		{
+			m_nR[i] = atoi( m_strR );
+		}
 	}
 	
 	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)((CMainFrame*) AfxGetMainWnd())->GetActiveDocument();
 	//	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetDocument();
-	pDoc->m_nR1=m_nR1;
-	pDoc->m_nR2=m_nR2;
-	pDoc->m_nR3=m_nR3;
-	pDoc->m_nR4=m_nR4;
+
+	for (i=1; i<5; ++i)
+	{
+		pDoc->m_nR[i]=m_nR[i];
+	}
 
 
 }

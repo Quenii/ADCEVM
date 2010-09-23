@@ -81,11 +81,11 @@ public:
 	//BOOL m_bAlgStart;
 
 	// 记录几个视图的大小
-	CRect m_rcFFT, m_rcData, m_rcScroll;
-	CRect m_rcFFT1, m_rcFFT2, m_rcFFT3, m_rcFFT4;
-	CRect m_rcData1, m_rcData2, m_rcData3, m_rcData4;
-	CRect m_rcFFT1_F, m_rcFFT2_F, m_rcFFT3_F, m_rcFFT4_F;
-	CRect m_rcData1_S, m_rcData2_S, m_rcData3_S, m_rcData4_S;
+	CRect /*m_rcFFT, m_rcData, */m_rcScroll;
+	CRect m_rcFFT[5];
+	CRect m_rcData[5];
+	CRect m_rcFFT_F[5];//, m_rcFFT2_F, m_rcFFT3_F, m_rcFFT4_F;
+	CRect m_rcData_S[5];//, m_rcData2_S, m_rcData3_S, m_rcData4_S;
 	CRect m_rcFFT1_FS, m_rcFFT2_FS, m_rcData1_FS, m_rcData2_FS;
 	CRect m_rcFFT3_FS, m_rcFFT4_FS, m_rcData3_FS, m_rcData4_FS;
 	
