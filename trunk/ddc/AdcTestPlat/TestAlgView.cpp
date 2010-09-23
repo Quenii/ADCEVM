@@ -46,10 +46,10 @@ CTestAlgView::CTestAlgView()
 	memset( m_dwaCParam, 0, DMA_SIZE*sizeof(DWORD) );
 	memset( m_dwaDParam, 0, DMA_SIZE*sizeof(DWORD) );
 	m_nSampFreq = 80;
-	m_nR1 = 20;
-	m_nR2 = 20;
-	m_nR3 = 20;
-	m_nR4 = 20;
+	m_nR[1] = 20;
+	m_nR[2] = 20;
+	m_nR[3] = 20;
+	m_nR[4] = 20;
 	//
 	m_bTestBegin = TRUE;
 	m_bIsFirstTime = TRUE;
@@ -260,7 +260,7 @@ void CTestAlgView::OnBtnParam()
 		m_nLvdsAck, m_nParaSerSel, m_nTest, m_nDepth, m_nM0, m_nStart,
 		m_strAPath, m_strBPath, m_strCPath, m_strDPath,
 		m_dwaAParam, m_dwaBParam, m_dwaCParam, m_dwaDParam, m_nSampFreq, 
-		m_nR1, m_nR2, m_nR3, m_nR4, this );
+		m_nR, this );
 	if ( dlgParam.DoModal() == IDOK )
 	{
 		;

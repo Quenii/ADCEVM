@@ -175,6 +175,10 @@ BOOL CAdcTestPlatView::PreCreateWindow(CREATESTRUCT& cs)
 void CAdcTestPlatView::OnInitialUpdate()
 {
 	CFormView::OnInitialUpdate();
+	int i;
+	int bRet;
+
+
 	GetParentFrame()->RecalcLayout();
 	//ResizeParentToFit();
 	// 电路ID微调按钮初始化
@@ -197,41 +201,37 @@ void CAdcTestPlatView::OnInitialUpdate()
 	rcFFT.right = rc.right;
 	int nHeight = ((CMainFrame*)GetParentFrame())->m_nHeight;
 	rcFFT.bottom = ( nHeight - rcFFT.top ) / 2 + rcFFT.top;
-	m_FFTDisp[0].Create( WS_VISIBLE | WS_CHILD, rcFFT, this) ;	
-	m_FFTDisp[0].m_byIndex = 0;
+	bRet = m_FFTDisp[0].Create( NULL, WS_VISIBLE | WS_CHILD, rcFFT, this, 0) ;	
+//	m_FFTDisp[0].m_byIndex = 0;
 
 	// 数据窗口绘制
-	m_DataDisp[0].Create( WS_VISIBLE | WS_CHILD, rcFFT, this );
-	m_DataDisp[0].m_byIndex = 0;
+	bRet = m_DataDisp[0].Create( NULL, WS_VISIBLE | WS_CHILD, rcFFT, this, 0) ;	
 
 
 	// 四个通道的对象
 	CRect rc1( 0, 0, 100, 100 );
-	m_FFTDisp[1].Create( WS_VISIBLE | WS_CHILD, rc1, this);
-	m_FFTDisp[2].Create( WS_VISIBLE | WS_CHILD, rc1, this);
-	m_FFTDisp[3].Create( WS_VISIBLE | WS_CHILD, rc1, this);
-	m_FFTDisp[4].Create( WS_VISIBLE | WS_CHILD, rc1, this);
-	m_DataDisp[1].Create( WS_VISIBLE | WS_CHILD, rc1, this );
-	m_DataDisp[2].Create( WS_VISIBLE | WS_CHILD, rc1, this );
-	m_DataDisp[3].Create( WS_VISIBLE | WS_CHILD, rc1, this );
-	m_DataDisp[4].Create( WS_VISIBLE | WS_CHILD, rc1, this );
-	m_FFTDisp[1].ShowWindow( SW_HIDE );
-	m_FFTDisp[2].ShowWindow( SW_HIDE );
-	m_FFTDisp[3].ShowWindow( SW_HIDE );
-	m_FFTDisp[4].ShowWindow( SW_HIDE );
-	m_DataDisp[1].ShowWindow( SW_HIDE );
-	m_DataDisp[2].ShowWindow( SW_HIDE );
-	m_DataDisp[3].ShowWindow( SW_HIDE );
-	m_DataDisp[4].ShowWindow( SW_HIDE );
-	m_FFTDisp[1].m_byIndex = 1;
-	m_FFTDisp[2].m_byIndex = 2;
-	m_FFTDisp[3].m_byIndex = 3;
-	m_FFTDisp[4].m_byIndex = 4;
-	m_DataDisp[1].m_byIndex = 1;
-	m_DataDisp[2].m_byIndex = 2;
-	m_DataDisp[3].m_byIndex = 3;
-	m_DataDisp[4].m_byIndex = 4;
+	for (i=1; i<5; ++i)
+	{
+		bRet = m_FFTDisp[i].Create( NULL, WS_VISIBLE | WS_CHILD, rc1, this, i );
+		bRet = m_DataDisp[i].Create( NULL, WS_VISIBLE | WS_CHILD, rc1, this, i );
+		m_FFTDisp[1].ShowWindow( SW_HIDE );	
+		m_DataDisp[1].ShowWindow( SW_HIDE );
+	}
 	
+	for (i=0; i<5; ++i)
+	{
+		VCL_InitControls( m_DataDisp[i].m_hWnd );
+		m_DataScope[i].Open(m_DataDisp[i].m_hWnd);
+		m_DataScope[i].Channels.Add();
+		m_DataScope[i].Channels[ 0 ].Name = "CH I";
+		m_DataScope[i].Channels[ 1 ].Name = "CH Q";
+
+		m_FFTScope[i].Open(m_FFTDisp[i].m_hWnd);
+		m_FFTScope[i].Channels.Add();
+		m_FFTScope[i].Channels[ 0 ].Name = "Spectrum";
+	}
+
+	VCL_Loaded();
 	// adc显示
 	AdcDisp();
 	
@@ -884,8 +884,8 @@ void CAdcTestPlatView::AdcDisp()
 	//BOOL bPass;	
 	//WORD* pwTemp = NULL;
 	short* pwTemp = NULL;
-	double dActualMax;
-	double dActualMin;
+// 	double dActualMax;
+// 	double dActualMin;
 
 	UpdateData( TRUE );
 	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetDocument();
@@ -897,36 +897,36 @@ void CAdcTestPlatView::AdcDisp()
 			case 0:
 			{
 				pwTemp = pDoc->m_waCh1Signal;
-				m_DataDisp[0].m_strTitle = "A通道";
-				m_FFTDisp[0].m_strTitle = "A通道";
+// 				m_DataDisp[0].m_strTitle = "A通道";
+// 				m_FFTDisp[0].m_strTitle = "A通道";
 				break;
 			}
 			case 1:
 			{
 				pwTemp = pDoc->m_waCh2Signal;
-				m_DataDisp[0].m_strTitle = "B通道";
-				m_FFTDisp[0].m_strTitle = "B通道";
+// 				m_DataDisp[0].m_strTitle = "B通道";
+// 				m_FFTDisp[0].m_strTitle = "B通道";
 				break;
 			}
 			case 2:
 			{
 				pwTemp = pDoc->m_waCh3Signal;
-				m_DataDisp[0].m_strTitle = "C通道";
-				m_FFTDisp[0].m_strTitle = "C通道";
+// 				m_DataDisp[0].m_strTitle = "C通道";
+// 				m_FFTDisp[0].m_strTitle = "C通道";
 				break;
 			}
 			case 3:
 			{
 				pwTemp = pDoc->m_waCh4Signal;
-				m_DataDisp[0].m_strTitle = "D通道";
-				m_FFTDisp[0].m_strTitle = "D通道";
+// 				m_DataDisp[0].m_strTitle = "D通道";
+// 				m_FFTDisp[0].m_strTitle = "D通道";
 				break;
 			}
 			default:
 			{
 				pwTemp = pDoc->m_waCh1Signal;
-				m_DataDisp[0].m_strTitle = "A通道";
-				m_FFTDisp[0].m_strTitle = "A通道";
+// 				m_DataDisp[0].m_strTitle = "A通道";
+// 				m_FFTDisp[0].m_strTitle = "A通道";
 				break;
 			}
 				
@@ -967,63 +967,64 @@ void CAdcTestPlatView::AdcDisp()
 		/////////////////////////////////////////////////////////////////
 
 		// ADC测试显示参数
-		m_FFTDisp[0].m_bShowParam = TRUE;
+// 		m_FFTDisp[0].m_bShowParam = TRUE;
 		// 使用matlab的fft结果
 		// 互斥
-		CSingleLock slDataBuf( &(m_FFTDisp[0].m_csFftDataBuf) );
-		slDataBuf.Lock();
-		memcpy( m_FFTDisp[0].m_FFTData, daY, (MAX_DEPTH / 2) * sizeof(double) );
+// 		CSingleLock slDataBuf( &(m_FFTDisp[0].m_csFftDataBuf) );
+// 		slDataBuf.Lock();
+//		memcpy( m_FFTDisp[0].m_FFTData, daY, (MAX_DEPTH / 2) * sizeof(double) );
+		m_FFTScope[0].Channels[ 0 ].Data.SetYData( daY, MAX_DEPTH/2 );
 
 		// 保存SNR/SFDR/SINAD/ENOB
-		m_FFTDisp[0].m_dSNR = pDoc->m_daResultSNR[m_nPos];
-		m_FFTDisp[0].m_dSFDR = pDoc->m_daResultSFDR[m_nPos];
-		m_FFTDisp[0].m_dSINAD = pDoc->m_daResultSINAD[m_nPos];
-		m_FFTDisp[0].m_dENOB = pDoc->m_daResultENOB[m_nPos];
+// 		m_FFTDisp[0].m_dSNR = pDoc->m_daResultSNR[m_nPos];
+// 		m_FFTDisp[0].m_dSFDR = pDoc->m_daResultSFDR[m_nPos];
+// 		m_FFTDisp[0].m_dSINAD = pDoc->m_daResultSINAD[m_nPos];
+// 		m_FFTDisp[0].m_dENOB = pDoc->m_daResultENOB[m_nPos];
 
 		// 查找最大值，算频率
-		int nPos;
-		double dMaxData;
-		dMaxData = -10000;
-		for ( i = 0; i < MAX_DEPTH / 2; i++ )
-		{
-			if ( m_FFTDisp[0].m_FFTData[i] > dMaxData )
-			{
-				nPos = i;
-				dMaxData = m_FFTDisp[0].m_FFTData[i];
-			}
-		}
-		// 计算时间显示一个周期的点数
-		if ( nPos > 0 )
-		{
-			m_DataDisp[0].m_nDotPerPeriod = MAX_DEPTH / nPos;
-		}
-		
-		// 2.根据原始数据计算Ain
-		memcpy( m_DataDisp[0].m_waDataDisp, pwTemp, MAX_DEPTH*2 );				
-		dActualMax = -MAX_VALUE;
-		dActualMin = MAX_VALUE;
-		// 查找最大值和最小值
-		for ( i = 0; i < MAX_DEPTH; i++ )
-		{
-			if ( m_DataDisp[0].m_waDataDisp[i] > dActualMax )
-			{				
-				dActualMax = m_DataDisp[0].m_waDataDisp[i];
-			}
-			if ( m_DataDisp[0].m_waDataDisp[i] < dActualMin )
-			{			
-				dActualMin = m_DataDisp[0].m_waDataDisp[i];
-			}
-		}
-		// 计算Vpp(Ain由Vpp计算得出)
-		m_FFTDisp[0].m_dVpp = (dActualMax - dActualMin) / MAX_VALUE;
-
-		// 显示一个波形
-		m_DataDisp[0].m_nDisplaySel = 1;
+// 		int nPos;
+// 		double dMaxData;
+// 		dMaxData = -10000;
+// 		for ( i = 0; i < MAX_DEPTH / 2; i++ )
+// 		{
+// 			if ( m_FFTDisp[0].m_FFTData[i] > dMaxData )
+// 			{
+// 				nPos = i;
+// 				dMaxData = m_FFTDisp[0].m_FFTData[i];
+// 			}
+// 		}
+// 		// 计算时间显示一个周期的点数
+// 		if ( nPos > 0 )
+// 		{
+// 			m_DataDisp[0].m_nDotPerPeriod = MAX_DEPTH / nPos;
+// 		}
+// 		
+// 		// 2.根据原始数据计算Ain
+// 		memcpy( m_DataDisp[0].m_waDataDisp, pwTemp, MAX_DEPTH*2 );				
+// 		dActualMax = -MAX_VALUE;
+// 		dActualMin = MAX_VALUE;
+// 		// 查找最大值和最小值
+// 		for ( i = 0; i < MAX_DEPTH; i++ )
+// 		{
+// 			if ( m_DataDisp[0].m_waDataDisp[i] > dActualMax )
+// 			{				
+// 				dActualMax = m_DataDisp[0].m_waDataDisp[i];
+// 			}
+// 			if ( m_DataDisp[0].m_waDataDisp[i] < dActualMin )
+// 			{			
+// 				dActualMin = m_DataDisp[0].m_waDataDisp[i];
+// 			}
+// 		}
+// 		// 计算Vpp(Ain由Vpp计算得出)
+// 		m_FFTDisp[0].m_dVpp = (dActualMax - dActualMin) / MAX_VALUE;
+// 
+// 		// 显示一个波形
+// 		m_DataDisp[0].m_nDisplaySel = 1;
 		// 3.更新图形显示
 		//m_FFTDisp[0].DrawSpectrum();		
-		m_FFTDisp[0].DrawCurve();
-		m_DataDisp[0].DrawData();
-		slDataBuf.Unlock();
+// 		m_FFTDisp[0].DrawCurve();
+// 		m_DataDisp[0].DrawData();
+// 		slDataBuf.Unlock();
 
 	}
 
@@ -1071,86 +1072,46 @@ void CAdcTestPlatView::AlgDisp()
 		// 获取深度
 		nAlgDepth = pDoc->m_nAlgDepth;
 		// 根据不同位置选择不同通道
+		if ( pTestAlgView != NULL )
+		{
+// 			m_FFTDisp[m_nPos].m_dOrgSampFreq = nSampFreq / pTestAlgView->m_nR[m_nPos];
+// 			m_FFTDisp[m_nPos].m_dMaxGap = m_FFTDisp[m_nPos].m_dOrgSampFreq / 2;
+// 			m_FFTDisp[m_nPos].m_dGap = m_FFTDisp[m_nPos].m_dMaxGap / MAX_AXIS_VALUE;
+// 			m_FFTDisp[m_nPos].m_nRatio = 1;
+		}
 		switch ( m_nPos )
 		{
 			case 0:
 			{
 				pwTemp = pDoc->m_waAiData;
 				pwTemp2 = pDoc->m_waAqData;
-				m_DataDisp[0].m_strTitle = "A通道";
-				m_FFTDisp[0].m_strTitle = "A通道";
+// 				m_DataDisp[0].m_strTitle = "A通道";
+// 				m_FFTDisp[0].m_strTitle = "A通道";
 				// 更新横轴坐标
-				if ( pTestAlgView != NULL )
-				{
-					m_FFTDisp[0].m_dOrgSampFreq = nSampFreq / pTestAlgView->m_nR1;
-					m_FFTDisp[0].m_dMaxGap = m_FFTDisp[0].m_dOrgSampFreq / 2;
-					m_FFTDisp[0].m_dGap = m_FFTDisp[0].m_dMaxGap / MAX_AXIS_VALUE;
-					m_FFTDisp[0].m_nRatio = 1;
-				}
 				break;
 			}
 			case 1:
 			{
 				pwTemp = pDoc->m_waBiData;
 				pwTemp2 = pDoc->m_waBqData;
-				m_DataDisp[0].m_strTitle = "B通道";
-				m_FFTDisp[0].m_strTitle = "B通道";
-				// 更新横轴坐标
-				if ( pTestAlgView != NULL )
-				{
-					m_FFTDisp[0].m_dOrgSampFreq = nSampFreq / pTestAlgView->m_nR2;
-					m_FFTDisp[0].m_dMaxGap = m_FFTDisp[0].m_dOrgSampFreq / 2;
-					m_FFTDisp[0].m_dGap = m_FFTDisp[0].m_dMaxGap / MAX_AXIS_VALUE;
-					m_FFTDisp[0].m_nRatio = 1;
-				}
 				break;
 			}
 			case 2:
 			{
 				pwTemp = pDoc->m_waCiData;
 				pwTemp2 = pDoc->m_waCqData;
-				m_DataDisp[0].m_strTitle = "C通道";
-				m_FFTDisp[0].m_strTitle = "C通道";
-				// 更新横轴坐标
-				if ( pTestAlgView != NULL )
-				{
-					m_FFTDisp[0].m_dOrgSampFreq = nSampFreq / pTestAlgView->m_nR3;
-					m_FFTDisp[0].m_dMaxGap = m_FFTDisp[0].m_dOrgSampFreq / 2;
-					m_FFTDisp[0].m_dGap = m_FFTDisp[0].m_dMaxGap / MAX_AXIS_VALUE;
-					m_FFTDisp[0].m_nRatio = 1;
-				}
 				break;
 			}
 			case 3:
 			{
 				pwTemp = pDoc->m_waDiData;
 				pwTemp2 = pDoc->m_waDqData;
-				m_DataDisp[0].m_strTitle = "D通道";
-				m_FFTDisp[0].m_strTitle = "D通道";
-				// 更新横轴坐标
-				if ( pTestAlgView != NULL )
-				{
-					m_FFTDisp[0].m_dOrgSampFreq = nSampFreq / pTestAlgView->m_nR4;
-					m_FFTDisp[0].m_dMaxGap = m_FFTDisp[0].m_dOrgSampFreq / 2;
-					m_FFTDisp[0].m_dGap = m_FFTDisp[0].m_dMaxGap / MAX_AXIS_VALUE;
-					m_FFTDisp[0].m_nRatio = 1;
-				}
 				break;
 			}			
 			default:
 			{
 				pwTemp = pDoc->m_waAiData;
 				pwTemp2 = pDoc->m_waAqData;
-				m_DataDisp[0].m_strTitle = "A通道";
-				m_FFTDisp[0].m_strTitle = "A通道";
-				// 更新横轴坐标
-				if ( pTestAlgView != NULL )
-				{
-					m_FFTDisp[0].m_dOrgSampFreq = nSampFreq / pTestAlgView->m_nR1;
-					m_FFTDisp[0].m_dMaxGap = m_FFTDisp[0].m_dOrgSampFreq / 2;
-					m_FFTDisp[0].m_dGap = m_FFTDisp[0].m_dMaxGap / MAX_AXIS_VALUE;
-					m_FFTDisp[0].m_nRatio = 1;
-				}
 				break;
 			}
 				
@@ -1159,7 +1120,8 @@ void CAdcTestPlatView::AlgDisp()
 
 	////////////////////////////////////////////////////////////////
 	// 调用matlab计算complex fft
-	for ( int i = 0; i < nAlgDepth; i++ )
+	int i;
+	for ( i = 0; i < nAlgDepth; i++ )
 	{	
 		daI[i] = pwTemp[i];
 		daQ[i] = pwTemp2[i];
@@ -1209,84 +1171,38 @@ void CAdcTestPlatView::AlgDisp()
 	///////////////////////////////////////////////////////////////
 */	
 	// 算法测试不显示参数
-	m_FFTDisp[0].m_bShowParam = FALSE;
-	// 使用matlab的fft结果
-	CSingleLock slDataBuf( &(m_FFTDisp[0].m_csFftDataBuf) );
-	slDataBuf.Lock();
-	memcpy( m_FFTDisp[0].m_FFTData, daY, (nAlgDepth / 2) * sizeof(double) );
-	// 分3种情况考虑
-	if ( m_bIData && !m_bQData )
+
+	float temp[1000];
+	for (i=0; i<1000; ++i)
 	{
-		memcpy( m_DataDisp[0].m_waDataDisp, pwTemp, nAlgDepth*sizeof(short) );
-		m_DataDisp[0].m_nDisplaySel = 1;
+		temp[i] = rand();
 	}
-	else if ( !m_bIData && m_bQData )
+	if (m_FFTDisp[0].m_hWnd)
 	{
-		memcpy( m_DataDisp[0].m_waDataDisp2, pwTemp2, nAlgDepth*sizeof(short) );
-		m_DataDisp[0].m_nDisplaySel = 2;
-	}
-	else if ( m_bIData && m_bQData )
-	{
-		// 拷贝数据(注意数据的大小!!)
-		memcpy( m_DataDisp[0].m_waDataDisp, pwTemp, nAlgDepth*sizeof(short) );
-		memcpy( m_DataDisp[0].m_waDataDisp2, pwTemp2, nAlgDepth*sizeof(short) );
-		// 显示两个波形
-		m_DataDisp[0].m_nDisplaySel = 3;
-	}
-	else
-	{
-		m_DataDisp[0].m_nDisplaySel = 0;
+		m_FFTScope[0].Channels[ 0 ].Data.SetYData( temp, 1000 );
+		//m_FFTScope[0].Channels[ 0 ].Data.SetYData( daY, nAlgDepth / 2 );
+
+		// 分3种情况考虑
+		if ( m_bIData && !m_bQData )
+		{
+			m_DataScope[0].Channels[ 0 ].Data.SetYData( pwTemp, nAlgDepth );
+		}
+		else if ( !m_bIData && m_bQData )
+		{
+			m_DataScope[0].Channels[ 1 ].Data.SetYData( pwTemp2, nAlgDepth );
+		}
+		else if ( m_bIData && m_bQData )
+		{
+			m_DataScope[0].Channels[ 0 ].Data.SetYData( pwTemp, nAlgDepth );
+			m_DataScope[0].Channels[ 1 ].Data.SetYData( pwTemp2, nAlgDepth );
+		}
+		else
+		{
+		}
+
 	}
 	
 	// 保存SNR/SFDR/SINAD/ENOB
-	m_FFTDisp[0].m_dSNR = pDoc->m_daResultSNR[m_nPos];
-	m_FFTDisp[0].m_dSFDR = pDoc->m_daResultSFDR[m_nPos];
-	m_FFTDisp[0].m_dSINAD = pDoc->m_daResultSINAD[m_nPos];
-	m_FFTDisp[0].m_dENOB = pDoc->m_daResultENOB[m_nPos];
-
-	// 查找最大值，算频率
-	int nPos;
-	double dMaxData;
-	nPos = 0;
-	dMaxData = -10000;
-	for ( i = 0; i < nAlgDepth / 2; i++ )
-	{
-		if ( m_FFTDisp[0].m_FFTData[i] > dMaxData )
-		{
-			nPos = i;
-			dMaxData = m_FFTDisp[0].m_FFTData[i];
-		}
-	}
-	// 计算时间显示一个周期的点数
-	if ( nPos > 0 )
-	{
-		m_DataDisp[0].m_nDotPerPeriod = nAlgDepth / nPos;
-	}
-	
-	// 2.根据原始数据计算Ain
-	//memcpy( m_DataDisp[0].m_waDataDisp, pwTemp, MAX_DEPTH*2 );				
-	double dActualMax = -MAX_VALUE;
-	double dActualMin = MAX_VALUE;
-	// 查找最大值和最小值
-	for ( i = 0; i < nAlgDepth; i++ )
-	{
-		if ( m_DataDisp[0].m_waDataDisp[i] > dActualMax )
-		{				
-			dActualMax = m_DataDisp[0].m_waDataDisp[i];
-		}
-		if ( m_DataDisp[0].m_waDataDisp[i] < dActualMin )
-		{			
-			dActualMin = m_DataDisp[0].m_waDataDisp[i];
-		}
-	}
-	// 计算Vpp(Ain由Vpp计算得出)
-	m_FFTDisp[0].m_dVpp = (dActualMax - dActualMin) / MAX_VALUE;
-
-	// 显示
-	//m_FFTDisp[0].DrawSpectrum();		
-	m_FFTDisp[0].DrawCurve();
-	m_DataDisp[0].DrawData();
-	slDataBuf.Unlock();
 }
 
 void CAdcTestPlatView::AdcTestSet()
@@ -1603,8 +1519,8 @@ void CAdcTestPlatView::AdcDispFourChannel()
 	short* pwTemp = NULL;
 	double dActualMax;
 	double dActualMin;
-	CFFTDisp* pFFTDisp = NULL;
-	CDataDisp* pDataDisp = NULL;
+	CStatic* pFFTDisp = NULL;
+	CStatic* pDataDisp = NULL;
 
 	UpdateData( TRUE );
 	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetDocument();
@@ -1620,8 +1536,8 @@ void CAdcTestPlatView::AdcDispFourChannel()
 					pwTemp = pDoc->m_waCh1Signal;
 					pFFTDisp = &m_FFTDisp[1];
 					pDataDisp = &m_DataDisp[1];
-					pDataDisp->m_strTitle = "A通道";
-					pFFTDisp->m_strTitle = "A通道";
+// 					pDataDisp->m_strTitle = "A通道";
+// 					pFFTDisp->m_strTitle = "A通道";
 					break;
 				}
 				case 1:
@@ -1629,8 +1545,6 @@ void CAdcTestPlatView::AdcDispFourChannel()
 					pwTemp = pDoc->m_waCh2Signal;
 					pFFTDisp = &m_FFTDisp[2];
 					pDataDisp = &m_DataDisp[2];
-					pDataDisp->m_strTitle = "B通道";
-					pFFTDisp->m_strTitle = "B通道";
 					break;
 				}
 				case 2:
@@ -1638,8 +1552,6 @@ void CAdcTestPlatView::AdcDispFourChannel()
 					pwTemp = pDoc->m_waCh3Signal;
 					pFFTDisp = &m_FFTDisp[3];
 					pDataDisp = &m_DataDisp[3];
-					pDataDisp->m_strTitle = "C通道";
-					pFFTDisp->m_strTitle = "C通道";
 					break;
 				}
 				case 3:
@@ -1647,8 +1559,6 @@ void CAdcTestPlatView::AdcDispFourChannel()
 					pwTemp = pDoc->m_waCh4Signal;
 					pFFTDisp = &m_FFTDisp[4];
 					pDataDisp = &m_DataDisp[4];
-					pDataDisp->m_strTitle = "D通道";
-					pFFTDisp->m_strTitle = "D通道";
 					break;
 				}
 				default:
@@ -1656,8 +1566,6 @@ void CAdcTestPlatView::AdcDispFourChannel()
 					pwTemp = pDoc->m_waCh1Signal;
 					pFFTDisp = &m_FFTDisp[1];
 					pDataDisp = &m_DataDisp[1];
-					pDataDisp->m_strTitle = "A通道";
-					pFFTDisp->m_strTitle = "A通道";
 					break;
 				}
 					
@@ -1675,63 +1583,12 @@ void CAdcTestPlatView::AdcDispFourChannel()
 			memcpy( daY, mxGetPr(mxOut), MAX_DEPTH*sizeof(double) );
 
 			// ADC测试显示参数
-			pFFTDisp->m_bShowParam = TRUE;
 
 			// 使用matlab的fft结果
 			// 互斥保护
-			CSingleLock slDataBuf( &(pFFTDisp->m_csFftDataBuf) );
-			slDataBuf.Lock();
-			memcpy( pFFTDisp->m_FFTData, daY, (MAX_DEPTH / 2) * sizeof(double) );
+
+//QQ 			memcpy( pFFTDisp->m_FFTData, daY, (MAX_DEPTH / 2) * sizeof(double) );
 			// 保存SNR/SFDR/SINAD/ENOB
-			pFFTDisp->m_dSNR = pDoc->m_daResultSNR[m_nPos];
-			pFFTDisp->m_dSFDR = pDoc->m_daResultSFDR[m_nPos];
-			pFFTDisp->m_dSINAD = pDoc->m_daResultSINAD[m_nPos];
-			pFFTDisp->m_dENOB = pDoc->m_daResultENOB[m_nPos];
-
-			// 查找最大值，算频率
-			int nPos;
-			double dMaxData;
-			dMaxData = -10000;
-			for ( i = 0; i < MAX_DEPTH / 2; i++ )
-			{
-				if ( pFFTDisp->m_FFTData[i] > dMaxData )
-				{
-					nPos = i;
-					dMaxData = pFFTDisp->m_FFTData[i];
-				}
-			}
-			// 计算时间显示一个周期的点数
-			if ( nPos > 0 )
-			{
-				pDataDisp->m_nDotPerPeriod = MAX_DEPTH / nPos;
-			}
-			
-			
-			// 2.根据原始数据计算Ain
-			memcpy( pDataDisp->m_waDataDisp, pwTemp, MAX_DEPTH*2 );				
-			dActualMax = -MAX_VALUE;
-			dActualMin = MAX_VALUE;
-			// 查找最大值和最小值
-			for ( i = 0; i < MAX_DEPTH; i++ )
-			{
-				if ( pDataDisp->m_waDataDisp[i] > dActualMax )
-				{				
-					dActualMax = pDataDisp->m_waDataDisp[i];
-				}
-				if ( pDataDisp->m_waDataDisp[i] < dActualMin )
-				{			
-					dActualMin = pDataDisp->m_waDataDisp[i];
-				}
-			}
-			// 计算Vpp(Ain由Vpp计算得出)
-			pFFTDisp->m_dVpp = (dActualMax - dActualMin) / MAX_VALUE;
-
-			// 显示一个波形
-			pDataDisp->m_nDisplaySel = 1;
-			// 3.更新图形显示			
-			pFFTDisp->DrawCurve();
-			pDataDisp->DrawData();
-			slDataBuf.Unlock();			
 		}		
 	}
 }
@@ -1741,8 +1598,8 @@ void CAdcTestPlatView::AlgDispFourChannel()
 	int j;
 	short* pwTemp = NULL;
 	short* pwTemp2 = NULL;
-	CFFTDisp* pFFTDisp = NULL;
-	CDataDisp* pDataDisp = NULL;
+	CStatic* pFFTDisp = NULL;
+	CStatic* pDataDisp = NULL;
 	int nAlgDepth = 32*1024;
 	
 	double dNum;
@@ -1763,8 +1620,6 @@ void CAdcTestPlatView::AlgDispFourChannel()
 					pwTemp2 = pDoc->m_waAqData;
 					pFFTDisp = &m_FFTDisp[1];
 					pDataDisp = &m_DataDisp[1];
-					pDataDisp->m_strTitle = "A通道";
-					pFFTDisp->m_strTitle = "A通道";
 					break;
 				}
 				case 1:
@@ -1773,8 +1628,6 @@ void CAdcTestPlatView::AlgDispFourChannel()
 					pwTemp2 = pDoc->m_waBqData;
 					pFFTDisp = &m_FFTDisp[2];
 					pDataDisp = &m_DataDisp[2];
-					pDataDisp->m_strTitle = "B通道";
-					pFFTDisp->m_strTitle = "B通道";
 					break;
 				}
 				case 2:
@@ -1783,8 +1636,6 @@ void CAdcTestPlatView::AlgDispFourChannel()
 					pwTemp2 = pDoc->m_waCqData;
 					pFFTDisp = &m_FFTDisp[3];
 					pDataDisp = &m_DataDisp[3];
-					pDataDisp->m_strTitle = "C通道";
-					pFFTDisp->m_strTitle = "C通道";
 					break;
 				}
 				case 3:
@@ -1793,8 +1644,6 @@ void CAdcTestPlatView::AlgDispFourChannel()
 					pwTemp2 = pDoc->m_waDqData;
 					pFFTDisp = &m_FFTDisp[4];
 					pDataDisp = &m_DataDisp[4];
-					pDataDisp->m_strTitle = "D通道";
-					pFFTDisp->m_strTitle = "D通道";
 					break;
 				}			
 				default:
@@ -1803,8 +1652,6 @@ void CAdcTestPlatView::AlgDispFourChannel()
 					pwTemp2 = pDoc->m_waAqData;
 					pFFTDisp = &m_FFTDisp[1];
 					pDataDisp = &m_DataDisp[1];
-					pDataDisp->m_strTitle = "A通道";
-					pFFTDisp->m_strTitle = "A通道";
 					break;
 				}
 					
@@ -1827,85 +1674,38 @@ void CAdcTestPlatView::AlgDispFourChannel()
 			memcpy( daY, mxGetPr(mxC), nAlgDepth*sizeof(double) );	
 			/////////////////////////////////////////////////////////////////
 
-			pFFTDisp->m_bShowParam = FALSE;
 			// 使用matlab的fft结果
 			// 互斥保护
-			CSingleLock slDataBuf( &(pFFTDisp->m_csFftDataBuf) );
-			slDataBuf.Lock();
-			memcpy( pFFTDisp->m_FFTData, daY, (nAlgDepth / 2) * sizeof(double) );
 
-			// 保存SNR/SFDR/SINAD/ENOB
-			pFFTDisp->m_dSNR = pDoc->m_daResultSNR[m_nPos];
-			pFFTDisp->m_dSFDR = pDoc->m_daResultSFDR[m_nPos];
-			pFFTDisp->m_dSINAD = pDoc->m_daResultSINAD[m_nPos];
-			pFFTDisp->m_dENOB = pDoc->m_daResultENOB[m_nPos];
-
-			// 分3种情况考虑
-			if ( m_bIData && !m_bQData )
-			{
-				memcpy( pDataDisp->m_waDataDisp, pwTemp, nAlgDepth*sizeof(short) );
-				pDataDisp->m_nDisplaySel = 1;
-			}
-			else if ( !m_bIData && m_bQData )
-			{
-				memcpy( pDataDisp->m_waDataDisp2, pwTemp2, nAlgDepth*sizeof(short) );
-				pDataDisp->m_nDisplaySel = 2;
-			}
-			else if ( m_bIData && m_bQData )
-			{
-				// 拷贝数据(注意数据的大小!!)
-				memcpy( pDataDisp->m_waDataDisp, pwTemp, nAlgDepth*sizeof(short) );
-				memcpy( pDataDisp->m_waDataDisp2, pwTemp2, nAlgDepth*sizeof(short) );
-				// 显示两个波形
-				pDataDisp->m_nDisplaySel = 3;
-			}
-			else
-			{
-				pDataDisp->m_nDisplaySel = 0;
-			}
+//QQ 			memcpy( pFFTDisp->m_FFTData, daY, (nAlgDepth / 2) * sizeof(double) );
+// 
+// 			// 保存SNR/SFDR/SINAD/ENOB
+// 
+// 			// 分3种情况考虑
+// 			if ( m_bIData && !m_bQData )
+// 			{
+// 				memcpy( pDataDisp->m_waDataDisp, pwTemp, nAlgDepth*sizeof(short) );
+// 				pDataDisp->m_nDisplaySel = 1;
+// 			}
+// 			else if ( !m_bIData && m_bQData )
+// 			{
+// 				memcpy( pDataDisp->m_waDataDisp2, pwTemp2, nAlgDepth*sizeof(short) );
+// 				pDataDisp->m_nDisplaySel = 2;
+// 			}
+// 			else if ( m_bIData && m_bQData )
+// 			{
+// 				// 拷贝数据(注意数据的大小!!)
+// 				memcpy( pDataDisp->m_waDataDisp, pwTemp, nAlgDepth*sizeof(short) );
+// 				memcpy( pDataDisp->m_waDataDisp2, pwTemp2, nAlgDepth*sizeof(short) );
+// 				// 显示两个波形
+// 				pDataDisp->m_nDisplaySel = 3;
+// 			}
+// 			else
+// 			{
+// 				pDataDisp->m_nDisplaySel = 0;
+// 			}
 			
 
-			// 查找最大值，算频率
-			int nPos;
-			double dMaxData;
-			nPos = 0;
-			dMaxData = -10000;
-			for ( i = 0; i < nAlgDepth / 2; i++ )
-			{
-				if ( pFFTDisp->m_FFTData[i] > dMaxData )
-				{
-					nPos = i;
-					dMaxData = pFFTDisp->m_FFTData[i];
-				}
-			}
-			// 计算时间显示一个周期的点数
-			if ( nPos > 0 )
-			{
-				pDataDisp->m_nDotPerPeriod = nAlgDepth / nPos;
-			}
-			
-			// 2.根据原始数据计算Ain					
-			double dActualMax = -MAX_VALUE;
-			double dActualMin = MAX_VALUE;
-			// 查找最大值和最小值
-			for ( i = 0; i < nAlgDepth; i++ )
-			{
-				if ( pDataDisp->m_waDataDisp[i] > dActualMax )
-				{				
-					dActualMax = pDataDisp->m_waDataDisp[i];
-				}
-				if ( pDataDisp->m_waDataDisp[i] < dActualMin )
-				{			
-					dActualMin = pDataDisp->m_waDataDisp[i];
-				}
-			}
-			// 计算Vpp(Ain由Vpp计算得出)
-			pFFTDisp->m_dVpp = (dActualMax - dActualMin) / MAX_VALUE;
-
-			// 显示				
-			pFFTDisp->DrawCurve();
-			pDataDisp->DrawData();
-			slDataBuf.Unlock();			
 		}		
 	}	
 }

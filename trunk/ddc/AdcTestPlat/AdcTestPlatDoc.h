@@ -189,7 +189,7 @@ public:
 	// 4个通道缓冲区的读写保护
 	CCriticalSection m_csDataBuf;
 
-	int m_nR1, m_nR2, m_nR3, m_nR4;
+	int m_nR[5];
 	
 
 // Overrides
