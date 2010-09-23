@@ -369,17 +369,17 @@ void CMainFrame::OnTestAdc()
 		// 找到了，修改初始采样频率
 		if ( pTestPlatView != NULL )
 		{
-			pTestPlatView->m_FFTDisp[0].m_dOrgSampFreq = 80.0;
-			pTestPlatView->m_FFTDisp[1].m_dOrgSampFreq = 80.0;
-			pTestPlatView->m_FFTDisp[2].m_dOrgSampFreq = 80.0;
-			pTestPlatView->m_FFTDisp[3].m_dOrgSampFreq = 80.0;
-			pTestPlatView->m_FFTDisp[4].m_dOrgSampFreq = 80.0;
-			// 视图恢复
-			pTestPlatView->m_FFTDisp[0].ZoomRestore();
-			pTestPlatView->m_FFTDisp[1].ZoomRestore();
-			pTestPlatView->m_FFTDisp[2].ZoomRestore();
-			pTestPlatView->m_FFTDisp[3].ZoomRestore();
-			pTestPlatView->m_FFTDisp[4].ZoomRestore();
+//QQ 			pTestPlatView->m_FFTDisp[0].m_dOrgSampFreq = 80.0;
+// 			pTestPlatView->m_FFTDisp[1].m_dOrgSampFreq = 80.0;
+// 			pTestPlatView->m_FFTDisp[2].m_dOrgSampFreq = 80.0;
+// 			pTestPlatView->m_FFTDisp[3].m_dOrgSampFreq = 80.0;
+// 			pTestPlatView->m_FFTDisp[4].m_dOrgSampFreq = 80.0;
+// 			// 视图恢复
+// 			pTestPlatView->m_FFTDisp[0].ZoomRestore();
+// 			pTestPlatView->m_FFTDisp[1].ZoomRestore();
+// 			pTestPlatView->m_FFTDisp[2].ZoomRestore();
+// 			pTestPlatView->m_FFTDisp[3].ZoomRestore();
+// 			pTestPlatView->m_FFTDisp[4].ZoomRestore();
 		}
 	}
 }
@@ -448,17 +448,17 @@ void CMainFrame::OnTestAlg()
 		if ( pTestPlatView != NULL )
 		{
 
-			pTestPlatView->m_FFTDisp[0].m_dOrgSampFreq = 80.0 / 20;
-			pTestPlatView->m_FFTDisp[1].m_dOrgSampFreq = 80.0 / 20;
-			pTestPlatView->m_FFTDisp[2].m_dOrgSampFreq = 80.0 / 20;
-			pTestPlatView->m_FFTDisp[3].m_dOrgSampFreq = 80.0 / 20;
-			pTestPlatView->m_FFTDisp[4].m_dOrgSampFreq = 80.0 / 20;
-			// 视图恢复
-			pTestPlatView->m_FFTDisp[0].ZoomRestore();
-			pTestPlatView->m_FFTDisp[1].ZoomRestore();
-			pTestPlatView->m_FFTDisp[2].ZoomRestore();
-			pTestPlatView->m_FFTDisp[3].ZoomRestore();
-			pTestPlatView->m_FFTDisp[4].ZoomRestore();
+//QQ 			pTestPlatView->m_FFTDisp[0].m_dOrgSampFreq = 80.0 / 20;
+// 			pTestPlatView->m_FFTDisp[1].m_dOrgSampFreq = 80.0 / 20;
+// 			pTestPlatView->m_FFTDisp[2].m_dOrgSampFreq = 80.0 / 20;
+// 			pTestPlatView->m_FFTDisp[3].m_dOrgSampFreq = 80.0 / 20;
+// 			pTestPlatView->m_FFTDisp[4].m_dOrgSampFreq = 80.0 / 20;
+// 			// 视图恢复
+// 			pTestPlatView->m_FFTDisp[0].ZoomRestore();
+// 			pTestPlatView->m_FFTDisp[1].ZoomRestore();
+// 			pTestPlatView->m_FFTDisp[2].ZoomRestore();
+// 			pTestPlatView->m_FFTDisp[3].ZoomRestore();
+// 			pTestPlatView->m_FFTDisp[4].ZoomRestore();
 		}
 	}
 }
@@ -1253,34 +1253,34 @@ void CMainFrame::OnUpdateMenuZoomV(CCmdUI* pCmdUI)
 
 void CMainFrame::OnMenuZoomIn() 
 {
-	CDataDisp* pDataDisp = NULL;
-	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetActiveDocument();
-	if ( pDoc != NULL )
-	{
-		CAdcTestPlatView* pTestPlatView = NULL;
-		POSITION pos = pDoc->GetFirstViewPosition();
-		while ( pos != NULL )
-		{
-			CView* pView = pDoc->GetNextView( pos );			
-			if ( pView->IsKindOf(RUNTIME_CLASS(CAdcTestPlatView)) )
-			{
-				pTestPlatView = (CAdcTestPlatView*)pView;
-				break;
-			}
-		}
-		// 找到AdcTestPlatView
-		if ( pTestPlatView != NULL )
-		{
-			//pTestPlatView->m_DataDisp.ZoomIn();
-			// 找到是第几个data视图
-
-			pDataDisp = &(pTestPlatView->m_DataDisp[m_byDataIndex]);
-			if ( pDataDisp != NULL )
-			{
-				pDataDisp->ZoomIn();
-			}			
-		}
-	}
+// 	CStatic* pDataDisp = NULL;
+// 	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetActiveDocument();
+// 	if ( pDoc != NULL )
+// 	{
+// 		CAdcTestPlatView* pTestPlatView = NULL;
+// 		POSITION pos = pDoc->GetFirstViewPosition();
+// 		while ( pos != NULL )
+// 		{
+// 			CView* pView = pDoc->GetNextView( pos );			
+// 			if ( pView->IsKindOf(RUNTIME_CLASS(CAdcTestPlatView)) )
+// 			{
+// 				pTestPlatView = (CAdcTestPlatView*)pView;
+// 				break;
+// 			}
+// 		}
+// 		// 找到AdcTestPlatView
+// 		if ( pTestPlatView != NULL )
+// 		{
+// 			//pTestPlatView->m_DataDisp.ZoomIn();
+// 			// 找到是第几个data视图
+// 
+// 			pDataDisp = &(pTestPlatView->m_DataDisp[m_byDataIndex]);
+// 			if ( pDataDisp != NULL )
+// 			{
+// 				pDataDisp->ZoomIn();
+// 			}			
+// 		}
+// 	}
 }
 
 void CMainFrame::OnUpdateMenuZoomIn(CCmdUI* pCmdUI) 
@@ -1291,33 +1291,33 @@ void CMainFrame::OnUpdateMenuZoomIn(CCmdUI* pCmdUI)
 
 void CMainFrame::OnMenuZoomOut() 
 {	
-	CDataDisp* pDataDisp = NULL;
-	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetActiveDocument();
-	if ( pDoc != NULL )
-	{
-		CAdcTestPlatView* pTestPlatView = NULL;
-		POSITION pos = pDoc->GetFirstViewPosition();
-		while ( pos != NULL )
-		{
-			CView* pView = pDoc->GetNextView( pos );			
-			if ( pView->IsKindOf(RUNTIME_CLASS(CAdcTestPlatView)) )
-			{
-				pTestPlatView = (CAdcTestPlatView*)pView;
-				break;
-			}
-		}
-		// 找到AdcTestPlatView
-		if ( pTestPlatView != NULL )
-		{
-			//pTestPlatView->m_DataDisp.ZoomOut();
-			// 找到是第几个data视图
-			pDataDisp = &(pTestPlatView->m_DataDisp[m_byDataIndex]);
-			if ( pDataDisp != NULL )
-			{
-				pDataDisp->ZoomOut();
-			}			
-		}
-	}
+// 	CStatic* pDataDisp = NULL;
+// 	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetActiveDocument();
+// 	if ( pDoc != NULL )
+// 	{
+// 		CAdcTestPlatView* pTestPlatView = NULL;
+// 		POSITION pos = pDoc->GetFirstViewPosition();
+// 		while ( pos != NULL )
+// 		{
+// 			CView* pView = pDoc->GetNextView( pos );			
+// 			if ( pView->IsKindOf(RUNTIME_CLASS(CAdcTestPlatView)) )
+// 			{
+// 				pTestPlatView = (CAdcTestPlatView*)pView;
+// 				break;
+// 			}
+// 		}
+// 		// 找到AdcTestPlatView
+// 		if ( pTestPlatView != NULL )
+// 		{
+// 			//pTestPlatView->m_DataDisp.ZoomOut();
+// 			// 找到是第几个data视图
+// 			pDataDisp = &(pTestPlatView->m_DataDisp[m_byDataIndex]);
+// 			if ( pDataDisp != NULL )
+// 			{
+// 				pDataDisp->ZoomOut();
+// 			}			
+// 		}
+// 	}
 }
 
 void CMainFrame::OnUpdateMenuZoomOut(CCmdUI* pCmdUI) 
@@ -1328,34 +1328,34 @@ void CMainFrame::OnUpdateMenuZoomOut(CCmdUI* pCmdUI)
 
 void CMainFrame::OnMenuZoomRestore() 
 {
-	// TODO: Add your command handler code here
-	CDataDisp* pDataDisp = NULL;
-	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetActiveDocument();
-	if ( pDoc != NULL )
-	{
-		CAdcTestPlatView* pTestPlatView = NULL;
-		POSITION pos = pDoc->GetFirstViewPosition();
-		while ( pos != NULL )
-		{
-			CView* pView = pDoc->GetNextView( pos );			
-			if ( pView->IsKindOf(RUNTIME_CLASS(CAdcTestPlatView)) )
-			{
-				pTestPlatView = (CAdcTestPlatView*)pView;
-				break;
-			}
-		}
-		// 找到AdcTestPlatView
-		if ( pTestPlatView != NULL )
-		{
-			//pTestPlatView->m_DataDisp.ZoomRestore();
-			// 找到是第几个data视图
-			pDataDisp = &(pTestPlatView->m_DataDisp[m_byDataIndex]);
-			if ( pDataDisp != NULL )
-			{
-				pDataDisp->ZoomRestore();
-			}			
-		}
-	}
+// 	// TODO: Add your command handler code here
+// 	CStatic* pDataDisp = NULL;
+// 	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetActiveDocument();
+// 	if ( pDoc != NULL )
+// 	{
+// 		CAdcTestPlatView* pTestPlatView = NULL;
+// 		POSITION pos = pDoc->GetFirstViewPosition();
+// 		while ( pos != NULL )
+// 		{
+// 			CView* pView = pDoc->GetNextView( pos );			
+// 			if ( pView->IsKindOf(RUNTIME_CLASS(CAdcTestPlatView)) )
+// 			{
+// 				pTestPlatView = (CAdcTestPlatView*)pView;
+// 				break;
+// 			}
+// 		}
+// 		// 找到AdcTestPlatView
+// 		if ( pTestPlatView != NULL )
+// 		{
+// 			//pTestPlatView->m_DataDisp.ZoomRestore();
+// 			// 找到是第几个data视图
+// 			pDataDisp = &(pTestPlatView->m_DataDisp[m_byDataIndex]);
+// 			if ( pDataDisp != NULL )
+// 			{
+// 				pDataDisp->ZoomRestore();
+// 			}			
+// 		}
+// 	}
 }
 
 void CMainFrame::OnUpdateMenuZoomRestore(CCmdUI* pCmdUI) 
@@ -1413,34 +1413,34 @@ void CMainFrame::OnUpdateToolbarZoomOut(CCmdUI* pCmdUI)
 
 void CMainFrame::OnMenuFftZoomIn() 
 {
-	// TODO: Add your command handler code here
-	CFFTDisp* pFftDisp = NULL;
-	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetActiveDocument();
-	if ( pDoc != NULL )
-	{
-		CAdcTestPlatView* pTestPlatView = NULL;
-		POSITION pos = pDoc->GetFirstViewPosition();
-		while ( pos != NULL )
-		{
-			CView* pView = pDoc->GetNextView( pos );			
-			if ( pView->IsKindOf(RUNTIME_CLASS(CAdcTestPlatView)) )
-			{
-				pTestPlatView = (CAdcTestPlatView*)pView;
-				break;
-			}
-		}
-		// 找到AdcTestPlatView
-		if ( pTestPlatView != NULL )
-		{
-			//pTestPlatView->m_FFTDisp[0].ZoomIn();
-			// 找到是第几个fft视图
-			pFftDisp = &(pTestPlatView->m_FFTDisp[m_byFftIndex]);
-			if ( pFftDisp != NULL )
-			{
-				pFftDisp->ZoomIn();
-			}			
-		}
-	}
+// 	// TODO: Add your command handler code here
+// 	CStatic* pFftDisp = NULL;
+// 	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetActiveDocument();
+// 	if ( pDoc != NULL )
+// 	{
+// 		CAdcTestPlatView* pTestPlatView = NULL;
+// 		POSITION pos = pDoc->GetFirstViewPosition();
+// 		while ( pos != NULL )
+// 		{
+// 			CView* pView = pDoc->GetNextView( pos );			
+// 			if ( pView->IsKindOf(RUNTIME_CLASS(CAdcTestPlatView)) )
+// 			{
+// 				pTestPlatView = (CAdcTestPlatView*)pView;
+// 				break;
+// 			}
+// 		}
+// 		// 找到AdcTestPlatView
+// 		if ( pTestPlatView != NULL )
+// 		{
+// 			//pTestPlatView->m_FFTDisp[0].ZoomIn();
+// 			// 找到是第几个fft视图
+// 			pFftDisp = &(pTestPlatView->m_FFTDisp[m_byFftIndex]);
+// 			if ( pFftDisp != NULL )
+// 			{
+// 				pFftDisp->ZoomIn();
+// 			}			
+// 		}
+// 	}
 }
 
 void CMainFrame::OnUpdateMenuFftZoomIn(CCmdUI* pCmdUI) 
@@ -1451,33 +1451,33 @@ void CMainFrame::OnUpdateMenuFftZoomIn(CCmdUI* pCmdUI)
 
 void CMainFrame::OnMenuFftZoomOut() 
 {
-	// TODO: Add your command handler code here
-	CFFTDisp* pFftDisp = NULL;
-	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetActiveDocument();
-	if ( pDoc != NULL )
-	{
-		CAdcTestPlatView* pTestPlatView = NULL;
-		POSITION pos = pDoc->GetFirstViewPosition();
-		while ( pos != NULL )
-		{
-			CView* pView = pDoc->GetNextView( pos );			
-			if ( pView->IsKindOf(RUNTIME_CLASS(CAdcTestPlatView)) )
-			{
-				pTestPlatView = (CAdcTestPlatView*)pView;
-				break;
-			}
-		}
-		// 找到AdcTestPlatView
-		if ( pTestPlatView != NULL )
-		{
-			// 找到是第几个fft视图
-			pFftDisp = &(pTestPlatView->m_FFTDisp[m_byFftIndex]);
-			if ( pFftDisp != NULL )
-			{
-				pFftDisp->ZoomOut();
-			}			
-		}
-	}
+// 	// TODO: Add your command handler code here
+// 	CStatic* pFftDisp = NULL;
+// 	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetActiveDocument();
+// 	if ( pDoc != NULL )
+// 	{
+// 		CAdcTestPlatView* pTestPlatView = NULL;
+// 		POSITION pos = pDoc->GetFirstViewPosition();
+// 		while ( pos != NULL )
+// 		{
+// 			CView* pView = pDoc->GetNextView( pos );			
+// 			if ( pView->IsKindOf(RUNTIME_CLASS(CAdcTestPlatView)) )
+// 			{
+// 				pTestPlatView = (CAdcTestPlatView*)pView;
+// 				break;
+// 			}
+// 		}
+// 		// 找到AdcTestPlatView
+// 		if ( pTestPlatView != NULL )
+// 		{
+// 			// 找到是第几个fft视图
+// 			pFftDisp = &(pTestPlatView->m_FFTDisp[m_byFftIndex]);
+// 			if ( pFftDisp != NULL )
+// 			{
+// 				pFftDisp->ZoomOut();
+// 			}			
+// 		}
+// 	}
 }
 
 void CMainFrame::OnUpdateMenuFftZoomOut(CCmdUI* pCmdUI) 
@@ -1488,34 +1488,34 @@ void CMainFrame::OnUpdateMenuFftZoomOut(CCmdUI* pCmdUI)
 
 void CMainFrame::OnMenuFftZoomRestore() 
 {
-	// TODO: Add your command handler code here
-	CFFTDisp* pFftDisp = NULL;
-	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetActiveDocument();
-	if ( pDoc != NULL )
-	{
-		CAdcTestPlatView* pTestPlatView = NULL;
-		POSITION pos = pDoc->GetFirstViewPosition();
-		while ( pos != NULL )
-		{
-			CView* pView = pDoc->GetNextView( pos );			
-			if ( pView->IsKindOf(RUNTIME_CLASS(CAdcTestPlatView)) )
-			{
-				pTestPlatView = (CAdcTestPlatView*)pView;
-				break;
-			}
-		}
-		// 找到AdcTestPlatView
-		if ( pTestPlatView != NULL )
-		{
-			//pTestPlatView->m_FFTDisp[0].ZoomRestore();
-			// 找到是第几个fft视图
-			pFftDisp = &(pTestPlatView->m_FFTDisp[m_byFftIndex]);
-			if ( pFftDisp != NULL )
-			{
-				pFftDisp->ZoomRestore();
-			}
-		}
-	}
+// 	// TODO: Add your command handler code here
+// 	CFFTDisp* pFftDisp = NULL;
+// 	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetActiveDocument();
+// 	if ( pDoc != NULL )
+// 	{
+// 		CAdcTestPlatView* pTestPlatView = NULL;
+// 		POSITION pos = pDoc->GetFirstViewPosition();
+// 		while ( pos != NULL )
+// 		{
+// 			CView* pView = pDoc->GetNextView( pos );			
+// 			if ( pView->IsKindOf(RUNTIME_CLASS(CAdcTestPlatView)) )
+// 			{
+// 				pTestPlatView = (CAdcTestPlatView*)pView;
+// 				break;
+// 			}
+// 		}
+// 		// 找到AdcTestPlatView
+// 		if ( pTestPlatView != NULL )
+// 		{
+// 			//pTestPlatView->m_FFTDisp[0].ZoomRestore();
+// 			// 找到是第几个fft视图
+// 			pFftDisp = &(pTestPlatView->m_FFTDisp[m_byFftIndex]);
+// 			if ( pFftDisp != NULL )
+// 			{
+// 				pFftDisp->ZoomRestore();
+// 			}
+// 		}
+// 	}
 }
 
 void CMainFrame::OnUpdateMenuFftZoomRestore(CCmdUI* pCmdUI) 

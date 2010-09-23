@@ -48,10 +48,10 @@ CAdcTestPlatDoc::CAdcTestPlatDoc()
 	m_nAlgDepth = MAX_FIFO; 
 	// 
 	m_bAlgAutoSave = FALSE;
-	m_nR1 = 20;
-	m_nR2 = 20;
-	m_nR3 = 20;
-	m_nR4 = 20;
+	m_nR[1] = 20;
+	m_nR[2] = 20;
+	m_nR[3] = 20;
+	m_nR[4] = 20;
 
 
 	memset( m_waSignalBackNoise, 0, CHANNEL_NUM*sizeof(WORD) );
@@ -1405,41 +1405,38 @@ void CAdcTestPlatDoc::CalcAlgPerf()
 	for ( i = 0; i < 4; i++ )
 	{
 		// 选择某个通道的性能测试结果
+		r = m_nR[i];
 		switch (i)
 		{
 			case 0:
 			{
 				pwTemp = m_waAiData;
 				pwTemp2 = m_waAqData;
-				r = m_nR1;
+				
 				break;
 			}
 			case 1:
 			{
 				pwTemp = m_waBiData;
 				pwTemp2 = m_waBqData;
-				r = m_nR2;
 				break;
 			}
 			case 2:
 			{
 				pwTemp = m_waCiData;
 				pwTemp2 = m_waCqData;
-				r = m_nR3;
 				break;
 			}
 			case 3:
 			{
 				pwTemp = m_waDiData;
 				pwTemp2 = m_waDqData;
-				r = m_nR4;
 				break;
 			}
 			default:
 			{
 				pwTemp = m_waAiData;
 				pwTemp2 = m_waAqData;
-				r = m_nR1;
 				break;
 			}
 		}

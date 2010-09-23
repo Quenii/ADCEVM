@@ -20,6 +20,8 @@
 #include "libtriplot.h"
 #include "libdualplot.h"
 
+#include "CSLScope.h"
+
 #define BATCH_FILE_ARRAY_SIZE 1000
 
 class CAdcTestPlatView : public CFormView
@@ -90,8 +92,11 @@ public:
 	CRect m_rcFFT3_FS, m_rcFFT4_FS, m_rcData3_FS, m_rcData4_FS;
 	
 	// 4个通道视图
-	CFFTDisp m_FFTDisp[5];	
-	CDataDisp m_DataDisp[5];
+	CStatic m_FFTDisp[5];	
+	CStatic m_DataDisp[5];
+
+	CTSLScope m_DataScope[5];
+	CTSLScope m_FFTScope[5];
 
 public:
 	//void DrawSpectrum( void );

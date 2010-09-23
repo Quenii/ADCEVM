@@ -60,7 +60,7 @@ public:
 	DWORD m_dwaCParam[DMA_SIZE];
 	DWORD m_dwaDParam[DMA_SIZE];
 	int m_nSampFreq;
-	int m_nR1, m_nR2, m_nR3, m_nR4;
+	int m_nR[5];
 	// 
 	BOOL m_bTestBegin;
 	BOOL m_bIsFirstTime;
