@@ -11,10 +11,10 @@ TPX = 0.01;         %波形X轴幅度范围
 code = 1;           %1为偏移码，其他设置见AD算法
 %fid = fopen('adc_0dbm.txt');%;
 fclk = fclk / r;
-fid = fopen('IQ20090209013031AI.txt');
+fid = fopen('AI.txt');
 
 fpga_i = fscanf(fid,'%d')/ 2^(numbit-1);
-fid1 = fopen('IQ20090209013031AQ.txt');
+fid1 = fopen('AQ.txt');
 
 fpga_q = fscanf(fid1,'%d')/ 2^(numbit-1);
 fpga_len = length(fpga_i);
