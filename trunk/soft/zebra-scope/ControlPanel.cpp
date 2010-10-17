@@ -243,14 +243,9 @@ void ControlPanel::uiAdcSettings(AdcSettings& settings)
 	settings.va = ui.vaDoubleSpinBox->value();
 	settings.vd = ui.vdDoubleSpinBox->value();
 	settings.bitcount = ui.bitCountSpinBox->value();
-	settings.vpp = ui.vppLineEdit->text().toFloat();
+	settings.vpp = ui.vppLineEdit->text().toFloat() / 2;
 	settings.coding = (AdcCoding) ui.codingComboBox->currentIndex();
 	settings.phase = ui.phaseLineEdit->text().toFloat();
-}
-
-void ControlPanel::uiSignalSettings(SignalSettings& settings)
-{
-	
 }
 
 void ControlPanel::setUiAdcSettings(const AdcSettings& settings)
@@ -260,14 +255,26 @@ void ControlPanel::setUiAdcSettings(const AdcSettings& settings)
 	ui.vaDoubleSpinBox->setValue(settings.va);
 	ui.vdDoubleSpinBox->setValue(settings.vd);
 	ui.bitCountSpinBox->setValue(settings.bitcount);
-	ui.vppLineEdit->setText(QString("%1").arg(settings.vpp));
+	ui.vppLineEdit->setText(QString("%1").arg(settings.vpp * 2));
 	ui.codingComboBox->setCurrentIndex(settings.coding);
 	ui.phaseLineEdit->setText(QString("%1").arg(settings.phase));
 
 }
 
+void ControlPanel::uiSignalSettings(SignalSettings& settings)
+{
+	settings.clockFreq = ui.clockFreqLineEdit->text().toFloat();
+	settings.signalFreq = ui.signalFreqLineEdit->text().toFloat();
+	settings.signalPower = ui.signalPowerLineEdit->text().toFloat();
+
+}
+
 void ControlPanel::setUiSignalSettings(const SignalSettings& settings)
 {
+
+	ui.signalFreqLineEdit->setText(QString("%1").arg(settings.signalFreq));
+	ui.signalPowerLineEdit->setText(QString("%1").arg(settings.signalPower));
+	ui.clockFreqLineEdit->setText(QString("%1").arg(settings.clockFreq));
 
 }
 
