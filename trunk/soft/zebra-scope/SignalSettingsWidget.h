@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "ui_SignalSettingsWidget.h"
+#include "AdcBoardTypes.hpp"
 
 using namespace Ui;
 
