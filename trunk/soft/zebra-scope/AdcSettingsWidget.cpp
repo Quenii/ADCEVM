@@ -10,3 +10,13 @@ AdcSettingsWidget::~AdcSettingsWidget()
 {
 
 }
+
+void AdcSettingsWidget::setSettings(const AdcSettings& settings)
+{
+
+}
+
+void AdcSettingsWidget::settings(AdcSettings& settings)
+{
+
+}

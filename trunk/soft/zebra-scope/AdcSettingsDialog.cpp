@@ -10,3 +10,13 @@ AdcSettingsDialog::~AdcSettingsDialog()
 {
 
 }
+
+void AdcSettingsDialog::setSettings(const AdcSettings& settings)
+{
+
+}
+
+void AdcSettingsDialog::settings(AdcSettings& settings)
+{
+
+}
