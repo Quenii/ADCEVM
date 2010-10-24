@@ -10,3 +10,14 @@ SignalSettingsDialog::~SignalSettingsDialog()
 {
 
 }
+
+
+void SignalSettingsDialog::setSettings(const SignalSettings& settings)
+{
+
+}
+
+void SignalSettingsDialog::settings(SignalSettings& settings)
+{
+
+}
