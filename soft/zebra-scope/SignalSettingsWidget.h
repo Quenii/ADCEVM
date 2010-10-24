@@ -13,6 +13,14 @@ class SignalSettingsWidget : public QWidget, public SignalSettingsWidgetClass
 public:
 	SignalSettingsWidget(QWidget *parent = 0);
 	~SignalSettingsWidget();
+
+public:
+	void setSettings(const SignalSettings& settings);
+	void settings(SignalSettings& settings);
+
+private slots:
+	void on_pushButtonChangeSettings_clicked();
+
 };
 
 #endif // SIGNALSETTINGSWIDGET_H
