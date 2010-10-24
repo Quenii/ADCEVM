@@ -1,7 +1,6 @@
+#ifdef USE_MATLAB 
+
 #include "libalgo_wrapper.h"
-
-#ifdef MATLAB   //defined in AdcBoardTypes.hpp
-
 #include "libalgo.h"
 
 void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainReport& param)
