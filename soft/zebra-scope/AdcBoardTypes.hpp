@@ -5,8 +5,6 @@
 #include <QMetaType>
 #include <QSettings>
 
-#define MATLAB 1
-
 struct AdcBoardInfo 
 {
 	int usbAddr;
@@ -20,7 +18,7 @@ enum AdcCoding
 	AdcCodingComplement = 1,
 	AdcCodingGray = 2
 };
-Q_DECLARE_METATYPE(AdcCoding)
+//Q_DECLARE_METATYPE(AdcCoding)
 
 struct AdcSettings
 {

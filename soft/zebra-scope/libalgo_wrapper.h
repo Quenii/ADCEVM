@@ -1,7 +1,11 @@
 #pragma once
 
+#define USE_MATLAB
+
 #include <vector>
 #include <AdcBoardTypes.hpp>
+
+
 
 //struct DynamParams
 //{
