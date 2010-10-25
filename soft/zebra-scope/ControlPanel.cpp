@@ -266,18 +266,14 @@ void ControlPanel::uiSignalSettings(SignalSettings& settings)
 	settings.clockFreq = ui.clockFreqLineEdit->text().toFloat();
 	settings.signalFreq = ui.signalFreqLineEdit->text().toFloat();
 	settings.signalPower = ui.signalPowerLineEdit->text().toFloat();
-
 }
 
 void ControlPanel::setUiSignalSettings(const SignalSettings& settings)
 {
-
 	ui.signalFreqLineEdit->setText(QString("%1").arg(settings.signalFreq));
 	ui.signalPowerLineEdit->setText(QString("%1").arg(settings.signalPower));
 	ui.clockFreqLineEdit->setText(QString("%1").arg(settings.clockFreq));
-
 }
-
 
 void ControlPanel::setUiPowerStatus(const PowerStatus& status)
 {

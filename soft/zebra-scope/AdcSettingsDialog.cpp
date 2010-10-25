@@ -11,6 +11,8 @@ AdcSettingsDialog::~AdcSettingsDialog()
 
 }
 
+
+
 void AdcSettingsDialog::setSettings(const AdcSettings& settings)
 {
 	adcTypeLineEdit->setText(settings.adcType);

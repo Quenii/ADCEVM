@@ -16,9 +16,24 @@ enum AdcCoding
 {
 	AdcCodingOffset = 0,
 	AdcCodingComplement = 1,
-	AdcCodingGray = 2
+	AdcCodingGray = 2		
 };
-//Q_DECLARE_METATYPE(AdcCoding)
+
+inline QString conv_to_string(const AdcCoding& e) 
+{
+	switch (e)
+	{
+	case AdcCodingOffset:
+		return "Offset";
+	case AdcCodingComplement:
+		return "Complement";
+	case AdcCodingGray:
+		return "Gray";
+	default:
+		return "";
+	}
+}
+
 
 struct AdcSettings
 {

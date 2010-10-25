@@ -22,6 +22,9 @@ public:
 private slots:
 	void on_pushButtonChangeSettings_clicked();
 
+private:
+	SignalSettings m_settings;
+
 };
 
 #endif // SIGNALSETTINGSWIDGET_H

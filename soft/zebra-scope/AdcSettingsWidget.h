@@ -15,9 +15,17 @@ public:
 	AdcSettingsWidget(QWidget *parent = 0);
 	~AdcSettingsWidget();
 
+
 public:
 	void setSettings(const AdcSettings& settings);
 	void settings(AdcSettings& settings);
+
+
+private slots:
+	void on_pushButtonChangeSettings_clicked();
+
+private:
+	AdcSettings m_settings;
 };
 
 #endif // ADCSETTINGSWIDGET_H

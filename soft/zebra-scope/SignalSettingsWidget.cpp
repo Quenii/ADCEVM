@@ -17,12 +17,15 @@ void SignalSettingsWidget::on_pushButtonChangeSettings_clicked()
 	SignalSettingsDialog dlg;
 	if (QDialog::Accepted  == dlg.exec())
 	{
-
+		dlg.settings(m_settings);
+		setSettings(m_settings);
 	}
 }
 
 void SignalSettingsWidget::setSettings(const SignalSettings& settings)
 {
+	m_settings = settings;
+
 	signalFreqLineEdit->setText(QString("%1").arg(settings.signalFreq));
 	signalPowerLineEdit->setText(QString("%1").arg(settings.signalPower));
 	clockFreqLineEdit->setText(QString("%1").arg(settings.clockFreq));
@@ -30,7 +33,5 @@ void SignalSettingsWidget::setSettings(const SignalSettings& settings)
 
 void SignalSettingsWidget::settings(SignalSettings& settings)
 {
-	settings.clockFreq = clockFreqLineEdit->text().toFloat();
-	settings.signalFreq = signalFreqLineEdit->text().toFloat();
-	settings.signalPower = signalPowerLineEdit->text().toFloat();
+	settings = m_settings;
 }
