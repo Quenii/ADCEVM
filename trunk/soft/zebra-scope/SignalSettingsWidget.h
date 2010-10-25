@@ -19,6 +19,9 @@ public:
 	void setSettings(const SignalSettings& settings);
 	void settings(SignalSettings& settings);
 
+signals:
+	void settingsChanged();
+
 private slots:
 	void on_pushButtonChangeSettings_clicked();
 

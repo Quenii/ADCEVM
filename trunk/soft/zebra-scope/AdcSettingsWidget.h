@@ -15,11 +15,12 @@ public:
 	AdcSettingsWidget(QWidget *parent = 0);
 	~AdcSettingsWidget();
 
-
 public:
 	void setSettings(const AdcSettings& settings);
 	void settings(AdcSettings& settings);
 
+signals:
+	void settingsChanged();
 
 private slots:
 	void on_pushButtonChangeSettings_clicked();
