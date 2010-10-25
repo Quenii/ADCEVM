@@ -10,8 +10,6 @@ ControlPanel::ControlPanel(QWidget *parent, Qt::WFlags flags)
 {
 	ui.setupUi(this);
 
-	ui.codingComboBox->addItems(QStringList() << tr("Offset") << tr("Complement") << tr("Gray"));
-
 	/*QStandardItemModel **/
 	devListModel = new QStandardItemModel(0, 3, ui.devicesView);
 	devListModel->setHeaderData(0, Qt::Horizontal, QObject::tr("USB Addr"));
@@ -35,10 +33,10 @@ ControlPanel::ControlPanel(QWidget *parent, Qt::WFlags flags)
 
 	AdcBoard& board = *(AdcBoard::instance());
 	board.adcSettings(adcSettings);
-	setUiAdcSettings(adcSettings);
+	ui.adcSettingsWidget->setSettings(adcSettings);
 
 	board.signalSettings(signalSettings);
-	setUiSignalSettings(signalSettings);
+	ui.signalSettingsWidget->settings(signalSettings);
 }
 
 ControlPanel::~ControlPanel()
@@ -168,42 +166,25 @@ void ControlPanel::updateReport(const AdcBoardReport &rpt)
 
 }
 
-void ControlPanel::on_pushButtonEditAdcSettings_clicked()
-{
-	ui.pushButtonEditAdcSettings->setEnabled(false);
-	ui.pushButtonApplyAdcSettings->setEnabled(true);
-}
 
-void ControlPanel::on_pushButtonEditSignalSettings_clicked()
+void ControlPanel::on_adcSettingsWidget_settingsChanged()
 {
-	ui.pushButtonEditSignalSettings->setEnabled(false);
-	ui.pushButtonApplySignalSettings->setEnabled(true);
-}
-
-void ControlPanel::on_pushButtonApplyAdcSettings_clicked()
-{
-	uiAdcSettings(adcSettings);
+	ui.adcSettingsWidget->settings(adcSettings);
 	AdcBoard& board = *(AdcBoard::instance());
 	if (!board.setAdcSettings(adcSettings))
 	{
 		Q_ASSERT(false);
 	}
-
-	ui.pushButtonEditAdcSettings->setEnabled(true);
-	ui.pushButtonApplyAdcSettings->setEnabled(false);
 }
 
-void ControlPanel::on_pushButtonApplySignalSettings_clicked()
+void ControlPanel::on_signalSettingsWidget_settingsChanged()
 {
-	uiSignalSettings(signalSettings);
+	ui.signalSettingsWidget->settings(signalSettings);
 	AdcBoard& board = *(AdcBoard::instance());
 	if (!board.setSignalSettings(signalSettings))
 	{
 		Q_ASSERT(false);
 	}
-
-	ui.pushButtonEditSignalSettings->setEnabled(true);
-	ui.pushButtonApplySignalSettings->setEnabled(false);
 }
 
 void ControlPanel::on_pushButtonStartDynamicTest_clicked()
@@ -235,44 +216,6 @@ void ControlPanel::on_pushButtonStopStaticTest_clicked()
 	ui.pushButtonStopStaticTest->setEnabled(false);	
 	ui.pushButtonStartStaticTest->setEnabled(true);
 	ui.dynamicTestButtons->setEnabled(true);
-}
-
-void ControlPanel::uiAdcSettings(AdcSettings& settings)
-{
-	settings.adcType = ui.adcTypeLineEdit->text();
-	settings.va = ui.vaDoubleSpinBox->value();
-	settings.vd = ui.vdDoubleSpinBox->value();
-	settings.bitcount = ui.bitCountSpinBox->value();
-	settings.vpp = ui.vppLineEdit->text().toFloat() / 2;
-	settings.coding = (AdcCoding) ui.codingComboBox->currentIndex();
-	settings.phase = ui.phaseLineEdit->text().toFloat();
-}
-
-void ControlPanel::setUiAdcSettings(const AdcSettings& settings)
-{
-	ui.adcTypeLineEdit->setText(settings.adcType);
-
-	ui.vaDoubleSpinBox->setValue(settings.va);
-	ui.vdDoubleSpinBox->setValue(settings.vd);
-	ui.bitCountSpinBox->setValue(settings.bitcount);
-	ui.vppLineEdit->setText(QString("%1").arg(settings.vpp * 2));
-	ui.codingComboBox->setCurrentIndex(settings.coding);
-	ui.phaseLineEdit->setText(QString("%1").arg(settings.phase));
-
-}
-
-void ControlPanel::uiSignalSettings(SignalSettings& settings)
-{
-	settings.clockFreq = ui.clockFreqLineEdit->text().toFloat();
-	settings.signalFreq = ui.signalFreqLineEdit->text().toFloat();
-	settings.signalPower = ui.signalPowerLineEdit->text().toFloat();
-}
-
-void ControlPanel::setUiSignalSettings(const SignalSettings& settings)
-{
-	ui.signalFreqLineEdit->setText(QString("%1").arg(settings.signalFreq));
-	ui.signalPowerLineEdit->setText(QString("%1").arg(settings.signalPower));
-	ui.clockFreqLineEdit->setText(QString("%1").arg(settings.clockFreq));
 }
 
 void ControlPanel::setUiPowerStatus(const PowerStatus& status)

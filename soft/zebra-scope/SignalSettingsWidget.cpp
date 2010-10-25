@@ -19,6 +19,7 @@ void SignalSettingsWidget::on_pushButtonChangeSettings_clicked()
 	{
 		dlg.settings(m_settings);
 		setSettings(m_settings);
+		emit settingsChanged();
 	}
 }
 

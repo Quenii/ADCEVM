@@ -4,6 +4,9 @@ AdcSettingsDialog::AdcSettingsDialog(QWidget *parent)
 	: QDialog(parent)
 {
 	setupUi(this);
+	
+	codingComboBox->addItems(QStringList() << tr("Offset") << tr("Complement") << tr("Gray"));
+
 }
 
 AdcSettingsDialog::~AdcSettingsDialog()

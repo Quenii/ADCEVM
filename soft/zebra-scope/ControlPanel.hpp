@@ -21,12 +21,6 @@ public:
 	virtual ~ControlPanel();
 
 public:
-	void uiAdcSettings(AdcSettings& settings);
-	void uiSignalSettings(SignalSettings& settings);
-
-	void setUiAdcSettings(const AdcSettings& settings);
-	void setUiSignalSettings(const SignalSettings& settings);
-
 	void setUiPowerStatus(const PowerStatus& status);
 
 public slots:
@@ -40,20 +34,16 @@ private slots:
 	void devItemClicked(const QModelIndex& index);
 	void on_pushButtonAccessToRegs_clicked();
 
-	void on_pushButtonEditAdcSettings_clicked();
-	void on_pushButtonApplyAdcSettings_clicked();
-
-	void on_pushButtonEditSignalSettings_clicked();
-	void on_pushButtonApplySignalSettings_clicked();
-	
-	
+	void on_adcSettingsWidget_settingsChanged();
+	void on_signalSettingsWidget_settingsChanged();
+		
 	void on_pushButtonStartDynamicTest_clicked();
 	void on_pushButtonStopDynamicTest_clicked();
 	void on_pushButtonStartStaticTest_clicked();
 	void on_pushButtonStopStaticTest_clicked();
 
 private:
-	Ui::ControlPanel ui;
+	Ui::ControlPanelClass ui;
 	QStandardItemModel *devListModel;
 	QPointer<RegAccess> regAccess;
 	AdcSettings adcSettings;
