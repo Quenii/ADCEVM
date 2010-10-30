@@ -3,6 +3,8 @@
 #include "gkhy/qplotlib/WaveWnd.hpp"
 #include "gkhy/qplotlib/FFTWnd.hpp"
 #include "gkhy/qplotlib/LogicWaveWnd.hpp"
+#include "RegAccess.hpp"
+
 #include <QMdiArea>
 #include <QSplitter>
 #include <QMdiSubWindow>
@@ -22,15 +24,13 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 	ui.setupUi(this);
 	
-	/*controlPanel = new ControlPanel();
-	ui.dockWidgetControlPanel->setWidget(controlPanel);
-	*/
 
 	waveWnd = new gkhy::QPlotLab::WaveWnd();
 	ui.dockWidgetWave->setWidget(waveWnd);
 	
 	fftWnd = new gkhy::QPlotLab::FFTWnd();
 	ui.dockWidgetFFT->setWidget(fftWnd);
+
 
 	logicWaveWnd = new gkhy::QPlotLab::LogicWaveWnd();
 	ui.dockWidgetLogicWave->setWidget(logicWaveWnd);
@@ -52,31 +52,20 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 MainWindow::~MainWindow()
 {
-
+	if (regAccess)
+		regAccess->deleteLater();
 }
 
 void MainWindow::createMenus()
 {
-	QMenu* windowMenu = menuBar()->addMenu(tr("Window"));
+	QMenu* menuWindow = ui.menuWindow; 
 
-	//QAction* showControlPanelAct= new QAction(tr("&Control Panel"), this);
-	windowMenu->addAction(ui.dockWidgetControlPanel->toggleViewAction());	
-	
-	//QAction* showWaveWindowAct = new QAction(tr("&Wave Window"), this);
-	windowMenu->addAction(ui.dockWidgetWave->toggleViewAction());	
+	menuWindow->addAction(ui.dockWidgetControlPanel->toggleViewAction());		
+	menuWindow->addAction(ui.dockWidgetWave->toggleViewAction());	
+	menuWindow->addAction(ui.dockWidgetFFT->toggleViewAction());	
+	menuWindow->addAction(ui.dockWidgetLogicWave->toggleViewAction());	
 
-
-	//QAction* showFFTWindowAct = new QAction(tr("&FFT Window"), this);
-	windowMenu->addAction(ui.dockWidgetFFT->toggleViewAction());	
-
-	//QAction* showLogicWaveWindowAct = new QAction(tr("&Logic Wave Window"), this);
-	windowMenu->addAction(ui.dockWidgetLogicWave->toggleViewAction());	
-
-	QMenu* helpMenu = menuBar()->addMenu(tr("Help"));
-	QAction* aboutAct= new QAction(tr("&About"), this);
-	connect(aboutAct, SIGNAL(triggered()), this, SLOT(slotShowAbout()));
-	helpMenu->addAction(aboutAct);	
-
+	connect(ui.action_AboutAdcAnalyzer, SIGNAL(triggered()), this, SLOT(slotShowAbout()));
 }
 
 void MainWindow::slotShowWaveWnd()
@@ -106,4 +95,15 @@ void MainWindow::slotShowBoardReport(const AdcBoardReport& report)
 	fftWnd->update(report.fdReport.xaxis, report.fdReport.Spectrum);
 	logicWaveWnd->update(report.tdReport.rawSamples);
 	ui.controlPanel->updateReport(report);
+}
+
+void MainWindow::on_actionSpiCtrl_triggered(bool checked)
+{
+	if (!regAccess)
+	{
+		regAccess = new RegAccess(0, 0);
+		regAccess->setAttribute(Qt::WA_DeleteOnClose,true);
+	}
+
+	regAccess->show();
 }

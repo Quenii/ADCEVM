@@ -15,6 +15,7 @@ SignalSettingsWidget::~SignalSettingsWidget()
 void SignalSettingsWidget::on_pushButtonChangeSettings_clicked()
 {
 	SignalSettingsDialog dlg;
+	dlg.setSettings(m_settings);
 	if (QDialog::Accepted  == dlg.exec())
 	{
 		dlg.settings(m_settings);
