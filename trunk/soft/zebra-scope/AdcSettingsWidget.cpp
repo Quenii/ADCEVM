@@ -16,6 +16,7 @@ AdcSettingsWidget::~AdcSettingsWidget()
 void AdcSettingsWidget::on_pushButtonChangeSettings_clicked()
 {
 	AdcSettingsDialog dlg;
+	dlg.setSettings(m_settings);
 	if (QDialog::Accepted  == dlg.exec())
 	{
 		dlg.settings(m_settings);

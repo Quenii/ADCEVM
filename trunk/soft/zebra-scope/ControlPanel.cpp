@@ -1,5 +1,4 @@
 #include "ControlPanel.hpp"
-#include "RegAccess.hpp"
 #include "AdcBoard.hpp"
 
 #include <QStandardItemModel>
@@ -41,8 +40,7 @@ ControlPanel::ControlPanel(QWidget *parent, Qt::WFlags flags)
 
 ControlPanel::~ControlPanel()
 {
-	if (regAccess)
-		regAccess->deleteLater();
+	
 }
 
 void ControlPanel::setDevList(const QList<AdcBoardInfo>& lst)
@@ -70,17 +68,6 @@ void ControlPanel::setDevList(const QList<AdcBoardInfo>& lst)
 		ui.devicesView->selectionModel()->select(devListModel->index(0, 0), QItemSelectionModel::Select | QItemSelectionModel::Rows);
 		devItemClicked(devListModel->index(0, 0));
 	}	
-}
-
-void ControlPanel::on_pushButtonAccessToRegs_clicked()
-{
-	if (!regAccess)
-	{
-		regAccess = new RegAccess(0, 0);
-		regAccess->setAttribute(Qt::WA_DeleteOnClose,true);
-	}
-
-	regAccess->show();
 }
 
 void ControlPanel::devItemClicked(const QModelIndex& index)
@@ -226,3 +213,4 @@ void ControlPanel::setUiPowerStatus(const PowerStatus& status)
 	ui.idLineEdit->setText(QString("%1").arg(status.id));
 	ui.powerLineEdit->setText(QString("%1").arg(status.power));
 }
+

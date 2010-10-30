@@ -11,10 +11,9 @@ FFTWnd::FFTWnd(QWidget *parent /*= 0*/, Qt::WindowFlags f /*= 0*/) : QScope(pare
 	rawScope().XAxis.AxisLabel.Text = _T("Frequency (MHz)");
 	rawScope().YAxis.AxisLabel.Text = _T("Amplitude (dB)");
 
-	//rawScope().YAxis.Max.Value = 5;
-	//rawScope().YAxis.Min.Value = -120;
-	//rawScope().YAxis.Min.AutoScale = FALSE;
-	//rawScope().YAxis.Max.AutoScale = FALSE;
+	rawScope().YAxis.Max.Value = 5;
+	rawScope().YAxis.Min.Value = -140;
+	rawScope().YAxis.AutoScaling.Enabled = FALSE;
 }
 
 FFTWnd::~FFTWnd()

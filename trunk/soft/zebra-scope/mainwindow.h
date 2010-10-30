@@ -7,6 +7,7 @@
 #include "AdcBoardTypes.hpp"
 
 
+
 namespace gkhy
 {
 	namespace QPlotLab
@@ -20,6 +21,7 @@ class QSplitter;
 class ControlPanel;
 class QTimerEvent;
 class AdcBoard;
+class RegAccess;
 
 class MainWindow : public QMainWindow
 {
@@ -33,6 +35,8 @@ private:
 	void createMenus();
 
 private slots:
+	void on_actionSpiCtrl_triggered(bool checked = false);
+
  	void slotShowWaveWnd();
  	void slotShowFFtWnd();
  	void slotShowControlPanel();
@@ -41,11 +45,10 @@ private slots:
 
 private:
 	Ui::MainWindowClass ui;
-//	QSplitter* centralWidget;
 	gkhy::QPlotLab::WaveWnd* waveWnd;
 	gkhy::QPlotLab::FFTWnd* fftWnd;
 	gkhy::QPlotLab::LogicWaveWnd* logicWaveWnd;
-	//ControlPanel* controlPanel;
+	QPointer<RegAccess> regAccess;
 	AdcBoard* adcBoard;
 };
 

@@ -10,7 +10,6 @@
 
 class QModelIndex;
 class QStandardItemModel;
-class RegAccess;
 
 class ControlPanel : public QWidget
 {
@@ -30,10 +29,8 @@ public slots:
 signals:
 	void devSelected(int usbAddr);
 
-private slots:
+private slots:	
 	void devItemClicked(const QModelIndex& index);
-	void on_pushButtonAccessToRegs_clicked();
-
 	void on_adcSettingsWidget_settingsChanged();
 	void on_signalSettingsWidget_settingsChanged();
 		
@@ -45,7 +42,6 @@ private slots:
 private:
 	Ui::ControlPanelClass ui;
 	QStandardItemModel *devListModel;
-	QPointer<RegAccess> regAccess;
 	AdcSettings adcSettings;
 	SignalSettings signalSettings;
 
