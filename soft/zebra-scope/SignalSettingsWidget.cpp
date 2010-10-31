@@ -28,9 +28,9 @@ void SignalSettingsWidget::setSettings(const SignalSettings& settings)
 {
 	m_settings = settings;
 
-	signalFreqLineEdit->setText(QString("%1").arg(settings.signalFreq));
-	signalPowerLineEdit->setText(QString("%1").arg(settings.signalPower));
-	clockFreqLineEdit->setText(QString("%1").arg(settings.clockFreq));
+	signalFreqLineEdit->setText(QString("%1").arg(settings.signalFreq, 0, 'f', 1));
+	signalPowerLineEdit->setText(QString("%1").arg(settings.signalPower, 0, 'f', 1));
+	clockFreqMHzLineEdit->setText(QString("%1").arg(settings.clockFreq / 1e6, 0, 'f', 1));
 }
 
 void SignalSettingsWidget::settings(SignalSettings& settings)

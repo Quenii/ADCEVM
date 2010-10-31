@@ -37,7 +37,7 @@ public slots:
 	void on_pushButtonResetCircuit_clicked();
 	void on_pushButtonOpenScan_clicked();
 	void on_pushButtonAutoExec_clicked();
-	void on_sbSampleRate_valueChanged();
+	//void on_sbSampleRate_valueChanged();
 	void on_pushButtonStep_clicked();
 	void on_pushButtonBack2Top_clicked();
 	void on_pushButtonSaveSettings_clicked();
