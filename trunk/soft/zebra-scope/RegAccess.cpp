@@ -125,13 +125,13 @@ void RegAccess::slotRegAccessItemStateChanged(QWidget* widget)
 	m_bEnable_SlotRegAccessItemStateChanged = true;
 }
 
-void RegAccess::on_sbSampleRate_valueChanged()
-{
-
-	AdcBoard* board = AdcBoard::instance();
-
-	board->changeSampleRate( sbSampleRate->value() );
-}
+// void RegAccess::on_sbSampleRate_valueChanged()
+// {
+// 
+// 	AdcBoard* board = AdcBoard::instance();
+// 
+// 	board->changeSampleRate( sbSampleRate->value() );
+// }
 
 void RegAccess::on_pushButtonStep_clicked()
 {

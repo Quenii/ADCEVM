@@ -35,6 +35,7 @@ private:
 	void createMenus();
 
 private slots:
+	void on_menuSettings_hovered(QAction * action);
 	void on_actionSpiCtrl_triggered(bool checked = false);
 
  	void slotShowWaveWnd();

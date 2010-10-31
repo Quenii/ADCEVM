@@ -56,7 +56,7 @@
     <addaction name="separator"/>
     <addaction name="action_3"/>
    </widget>
-   <widget class="QMenu" name="menu_S">
+   <widget class="QMenu" name="menuSettings">
     <property name="title">
      <string>设置(&amp;S)</string>
     </property>
@@ -83,7 +83,7 @@
     <addaction name="action_AboutAdcAnalyzer"/>
    </widget>
    <addaction name="menu"/>
-   <addaction name="menu_S"/>
+   <addaction name="menuSettings"/>
    <addaction name="menu_T"/>
    <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>

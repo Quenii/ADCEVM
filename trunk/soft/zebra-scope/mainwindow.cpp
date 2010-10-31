@@ -107,3 +107,10 @@ void MainWindow::on_actionSpiCtrl_triggered(bool checked)
 
 	regAccess->show();
 }
+
+void MainWindow::on_menuSettings_hovered(QAction * action)
+{
+	bool running = AdcBoard::instance()->isRunning();
+	ui.actionSpiCtrl->setEnabled(!running);
+	ui.actionFftDepth->setEnabled(!running);
+}

@@ -114,6 +114,11 @@ AdcBoard::~AdcBoard()
 	}
 }
 
+bool AdcBoard::isRunning()
+{
+	return m_timerId ? true : false;
+}
+
 void AdcBoard::setDynamicOn(bool on /* = true */)
 {
 	if (on && !m_timerId)
@@ -261,6 +266,7 @@ void AdcBoard::changeSampleRate(uint sampleFreq)
 {
 
 }
+
 void AdcBoard::timerEvent(QTimerEvent* event)
 {
 	//return ;
@@ -428,11 +434,14 @@ bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 {
 
+	// change sampling frequency
+	changeSampleRate(signalSettings.clockFreq);
+
 	//todo: 1, add gpib code to specify the input signal/clock;
 
 	float fs = signalSettings.clockFreq;
 	TimeDomainReport &tdReport = report.tdReport;
-
+	
 	tdReport.xaxis.resize(buffer_cnt);
 
 	for (int i = 0; i < tdReport.xaxis.size(); ++i)
@@ -443,10 +452,11 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 	FreqDomainReport& fdReport = report.fdReport;
 
 	fdReport.xaxis.resize(buffer_cnt/2);
+	float k = fs / 2 / (fdReport.xaxis.size() / 1e6);
 
 	for (int i = 0; i < fdReport.xaxis.size(); ++i)
 	{
-		fdReport.xaxis[i] = (float)i * fs / 2 / fdReport.xaxis.size();
+		fdReport.xaxis[i] = (float)i * k;
 	}
 
 	m_signalSettings = signalSettings;

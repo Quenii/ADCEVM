@@ -56,6 +56,7 @@ public:
 	void powerStatus(PowerStatus& powerStatus);
 
 	void setDynamicOn(bool on = true);
+	bool isRunning();
 
 protected:
 	void timerEvent (QTimerEvent * event);
