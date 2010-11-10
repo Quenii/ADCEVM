@@ -446,7 +446,7 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 
 	for (int i = 0; i < tdReport.xaxis.size(); ++i)
 	{
-		tdReport.xaxis[i] = (float)i * 1e9 / fs;  //ns
+		tdReport.xaxis[i] = (float)i * (1e9 / fs);  //ns
 	}
 
 	FreqDomainReport& fdReport = report.fdReport;
