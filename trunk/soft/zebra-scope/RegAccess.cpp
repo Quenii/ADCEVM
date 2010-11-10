@@ -62,7 +62,7 @@ void RegAccess::on_pushButtonResetCircuit_clicked()
 
 	uint t = sbResetTime->value();
 	board->writeReg(0x1000, 0x000D);
-	board->writeReg(0x1000, 0x000C);  //kad5514 reset
+	board->writeReg(0x1000, 0x000C);  //jad14p1  reset
 	gkhy::MfcMinus::Win32App::sleep(t);
 
 	t = sbResetDelay->value();
