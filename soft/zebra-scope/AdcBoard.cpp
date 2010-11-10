@@ -409,13 +409,13 @@ bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 		return false;
 	gkhy::MfcMinus::Win32App::sleep(200);
 
-	//writeReg(0x1000, 0x000C);  //kad5514 reset
+	//writeReg(0x1000, 0x000C);  //jad14p1 reset
 	//gkhy::MfcMinus::Win32App::sleep(200);
 
 	//writeReg(0x1000, 0x0003);
 
 	if (!writeReg(0x1000, 0x000D)) return false;
-	if (!writeReg(0x1000, 0x000C)) return false;  //kad5514 reset
+	if (!writeReg(0x1000, 0x000C)) return false;  //jad14p1  reset
 	gkhy::MfcMinus::Win32App::sleep(2);
 
 	if (!writeReg(0x1000, 0x0001)) return false;

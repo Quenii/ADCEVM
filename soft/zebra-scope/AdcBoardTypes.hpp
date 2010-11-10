@@ -47,7 +47,7 @@ struct AdcSettings
 
 	AdcSettings()
 	{
-		adcType = "KAD5514";
+		adcType = "JAD14P1";
 		va = 1.8f;
 		vd = 1.8f;  
 		bitcount = 16;
