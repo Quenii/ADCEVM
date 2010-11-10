@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 	logicWaveWnd = new gkhy::QPlotLab::LogicWaveWnd();
 	ui.dockWidgetLogicWave->setWidget(logicWaveWnd);
-//	ui.dockWidgetLogicWave->hide();
+	ui.dockWidgetLogicWave->hide();
 
 	bool okay = connect(adcBoard, SIGNAL(devListChanged(const QList<AdcBoardInfo>&)), ui.controlPanel, SLOT(setDevList(const QList<AdcBoardInfo>&)));
 	Q_ASSERT(okay);
