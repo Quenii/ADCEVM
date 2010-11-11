@@ -327,9 +327,11 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 #ifdef _DEBUG
 
 		int offset = rand();
+		tdReport.rawSamples.resize(tdReport.samples.size());
 		for (int i = 0; i < tdReport.samples.size(); ++i)
 		{
 			tdReport.samples[i] = ((int)(qSin(pi/29*i+offset)*8192))*vpp/8192;
+			tdReport.rawSamples[i] = ((int)(qSin(pi/29*i+offset)*8192))*vpp;
 		}
 #endif //_DEBUG
 	}

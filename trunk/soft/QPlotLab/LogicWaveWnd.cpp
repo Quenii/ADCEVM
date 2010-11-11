@@ -21,17 +21,16 @@ LogicWaveWnd::LogicWaveWnd(QWidget *parent /*= 0*/, Qt::WindowFlags f /*= 0*/) :
 	for (size_t i = 0; i < scope.Channels.Count; ++i)
 	{
 		scope.Channels[i].Color = RGB(0, 0 , 255);
-
 	}
 //	scope.CanRedoZoom
 
-	std::vector<unsigned short> data(10);	
-	for (int i = 0; i < data.size(); ++i)
-	{
-		data[i] = unsigned short(i);
-	}
+	//std::vector<unsigned short> data(10);	
+	//for (int i = 0; i < data.size(); ++i)
+	//{
+	//	data[i] = unsigned short(i);
+	//}
 
-	update(data);
+	//update(data);
 }
 
 LogicWaveWnd::~LogicWaveWnd()
@@ -63,7 +62,9 @@ void LogicWaveWnd::update(const std::vector<unsigned short> & xdata)
 
 
 		if (m_x.size() && m_y.size())
+		{
 			scope.Channels[i].Data.SetXYData(&m_x[0], &m_y[0], m_x.size());
+		}
 		//CTColor color = scope.Channels[0].Color;
 	}
 }
