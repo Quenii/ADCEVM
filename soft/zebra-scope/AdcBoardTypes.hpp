@@ -5,6 +5,9 @@
 #include <QMetaType>
 #include <QSettings>
 
+
+#define MATLAB 1
+
 struct AdcBoardInfo 
 {
 	int usbAddr;

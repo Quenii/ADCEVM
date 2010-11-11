@@ -44,7 +44,7 @@
      <x>0</x>
      <y>0</y>
      <width>662</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -67,8 +67,8 @@
     <property name="title">
      <string>测试类型(&amp;T)</string>
     </property>
-    <addaction name="action_5"/>
-    <addaction name="action_6"/>
+    <addaction name="actionSpectrum"/>
+    <addaction name="actionLogic"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -83,8 +83,8 @@
     <addaction name="action_AboutAdcAnalyzer"/>
    </widget>
    <addaction name="menu"/>
-   <addaction name="menuSettings"/>
    <addaction name="menu_T"/>
+   <addaction name="menuSettings"/>
    <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -153,7 +153,7 @@
           <x>0</x>
           <y>0</y>
           <width>250</width>
-          <height>505</height>
+          <height>502</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -250,12 +250,18 @@
     <string>FFT深度(D)</string>
    </property>
   </action>
-  <action name="action_5">
+  <action name="actionSpectrum">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>频谱分析(&amp;F)</string>
    </property>
   </action>
-  <action name="action_6">
+  <action name="actionLogic">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>逻辑分析(&amp;L)</string>
    </property>

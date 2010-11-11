@@ -34,7 +34,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 	logicWaveWnd = new gkhy::QPlotLab::LogicWaveWnd();
 	ui.dockWidgetLogicWave->setWidget(logicWaveWnd);
-	ui.dockWidgetLogicWave->hide();
+
+	ui.actionSpectrum->setChecked(true);
 
 	bool okay = connect(adcBoard, SIGNAL(devListChanged(const QList<AdcBoardInfo>&)), ui.controlPanel, SLOT(setDevList(const QList<AdcBoardInfo>&)));
 	Q_ASSERT(okay);
@@ -108,9 +109,26 @@ void MainWindow::on_actionSpiCtrl_triggered(bool checked)
 	regAccess->show();
 }
 
+void MainWindow::on_actionSpectrum_toggled(bool checked)
+{
+	ui.actionLogic->setChecked(!checked);
+	ui.dockWidgetWave->setVisible(checked);
+	ui.dockWidgetFFT->setVisible(checked);
+	ui.dockWidgetLogicWave->setVisible(!checked);
+};
+
+void MainWindow::on_actionLogic_toggled(bool checked)
+{
+	ui.actionSpectrum->setChecked(!checked);
+	ui.dockWidgetWave->setVisible(checked);
+	ui.dockWidgetFFT->setVisible(!checked);
+	ui.dockWidgetLogicWave->setVisible(checked);
+};
+
 void MainWindow::on_menuSettings_hovered(QAction * action)
 {
 	bool running = AdcBoard::instance()->isRunning();
 	ui.actionSpiCtrl->setEnabled(!running);
 	ui.actionFftDepth->setEnabled(!running);
 }
+

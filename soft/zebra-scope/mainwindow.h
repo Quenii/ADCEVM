@@ -37,6 +37,9 @@ private:
 private slots:
 	void on_menuSettings_hovered(QAction * action);
 	void on_actionSpiCtrl_triggered(bool checked = false);
+	void on_actionSpectrum_toggled(bool checked = false);
+	void on_actionLogic_toggled(bool checked = false);
+
 
  	void slotShowWaveWnd();
  	void slotShowFFtWnd();

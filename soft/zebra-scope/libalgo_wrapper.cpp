@@ -1,4 +1,6 @@
-#ifdef USE_MATLAB 
+#include "AdcBoardTypes.hpp"
+
+#ifdef MATLAB 
 
 #include "libalgo_wrapper.h"
 #include "libalgo.h"
