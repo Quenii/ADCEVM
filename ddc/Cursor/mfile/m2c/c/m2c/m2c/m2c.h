@@ -11,3 +11,6 @@
 #endif
 
 
+
+M2C_API void C_AlgDynTest(double* data1, double* data2, int numpt, double fclk, int numbit,
+						double& SNR__o, double& SINAD__o, double& SFDR__o, double& ENOB__o);
