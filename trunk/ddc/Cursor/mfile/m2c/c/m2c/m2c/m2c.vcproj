@@ -20,7 +20,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -44,7 +44,7 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
@@ -95,7 +95,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;M2C_EXPORTS"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
@@ -175,28 +175,32 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\AlgDynTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\calc_dynam_params.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\chebwin.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\check_order.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\hanning.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\m2c.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.cpp"
+				RelativePath=".\main.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -205,11 +209,55 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\AlgDynTest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\calc_dynam_params.h"
+				>
+			</File>
+			<File
+				RelativePath=".\calc_hanning.h"
+				>
+			</File>
+			<File
+				RelativePath=".\calc_window.h"
+				>
+			</File>
+			<File
+				RelativePath=".\chebwin.h"
+				>
+			</File>
+			<File
+				RelativePath=".\check_order.h"
+				>
+			</File>
+			<File
+				RelativePath=".\gencoswin.h"
+				>
+			</File>
+			<File
+				RelativePath=".\hamming.h"
+				>
+			</File>
+			<File
+				RelativePath=".\hanning.h"
+				>
+			</File>
+			<File
 				RelativePath=".\m2c.h"
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.h"
+				RelativePath=".\matlib.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sym_hanning.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sym_window.h"
 				>
 			</File>
 		</Filter>
