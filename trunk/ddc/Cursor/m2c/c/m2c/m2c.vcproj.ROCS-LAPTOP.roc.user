@@ -9,7 +9,7 @@
 			Name="Debug|Win32"
 			>
 			<DebugSettings
-				Command=""
+				Command="E:\Workshop\projects\adv-evm2\cursor\svn\m2c\c\debug\test.exe"
 				WorkingDirectory=""
 				CommandArguments=""
 				Attach="false"

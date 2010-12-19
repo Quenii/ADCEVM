@@ -10,3 +10,21 @@
 #else
 #define M2C_API __declspec(dllimport)
 #endif
+
+#ifdef __cplusplus
+
+extern "C" {
+
+#endif
+
+M2C_API void AlgDynTest(double* cdata1, int cdata1_cnt,
+						double* cdata2, int cdata2_cnt,
+						double cnumpt, double cfclk, double cnumbit, double cr,
+						double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o);
+
+
+#ifdef __cplusplus
+
+} 
+
+#endif
