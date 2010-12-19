@@ -218,6 +218,14 @@
 				RelativePath=".\main.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\myfft.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\myfft_complex.cpp"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

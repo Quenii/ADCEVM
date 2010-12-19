@@ -1225,8 +1225,8 @@ void CAdcTestPlatDoc::TestAlg()
 		m_waBqData[dwTemp] = m_DmaBBuffer[dwTemp*2];
 	}
 	
-	SaveFile(strFileNamePre + "BI", m_waAiData);
-	SaveFile(strFileNamePre + "BQ", m_waAqData);
+	SaveFile(strFileNamePre + "BI", m_waBiData);
+	SaveFile(strFileNamePre + "BQ", m_waBqData);
 
 	CmdnStat(CHAN_CI, strCRC, strBag);
 	// 取数
@@ -1239,8 +1239,8 @@ void CAdcTestPlatDoc::TestAlg()
 		m_waCqData[dwTemp] = m_DmaCBuffer[dwTemp*2];
 	}
 	
-	SaveFile(strFileNamePre + "CI", m_waAiData);
-	SaveFile(strFileNamePre + "CQ", m_waAqData);
+	SaveFile(strFileNamePre + "CI", m_waCiData);
+	SaveFile(strFileNamePre + "CQ", m_waCqData);
 
 	CmdnStat(CHAN_DI, strCRC, strBag);
 	// 取数
@@ -1253,8 +1253,8 @@ void CAdcTestPlatDoc::TestAlg()
 		m_waDqData[dwTemp] = m_DmaDBuffer[dwTemp*2];
 	}
 	
-	SaveFile(strFileNamePre + "DI", m_waAiData);
-	SaveFile(strFileNamePre + "DQ", m_waAqData);
+	SaveFile(strFileNamePre + "DI", m_waDiData);
+	SaveFile(strFileNamePre + "DQ", m_waDqData);
 
 /*
 	CmdnStat(CHAN_AQ, strCRC, strBag);

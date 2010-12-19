@@ -7,6 +7,8 @@
 #include "AdcTestPlatDoc.h"
 #include "AdcTestPlatView.h"
 #include "MainFrm.h"
+#include "m2c.h"
+
 #include <math.h>
 
 //#include "libadc.h"
@@ -776,7 +778,10 @@ void CAdcTestPlatView::AdcDisp()
 		memcpy( daY, mxGetPr(mxOut), MAX_DEPTH*sizeof(double) );		
 		memcpy( mxGetPr(mxY), daY, (MAX_DEPTH / 2) * sizeof(double) );
 		*/
-	
+
+		FFT(daIn, MAX_DEPTH, daY, MAX_DEPTH / 2);		
+
+		
 		// plot
 		for ( i = 0; i < MAX_DEPTH/2; i++ )
 		{
@@ -1017,6 +1022,9 @@ void CAdcTestPlatView::AlgDisp()
 	memcpy( daY, mxGetPr(mxC), nAlgDepth*sizeof(double) );		
 	memcpy( mxGetPr(mxY), daY, (nAlgDepth / 2) * sizeof(double) );
 	*/
+
+	FFT_complex(daI, daQ, MAX_DEPTH, daY, nAlgDepth / 2);
+
 	// plot
 	for ( i = 0; i < nAlgDepth/2; i++ )
 	{
@@ -1518,6 +1526,8 @@ void CAdcTestPlatView::AdcDispFourChannel()
 			memcpy( daY, mxGetPr(mxOut), MAX_DEPTH*sizeof(double) );
 			*/
 
+			FFT(daIn, MAX_VALUE, daY, MAX_DEPTH);
+
 			// ADC²âÊÔÏÔÊ¾²ÎÊý
 			pFFTDisp->m_bShowParam = TRUE;
 
@@ -1681,6 +1691,9 @@ void CAdcTestPlatView::AlgDispFourChannel()
 			mlfMycomplexfft( 1, &(mxC), mxI, mxQ, mxNum );
 			memcpy( daY, mxGetPr(mxC), nAlgDepth*sizeof(double) );	
 			*/
+
+			FFT_complex(daI, daQ, MAX_DEPTH, daY, MAX_DEPTH / 2);
+
 			/////////////////////////////////////////////////////////////////
 
 			pFFTDisp->m_bShowParam = FALSE;

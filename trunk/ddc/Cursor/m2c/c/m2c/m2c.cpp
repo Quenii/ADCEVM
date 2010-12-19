@@ -4,6 +4,8 @@
 #include "matlib.h"
 #include "AlgDynTest.h"
 #include "AdcDynTest.h"
+#include "myfft.h"
+#include "myfft_complex.h"
 
 
 #define DECLEAR_Mm_MORE(v, d, cnt) \
@@ -57,4 +59,22 @@ void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, doub
 	cSFDR__o = SFDR__o.r(1, 1);
 	cSNRFS__o = SNRFS__o.r(1, 1);
 	cSINAD__o = SINAD__o.r(1, 1);
+}
+
+void FFT(double* data, int data_cnt, double* result, int result_cnt)
+{
+	DECLEAR_Mm_MORE(x, data, data_cnt);
+	DECLEAR_Mm_ONE(n, data_cnt);		
+	Mm ret = myfft(x, n);
+	memcpy(result, ret.addr(), result_cnt * sizeof(*result));
+
+}
+
+void FFT_complex(double* r_data, double* i_data, int data_cnt, double* result, int result_cnt)
+{	
+	DECLEAR_Mm_MORE(r, r_data, data_cnt);
+	DECLEAR_Mm_MORE(i, i_data, data_cnt);
+	DECLEAR_Mm_ONE(n, data_cnt);		
+	Mm ret = myfft_complex(r, i, n);
+	memcpy(result, ret.addr(), result_cnt * sizeof(*result));
 }

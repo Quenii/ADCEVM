@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32  PlxApi.lib Shlwapi.lib m2c.lib /nologo /subsystem:windows /profile /debug /machine:I386 /out:"bin/SIPver20d.exe" /libpath:".\m2c\c\release" /libpath:".\lib"
+# ADD LINK32 PlxApi.lib Shlwapi.lib m2c.lib /nologo /subsystem:windows /profile /debug /machine:I386 /out:"bin/SIPver20d.exe" /libpath:".\m2c\c\release" /libpath:".\lib"
 
 !ENDIF 
 
