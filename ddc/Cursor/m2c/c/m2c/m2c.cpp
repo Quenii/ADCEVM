@@ -6,26 +6,30 @@
 #include "AdcDynTest.h"
 
 
-#define DECLEAR_Mm(v, d, l) \
-	Mm v; v = zeros(l, 1); memcpy(v.addr(), d, l * sizeof(*d)) 
-// Mm data1_m = zeros(1, numpt); memcpy(data1_m.addr(), data1, numpt * sizeof(double));
+#define DECLEAR_Mm_MORE(v, d, cnt) \
+	Mm v; v = zeros(cnt, 1); memcpy(v.addr(), d, cnt * sizeof(*d)) 
+
+#define DECLEAR_Mm_ONE(v, d) \
+	Mm v; v = zeros(1, 1); v.r(1, 1) = d
 
 void AlgDynTest(double* cdata1, int cdata1_cnt,
 						double* cdata2, int cdata2_cnt,
 						double cnumpt, double cfclk, double cnumbit, double cr,
 						double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o)
 {
-	DECLEAR_Mm(data1, cdata1, cdata1_cnt);
-	DECLEAR_Mm(data2, cdata2, cdata2_cnt);
-	Mm numpt = cnumpt;
-	Mm fclk = cfclk;
-	Mm numbit = cnumpt; 
-	Mm r = cr;
+	DECLEAR_Mm_MORE(data1, cdata1, cdata1_cnt);
+	DECLEAR_Mm_MORE(data2, cdata2, cdata2_cnt);
+	DECLEAR_Mm_ONE(numpt, cnumpt);	
+	DECLEAR_Mm_ONE(fclk,cfclk);
+	DECLEAR_Mm_ONE(numbit, cnumbit); 
+	DECLEAR_Mm_ONE(r, cr);
 
 	Mm SNR__o; 
 	Mm SINAD__o;
 	Mm SFDR__o; 
 	Mm ENOB__o;
+
+	double peek[] = {data1.r(1, 1), data1.r(2, 1), data1.r(32767, 1)};
 
 	AlgDynTest(data1, data2, numpt, fclk, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o,  ENOB__o);
 
@@ -39,12 +43,12 @@ void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, doub
 				double& cSNR__o, double& cSFDR__o, double& cSNRFS__o, double& cSINAD__o)
 {
 
-	DECLEAR_Mm(ADout, cdata, cdata_cnt);
-	Mm fclk = cfclk;	
-	Mm numbit = cnumbit;
-	Mm NFFT = cNFFT;
-	Mm V = cV;
-	Mm code = ccode;
+	DECLEAR_Mm_MORE(ADout, cdata, cdata_cnt);
+	DECLEAR_Mm_ONE(fclk, cfclk);	
+	DECLEAR_Mm_ONE(numbit, cnumbit);
+	DECLEAR_Mm_ONE(NFFT, cNFFT);
+	DECLEAR_Mm_ONE(V, cV);
+	DECLEAR_Mm_ONE(code, ccode);
 	Mm SNR__o, SFDR__o, SNRFS__o, SINAD__o;
 	
 	AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SFDR__o, SNRFS__o, SINAD__o);
