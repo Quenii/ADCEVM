@@ -1,3 +1,4 @@
+#include <Windows.h>
 
 #ifdef _MANAGED
 #pragma managed(push, off)
