@@ -1,6 +1,3 @@
-function v = win(n , r)
-    v = ones(n, 1)
-
 function [SNR,SINAD,SFDR,ENOB] = AlgDynTest(data1,data2,numpt,fclk,numbit,r)
 clear all
 close all
@@ -35,8 +32,8 @@ real_ADout = real(ADout);
 [AmpMin t2]=min(real_ADout);
 Vpp = AmpMax - AmpMin;
 
-ADout_w = ADout .* win(ad_len_N, 200); % ADout_w=ADout.*chebwin(ad_len_N,200);
-%ADout_w=ADout.*chebwin(ad_len);
+ADout_w = ADout .* chebwin(ad_len_N, 200); % ADout_w=ADout.*chebchebwin(ad_len_N,200);
+%ADout_w=ADout.*chebchebwin(ad_len);
 % AA = zeros(NFFT-ad_len_N,1);
 %  ADout_w = [ADout_w;AA];
 ad_len = length(ADout_w);
@@ -66,7 +63,7 @@ for n = 1 : ad_len_N ;
     data_ref_iq(n) = V / 2 * (cos(fin_angle) + j*sin(fin_angle));
 end
 
-data_ref_w = data_ref_iq .* win(ad_len_N, 200); % data_ref_w=data_ref_iq .* chebwin(ad_len_N, 200);
+data_ref_w = data_ref_iq .* chebwin(ad_len_N, 200); % data_ref_w=data_ref_iq .* chebchebchebchebwin(ad_len_N, 200);
 
 %  data_ref_w = [data_ref_w;AA];
 data_ref_spect = fft(data_ref_w, NFFT);
