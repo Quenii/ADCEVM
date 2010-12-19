@@ -1023,7 +1023,7 @@ void CAdcTestPlatView::AlgDisp()
 	memcpy( mxGetPr(mxY), daY, (nAlgDepth / 2) * sizeof(double) );
 	*/
 
-	FFT_complex(daI, daQ, MAX_DEPTH, daY, nAlgDepth / 2);
+	FFT_complex(daI, daQ, nAlgDepth, daY, nAlgDepth / 2);
 
 	// plot
 	for ( i = 0; i < nAlgDepth/2; i++ )
@@ -1692,7 +1692,7 @@ void CAdcTestPlatView::AlgDispFourChannel()
 			memcpy( daY, mxGetPr(mxC), nAlgDepth*sizeof(double) );	
 			*/
 
-			FFT_complex(daI, daQ, MAX_DEPTH, daY, MAX_DEPTH / 2);
+			FFT_complex(daI, daQ, nAlgDepth, daY, MAX_DEPTH / 2);
 
 			/////////////////////////////////////////////////////////////////
 
