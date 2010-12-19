@@ -14,11 +14,11 @@
 #include "ColorStatic.h"
 #include "fft.h"
 
-#include "libfft.h"
-#include "libplot.h"
-#include "libcomplexfft.h"
-#include "libtriplot.h"
-#include "libdualplot.h"
+//#include "libfft.h"
+//#include "libplot.h"
+//#include "libcomplexfft.h"
+//#include "libtriplot.h"
+//#include "libdualplot.h"
 
 #define BATCH_FILE_ARRAY_SIZE 1000
 
@@ -50,7 +50,7 @@ public:
 // Operations
 public:
 	// fft相关的变量
-	mxArray* mxIn;
+/*	mxArray* mxIn;
 	mxArray* mxOut;
 	mxArray* mxDotnum;
 	// plot相关变量
@@ -62,6 +62,7 @@ public:
 	mxArray* mxNum;
 	mxArray* mxC;
 	mxArray* mxT;
+	*/
 
 // 	CFFTDisp m_FFTDisp;
 // 	CDataDisp m_DataDisp;	

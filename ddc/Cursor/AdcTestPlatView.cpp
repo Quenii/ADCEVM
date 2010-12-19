@@ -74,7 +74,7 @@ CAdcTestPlatView::CAdcTestPlatView()
 	// TODO: add construction code here
 	
 	// fft相关
-	if ( ! libfftInitialize() )
+/*	if ( ! libfftInitialize() )
 	{
 		AfxMessageBox( "matlab fft库初始化错误!" );
 	}
@@ -109,13 +109,14 @@ CAdcTestPlatView::CAdcTestPlatView()
 		mxT = mxCreateDoubleMatrix( 1, MAX_DEPTH, mxREAL );
 		mxNum = mxCreateDoubleMatrix( 1, 1, mxREAL );
 	}
+	*/
 	
 }
 
 CAdcTestPlatView::~CAdcTestPlatView()
 {
 	// fft相关
-	mxDestroyArray( mxIn );
+/*	mxDestroyArray( mxIn );
 	mxDestroyArray( mxOut );
 	mxDestroyArray( mxDotnum );	
 	mxIn = NULL;
@@ -146,6 +147,7 @@ CAdcTestPlatView::~CAdcTestPlatView()
 	mxT = NULL;
 	mxNum = NULL;
 	libcomplexfftTerminate();
+	*/
 }
 
 void CAdcTestPlatView::DoDataExchange(CDataExchange* pDX)
@@ -767,12 +769,14 @@ void CAdcTestPlatView::AdcDisp()
 			daIn[i] = pwTemp[i];
 		}
 		dDotnum = MAX_DEPTH;
-		memcpy( mxGetPr(mxIn), daIn, MAX_DEPTH*sizeof(double) );
+	/*	memcpy( mxGetPr(mxIn), daIn, MAX_DEPTH*sizeof(double) );
 		memcpy( mxGetPr(mxOut), daOut, MAX_DEPTH*sizeof(double) );
 		memcpy( mxGetPr(mxDotnum), &dDotnum, sizeof(double) );
 		mlfMyfft( 1, &(mxOut), mxIn, mxDotnum );
 		memcpy( daY, mxGetPr(mxOut), MAX_DEPTH*sizeof(double) );		
 		memcpy( mxGetPr(mxY), daY, (MAX_DEPTH / 2) * sizeof(double) );
+		*/
+	
 		// plot
 		for ( i = 0; i < MAX_DEPTH/2; i++ )
 		{
@@ -784,7 +788,7 @@ void CAdcTestPlatView::AdcDisp()
 		{			
 			daT[i] = (double)i; 
 		}
-		memcpy( mxGetPr(mxX), daX, (MAX_DEPTH / 2) *sizeof(double) );
+	/*	memcpy( mxGetPr(mxX), daX, (MAX_DEPTH / 2) *sizeof(double) );
 		memcpy( mxGetPr(mxT), daT, MAX_DEPTH*sizeof(double) );
 		// 是否显示matlab plot
 		if ( m_bMatlab )
@@ -792,6 +796,7 @@ void CAdcTestPlatView::AdcDisp()
 			//mlfMyplot( mxX, mxY );
 			mlfMydualplot( mxX, mxY, mxT, mxIn );
 		}		
+		*/
 		/////////////////////////////////////////////////////////////////
 
 		// ADC测试显示参数
@@ -1002,7 +1007,7 @@ void CAdcTestPlatView::AlgDisp()
 		daQ[i] = pwTemp2[i];
 	}
 	dNum = nAlgDepth;
-	memset( daC, 0, MAX_DEPTH*sizeof(double) );
+/*	memset( daC, 0, MAX_DEPTH*sizeof(double) );
 	memset( daY, 0, MAX_DEPTH / 2 *sizeof(double) );
 	memcpy( mxGetPr(mxI), daI, nAlgDepth*sizeof(double) );
 	memcpy( mxGetPr(mxQ), daQ, nAlgDepth*sizeof(double) );	
@@ -1011,6 +1016,7 @@ void CAdcTestPlatView::AlgDisp()
 	mlfMycomplexfft( 1, &(mxC), mxI, mxQ, mxNum );
 	memcpy( daY, mxGetPr(mxC), nAlgDepth*sizeof(double) );		
 	memcpy( mxGetPr(mxY), daY, (nAlgDepth / 2) * sizeof(double) );
+	*/
 	// plot
 	for ( i = 0; i < nAlgDepth/2; i++ )
 	{
@@ -1022,14 +1028,14 @@ void CAdcTestPlatView::AlgDisp()
 	{
 		daT[i] = (double)i;
 	}
-	memcpy( mxGetPr(mxX), daX, (nAlgDepth / 2) *sizeof(double) );
+	/*memcpy( mxGetPr(mxX), daX, (nAlgDepth / 2) *sizeof(double) );
 	memcpy( mxGetPr(mxT), daT, nAlgDepth*sizeof(double) );
 	// 是否显示matlab plot
 	if ( m_bMatlab )
 	{
 		//mlfMyplot( mxX, mxY );
 		mlfMytriplot( mxX, mxY, mxT, mxI, mxQ );
-	}		
+	}*/		
 	/////////////////////////////////////////////////////////////////
 /*
 	// 测试存文件
@@ -1505,11 +1511,12 @@ void CAdcTestPlatView::AdcDispFourChannel()
 				daIn[i] = pwTemp[i];
 			}
 			dDotnum = MAX_DEPTH;
-			memcpy( mxGetPr(mxIn), daIn, MAX_DEPTH*sizeof(double) );
+		/*	memcpy( mxGetPr(mxIn), daIn, MAX_DEPTH*sizeof(double) );
 			memcpy( mxGetPr(mxOut), daOut, MAX_DEPTH*sizeof(double) );
 			memcpy( mxGetPr(mxDotnum), &dDotnum, sizeof(double) );
 			mlfMyfft( 1, &(mxOut), mxIn, mxDotnum );
 			memcpy( daY, mxGetPr(mxOut), MAX_DEPTH*sizeof(double) );
+			*/
 
 			// ADC测试显示参数
 			pFFTDisp->m_bShowParam = TRUE;
@@ -1665,7 +1672,7 @@ void CAdcTestPlatView::AlgDispFourChannel()
 				daQ[i] = pwTemp2[i];
 			}
 			dNum = nAlgDepth;
-			memset( daC, 0, MAX_DEPTH*sizeof(double) );
+		/*	memset( daC, 0, MAX_DEPTH*sizeof(double) );
 			memset( daY, 0, MAX_DEPTH / 2 *sizeof(double) );
 			memcpy( mxGetPr(mxI), daI, nAlgDepth*sizeof(double) );
 			memcpy( mxGetPr(mxQ), daQ, nAlgDepth*sizeof(double) );	
@@ -1673,6 +1680,7 @@ void CAdcTestPlatView::AlgDispFourChannel()
 			memcpy( mxGetPr(mxNum), &dNum, sizeof(double) );
 			mlfMycomplexfft( 1, &(mxC), mxI, mxQ, mxNum );
 			memcpy( daY, mxGetPr(mxC), nAlgDepth*sizeof(double) );	
+			*/
 			/////////////////////////////////////////////////////////////////
 
 			pFFTDisp->m_bShowParam = FALSE;

@@ -10,8 +10,8 @@
 #endif // _MSC_VER > 1000
 
 // matlab库
-#include "libadc.h"
-#include "libalg.h"
+//#include "libadc.h"
+//#include "libalg.h"
 // for critical section
 #include <afxmt.h>
 
@@ -102,7 +102,7 @@ public:
 // Operations
 public:
 	// matlab相关的变量
-	mxArray* mxSNR;
+	/*mxArray* mxSNR;
 	mxArray* mxSINAD;
 	mxArray* mxSFDR;
 	mxArray* mxENOB;
@@ -114,6 +114,7 @@ public:
 	mxArray* mxFclk;// 1000
 	mxArray* mxNumbit;// 8
 	mxArray* mxR;
+	*/
 
 	// 计算指标时的中间缓冲区
 	double m_data[MAX_DEPTH];

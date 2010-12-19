@@ -7,6 +7,8 @@
 #include "AdcTestPlatDoc.h"
 #include "TestSetView.h"
 #include "PlxApi.h"
+#include "m2c.h"
+
 #include <math.h>
 
 #ifdef _DEBUG
@@ -210,7 +212,7 @@ CAdcTestPlatDoc::CAdcTestPlatDoc()
 #endif
 	
 	// matlab初始化
-	mclInitializeApplication( NULL, 0 );
+	/*mclInitializeApplication( NULL, 0 );
 	if ( !libadcInitialize() )
 	{
 		AfxMessageBox( "matlab动态库初始化错误!" );		
@@ -249,7 +251,7 @@ CAdcTestPlatDoc::CAdcTestPlatDoc()
 		mxData2 = mxCreateDoubleMatrix( MAX_DEPTH, 1, mxREAL );
 		mxR = mxCreateDoubleMatrix( MAX_DEPTH, 1, mxREAL );
 	}
-
+*/
 	CheckFC();
 
 }
@@ -257,7 +259,7 @@ CAdcTestPlatDoc::CAdcTestPlatDoc()
 CAdcTestPlatDoc::~CAdcTestPlatDoc()
 {
 	// matlab释放变量
-	mxDestroyArray( mxSNR );
+/*	mxDestroyArray( mxSNR );
 	mxDestroyArray( mxSINAD );
 	mxDestroyArray( mxSFDR );
 	mxDestroyArray( mxENOB );
@@ -267,8 +269,9 @@ CAdcTestPlatDoc::~CAdcTestPlatDoc()
 	mxDestroyArray( mxNumpt );
 	mxDestroyArray( mxFclk );
 	mxDestroyArray( mxNumbit );
+	*/
 
-	mxSNR = NULL;
+/*	mxSNR = NULL;
 	mxSINAD = NULL;
 	mxSFDR = NULL;
 	mxENOB = NULL;
@@ -283,6 +286,7 @@ CAdcTestPlatDoc::~CAdcTestPlatDoc()
 	libalgInitialize();
 	
 	mclTerminateApplication();
+	*/
 }
 
 BOOL CAdcTestPlatDoc::OnNewDocument()
@@ -623,7 +627,7 @@ void CAdcTestPlatDoc::CalcPerf()
 			m_data[j] = pwTemp[j];
 		}		
 		// 初始化输入参数
-		memcpy( mxGetPr(mxData), m_data, MAX_DEPTH*sizeof(double) );
+		/*memcpy( mxGetPr(mxData), m_data, MAX_DEPTH*sizeof(double) );
 		memcpy( mxGetPr(mxNumpt), &numpt, sizeof(double) );
 		memcpy( mxGetPr(mxFclk), &fclk, sizeof(double) );
 		memcpy( mxGetPr(mxNumbit), &numbit, sizeof(double) );
@@ -643,6 +647,11 @@ void CAdcTestPlatDoc::CalcPerf()
 		memcpy( &SINAD, mxGetPr(mxSINAD), sizeof(double) );
 		memcpy( &SFDR, mxGetPr(mxSFDR), sizeof(double) );
 		memcpy( &ENOB, mxGetPr(mxENOB), sizeof(double) );
+		*/
+		double SNRFS = 0;
+		AdcDynTest(m_data, MAX_DEPTH, fclk, numbit, MAX_DEPTH, 2, 1,
+						SNR, SFDR, SNRFS, SINAD);
+		
 		// 保存结果
 		m_daResultSNR[i] = SNR;
 		m_daResultSFDR[i] = SFDR;
@@ -1452,7 +1461,7 @@ void CAdcTestPlatDoc::CalcAlgPerf()
 			m_data2[j] = pwTemp2[j];
 		}		
 		// 初始化输入参数
-		memcpy( mxGetPr(mxData1), m_data, MAX_DEPTH*sizeof(double) );
+	/*	memcpy( mxGetPr(mxData1), m_data, MAX_DEPTH*sizeof(double) );
 		memcpy( mxGetPr(mxData2), m_data2, MAX_DEPTH*sizeof(double) );
 		memcpy( mxGetPr(mxNumpt), &numpt, sizeof(double) );
 		memcpy( mxGetPr(mxFclk), &fclk, sizeof(double) );
@@ -1479,6 +1488,11 @@ void CAdcTestPlatDoc::CalcAlgPerf()
 		memcpy( &SINAD, mxGetPr(mxSINAD), sizeof(double) );
 		memcpy( &SFDR, mxGetPr(mxSFDR), sizeof(double) );
 		memcpy( &ENOB, mxGetPr(mxENOB), sizeof(double) );
+
+*/
+
+		AlgDynTest(m_data, MAX_DEPTH, m_data2, MAX_DEPTH, numpt, fclk, numbit, r, SNR, SINAD, SFDR, ENOB);
+	
 		// 保存结果
 		m_daResultSNR[i] = SNR;
 		m_daResultSFDR[i] = SFDR;
