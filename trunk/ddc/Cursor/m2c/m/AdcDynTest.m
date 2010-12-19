@@ -1,4 +1,4 @@
-function [SNR, SFDR, SNRFS, SINAD, THD, HD, ENOB, ENOBFS, Pn_dB] = calc_dynam_params(fclk, numbit, NFFT, V, TPY, TPX, code)
+function [SNR, SFDR, SNRFS, SINAD, THD, HD, ENOB, ENOBFS, Pn_dB] = calc_dynam_params(ADout, fclk, numbit, NFFT, V, code)
 % Pn_dB为底噪声，fclk为采样频率，numbit为采样精度，NFFT为FFT的深度，V为峰峰值，TPY和TPX分别为时域图的Y和X轴，code
 % 为1：补码，2：偏移码，3：格雷码。
 %例子：若采样时钟80MHZ，精度16为，峰峰值2v，时域图显示Y轴＋－1V和X轴0－0.01ms，码源为补码
@@ -15,8 +15,10 @@ function [SNR, SFDR, SNRFS, SINAD, THD, HD, ENOB, ENOBFS, Pn_dB] = calc_dynam_pa
 % code = 1;
 % fid = fopen('adc_0dbm.txt');%;
 % fid = fopen('SNR测试_A通道_20090105053713.txt');
-fid = fopen('adc_0dbm.txt');
-ADout = fscanf(fid,'%d');
+
+%fid = fopen('adc_0dbm.txt');
+%ADout = fscanf(fid,'%d');
+
 if code == 1
     if numbit < 16
         ADout = fix(ADout/2^(16-numbit));
@@ -31,7 +33,7 @@ else
         if numbit < 16
         ADout = fix(ADout/2^(16-numbit));
     end  
-    ADout = gray2bin(ADout) / 2^(numbit-1) - 1;
+%    ADout = gray2bin(ADout) / 2^(numbit-1) - 1;
 end
     
 ADout = V/2*ADout;        
@@ -262,11 +264,11 @@ title('Time PLOT');
 xlabel('TIME (ms)');
 ylabel('AMPLITUDE (V)');
 hold on
-axis([0 TPX -TPY TPY]);
+%axis([0 TPX -TPY TPY]);
 % text(t1,AmpMax,num2str(AmpMax),'VerticalAlignmen','bottom');
 % text(t1,AmpMin,num2str(AmpMin),'VerticalAlignmen','top')
-text(TPX*0.85,0.9*TPY,VPP_txt,'HorizontalAlignment','left','Color','r')
-text(TPX*0.85,0.8*TPY,FRQ_txt,'HorizontalAlignment','left','Color','r')
+% text(TPX*0.85,0.9*TPY,VPP_txt,'HorizontalAlignment','left','Color','r')
+% text(TPX*0.85,0.8*TPY,FRQ_txt,'HorizontalAlignment','left','Color','r')
 SNRFS = SNR + abs(maxdB-ref_dB);
 ENOB = (SINAD - 1.76)/6.02;
 ENOBFS = ENOB+abs(maxdB-ref_dB)/6.02;
@@ -274,9 +276,3 @@ ENOBFS = ENOB+abs(maxdB-ref_dB)/6.02;
 % AdB = Vin;
 HD = [ADout_dB(Harbin(2))-ref_dB,ADout_dB(Harbin(2))-ref_dB,ADout_dB(Harbin(3))-ref_dB,ADout_dB(Harbin(4))-ref_dB,ADout_dB(Harbin(5))-ref_dB,ADout_dB(Harbin(6))-ref_dB,ADout_dB(Harbin(7))-ref_dB,ADout_dB(Harbin(8))-ref_dB,ADout_dB(Harbin(9))-ref_dB,ADout_dB(Harbin(10))-ref_dB]; 
 %Spectrum = ADout_dB - ref_dB;TPX*0.85,0.8*TPY,FRQ_txt,'HorizontalAlignment','left','Color','r')
-SNRFS = SNR + abs(maxdB-ref_dB);
-ENOB = (SINAD - 1.76)/6.02;
-ENOBFS = ENOB+abs(maxdB-ref_dB)/6.02;
-% A = [AmpMax,AmpMin];
-% AdB = Vin;
-HD = [ADout_dB(Harbin(2))-re
