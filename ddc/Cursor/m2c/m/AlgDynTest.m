@@ -118,18 +118,52 @@ end
 
 Fh=[Fh tone]; 
 
-har_peak=max(spectP(round((tone+1/2)*ad_len)-spanh_har:round((tone+1/2)*ad_len)+spanh_har)); 
-har_bin=find(spectP(round((tone+1/2)*ad_len)-spanh_har:round((tone+1/2)*ad_len)+spanh_har)==har_peak);
+l = max(round((tone+1/2)*ad_len)-spanh_har, 1); 
+u = min(round((tone+1/2)*ad_len)+spanh_har, length(spectP));
+
+har_peak=max(spectP(l : u)); 
+
+l = max(round((tone+1/2)*ad_len)-spanh_har, 1); 
+u = min(round((tone+1/2)*ad_len)+spanh_har, length(spectP));
+
+har_bin=find(spectP(l : u)==har_peak);
+
 har_bin=har_bin+round((tone+1/2)*ad_len)-spanh_har-1;
-Ph=[Ph sum(spectP(har_bin-spanh_har:har_bin+spanh_har))]; 
-Ph_dB=[Ph_dB sum(ADout_dB(har_bin-spanh_har:har_bin+spanh_har))];
+
+l = max(har_bin-spanh_har, 1); 
+u = min(har_bin+spanh_har, length(spectP));
+
+Ph=[Ph sum(spectP(l : u))]; 
+
+l = max(har_bin-spanh_har, 1); 
+u = min(har_bin+spanh_har, length(spectP));
+
+Ph_dB=[Ph_dB sum(ADout_dB(l : u))];
+
 Harbin = [Harbin har_bin];
 
-har_peak_1=max(spectP(round((1/2-tone)*ad_len)-spanh_har:round((1/2-tone)*ad_len)+spanh_har)); 
-har_bin_1=find(spectP(round((1/2-tone)*ad_len)-spanh_har:round((1/2-tone)*ad_len)+spanh_har)==har_peak_1);
+l = max(round((1/2-tone)*ad_len)-spanh_har, 1); 
+u = min(round((1/2-tone)*ad_len)+spanh_har, length(spectP));
+
+har_peak_1=max(spectP(l : u)); 
+
+l = max(round((1/2-tone)*ad_len)-spanh_har, 1); 
+u = min(round((1/2-tone)*ad_len)+spanh_har, length(spectP));
+
+har_bin_1=find(spectP(l : u)==har_peak_1);
+
 har_bin_1=har_bin_1+round((1/2-tone)*ad_len)-spanh_har-1;
-Ph_1=[Ph_1 sum(spectP(har_bin_1-spanh_har:har_bin_1+spanh_har))]; 
-Ph_dB_1=[Ph_dB_1 sum(ADout_dB(har_bin_1-spanh_har:har_bin_1+spanh_har))];
+
+l = max(har_bin_1-spanh_har, 1); 
+u = min(har_bin_1+spanh_har, length(spectP));
+
+Ph_1=[Ph_1 sum(spectP(l : u))];
+
+l = max(har_bin_1-spanh_har, 1); 
+u = min(har_bin_1+spanh_har, length(spectP));
+
+Ph_dB_1=[Ph_dB_1 sum(ADout_dB(l : u))];
+
 Harbin_1 = [Harbin_1 har_bin_1];
 end
 

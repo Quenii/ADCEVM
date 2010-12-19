@@ -7,17 +7,7 @@
 #include <assert.h>
   
 
-Mm chebwin(Mm n, Mm r) 
-{
-    const int len = 32768;
-    if(n.r(1, 1) == len)
-    {
-        static Mm w;
-        static bool inited = false;
-        if (!inited)
-        {
-            w = zeros(len, 1);
-double _chebwin[]=
+const double _chebwin[]=
 {
    0.00000043217877,
    0.00000000742026,
@@ -32788,6 +32778,17 @@ double _chebwin[]=
    0.00000000742026,
    0.00000043217877
 };
+
+Mm chebwin(Mm n, Mm r) 
+{
+    const int len = 32768;
+    if(n.r(1, 1) == len)
+    {
+        static Mm w;
+        static bool inited = false;
+        if (!inited)
+        {
+            w = zeros(len, 1);
 
             assert(sizeof(_chebwin)/sizeof(*_chebwin) == len);
             memcpy(w.addr(), _chebwin, len * sizeof(*_chebwin));
