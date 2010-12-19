@@ -2,12 +2,16 @@
   #pragma hdrstop
   
   #include "myfft.h"
+  #include "hamming.h"
+  #include "gencoswin.h"
+  #include "check_order.h"
+  
   
   
   Mm myfft(Mm x, Mm n) {
     begin_scope
     x.setname("x"); n.setname("n"); 
-    dMm(ret); 
+    dMm(ret); dMm(d); 
     
     call_stack_begin;
     // nargin, nargout entry code
@@ -18,7 +22,9 @@
     
     // translated code
     
-    ret = abs(fft(x,n));
+    x = times(x,hamming((CL(n))));
+    d = 20.0*log10(abs(fft(x,n)));
+    ret = d-max(d(colon(3.0,1.0,n/2.0)));
     
     call_stack_end;
     

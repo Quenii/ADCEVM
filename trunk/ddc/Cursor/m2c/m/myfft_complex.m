@@ -1,4 +1,6 @@
-function ret = myfft_complex(r, i, n)
+function ret = myfft_complex(r, i, n)    
+    r = r .* hamming(n);
+    i = i .* hamming(n);
     x = r + j * i;
-    ret = myfft(x, n)
-    
+    d = 20*log10(abs(fft(x, n)));
+    ret = d - max(d(3 : n / 2));    
