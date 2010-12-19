@@ -211,6 +211,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\check_order.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\gencoswin.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\hamming.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\m2c.cpp"
 				>
 			</File>
