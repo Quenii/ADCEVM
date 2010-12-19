@@ -23,6 +23,9 @@ M2C_API void AlgDynTest(double* cdata1, int cdata1_cnt,
 						double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o);
 
 
+M2C_API void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
+						double& cSNR__o, double& cSFDR__o, double& cSNRFS__o, double& cSINAD__o);
+
 #ifdef __cplusplus
 
 } 
