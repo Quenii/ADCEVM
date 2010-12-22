@@ -14,12 +14,12 @@
     dMm(SNR); dMm(SINAD); dMm(SFDR); dMm(ENOB); dMm(all_); dMm(fpga_i); dMm(fpga_q); dMm(V); dMm(NFFT); dMm(TPY);  \
       dMm(TPX); dMm(code); dMm(fpga_len); dMm(ADout); dMm(ad_len_N); dMm(maxADout); dMm(real_ADout); dMm(AmpMax); dMm( \
       t1); dMm(AmpMin); dMm(t2); dMm(Vpp); dMm(ADout_w); dMm(ad_len); dMm(ADout_spect); dMm(abs_ADout_spect); dMm(ADout_dB) \
-      ; dMm(maxdB_1); dMm(maxdB_2); dMm(maxdB); dMm(fin); dMm(fin_1); dMm(fin_lsb); dMm(freq_fin); dMm(data_ref_iq) \
-      ; dMm(n); dMm(n_AlgDynTest_v0); dMm(fin_angle); dMm(data_ref_w); dMm(data_ref_spect); dMm(data_ref_dB); dMm(ref_dB) \
-      ; dMm(BW); dMm(BW_len); dMm(X_FREQ); dMm(X_FREQ1); dMm(span); dMm(spanh_har); dMm(span_s); dMm(spectP); dMm(Pdc) \
-      ; dMm(Pdc_dB); dMm(Ps); dMm(Ps_dB); dMm(Fh); dMm(Ph); dMm(Ph_1); dMm(Harbin); dMm(Harbin_1); dMm(Ph_dB); dMm( \
-      Ph_dB_1); dMm(har_num); dMm(har_num_AlgDynTest_v1); dMm(tone); dMm(l); dMm(u); dMm(har_peak); dMm(har_bin); dMm( \
-      har_peak_1); dMm(har_bin_1); dMm(spectP_temp); dMm(i_); dMm(i_AlgDynTest_v2); dMm(disturb_len); dMm(spectP_disturb) \
+      ; dMm(maxdB_1); dMm(maxdB_2); dMm(maxdB); dMm(fin_v); dMm(fin); dMm(fin_1); dMm(fin_lsb); dMm(freq_fin); dMm( \
+      data_ref_iq); dMm(n); dMm(n_AlgDynTest_v0); dMm(fin_angle); dMm(data_ref_w); dMm(data_ref_spect); dMm(data_ref_dB) \
+      ; dMm(ref_dB); dMm(BW); dMm(BW_len); dMm(X_FREQ); dMm(X_FREQ1); dMm(span); dMm(spanh_har); dMm(span_s); dMm(spectP) \
+      ; dMm(l); dMm(u); dMm(Pdc); dMm(Pdc_dB); dMm(Ps); dMm(Ps_dB); dMm(Fh); dMm(Ph); dMm(Ph_1); dMm(Harbin); dMm(Harbin_1) \
+      ; dMm(Ph_dB); dMm(Ph_dB_1); dMm(har_num); dMm(har_num_AlgDynTest_v1); dMm(tone); dMm(har_peak); dMm(har_bin);  \
+      dMm(har_peak_1); dMm(har_bin_1); dMm(spectP_temp); dMm(i_); dMm(i_AlgDynTest_v2); dMm(disturb_len); dMm(spectP_disturb) \
       ; dMm(Harbin_disturb); dMm(findSpac); dMm(findSpan); dMm(findStart); dMm(i_AlgDynTest_v3); dMm(spectP_disturb_peak) \
       ; dMm(num); dMm(array_flag); dMm(jj); dMm(jj_AlgDynTest_v4); dMm(k); dMm(k_AlgDynTest_v5); dMm(spectP_disturb_temp) \
       ; dMm(Harbin_disturb_temp); dMm(Ph_disturb); dMm(Ph_disturb_dB); dMm(Fn_disturb); dMm(i_AlgDynTest_v6); dMm(Pd_disturb) \
@@ -85,8 +85,9 @@
     maxdB_2 = max(ADout_dB(colon(ad_len/2.0+6.0,1.0,ad_len)));
     //直流点数与采样深度是否有关？ 后面定义了直流点位5个！
     maxdB = max(maxdB_1,maxdB_2);
-    fin = find(ADout_dB(colon(1.0,1.0,ad_len))==maxdB);
+    fin_v = find(ADout_dB(colon(1.0,1.0,ad_len))==maxdB);
     //排除直流点数以外的最大值
+    fin = fin_v(1.0);
     if (istrue(fin<ad_len/2.0)) {
       fin_1 = ad_len/2.0-fin;
     } else {
@@ -108,7 +109,7 @@
     }
     
     data_ref_w = times(data_ref_iq,chebwin(ad_len_N,200.0));
-    // data_ref_w=data_ref_iq .* chebchebchebchebwin(ad_len_N, 200);
+    // data_ref_w=data_ref_iq .* chebwin(ad_len_N, 200);
     
     //  data_ref_w = [data_ref_w;AA];
     data_ref_spect = fft(data_ref_w,NFFT);
@@ -138,12 +139,32 @@
     spectP = (power(abs_ADout_spect,2.0));
     // spectP = (abs(ADout_spect)) .* (abs(ADout_spect)); 
     //Find DC offset power 
-    Pdc = sum(spectP(colon(ad_len/2.0-span,1.0,ad_len/2.0+span)));
     
-    Pdc_dB = sum(ADout_dB(colon(ad_len/2.0-span,1.0,ad_len/2.0+span)));
+    l = max(ad_len/2.0-span,1.0);
+    
+    u = min(ad_len/2.0+span,length(spectP));
+    
+    Pdc = sum(spectP(colon(l,1.0,u)));
+    
+    
+    l = max(ad_len/2.0-span,1.0);
+    
+    u = min(ad_len/2.0+span,length(ADout_dB));
+    
+    Pdc_dB = sum(ADout_dB(colon(l,1.0,u)));
+    
     //Extract overall signal power 
-    Ps = sum(spectP(colon(fin-span_s,1.0,fin+span_s)));
-    Ps_dB = sum(ADout_dB(colon(fin-span_s,1.0,fin+span_s)));
+    l = max(fin-span_s,1.0);
+    
+    u = min(fin+span_s,length(spectP));
+    
+    Ps = sum(spectP(colon(l,1.0,u)));
+    
+    l = max(fin-span_s,1.0);
+    
+    u = min(fin+span_s,length(ADout_dB));
+    
+    Ps_dB = sum(ADout_dB(colon(l,1.0,u)));
     //Vector/matrix to store both frequency and power of signal and harmonics
     Fh = nop_M;
     
@@ -239,10 +260,23 @@
     i_AlgDynTest_v2 = colon(2.0,1.0,10.0); int i_AlgDynTest_i2;
     for (i_AlgDynTest_i2=0;i_AlgDynTest_i2<i_AlgDynTest_v2.cols();i_AlgDynTest_i2++) {
       forelem(i_,i_AlgDynTest_v2,i_AlgDynTest_i2);
-      spectP_temp(colon(Harbin(i_)-spanh_har,1.0,Harbin(i_)+spanh_har)) = 0.0;
+      l = max(Harbin(i_)-spanh_har,1.0);
+      
+      u = min(Harbin(i_)+spanh_har,length(spectP_temp));
+      spectP_temp(colon(l,1.0,u)) = 0.0;
     }
-    spectP_temp(colon(fin-span_s,1.0,fin+span_s)) = 0.0;
-    spectP_temp(colon(ad_len/2.0-span,1.0,ad_len/2.0+span)) = 0.0;
+    
+    l = max(fin-span_s,1.0);
+    
+    u = min(fin+span_s,length(spectP_temp));
+    
+    spectP_temp(colon(l,1.0,u)) = 0.0;
+    
+    l = max(ad_len/2.0-span,1.0);
+    
+    u = min(ad_len/2.0+span,length(spectP_temp));
+    
+    spectP_temp(colon(l,1.0,u)) = 0.0;
     
     
     
@@ -256,8 +290,10 @@
     i_AlgDynTest_v3 = colon(findStart,findSpac,ad_len); int i_AlgDynTest_i3;
     for (i_AlgDynTest_i3=0;i_AlgDynTest_i3<i_AlgDynTest_v3.cols();i_AlgDynTest_i3++) {
       forelem(i_,i_AlgDynTest_v3,i_AlgDynTest_i3);
-      /*[spectP_disturb_peak,num] = */max(spectP_temp(colon(i_-findSpan,1.0,i_+findSpan)),i_o,spectP_disturb_peak, \
-        num);
+      l = max(i_-findSpan,1.0);
+      
+      u = min(i_+findSpan,length(spectP_temp));
+      /*[spectP_disturb_peak,num] = */max(spectP_temp(colon(l,1.0,u)),i_o,spectP_disturb_peak,num);
       
       if (istrue(spectP_disturb_peak>spectP_disturb(1.0))) {
         spectP_disturb(1.0) = spectP_disturb_peak;
@@ -293,10 +329,20 @@
     i_AlgDynTest_v6 = colon(1.0,1.0,disturb_len); int i_AlgDynTest_i6;
     for (i_AlgDynTest_i6=0;i_AlgDynTest_i6<i_AlgDynTest_v6.cols();i_AlgDynTest_i6++) {
       forelem(i_,i_AlgDynTest_v6,i_AlgDynTest_i6);
-      Ph_disturb = (BR(Ph_disturb),sum(spectP(colon(Harbin_disturb(i_)-spanh_har,1.0,Harbin_disturb(i_)+spanh_har) \
-        )));
-      Ph_disturb_dB = (BR(Ph_disturb_dB),sum(ADout_dB(colon(Harbin_disturb(i_)-spanh_har,1.0,Harbin_disturb(i_)+spanh_har) \
-        )));
+      l = max(Harbin_disturb(i_)-spanh_har,1.0);
+      
+      
+      u = min(Harbin_disturb(i_)+spanh_har,length(spectP));
+      
+      Ph_disturb = (BR(Ph_disturb),sum(spectP(colon(l,1.0,u))));
+      
+      l = max(Harbin_disturb(i_)-spanh_har,1.0);
+      
+      
+      u = min(Harbin_disturb(i_)+spanh_har,length(ADout_dB));
+      
+      Ph_disturb_dB = (BR(Ph_disturb_dB),sum(ADout_dB(colon(l,1.0,u))));
+      
     }
     Pd_disturb = sum(Ph_disturb(colon(1.0,1.0,disturb_len)));
     Pd_disturb_dB = sum(Ph_disturb_dB(colon(1.0,1.0,disturb_len)));
@@ -308,8 +354,13 @@
     
     
     Pn = (sum(spectP(colon(1.0,1.0,ad_len)))-Pdc-Ps-Pd);
-    Pn_dB = (sum(ADout_dB(colon((ad_len/2.0-BW_len),1.0,ad_len/2.0+BW_len)))-Pdc_dB-Ps_dB-Pd_dB_2-Pd_disturb_dB)/( \
-      2.0*BW_len)-ref_dB;
+    
+    l = max((ad_len/2.0-BW_len),1.0);
+    
+    
+    u = min(ad_len/2.0+BW_len,length(ADout_dB));
+    
+    Pn_dB = (sum(ADout_dB(colon(l,1.0,u)))-Pdc_dB-Ps_dB-Pd_dB_2-Pd_disturb_dB)/(2.0*BW_len)-ref_dB;
     // Vin = 20*log10(Vpp/2);
     Vin = maxdB-ref_dB;
     SINAD = 10.0*log10(Ps/(Pn+Pd));
@@ -326,9 +377,10 @@
     ENOBFS = ENOB+abs(maxdB-ref_dB)/6.02;
     // A = [AmpMax,AmpMin];
     // AdB = Vin;
-    HD = (BR(ADout_dB(Harbin(2.0))-ref_dB),ADout_dB(Harbin(2.0))-ref_dB,ADout_dB(Harbin(3.0))-ref_dB,ADout_dB(Harbin( \
-      4.0))-ref_dB,ADout_dB(Harbin(5.0))-ref_dB,ADout_dB(Harbin(6.0))-ref_dB,ADout_dB(Harbin(7.0))-ref_dB,ADout_dB( \
-      Harbin(8.0))-ref_dB,ADout_dB(Harbin(9.0))-ref_dB,ADout_dB(Harbin(10.0))-ref_dB);
+    HD = (BR(ADout_dB(max(Harbin(2.0),1.0))-ref_dB),ADout_dB(max(Harbin(2.0),1.0))-ref_dB,ADout_dB(max(Harbin(3.0) \
+      ,1.0))-ref_dB,ADout_dB(max(Harbin(4.0),1.0))-ref_dB,ADout_dB(max(Harbin(5.0),1.0))-ref_dB,ADout_dB(max(Harbin( \
+      6.0),1.0))-ref_dB,ADout_dB(max(Harbin(7.0),1.0))-ref_dB,ADout_dB(max(Harbin(8.0),1.0))-ref_dB,ADout_dB(max(Harbin( \
+      9.0),1.0))-ref_dB,ADout_dB(max(Harbin(10.0),1.0))-ref_dB);
     
     //Spectrum = ADout_dB - ref_dB;
     
