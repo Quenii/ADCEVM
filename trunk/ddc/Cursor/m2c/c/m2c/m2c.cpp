@@ -44,7 +44,6 @@ void AlgDynTest(double* cdata1, int cdata1_cnt,
 void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
 				double& cSNR__o, double& cSFDR__o, double& cSNRFS__o, double& cSINAD__o)
 {
-
 	DECLEAR_Mm_MORE(ADout, cdata, cdata_cnt);
 	DECLEAR_Mm_ONE(fclk, cfclk);	
 	DECLEAR_Mm_ONE(numbit, cnumbit);
@@ -72,8 +71,6 @@ void FFT(double* data, int data_cnt, double* result, int result_cnt)
 
 void FFT_complex(double* r_data, double* i_data, int data_cnt, double* result, int result_cnt)
 {	
-	return ;
-
 	DECLEAR_Mm_MORE(r, r_data, data_cnt);
 	DECLEAR_Mm_MORE(i, i_data, data_cnt);
 	DECLEAR_Mm_ONE(n, data_cnt);		
