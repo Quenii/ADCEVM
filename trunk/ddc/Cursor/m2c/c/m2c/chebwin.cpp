@@ -32788,7 +32788,7 @@ Mm chebwin(Mm n, Mm r)
         static bool inited = false;
         if (!inited)
         {
-            w = zeros(len, 1);
+            w = ones(len, 1);
 
             assert(sizeof(_chebwin)/sizeof(*_chebwin) == len);
           //  memcpy(w.addr(), _chebwin, len * sizeof(*_chebwin));
