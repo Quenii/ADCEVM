@@ -1358,14 +1358,14 @@ void CTestSetBatchView::LoadParamFile(CString strFileName)
 		memcpy( m_pParamDlg->m_dwaDParam, m_pParamDlg->m_dwaAParam, ADDR_PARAM_SIZE * sizeof(DWORD) );
 
 
-	for ( i = 0; i < ADDR_PARAM_SIZE; i++ )
-	{
-		m_pParamDlg->m_dwaAAddr[i] = g_dwAddr[i];
-		m_pParamDlg->m_dwaBAddr[i] = g_dwAddr[i]+0x100;
-		m_pParamDlg->m_dwaCAddr[i] = g_dwAddr[i]+0x200;
-		m_pParamDlg->m_dwaDAddr[i] = g_dwAddr[i]+0x300;
-	}
-		// 4个单独配置
+		for ( i = 0; i < ADDR_PARAM_SIZE; i++ )
+		{
+			m_pParamDlg->m_dwaAAddr[i] = g_dwAddr[i];
+			m_pParamDlg->m_dwaBAddr[i] = g_dwAddr[i]+0x100;
+			m_pParamDlg->m_dwaCAddr[i] = g_dwAddr[i]+0x200;
+			m_pParamDlg->m_dwaDAddr[i] = g_dwAddr[i]+0x300;
+		}
+			// 4个单独配置
 		for ( i = 0; i < 4; i++ )
 		{
 			m_pParamDlg->SendByChannel( i );
