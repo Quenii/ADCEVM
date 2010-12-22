@@ -26,8 +26,9 @@ int _tmain(int argc, _TCHAR* argv[])
 			cnumpt, cfclk, cnumbit, cr,
 			cSNR__o, cSINAD__o, cSFDR__o, cENOB__o);
 
-		AdcDynTest(&buff[0], buff.size(), cfclk, cnumbit, buff.size(), 2, 1,
+		/*AdcDynTest(&buff[0], buff.size(), cfclk, cnumbit, buff.size(), 2, 1,
 			cSNR__o, cSFDR__o, SNRFS__o, cSINAD__o);
+		*/
 
 	}
 
