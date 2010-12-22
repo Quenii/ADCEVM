@@ -927,13 +927,6 @@ void CAdcTestPlatView::AlgDisp()
 				m_DataDisp[0].m_strTitle = "A通道";
 				m_FFTDisp[0].m_strTitle = "A通道";
 				// 更新横轴坐标
-// 				if ( pTestAlgView != NULL )
-// 				{
-// 					m_FFTDisp[0].m_dOrgSampFreq = nSampFreq / pTestAlgView->m_nR1;
-// 					m_FFTDisp[0].m_dMaxGap = m_FFTDisp[0].m_dOrgSampFreq / 2;
-// 					m_FFTDisp[0].m_dGap = m_FFTDisp[0].m_dMaxGap / MAX_AXIS_VALUE;
-// 					m_FFTDisp[0].m_nRatio = 1;
-// 				}
 				break;
 			}
 			case 1:
@@ -943,13 +936,6 @@ void CAdcTestPlatView::AlgDisp()
 				m_DataDisp[0].m_strTitle = "B通道";
 				m_FFTDisp[0].m_strTitle = "B通道";
 				// 更新横轴坐标
-// 				if ( pTestAlgView != NULL )
-// 				{
-// 					m_FFTDisp[0].m_dOrgSampFreq = nSampFreq / pTestAlgView->m_nR2;
-// 					m_FFTDisp[0].m_dMaxGap = m_FFTDisp[0].m_dOrgSampFreq / 2;
-// 					m_FFTDisp[0].m_dGap = m_FFTDisp[0].m_dMaxGap / MAX_AXIS_VALUE;
-// 					m_FFTDisp[0].m_nRatio = 1;
-// 				}
 				break;
 			}
 			case 2:
@@ -959,13 +945,6 @@ void CAdcTestPlatView::AlgDisp()
 				m_DataDisp[0].m_strTitle = "C通道";
 				m_FFTDisp[0].m_strTitle = "C通道";
 				// 更新横轴坐标
-// 				if ( pTestAlgView != NULL )
-// 				{
-// 					m_FFTDisp[0].m_dOrgSampFreq = nSampFreq / pTestAlgView->m_nR3;
-// 					m_FFTDisp[0].m_dMaxGap = m_FFTDisp[0].m_dOrgSampFreq / 2;
-// 					m_FFTDisp[0].m_dGap = m_FFTDisp[0].m_dMaxGap / MAX_AXIS_VALUE;
-// 					m_FFTDisp[0].m_nRatio = 1;
-// 				}
 				break;
 			}
 			case 3:
@@ -975,13 +954,6 @@ void CAdcTestPlatView::AlgDisp()
 				m_DataDisp[0].m_strTitle = "D通道";
 				m_FFTDisp[0].m_strTitle = "D通道";
 				// 更新横轴坐标
-// 				if ( pTestAlgView != NULL )
-// 				{
-// 					m_FFTDisp[0].m_dOrgSampFreq = nSampFreq / pTestAlgView->m_nR4;
-// 					m_FFTDisp[0].m_dMaxGap = m_FFTDisp[0].m_dOrgSampFreq / 2;
-// 					m_FFTDisp[0].m_dGap = m_FFTDisp[0].m_dMaxGap / MAX_AXIS_VALUE;
-// 					m_FFTDisp[0].m_nRatio = 1;
-// 				}
 				break;
 			}			
 			default:
@@ -991,13 +963,6 @@ void CAdcTestPlatView::AlgDisp()
 				m_DataDisp[0].m_strTitle = "A通道";
 				m_FFTDisp[0].m_strTitle = "A通道";
 				// 更新横轴坐标
-// 				if ( pTestAlgView != NULL )
-// 				{
-// 					m_FFTDisp[0].m_dOrgSampFreq = nSampFreq / pTestAlgView->m_nR1;
-// 					m_FFTDisp[0].m_dMaxGap = m_FFTDisp[0].m_dOrgSampFreq / 2;
-// 					m_FFTDisp[0].m_dGap = m_FFTDisp[0].m_dMaxGap / MAX_AXIS_VALUE;
-// 					m_FFTDisp[0].m_nRatio = 1;
-// 				}
 				break;
 			}
 				
