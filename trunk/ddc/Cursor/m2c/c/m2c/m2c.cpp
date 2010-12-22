@@ -72,6 +72,8 @@ void FFT(double* data, int data_cnt, double* result, int result_cnt)
 
 void FFT_complex(double* r_data, double* i_data, int data_cnt, double* result, int result_cnt)
 {	
+	return ;
+
 	DECLEAR_Mm_MORE(r, r_data, data_cnt);
 	DECLEAR_Mm_MORE(i, i_data, data_cnt);
 	DECLEAR_Mm_ONE(n, data_cnt);		
