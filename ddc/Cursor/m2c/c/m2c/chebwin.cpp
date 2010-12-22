@@ -6,8 +6,8 @@
   #include "chebwin.h"
 #include <assert.h>
   
-
-const double _chebwin[]=
+/*
+const double _chebwin[32768]=
 {
    0.00000043217877,
    0.00000000742026,
@@ -32777,7 +32777,7 @@ const double _chebwin[]=
    0.00000000748396,
    0.00000000742026,
    0.00000043217877
-};
+}*/;
 
 Mm chebwin(Mm n, Mm r) 
 {
@@ -32791,7 +32791,7 @@ Mm chebwin(Mm n, Mm r)
             w = zeros(len, 1);
 
             assert(sizeof(_chebwin)/sizeof(*_chebwin) == len);
-            memcpy(w.addr(), _chebwin, len * sizeof(*_chebwin));
+          //  memcpy(w.addr(), _chebwin, len * sizeof(*_chebwin));
             inited = true;
         }          
         
