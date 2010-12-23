@@ -105,7 +105,6 @@ BOOL CAdcTestPlatApp::InitInstance()
 // 		pDoc->SetTestMode(3);
 // 	}
 
-	/*
 	// ²éÕÒÉè±¸
 	BOOL bRet = DetectedCards();
 	if ( !bRet )
@@ -117,7 +116,6 @@ BOOL CAdcTestPlatApp::InitInstance()
 			::SendMessage( m_pMainWnd->m_hWnd, WM_CLOSE, 0, 0 );
 		}
 	}
-	*/
 /*	
 	WORD wTest;
 	short test;
