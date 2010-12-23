@@ -75,81 +75,11 @@ CAdcTestPlatView::CAdcTestPlatView()
 	//}}AFX_DATA_INIT
 	// TODO: add construction code here
 	
-	// fft相关
-/*	if ( ! libfftInitialize() )
-	{
-		AfxMessageBox( "matlab fft库初始化错误!" );
-	}
-	else
-	{
-		mxIn = mxCreateDoubleMatrix( 1, MAX_DEPTH, mxREAL );
-		mxOut = mxCreateDoubleMatrix( 1, MAX_DEPTH, mxREAL );
-		mxDotnum = mxCreateDoubleMatrix( 1, 1, mxREAL );
-	}
-	// plot相关
-	//if ( ! libplotInitialize() )
-	if ( ! libtriplotInitialize() || !libdualplotInitialize() )
-	{
-		AfxMessageBox( " matlab plot库初始化错误!" );
-	}
-	else
-	{
-		// plot相关
-		mxX = mxCreateDoubleMatrix( 1, MAX_DEPTH / 2, mxREAL );
-		mxY = mxCreateDoubleMatrix( 1, MAX_DEPTH / 2, mxREAL );
-	}
-	// complex fft相关
-	if ( ! libcomplexfftInitialize() )
-	{
-		AfxMessageBox( "matlab complex fft库初始化错误!" );
-	}
-	else
-	{
-		mxI = mxCreateDoubleMatrix( 1, MAX_DEPTH, mxREAL );
-		mxQ = mxCreateDoubleMatrix( 1, MAX_DEPTH, mxREAL );
-		mxC = mxCreateDoubleMatrix( 1, MAX_DEPTH, mxREAL );
-		mxT = mxCreateDoubleMatrix( 1, MAX_DEPTH, mxREAL );
-		mxNum = mxCreateDoubleMatrix( 1, 1, mxREAL );
-	}
-	*/
 	
 }
 
 CAdcTestPlatView::~CAdcTestPlatView()
 {
-	// fft相关
-/*	mxDestroyArray( mxIn );
-	mxDestroyArray( mxOut );
-	mxDestroyArray( mxDotnum );	
-	mxIn = NULL;
-	mxOut = NULL;
-	mxDotnum = NULL;
-	libfftTerminate();
-	// plot相关
-	mxDestroyArray( mxX );
-	mxDestroyArray( mxY );
-	mxX = NULL;
-	mxY = NULL;
-	// 只有matlab窗口没关闭才调用
-	if ( m_bMatlab )
-	{
-		//libplotTerminate();
-		libtriplotTerminate();
-		libdualplotTerminate();
-	}	
-	// complex fft相关
-	mxDestroyArray( mxI );
-	mxDestroyArray( mxQ );
-	mxDestroyArray( mxC );
-	mxDestroyArray( mxT );
-	mxDestroyArray( mxNum );	
-	mxI = NULL;
-	mxQ = NULL;
-	mxC = NULL;
-	mxT = NULL;
-	mxNum = NULL;
-	libcomplexfftTerminate();
-	*/
 }
 
 void CAdcTestPlatView::DoDataExchange(CDataExchange* pDX)
@@ -771,13 +701,6 @@ void CAdcTestPlatView::AdcDisp()
 			daIn[i] = pwTemp[i];
 		}
 		dDotnum = MAX_DEPTH;
-	/*	memcpy( mxGetPr(mxIn), daIn, MAX_DEPTH*sizeof(double) );
-		memcpy( mxGetPr(mxOut), daOut, MAX_DEPTH*sizeof(double) );
-		memcpy( mxGetPr(mxDotnum), &dDotnum, sizeof(double) );
-		mlfMyfft( 1, &(mxOut), mxIn, mxDotnum );
-		memcpy( daY, mxGetPr(mxOut), MAX_DEPTH*sizeof(double) );		
-		memcpy( mxGetPr(mxY), daY, (MAX_DEPTH / 2) * sizeof(double) );
-		*/
 
 		FFT(daIn, MAX_DEPTH, daY, MAX_DEPTH / 2);		
 
@@ -977,16 +900,6 @@ void CAdcTestPlatView::AlgDisp()
 		daQ[i] = pwTemp2[i];
 	}
 	dNum = nAlgDepth;
-/*	memset( daC, 0, MAX_DEPTH*sizeof(double) );
-	memset( daY, 0, MAX_DEPTH / 2 *sizeof(double) );
-	memcpy( mxGetPr(mxI), daI, nAlgDepth*sizeof(double) );
-	memcpy( mxGetPr(mxQ), daQ, nAlgDepth*sizeof(double) );	
-	memcpy( mxGetPr(mxC), daC, nAlgDepth*sizeof(double) );	
-	memcpy( mxGetPr(mxNum), &dNum, sizeof(double) );
-	mlfMycomplexfft( 1, &(mxC), mxI, mxQ, mxNum );
-	memcpy( daY, mxGetPr(mxC), nAlgDepth*sizeof(double) );		
-	memcpy( mxGetPr(mxY), daY, (nAlgDepth / 2) * sizeof(double) );
-	*/
 
 	FFT_complex(daI, daQ, nAlgDepth, daY, nAlgDepth / 2);
 

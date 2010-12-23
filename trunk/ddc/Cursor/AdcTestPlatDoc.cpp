@@ -56,11 +56,6 @@ CAdcTestPlatDoc::CAdcTestPlatDoc()
 	{
 		m_nR[i] = 20;
 	}
-// 	m_nR1 = 20;
-// 	m_nR2 = 20;
-// 	m_nR3 = 20;
-// 	m_nR4 = 20;
-
 
 	memset( m_waSignalBackNoise, 0, CHANNEL_NUM*sizeof(WORD) );
 
@@ -164,129 +159,14 @@ CAdcTestPlatDoc::CAdcTestPlatDoc()
 		file.Close();
 	}	
 	
-/*
-	bRet = file.Open( "IQ20090122060739DI.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
-	if ( bRet )
-	{
-		for ( j = 0; j < MAX_DEPTH; j++ )
-		{			
-			file.ReadString(strData);
-			m_waBiData[j] = atoi(strData);
-		}
-	}	
-	file.Close();
-	
-	bRet = file.Open( "IQ20090122060739DQ.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
-	if ( bRet )
-	{
-		for ( j = 0; j < MAX_DEPTH; j++ )
-		{			
-			file.ReadString(strData);
-			m_waBqData[j] = atoi(strData);
-		}
-	}	
-	file.Close();
-
-	bRet = file.Open( "IQ20090122060743DI.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
-	if ( bRet )
-	{
-		for ( j = 0; j < MAX_DEPTH; j++ )
-		{			
-			file.ReadString(strData);
-			m_waCiData[j] = atoi(strData);
-		}
-	}	
-	file.Close();
-	
-	bRet = file.Open( "IQ20090122060743DQ.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
-	if ( bRet )
-	{
-		for ( j = 0; j < MAX_DEPTH; j++ )
-		{			
-			file.ReadString(strData);
-			m_waCqData[j] = atoi(strData);
-		}
-	}	
-	file.Close();
-*/
 #endif
 	
-	// matlab初始化
-	/*mclInitializeApplication( NULL, 0 );
-	if ( !libadcInitialize() )
-	{
-		AfxMessageBox( "matlab动态库初始化错误!" );		
-	}
-	else
-	{
-		mxData = mxCreateDoubleMatrix( 1, MAX_DEPTH, mxREAL );
-		mxNumpt = mxCreateDoubleMatrix( 1, 1, mxREAL );
-		mxFclk = mxCreateDoubleMatrix( 1, 1, mxREAL );
-		mxNumbit = mxCreateDoubleMatrix( 1, 1, mxREAL );
-
-		mxSNR = mxCreateDoubleMatrix( 1, 1, mxREAL );
-		mxSINAD = mxCreateDoubleMatrix( 1, 1, mxREAL );
-		mxSFDR = mxCreateDoubleMatrix( 1, 1, mxREAL );
-		mxENOB = mxCreateDoubleMatrix( 1, 1, mxREAL );		
-	}
-	
-	// alg matlab 
-	if ( !libalgInitialize() )
-	{
-		AfxMessageBox( "matlab alg动态库初始化错误!" );		
-	}
-	else
-	{
-// 		mxData = mxCreateDoubleMatrix( 1, MAX_DEPTH, mxREAL );
-// 		mxNumpt = mxCreateDoubleMatrix( 1, 1, mxREAL );
-// 		mxFclk = mxCreateDoubleMatrix( 1, 1, mxREAL );
-// 		mxNumbit = mxCreateDoubleMatrix( 1, 1, mxREAL );
-// 		
-// 		mxSNR = mxCreateDoubleMatrix( 1, 1, mxREAL );
-// 		mxSINAD = mxCreateDoubleMatrix( 1, 1, mxREAL );
-// 		mxSFDR = mxCreateDoubleMatrix( 1, 1, mxREAL );
-// 		mxENOB = mxCreateDoubleMatrix( 1, 1, mxREAL );		
-
-		mxData1 = mxCreateDoubleMatrix( MAX_DEPTH, 1, mxREAL );
-		mxData2 = mxCreateDoubleMatrix( MAX_DEPTH, 1, mxREAL );
-		mxR = mxCreateDoubleMatrix( MAX_DEPTH, 1, mxREAL );
-	}
-*/
 	CheckFC();
 
 }
 
 CAdcTestPlatDoc::~CAdcTestPlatDoc()
 {
-	// matlab释放变量
-/*	mxDestroyArray( mxSNR );
-	mxDestroyArray( mxSINAD );
-	mxDestroyArray( mxSFDR );
-	mxDestroyArray( mxENOB );
-	mxDestroyArray( mxData );
-	mxDestroyArray( mxData1 );
-	mxDestroyArray( mxData2 );
-	mxDestroyArray( mxNumpt );
-	mxDestroyArray( mxFclk );
-	mxDestroyArray( mxNumbit );
-	*/
-
-/*	mxSNR = NULL;
-	mxSINAD = NULL;
-	mxSFDR = NULL;
-	mxENOB = NULL;
-	mxData = NULL;
-	mxData1 = NULL;
-	mxData2 = NULL;
-	mxNumpt = NULL;
-	mxFclk = NULL;
-	mxNumbit = NULL;	
-
- 	libadcTerminate();
-	libalgInitialize();
-	
-	mclTerminateApplication();
-	*/
 }
 
 BOOL CAdcTestPlatDoc::OnNewDocument()
@@ -626,28 +506,7 @@ void CAdcTestPlatDoc::CalcPerf()
 		{
 			m_data[j] = pwTemp[j];
 		}		
-		// 初始化输入参数
-		/*memcpy( mxGetPr(mxData), m_data, MAX_DEPTH*sizeof(double) );
-		memcpy( mxGetPr(mxNumpt), &numpt, sizeof(double) );
-		memcpy( mxGetPr(mxFclk), &fclk, sizeof(double) );
-		memcpy( mxGetPr(mxNumbit), &numbit, sizeof(double) );
-		// 4个输出参数初始化为0
-		SNR = 0;
-		SFDR = 0;
-		SINAD = 0;
-		ENOB = 0;
-		memcpy( mxGetPr(mxSNR), &SNR, sizeof(double) );
-		memcpy( mxGetPr(mxSFDR), &SFDR, sizeof(double) );
-		memcpy( mxGetPr(mxSINAD), &SINAD, sizeof(double) );
-		memcpy( mxGetPr(mxENOB), &ENOB, sizeof(double) );
-		// 调用matlab计算结果
-		mlfAdcdyntest( 4, &mxSNR, &mxSINAD, &mxSFDR, &mxENOB, mxData, mxNumpt, mxFclk, mxNumbit );
 
-		memcpy( &SNR, mxGetPr(mxSNR), sizeof(double) );
-		memcpy( &SINAD, mxGetPr(mxSINAD), sizeof(double) );
-		memcpy( &SFDR, mxGetPr(mxSFDR), sizeof(double) );
-		memcpy( &ENOB, mxGetPr(mxENOB), sizeof(double) );
-		*/
 		double SNRFS = 0;
 		AdcDynTest(m_data, MAX_DEPTH, fclk, numbit, MAX_DEPTH, 2, 1,
 						SNR, SFDR, SNRFS, SINAD);
@@ -1086,35 +945,6 @@ void CAdcTestPlatDoc::GetData()
 	
 	SaveFile(strFileNamePre + "CHD", m_waCh1Signal);
 
-// 	CmdnStat(CHAN_AI, strCRC, strBag);
-// 	// 取数
-// 	DmaRead( ((CAdcTestPlatApp*)AfxGetApp())->m_hDevice,
-// 		(BYTE*)m_waCh1Signal, LOCAL_ADDR_DMA, m_nAlgDepth*sizeof(short) );
-// 	
-// 	SaveFile(strFileNamePre + "CHA", m_waCh1Signal);
-// 
-// 	CmdnStat(CHAN_BI, strCRC, strBag);
-// 	// 取数
-// 	DmaRead( ((CAdcTestPlatApp*)AfxGetApp())->m_hDevice,
-// 		(BYTE*)m_waCh2Signal, LOCAL_ADDR_DMA, m_nAlgDepth*sizeof(short) );
-// 	
-// 	SaveFile(strFileNamePre + "CHB", m_waCh2Signal);
-// 
-// 	CmdnStat(CHAN_CI, strCRC, strBag);
-// 	// 取数
-// 	DmaRead( ((CAdcTestPlatApp*)AfxGetApp())->m_hDevice,
-// 		(BYTE*)m_waCh3Signal, LOCAL_ADDR_DMA, m_nAlgDepth*sizeof(short) );
-// 	
-// 	SaveFile(strFileNamePre + "CHC", m_waCh3Signal);
-// 
-// 	CmdnStat(CHAN_DI, strCRC, strBag);
-// 	// 取数
-// 	DmaRead( ((CAdcTestPlatApp*)AfxGetApp())->m_hDevice,
-// 		(BYTE*)m_waCh4Signal, LOCAL_ADDR_DMA, m_nAlgDepth*sizeof(short) );
-// 	
-// 	SaveFile(strFileNamePre + "CHD", m_waCh4Signal);
-
-
 }
 
 void CAdcTestPlatDoc::SaveFile(CString strFileNamePre, short * m_Data)
@@ -1256,68 +1086,6 @@ void CAdcTestPlatDoc::TestAlg()
 	SaveFile(strFileNamePre + "DI", m_waDiData);
 	SaveFile(strFileNamePre + "DQ", m_waDqData);
 
-/*
-	CmdnStat(CHAN_AQ, strCRC, strBag);
-	// 取数
-	DmaRead( ((CAdcTestPlatApp*)AfxGetApp())->m_hDevice,
-		(BYTE*)m_waAqData, LOCAL_ADDR_DMA, m_nAlgDepth*sizeof(short) );
-	
-	SaveFile(strFileNamePre + "AQ", m_waAqData);
-	
-	CmdnStat(CHAN_BI, strCRC, strBag);
-
-	DmaRead( ((CAdcTestPlatApp*)AfxGetApp())->m_hDevice,
-		(BYTE*)m_waBiData, LOCAL_ADDR_DMA, m_nAlgDepth*sizeof(short) );
-
-	SaveFile(strFileNamePre + "BI", m_waBiData);
-	
-//	assert(!memcmp(m_waAiData, m_waBiData, m_nAlgDepth*sizeof(short)));
-	
-	CmdnStat(CHAN_BQ, strCRC, strBag);
-	// 取数
-	DmaRead( ((CAdcTestPlatApp*)AfxGetApp())->m_hDevice,
-		(BYTE*)m_waBqData, LOCAL_ADDR_DMA, m_nAlgDepth*sizeof(short) );
-
-	SaveFile(strFileNamePre + "BQ", m_waBqData);
-	
-//	assert(!memcmp(m_waAqData, m_waBqData, m_nAlgDepth*sizeof(short)));
-
-	CmdnStat(CHAN_CI, strCRC, strBag);
-	// 取数
-	DmaRead( ((CAdcTestPlatApp*)AfxGetApp())->m_hDevice,
-		(BYTE*)m_waCiData, LOCAL_ADDR_DMA, m_nAlgDepth*sizeof(short) );
-	
-	SaveFile(strFileNamePre + "CI", m_waCiData);
-	
-//	assert(!memcmp(m_waAiData, m_waCiData, m_nAlgDepth*sizeof(short)));
-
-	CmdnStat(CHAN_CQ, strCRC, strBag);
-	// 取数
-	DmaRead( ((CAdcTestPlatApp*)AfxGetApp())->m_hDevice,
-		(BYTE*)m_waCqData, LOCAL_ADDR_DMA, m_nAlgDepth*sizeof(short) );
-	
-	SaveFile(strFileNamePre + "CQ", m_waCqData);
-	
-//	assert(!memcmp(m_waAqData, m_waCqData, m_nAlgDepth*sizeof(short)));
-
-	CmdnStat(CHAN_DI, strCRC, strBag);
-	// 取数
-	DmaRead( ((CAdcTestPlatApp*)AfxGetApp())->m_hDevice,
-		(BYTE*)m_waDiData, LOCAL_ADDR_DMA, m_nAlgDepth*sizeof(short) );
-	
-	SaveFile(strFileNamePre + "DI", m_waDiData);
-
-//	assert(!memcmp(m_waAiData, m_waDiData, m_nAlgDepth*sizeof(short)));
-
-	CmdnStat(CHAN_DQ, strCRC, strBag);
-	// 取数
-	DmaRead( ((CAdcTestPlatApp*)AfxGetApp())->m_hDevice,
-		(BYTE*)m_waDqData, LOCAL_ADDR_DMA, m_nAlgDepth*sizeof(short) );
-	
-	SaveFile(strFileNamePre + "DQ", m_waDqData);
-
-//	assert(!memcmp(m_waAqData, m_waDqData, m_nAlgDepth*sizeof(short)));
-*/
 	CMainFrame* pFrame = NULL;
 	pFrame = (CMainFrame*)(AfxGetApp()->m_pMainWnd);
 	if ( pFrame != NULL )
@@ -1461,35 +1229,6 @@ void CAdcTestPlatDoc::CalcAlgPerf()
 			m_data2[j] = pwTemp2[j];
 		}		
 		// 初始化输入参数
-	/*	memcpy( mxGetPr(mxData1), m_data, MAX_DEPTH*sizeof(double) );
-		memcpy( mxGetPr(mxData2), m_data2, MAX_DEPTH*sizeof(double) );
-		memcpy( mxGetPr(mxNumpt), &numpt, sizeof(double) );
-		memcpy( mxGetPr(mxFclk), &fclk, sizeof(double) );
-		memcpy( mxGetPr(mxNumbit), &numbit, sizeof(double) );
-		memcpy( mxGetPr(mxR), &r, sizeof(double) );
-
-		SNR = 0;
-		SFDR = 0;
-		SINAD = 0;
-		ENOB = 0;
-		
-		memcpy( mxGetPr(mxSNR), &SNR, sizeof(double) );
-		memcpy( mxGetPr(mxSFDR), &SFDR, sizeof(double) );
-		memcpy( mxGetPr(mxSINAD), &SINAD, sizeof(double) );
-		memcpy( mxGetPr(mxENOB), &ENOB, sizeof(double) );
-
-		// 调用matlab计算结果
- 		mlfAlgdyntest( 4, &mxSNR, &mxSINAD, &mxSFDR, &mxENOB, mxData1, mxData2, mxNumpt, mxFclk, mxNumbit );
-
-// 		mlfDdc_func(4, &mxENOB, &mxSNR, &mxSFDR, &mxSINAD,
-// 			mxData1, mxData2, mxNumbit, mxR, mxFclk);
-
-		memcpy( &SNR, mxGetPr(mxSNR), sizeof(double) );
-		memcpy( &SINAD, mxGetPr(mxSINAD), sizeof(double) );
-		memcpy( &SFDR, mxGetPr(mxSFDR), sizeof(double) );
-		memcpy( &ENOB, mxGetPr(mxENOB), sizeof(double) );
-
-*/
 
 		AlgDynTest(m_data, MAX_DEPTH, m_data2, MAX_DEPTH, numpt, fclk, numbit, r, SNR, SINAD, SFDR, ENOB);
 	
@@ -1594,7 +1333,7 @@ void CAdcTestPlatDoc::FakeData()
 	BOOL bRet;
 	int j;
 	
-	bRet = file.Open( "E:\\_adcevm\\ddc\\Cursor\\bin\\IQ20090209013031AI.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
+	bRet = file.Open( ".\\IQ20090209013031AI.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
 	if ( bRet )
 	{
 		for ( j = 0; j < MAX_DEPTH; j++ )
@@ -1606,7 +1345,7 @@ void CAdcTestPlatDoc::FakeData()
 		file.Close();
 	}	
 
-	bRet = file.Open( "E:\\_adcevm\\ddc\\Cursor\\bin\\IQ20090209013031BI.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
+	bRet = file.Open( ".\\IQ20090209013031BI.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
 	if ( bRet )
 	{
 		for ( j = 0; j < MAX_DEPTH; j++ )
@@ -1618,7 +1357,7 @@ void CAdcTestPlatDoc::FakeData()
 		file.Close();
 	}	
 
-	bRet = file.Open( "E:\\_adcevm\\ddc\\Cursor\\bin\\IQ20090209013031CI.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
+	bRet = file.Open( ".\\IQ20090209013031CI.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
 	if ( bRet )
 	{
 		for ( j = 0; j < MAX_DEPTH; j++ )
@@ -1630,7 +1369,7 @@ void CAdcTestPlatDoc::FakeData()
 		file.Close();
 	}	
 
-	bRet = file.Open( "E:\\_adcevm\\ddc\\Cursor\\bin\\IQ20090209013031DI.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
+	bRet = file.Open( ".\\IQ20090209013031DI.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
 	if ( bRet )
 	{
 		for ( j = 0; j < MAX_DEPTH; j++ )
@@ -1642,7 +1381,7 @@ void CAdcTestPlatDoc::FakeData()
 		file.Close();
 	}	
 	
-	bRet = file.Open( "E:\\_adcevm\\ddc\\Cursor\\bin\\IQ20090209013031AQ.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
+	bRet = file.Open( ".\\IQ20090209013031AQ.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
 	if ( bRet )
 	{
 		for ( j = 0; j < MAX_DEPTH; j++ )
@@ -1652,7 +1391,7 @@ void CAdcTestPlatDoc::FakeData()
 		}
 		file.Close();
 	}	
-	bRet = file.Open( "E:\\_adcevm\\ddc\\Cursor\\bin\\IQ20090209013031BQ.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
+	bRet = file.Open( ".\\IQ20090209013031BQ.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
 	if ( bRet )
 	{
 		for ( j = 0; j < MAX_DEPTH; j++ )
@@ -1662,7 +1401,7 @@ void CAdcTestPlatDoc::FakeData()
 		}
 		file.Close();
 	}	
-	bRet = file.Open( "E:\\_adcevm\\ddc\\Cursor\\bin\\IQ20090209013031CQ.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
+	bRet = file.Open( ".\\IQ20090209013031CQ.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
 	if ( bRet )
 	{
 		for ( j = 0; j < MAX_DEPTH; j++ )
@@ -1672,7 +1411,7 @@ void CAdcTestPlatDoc::FakeData()
 		}
 		file.Close();
 	}	
-	bRet = file.Open( "E:\\_adcevm\\ddc\\Cursor\\bin\\IQ20090209013031DQ.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
+	bRet = file.Open( ".\\IQ20090209013031DQ.txt", CFile::modeRead | CFile::typeText  );//V1_0_TB.txt
 	if ( bRet )
 	{
 		for ( j = 0; j < MAX_DEPTH; j++ )

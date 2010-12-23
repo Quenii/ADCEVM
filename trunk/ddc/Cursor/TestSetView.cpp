@@ -327,6 +327,8 @@ void CTestSetView::OnBtnTest()
 {
 	CMainFrame* pFrame = (CMainFrame*)GetParentFrame();
 
+#ifndef SELF_TEST
+
 	// ¼ì²éÓÐÎÞpcie°å¿¨
 	if ( !((CAdcTestPlatApp*)AfxGetApp())->DetectedCards() )
 	{
@@ -339,6 +341,8 @@ void CTestSetView::OnBtnTest()
 		return;
 	}
 	else
+#endif
+	
 	{
 		CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetDocument();
 		if ( pDoc != NULL )

@@ -109,6 +109,9 @@ void CTestAlgView::OnBtnTest()
 		}
 		pFrame->m_bPower = 1;
 	}
+
+#ifndef SELF_TEST
+
 	// 检查有无pcie板卡
 	if ( !((CAdcTestPlatApp*)AfxGetApp())->DetectedCards() )
 	{
@@ -122,6 +125,7 @@ void CTestAlgView::OnBtnTest()
 	}
 	else
 
+#endif
 	{
 		// 用于刷新视图  0.5s
 		SetTimer( 2, 500, NULL );

@@ -6,7 +6,54 @@
 #include "AdcDynTest.h"
 #include "myfft.h"
 #include "myfft_complex.h"
+#include <Windows.h>
 
+class CriticalSection
+{
+public:
+	CriticalSection()
+	{
+		InitializeCriticalSection(&cs);
+
+	}
+	virtual ~CriticalSection()
+	{
+		DeleteCriticalSection(&cs);
+	}
+
+	void Lock()
+	{
+		EnterCriticalSection(&cs);
+	}
+
+	void Unlock()
+	{
+		LeaveCriticalSection(&cs);
+	}
+
+private:
+	CRITICAL_SECTION cs;
+};
+
+class SingleLock
+{
+public:
+	SingleLock(CriticalSection* cs)
+	{
+		m_cs = cs;
+		m_cs->Lock();
+	}
+virtual ~SingleLock()
+	{
+		m_cs->Unlock();
+	}
+
+private:
+	CriticalSection* m_cs;
+};
+
+
+static CriticalSection cs;
 
 #define DECLEAR_Mm_MORE(v, d, cnt) \
 	Mm v; v = zeros(cnt, 1); memcpy(v.addr(), d, cnt * sizeof(*d)) 
@@ -19,6 +66,8 @@ void AlgDynTest(double* cdata1, int cdata1_cnt,
 						double cnumpt, double cfclk, double cnumbit, double cr,
 						double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o)
 {
+	SingleLock lock(&cs);
+	
 	DECLEAR_Mm_MORE(data1, cdata1, cdata1_cnt);
 	DECLEAR_Mm_MORE(data2, cdata2, cdata2_cnt);
 	DECLEAR_Mm_ONE(numpt, cnumpt);	
@@ -44,6 +93,8 @@ void AlgDynTest(double* cdata1, int cdata1_cnt,
 void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
 				double& cSNR__o, double& cSFDR__o, double& cSNRFS__o, double& cSINAD__o)
 {
+	SingleLock lock(&cs);
+	
 	DECLEAR_Mm_MORE(ADout, cdata, cdata_cnt);
 	DECLEAR_Mm_ONE(fclk, cfclk);	
 	DECLEAR_Mm_ONE(numbit, cnumbit);
@@ -62,6 +113,8 @@ void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, doub
 
 void FFT(double* data, int data_cnt, double* result, int result_cnt)
 {
+	SingleLock lock(&cs);
+	
 	DECLEAR_Mm_MORE(x, data, data_cnt);
 	DECLEAR_Mm_ONE(n, data_cnt);		
 	Mm ret = myfft(x, n);
@@ -70,7 +123,9 @@ void FFT(double* data, int data_cnt, double* result, int result_cnt)
 }
 
 void FFT_complex(double* r_data, double* i_data, int data_cnt, double* result, int result_cnt)
-{	
+{
+	SingleLock lock(&cs);
+	
 	DECLEAR_Mm_MORE(r, r_data, data_cnt);
 	DECLEAR_Mm_MORE(i, i_data, data_cnt);
 	DECLEAR_Mm_ONE(n, data_cnt);		
