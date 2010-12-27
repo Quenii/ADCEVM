@@ -424,3 +424,4 @@ set_global_assignment -name VHDL_FILE ../src/spi24_v2_tb.vhd
 set_global_assignment -name VHDL_FILE ../src/spi.vhd
 set_global_assignment -name VHDL_FILE ../src/tlc3548.vhd
 set_global_assignment -name VHDL_FILE ../src/top.vhd
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-STATED"
