@@ -181,6 +181,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\hanning.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\m2c.h"
 				>
 			</File>
@@ -222,6 +226,10 @@
 			</File>
 			<File
 				RelativePath=".\hamming.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\hanning.cpp"
 				>
 			</File>
 			<File
