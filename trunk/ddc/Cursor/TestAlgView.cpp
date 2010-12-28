@@ -128,7 +128,7 @@ void CTestAlgView::OnBtnTest()
 #endif
 	{
 		// 用于刷新视图  0.5s
-		SetTimer( 2, 500, NULL );
+		SetTimer( 2, 700, NULL );
 		// 能够开始测试
 		if ( m_bTestBegin )
 		{
@@ -315,6 +315,7 @@ void CTestAlgView::OnTimer(UINT nIDEvent)
 				slDataBuf.Lock();
 				// 使用this，可以避免本视图被刷新
 				pDoc->UpdateAllViews( this );
+				TRACE("pDoc->UpdateAllViews( this );\r\n");
 				slDataBuf.Unlock();
 			}	
 			// 
