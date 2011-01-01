@@ -3,6 +3,7 @@
 % r=20;
 % numbit = 16;
 
+
 function [SNR,SINAD,SFDR,ENOB] = AlgDynTest(data1,data2,numpt,fclk,numbit,r)
 clear all
 close all
@@ -19,7 +20,6 @@ TPX = 0.2;
 code = 1;
 fclk = fclk / r;
 
-
 fpga_len = length(fpga_i);
 
 ADout = V/2*(fpga_i+j*fpga_q);   %-负频带 +正频带
@@ -33,7 +33,7 @@ real_ADout = real(ADout);
 [AmpMin t2]=min(real_ADout);
 Vpp = AmpMax - AmpMin;
 
-ADout_w = ADout .* chebwin(ad_len_N, 200); % ADout_w=ADout.*chebchebwin(ad_len_N,200);
+ADout_w = ADout .* chebwin(ad_len_N, 200); 
 %ADout_w=ADout.*chebchebwin(ad_len);
 % AA = zeros(NFFT-ad_len_N,1);
 %  ADout_w = [ADout_w;AA];
@@ -74,7 +74,7 @@ ref_dB = max(data_ref_dB(1 : ad_len/2));
 BW = fclk / 4;
 BW_len = (BW / fclk) * ad_len;
 
-X_FREQ = [-ad_len / 2 : ad_len/2 - 1];                                                         %频率X轴由负-0-正排序
+X_FREQ = [-ad_len / 2 : ad_len / 2 - 1];                                                         %频率X轴由负-0-正排序
 %AD_freq_all = fftshift(ADout_dB);                                                        %dB值按频率排序，与上面相对应
 %AD_freq_all_spect = 
 X_FREQ1 = [-ad_len / 2 : 200 : ad_len / 2 - 1];  
