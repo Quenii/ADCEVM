@@ -90,7 +90,7 @@ void AlgDynTest(double* cdata1, int cdata1_cnt,
 	cSINAD__o = SINAD__o.r(1, 1);
 	cSFDR__o = SFDR__o.r(1, 1); 
 	cENOB__o = ENOB__o.r(1, 1);
-	memcpy(cy, y__o.r.data(), cdata1_cnt * sizeof(*cy));
+	memcpy(cy, y__o.addr(), cdata1_cnt * sizeof(*cy));
 }
 
 void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
