@@ -19,11 +19,11 @@ GlobalData::~GlobalData()
 
 }
 
-GlobalData& GlobalData::lockInstance()
+GlobalData * GlobalData::lockInstance()
 {
 	static GlobalData _instance;
 	_instance.cs.Lock();
-	return _instance;
+	return &_instance;
 }
 
 void GlobalData::unlock()

@@ -8,6 +8,7 @@
 #include "AdcTestPlatView.h"
 #include "MainFrm.h"
 #include "m2c.h"
+#include "GlobalData.h"
 
 #include <math.h>
 
@@ -21,6 +22,7 @@ static char THIS_FILE[] = __FILE__;
 
 #define TEST_DATA
 
+static GlobalData * pGB = 0;
 /////////////////////////////////////////////////////////////////////////////
 // CAdcTestPlatView
 
@@ -716,16 +718,6 @@ void CAdcTestPlatView::AdcDisp()
 		{			
 			daT[i] = (double)i; 
 		}
-	/*	memcpy( mxGetPr(mxX), daX, (MAX_DEPTH / 2) *sizeof(double) );
-		memcpy( mxGetPr(mxT), daT, MAX_DEPTH*sizeof(double) );
-		// 是否显示matlab plot
-		if ( m_bMatlab )
-		{
-			//mlfMyplot( mxX, mxY );
-			mlfMydualplot( mxX, mxY, mxT, mxIn );
-		}		
-		*/
-		/////////////////////////////////////////////////////////////////
 
 		// ADC测试显示参数
 		m_FFTDisp[0].m_bShowParam = TRUE;
@@ -914,29 +906,6 @@ void CAdcTestPlatView::AlgDisp()
 	{
 		daT[i] = (double)i;
 	}
-	/*memcpy( mxGetPr(mxX), daX, (nAlgDepth / 2) *sizeof(double) );
-	memcpy( mxGetPr(mxT), daT, nAlgDepth*sizeof(double) );
-	// 是否显示matlab plot
-	if ( m_bMatlab )
-	{
-		//mlfMyplot( mxX, mxY );
-		mlfMytriplot( mxX, mxY, mxT, mxI, mxQ );
-	}*/		
-	/////////////////////////////////////////////////////////////////
-/*
-	// 测试存文件
-	////////////////////////////////////////////////////////////
-	CString strData;
-	CStdioFile file;
-	file.Open( "1.txt", CFile::modeWrite | CFile::modeCreate | CFile::typeText  );
-	for ( int j = 0; j < MAX_DEPTH; j++ )
-	{
-		strData.Format( "%f\n", daY[j] );
-		file.WriteString( strData );
-	}
-	file.Close();
-	///////////////////////////////////////////////////////////////
-*/	
 	// 算法测试不显示参数
 	m_FFTDisp[0].m_bShowParam = FALSE;
 	// 使用matlab的fft结果
@@ -1078,6 +1047,7 @@ void CAdcTestPlatView::Display()
 	// 多通道
 	else
 	{
+		pGB = GlobalData::lockInstance();
 		// ADC测试
 		if ( pFrame->m_bTestADC )
 		{
@@ -1093,6 +1063,8 @@ void CAdcTestPlatView::Display()
 		{
 			AlgDispFourChannel();
 		}
+		pGB->unlock();
+		pGB = 0;
 	}
 	
 	SetState();
@@ -1552,57 +1524,71 @@ void CAdcTestPlatView::AlgDispFourChannel()
 			pFFTDisp->m_dMaxGap = pFFTDisp->m_dOrgSampFreq / 2;
 			pFFTDisp->m_dGap = pFFTDisp->m_dMaxGap / MAX_AXIS_VALUE;
 			pFFTDisp->m_nRatio = 1;
+
+			int i = 0;
 			////////////////////////////////////////////////////////////////
 			// 调用matlab计算complex fft
-			for ( int i = 0; i < nAlgDepth; i++ )
-			{	
-				daI[i] = pwTemp[i];
-				daQ[i] = pwTemp2[i];
-			}
-			dNum = nAlgDepth;
-		/*	memset( daC, 0, MAX_DEPTH*sizeof(double) );
-			memset( daY, 0, MAX_DEPTH / 2 *sizeof(double) );
-			memcpy( mxGetPr(mxI), daI, nAlgDepth*sizeof(double) );
-			memcpy( mxGetPr(mxQ), daQ, nAlgDepth*sizeof(double) );	
-			memcpy( mxGetPr(mxC), daC, nAlgDepth*sizeof(double) );	
-			memcpy( mxGetPr(mxNum), &dNum, sizeof(double) );
-			mlfMycomplexfft( 1, &(mxC), mxI, mxQ, mxNum );
-			memcpy( daY, mxGetPr(mxC), nAlgDepth*sizeof(double) );	
-			*/
-
-			FFT_complex(daI, daQ, nAlgDepth, daY, MAX_DEPTH / 2);
+// 			for ( i = 0; i < nAlgDepth; i++ )
+// 			{	
+// 				daI[i] = pwTemp[i];
+// 				daQ[i] = pwTemp2[i];
+// 			}
+// 			dNum = nAlgDepth;
+// 
+// 			FFT_complex(daI, daQ, nAlgDepth, daY, MAX_DEPTH / 2);
 
 			/////////////////////////////////////////////////////////////////
 
 			pFFTDisp->m_bShowParam = FALSE;
+			ASSERT( j<4 && pGB);
+			memcpy( pFFTDisp->m_FFTData, &(pGB->dataSet[j].y[0]), nAlgDepth * sizeof(double) );
 			// 使用matlab的fft结果
 			// 互斥保护
-			CSingleLock slDataBuf( &(pFFTDisp->m_csFftDataBuf) );
-			slDataBuf.Lock();
-			memcpy( pFFTDisp->m_FFTData, daY, (nAlgDepth / 2) * sizeof(double) );
+// 			CSingleLock slDataBuf( &(pFFTDisp->m_csFftDataBuf) );
+// 			slDataBuf.Lock();
+//			memcpy( pFFTDisp->m_FFTData, daY, (nAlgDepth / 2) * sizeof(double) );
 
 			// 保存SNR/SFDR/SINAD/ENOB
-			pFFTDisp->m_dSNR = pDoc->m_daResultSNR[m_nPos];
-			pFFTDisp->m_dSFDR = pDoc->m_daResultSFDR[m_nPos];
-			pFFTDisp->m_dSINAD = pDoc->m_daResultSINAD[m_nPos];
-			pFFTDisp->m_dENOB = pDoc->m_daResultENOB[m_nPos];
+// 			pFFTDisp->m_dSNR = pDoc->m_daResultSNR[m_nPos];
+// 			pFFTDisp->m_dSFDR = pDoc->m_daResultSFDR[m_nPos];
+// 			pFFTDisp->m_dSINAD = pDoc->m_daResultSINAD[m_nPos];
+// 			pFFTDisp->m_dENOB = pDoc->m_daResultENOB[m_nPos];
 
+			pFFTDisp->m_dSNR = pGB->dataSet[j].SNR;// pDoc->m_daResultSNR[m_nPos];
+			pFFTDisp->m_dSFDR = pGB->dataSet[j].SFDR;// pDoc->m_daResultSFDR[m_nPos];
+			pFFTDisp->m_dSINAD = pGB->dataSet[j].SINAD;// pDoc->m_daResultSINAD[m_nPos];
+			pFFTDisp->m_dENOB = pGB->dataSet[j].ENOB;// pDoc->m_daResultENOB[m_nPos];
+
+			int k = 0;
 			// 分3种情况考虑
 			if ( m_bIData && !m_bQData )
 			{
-				memcpy( pDataDisp->m_waDataDisp, pwTemp, nAlgDepth*sizeof(short) );
+				//memcpy( pDataDisp->m_waDataDisp, pwTemp, nAlgDepth*sizeof(short) );
+				for (k = 0; k < nAlgDepth; ++k)
+				{
+					pDataDisp->m_waDataDisp[k] = pGB->dataSet[j].i[k];
+				}
 				pDataDisp->m_nDisplaySel = 1;
 			}
 			else if ( !m_bIData && m_bQData )
 			{
-				memcpy( pDataDisp->m_waDataDisp2, pwTemp2, nAlgDepth*sizeof(short) );
+//				memcpy( pDataDisp->m_waDataDisp2, pwTemp2, nAlgDepth*sizeof(short) );
+				for (k = 0; k < nAlgDepth; ++k)
+				{
+					pDataDisp->m_waDataDisp2[k] = pGB->dataSet[j].q[k];
+				}
 				pDataDisp->m_nDisplaySel = 2;
 			}
 			else if ( m_bIData && m_bQData )
 			{
 				// 拷贝数据(注意数据的大小!!)
-				memcpy( pDataDisp->m_waDataDisp, pwTemp, nAlgDepth*sizeof(short) );
-				memcpy( pDataDisp->m_waDataDisp2, pwTemp2, nAlgDepth*sizeof(short) );
+//				memcpy( pDataDisp->m_waDataDisp, pwTemp, nAlgDepth*sizeof(short) );
+//				memcpy( pDataDisp->m_waDataDisp2, pwTemp2, nAlgDepth*sizeof(short) );
+				for (k = 0; k < nAlgDepth; ++k)
+				{
+					pDataDisp->m_waDataDisp[k] = pGB->dataSet[j].i[k];
+					pDataDisp->m_waDataDisp2[k] = pGB->dataSet[j].q[k];
+				}
 				// 显示两个波形
 				pDataDisp->m_nDisplaySel = 3;
 			}
@@ -1652,7 +1638,7 @@ void CAdcTestPlatView::AlgDispFourChannel()
 			// 显示				
 			pFFTDisp->DrawCurve();
 			pDataDisp->DrawData();
-			slDataBuf.Unlock();			
+//			slDataBuf.Unlock();			
 		}		
 	}	
 }

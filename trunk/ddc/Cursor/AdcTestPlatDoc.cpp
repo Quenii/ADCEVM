@@ -1244,7 +1244,7 @@ void CAdcTestPlatDoc::CalcAlgPerf()
 		static std::vector<double> y(MAX_DEPTH);		
 		AlgDynTest(m_data, MAX_DEPTH, m_data2, MAX_DEPTH, numpt, fclk, numbit, r, SNR, SINAD, SFDR, ENOB, &y[0]);
 
-		GlobalData& globalData = GlobalData::lockInstance();		
+		GlobalData& globalData = * GlobalData::lockInstance();		
 		copy2vector(globalData.dataSet[i].i, m_data, MAX_DEPTH);		
 		copy2vector(globalData.dataSet[i].q, m_data2, MAX_DEPTH);		
 		copy2vector(globalData.dataSet[i].y, &y[0], MAX_DEPTH);
