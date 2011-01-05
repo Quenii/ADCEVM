@@ -64,7 +64,8 @@ static CriticalSection cs;
 void AlgDynTest(double* cdata1, int cdata1_cnt,
 						double* cdata2, int cdata2_cnt,
 						double cnumpt, double cfclk, double cnumbit, double cr,
-						double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o)
+						double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o,
+						double* cy)
 {
 	SingleLock lock(&cs);
 	
@@ -79,15 +80,17 @@ void AlgDynTest(double* cdata1, int cdata1_cnt,
 	Mm SINAD__o;
 	Mm SFDR__o; 
 	Mm ENOB__o;
+	Mm y__o;
 
 	double peek[] = {data1.r(1, 1), data1.r(2, 1), data1.r(32767, 1)};
 
-	AlgDynTest(data1, data2, numpt, fclk, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o,  ENOB__o);
+	AlgDynTest(data1, data2, numpt, fclk, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o,  ENOB__o, y__o);
 
 	cSNR__o = SNR__o.r(1, 1); 
 	cSINAD__o = SINAD__o.r(1, 1);
 	cSFDR__o = SFDR__o.r(1, 1); 
 	cENOB__o = ENOB__o.r(1, 1);
+	memcpy(cy, y__o.r.data(), cdata1_cnt * sizeof(*cy));
 }
 
 void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
