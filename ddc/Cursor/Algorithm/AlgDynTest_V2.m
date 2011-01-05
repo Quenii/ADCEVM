@@ -1,5 +1,5 @@
 function [SNR,SINAD,SFDR,ENOB] = AlgDynTest_V2(data1,data2,numpt,fclk,numbit,r)
-clear all
+% clear all
 close all
 format long
 
@@ -14,13 +14,13 @@ TPX = 0.2;
 code = 1;
 fclk = fclk / r;
 
-fpga_len = length(fpga_i);
+% fpga_len = length(fpga_i);
 
 ADout = V/2*(fpga_i+j*fpga_q);   %-负频带 +正频带
 ad_len_N = length(ADout);
 %ref_dB = 74.666;%0dbm时候的计算值。75.25
 
-maxADout = max(abs(ADout));
+% maxADout = max(abs(ADout));
 real_ADout = real(ADout);
 
 [AmpMax t1]=max(real_ADout);
@@ -116,7 +116,7 @@ span=max(6);
 %Searching span for peak harmonics amp on each side  
 spanh_har = 4;
 %Span of the signal on each side
-span_s = 19
+span_s = 19;
 %Determine power spectrum
 spectP=(abs(ADout_spect)).*(abs(ADout_spect)); 
 %Find DC offset power 
@@ -296,20 +296,20 @@ hold off;
 
 
 VPP_txt = strcat(num2str(Vpp,'%2.3f'),' Vpp');
-figure(2)
-
-plot([1:ad_len_N].*1e3/fclk,fpga_i(1:ad_len_N));
-hold on
-plot([1:ad_len_N].*1e3/fclk,fpga_q(1:ad_len_N),'-r');
-title('Time PLOT'); 
-xlabel('TIME (ms)');
-ylabel('AMPLITUDE (V)');
-hold on
-axis([0 TPX -TPY TPY]);
-% text(t1,AmpMax,num2str(AmpMax),'VerticalAlignmen','bottom');
-% text(t1,AmpMin,num2str(AmpMin),'VerticalAlignmen','top')
-text(TPX*0.85,0.9*TPY,VPP_txt,'HorizontalAlignment','left','Color','r')
-text(TPX*0.85,0.8*TPY,FRQ_txt,'HorizontalAlignment','left','Color','r')
+% figure(2)
+% 
+% plot([1:ad_len_N].*1e3/fclk,fpga_i(1:ad_len_N));
+% hold on
+% plot([1:ad_len_N].*1e3/fclk,fpga_q(1:ad_len_N),'-r');
+% title('Time PLOT'); 
+% xlabel('TIME (ms)');
+% ylabel('AMPLITUDE (V)');
+% hold on
+% axis([0 TPX -TPY TPY]);
+% % text(t1,AmpMax,num2str(AmpMax),'VerticalAlignmen','bottom');
+% % text(t1,AmpMin,num2str(AmpMin),'VerticalAlignmen','top')
+% text(TPX*0.85,0.9*TPY,VPP_txt,'HorizontalAlignment','left','Color','r')
+% text(TPX*0.85,0.8*TPY,FRQ_txt,'HorizontalAlignment','left','Color','r')
 SNRFS = SNR + abs(maxdB-ref_dB);
 ENOB = (SINAD - 1.76)/6.02;
 ENOBFS = ENOB+abs(maxdB-ref_dB)/6.02;
