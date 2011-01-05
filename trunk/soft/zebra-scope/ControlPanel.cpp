@@ -35,7 +35,7 @@ ControlPanel::ControlPanel(QWidget *parent, Qt::WFlags flags)
 	ui.adcSettingsWidget->setSettings(adcSettings);
 
 	board.signalSettings(signalSettings);
-	ui.signalSettingsWidget->SignalSettings(signalSettings);
+	ui.signalSettingsWidget->setSettings(signalSettings);
 }
 
 ControlPanel::~ControlPanel()
