@@ -9,7 +9,7 @@ FFTWnd::FFTWnd(QWidget *parent /*= 0*/, Qt::WindowFlags f /*= 0*/) : QScope(pare
 	rawScope().Title.Visible = false;
 
 	rawScope().XAxis.AxisLabel.Text = _T("Frequency (MHz)");
-	rawScope().YAxis.AxisLabel.Text = _T("Amplitude (dB)");
+	rawScope().YAxis.AxisLabel.Text = _T("Amplitude (dBFS)");
 
 	rawScope().YAxis.Max.Value = 5;
 	rawScope().YAxis.Min.Value = -140;
