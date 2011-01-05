@@ -30,13 +30,15 @@ void AdcSettingsDialog::setSettings(const AdcSettings& settings)
 
 void AdcSettingsDialog::settings(AdcSettings& settings)
 {
+	QLocale c(QLocale::C);
+
 	settings.adcType = adcTypeLineEdit->text();
 	settings.va = vaDoubleSpinBox->value();
 	settings.vd = vdDoubleSpinBox->value();
 	settings.bitcount = bitCountSpinBox->value();
-	settings.vpp = vppLineEdit->text().toFloat() / 2;
+	settings.vpp = c.toFloat( vppLineEdit->text() ) / 2;
 	settings.coding = (AdcCoding) codingComboBox->currentIndex();
-	settings.phase = phaseLineEdit->text().toFloat();
+	settings.phase = c.toFloat( phaseLineEdit->text() );
 }
 
 

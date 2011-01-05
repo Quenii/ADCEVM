@@ -15,8 +15,6 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 
-//	QLocale::setDefault(QLocale::China);
-
 	QApplication::setOrganizationName("quenii-roc");
 	QApplication::setOrganizationDomain("quenii-roc.com");
 	QApplication::setApplicationName("zebra-scope");
