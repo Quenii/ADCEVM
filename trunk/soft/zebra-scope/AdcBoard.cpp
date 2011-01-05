@@ -8,9 +8,12 @@
 #include <QList>
 #include <QTimer>
 #include <QSettings>
+
 #include "AdcBoard.hpp"
 #include "CyAPI.h"
 #include "gkhy/mfcminus/Win32App.hpp"
+#include "QZebraScopeSettings.h"
+#include "QZebraScopeSettings.h"
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -85,10 +88,11 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	Q_ASSERT(okay);
 	usbDev = new CCyUSBDevice((HANDLE)(widget->winId()));
 
-	m_settings.beginGroup("AdcBoard");
+	//m_settings.beginGroup("AdcBoard");
 
-	m_adcSettings.readSettings(m_settings);
-	m_signalSettings.readSettings(m_settings);
+	QZebraScopeSettings settings;
+	settings.adcSettings(m_adcSettings);
+	settings.signalSettings(m_signalSettings);
 
 	setAdcSettings(m_adcSettings);
 	setSignalSettings(m_signalSettings);
@@ -96,11 +100,6 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 
 AdcBoard::~AdcBoard()
 {
-	m_adcSettings.writeSettings(m_settings);
-	m_signalSettings.writeSettings(m_settings);
-
-	m_settings.endGroup();
-
 	if (usbDev)
 	{
 		delete usbDev;
@@ -427,7 +426,9 @@ bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 	if (!writeReg(0x1000, 0x000B)) return false;
 
 	m_adcSettings = adcSettings;
-	m_adcSettings.writeSettings(m_settings);
+	//m_adcSettings.writeSettings(m_settings);
+	QZebraScopeSettings settings;
+	settings.setAdcSettings(m_adcSettings);
 
 	return true;
 
@@ -435,7 +436,6 @@ bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 
 bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 {
-
 	// change sampling frequency
 	changeSampleRate(signalSettings.clockFreq);
 
@@ -462,7 +462,10 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 	}
 
 	m_signalSettings = signalSettings;
-	m_signalSettings.writeSettings(m_settings);
+	// m_signalSettings.writeSettings(m_settings);
+
+	QZebraScopeSettings settings;
+	settings.setSignalSettings(m_signalSettings);
 
 	return true;
 }

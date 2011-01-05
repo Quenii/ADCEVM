@@ -14,6 +14,7 @@
 #include <QHBoxLayout>
 #include <QList>
 #include <QMessageBox>
+#include <QFileDialog>
 
 /*using namespace gkhy::QPlotLab;*/
 
@@ -67,6 +68,24 @@ void MainWindow::createMenus()
 	menuWindow->addAction(ui.dockWidgetLogicWave->toggleViewAction());	
 
 	connect(ui.action_AboutAdcAnalyzer, SIGNAL(triggered()), this, SLOT(slotShowAbout()));
+}
+
+void MainWindow::on_actionLoadData_triggered(bool checked /*= false*/)
+{
+
+}
+
+void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
+{
+	//QFileDialog dlg();
+	// QZebraScopeSettings settings();
+	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+		"/home",
+		QFileDialog::ShowDirsOnly
+		| QFileDialog::DontResolveSymlinks);
+
+
+
 }
 
 void MainWindow::slotShowWaveWnd()

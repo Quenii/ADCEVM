@@ -1,5 +1,6 @@
 #include "SignalSettingsWidget.h"
 #include "SignalSettingsDialog.h"
+#include "QZebraScopeSettings.h"
 
 SignalSettingsWidget::SignalSettingsWidget(QWidget *parent)
 	: QWidget(parent)
@@ -20,6 +21,10 @@ void SignalSettingsWidget::on_pushButtonChangeSettings_clicked()
 	{
 		dlg.settings(m_settings);
 		setSettings(m_settings);
+
+		QZebraScopeSettings settings;
+		settings.setSignalSettings(m_settings);
+
 		emit settingsChanged();
 	}
 }
