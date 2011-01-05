@@ -94,7 +94,7 @@ private:
 private:	
 	AdcSettings m_adcSettings;
 	SignalSettings m_signalSettings;
-	QSettings m_settings;
+//	QSettings m_settings;
 	int m_timerId;
 };
 

@@ -51,8 +51,8 @@
     <property name="title">
      <string>文件(&amp;F)</string>
     </property>
-    <addaction name="action"/>
-    <addaction name="action_2"/>
+    <addaction name="actionLoadData"/>
+    <addaction name="actionSaveData"/>
     <addaction name="separator"/>
     <addaction name="action_3"/>
    </widget>
@@ -225,12 +225,12 @@
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_2"/>
   </widget>
-  <action name="action">
+  <action name="actionLoadData">
    <property name="text">
     <string>保存数据(S)</string>
    </property>
   </action>
-  <action name="action_2">
+  <action name="actionSaveData">
    <property name="text">
     <string>读入数据(R)</string>
    </property>

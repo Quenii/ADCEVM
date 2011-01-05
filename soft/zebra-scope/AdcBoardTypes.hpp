@@ -59,7 +59,7 @@ struct AdcSettings
 		phase = 0;
 	}
 
-	void writeSettings(QSettings& settings)
+	void writeSettings(QSettings& settings) const
 	{
 		settings.beginGroup("AdcSettings");
 
@@ -104,7 +104,7 @@ struct SignalSettings
 		signalPower = -10; //dBm
 	}
 
-	void writeSettings(QSettings& settings)
+	void writeSettings(QSettings& settings) const
 	{
 		settings.beginGroup("SignalSettings");
 

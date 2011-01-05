@@ -1,5 +1,6 @@
 #include "AdcSettingsWidget.h"
 #include "AdcSettingsDialog.h"
+#include "QZebraScopeSettings.h"
 
 
 AdcSettingsWidget::AdcSettingsWidget(QWidget *parent)
@@ -21,6 +22,10 @@ void AdcSettingsWidget::on_pushButtonChangeSettings_clicked()
 	{
 		dlg.settings(m_settings);
 		setSettings(m_settings);
+		
+		QZebraScopeSettings settings;
+		settings.setAdcSettings(m_settings);
+
 		emit settingsChanged();
 	}
 }
