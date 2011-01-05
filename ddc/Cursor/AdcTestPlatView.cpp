@@ -1009,6 +1009,7 @@ void CAdcTestPlatView::AlgDisp()
 	//m_FFTDisp[0].DrawSpectrum();		
 	m_FFTDisp[0].DrawCurve();
 	m_DataDisp[0].DrawData();
+	TRACE("\nAlgDisp() Called...\n");
 //	slDataBuf.Unlock();
 }
 
@@ -1666,7 +1667,9 @@ void CAdcTestPlatView::AlgDispFourChannel()
 			// ÏÔÊ¾				
 			pFFTDisp->DrawCurve();
 			pDataDisp->DrawData();
+
 //			slDataBuf.Unlock();			
 		}		
 	}	
+	TRACE("AlgDispFourChannel...\n");
 }
