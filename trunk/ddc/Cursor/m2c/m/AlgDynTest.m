@@ -1,4 +1,4 @@
-function [SNR, SINAD, SFDR, ENOB] = AlgDynTest(data1, data2, numpt, fclk, numbit, r, y)
+function [SNR, SINAD, SFDR, ENOB, y] = AlgDynTest(data1, data2, numpt, fclk, numbit, r)
 clear all
 close all
 format long
