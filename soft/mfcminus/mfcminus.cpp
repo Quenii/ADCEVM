@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "mfcminus.h"
 #include <afxsock.h>
-
+#include "gkhy/mfcplus/WorkerThread.hpp"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -45,3 +45,4 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 
 	return nRetCode;
 }
+
