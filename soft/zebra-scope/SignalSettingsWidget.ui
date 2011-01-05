@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>302</width>
-    <height>154</height>
+    <height>123</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,14 @@
    </property>
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox_2">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>123</height>
+      </size>
+     </property>
      <property name="title">
-      <string>时钟信号设置</string>
+      <string/>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -210,7 +216,7 @@
       <item row="0" column="1">
        <widget class="QPushButton" name="pushButtonChangeSettings">
         <property name="text">
-         <string>更改设置</string>
+         <string>时钟信号设置</string>
         </property>
        </widget>
       </item>
