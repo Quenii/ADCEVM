@@ -38,7 +38,7 @@ public:
 	virtual ~GlobalData();
 
 public:
-	GlobalData& lockInstance();
+	static GlobalData * lockInstance();
 	void unlock();
 
 public:
