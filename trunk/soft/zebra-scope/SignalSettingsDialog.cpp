@@ -17,9 +17,9 @@ void SignalSettingsDialog::settings(SignalSettings& settings)
 	bool ok;
 	QLocale c(QLocale::C);
 
-	settings.signalFreq = c(signalFreqLineEdit->text()).toFloat();
-	settings.signalPower = signalPowerLineEdit->text().toFloat();
-	settings.clockFreq  = clockFreqMHzLineEdit->text().toFloat() * 1e6;
+	settings.signalFreq = c.toFloat(signalFreqLineEdit->text());
+	settings.signalPower = c.toFloat(signalPowerLineEdit->text());
+	settings.clockFreq  = c.toFloat(clockFreqMHzLineEdit->text()) * 1e6;
 }
 
 void SignalSettingsDialog::setSettings(const SignalSettings& settings)

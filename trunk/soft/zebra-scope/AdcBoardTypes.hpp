@@ -6,7 +6,7 @@
 #include <QSettings>
 
 
-#define MATLAB 1
+// #define MATLAB 1
 
 struct AdcBoardInfo 
 {
