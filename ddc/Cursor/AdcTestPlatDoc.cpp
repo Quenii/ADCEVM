@@ -8,6 +8,7 @@
 #include "TestSetView.h"
 #include "PlxApi.h"
 #include "m2c.h"
+#include "GlobalData.h"
 
 #include <math.h>
 
@@ -16,6 +17,15 @@
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
+
+
+template<typename T>
+static void copy2vector(std::vector<T>& vect, T* p, int count)
+{
+	vect.resize(count);
+	memcpy(&vect[0], p, count * sizeof(T));
+	
+}
 
 // 测试数据开关
 //#define TEST_DATA
@@ -1161,6 +1171,7 @@ void CAdcTestPlatDoc::IoWrite(DWORD dwLocalAddr, DWORD dwData)
 	
 }
 
+
 void CAdcTestPlatDoc::CalcAlgPerf()
 {
 	int i,j;
@@ -1230,7 +1241,20 @@ void CAdcTestPlatDoc::CalcAlgPerf()
 		}		
 		// 初始化输入参数
 
-		AlgDynTest(m_data, MAX_DEPTH, m_data2, MAX_DEPTH, numpt, fclk, numbit, r, SNR, SINAD, SFDR, ENOB);
+		static std::vector<double> y(MAX_DEPTH);		
+		AlgDynTest(m_data, MAX_DEPTH, m_data2, MAX_DEPTH, numpt, fclk, numbit, r, SNR, SINAD, SFDR, ENOB, &y[0]);
+
+		GlobalData& globalData = GlobalData::lockInstance();		
+		copy2vector(globalData.dataSet[i].i, m_data, MAX_DEPTH);		
+		copy2vector(globalData.dataSet[i].q, m_data2, MAX_DEPTH);		
+		copy2vector(globalData.dataSet[i].y, &y[0], MAX_DEPTH);
+
+		globalData.dataSet[i].SNR = SNR;
+		globalData.dataSet[i].SFDR = SFDR;
+		globalData.dataSet[i].SINAD = SINAD;
+		globalData.dataSet[i].ENOB = ENOB;
+		
+		globalData.unlock();
 	
 		// 保存结果
 		m_daResultSNR[i] = SNR;

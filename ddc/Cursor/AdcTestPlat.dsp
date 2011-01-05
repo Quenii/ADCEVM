@@ -128,6 +128,10 @@ SOURCE=.\FixedSplitterWnd.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\GlobalData.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\JudgeDlg.cpp
 # End Source File
 # Begin Source File
@@ -198,6 +202,10 @@ SOURCE=.\FFTDisp.h
 # Begin Source File
 
 SOURCE=.\FixedSplitterWnd.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\GlobalData.h
 # End Source File
 # Begin Source File
 
