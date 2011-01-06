@@ -40,14 +40,14 @@ ADout_w = ADout .* chebwin(ad_len_N, 200); % ADout_w=ADout.*chebchebwin(ad_len_N
 ad_len = length(ADout_w);
 ADout_spect = fftshift(fft(ADout_w, NFFT));
 abs_ADout_spect = abs(ADout_spect);
-y = 20 * log10(abs_ADout_spect);
+ADout_dB = 20 * log10(abs_ADout_spect);
 
 %Display the results in the frequency domain with an FFT plot 
 %figure;  
-maxdB_1 = max(y(1:ad_len / 2 - 6));
-maxdB_2 = max(y(ad_len / 2 + 6 : ad_len));%直流点数与采样深度是否有关？ 后面定义了直流点位5个！
+maxdB_1 = max(ADout_dB(1:ad_len / 2 - 6));
+maxdB_2 = max(ADout_dB(ad_len / 2 + 6 : ad_len));%直流点数与采样深度是否有关？ 后面定义了直流点位5个！
 maxdB = max(maxdB_1,maxdB_2);
-fin_v = find(y(1 : ad_len)==maxdB);     %排除直流点数以外的最大值
+fin_v = find(ADout_dB(1 : ad_len)==maxdB);     %排除直流点数以外的最大值
 fin = fin_v( 1 );
 if fin < ad_len / 2
     fin_1 = ad_len / 2 - fin ;
@@ -75,7 +75,7 @@ BW = fclk / 4;
 BW_len = (BW / fclk) * ad_len;
 
 X_FREQ = [-ad_len / 2 : ad_len/2 - 1];                                                         %频率X轴由负-0-正排序
-%AD_freq_all = fftshift(y);                                                        %dB值按频率排序，与上面相对应
+%AD_freq_all = fftshift(ADout_dB);                                                        %dB值按频率排序，与上面相对应
 %AD_freq_all_spect = 
 X_FREQ1 = [-ad_len / 2 : 200 : ad_len / 2 - 1];  
 
@@ -98,9 +98,9 @@ u = min( ad_len / 2 + span, length(spectP));
 Pdc = sum(spectP(l : u)); 
 
 l = max(ad_len / 2 - span , 1); 
-u = min( ad_len / 2 + span, length(y));
+u = min( ad_len / 2 + span, length(ADout_dB));
 
-Pdc_dB = sum(y(l : u));
+Pdc_dB = sum(ADout_dB(l : u));
 
 %Extract overall signal power 
 l = max(fin - span_s , 1); 
@@ -109,9 +109,9 @@ u = min( fin + span_s, length(spectP));
 Ps = sum(spectP(l : u));
 
 l = max(fin-span_s, 1); 
-u = min(fin+span_s, length(y));
+u = min(fin+span_s, length(ADout_dB));
 
-Ps_dB=sum(y(l : u));
+Ps_dB=sum(ADout_dB(l : u));
 %Vector/matrix to store both frequency and power of signal and harmonics
 Fh=[]; 
 
@@ -156,7 +156,7 @@ Ph=[Ph sum(spectP(l : u))];
 l = max(har_bin-spanh_har, 1); 
 u = min(har_bin+spanh_har, length(spectP));
 
-Ph_dB=[Ph_dB sum(y(l : u))];
+Ph_dB=[Ph_dB sum(ADout_dB(l : u))];
 
 Harbin = [Harbin har_bin];
 
@@ -180,7 +180,7 @@ Ph_1=[Ph_1 sum(spectP(l : u))];
 l = max(har_bin_1-spanh_har, 1); 
 u = min(har_bin_1+spanh_har, length(spectP));
 
-Ph_dB_1=[Ph_dB_1 sum(y(l : u))];
+Ph_dB_1=[Ph_dB_1 sum(ADout_dB(l : u))];
 
 Harbin_1 = [Harbin_1 har_bin_1];
 end
@@ -250,9 +250,9 @@ for i = 1:disturb_len
 
   l = max( Harbin_disturb(i)-spanh_har, 1); 
   
-  u = min(Harbin_disturb(i)+spanh_har, length(y));
+  u = min(Harbin_disturb(i)+spanh_har, length(ADout_dB));
   
-  Ph_disturb_dB = [Ph_disturb_dB sum(y(l : u))];
+  Ph_disturb_dB = [Ph_disturb_dB sum(ADout_dB(l : u))];
 
 end
  Pd_disturb = sum(Ph_disturb(1:disturb_len));
@@ -268,9 +268,9 @@ Pn=(sum(spectP(1:ad_len))-Pdc-Ps-Pd);
 
 l = max((ad_len/2-BW_len), 1); 
 
-u = min(ad_len/2+BW_len, length(y));
+u = min(ad_len/2+BW_len, length(ADout_dB));
 
-Pn_dB = (sum(y(l : u))-Pdc_dB-Ps_dB-Pd_dB_2 - Pd_disturb_dB)/(2*BW_len) - ref_dB;
+Pn_dB = (sum(ADout_dB(l : u))-Pdc_dB-Ps_dB-Pd_dB_2 - Pd_disturb_dB)/(2*BW_len) - ref_dB;
 % Vin = 20*log10(Vpp/2);
 Vin = maxdB - ref_dB;
 SINAD=10*log10(Ps/(Pn+Pd));
@@ -285,5 +285,5 @@ ENOB = (SINAD - 1.76)/6.02;
 ENOBFS = ENOB+abs(maxdB-ref_dB)/6.02;
 % A = [AmpMax,AmpMin];
 % AdB = Vin;
-HD = [y(max(Harbin(2), 1))-ref_dB,y(max(Harbin(2), 1))-ref_dB,y(max(Harbin(3), 1))-ref_dB,y(max(Harbin(4), 1))-ref_dB,y(max(Harbin(5), 1))-ref_dB,y(max(Harbin(6), 1))-ref_dB,y(max(Harbin(7), 1))-ref_dB,y(max(Harbin(8), 1))-ref_dB,y(max(Harbin(9), 1))-ref_dB,y(max(Harbin(10), 1))-ref_dB]; 
-%Spectrum = y - ref_dB;
+HD = [ADout_dB(max(Harbin(2), 1))-ref_dB,ADout_dB(max(Harbin(2), 1))-ref_dB,ADout_dB(max(Harbin(3), 1))-ref_dB,ADout_dB(max(Harbin(4), 1))-ref_dB,ADout_dB(max(Harbin(5), 1))-ref_dB,ADout_dB(max(Harbin(6), 1))-ref_dB,ADout_dB(max(Harbin(7), 1))-ref_dB,ADout_dB(max(Harbin(8), 1))-ref_dB,ADout_dB(max(Harbin(9), 1))-ref_dB,ADout_dB(max(Harbin(10), 1))-ref_dB]; 
+y = ADout_dB - ref_dB;
