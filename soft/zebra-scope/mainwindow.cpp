@@ -5,6 +5,7 @@
 #include "gkhy/qplotlib/LogicWaveWnd.hpp"
 #include "RegAccess.hpp"
 #include "QZebraScopeSettings.h"
+#include "QZebraScopeSerializer.h"
 
 #include <QMdiArea>
 #include <QSplitter>
@@ -85,7 +86,7 @@ void MainWindow::on_actionLoadData_triggered(bool checked /*= false*/)
 void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 {
 	QString fileName = QFileDialog::getSaveFileName(
-		this, tr("Open File"),	"",	tr("ADC Samples (*.adc)"));
+		this, tr("Open File"),	"",	tr("ADC Samples (*.adc)"), );
 	if (!fileName.isEmpty())
 	{
 		QZebraScopeSettings current;		
@@ -99,6 +100,9 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 		QZebraScopeSettings toSave(settingsFileName, QSettings::IniFormat, 0);
 		toSave.setSignalSettings(signalSettings);
 		toSave.setAdcSettings(adcSettings);
+
+		QZebraScopeSerializer reportFile(fileName);
+		reportFile.serialize(AdcBoard::instance()->reportRef());
 
 	}
 }
