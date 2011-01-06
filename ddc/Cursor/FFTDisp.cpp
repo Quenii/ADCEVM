@@ -42,7 +42,8 @@ CFFTDisp::CFFTDisp()
 	//
 	m_dMaxData = 1;		
 	// 
-	m_dwDot = MAX_DEPTH / 2;
+//	m_dwDot = MAX_DEPTH / 2;
+	m_dwDot = MAX_DEPTH;
 	m_dwCurDot = m_dwDot / 2;
 	m_nBeginPos = 0;
 	m_bFirstVaule = TRUE;
@@ -515,7 +516,8 @@ void CFFTDisp::ZoomOut()
 void CFFTDisp::ZoomRestore()
 {
 	m_nBeginPos = 0;
-	m_dwDot = MAX_DEPTH/2;
+//	m_dwDot = MAX_DEPTH/2;
+	m_dwDot = MAX_DEPTH;
 	m_dMaxGap = m_dOrgSampFreq / 2;
 	m_dGap = m_dMaxGap / MAX_AXIS_VALUE;
 	m_nRatio = 1;
@@ -535,7 +537,7 @@ void CFFTDisp::DrawCurve()
 	CFont* pOldFont;
 	CString strMsg;
 	CPen *pOldPen;
-	double dErr;
+	double dErr = 0;
 
 	// 与背景对齐
 	int nSigPicWidth = m_nClientWidth - FFT_LEFT_MARGIN * 2;
@@ -575,10 +577,10 @@ void CFFTDisp::DrawCurve()
 
 		// 计算Ain
 		dErr = 0;
-		if ( m_dVpp > 0 )
-		{
-			dErr = 20*log10( m_dVpp / 2);
-		}
+// 		if ( m_dVpp > 0 )
+// 		{
+// 			dErr = 20*log10( m_dVpp / 2);
+// 		}
 
 		// 显示曲线、坐标
 		/////////////////////////////////////////////////////////////////////////
@@ -679,14 +681,14 @@ void CFFTDisp::DrawCurve()
 		for ( i = 0; i < m_dwDot; i++ )
 		{
 			// 先移动到第一个有效的点
-			if ( m_bFirstVaule && m_nBeginPos+i >= 0 && m_nBeginPos+i < MAX_DEPTH/2 )
+			if ( m_bFirstVaule && m_nBeginPos+i >= 0 && m_nBeginPos+i < MAX_DEPTH )
 			{
 				m_bFirstVaule = FALSE;
 				m_dcPlot.MoveTo( FFT_LEFT_MARGIN + (int)(i*dPointXpixel), 
 					FFT_TOP_MARGIN + nPicHeight - (int)((m_daDispData[m_nBeginPos+i] - m_dMinData)*dPointYpixel) );	
 			}
 			// 画线
-			if ( m_nBeginPos+i >= 0 && m_nBeginPos+i < MAX_DEPTH/2 )
+			if ( m_nBeginPos+i >= 0 && m_nBeginPos+i < MAX_DEPTH )
 			{
 				x = FFT_LEFT_MARGIN + (int)(i*dPointXpixel);			
 				y = FFT_TOP_MARGIN + nPicHeight - (int)((m_daDispData[m_nBeginPos+i] - m_dMinData)*dPointYpixel);					
@@ -728,7 +730,7 @@ void CFFTDisp::DrawCurve()
 				// 刻度值
 				//strMsg.Format( "%d", m_nBeginPos+i );
 				//strMsg.Format( "%.2f", (m_nBeginPos+i)*m_dOrgSampFreq/MAX_DEPTH );
-				strMsg.Format( "%.2f", nCount * m_dGap );
+				strMsg.Format( "%.2f", nCount * m_dGap - m_dOrgSampFreq / 2 );
 				szText = m_dcPlot.GetTextExtent( strMsg );
 				x = FFT_LEFT_MARGIN + (int)(i*dPointXpixel) - szText.cx / 2;
 				y = FFT_TOP_MARGIN + nPicHeight + 2;
@@ -768,7 +770,7 @@ void CFFTDisp::DrawCurve()
 		{
 			dMaxData = -10000;
 			//j>0, ignore DC
-			for ( j = 1; j < MAX_DEPTH/2; j++ )
+			for ( j = 1; j < MAX_DEPTH; j++ )
 			{
 				
 // 				if ( j != naPos[0] && j != naPos[1] && j != naPos[2] 

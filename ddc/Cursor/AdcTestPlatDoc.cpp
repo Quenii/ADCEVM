@@ -519,7 +519,7 @@ void CAdcTestPlatDoc::CalcPerf()
 
 		double SNRFS = 0;
 		AdcDynTest(m_data, MAX_DEPTH, fclk, numbit, MAX_DEPTH, 2, 1,
-						SNR, SFDR, SNRFS, SINAD);
+						SNR, SINAD, SFDR, ENOB);
 		
 		// ±£´æ½á¹û
 		m_daResultSNR[i] = SNR;
