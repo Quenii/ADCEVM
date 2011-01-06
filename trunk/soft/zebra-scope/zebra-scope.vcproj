@@ -202,7 +202,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\qzebrascopeservalizer.cpp"
+				RelativePath=".\qzebrascopeserializer.cpp"
 				>
 			</File>
 			<File
@@ -374,7 +374,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\qzebrascopeservalizer.h"
+				RelativePath=".\qzebrascopeserializer.h"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -382,7 +382,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot; -DNDEBUG -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;.&quot; -I&quot;.\..&quot; -I&quot;.\..\include&quot; -I&quot;.\GeneratedFiles&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;.&quot; -I&quot;.\..&quot; -I&quot;.\..\include&quot; -I&quot;.&quot; &quot;.\qzebrascopeserializer.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -393,7 +393,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot; -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 Files\MATLAB\R2008a\extern\include&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;.&quot; -I&quot;.\..&quot; -I&quot;.\..\include&quot; -I&quot;.\GeneratedFiles&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;C:\Program&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;.&quot; -I&quot;.\..&quot; -I&quot;.\..\include&quot; -I&quot;C:\Program Files\MATLAB\R2008a\extern\include&quot; -I&quot;.&quot; &quot;.\qzebrascopeserializer.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -1004,7 +1004,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\generatedfiles\release\moc_qzebrascopeservalizer.cpp"
+					RelativePath=".\generatedfiles\release\moc_qzebrascopeserializer.cpp"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -1092,7 +1092,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\generatedfiles\debug\moc_qzebrascopeservalizer.cpp"
+					RelativePath=".\generatedfiles\debug\moc_qzebrascopeserializer.cpp"
 					>
 					<FileConfiguration
 						Name="Release|Win32"
