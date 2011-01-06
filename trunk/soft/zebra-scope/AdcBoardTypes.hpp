@@ -4,6 +4,7 @@
 #include <vector>
 #include <QMetaType>
 #include <QSettings>
+#include <QFile>
 
 
 // #define MATLAB 1
@@ -136,19 +137,16 @@ struct PowerStatus
 	float power;
 };
 
+
 struct TimeDomainReport
 {
 	std::vector<float> samples;
 	std::vector<float> xaxis;
 	std::vector<unsigned short> rawSamples;
 	float min;
-	float max;
+	float max;	
 };
 
-//struct FreqDomainReport
-//{
-//	std::vector<float> samples;
-//};
 
 struct FreqDomainReport
 {
