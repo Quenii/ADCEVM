@@ -57,6 +57,7 @@ public:
 
 	void setDynamicOn(bool on = true);
 	bool isRunning();
+	const AdcBoardReport& reportRef() { return report; }
 
 protected:
 	void timerEvent (QTimerEvent * event);

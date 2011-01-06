@@ -483,5 +483,4 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	read((0x0009, &buff, 1024);)
 	*/
-
 }

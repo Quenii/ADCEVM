@@ -4,6 +4,7 @@
 #include "gkhy/qplotlib/FFTWnd.hpp"
 #include "gkhy/qplotlib/LogicWaveWnd.hpp"
 #include "RegAccess.hpp"
+#include "QZebraScopeSettings.h"
 
 #include <QMdiArea>
 #include <QSplitter>
@@ -15,6 +16,7 @@
 #include <QList>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QFileInfo>
 
 /*using namespace gkhy::QPlotLab;*/
 
@@ -72,20 +74,33 @@ void MainWindow::createMenus()
 
 void MainWindow::on_actionLoadData_triggered(bool checked /*= false*/)
 {
+	QString fileName = QFileDialog::getOpenFileName(
+		this, tr("Open File"), "", tr("ADC Samples (*.adc)"));
+	if (!fileName.isEmpty())
+	{
+	}
 
 }
 
 void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 {
-	//QFileDialog dlg();
-	// QZebraScopeSettings settings();
-	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-		"/home",
-		QFileDialog::ShowDirsOnly
-		| QFileDialog::DontResolveSymlinks);
+	QString fileName = QFileDialog::getSaveFileName(
+		this, tr("Open File"),	"",	tr("ADC Samples (*.adc)"));
+	if (!fileName.isEmpty())
+	{
+		QZebraScopeSettings current;		
+		SignalSettings signalSettings;
+		AdcSettings adcSettings;
+		current.signalSettings(signalSettings);
+		current.adcSettings(adcSettings);
 
+		QFileInfo fi(fileName);
+		QString settingsFileName = QDir(fi.dir()).absoluteFilePath(fi.completeBaseName() + ".ini");
+		QZebraScopeSettings toSave(settingsFileName, QSettings::IniFormat, 0);
+		toSave.setSignalSettings(signalSettings);
+		toSave.setAdcSettings(adcSettings);
 
-
+	}
 }
 
 void MainWindow::slotShowWaveWnd()
