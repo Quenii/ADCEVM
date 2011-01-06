@@ -1,21 +1,21 @@
-#ifndef QZEBRASCOPESERVALIZER_H
-#define QZEBRASCOPESERVALIZER_H
+#ifndef QZebraScopeSerializer_H
+#define QZebraScopeSerializer_H
 
 #include "AdcBoardTypes.hpp"
 
 #include <QFile>
 #include <vector>
 
-class QZebraScopeServalizer : public QFile
+class QZebraScopeSerializer : public QFile
 {
 	Q_OBJECT
 
 public:
-	QZebraScopeServalizer(const QString &name, QObject *parent = 0)
-	~QZebraScopeServalizer();
+	QZebraScopeSerializer(const QString &name, QObject *parent = 0);
+	~QZebraScopeSerializer();
 
 public:
-	void seralize(const PowerStatus& data);
+	void serialize(const PowerStatus& data);
 	bool deserialize(PowerStatus& data);
 
 	void serialize(const TimeDomainReport& data);
@@ -23,6 +23,9 @@ public:
 
 	void serialize(const FreqDomainReport& data);
 	bool deserialize(FreqDomainReport& data);
+
+	void serialize(const AdcBoardReport& data);
+	bool deserialize(AdcBoardReport& data);
 
 	template<typename T>
 	void serialize(const T& data) 
@@ -41,26 +44,26 @@ public:
 	}
 
 	template<typename T>
-	void seralize(const std::vector<T> data)
+	void serialize(const std::vector<T> data)
 	{
-		seralize<qint64>(data.size());
+		serialize<qint64>(data.size());
 		if (data.size() > 0)
 		{
-			write(&data[0], data.size() * sizeof(T));
+			write((const char*)&data[0], data.size() * sizeof(T));
 		}
 	}
 
 	template<typename T>
-	bool deseralize(std::vector<T> data)
+	bool deserialize(std::vector<T> data)
 	{		
 		qint64 size = 0;
-		if (!deseralize<qint64>(size))
+		if (!deserialize<qint64>(size))
 			return false;
 
 		data.resize(size);		
 		if (data.size() > 0)
 		{
-			read(&data[0], data.size() * sizeof(T));
+			read((char*)&data[0], data.size() * sizeof(T));
 		}
 
 		return true;
@@ -70,4 +73,4 @@ private:
 	
 };
 
-#endif // QZEBRASCOPESERVALIZER_H
+#endif // QZebraScopeSerializer_H
