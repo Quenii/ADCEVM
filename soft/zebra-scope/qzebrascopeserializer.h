@@ -21,14 +21,51 @@ public:
 	void serialize(const TimeDomainReport& data);
 	bool deserialize(TimeDomainReport& data);
 
-	template<typename T>
-	void seralize(const std::vector<T> data);
+	void serialize(const FreqDomainReport& data);
+	bool deserialize(FreqDomainReport& data);
 
 	template<typename T>
-	void deseralize(std::vector<T> data);
+	void serialize(const T& data) 
+	{ 
+		write((const char*)&data, sizeof(T)); 
+	}
 
 	template<typename T>
-	void serialize)()
+	bool deserialize(T& data) 
+	{
+		if (bytesAvailable() < sizeof(T))
+			return false;
+		read((char*)&data, sizeof(T)); 
+
+		return true;
+	}
+
+	template<typename T>
+	void seralize(const std::vector<T> data)
+	{
+		seralize<qint64>(data.size());
+		if (data.size() > 0)
+		{
+			write(&data[0], data.size() * sizeof(T));
+		}
+	}
+
+	template<typename T>
+	bool deseralize(std::vector<T> data)
+	{		
+		qint64 size = 0;
+		if (!deseralize<qint64>(size))
+			return false;
+
+		data.resize(size);		
+		if (data.size() > 0)
+		{
+			read(&data[0], data.size() * sizeof(T));
+		}
+
+		return true;
+	}
+
 private:
 	
 };
