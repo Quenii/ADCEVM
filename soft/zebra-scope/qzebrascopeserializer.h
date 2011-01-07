@@ -63,6 +63,9 @@ public:
 		data.resize(size);		
 		if (data.size() > 0)
 		{
+			if (bytesAvailable() < data.size() * sizeof(T))
+				return false;
+
 			read((char*)&data[0], data.size() * sizeof(T));
 		}
 
