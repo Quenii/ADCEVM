@@ -26,9 +26,8 @@ QFreqScope::~QFreqScope()
 void QFreqScope::setData(const vector<float>& data)
 {
 	if(data.size() > 0)
-	{
 		rawScope().Channels[0].Data.SetYData(&data[0], (int)data.size()); 	
-	}
+	
 }
 
 void QFreqScope::clear()

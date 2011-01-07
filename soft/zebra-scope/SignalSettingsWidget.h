@@ -16,8 +16,9 @@ public:
 	~SignalSettingsWidget();
 
 public:
-	void setSettings(const SignalSettings& settings);
 	void settings(SignalSettings& settings);
+public slots:
+	void setSettings(const SignalSettings& settings);
 
 signals:
 	void settingsChanged();
