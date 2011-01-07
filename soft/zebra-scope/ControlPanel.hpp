@@ -28,6 +28,8 @@ public slots:
 
 signals:
 	void devSelected(int usbAddr);
+	void changeSettings(const AdcSettings& data);
+	void changeSettings(const SignalSettings& data);
 
 private slots:	
 	void devItemClicked(const QModelIndex& index);

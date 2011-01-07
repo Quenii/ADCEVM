@@ -34,6 +34,11 @@ public:
 private:
 	void createMenus();
 
+signals:
+	void settingsLoaded(const AdcSettings& data);
+	void settingsLoaded(const SignalSettings& data);
+	void adcBoardReportLoaded(const AdcBoardReport& data);
+
 private slots:
 	void on_menuSettings_hovered(QAction * action);
 	void on_actionLoadData_triggered(bool checked = false);
@@ -42,8 +47,6 @@ private slots:
 	void on_actionSpectrum_toggled(bool checked = false);
 	void on_actionLogic_toggled(bool checked = false);
 	
-
-
  	void slotShowWaveWnd();
  	void slotShowFFtWnd();
  	void slotShowControlPanel();

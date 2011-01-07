@@ -21,6 +21,14 @@ ControlPanel::ControlPanel(QWidget *parent, Qt::WFlags flags)
 		this, SLOT(devItemClicked(const QModelIndex&)));
 	Q_ASSERT(okay);
 
+	okay = connect(this, SIGNAL(changeSettings(const SignalSettings&)),
+		ui.signalSettingsWidget, SLOT(setSettings(const SignalSettings&)));
+	Q_ASSERT(okay);
+
+	okay = connect(this, SIGNAL(changeSettings(const AdcSettings&)),
+		ui.adcSettingsWidget, SLOT(setSettings(const AdcSettings&)));
+	Q_ASSERT(okay);
+
 	tdReportModel = new QStandardItemModel(0, 2, ui.treeViewTdReport);
 	//tdReportModel->setHeaderData(0, Qt::Horizontal, QObject::tr("Addr"));
 	tdReportModel->setHeaderData(0, Qt::Horizontal, QObject::tr("Name"));
@@ -30,6 +38,7 @@ ControlPanel::ControlPanel(QWidget *parent, Qt::WFlags flags)
 
 	ui.groupBox_DeviceList->hide();
 
+	
 	AdcBoard& board = *(AdcBoard::instance());
 	board.adcSettings(adcSettings);
 	ui.adcSettingsWidget->setSettings(adcSettings);
