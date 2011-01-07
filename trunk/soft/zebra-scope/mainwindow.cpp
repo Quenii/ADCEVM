@@ -86,7 +86,7 @@ void MainWindow::on_actionLoadData_triggered(bool checked /*= false*/)
 void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 {
 	QString fileName = QFileDialog::getSaveFileName(
-		this, tr("Open File"),	"",	tr("ADC Samples (*.adc)"), );
+		this, tr("Open File"),	"",	tr("ADC Samples (*.adc)") );
 	if (!fileName.isEmpty())
 	{
 		QZebraScopeSettings current;		
