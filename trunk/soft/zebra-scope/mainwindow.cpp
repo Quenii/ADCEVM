@@ -19,8 +19,6 @@
 #include <QFileDialog>
 #include <QFileInfo>
 
-/*using namespace gkhy::QPlotLab;*/
-
 MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
 {
@@ -50,6 +48,17 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	okay = connect(adcBoard, SIGNAL(boardReport(const AdcBoardReport&)), this, SLOT(slotShowBoardReport(const AdcBoardReport&)));
 	Q_ASSERT(okay);
 
+	okay = connect(this, SIGNAL(settingsLoaded(const SignalSettings&)), 
+		ui.controlPanel, SIGNAL(changeSettings(const SignalSettings&)));
+	Q_ASSERT(okay);
+
+	okay = connect(this, SIGNAL(settingsLoaded(const AdcSettings&)), 
+		ui.controlPanel, SIGNAL(changeSettings(const AdcSettings&)));
+	Q_ASSERT(okay);
+
+	okay = connect(this, SIGNAL(adcBoardReportLoaded(const AdcBoardReport&)), this, SLOT(slotShowBoardReport(const AdcBoardReport&)));
+	Q_ASSERT(okay);
+
 	setCentralWidget(0);
 
 	createMenus();
@@ -73,20 +82,46 @@ void MainWindow::createMenus()
 	connect(ui.action_AboutAdcAnalyzer, SIGNAL(triggered()), this, SLOT(slotShowAbout()));
 }
 
+static QString getSettingsFileName(QString adcDataFileName)
+{
+	QFileInfo fi(adcDataFileName);
+	QString settingsFileName = QDir(fi.dir()).absoluteFilePath(fi.completeBaseName() + ".ini");
+	return settingsFileName;
+}
+
 void MainWindow::on_actionLoadData_triggered(bool checked /*= false*/)
 {
 	QString fileName = QFileDialog::getOpenFileName(
 		this, tr("Open File"), "", tr("ADC Samples (*.adc)"));
 	if (!fileName.isEmpty())
 	{
-	}
+		QString settingsFileName = getSettingsFileName(fileName);
+		if (QFile::exists(settingsFileName))
+		{
+			QZebraScopeSettings settings(settingsFileName, QZebraScopeSettings::IniFormat, 0);			
+			SignalSettings signalSettings;
+			AdcSettings adcSettings;
 
+			settings.signalSettings(signalSettings);
+			settings.adcSettings(adcSettings);
+
+			emit settingsLoaded(adcSettings);
+			emit settingsLoaded(signalSettings);
+			
+			QZebraScopeSerializer serializer(fileName);
+			AdcBoardReport report;
+			if (serializer.deserialize(report))
+			{
+				emit adcBoardReportLoaded(report);
+			}
+		}		
+	}
 }
 
 void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 {
 	QString fileName = QFileDialog::getSaveFileName(
-		this, tr("Open File"),	"",	tr("ADC Samples (*.adc)") );
+		this, tr("Open File"),	"",	tr("ADC Samples (*.adc)"));
 	if (!fileName.isEmpty())
 	{
 		QZebraScopeSettings current;		
@@ -95,8 +130,7 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 		current.signalSettings(signalSettings);
 		current.adcSettings(adcSettings);
 
-		QFileInfo fi(fileName);
-		QString settingsFileName = QDir(fi.dir()).absoluteFilePath(fi.completeBaseName() + ".ini");
+		QString settingsFileName = getSettingsFileName(fileName);
 		QZebraScopeSettings toSave(settingsFileName, QSettings::IniFormat, 0);
 		toSave.setSignalSettings(signalSettings);
 		toSave.setAdcSettings(adcSettings);

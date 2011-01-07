@@ -4,7 +4,7 @@
 
 #include "AdcBoardTypes.hpp"
 
-class QZebraScopeSettings : private QSettings
+class QZebraScopeSettings : public QSettings
 {
 public:
 	QZebraScopeSettings(const QString & fileName, Format format, QObject * parent = 0);
