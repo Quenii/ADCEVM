@@ -15,8 +15,9 @@ public:
 	AdcSettingsWidget(QWidget *parent = 0);
 	~AdcSettingsWidget();
 
-public:
+public slots:
 	void setSettings(const AdcSettings& settings);
+public:
 	void settings(AdcSettings& settings);
 
 signals:

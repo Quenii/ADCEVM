@@ -28,7 +28,8 @@ void FFTWnd::update(const std::vector<float> & xdata, const std::vector<float> &
 		scope.Channels.Add(1);
 
 	//scope.Channels[0].Data.SetYData(&data[0], (int)data.size());
-	scope.Channels[0].Data.SetXYData(&xdata[0], &ydata[0], (int)xdata.size());
+	if (xdata.size() > 0 && ydata.size() > 0)
+		scope.Channels[0].Data.SetXYData(&xdata[0], &ydata[0], (int)xdata.size());
 	scope.Channels[0].Name = _T("FFT");
 
 }

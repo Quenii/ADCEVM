@@ -29,15 +29,7 @@ void WaveWnd::update(const std::vector<float> & xdata, const std::vector<float> 
 	if (scope.Channels.Count < 1)
 		scope.Channels.Add(1);
 
-	//scope.Channels[0].Data.SetYData(&data[0], (int)data.size()); 
-	scope.Channels[0].Data.SetXYData(&xdata[0], &ydata[0], (int)xdata.size());
+	if (xdata.size() > 0 && ydata.size() > 0)
+		scope.Channels[0].Data.SetXYData(&xdata[0], &ydata[0], (int)xdata.size());
 
 }
-//void __stdcall WaveWnd::CustomXAxesLabel(void * Sender, double Value, CString &)
-//{
-//	CString str;
-//	CTSLScope& scope = rawScope();
-//	str.Format( _T("Sample : %d"), (int)( Value * 4 ));
-//
-//	scope.XAxis.SetTickText( str );
-//}
