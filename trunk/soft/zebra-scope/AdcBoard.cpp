@@ -473,14 +473,40 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 void AdcBoard::powerStatus(PowerStatus& powerStatus)
 {
 
-	/*	writeReg(9, 0xFFFF);  //select 3548, work at default mode
+	if (buff.size() < 1024)
+	{
+		buff.resize(1024);
+	}
+	unsigned short* p = &buff[0];
 	writeReg(9, 0xFFFF);  //select 3548, work at default mode
-	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
+	writeReg(9, 0xFFFF);  //select 3548, work at default mode
+
+	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
+	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
+	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+	read(0x0009, &buff[0], 1024);
+	powerStatus.va = buff[0] * 4 / 16384 / 5.8;
+	
 	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+	read(0x0009, &buff[0], 1024);
+	powerStatus.vd = buff[0] * 4 / 16384 / 5.8;
+
+	writeReg(9, 0x4FFF);  //select 3548, select 7th channel
+	writeReg(9, 0x4FFF);  //select 3548, select 7th channel
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	read((0x0009, &buff, 1024);)
-	*/
+	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+	read(0x0009, &buff[0], 1024);
+	powerStatus.ia = buff[0] * 1000 * 4 / 16384;
+
+	writeReg(9, 0x1FFF);  //select 3548, select 7th channel
+	writeReg(9, 0x1FFF);  //select 3548, select 7th channel
+	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+	read(0x0009, &buff[0], 1024);
+	powerStatus.id = buff[0] * 1000 * 4 / 16384;
+
 }
