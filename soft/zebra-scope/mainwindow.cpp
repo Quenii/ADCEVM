@@ -199,18 +199,24 @@ void MainWindow::on_actionSpiCtrl_triggered(bool checked)
 
 void MainWindow::on_actionSpectrum_toggled(bool checked)
 {
-	ui.actionLogic->setChecked(!checked);
-	ui.dockWidgetWave->setVisible(checked);
-	ui.dockWidgetFFT->setVisible(checked);
-	ui.dockWidgetLogicWave->setVisible(!checked);
+	if (checked)
+	{
+		ui.actionLogic->setChecked(!checked);
+		ui.dockWidgetWave->setVisible(checked);
+		ui.dockWidgetFFT->setVisible(checked);
+		ui.dockWidgetLogicWave->setVisible(!checked);
+	}
 };
 
 void MainWindow::on_actionLogic_toggled(bool checked)
 {
-	ui.actionSpectrum->setChecked(!checked);
-	ui.dockWidgetWave->setVisible(checked);
-	ui.dockWidgetFFT->setVisible(!checked);
-	ui.dockWidgetLogicWave->setVisible(checked);
+	if (checked)
+	{
+		ui.actionSpectrum->setChecked(!checked);
+		ui.dockWidgetWave->setVisible(checked);
+		ui.dockWidgetFFT->setVisible(!checked);
+		ui.dockWidgetLogicWave->setVisible(checked);
+	}
 };
 
 void MainWindow::on_menuSettings_hovered(QAction * action)
