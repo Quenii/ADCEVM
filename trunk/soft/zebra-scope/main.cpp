@@ -1,6 +1,6 @@
 #include "mainwindow.h"
-#include <QtGui/QApplication>
 #include <QMessageBox>
+#include <QtSingleApplication>
 
 
 
@@ -13,12 +13,11 @@
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc, argv);
+	QtSingleApplication app(argc, argv);
 
 	QApplication::setOrganizationName("quenii-roc");
 	QApplication::setOrganizationDomain("quenii-roc.com");
 	QApplication::setApplicationName("zebra-scope");
-
 
 #ifdef MATLAB
 	if (!(mclInitializeApplication(NULL, 0) && libalgoInitialize()))
@@ -29,9 +28,17 @@ int main(int argc, char *argv[])
 #endif // MATLAB
 
 	MainWindow w;
+
+	bool ok = app.connect(&app, SIGNAL(messageReceived (const QString &)), &app, SLOT(activateWindow()));
+	Q_ASSERT(ok);
+
+	app.setActivationWindow(&w);
+	if (app.isRunning())
+		return !app.sendMessage(" ");
+
 	w.showMaximized();
 
-	int ret = a.exec();
+	int ret = app.exec();
 
 #ifdef MATLAB
 	libalgoTerminate();

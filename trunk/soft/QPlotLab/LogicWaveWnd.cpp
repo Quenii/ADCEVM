@@ -6,6 +6,8 @@ using namespace gkhy::QPlotLab;
 
 LogicWaveWnd::LogicWaveWnd(QWidget *parent /*= 0*/, Qt::WindowFlags f /*= 0*/) : QScope(parent, f) 
 {
+	USES_CONVERSION;
+
 	CTSLScope& scope = rawScope();
 	
 	scope.Title.Visible = false;
@@ -22,7 +24,7 @@ LogicWaveWnd::LogicWaveWnd(QWidget *parent /*= 0*/, Qt::WindowFlags f /*= 0*/) :
 	{
 		scope.Channels[i].Color = RGB(0, 0 , 255);
 		QString title = QString("Bit %1").arg(i);
-//		scope.Channels[i].Name = _T( title.toLocal8Bit().constData() );
+		scope.Channels[i].Name = A2T(title.toLocal8Bit().constData());
 	}
 //	scope.CanRedoZoom
 
