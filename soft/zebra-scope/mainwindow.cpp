@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "ControlPanel.hpp"
+#include "ControlPanel.h"
 #include "gkhy/qplotlib/WaveWnd.hpp"
 #include "gkhy/qplotlib/FFTWnd.hpp"
 #include "gkhy/qplotlib/LogicWaveWnd.hpp"

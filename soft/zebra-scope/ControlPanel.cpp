@@ -1,4 +1,4 @@
-#include "ControlPanel.hpp"
+#include "ControlPanel.h"
 #include "AdcBoard.hpp"
 
 #include <QStandardItemModel>
