@@ -21,6 +21,8 @@ LogicWaveWnd::LogicWaveWnd(QWidget *parent /*= 0*/, Qt::WindowFlags f /*= 0*/) :
 	for (size_t i = 0; i < scope.Channels.Count; ++i)
 	{
 		scope.Channels[i].Color = RGB(0, 0 , 255);
+		QString title = QString("Bit %1").arg(i);
+//		scope.Channels[i].Name = _T( title.toLocal8Bit().constData() );
 	}
 //	scope.CanRedoZoom
 
