@@ -283,7 +283,6 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	}
 	else if (m_adcSettings.coding == AdcCodingComplement)
 	{
-		max /= 2;
 	}
 	else
 	{
@@ -481,44 +480,49 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 		buff.resize(1024);
 	}
 	unsigned short* p = &buff[0];
-	writeReg(9, 0xFFFF);  //select 3548, work at default mode
-	writeReg(9, 0xFFFF);  //select 3548, work at default mode
+	writeReg(9, 0xA400);  //select 3548, work at default mode
+	writeReg(9, 0xA400);  //select 3548, work at default mode
+	//writeReg(9, 0xFFFF);  //select 3548, work at default mode
+	//writeReg(9, 0xFFFF);  //select 3548, work at default mode
 
-	writeReg(9, 0xA740);  //select 3548, work at sweep mode
+	//writeReg(9, 0xA740);  //select 3548, work at sweep mode
 
-	for (int i=0; i<=7; ++i)
-	{
-		writeReg(9, i*0x1000);
-	}
+	//for (int i=0; i<=7; ++i)
+	//{
+	//	writeReg(9, i*0x1000);
+	//}
 
-	writeReg(9, 0xE000);
+	//writeReg(9, 0xE000);
 
 	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	read(0x0009, &buff[0], 1024);
-	powerStatus.va = buff[0] * 4 / 16384 / 5.8;
+	powerStatus.va = (float(buff[0]>>2)) * 4 / 16384;
 	
 	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	read(0x0009, &buff[0], 1024);
-	powerStatus.vd = buff[0] * 4 / 16384 / 5.8;
+	powerStatus.vd = (float(buff[0]>>2)) * 4 / 16384;
 
 	writeReg(9, 0x4FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x4FFF);  //select 3548, select 7th channel
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	read(0x0009, &buff[0], 1024);
-	powerStatus.ia = buff[0] * 1000 * 4 / 16384;
+	powerStatus.ia = (float(buff[0]>>2)) * 1000 * 4 / 16384;
 
 	writeReg(9, 0x1FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x1FFF);  //select 3548, select 7th channel
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	read(0x0009, &buff[0], 1024);
-	powerStatus.id = buff[0] * 1000 * 4 / 16384;
+	powerStatus.id = (float(buff[0]>>2)) * 1000 * 4 / 16384;
+
+	powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
+
 
 }
