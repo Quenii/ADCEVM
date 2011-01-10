@@ -329,8 +329,11 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		tdReport.rawSamples.resize(tdReport.samples.size());
 		for (int i = 0; i < tdReport.samples.size(); ++i)
 		{
+			//tdReport.samples[i] = ((int)((i+offset)));
+			//tdReport.rawSamples[i] = ((int)((i+offset)));
+
 			tdReport.samples[i] = ((int)(qSin(pi/29*i+offset)*8192))*vpp/8192;
-			tdReport.rawSamples[i] = ((int)(qSin(pi/29*i+offset)*8192))*vpp;
+			tdReport.rawSamples[i] = ((int)(qSin(pi/29*i+offset)*8192));
 		}
 #endif //_DEBUG
 	}
@@ -480,6 +483,15 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 	unsigned short* p = &buff[0];
 	writeReg(9, 0xFFFF);  //select 3548, work at default mode
 	writeReg(9, 0xFFFF);  //select 3548, work at default mode
+
+	writeReg(9, 0xA740);  //select 3548, work at sweep mode
+
+	for (int i=0; i<=7; ++i)
+	{
+		writeReg(9, i*0x1000);
+	}
+
+	writeReg(9, 0xE000);
 
 	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
