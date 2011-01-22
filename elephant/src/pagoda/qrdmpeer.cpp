@@ -1,17 +1,22 @@
 #include "qrdmpeer.h"
 #include "qrdmpacket.h"
 
+#include <QtDebug>
+
 using namespace gkhy::pagoda;
 
 QRdmPeer::QRdmPeer(QObject *parent)
-: QRebufferedTcpSocket(0, 0, parent)
+: QRebufferedTcpSocket(parent)
 {
 	bool ok = connect(this, SIGNAL(readyRead()), this, SLOT(on_alt_readyRead()));
 	Q_ASSERT(ok);
+
+	qDebug("QRdmPeer %d created.", reinterpret_cast<int>(this));
 }
 
 QRdmPeer::~QRdmPeer()
 {
+	qDebug("QRdmPeer %d deleted.", reinterpret_cast<int>(this));
 }
 
 void QRdmPeer::installPacket(QRdmPacket* packet)

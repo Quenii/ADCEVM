@@ -30,7 +30,7 @@ void QServer::incomingConnection(int socket)
 	if (rdmPeer->state() != QTcpSocket::ConnectedState)
 		rdmPeer->deleteLater(); 	
 
-	bool ok = connect(rdmPeer, SIGNAL(disconnected()), this, SLOT(deleteLater())); 
+	bool ok = connect(rdmPeer, SIGNAL(disconnected()), rdmPeer, SLOT(deleteLater())); 
 	Q_ASSERT(ok);
 
 	m_rdmpeerList.push_back(QPointer<QRdmPeer>(rdmPeer));

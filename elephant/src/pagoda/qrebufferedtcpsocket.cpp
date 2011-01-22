@@ -7,13 +7,12 @@ using namespace gkhy::pagoda;
 
 #define TCPSOCKET_BUFFER_SIZE 32768
 
-QRebufferedTcpSocket::QRebufferedTcpSocket(int writeBufferSize, int readBufferSize, QObject * parent /* = 0  */)
+QRebufferedTcpSocket::QRebufferedTcpSocket(QObject * parent, int writeBufferSize, int readBufferSize)
 : QObject(parent)
 , m_ibuf(readBufferSize)
 , m_obuf(writeBufferSize)
 {
 	m_tcpSocket = new QTcpSocket(this);
-	m_tcpSocket->setObjectName("tcpSocket");
 	
 	bool ok = connect(m_tcpSocket, SIGNAL(connected()), this, SIGNAL(connected()));
 	Q_ASSERT(ok);
@@ -32,6 +31,30 @@ QRebufferedTcpSocket::QRebufferedTcpSocket(int writeBufferSize, int readBufferSi
 QRebufferedTcpSocket::~QRebufferedTcpSocket()
 {
 
+}
+
+void QRebufferedTcpSocket::connectToHost(const QString & hostName, quint16 port) 
+{
+	m_ibuf.clear();
+	m_obuf.clear();
+	m_tcpSocket->connectToHost(hostName, port); 
+}
+
+bool QRebufferedTcpSocket::setSocketDescriptor(int socketDescriptor) 
+{
+	m_ibuf.clear();
+	m_obuf.clear();
+	return m_tcpSocket->setSocketDescriptor(socketDescriptor); 
+}
+
+void QRebufferedTcpSocket::close() 
+{
+	m_tcpSocket->close(); 
+}
+
+void QRebufferedTcpSocket::abort()
+{
+	m_tcpSocket->abort(); 
 }
 
 qint64 QRebufferedTcpSocket::write(const char * data, qint64 maxSize)

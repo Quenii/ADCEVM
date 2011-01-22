@@ -15,18 +15,16 @@ namespace gkhy
 			Q_OBJECT
 
 		public:
-			QRebufferedTcpSocket(int writeBufferSize, int readBufferSize, QObject * parent = 0);
+			QRebufferedTcpSocket(QObject * parent = 0, int writeBufferSize = 32 * 1024, int readBufferSize = 32 * 1024);
 			~QRebufferedTcpSocket();
 		private:
 			Q_DISABLE_COPY(QRebufferedTcpSocket);
 
 		public:			
-			void connectToHost(const QString & hostName, quint16 port) { 
-				m_tcpSocket->connectToHost(hostName, port); }
-			bool setSocketDescriptor(int socketDescriptor) { 
-				return m_tcpSocket->setSocketDescriptor(socketDescriptor); }
-			void close() { m_tcpSocket->close(); }
-			void abort() { m_tcpSocket->abort(); }
+			void connectToHost(const QString & hostName, quint16 port);
+			bool setSocketDescriptor(int socketDescriptor);
+			void close();
+			void abort();
 
 			QAbstractSocket::SocketState state() { return m_tcpSocket->state(); }
 
