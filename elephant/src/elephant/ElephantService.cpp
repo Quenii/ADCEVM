@@ -7,8 +7,7 @@
 #include <QProcess>
 #include <QTimer>
 #include <QStringList>
-
-class Service;
+#include <QSettings>
 
 class Service : public QtService<QCoreApplication>
 {
@@ -101,11 +100,8 @@ protected:
 	}
 };
 
-// #include "ElephantService.moc"
-
 int main(int argc, char **argv)
 {
-
 	Service service(argc, argv);
 
 	return service.exec(); 

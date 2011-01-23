@@ -3,7 +3,6 @@
 
 using namespace gkhy::pagoda;
 
-
 int QRdmPacket::SOP = int(0x04030201);
 int QRdmPacket::EOP = int(0x08070605);
 

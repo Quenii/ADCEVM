@@ -4,12 +4,13 @@
 #include "qdev.h"
 
 #include <Qtimer>
+#include <QObject>
+
 
 QServer::QServer(QObject *parent)
 	: QTcpServer(parent)
 {
 	QTimer* timer = new QTimer(this);
-
 	bool ok = connect(timer, SIGNAL(timeout()), this, SLOT(update()));
 	Q_ASSERT(ok);
 
@@ -32,9 +33,10 @@ void QServer::incomingConnection(int socket)
 
 	bool ok = connect(rdmPeer, SIGNAL(disconnected()), rdmPeer, SLOT(deleteLater())); 
 	Q_ASSERT(ok);
+	ok = connect(rdmPeer, SIGNAL(error(QAbstractSocket::SocketError)), rdmPeer, SLOT(deleteLater())); 
+	Q_ASSERT(ok);
 
-	m_rdmpeerList.push_back(QPointer<QRdmPeer>(rdmPeer));
-
+	m_rdmpeerList.push_back(QPointer<QRdmPeer>(rdmPeer));	
 }
 
 bool QServer::listen()
@@ -65,7 +67,7 @@ void QServer::update()
 		{
 			QRdmPacket* packet = *it;
 			if (packet->type() == QRdmPacket::StatusPacket || QRdmPacket::ConfigPacket)
-			{
+			{				
 				if (packet->send(*peerPtr) < 0)
 				{
 					peerPtr->deleteLater();
@@ -73,5 +75,7 @@ void QServer::update()
 				}
 			}
 		}
+
+		++peer_it;
 	}
 }

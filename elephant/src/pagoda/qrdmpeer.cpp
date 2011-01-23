@@ -1,7 +1,9 @@
 #include "qrdmpeer.h"
 #include "qrdmpacket.h"
+#include "gkhy/pagoda/test.h"
 
 #include <QtDebug>
+#include <QTimer>
 
 using namespace gkhy::pagoda;
 
@@ -10,6 +12,8 @@ QRdmPeer::QRdmPeer(QObject *parent)
 {
 	bool ok = connect(this, SIGNAL(readyRead()), this, SLOT(on_alt_readyRead()));
 	Q_ASSERT(ok);
+
+//	new Test(this);
 
 	qDebug("QRdmPeer %d created.", reinterpret_cast<int>(this));
 }

@@ -28,8 +28,7 @@ public:
 
 protected:
 	virtual QList<QRdmPacket*> rdmPackets() const = 0;
-	virtual const QDev* dev() const = 0;
-	
+	virtual const QDev* dev() const = 0;	
 	void incomingConnection(int socket);
 
 private slots:
