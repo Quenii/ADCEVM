@@ -3,25 +3,25 @@
 
 using namespace gkhy::pagoda;
 
-int QRdmPacket::SOP = int(0x04030201);
-int QRdmPacket::EOP = int(0x08070605);
+const int QRdmPacket::SOP = int(0x04030201);
+const int QRdmPacket::EOP = int(0x08070605);
 
-int QRdmPacket::identify(char* buf, int bufSize, int* len /*= 0*/)
+int QRdmPacket::identifyPreamble(const char* buf, int bufSize, int* len /*= 0*/)
 {
 	if (bufSize < sizeof(Preamble))
 		return 0;
 	
-	Preamble* p = (Preamble*)buf;
+	const Preamble* p = (const Preamble*)buf;
 	if (SOP != p->sop)
 		return -1;
 
 	// sop okay
 	if (bufSize < p->size)
 		return 0;
-
-	if (EOP != *(int*)&buf[p->size - 4])
+/*
+	if (EOP != *(int*)(buf + p->size - 4))
 		return -1;
-
+*/
 	if (len)
 	{
 		*len = p->size;
@@ -60,15 +60,23 @@ int QRdmPacket::send(QRdmPeer& socket) const
 
 int QRdmPacket::recv(QRdmPeer &socket)
 {
-	int id = QRdmPacket::identify(socket.readBuffer(), socket.bytesAvailable());
-	if ( id > 0 )
+	int verf = verfify(socket.readBuffer(), socket.bytesAvailable());
+	if (verf < 0)
 	{
-		int read = socket.read(packetAddr(), packetSize());
-		if (read != packetSize()) 
-			return -1;	
-
-		return 1;
+		Q_ASSERT(false);
+		return -1;
+	}
+	else if (verf == 0)
+	{
+		return 0;		
 	}
 
-	return id;
+	int read = socket.read(packetAddr(), packetSize());
+	if (read != packetSize()) 
+	{
+		assert(false);
+		return -1;	
+	}
+
+	return 1;
 }

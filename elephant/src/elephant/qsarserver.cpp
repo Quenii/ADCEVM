@@ -43,7 +43,7 @@ QDev* QSarServer::dev() const
 }
 
 
-QList<QRdmPacket*> QSarServer::rdmPackets() const
+const QList<QRdmPacket*>& QSarServer::rdmPackets() const
 {
 	return m_packets->list;
 }

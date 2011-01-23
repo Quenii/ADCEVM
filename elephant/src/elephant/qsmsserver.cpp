@@ -32,7 +32,7 @@ QDev* QSmsServer::dev() const
 	return m_sms;
 }
 
-QList<QRdmPacket*> QSmsServer::rdmPackets() const
+const QList<QRdmPacket*>& QSmsServer::rdmPackets() const
 {
 	return m_packets->list;
 }

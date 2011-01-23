@@ -5,6 +5,8 @@
 #include <QObject>
 #include <QElapsedTimer>
 
+class QMutex;
+
 namespace gkhy
 {
 	namespace pagoda
@@ -22,7 +24,7 @@ namespace gkhy
 			Q_OBJECT
 
 		public:
-			QThruputMeter(qint64 avgInteral_ms, QObject* parent = 0);
+			QThruputMeter(qint64 avgInteral_ms, bool threadSafe = false, QObject* parent = 0);
 			virtual ~QThruputMeter(void);
 
 	
@@ -39,6 +41,8 @@ namespace gkhy
 			QElapsedTimer m_instTimer;		
 			ThruputMeterValue m_value;		
 			qint64 m_lastTotal;
+			QMutex* m_mutex;
+
 		};
 
 	}

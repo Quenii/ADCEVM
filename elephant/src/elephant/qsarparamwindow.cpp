@@ -11,17 +11,17 @@ QSarParamWindow::~QSarParamWindow()
 
 }
 
-void QSarParamWindow::get(SarConfig& settings)
+void QSarParamWindow::get(SarConfig& settings, int& ret)
 {
 
 }
 
-void QSarParamWindow::set(const SarConfig& settings)
+void QSarParamWindow::set(const SarConfig& settings, int& ret)
 {
 
 }
 
-void QSarParamWindow::set(const SarStatus& status)
+void QSarParamWindow::set(const SarStatus& status, int& ret)
 {
 
 }

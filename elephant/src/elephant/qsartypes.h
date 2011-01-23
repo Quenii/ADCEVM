@@ -23,7 +23,7 @@ struct SarConfig
 
 struct SarStatus
 {
-	bool isRunning;
+	int isRunning;
 	qint64 secondElapsed;
 	ThruputMeterValue thruput;
 };
@@ -69,6 +69,7 @@ public:
 	QSarStatus(QObject* parent = 0) : QRdmPacketTemplate<SarStatus, QSarStatus_ID, QRdmPacket::StatusPacket>(parent) {}																		
 signals:																	
 	void getLocal(SarStatus& data, int& ret);							
+	void setLocal(const SarStatus& data, int& ret);							
 public:																
 	int getLocal() 															
 	{																		
@@ -76,6 +77,13 @@ public:
 		emit getLocal(payload(), ret);										
 		return ret;															
 	}																		
+
+	int setLocal()
+	{
+		int ret = 0;
+		emit setLocal(payload(), ret);
+		return ret;
+	}
 };
 
 class QSarCommand : public gkhy::pagoda::QRdmPacketTemplate<SarCommand, QSarCommand_ID, QRdmPacket::CommandPacket>	
@@ -84,7 +92,7 @@ class QSarCommand : public gkhy::pagoda::QRdmPacketTemplate<SarCommand, QSarComm
 public:																	
 	QSarCommand(QObject* parent = 0) : QRdmPacketTemplate<SarCommand, QSarCommand_ID, QRdmPacket::CommandPacket>(parent) {}																		
 signals:																	
-	void setLocal(const SarCommand& data, int& ret);											
+	void setLocal(const SarCommand& data, int& ret);	
 public:																		
 	int setLocal()															
 	{																		

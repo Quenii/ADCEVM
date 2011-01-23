@@ -14,9 +14,9 @@ public:
 	~QSarParamWindow();
 
 public slots:
-	void get(SarConfig& settings);
-	void set(const SarConfig& settings);
-	void set(const SarStatus& status);
+	void get(SarConfig& settings, int& ret);
+	void set(const SarConfig& settings, int& ret);
+	void set(const SarStatus& status, int& ret);
 
 private:
 	Ui::QSarParamWindowClass ui;

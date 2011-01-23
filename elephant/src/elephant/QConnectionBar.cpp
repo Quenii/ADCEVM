@@ -66,12 +66,11 @@ void QConnectionBar::setSocket(QRebufferedTcpSocket* tcpSocket)
 	ok = connect(m_tcpSocket, SIGNAL(disconnected()), this, SLOT(slot_tcpSocket_disconnected()));
 	Q_ASSERT(ok);
 	
-	connect(m_tcpSocket, SIGNAL(error()), this, SLOT(slot_tcpSocket_error()));
+	ok = connect(m_tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_tcpSocket_error()));
 	Q_ASSERT(ok);
 	
-	connect(m_tcpSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
-		this, SLOT(slot_tcpSocket_stateChanged(QAbstractSocket::SocketState)));
-		
+	ok = connect(m_tcpSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
+		this, SLOT(slot_tcpSocket_stateChanged(QAbstractSocket::SocketState)));		
 	Q_ASSERT(ok);
 }
 

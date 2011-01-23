@@ -35,7 +35,7 @@ void QRdmPeer::installPacket(QRdmPacket* packet)
 	}
 }
 
-void QRdmPeer::installPacket(QList<QRdmPacket*>& packets)
+void QRdmPeer::installPacket(const QList<QRdmPacket*>& packets)
 {
 	for (int i = 0; i < packets.count(); ++i)
 		installPacket(packets[i]);	
@@ -62,7 +62,7 @@ void QRdmPeer::on_alt_readyRead()
 		bool accepted = false;
 		bool error = true;
 		int len = 0;
-		int id = QRdmPacket::identify(readBuffer(), readBufferSize(), &len);
+		int id = QRdmPacket::identifyPreamble(readBuffer(), readBufferSize(), &len);
 		if (id < 0)
 		{
 			Q_ASSERT(false);
@@ -82,7 +82,7 @@ void QRdmPeer::on_alt_readyRead()
 			}
 			else
 			{
-				QRdmPacket* packet = i.value();
+				QRdmPacket* packet = i.value();			
 				int ret = packet->recv(*this);
 				Q_ASSERT(ret == 1);
 				//emit gotPacket(*packet);			

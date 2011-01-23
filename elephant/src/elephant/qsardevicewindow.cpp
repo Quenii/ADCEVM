@@ -22,12 +22,12 @@ QSarDeviceWindow::QSarDeviceWindow(QWidget *parent)
 
 	// create all packets	
 	bool ok = connect(&m_packets->sarConfig, SIGNAL(setLocal(const SarConfig&, int&)),
-		sarParamWindow, SLOT(set(const SarConfig&))); Q_ASSERT(ok);
+		sarParamWindow, SLOT(set(const SarConfig&, int&))); Q_ASSERT(ok);
 	ok = connect(&m_packets->sarConfig, SIGNAL(getLocal(SarConfig&, int&)),
-		sarParamWindow, SLOT(get(SarConfig&))); Q_ASSERT(ok);
+		sarParamWindow, SLOT(get(SarConfig&, int&))); Q_ASSERT(ok);
 
 	ok = connect(&m_packets->sarStatus, SIGNAL(setLocal(const SarStatus&, int&)),
-		sarParamWindow, SLOT(set(const SarStatus&))); Q_ASSERT(ok);
+		sarParamWindow, SLOT(set(const SarStatus&, int&))); Q_ASSERT(ok);
 
 	// load settings
 	loadSettings(windowTitle());

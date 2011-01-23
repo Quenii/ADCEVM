@@ -13,7 +13,7 @@ class QDev;
  	~QSmsServer();
 
  protected:
-	QList<QRdmPacket*> rdmPackets() const;
+	const QList<QRdmPacket*>& rdmPackets() const;
 	qint16 port() const; 
 	QDev* dev() const;
  

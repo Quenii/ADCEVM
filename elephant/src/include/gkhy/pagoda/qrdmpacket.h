@@ -2,6 +2,7 @@
 #define QRDMPACKET_H
 
 #include "gkhy/pagoda/pagoda_global.h"
+
 #include <QObject>
 
 namespace gkhy
@@ -27,7 +28,7 @@ namespace gkhy
 			};
 
 		public:
-			static int identify(char* buf, int bufSize, int* len = 0);
+			static int identifyPreamble(const char* buf, int bufSize, int* len = 0);
 		public:
 			QRdmPacket(QObject* parent);
 			virtual ~QRdmPacket() {}
@@ -35,7 +36,8 @@ namespace gkhy
 			Q_DISABLE_COPY(QRdmPacket)
 
 		public:
-			virtual PacketType type() = 0; 
+			virtual int verfify(const char* buf, int bufSize) const = 0;
+			virtual PacketType type() const = 0; 
 			virtual unsigned char packetId() const = 0;
 			virtual int packetSize() const = 0;			
 			virtual char* packetAddr() const = 0;
@@ -55,8 +57,8 @@ namespace gkhy
 			virtual void on_GotPacket()  {}
 
 		protected:
-			static int SOP;	 
-			static int EOP;
+			static const int SOP;	 
+			static const int EOP;
 		};
 
 		template <typename PAYLOAD_TYPE, int PACKET_ID, QRdmPacket::PacketType PACKET_TYPE>
@@ -76,15 +78,35 @@ namespace gkhy
 			{
 				m_packetData.preamble.sop = SOP;
 				m_packetData.preamble.size = packetSize();
+				m_packetData.preamble.id = packetId();
 				m_packetData.eop = EOP;
 			}
 		private:			
 			Q_DISABLE_COPY(QRdmPacketTemplate)
 
 		public:				
-			PacketType type() { return PACKET_TYPE; }
+			int verfify(const char* buf, int bufSize) const
+			{
+				if (bufSize < sizeof(PacketData))
+				{					
+					return 0;
+				}
+
+				const PacketData* temp = (const PacketData*)buf;
+				if (temp->preamble.sop != QRdmPacket::SOP || 
+					temp->preamble.size != sizeof(PacketData) || 
+					temp->eop != QRdmPacket::EOP)
+				{
+					Q_ASSERT(false);
+					return  -1;
+				}
+
+				return 1;
+			}
+
+			PacketType type() const { return PACKET_TYPE; }
 			unsigned char packetId() const { Q_ASSERT(PACKET_ID > 0); return PACKET_ID; }
-			int packetSize() const { return sizeof(PacketData); }
+			int packetSize() const { return sizeof(m_packetData); }
 			char* packetAddr() const { return (char*)&m_packetData; }
 
 			int preambleSize() { return sizeof(Preamble); }

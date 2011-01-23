@@ -23,7 +23,7 @@ namespace gkhy
 			Q_DISABLE_COPY(QRdmPeer)
 
 		public:
-			void installPacket(QList<QRdmPacket*>& packets);
+			void installPacket(const QList<QRdmPacket*>& packets);
 			void installPacket(QRdmPacket* packet);
 			QRdmPacket* uninstallPacket(int packetId);			
 
