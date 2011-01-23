@@ -1,9 +1,10 @@
 #ifndef QSARPARAMWINDOW_H
 #define QSARPARAMWINDOW_H
 
-#include <QWidget>
 #include "ui_qsarparamwindow.h"
-#include "qsar.h"
+#include "qsartypes.h"
+
+#include <QWidget>
 
 class QSarParamWindow : public QWidget
 {

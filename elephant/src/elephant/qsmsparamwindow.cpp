@@ -10,3 +10,18 @@ QSmsParamWindow::~QSmsParamWindow()
 {
 
 }
+
+void QSmsParamWindow::get(SmsConfig& settings, int& ret)
+{
+
+}
+
+void QSmsParamWindow::set(const SmsConfig& settings, int& ret)
+{
+
+}
+
+void QSmsParamWindow::set(const SmsStatus& status, int& ret)
+{
+
+}

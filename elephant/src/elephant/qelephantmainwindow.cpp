@@ -1,9 +1,8 @@
 #include "qelephantmainwindow.h"
 #include "AboutDialog.h"
 #include "qmdisubwindowex.h"
-#include "QDeviceWindow.h" 
-#include "qsarparamwindow.h"
 #include "qsardevicewindow.h"
+#include "qsmsdevicewindow.h"
 
 #include <QApplication>
 
@@ -28,7 +27,7 @@ QElephantMainWindow::QElephantMainWindow(QWidget *parent, Qt::WFlags flags)
 	ui.setupUi(this);
 
 	addMdiWindow(new QSarDeviceWindow(this), ui.pushButtonSarEmulator);
-	// addMdiWindow(new QSmsDeviceWindow(this), ui.pushButtonSmsEmulator);
+	addMdiWindow(new QSmsDeviceWindow(this), ui.pushButtonStorageEmulator);
 }
 
 QElephantMainWindow::~QElephantMainWindow()
