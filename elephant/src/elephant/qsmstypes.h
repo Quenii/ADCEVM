@@ -59,10 +59,10 @@ class QSmsConfig : public gkhy::pagoda::QRdmPacketTemplate<SmsConfig, QSmsConfig
 public:																	
 	QSmsConfig(QObject* parent = 0) : QRdmPacketTemplate<SmsConfig, QSmsConfig_ID, QRdmPacket::ConfigPacket>(parent) {}																		
 signals:																	
-	void setLocal(const SmsConfig& data, int& ret);						
+	void setLocal(const SmsConfig& data, int& ret) const;						
 	void getLocal(SmsConfig& data, int& ret);							
 public:																		
-	int setLocal()															
+	int setLocal() const															
 	{																		
 		int ret = 0;														
 		emit setLocal(payload(), ret);										
@@ -82,10 +82,10 @@ class QSmsStatus : public gkhy::pagoda::QRdmPacketTemplate<SmsStatus, QSmsStatus
 public:																	
 	QSmsStatus(QObject* parent = 0) : QRdmPacketTemplate<SmsStatus, QSmsStatus_ID, QRdmPacket::StatusPacket>(parent) {}																		
 signals:																	
-	void setLocal(const SmsStatus& data, int& ret);						
+	void setLocal(const SmsStatus& data, int& ret) const;						
 	void getLocal(SmsStatus& data, int& ret);							
 public:																		
-	int setLocal()															
+	int setLocal() const															
 	{																		
 		int ret = 0;														
 		emit setLocal(payload(), ret);										
@@ -105,10 +105,10 @@ class QSmsCommand : public gkhy::pagoda::QRdmPacketTemplate<SmsCommand, QSmsComm
 public:																	
 	QSmsCommand(QObject* parent = 0) : QRdmPacketTemplate<SmsCommand, QSmsCommand_ID, QRdmPacket::CommandPacket>(parent) {}																		
 signals:																	
-	void setLocal(const SmsCommand& data, int& ret);						
+	void setLocal(const SmsCommand& data, int& ret) const;						
 	void getLocal(SmsCommand& data, int& ret);							
 public:																		
-	int setLocal()															
+	int setLocal() const															
 	{																		
 		int ret = 0;														
 		emit setLocal(payload(), ret);										

@@ -44,7 +44,7 @@ namespace gkhy
 
 			virtual int preambleSize() = 0;	
 
-			virtual int setLocal() { return 0; }
+			virtual int setLocal() const { return 0; }
 			virtual int getLocal() { return 0; }
 
 			// return value: 1 - ok, 0 - buffer full, -1 - error.

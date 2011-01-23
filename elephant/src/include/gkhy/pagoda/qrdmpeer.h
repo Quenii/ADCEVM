@@ -22,6 +22,9 @@ namespace gkhy
 		private:
 			Q_DISABLE_COPY(QRdmPeer)
 
+		signals:
+			void packetReceived(const QRdmPacket& packet);
+
 		public:
 			void installPacket(const QList<QRdmPacket*>& packets);
 			void installPacket(QRdmPacket* packet);
@@ -30,7 +33,7 @@ namespace gkhy
 		private:
 			void autoAdjectBufferSize();			
 		private slots:
-			void on_alt_readyRead();			
+			void on_readyRead();			
 
 		private:
 			typedef QHash<int, QRdmPacket*> Dict;

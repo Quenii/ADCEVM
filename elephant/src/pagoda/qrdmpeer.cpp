@@ -9,10 +9,8 @@ using namespace gkhy::pagoda;
 QRdmPeer::QRdmPeer(QObject *parent)
 : QRebufferedTcpSocket(parent)
 {
-	bool ok = connect(this, SIGNAL(readyRead()), this, SLOT(on_alt_readyRead()));
+	bool ok = connect(this, SIGNAL(readyRead()), this, SLOT(on_readyRead()));
 	Q_ASSERT(ok);
-
-//	new Test(this);
 
 	qDebug("QRdmPeer %d created.", reinterpret_cast<int>(this));
 }
@@ -55,7 +53,7 @@ QRdmPacket* QRdmPeer::uninstallPacket(int packetId)
 	}	
 }
 
-void QRdmPeer::on_alt_readyRead()
+void QRdmPeer::on_readyRead()
 {	
 	while(1)
 	{
@@ -69,25 +67,31 @@ void QRdmPeer::on_alt_readyRead()
 			close();
 			break;
 		}
-		else if(id == 0)
+		else if(id == 0) 
 		{
 			break;
 		}
-		else
+		
+		Dict::Iterator i = m_packetDict.find(id);
+		if (i == m_packetDict.end()) // uninstalled packet
+		{			
+			chop(len);
+			continue;
+		}
+		
+		QRdmPacket* packet = i.value();			
+		int ret = packet->recv(*this);
+		Q_ASSERT(ret != -1);
+		if (ret > 0)
+			emit packetReceived(*packet);
+		else if (ret == 0)
+			break;
+		else // -1
 		{
-			Dict::Iterator i = m_packetDict.find(id);
-			if (i == m_packetDict.end()) // uninstalled packet
-			{			
-				chop(len);
-			}
-			else
-			{
-				QRdmPacket* packet = i.value();			
-				int ret = packet->recv(*this);
-				Q_ASSERT(ret == 1);
-				//emit gotPacket(*packet);			
-			}
-		}	
+			Q_ASSERT(false);
+			close();
+			break;
+		}
 	}
 }
 

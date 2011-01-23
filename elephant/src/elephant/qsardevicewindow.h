@@ -1,8 +1,11 @@
 #pragma once
 
 #include "qdevicewindow.h"
+#include "gkhy/pagoda/qrdmpacket.h"
 
 class QSarPackets; 
+
+using namespace gkhy::pagoda;
 
 class QSarDeviceWindow : public QDeviceWindow
 {
@@ -11,6 +14,9 @@ class QSarDeviceWindow : public QDeviceWindow
 public:
 	QSarDeviceWindow(QWidget*parent);
 	~QSarDeviceWindow();
+
+private slots:
+	void on_packetReceived(const QRdmPacket& packet);
 
 private:	
 	QSarPackets* m_packets;

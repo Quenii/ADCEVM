@@ -29,6 +29,9 @@ QSarDeviceWindow::QSarDeviceWindow(QWidget *parent)
 	ok = connect(&m_packets->sarStatus, SIGNAL(setLocal(const SarStatus&, int&)),
 		sarParamWindow, SLOT(set(const SarStatus&, int&))); Q_ASSERT(ok);
 
+	ok = connect(rdmPeer, SIGNAL(packetReceived(const QRdmPacket&)), 
+		this, SLOT(on_packetReceived(const QRdmPacket&))); Q_ASSERT(ok);
+
 	// load settings
 	loadSettings(windowTitle());
 }
@@ -36,4 +39,9 @@ QSarDeviceWindow::QSarDeviceWindow(QWidget *parent)
 QSarDeviceWindow::~QSarDeviceWindow()
 {
  
+}
+
+void QSarDeviceWindow::on_packetReceived(const QRdmPacket &packet)
+{
+	packet.setLocal();
 }
