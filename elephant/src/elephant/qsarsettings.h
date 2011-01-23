@@ -7,20 +7,19 @@
 
 class QSarSettings 
 {	
-
 public:
 	QSarSettings();
 	~QSarSettings();
 
 public:
-	SarConfig sarConfig() const;
+	SarConfig sarConfig();
 	void setSarConfig(const SarConfig& data);
 
 	qint16 serverPort();
 	void setServerPort(qint16 port);
 
 private:
-	QSettings* m_settings;
+	QSettings m_settings;
 };
 
 #endif // QSARSETTINGS_H

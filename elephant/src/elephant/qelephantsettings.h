@@ -3,15 +3,22 @@
 
 #include <QSettings>
 
-class QElephantSettings : public QSettings
+class QElephantSettings
 {
-	Q_OBJECT
-
 public:
-	QElephantSettings(QObject *parent);
+	QElephantSettings();
 	~QElephantSettings();
 
+public:
+	QString sarIp();
+	void setSarIp(QString ip);
+
+	QString smsIp();
+	void setsmsIp(QString ip);
+
+
 private:
+	QSettings m_settings;
 	
 };
 

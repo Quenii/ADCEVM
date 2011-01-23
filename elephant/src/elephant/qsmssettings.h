@@ -14,14 +14,14 @@ public:
 	~QSmsSettings();
 
 public:
-	SmsConfig smsConfig() const;
+	SmsConfig smsConfig();
 	void setSmsConfig(const SmsConfig& data);
 
 	qint16 serverPort();
 	void setServerPort(qint16 port);
 
 private:
-	QSettings* m_settings;
+	QSettings m_settings;
 };
 
 
