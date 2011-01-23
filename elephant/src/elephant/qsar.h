@@ -2,11 +2,14 @@
 
 #include "gkhy/pagoda/qrdmpacket.h"
 #include "gkhy/pagoda/qworkerthread.h"
+#include "gkhy/pagoda/qthruputmeter.h"
 #include "qsartypes.h"
 #include "qdev.h"
 
 #include <qobject>
 #include <memory>
+
+class QMutex;
 
 class QSar : public QDev ,  private gkhy::pagoda::QWorkerThread
 {
@@ -32,6 +35,7 @@ public:
 	void run_session();
 
 private:
+	gkhy::pagoda::QThruputMeter* m_thruputMeter_mt;
 	SarConfig m_sarConfig;
-	SarStatus m_sarStatus;
+	QElapsedTimer m_elapsedTimer;
 };

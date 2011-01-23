@@ -20,7 +20,7 @@ QSarServer::QSarServer(QObject *parent)
 	// get form local
 	ok = connect(&m_packets->sarStatus, SIGNAL(getLocal(SarStatus&, int&)),
 		m_sar, SLOT(get(SarStatus&, int&))); Q_ASSERT(ok);
-
+ 
 	m_sar->start();
 }
 

@@ -11,7 +11,10 @@ using namespace gkhy::PcieDab2;
 
 QSar::QSar(QObject* parent) 
 : QDev(parent)
+, m_thruputMeter_mt(0)
 {
+	m_thruputMeter_mt = new QThruputMeter(1000, true, this);
+
 	tryLoadRealDev<PcieDab0718, 1>();
 
 	QSarSettings s;
@@ -25,6 +28,8 @@ QSar::~QSar()
 
 bool QSar::start()
 {
+	m_elapsedTimer.restart();
+
 	if (! m_pcieDab->open())
 	{
 		return false;
@@ -52,7 +57,16 @@ bool QSar::get(const SarConfig& settings, int& ret) const
 }
 
 bool QSar::get(SarStatus& status, int& ret)
-{
+{	
+	SarStatus _status;
+	_status.isRunning = started();
+	_status.secondElapsed = m_elapsedTimer.elapsed() / 1000;
+	_status.thruput = m_thruputMeter_mt->value();
+
+	status = _status;
+
+	ret = 1;
+
 	return true;
 }
 
@@ -71,6 +85,8 @@ void QSar::run()
 
 void QSar::run_session()
 {
+	m_thruputMeter_mt->reset();
+
 	qDebug("SAR Emulator is now started. \r\nBegin sending data...");
 
 	m_pcieDab->writeReg(15 * 4, 1);
@@ -93,6 +109,8 @@ void QSar::run_session()
 		}
 
 		m_pcieDab->writeSglDma(1 * 4, &buf[0], toWrite);
+
+		m_thruputMeter_mt->flow(toWrite);
 
 		sleep(1);
 	}

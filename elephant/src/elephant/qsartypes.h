@@ -2,6 +2,7 @@
 #define QSARTYPES_H
 
 #include "gkhy/pagoda/qrdmpacket.h"
+#include "gkhy/pagoda/qthruputmeter.h"
 
 #include <QObject>
 #include <qsettings.h>
@@ -23,12 +24,8 @@ struct SarConfig
 struct SarStatus
 {
 	bool isRunning;
-
 	qint64 secondElapsed;
-
-	qint64 transmitted;
-	qint64 avgThruput;
-	qint64 instThruput;
+	ThruputMeterValue thruput;
 };
 
 struct SarCommand
