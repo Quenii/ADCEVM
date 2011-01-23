@@ -4,7 +4,7 @@
 
 using namespace gkhy::PcieDab2;
 
-QDev::QDev(QObject* parent /* = 0 */)
+QDev::QDev(QObject* parent)
 : QObject(parent)
 , m_pcieDab(new PcieDabEmulator)
 , m_emulator(true)

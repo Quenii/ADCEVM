@@ -1,6 +1,5 @@
 #include "qrdmpeer.h"
 #include "qrdmpacket.h"
-#include "gkhy/pagoda/test.h"
 
 #include <QtDebug>
 #include <QTimer>

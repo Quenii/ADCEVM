@@ -8,7 +8,7 @@
 #include <qobject>
 #include <memory>
 
-class QSar : virtual public QDev, virtual protected gkhy::pagoda::QWorkerThread
+class QSar : public QDev ,  private gkhy::pagoda::QWorkerThread
 {
 	Q_OBJECT
 
@@ -20,11 +20,12 @@ public:
 	bool start();
 	void stop();
 
-	bool set(const SarConfig& settings);
-	bool get(const SarConfig& settings) const;
+public slots:
+	bool set(const SarConfig& settings, int& ret);
+	bool get(const SarConfig& settings, int& ret) const;
 
-	bool get(SarStatus& status);
-	bool set(const SarCommand& command);
+	bool get(SarStatus& status, int& ret);
+	bool set(const SarCommand& command, int& ret);
 
 public:
 	void run();

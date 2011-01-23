@@ -16,8 +16,7 @@ using namespace gkhy::PcieDab2;
 using namespace gkhy::pagoda;
 
 QSms::QSms(QObject* parent /* = 0 */)
-: QWorkerThread(parent)
-, QDev(parent)
+: QDev(parent)
 {	
 	tryLoadRealDev<PcieDab0718, 0>();
 	

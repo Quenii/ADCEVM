@@ -1,24 +1,62 @@
 #include "qworkerthread.h"
 
+
+#include <QThread>
+
 using namespace gkhy::pagoda;
 
-QWorkerThread::QWorkerThread(QObject *parent)
-	: QThread(parent)
-	, m_enabled(1)
-	, m_started(false)
+class  QWorkerThreadPrivate : public QThread
 {
+	friend QWorkerThread;
+
+public:
+	QWorkerThreadPrivate(QWorkerThread& obj, QObject* parent = 0)
+		: QThread(parent)
+		, m_obj(obj)
+	{
+
+	}
+protected:
+	void run()
+	{
+		m_obj.run();
+	}
+private:
+	QWorkerThread& m_obj;
+};
+
+
+void QWorkerThread::sleep(unsigned long secs)
+{
+	QWorkerThreadPrivate::sleep(secs);
+}
+
+void QWorkerThread::msleep(unsigned long msecs)
+{
+	QWorkerThreadPrivate::msleep(msecs);
+}
+
+QWorkerThread::QWorkerThread()
+: m_enabled(1)
+, m_started(false)
+, m_p(0)
+{
+	m_p = new QWorkerThreadPrivate(*this);
 }
 
 QWorkerThread::~QWorkerThread()
 {
 	stop();
+	delete m_p;
 }
 
 
-void QWorkerThread::start(Priority priority /*= InheritPriority*/)
+void QWorkerThread::start(QThread::Priority priority /*= InheritPriority*/)
 {
+	Q_ASSERT(!m_started);
+
 	m_enabled = 1;
-	QThread::start(priority);
+	m_p->start(priority);
 	m_started = true;
 }
 
@@ -26,15 +64,7 @@ void QWorkerThread::stop()
 {
 	m_enabled = 0;
 	if (m_started)
-		QWorkerThread::wait();
-}
-
-void QWorkerThread::run()
-{
-	while (! shouldStop())
-	{
-		sleep(1);
-	}
+		m_p->wait();
 }
 
 bool QWorkerThread::shouldStop()

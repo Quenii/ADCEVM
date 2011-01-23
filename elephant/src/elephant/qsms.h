@@ -9,7 +9,7 @@
 
 
 
-class QSms : virtual public QDev, virtual protected gkhy::pagoda::QWorkerThread
+class QSms : public QDev, private gkhy::pagoda::QWorkerThread 
 {
 	Q_OBJECT
 

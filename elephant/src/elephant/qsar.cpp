@@ -10,8 +10,7 @@
 using namespace gkhy::PcieDab2;
 
 QSar::QSar(QObject* parent) 
-: QWorkerThread(parent)
-, QDev(parent)
+: QDev(parent)
 {
 	tryLoadRealDev<PcieDab0718, 1>();
 
@@ -42,22 +41,22 @@ void QSar::stop()
 	m_pcieDab->close();
 }
 
-bool QSar::set(const SarConfig& settings)
+bool QSar::set(const SarConfig& settings, int& ret)
 {
 	return true;
 }
 
-bool QSar::get(const SarConfig& settings) const
+bool QSar::get(const SarConfig& settings, int& ret) const
 {
 	return true;
 }
 
-bool QSar::get(SarStatus& status)
+bool QSar::get(SarStatus& status, int& ret)
 {
 	return true;
 }
 
-bool QSar::set(const SarCommand& command)
+bool QSar::set(const SarCommand& command, int& ret)
 {
 	return true;
 }

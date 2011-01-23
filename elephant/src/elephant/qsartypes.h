@@ -71,15 +71,8 @@ class QSarStatus : public gkhy::pagoda::QRdmPacketTemplate<SarStatus, QSarStatus
 public:																	
 	QSarStatus(QObject* parent = 0) : QRdmPacketTemplate<SarStatus, QSarStatus_ID, QRdmPacket::StatusPacket>(parent) {}																		
 signals:																	
-	void setLocal(const SarStatus& data, int& ret);						
 	void getLocal(SarStatus& data, int& ret);							
-public:																		
-	int setLocal()															
-	{																		
-		int ret = 0;														
-		emit setLocal(payload(), ret);										
-		return ret;															
-	}																		
+public:																
 	int getLocal() 															
 	{																		
 		int ret = 0;														
@@ -94,19 +87,12 @@ class QSarCommand : public gkhy::pagoda::QRdmPacketTemplate<SarCommand, QSarComm
 public:																	
 	QSarCommand(QObject* parent = 0) : QRdmPacketTemplate<SarCommand, QSarCommand_ID, QRdmPacket::CommandPacket>(parent) {}																		
 signals:																	
-	void setLocal(const SarCommand& data, int& ret);						
-	void getLocal(SarCommand& data, int& ret);							
+	void setLocal(const SarCommand& data, int& ret);											
 public:																		
 	int setLocal()															
 	{																		
 		int ret = 0;														
 		emit setLocal(payload(), ret);										
-		return ret;															
-	}																		
-	int getLocal() 															
-	{																		
-		int ret = 0;														
-		emit getLocal(payload(), ret);										
 		return ret;															
 	}																		
 };

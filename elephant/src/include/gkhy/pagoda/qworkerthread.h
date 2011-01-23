@@ -3,34 +3,40 @@
 
 #include "pagoda_global.h"
 
+#include <QAtomicInt> 
 #include <QThread>
-#include <QAtomicInt>
 
+class QWorkerThreadPrivate;
 
 namespace gkhy
 {
 	namespace pagoda
 	{
-		class PAGODA_EXPORT QWorkerThread : protected QThread
+		class PAGODA_EXPORT QWorkerThread
 		{
-			Q_OBJECT
-
+			friend QWorkerThreadPrivate;
+		
 		public:
-			QWorkerThread(QObject *parent);
+			QWorkerThread();
 			~QWorkerThread();
 
-		public slots:
-			void start(Priority priority = InheritPriority);
+		public:
+			void start(QThread::Priority priority = QThread::InheritPriority);
 			void stop();
-			bool started() { return m_started ? true : false; }
 
+			bool started() { return m_started ? true : false; }
+			
 		protected:
 			bool shouldStop();
-			void run();  
-
+			virtual void run() = 0; 
+			
+			static void sleep(unsigned long secs);
+			static void msleep(unsigned long msecs);
+			
 		private:
 			QAtomicInt m_enabled;
 			bool m_started;
+			QWorkerThreadPrivate* m_p;
 		};
 
 	}

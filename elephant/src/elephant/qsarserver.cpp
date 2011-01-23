@@ -11,6 +11,16 @@ QSarServer::QSarServer(QObject *parent)
 	m_sar = new QSar(this);
 	m_packets = new QSarPackets(this);
 
+	// set to local
+	bool ok = connect(&m_packets->sarConfig, SIGNAL(setLocal(const SarConfig&, int&)), 
+		m_sar, SLOT(set(const SarConfig&, int&))); Q_ASSERT(ok);
+	ok = connect(&m_packets->sarCommand, SIGNAL(setLocal(const SarCommand&, int&)), 
+		m_sar, SLOT(set(const SarCommand&, int&))); Q_ASSERT(ok);
+
+	// get form local
+	ok = connect(&m_packets->sarStatus, SIGNAL(getLocal(SarStatus&, int&)),
+		m_sar, SLOT(get(SarStatus&, int&))); Q_ASSERT(ok);
+
 	m_sar->start();
 }
 

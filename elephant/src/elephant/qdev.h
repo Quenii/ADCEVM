@@ -9,7 +9,7 @@
 class QDev : public QObject
 {
 public:
-	explicit QDev(QObject* parent/* = 0*/);
+	explicit QDev(QObject* parent = 0);
 	virtual ~QDev();
 
 public:

@@ -156,7 +156,7 @@ private:
 
 template<typename T>
 QSessionalRepository<T>::QSessionalRepository(QString dir, long long footPrint, long long fileSize, int timeout_s /* = -1 */, bool makeTimeSubDir /* = true */, int bufferSize /* = 100 * 1024 * 1024 */)
-: QWorkerThread(0)
+: QWorkerThread()
 , m_inMeter(1000)
 , m_outMeter(1000)
 , m_buffer(bufferSize, 16 * 1024 * 1024, true)
