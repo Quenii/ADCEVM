@@ -4,6 +4,7 @@ QSmsParamWindow::QSmsParamWindow(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	setWindowTitle(tr("Storage Emulator"));
 }
 
 QSmsParamWindow::~QSmsParamWindow()
