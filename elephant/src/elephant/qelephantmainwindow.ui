@@ -399,7 +399,7 @@ p, li { white-space: pre-wrap; }
            </size>
           </property>
           <property name="text">
-           <string>Tramsmission Interface</string>
+           <string>Transmission Interface</string>
           </property>
          </widget>
         </item>
