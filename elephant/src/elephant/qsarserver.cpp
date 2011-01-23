@@ -11,7 +11,6 @@ QSarServer::QSarServer(QObject *parent)
 	m_sar = new QSar(this);
 	m_packets = new QSarPackets(this);
 
-	// 
 	m_sar->start();
 }
 

@@ -8,7 +8,7 @@
 
 
 QServer::QServer(QObject *parent)
-	: QTcpServer(parent)
+: QTcpServer(parent)
 {
 	QTimer* timer = new QTimer(this);
 	bool ok = connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -28,15 +28,15 @@ void QServer::incomingConnection(int socket)
 	rdmPeer->installPacket(rdmPackets());
 	rdmPeer->setSocketDescriptor(socket);	
 
-	if (rdmPeer->state() != QTcpSocket::ConnectedState)
-		rdmPeer->deleteLater(); 	
-
 	bool ok = connect(rdmPeer, SIGNAL(disconnected()), rdmPeer, SLOT(deleteLater())); 
 	Q_ASSERT(ok);
 	ok = connect(rdmPeer, SIGNAL(error(QAbstractSocket::SocketError)), rdmPeer, SLOT(deleteLater())); 
 	Q_ASSERT(ok);
 
 	m_rdmpeerList.push_back(QPointer<QRdmPeer>(rdmPeer));	
+
+	if (rdmPeer->state() != QTcpSocket::ConnectedState)
+		rdmPeer->deleteLater(); 	
 }
 
 bool QServer::listen()
@@ -52,30 +52,36 @@ bool QServer::isEmulator()
 void QServer::update()
 {
 	QList<QRdmPacket*> packets = rdmPackets();
-	
-	QList< QPointer<QRdmPeer> >::iterator peer_it = m_rdmpeerList.begin();
-	while(peer_it != m_rdmpeerList.end())
+
+	for (QList<QRdmPacket*>::iterator it = packets.begin(); it != packets.end(); ++it)
 	{
-		QPointer<QRdmPeer> peerPtr = *peer_it;
-		if (peerPtr.isNull())
-		{
-			peer_it = m_rdmpeerList.erase(peer_it);
-			continue ;
-		}
+		QRdmPacket* packet = *it;
+		if (packet->type() == QRdmPacket::ConfigPacket)
+			;
+		else if (packet->type() == QRdmPacket::StatusPacket)
+			packet->getLocal();
+		else if (packet->type() == QRdmPacket::CommandPacket)
+			;  
+		else
+			Q_ASSERT(false);
 
-		for (QList<QRdmPacket*>::iterator it = packets.begin(); it != packets.end(); ++it)
+		QList< QPointer<QRdmPeer> >::iterator peer_it = m_rdmpeerList.begin();
+		while(peer_it != m_rdmpeerList.end())
 		{
-			QRdmPacket* packet = *it;
-			if (packet->type() == QRdmPacket::StatusPacket || QRdmPacket::ConfigPacket)
-			{				
-				if (packet->send(*peerPtr) < 0)
-				{
-					peerPtr->deleteLater();
-					break;
-				}
+			QPointer<QRdmPeer> peerPtr = *peer_it;
+			if (peerPtr.isNull())
+			{
+				peer_it = m_rdmpeerList.erase(peer_it);
+				continue ;
 			}
+
+			if (packet->send(*peerPtr) < 0)
+			{
+				peerPtr->deleteLater();				
+			}			
+
+			++peer_it;
 		}
 
-		++peer_it;
 	}
 }
