@@ -131,10 +131,14 @@ end
 spectP_temp = spectP;
 
 for i = 2:10
- spectP_temp( Harbin( i ) - spanh_har:Harbin( i ) + spanh_har ) = 0;
+  l = max( 1, Harbin( i ) - spanh_har );
+  u = min( ad_len / 2, Harbin( i ) + spanh_har );
+  spectP_temp( l : u ) = 0;
 end
-spectP_temp( fin - span_s:fin + span_s ) = 0;
-spectP_temp( 1:span ) = 0; 
+l = max( 1, fin - span_s );
+u = min( ad_len / 2, fin + span_s );
+spectP_temp( l : u ) = 0;
+spectP_temp( 1 : span ) = 0; 
 
 disturb_len = 19;
 spectP_disturb = zeros( 1, disturb_len );
@@ -144,7 +148,9 @@ findSpan = ( findSpac - 1 ) / 2;
 findStart = findSpan + 1;
 
 for i = findStart:findSpac:ad_len / 2
-  [spectP_disturb_peak, num] = max( spectP_temp( i - findSpan:i + findSpan ) ); 
+  l = max( 1, i - findSpan );
+  u = min( ad_len / 2, i + findSpan );
+  [spectP_disturb_peak, num] = max( spectP_temp( l : u ) ); 
   if ( spectP_disturb_peak > spectP_disturb( 1 ) )
 	spectP_disturb( 1 ) = spectP_disturb_peak;
 	Harbin_disturb( 1 ) = i - findStart + num;
