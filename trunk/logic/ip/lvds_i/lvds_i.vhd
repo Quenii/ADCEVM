@@ -45,6 +45,7 @@ ENTITY lvds_i IS
 		pll_areset		: IN STD_LOGIC  := '0';
 		rx_in		: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
 		rx_inclock		: IN STD_LOGIC  := '0';
+		rx_locked		: OUT STD_LOGIC ;
 		rx_out		: OUT STD_LOGIC_VECTOR (63 DOWNTO 0);
 		rx_outclock		: OUT STD_LOGIC 
 	);
@@ -53,8 +54,9 @@ END lvds_i;
 
 ARCHITECTURE SYN OF lvds_i IS
 
-	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (63 DOWNTO 0);
-	SIGNAL sub_wire1	: STD_LOGIC ;
+	SIGNAL sub_wire0	: STD_LOGIC ;
+	SIGNAL sub_wire1	: STD_LOGIC_VECTOR (63 DOWNTO 0);
+	SIGNAL sub_wire2	: STD_LOGIC ;
 
 
 
@@ -78,6 +80,7 @@ ARCHITECTURE SYN OF lvds_i IS
 	);
 	PORT (
 			pll_areset	: IN STD_LOGIC ;
+			rx_locked	: OUT STD_LOGIC ;
 			rx_out	: OUT STD_LOGIC_VECTOR (63 DOWNTO 0);
 			rx_inclock	: IN STD_LOGIC ;
 			rx_in	: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
@@ -86,8 +89,9 @@ ARCHITECTURE SYN OF lvds_i IS
 	END COMPONENT;
 
 BEGIN
-	rx_out    <= sub_wire0(63 DOWNTO 0);
-	rx_outclock    <= sub_wire1;
+	rx_locked    <= sub_wire0;
+	rx_out    <= sub_wire1(63 DOWNTO 0);
+	rx_outclock    <= sub_wire2;
 
 	altlvds_rx_component : altlvds_rx
 	GENERIC MAP (
@@ -111,8 +115,9 @@ BEGIN
 		pll_areset => pll_areset,
 		rx_inclock => rx_inclock,
 		rx_in => rx_in,
-		rx_out => sub_wire0,
-		rx_outclock => sub_wire1
+		rx_locked => sub_wire0,
+		rx_out => sub_wire1,
+		rx_outclock => sub_wire2
 	);
 
 
@@ -144,7 +149,7 @@ END SYN;
 -- Retrieval info: PRIVATE: Use_Clock_Resc STRING "Global Clock"
 -- Retrieval info: PRIVATE: Use_Common_Rx_Tx_Plls NUMERIC "1"
 -- Retrieval info: PRIVATE: Use_Data_Align NUMERIC "0"
--- Retrieval info: PRIVATE: Use_Lock NUMERIC "0"
+-- Retrieval info: PRIVATE: Use_Lock NUMERIC "1"
 -- Retrieval info: PRIVATE: Use_Pll_Areset NUMERIC "1"
 -- Retrieval info: CONSTANT: COMMON_RX_TX_PLL STRING "ON"
 -- Retrieval info: CONSTANT: DESERIALIZATION_FACTOR NUMERIC "4"
@@ -163,12 +168,14 @@ END SYN;
 -- Retrieval info: USED_PORT: pll_areset 0 0 0 0 INPUT GND pll_areset
 -- Retrieval info: USED_PORT: rx_in 0 0 16 0 INPUT NODEFVAL rx_in[15..0]
 -- Retrieval info: USED_PORT: rx_inclock 0 0 0 0 INPUT_CLK_EXT GND rx_inclock
+-- Retrieval info: USED_PORT: rx_locked 0 0 0 0 OUTPUT VCC rx_locked
 -- Retrieval info: USED_PORT: rx_out 0 0 64 0 OUTPUT NODEFVAL rx_out[63..0]
 -- Retrieval info: USED_PORT: rx_outclock 0 0 0 0 OUTPUT NODEFVAL rx_outclock
 -- Retrieval info: CONNECT: @rx_in 0 0 16 0 rx_in 0 0 16 0
 -- Retrieval info: CONNECT: rx_out 0 0 64 0 @rx_out 0 0 64 0
 -- Retrieval info: CONNECT: @rx_inclock 0 0 0 0 rx_inclock 0 0 0 0
 -- Retrieval info: CONNECT: @pll_areset 0 0 0 0 pll_areset 0 0 0 0
+-- Retrieval info: CONNECT: rx_locked 0 0 0 0 @rx_locked 0 0 0 0
 -- Retrieval info: CONNECT: rx_outclock 0 0 0 0 @rx_outclock 0 0 0 0
 -- Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
 -- Retrieval info: GEN_FILE: TYPE_NORMAL lvds_i.vhd TRUE

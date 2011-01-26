@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-07-03
--- Last update: 2010-07-19
+-- Last update: 2011-01-09
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -55,6 +55,27 @@ architecture behave of tlc3548 is
       c0     : out std_logic);
   end component;
 
+    constant C_SCK_RATIO : integer := 64;
+    constant C_REG_WIDTH : integer := 16;
+
+    component spi24_v2
+        generic (
+            C_SCK_RATIO : integer;
+            C_REG_WIDTH : integer);
+        port (
+            clk_i        : in  std_logic;
+            rst_i        : in  std_logic;
+            task_start_i : in  std_logic;
+            data_i       : in  std_logic_vector(C_REG_WIDTH-1 downto 0);
+            data_o       : out std_logic_vector(C_REG_WIDTH-1 downto 0);
+            spi_wren_i   : in  std_logic;
+            sck_o        : out std_logic;
+            sdi_i        : in  std_logic;
+            sdo_o        : out std_logic;
+            spi_en_o     : out std_logic;
+            cs_n_o       : out std_logic);
+    end component;
+     
   -- spi16 define
   component spi16
     port (
@@ -114,7 +135,23 @@ begin  -- behave
       sdi_i        => TLC3548_sdi_i,
       sdo_o        => TLC3548_sdo_o,
       cs_n_o       => TLC3548_cs_n_o);
-
+--  spi24_v2_1: spi24_v2
+--      generic map (
+--          C_SCK_RATIO => C_SCK_RATIO,
+--          C_REG_WIDTH => C_REG_WIDTH)
+--      port map (
+--          clk_i        => LB_Clk_i,
+--          rst_i        => LB_Reset_i,
+--          task_start_i => task_start_i,
+--          data_i       => spi_din,
+--          data_o       => spi_dout,
+--          spi_wren_i   => '0',
+--          sck_o        => TLC3548_sck_o,
+--          sdi_i        => TLC3548_sdi_i,
+--          sdo_o        => TLC3548_sdo_o,
+--          spi_en_o     => open,
+--          cs_n_o       => TLC3548_cs_n_o);
+  
   lb_target_3548_spi_wr : lb_target_reg
     generic map (
       ADDR => x"0009")
