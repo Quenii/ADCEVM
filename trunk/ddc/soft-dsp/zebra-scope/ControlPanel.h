@@ -27,7 +27,8 @@ public slots:
 	void updateReport(const AdcBoardReport& rpt);
 
 signals:
-	void devSelected(int usbAddr);
+	//void devSelected(int usbAddr);
+	void devSelected(QString infName);
 	void changeSettings(const AdcSettings& data);
 	void changeSettings(const SignalSettings& data);
 

@@ -42,7 +42,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	bool okay = connect(adcBoard, SIGNAL(devListChanged(const QList<AdcBoardInfo>&)), ui.controlPanel, SLOT(setDevList(const QList<AdcBoardInfo>&)));
 	Q_ASSERT(okay);
 
-	okay = connect(ui.controlPanel, SIGNAL(devSelected(int)), adcBoard, SLOT(open(int)));
+	okay = connect(ui.controlPanel, SIGNAL(devSelected(QString)), adcBoard, SLOT(open(QString)));
+//	okay = connect(ui.controlPanel, SIGNAL(devSelected(int)), adcBoard, SLOT(open(int)));
 	Q_ASSERT(okay);
 
 	okay = connect(adcBoard, SIGNAL(boardReport(const AdcBoardReport&)), this, SLOT(slotShowBoardReport(const AdcBoardReport&)));

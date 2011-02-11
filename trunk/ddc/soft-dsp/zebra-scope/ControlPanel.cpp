@@ -36,8 +36,13 @@ ControlPanel::ControlPanel(QWidget *parent, Qt::WFlags flags)
 
 	ui.treeViewTdReport->setModel(tdReportModel);
 
-	ui.groupBox_DeviceList->hide();
-
+	//ui.groupBox_DeviceList->hide();
+	//ui.adcSettingsWidget->hide();
+	//ui.signalSettingsWidget->hide();
+	ui.tabWidget->hide();
+	ui.groupBox_powerStatus->hide();
+	ui.labl_2->hide();
+	ui.treeViewTdReport->hide();
 	
 	AdcBoard& board = *(AdcBoard::instance());
 	board.adcSettings(adcSettings);
@@ -60,7 +65,9 @@ void ControlPanel::setDevList(const QList<AdcBoardInfo>& lst)
 	{
 		devListModel->insertRow(0);
 
-		devListModel->setData(devListModel->index(0, 0), lst[i].usbAddr);
+		//devListModel->setData(devListModel->index(0, 0), lst[i].usbAddr);
+		//devListModel->item(0, 0)->setEditable(false);
+		devListModel->setData(devListModel->index(0, 0), lst[i].index);
 		devListModel->item(0, 0)->setEditable(false);
 
 		devListModel->setData(devListModel->index(0, 1), lst[i].devName);
@@ -81,8 +88,10 @@ void ControlPanel::setDevList(const QList<AdcBoardInfo>& lst)
 
 void ControlPanel::devItemClicked(const QModelIndex& index)
 {
-	int usbAddress = devListModel->data(devListModel->index(index.row(), 0)).toInt();
-	emit devSelected(usbAddress);
+	QString infName = devListModel->data(devListModel->index(index.row(), 2)).toString();
+	emit devSelected(infName);
+	//int usbAddress = devListModel->data(devListModel->index(index.row(), 0)).toInt();
+	//emit devSelected(usbAddress);
 }
 
 void ControlPanel::updateReport(const AdcBoardReport &rpt)

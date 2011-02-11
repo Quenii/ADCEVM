@@ -7,10 +7,11 @@
 #include <QFile>
 
 
- #define MATLAB 1
+//#define MATLAB 1
 
 struct AdcBoardInfo 
 {
+	int index;
 	int usbAddr;
 	QString devName;
 	QString infName;

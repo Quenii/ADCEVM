@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'RegAccess.ui'
 **
-** Created: Mon Jan 10 23:08:31 2011
+** Created: Fri Feb 11 22:27:37 2011
 **      by: Qt User Interface Compiler version 4.5.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'AdcBoard.hpp'
 **
-** Created: Mon Jan 10 23:08:29 2011
+** Created: Sat Feb 12 00:12:52 2011
 **      by: The Qt Meta Object Compiler version 61 (Qt 4.5.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_AdcBoard[] = {
        2,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   12, // methods
+       5,   12, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -34,7 +34,8 @@ static const uint qt_meta_data_AdcBoard[] = {
 
  // slots: signature, parameters, type, tag, flags
       98,   90,   85,    9, 0x0a,
-     108,    9,    9,    9, 0x08,
+     116,  108,   85,    9, 0x0a,
+     130,    9,    9,    9, 0x08,
 
        0        // eod
 };
@@ -42,7 +43,8 @@ static const uint qt_meta_data_AdcBoard[] = {
 static const char qt_meta_stringdata_AdcBoard[] = {
     "AdcBoard\0\0lst\0devListChanged(QList<AdcBoardInfo>)\0"
     "report\0boardReport(AdcBoardReport)\0"
-    "bool\0usbAddr\0open(int)\0devChanged()\0"
+    "bool\0usbAddr\0open(int)\0infName\0"
+    "open(QString)\0devChanged()\0"
 };
 
 const QMetaObject AdcBoard::staticMetaObject = {
@@ -74,10 +76,12 @@ int AdcBoard::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 1: boardReport((*reinterpret_cast< const AdcBoardReport(*)>(_a[1]))); break;
         case 2: { bool _r = open((*reinterpret_cast< int(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 3: devChanged(); break;
+        case 3: { bool _r = open((*reinterpret_cast< QString(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 4: devChanged(); break;
         default: ;
         }
-        _id -= 4;
+        _id -= 5;
     }
     return _id;
 }

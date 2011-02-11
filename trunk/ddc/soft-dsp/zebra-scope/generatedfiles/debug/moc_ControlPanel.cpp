@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ControlPanel.h'
 **
-** Created: Mon Jan 10 23:08:29 2011
+** Created: Fri Feb 11 23:28:25 2011
 **      by: The Qt Meta Object Compiler version 61 (Qt 4.5.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -30,25 +30,25 @@ static const uint qt_meta_data_ControlPanel[] = {
 
  // signals: signature, parameters, type, tag, flags
       22,   14,   13,   13, 0x05,
-      44,   39,   13,   13, 0x05,
-      72,   39,   13,   13, 0x05,
+      48,   43,   13,   13, 0x05,
+      76,   43,   13,   13, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     107,  103,   13,   13, 0x0a,
-     143,  139,   13,   13, 0x0a,
-     178,  172,   13,   13, 0x08,
-     206,   13,   13,   13, 0x08,
-     245,   13,   13,   13, 0x08,
-     287,   13,   13,   13, 0x08,
-     327,   13,   13,   13, 0x08,
-     366,   13,   13,   13, 0x08,
-     405,   13,   13,   13, 0x08,
+     111,  107,   13,   13, 0x0a,
+     147,  143,   13,   13, 0x0a,
+     182,  176,   13,   13, 0x08,
+     210,   13,   13,   13, 0x08,
+     249,   13,   13,   13, 0x08,
+     291,   13,   13,   13, 0x08,
+     331,   13,   13,   13, 0x08,
+     370,   13,   13,   13, 0x08,
+     409,   13,   13,   13, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_ControlPanel[] = {
-    "ControlPanel\0\0usbAddr\0devSelected(int)\0"
+    "ControlPanel\0\0infName\0devSelected(QString)\0"
     "data\0changeSettings(AdcSettings)\0"
     "changeSettings(SignalSettings)\0lst\0"
     "setDevList(QList<AdcBoardInfo>)\0rpt\0"
@@ -87,7 +87,7 @@ int ControlPanel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: devSelected((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 0: devSelected((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 1: changeSettings((*reinterpret_cast< const AdcSettings(*)>(_a[1]))); break;
         case 2: changeSettings((*reinterpret_cast< const SignalSettings(*)>(_a[1]))); break;
         case 3: setDevList((*reinterpret_cast< const QList<AdcBoardInfo>(*)>(_a[1]))); break;
@@ -107,7 +107,7 @@ int ControlPanel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void ControlPanel::devSelected(int _t1)
+void ControlPanel::devSelected(QString _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

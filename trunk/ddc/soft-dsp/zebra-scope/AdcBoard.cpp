@@ -1,3 +1,5 @@
+#define   WIN32_LEAN_AND_MEAN 
+
 #include <windows.h>
 #include <qmath.h>
 #include <vector>
@@ -9,8 +11,10 @@
 #include <QTimer>
 #include <QSettings>
 
-#include "AdcBoard.hpp"
 #include "CyAPI.h"
+
+#include "../include/pcap/pcap.h"
+#include "AdcBoard.hpp"
 #include "gkhy/mfcminus/Win32App.hpp"
 #include "QZebraScopeSettings.h"
 #include "QZebraScopeSettings.h"
@@ -23,9 +27,13 @@
 #endif // MATLAB
 
 #pragma comment(lib, "CyAPI.lib")
+#pragma comment(lib, "wpcap.lib")
+#pragma comment(lib, "Ws2_32.lib")
 
 using namespace std;
 
+pcap_t * AdcBoard::m_fp;
+DspCommand AdcBoard::m_cmdRequest, AdcBoard::m_cmdReset, AdcBoard::m_cmdPara;
 
 DummyWidget::DummyWidget(QWidget* parent /*= 0*/, Qt::WindowFlags f /*= 0*/ ) : QWidget(parent, f) 
 {
@@ -120,6 +128,14 @@ bool AdcBoard::isRunning()
 
 void AdcBoard::setDynamicOn(bool on /* = true */)
 {
+
+	InitWinsock();
+	SendCmd(m_cmdReset);
+	Sleep(1000);
+	SendCmd(m_cmdPara);
+	Sleep(1000);
+	SendCmd(m_cmdRequest);
+
 	if (on && !m_timerId)
 	{
 		m_timerId = startTimer(500);
@@ -135,21 +151,43 @@ void AdcBoard::setDynamicOn(bool on /* = true */)
 void AdcBoard::devChanged()
 {
 	QList<AdcBoardInfo> devList;
-	if (!(usbDev->DeviceCount()))
+
+	pcap_if_t *alldevs;
+	pcap_if_t *d;
+
+	char errbuf[PCAP_ERRBUF_SIZE];
+
+	/* Retrieve the device list */
+	if(pcap_findalldevs(&alldevs, errbuf) != -1)
 	{
 		devList.clear();
 	}
-	for (int i = 0; i < usbDev->DeviceCount(); ++i)
+
+	int i = 0;
+	for (d=alldevs; d; d=d->next)
 	{
-		if (usbDev->Open(i))
-		{
-			AdcBoardInfo info;
-			info.usbAddr = i;
-			info.devName = QString(usbDev->DeviceName);
-			info.infName = QString(usbDev->FriendlyName);
-			devList.push_back(info);
-		}
+		AdcBoardInfo info;
+		info.index = i++;
+		info.devName = QString(d->description);
+		info.infName = QString(d->name);
+		devList.push_front(info);
 	}
+
+	//if (!(usbDev->DeviceCount()))
+	//{
+	//	devList.clear();
+	//}
+	//for (int i = 0; i < usbDev->DeviceCount(); ++i)
+	//{
+	//	if (usbDev->Open(i))
+	//	{
+	//		AdcBoardInfo info;
+	//		info.usbAddr = i;
+	//		info.devName = QString(usbDev->DeviceName);
+	//		info.infName = QString(usbDev->FriendlyName);
+	//		devList.push_back(info);
+	//	}
+	//}
 
 	emit devListChanged(devList);
 }
@@ -159,8 +197,101 @@ bool AdcBoard::open(int usbAddr)
 	return usbDev->Open((UCHAR)usbAddr);
 }
 
+bool AdcBoard::open(QString infName)
+{
+	char errbuf[PCAP_ERRBUF_SIZE];
+	QByteArray byteArray = infName.toAscii();
+
+	if ((m_fp = pcap_open_live((const char *)byteArray.data(),		// name of the device
+		65536,								// portion of the packet to capture. 
+		// 65536 grants that the whole packet will be captured on all the MACs.
+		1,									// promiscuous mode (nonzero means promiscuous)
+		1000,								// read timeout
+		errbuf								// error buffer
+		)) == NULL)
+	{
+		return FALSE;
+	}
+
+	bpf_u_int32 NetMask=0xffffff;
+	struct bpf_program fcode;
+	const char *filter ="dst port 69";
+
+	//compile the filter
+	if(pcap_compile(m_fp, &fcode, filter, 1, NetMask) < 0)
+	{
+		//fprintf(stderr,"\nError compiling filter: wrong syntax.\n");
+		pcap_close(m_fp);
+		return false;
+	}
+
+	//set the filter
+	if(pcap_setfilter(m_fp, &fcode)<0)
+	{
+		//fprintf(stderr,"\nError setting the filter\n");
+		pcap_close(m_fp);
+		return false;
+	}
+
+	m_cmdRequest.Cmd = DSPREQUEST;
+	m_cmdRequest.Len = 5;
+
+	m_cmdReset.Cmd = DSPRESET;
+	m_cmdReset.Len = 5;
+
+	m_cmdPara.Cmd = DSPPARAMETER;
+	m_cmdPara.Para[0] = 0x0C00;
+	m_cmdPara.Para[1] = 0x01;
+	m_cmdPara.Len = 13;
+
+
+	return true;
+}
+
+bool AdcBoard::InitWinsock()
+{
+	int Error;
+	WORD VersionRequested;
+	WSADATA WsaData;
+	VersionRequested = MAKEWORD(2, 2);
+	Error = WSAStartup(VersionRequested, &WsaData); //∆Ù∂ØWinSock2
+	if(Error != 0)
+	{
+		return FALSE;
+	}
+	else
+	{
+		if(LOBYTE(WsaData.wVersion) != 2 
+			|| HIBYTE(WsaData.wHighVersion) != 2)
+		{
+			WSACleanup();
+			return FALSE;
+		}
+
+	}
+	return TRUE;
+}
+
+int AdcBoard::SendCmd(DspCommand cmd)
+{
+	const char * serverIp = "192.168.10.71";
+	static short serverPort = 70;
+
+	static struct sockaddr_in server;
+
+	server.sin_family = AF_INET;
+	server.sin_port = htons(serverPort);                      ///serverµƒº‡Ã˝∂Àø⁄
+	server.sin_addr.s_addr = inet_addr(serverIp); ///serverµƒµÿ÷∑ 
+	cmd.Sof  = 0xFCCF1A00;
+
+	SOCKET skt = socket(AF_INET, SOCK_DGRAM, 0);
+
+	return sendto(skt, (char *)&cmd, cmd.Len, 0, (struct sockaddr*)&server, sizeof(server));
+}
+
 bool AdcBoard::read(unsigned short addr, unsigned short *buf, unsigned int len)
 {	
+	return true;
 	if (! usbDev->BulkOutEndPt)
 		return false;
 
@@ -189,6 +320,7 @@ bool AdcBoard::read(unsigned short addr, unsigned short *buf, unsigned int len)
 
 bool AdcBoard::writeIOCmd(unsigned short addr, bool dirRead, unsigned short data)
 {	
+	return true;
 	if (! usbDev->BulkOutEndPt)
 		return false;
 
@@ -207,11 +339,14 @@ bool AdcBoard::writeIOCmd(unsigned short addr, bool dirRead, unsigned short data
 
 bool AdcBoard::readReg(unsigned short addr, unsigned short &val)
 {
+	return true;
 	return read(addr, &val, 1);
 }
 
 bool AdcBoard::writeReg(unsigned short addr, unsigned short val)
 {
+	return true;
+
 	if (!writeIOCmd(addr, false, val))
 	{
 		return false;
@@ -222,6 +357,8 @@ bool AdcBoard::writeReg(unsigned short addr, unsigned short val)
 
 bool AdcBoard::readReg24b(unsigned short addr,unsigned short& val)
 {
+	return true;
+
 	unsigned short w1 = (addr & 0xFF) << 8;
 	unsigned short w2 = (addr & 0xFF00) >> 8 | 0x80;
 	unsigned short r;
@@ -244,18 +381,12 @@ bool AdcBoard::readReg24b(unsigned short addr,unsigned short& val)
 	}
 	val = temp[0];
 
-	//if ( !read(0x1002, &buff[0], 1024)  )
-	//{
-	//	return false;
-	//}
-
-	//	val = buff[0];
-
 	return 	true;
 }
 
 bool AdcBoard::writeReg24b(unsigned short addr,unsigned short val)
 {
+	return true;
 	unsigned short w1 = ((addr & 0xFF) << 8) | (val & 0xFF);
 	unsigned short w2 = (addr & 0xFF00) >> 8;
 	return (writeReg(0x1002, w1)  && writeReg(0x1003, w2));
@@ -382,6 +513,8 @@ unsigned short AdcBoard::CalcReg(float v)
 
 bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 {	
+	return true;
+
 	float vio = adcSettings.vd;
 
 	//≈‰÷√2656£¨øÿ÷∆∞Âø®µÁ—π
@@ -438,6 +571,7 @@ bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 
 bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 {
+	return true;
 	// change sampling frequency
 	changeSampleRate(signalSettings.clockFreq);
 
@@ -475,6 +609,8 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 void AdcBoard::powerStatus(PowerStatus& powerStatus)
 {
 
+	return;
+
 	if (buff.size() < 1024)
 	{
 		buff.resize(1024);
@@ -482,17 +618,6 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 	unsigned short* p = &buff[0];
 	writeReg(9, 0xA400);  //select 3548, work at default mode
 	writeReg(9, 0xA400);  //select 3548, work at default mode
-	//writeReg(9, 0xFFFF);  //select 3548, work at default mode
-	//writeReg(9, 0xFFFF);  //select 3548, work at default mode
-
-	//writeReg(9, 0xA740);  //select 3548, work at sweep mode
-
-	//for (int i=0; i<=7; ++i)
-	//{
-	//	writeReg(9, i*0x1000);
-	//}
-
-	//writeReg(9, 0xE000);
 
 	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
