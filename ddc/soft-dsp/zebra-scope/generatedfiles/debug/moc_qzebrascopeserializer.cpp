@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'qzebrascopeserializer.h'
 **
-** Created: Mon Jan 10 23:08:24 2011
+** Created: Fri Feb 11 22:27:34 2011
 **      by: The Qt Meta Object Compiler version 61 (Qt 4.5.3)
 **
 ** WARNING! All changes made in this file will be lost!

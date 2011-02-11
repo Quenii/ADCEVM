@@ -8,11 +8,24 @@
 #include <QSettings>
 
 #include "AdcBoardTypes.hpp"
+#include "../include/pcap/pcap.h"
+
+#define DSPREQUEST		0x1D
+#define DSPRESET		0x1E
+#define DSPPARAMETER	0x1F
 
 class CCyUSBDevice;
 class DummyWidget;
 class QObject;
 class QEvent;
+
+typedef struct _DspCommand
+{
+	int Sof;
+	unsigned char Cmd;
+	int Para[16];
+	int Len;
+}DspCommand;
 
 class AdcBoard : public QObject
 {
@@ -59,6 +72,10 @@ public:
 	bool isRunning();
 	const AdcBoardReport& reportRef() { return report; }
 
+	bool InitWinsock();
+	int SendCmd(DspCommand cmd);
+
+
 protected:
 	void timerEvent (QTimerEvent * event);
 	// len - number of unsigned-short's
@@ -78,13 +95,18 @@ signals:
 
 public slots:
 	bool open(int usbAddr);
+	bool open(QString infName);
 	
 private slots:
 	void devChanged();
 	
 private:
-	AdcBoardReport report;
+	static pcap_t *m_fp;
+	static DspCommand m_cmdRequest, m_cmdReset, m_cmdPara; 
+
 	CCyUSBDevice* usbDev;
+
+	AdcBoardReport report;
 	DummyWidget* widget;
 	std::vector<unsigned short> bulkIOBuff;
 	std::vector<unsigned short> buff;
@@ -95,7 +117,6 @@ private:
 private:	
 	AdcSettings m_adcSettings;
 	SignalSettings m_signalSettings;
-//	QSettings m_settings;
 	int m_timerId;
 };
 

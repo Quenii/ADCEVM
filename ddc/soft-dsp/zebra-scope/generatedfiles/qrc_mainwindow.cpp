@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Resource object code
 **
-** Created: Mon Jan 10 23:08:26 2011
+** Created: Fri Feb 11 22:27:36 2011
 **      by: The Resource Compiler for Qt version 4.5.3
 **
 ** WARNING! All changes made in this file will be lost!
@@ -10,7 +10,7 @@
 #include <QtCore/qglobal.h>
 
 static const unsigned char qt_resource_data[] = {
-  // D:/Compiler/Code/adcevm-google/soft/zebra-scope/res/Arrow Right.png
+  // D:/Compiler/Code/adcevm-google/ddc/soft-dsp/zebra-scope/res/Arrow Right.png
   0x0,0x0,0xe,0xf0,
   0x89,
   0x50,0x4e,0x47,0xd,0xa,0x1a,0xa,0x0,0x0,0x0,0xd,0x49,0x48,0x44,0x52,0x0,
