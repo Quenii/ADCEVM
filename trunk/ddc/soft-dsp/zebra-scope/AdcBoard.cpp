@@ -136,6 +136,11 @@ void AdcBoard::setDynamicOn(bool on /* = true */)
 	Sleep(1000);
 	SendCmd(m_cmdRequest);
 
+
+	开启读数据线程；
+	创建若干AsyncFIFO，属于AdcBoard类；
+	线程中通过this指针访问fifo；
+	timer里面读取数据、解析、显示；
 	if (on && !m_timerId)
 	{
 		m_timerId = startTimer(500);
