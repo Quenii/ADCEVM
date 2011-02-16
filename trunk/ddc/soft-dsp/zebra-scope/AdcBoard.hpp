@@ -9,6 +9,7 @@
 
 #include "AdcBoardTypes.hpp"
 #include "../include/pcap/pcap.h"
+#include "gkhy/mfcminus/AsyncHugeRingBuffer.hpp"
 
 #define DSPREQUEST		0x1D
 #define DSPRESET		0x1E
@@ -73,7 +74,11 @@ public:
 	const AdcBoardReport& reportRef() { return report; }
 
 	bool InitWinsock();
-	int SendCmd(DspCommand cmd);
+	static int SendCmd(DspCommand cmd);
+//	UINT ThreadNetAccess(LPVOID lpVoid);
+	static void ThreadNetAccess(void * lpVoid);
+	static void ThreadParseData(void * lpVoid);
+
 
 
 protected:
@@ -111,13 +116,20 @@ private:
 	std::vector<unsigned short> bulkIOBuff;
 	std::vector<unsigned short> buff;
 
-	const static int buffer_cnt = 32 * 1024;
+	gkhy::MfcMinus::AsyncHugeRingBuffer * m_fifoArray[37];
+	int m_channelFifoSize;
+
+	const static int buffer_cnt = 4 * 1024;
 	const float pi;
 
 private:	
 	AdcSettings m_adcSettings;
 	SignalSettings m_signalSettings;
 	int m_timerId;
+	BOOL volatile m_bThreadNetAccessEnabled;
+	BOOL volatile m_bThreadNetAccessCompleted;
+	BOOL volatile m_bThreadParseDataEnabled;
+	BOOL volatile m_bThreadParseDataCompleted;
 };
 
 

@@ -49,6 +49,7 @@ struct AdcSettings
 	float vpp;
 	AdcCoding coding;
 	float phase;
+	unsigned int port;
 
 	AdcSettings()
 	{
@@ -59,6 +60,7 @@ struct AdcSettings
 		vpp = .72f;
 		coding = AdcCodingComplement;
 		phase = 0;
+		port = 69;
 	}
 
 	void writeSettings(QSettings& settings) const

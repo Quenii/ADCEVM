@@ -11,7 +11,7 @@ ControlPanel::ControlPanel(QWidget *parent, Qt::WFlags flags)
 
 	/*QStandardItemModel **/
 	devListModel = new QStandardItemModel(0, 3, ui.devicesView);
-	devListModel->setHeaderData(0, Qt::Horizontal, QObject::tr("USB Addr"));
+	devListModel->setHeaderData(0, Qt::Horizontal, QObject::tr("No."));
 	devListModel->setHeaderData(1, Qt::Horizontal, QObject::tr("Dev Name"));
 	devListModel->setHeaderData(2, Qt::Horizontal, QObject::tr("INF Name"));	
 
