@@ -1,6 +1,7 @@
 #define   WIN32_LEAN_AND_MEAN 
 
 #include <windows.h>
+#include <process.h>
 #include <qmath.h>
 #include <vector>
 #include <Dbt.h>
@@ -16,6 +17,7 @@
 #include "../include/pcap/pcap.h"
 #include "AdcBoard.hpp"
 #include "gkhy/mfcminus/Win32App.hpp"
+#include "gkhy/mfcminus/AsyncHugeRingBuffer.hpp"
 #include "QZebraScopeSettings.h"
 #include "QZebraScopeSettings.h"
 
@@ -90,7 +92,15 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 : QObject(parent)
 , pi(3.141592653589793f)
 , m_timerId(0)
+, m_channelFifoSize(3*1024*1024)
+//, m_fifoArray(m_channelFifoSize)
 {
+	for (int i = 0; i < (_countof(m_fifoArray) - 1); ++i)
+	{
+		m_fifoArray[i] = new gkhy::MfcMinus::AsyncHugeRingBuffer(m_channelFifoSize);
+	}
+	m_fifoArray[36] = new gkhy::MfcMinus::AsyncHugeRingBuffer(m_channelFifoSize*10);
+
 	widget = new DummyWidget();
 	bool okay = connect(widget, SIGNAL(devChanged()), this, SLOT(devChanged()));
 	Q_ASSERT(okay);
@@ -129,25 +139,40 @@ bool AdcBoard::isRunning()
 void AdcBoard::setDynamicOn(bool on /* = true */)
 {
 
-	InitWinsock();
-	SendCmd(m_cmdReset);
-	Sleep(1000);
-	SendCmd(m_cmdPara);
-	Sleep(1000);
-	SendCmd(m_cmdRequest);
 
-
-	开启读数据线程；
-	创建若干AsyncFIFO，属于AdcBoard类；
-	线程中通过this指针访问fifo；
-	timer里面读取数据、解析、显示；
+	//开启读数据线程；
+	//创建若干AsyncFIFO，属于AdcBoard类；
+	//线程中通过this指针访问fifo；
+	//timer里面读取数据、解析、显示；
 	if (on && !m_timerId)
 	{
+		InitWinsock();
+		SendCmd(m_cmdReset);
+		Sleep(1000);
+		SendCmd(m_cmdPara);
+		Sleep(1000);
+		SendCmd(m_cmdRequest);
+
+		m_bThreadNetAccessEnabled = true;
+		m_bThreadNetAccessCompleted = FALSE;
+		m_bThreadParseDataEnabled = true;
+		m_bThreadParseDataCompleted = FALSE;
+//		AfxBeginThread(&AdcBoard::ThreadNetAccess, this, THREAD_PRIORITY_TIME_CRITICAL);
+		unsigned threadID;
+
+		// Create the second thread.
+//		_beginthreadex( NULL, 0, &AdcBoard::ThreadNetAccess, this, 0, &threadID );
+		_beginthread(&AdcBoard::ThreadNetAccess, 0, this);
+		_beginthread(&AdcBoard::ThreadParseData, 0, this);
+
+
 		m_timerId = startTimer(500);
 	}
 
 	if (!on && m_timerId)
 	{
+		m_bThreadNetAccessEnabled = false;
+		m_bThreadParseDataEnabled = false;
 		killTimer(m_timerId);
 		m_timerId = 0;
 	}
@@ -253,6 +278,76 @@ bool AdcBoard::open(QString infName)
 	return true;
 }
 
+void AdcBoard::ThreadNetAccess(void * lpVoid)
+{
+	AdcBoard * obj = (AdcBoard *)lpVoid;
+	struct pcap_pkthdr *header;
+	const u_char *pkt_data;
+	int res;
+	int pkgcnt = 0;
+
+	while (obj->m_bThreadNetAccessEnabled && ((res = pcap_next_ex( m_fp, &header, &pkt_data)) >= 0))
+	{	
+		if(res == 0)
+			continue;
+
+		int len = header->caplen - 44;
+		const char * src = (const char *)(pkt_data + 44);
+		const int pkt_len = 1024;
+
+		if (len > 0)
+		{
+			pkgcnt ++;
+			if (len == pkt_len)
+			{
+				obj->m_fifoArray[36]->write(src, pkt_len);
+			}
+		}
+		if (pkgcnt == 3 * 1024)
+		{
+			Sleep(50);
+			SendCmd(m_cmdRequest);
+			pkgcnt = 0;
+		}
+
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	obj->m_bThreadNetAccessCompleted = TRUE;
+//	return 0;
+
+}
+
+void AdcBoard::ThreadParseData(void * lpVoid)
+{
+	AdcBoard * obj = (AdcBoard *)lpVoid;
+	int res;
+	int pkgcnt = 0;
+	const int block_size = 128;
+	char temp[block_size];
+	char *p = &temp[0];
+
+	while (obj->m_bThreadParseDataEnabled)
+	{	
+		if (obj->m_fifoArray[36]->count() >= block_size)
+		{
+			obj->m_fifoArray[36]->read(temp, block_size);
+			while (p-temp < block_size)
+			{
+				for (int i=0; i<6; ++i)
+				{
+					obj->m_fifoArray[(temp[3]&0x0F) * 6 + i]->write(p, 2);
+					p+=2;
+				}
+			}
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	obj->m_bThreadParseDataCompleted = TRUE;
+	//	return 0;
+
+}
 bool AdcBoard::InitWinsock()
 {
 	int Error;
@@ -406,96 +501,17 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 {
 	//return ;
 
-	PowerStatus& powerStatus = report.powerStatus;
-	this->powerStatus(powerStatus);
-
 	TimeDomainReport& tdReport = report.tdReport;
 	tdReport.samples.resize(buffer_cnt);
+	char temp[buffer_cnt];
+	int channel = 0;
 
-	float vpp = m_adcSettings.vpp;
-	float max = (1 << (m_adcSettings.bitcount - 1));
-	if (m_adcSettings.coding == AdcCodingOffset)
+	if (m_fifoArray[channel]->count() >= buffer_cnt)
 	{
-	}
-	else if (m_adcSettings.coding == AdcCodingComplement)
-	{
-	}
-	else
-	{
-		Q_ASSERT(false);
+		m_fifoArray[channel]->read(temp, buffer_cnt);
+		memcpy(&tdReport.samples[0], temp, buffer_cnt);
 	}
 
-	if (usbDev->IsOpen() && (usbDev->DeviceCount()))
-	{
-		buff.resize(buffer_cnt);
-		writeReg(0xFFFF, 0x0001);  //reset
-		writeReg(0xFFFF, 0x0000);  //dereset
-		//buff[512] = {0x0032};
-		writeReg(0x1004, 0xEFFF);  //stor 1M
-		//read(0x04, buff, 256);
-		Sleep(200);	
-
-		unsigned short* p = &buff[0];
-		bool okay = read(0x1005, &buff[0], buffer_cnt);
-		Q_ASSERT(okay);
-
-		if (tdReport.rawSamples.size() != buff.size())
-		{
-			tdReport.rawSamples.resize(buff.size());
-		}
-		for (int i = 0; i < tdReport.samples.size(); i+=4)
-		{
-			tdReport.rawSamples[i+0] = buff[i+3];
-			tdReport.rawSamples[i+1] = buff[i+2];
-			tdReport.rawSamples[i+2] = buff[i+1];
-			tdReport.rawSamples[i+3] = buff[i+0];
-
-			tdReport.samples[i+0] = (buff[i+3]/max-1)*vpp;
-			tdReport.samples[i+1] = (buff[i+2]/max-1)*vpp;
-			tdReport.samples[i+2] = (buff[i+1]/max-1)*vpp;
-			tdReport.samples[i+3] = (buff[i+0]/max-1)*vpp;	
-		}
-	}
-	else
-	{
-#ifdef _DEBUG
-
-		int offset = rand();
-		tdReport.rawSamples.resize(tdReport.samples.size());
-		for (int i = 0; i < tdReport.samples.size(); ++i)
-		{
-			//tdReport.samples[i] = ((int)((i+offset)));
-			//tdReport.rawSamples[i] = ((int)((i+offset)));
-
-			tdReport.samples[i] = ((int)(qSin(pi/29*i+offset)*8192))*vpp/8192;
-			tdReport.rawSamples[i] = ((int)(qSin(pi/29*i+offset)*8192));
-		}
-#endif //_DEBUG
-	}
-
-	float fmin = vpp;
-	float fmax = -vpp;
-	for (int i = 0; i < tdReport.samples.size(); ++i )
-	{
-		float f = tdReport.samples[i];
-		fmin = min(fmin, f);
-		fmax = max(fmax, f);
-	}
-
-	tdReport.max = fmax;
-	tdReport.min = fmin;
-
-	FreqDomainReport& fdReport = report.fdReport;
-
-	fdReport.Spectrum.resize(buffer_cnt/2);
-
-#ifdef MATLAB
-	calc_dynam_params(tdReport.samples, 16, fdReport);
-
-#else
-	memcpy( &fdReport.Spectrum[0], &tdReport.samples[0], buffer_cnt/2);
-
-#endif // MATLAB
 
 	emit boardReport(report);
 }

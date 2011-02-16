@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'AdcSettingsDialog.ui'
 **
-** Created: Fri Feb 11 22:27:34 2011
+** Created: Tue Feb 15 21:09:47 2011
 **      by: Qt User Interface Compiler version 4.5.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!

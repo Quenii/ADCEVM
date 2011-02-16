@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'ControlPanel.ui'
 **
-** Created: Sat Feb 12 00:32:41 2011
+** Created: Tue Feb 15 21:09:50 2011
 **      by: Qt User Interface Compiler version 4.5.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -41,24 +41,26 @@ public:
     QLabel *labl;
     QSpacerItem *horizontalSpacer;
     QTreeView *devicesView;
-    QSpacerItem *verticalSpacer_4;
-    QGroupBox *groupBox_ServerInfo;
-    QWidget *layoutWidget;
-    QGridLayout *gridLayout;
-    QLabel *labl_26;
-    QLineEdit *leServerIp;
+    QGroupBox *groupBox_DeviceList_2;
+    QVBoxLayout *verticalLayout_6;
+    QGridLayout *gridLayout_10;
     QLabel *labl_25;
-    QLineEdit *leServerPort;
+    QLineEdit *serverIP;
+    QLabel *labl_26;
+    QLineEdit *serverPort;
+    QSpacerItem *horizontalSpacer_15;
+    QSpacerItem *horizontalSpacer_16;
     QTabWidget *tabWidget;
-    QWidget *tab;
-    QVBoxLayout *verticalLayout_5;
-    SignalSettingsWidget *signalSettingsWidget;
-    QGridLayout *gridLayout_3;
     QWidget *tab_2;
     QVBoxLayout *verticalLayout_4;
     AdcSettingsWidget *adcSettingsWidget;
     QGridLayout *gridLayout_2;
     QSpacerItem *verticalSpacer_2;
+    QWidget *tab;
+    QVBoxLayout *verticalLayout_5;
+    SignalSettingsWidget *signalSettingsWidget;
+    QGridLayout *gridLayout_3;
+    QSpacerItem *verticalSpacer_3;
     QGroupBox *groupBox_3;
     QVBoxLayout *verticalLayout_2;
     QWidget *dynamicTestButtons;
@@ -69,6 +71,7 @@ public:
     QHBoxLayout *horizontalLayout_4;
     QPushButton *pushButtonStartStaticTest;
     QPushButton *pushButtonStopStaticTest;
+    QSpacerItem *verticalSpacer_4;
     QGroupBox *groupBox_powerStatus;
     QGridLayout *gridLayout_8;
     QGridLayout *gridLayout_9;
@@ -99,12 +102,15 @@ public:
     {
         if (ControlPanelClass->objectName().isEmpty())
             ControlPanelClass->setObjectName(QString::fromUtf8("ControlPanelClass"));
-        ControlPanelClass->resize(313, 1060);
+        ControlPanelClass->resize(293, 1060);
         verticalLayout_3 = new QVBoxLayout(ControlPanelClass);
         verticalLayout_3->setMargin(0);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         groupBox_DeviceList = new QGroupBox(ControlPanelClass);
         groupBox_DeviceList->setObjectName(QString::fromUtf8("groupBox_DeviceList"));
+        QFont font;
+        font.setPointSize(10);
+        groupBox_DeviceList->setFont(font);
         groupBox_DeviceList->setAlignment(Qt::AlignCenter);
         verticalLayout = new QVBoxLayout(groupBox_DeviceList);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
@@ -112,10 +118,10 @@ public:
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         labl = new QLabel(groupBox_DeviceList);
         labl->setObjectName(QString::fromUtf8("labl"));
-        QFont font;
-        font.setFamily(QString::fromUtf8("Arial"));
-        font.setPointSize(10);
-        labl->setFont(font);
+        QFont font1;
+        font1.setFamily(QString::fromUtf8("Arial"));
+        font1.setPointSize(10);
+        labl->setFont(font1);
 
         horizontalLayout->addWidget(labl);
 
@@ -134,80 +140,74 @@ public:
         sizePolicy.setHeightForWidth(devicesView->sizePolicy().hasHeightForWidth());
         devicesView->setSizePolicy(sizePolicy);
         devicesView->setMaximumSize(QSize(16777215, 80));
-        QFont font1;
-        font1.setFamily(QString::fromUtf8("Arial"));
-        font1.setPointSize(8);
-        devicesView->setFont(font1);
+        QFont font2;
+        font2.setFamily(QString::fromUtf8("Arial"));
+        font2.setPointSize(8);
+        devicesView->setFont(font2);
 
         verticalLayout->addWidget(devicesView);
-
-        verticalSpacer_4 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        verticalLayout->addItem(verticalSpacer_4);
 
 
         verticalLayout_3->addWidget(groupBox_DeviceList);
 
-        groupBox_ServerInfo = new QGroupBox(ControlPanelClass);
-        groupBox_ServerInfo->setObjectName(QString::fromUtf8("groupBox_ServerInfo"));
-        groupBox_ServerInfo->setAlignment(Qt::AlignCenter);
-        layoutWidget = new QWidget(groupBox_ServerInfo);
-        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
-        layoutWidget->setGeometry(QRect(10, 20, 189, 48));
-        gridLayout = new QGridLayout(layoutWidget);
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        gridLayout->setContentsMargins(0, 0, 0, 0);
-        labl_26 = new QLabel(layoutWidget);
-        labl_26->setObjectName(QString::fromUtf8("labl_26"));
-        labl_26->setFont(font);
-        labl_26->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-
-        gridLayout->addWidget(labl_26, 0, 0, 1, 1);
-
-        leServerIp = new QLineEdit(layoutWidget);
-        leServerIp->setObjectName(QString::fromUtf8("leServerIp"));
-
-        gridLayout->addWidget(leServerIp, 0, 1, 1, 1);
-
-        labl_25 = new QLabel(layoutWidget);
+        groupBox_DeviceList_2 = new QGroupBox(ControlPanelClass);
+        groupBox_DeviceList_2->setObjectName(QString::fromUtf8("groupBox_DeviceList_2"));
+        groupBox_DeviceList_2->setFont(font);
+        groupBox_DeviceList_2->setAlignment(Qt::AlignCenter);
+        verticalLayout_6 = new QVBoxLayout(groupBox_DeviceList_2);
+        verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
+        gridLayout_10 = new QGridLayout();
+        gridLayout_10->setObjectName(QString::fromUtf8("gridLayout_10"));
+        labl_25 = new QLabel(groupBox_DeviceList_2);
         labl_25->setObjectName(QString::fromUtf8("labl_25"));
-        labl_25->setFont(font);
+        labl_25->setFont(font1);
         labl_25->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
-        gridLayout->addWidget(labl_25, 1, 0, 1, 1);
+        gridLayout_10->addWidget(labl_25, 0, 0, 1, 1);
 
-        leServerPort = new QLineEdit(layoutWidget);
-        leServerPort->setObjectName(QString::fromUtf8("leServerPort"));
-        leServerPort->setEnabled(true);
+        serverIP = new QLineEdit(groupBox_DeviceList_2);
+        serverIP->setObjectName(QString::fromUtf8("serverIP"));
+        serverIP->setEnabled(true);
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(leServerPort->sizePolicy().hasHeightForWidth());
-        leServerPort->setSizePolicy(sizePolicy1);
+        sizePolicy1.setHeightForWidth(serverIP->sizePolicy().hasHeightForWidth());
+        serverIP->setSizePolicy(sizePolicy1);
 
-        gridLayout->addWidget(leServerPort, 1, 1, 1, 1);
+        gridLayout_10->addWidget(serverIP, 0, 1, 1, 1);
+
+        labl_26 = new QLabel(groupBox_DeviceList_2);
+        labl_26->setObjectName(QString::fromUtf8("labl_26"));
+        labl_26->setFont(font1);
+        labl_26->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        gridLayout_10->addWidget(labl_26, 1, 0, 1, 1);
+
+        serverPort = new QLineEdit(groupBox_DeviceList_2);
+        serverPort->setObjectName(QString::fromUtf8("serverPort"));
+        sizePolicy1.setHeightForWidth(serverPort->sizePolicy().hasHeightForWidth());
+        serverPort->setSizePolicy(sizePolicy1);
+
+        gridLayout_10->addWidget(serverPort, 1, 1, 1, 1);
+
+        horizontalSpacer_15 = new QSpacerItem(75, 0, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        gridLayout_10->addItem(horizontalSpacer_15, 2, 0, 1, 1);
+
+        horizontalSpacer_16 = new QSpacerItem(20, 0, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+        gridLayout_10->addItem(horizontalSpacer_16, 2, 2, 1, 1);
 
 
-        verticalLayout_3->addWidget(groupBox_ServerInfo);
+        verticalLayout_6->addLayout(gridLayout_10);
+
+
+        verticalLayout_3->addWidget(groupBox_DeviceList_2);
 
         tabWidget = new QTabWidget(ControlPanelClass);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
         tabWidget->setTabPosition(QTabWidget::North);
         tabWidget->setTabShape(QTabWidget::Rounded);
-        tab = new QWidget();
-        tab->setObjectName(QString::fromUtf8("tab"));
-        verticalLayout_5 = new QVBoxLayout(tab);
-        verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
-        signalSettingsWidget = new SignalSettingsWidget(tab);
-        signalSettingsWidget->setObjectName(QString::fromUtf8("signalSettingsWidget"));
-        gridLayout_3 = new QGridLayout(signalSettingsWidget);
-        gridLayout_3->setSpacing(0);
-        gridLayout_3->setMargin(0);
-        gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
-
-        verticalLayout_5->addWidget(signalSettingsWidget);
-
-        tabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
         verticalLayout_4 = new QVBoxLayout(tab_2);
@@ -226,6 +226,24 @@ public:
         verticalLayout_4->addItem(verticalSpacer_2);
 
         tabWidget->addTab(tab_2, QString());
+        tab = new QWidget();
+        tab->setObjectName(QString::fromUtf8("tab"));
+        verticalLayout_5 = new QVBoxLayout(tab);
+        verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
+        signalSettingsWidget = new SignalSettingsWidget(tab);
+        signalSettingsWidget->setObjectName(QString::fromUtf8("signalSettingsWidget"));
+        gridLayout_3 = new QGridLayout(signalSettingsWidget);
+        gridLayout_3->setSpacing(0);
+        gridLayout_3->setMargin(0);
+        gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
+
+        verticalLayout_5->addWidget(signalSettingsWidget);
+
+        verticalSpacer_3 = new QSpacerItem(20, 136, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_5->addItem(verticalSpacer_3);
+
+        tabWidget->addTab(tab, QString());
 
         verticalLayout_3->addWidget(tabWidget);
 
@@ -280,6 +298,10 @@ public:
 
         verticalLayout_3->addWidget(groupBox_3);
 
+        verticalSpacer_4 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_3->addItem(verticalSpacer_4);
+
         groupBox_powerStatus = new QGroupBox(ControlPanelClass);
         groupBox_powerStatus->setObjectName(QString::fromUtf8("groupBox_powerStatus"));
         groupBox_powerStatus->setAlignment(Qt::AlignCenter);
@@ -289,7 +311,7 @@ public:
         gridLayout_9->setObjectName(QString::fromUtf8("gridLayout_9"));
         labl_22 = new QLabel(groupBox_powerStatus);
         labl_22->setObjectName(QString::fromUtf8("labl_22"));
-        labl_22->setFont(font);
+        labl_22->setFont(font1);
         labl_22->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
         gridLayout_9->addWidget(labl_22, 0, 0, 1, 1);
@@ -304,14 +326,14 @@ public:
 
         labl_23 = new QLabel(groupBox_powerStatus);
         labl_23->setObjectName(QString::fromUtf8("labl_23"));
-        labl_23->setFont(font);
+        labl_23->setFont(font1);
         labl_23->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
         gridLayout_9->addWidget(labl_23, 1, 0, 1, 1);
 
         labl_24 = new QLabel(groupBox_powerStatus);
         labl_24->setObjectName(QString::fromUtf8("labl_24"));
-        labl_24->setFont(font);
+        labl_24->setFont(font1);
         labl_24->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
         gridLayout_9->addWidget(labl_24, 2, 0, 1, 1);
@@ -323,13 +345,13 @@ public:
         sizePolicy3.setVerticalStretch(0);
         sizePolicy3.setHeightForWidth(labl_29->sizePolicy().hasHeightForWidth());
         labl_29->setSizePolicy(sizePolicy3);
-        labl_29->setFont(font);
+        labl_29->setFont(font1);
 
         gridLayout_9->addWidget(labl_29, 2, 2, 1, 1);
 
         labl_30 = new QLabel(groupBox_powerStatus);
         labl_30->setObjectName(QString::fromUtf8("labl_30"));
-        labl_30->setFont(font);
+        labl_30->setFont(font1);
 
         gridLayout_9->addWidget(labl_30, 0, 2, 1, 1);
 
@@ -342,7 +364,7 @@ public:
 
         labl_31 = new QLabel(groupBox_powerStatus);
         labl_31->setObjectName(QString::fromUtf8("labl_31"));
-        labl_31->setFont(font);
+        labl_31->setFont(font1);
 
         gridLayout_9->addWidget(labl_31, 1, 2, 1, 1);
 
@@ -363,7 +385,7 @@ public:
 
         labl_32 = new QLabel(groupBox_powerStatus);
         labl_32->setObjectName(QString::fromUtf8("labl_32"));
-        labl_32->setFont(font);
+        labl_32->setFont(font1);
         labl_32->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
         gridLayout_9->addWidget(labl_32, 3, 0, 1, 1);
@@ -377,20 +399,20 @@ public:
 
         labl_33 = new QLabel(groupBox_powerStatus);
         labl_33->setObjectName(QString::fromUtf8("labl_33"));
-        labl_33->setFont(font);
+        labl_33->setFont(font1);
 
         gridLayout_9->addWidget(labl_33, 3, 2, 1, 1);
 
         labl_34 = new QLabel(groupBox_powerStatus);
         labl_34->setObjectName(QString::fromUtf8("labl_34"));
-        labl_34->setFont(font);
+        labl_34->setFont(font1);
         labl_34->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
         gridLayout_9->addWidget(labl_34, 4, 0, 1, 1);
 
         labl_35 = new QLabel(groupBox_powerStatus);
         labl_35->setObjectName(QString::fromUtf8("labl_35"));
-        labl_35->setFont(font);
+        labl_35->setFont(font1);
 
         gridLayout_9->addWidget(labl_35, 4, 2, 1, 1);
 
@@ -411,7 +433,7 @@ public:
         horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
         labl_2 = new QLabel(ControlPanelClass);
         labl_2->setObjectName(QString::fromUtf8("labl_2"));
-        labl_2->setFont(font);
+        labl_2->setFont(font1);
 
         horizontalLayout_5->addWidget(labl_2);
 
@@ -424,7 +446,7 @@ public:
 
         treeViewTdReport = new QTreeView(ControlPanelClass);
         treeViewTdReport->setObjectName(QString::fromUtf8("treeViewTdReport"));
-        treeViewTdReport->setFont(font1);
+        treeViewTdReport->setFont(font2);
 
         verticalLayout_3->addWidget(treeViewTdReport);
 
@@ -444,21 +466,13 @@ public:
     void retranslateUi(QWidget *ControlPanelClass)
     {
         ControlPanelClass->setWindowTitle(QApplication::translate("ControlPanelClass", "Control Panel", 0, QApplication::UnicodeUTF8));
-        groupBox_DeviceList->setTitle(QApplication::translate("ControlPanelClass", "\347\275\221\347\273\234\347\253\257\345\217\243", 0, QApplication::UnicodeUTF8));
-        labl->setText(QApplication::translate("ControlPanelClass", "Select a Device", 0, QApplication::UnicodeUTF8));
-        groupBox_ServerInfo->setTitle(QApplication::translate("ControlPanelClass", "\346\234\215\345\212\241\345\231\250", 0, QApplication::UnicodeUTF8));
-        labl_26->setText(QApplication::translate("ControlPanelClass", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Arial'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Sever IP</p></body></html>", 0, QApplication::UnicodeUTF8));
-        labl_25->setText(QApplication::translate("ControlPanelClass", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Arial'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Port</p></body></html>", 0, QApplication::UnicodeUTF8));
-        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("ControlPanelClass", "\346\227\266\351\222\237\344\277\241\345\217\267\350\256\276\347\275\256", 0, QApplication::UnicodeUTF8));
+        groupBox_DeviceList->setTitle(QApplication::translate("ControlPanelClass", "\345\217\257\347\224\250\347\232\204\347\275\221\347\273\234\350\256\276\345\244\207", 0, QApplication::UnicodeUTF8));
+        labl->setText(QApplication::translate("ControlPanelClass", "\350\257\267\351\200\211\346\213\251\347\275\221\347\273\234", 0, QApplication::UnicodeUTF8));
+        groupBox_DeviceList_2->setTitle(QApplication::translate("ControlPanelClass", "\346\234\215\345\212\241\345\231\250", 0, QApplication::UnicodeUTF8));
+        labl_25->setText(QApplication::translate("ControlPanelClass", "\345\234\260\345\235\200", 0, QApplication::UnicodeUTF8));
+        labl_26->setText(QApplication::translate("ControlPanelClass", "\347\253\257\345\217\243", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("ControlPanelClass", "ADC\344\277\241\345\217\267\350\256\276\347\275\256", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("ControlPanelClass", "\346\227\266\351\222\237\344\277\241\345\217\267\350\256\276\347\275\256", 0, QApplication::UnicodeUTF8));
         groupBox_3->setTitle(QString());
         pushButtonStartDynamicTest->setText(QApplication::translate("ControlPanelClass", "\345\212\250\346\200\201\346\265\213\350\257\225", 0, QApplication::UnicodeUTF8));
         pushButtonStopDynamicTest->setText(QApplication::translate("ControlPanelClass", "\345\201\234\346\255\242", 0, QApplication::UnicodeUTF8));
