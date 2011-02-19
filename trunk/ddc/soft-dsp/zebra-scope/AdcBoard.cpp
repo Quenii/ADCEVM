@@ -99,7 +99,7 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	{
 		m_fifoArray[i] = new gkhy::MfcMinus::AsyncHugeRingBuffer(m_channelFifoSize);
 	}
-	m_fifoArray[36] = new gkhy::MfcMinus::AsyncHugeRingBuffer(m_channelFifoSize*10);
+	m_fifoArray[36] = new gkhy::MfcMinus::AsyncHugeRingBuffer(m_channelFifoSize*12);
 
 	widget = new DummyWidget();
 	bool okay = connect(widget, SIGNAL(devChanged()), this, SLOT(devChanged()));
@@ -271,7 +271,7 @@ bool AdcBoard::open(QString infName)
 
 	m_cmdPara.Cmd = DSPPARAMETER;
 	m_cmdPara.Para[0] = 0x0C00;
-	m_cmdPara.Para[1] = 0x01;
+	m_cmdPara.Para[1] = 0x07;
 	m_cmdPara.Len = 13;
 
 
@@ -285,12 +285,19 @@ void AdcBoard::ThreadNetAccess(void * lpVoid)
 	const u_char *pkt_data;
 	int res;
 	int pkgcnt = 0;
+	bool overflow = false;
+	bool timeout = false;
 
 	while (obj->m_bThreadNetAccessEnabled && ((res = pcap_next_ex( m_fp, &header, &pkt_data)) >= 0))
 	{	
+		//if ()
+		//{
+		//	timeout = true;
+		//}
 		if(res == 0)
+		{
 			continue;
-
+		}
 		int len = header->caplen - 44;
 		const char * src = (const char *)(pkt_data + 44);
 		const int pkt_len = 1024;
@@ -298,13 +305,21 @@ void AdcBoard::ThreadNetAccess(void * lpVoid)
 		if (len > 0)
 		{
 			pkgcnt ++;
-			if (len == pkt_len)
+			if (len == pkt_len && obj->m_fifoArray[36]->totalWritableSize() >= pkt_len)
 			{
-				obj->m_fifoArray[36]->write(src, pkt_len);
+				if ( obj->m_fifoArray[36]->write(src, pkt_len) < pkt_len)
+				{
+					overflow = true;
+				}
+			}
+			else
+			{
+				overflow = true;
 			}
 		}
 		if (pkgcnt == 3 * 1024)
 		{
+//			int t = obj->m_fifoArray[36]->count();
 			Sleep(50);
 			SendCmd(m_cmdRequest);
 			pkgcnt = 0;
@@ -324,23 +339,53 @@ void AdcBoard::ThreadParseData(void * lpVoid)
 	int res;
 	int pkgcnt = 0;
 	const int block_size = 128;
-	char temp[block_size];
-	char *p = &temp[0];
+	short temp[block_size];
+	short *p = &temp[0];
+	short chan_buff[6][20];
+	int count_fifo[36] = { 0 };
+	int count_packet[7] = { 0 };
 
+	unsigned int ad_num = 0;
+
+	int t = 0;
 	while (obj->m_bThreadParseDataEnabled)
 	{	
 		if (obj->m_fifoArray[36]->count() >= block_size)
 		{
-			obj->m_fifoArray[36]->read(temp, block_size);
-			while (p-temp < block_size)
+			obj->m_fifoArray[36]->read((char *)temp, block_size);
+			p = &temp[0];
+			ad_num = (*((char *)p + 3)) & 0x0F;
+			p += 4;
+			if (ad_num < 6)
 			{
+				count_packet[ad_num] ++;
+				int j = 0;
+				while (p-temp < block_size/2)
+				{
+					for (int i=0; i<6; ++i)
+					{
+						chan_buff[i][j] = *p;
+						count_fifo[(ad_num) * 6 + i] += 2;
+						p += 1;
+					}
+					j++;
+				}
 				for (int i=0; i<6; ++i)
 				{
-					obj->m_fifoArray[(temp[3]&0x0F) * 6 + i]->write(p, 2);
-					p+=2;
+					obj->m_fifoArray[(ad_num) * 6 + i]->write((char *)chan_buff[i], 20);
 				}
+
+			}
+			else
+			{
+				count_packet[6]++;
 			}
 		}
+		//for (int i=0; i<36; ++i)
+		//{
+		//	count_fifo[i] = obj->m_fifoArray[i]->count();
+		//}
+		t = obj->m_fifoArray[36]->count();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -504,7 +549,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	TimeDomainReport& tdReport = report.tdReport;
 	tdReport.samples.resize(buffer_cnt);
 	char temp[buffer_cnt];
-	int channel = 0;
+	int channel = 12;
 
 	if (m_fifoArray[channel]->count() >= buffer_cnt)
 	{

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'SignalSettingsWidget.h'
 **
-** Created: Tue Feb 15 21:09:45 2011
+** Created: Sat Feb 19 10:25:21 2011
 **      by: The Qt Meta Object Compiler version 61 (Qt 4.5.3)
 **
 ** WARNING! All changes made in this file will be lost!
