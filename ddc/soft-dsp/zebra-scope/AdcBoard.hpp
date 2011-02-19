@@ -19,6 +19,9 @@ class CCyUSBDevice;
 class DummyWidget;
 class QObject;
 class QEvent;
+#pragma pack(push)
+
+#pragma pack(1)
 
 typedef struct _DspCommand
 {
@@ -27,6 +30,8 @@ typedef struct _DspCommand
 	int Para[16];
 	int Len;
 }DspCommand;
+
+#pragma pack(pop)
 
 class AdcBoard : public QObject
 {
