@@ -4,6 +4,7 @@
 #include "qmdisubwindowex.h"
 
 #include <QPushButton>
+#include <QList>
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)

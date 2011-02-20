@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>DynamicTestWindow</string>
+   <string>Dynamic Test Window</string>
   </property>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
