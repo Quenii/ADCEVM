@@ -26,6 +26,7 @@ void MainWindow::addMdiWindow(QWidget* widget, QPushButton* btn)
 	subWindow->setWidget(widget);
 	ui.mdiArea->addSubWindow(subWindow);
 	ui.menuWindow->addAction(subWindow->toggleViewAction());
+	ui.toolBar->addAction(subWindow->toggleViewAction());
 
 	if (btn)
 	{
