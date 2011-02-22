@@ -10,8 +10,11 @@ QMdiSubWindowEx::QMdiSubWindowEx(QWidget *parent/* = 0*/, Qt::WindowFlags flags 
 	m_toggleViewAction->setCheckable(true);
 	m_toggleViewAction->setChecked(false);
 	m_toggleViewAction->setText(windowTitle());
-	bool okay = QObject::connect(m_toggleViewAction, SIGNAL(triggered(bool)),
+	bool okay = false;
+	
+	/*okay = QObject::connect(m_toggleViewAction, SIGNAL(triggered(bool)),
 		SLOT(slotToggleView(bool))); Q_ASSERT(okay);
+		*/
 
 	okay = QObject::connect(m_toggleViewAction, SIGNAL(toggled(bool)),
 		SLOT(slotToggleView(bool))); Q_ASSERT(okay);
@@ -56,9 +59,13 @@ bool QMdiSubWindowEx::event(QEvent *event)
 		break;
 
 	case QEvent::Show:
-		m_toggleViewAction->setChecked(true);
+		m_toggleViewAction->setChecked(true);		
+
 		if(widget())
+		{
 			widget()->show();
+		}
+
 		break;
 	default:
 		break;

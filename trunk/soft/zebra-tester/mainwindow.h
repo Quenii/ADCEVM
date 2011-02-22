@@ -6,6 +6,7 @@
 
 class QPushButton;
 class QWidget;
+class QMdiSubWindowEx;
 
 class MainWindow : public QMainWindow
 {
@@ -16,7 +17,7 @@ public:
 	~MainWindow();
 
 public:
-	void addMdiWindow(QWidget* widget, QPushButton* btn);
+	QMdiSubWindowEx* addMdiWindow(QWidget* widget, QPushButton* btn);
 
 private:
 	Ui::MainWindowClass ui;

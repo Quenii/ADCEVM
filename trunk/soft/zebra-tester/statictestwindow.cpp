@@ -1,5 +1,7 @@
 #include "statictestwindow.h"
 
+#pragma comment(lib, "qwt.lib")
+
 StaticTestWindow::StaticTestWindow(QWidget *parent)
 	: QWidget(parent)
 {
