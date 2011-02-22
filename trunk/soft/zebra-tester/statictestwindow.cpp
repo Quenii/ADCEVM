@@ -1,6 +1,10 @@
 #include "statictestwindow.h"
 
-#pragma comment(lib, "qwt.lib")
+#ifdef _DEBUG
+#	pragma comment(lib, "qwtd.lib")
+#else
+#	pragma comment(lib, "qwt.lib")
+#endif
 
 StaticTestWindow::StaticTestWindow(QWidget *parent)
 	: QWidget(parent)
