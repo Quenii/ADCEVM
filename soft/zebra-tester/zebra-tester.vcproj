@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="zebra-tester"
+	Name="DAC-Analyzer"
 	ProjectGUID="{AA70D80E-0373-45E7-8AE3-7D33AA31E5E5}"
 	RootNamespace="zebra-tester"
 	Keyword="Qt4VSv1.0"

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>zebra-tester - A DAC tester utility</string>
+   <string>DAC Analyzer</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -45,8 +45,49 @@
      <string>&amp;Help</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionFile"/>
+    <addaction name="action_Save"/>
+    <addaction name="actionE_xit"/>
+   </widget>
+   <widget class="QMenu" name="menu_View">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="action_Power_Monitoring"/>
+   </widget>
+   <widget class="QMenu" name="menu_Settings">
+    <property name="title">
+     <string>&amp;Settings</string>
+    </property>
+    <addaction name="action_Clock"/>
+    <addaction name="action_ADC_Type"/>
+    <addaction name="actionClock_Frequency"/>
+    <addaction name="action_GPIB"/>
+   </widget>
+   <widget class="QMenu" name="menuInterface_Control">
+    <property name="title">
+     <string>Interface &amp;Control</string>
+    </property>
+    <addaction name="action_Reset_GPIO_SPI"/>
+   </widget>
+   <widget class="QMenu" name="menu_Help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="action_Help_Topics"/>
+    <addaction name="action_About_CETC58_DAC_Analyzer"/>
+   </widget>
    <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>
+   <addaction name="menu"/>
+   <addaction name="menu_View"/>
+   <addaction name="menu_Settings"/>
+   <addaction name="menuInterface_Control"/>
+   <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
@@ -63,6 +104,61 @@
     <bool>false</bool>
    </attribute>
   </widget>
+  <action name="actionFile">
+   <property name="text">
+    <string>&amp;Import</string>
+   </property>
+  </action>
+  <action name="action_Save">
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+  </action>
+  <action name="actionE_xit">
+   <property name="text">
+    <string>E&amp;xit</string>
+   </property>
+  </action>
+  <action name="action_Power_Monitoring">
+   <property name="text">
+    <string>&amp;Power Monitoring</string>
+   </property>
+  </action>
+  <action name="action_Clock">
+   <property name="text">
+    <string>&amp;Clock Port</string>
+   </property>
+  </action>
+  <action name="action_ADC_Type">
+   <property name="text">
+    <string>&amp;ADC Type</string>
+   </property>
+  </action>
+  <action name="actionClock_Frequency">
+   <property name="text">
+    <string>Clock &amp;Frequency</string>
+   </property>
+  </action>
+  <action name="action_GPIB">
+   <property name="text">
+    <string>&amp;GPIB</string>
+   </property>
+  </action>
+  <action name="action_Reset_GPIO_SPI">
+   <property name="text">
+    <string>&amp;Reset/GPIO/SPI</string>
+   </property>
+  </action>
+  <action name="action_Help_Topics">
+   <property name="text">
+    <string>&amp;Help Topics</string>
+   </property>
+  </action>
+  <action name="action_About_CETC58_DAC_Analyzer">
+   <property name="text">
+    <string>&amp;About CETC58 DAC Analyzer</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
