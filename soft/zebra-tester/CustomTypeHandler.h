@@ -1,6 +1,6 @@
 #pragma once
 
-#include <list>
+#include <vector>
 
 typedef void (*RegisterFuncionPointer)(void);
 
@@ -9,7 +9,7 @@ class CustomTypeHandler
 public:
 	static void registerAll();
 private:
-	static std::list<RegisterFuncionPointer> _list; 
+	static std::vector<RegisterFuncionPointer> _list; 
 
 public:
 	CustomTypeHandler(RegisterFuncionPointer fp);

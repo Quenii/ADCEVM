@@ -1,6 +1,6 @@
 #include "CustomTypeHandler.h"
 
-std::list<RegisterFuncionPointer> CustomTypeHandler::_list; 
+std::vector<RegisterFuncionPointer> CustomTypeHandler::_list;
 
 CustomTypeHandler::CustomTypeHandler(RegisterFuncionPointer fp)
 {
@@ -14,9 +14,9 @@ CustomTypeHandler::~CustomTypeHandler(void)
 
 void CustomTypeHandler::registerAll()
 {
-	for (std::list<RegisterFuncionPointer>::iterator it = CustomTypeHandler::_list.begin(); it != CustomTypeHandler::_list.end(); ++it)
+	for (int i = 0; i  < CustomTypeHandler::_list.size(); ++i)
 	{
-		RegisterFuncionPointer fp = *it;
+		RegisterFuncionPointer fp = CustomTypeHandler::_list[i];
 		(*fp)();			
 	}
 }
