@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>660</width>
-    <height>541</height>
+    <height>402</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,7 +54,7 @@
      <string>&amp;Settings</string>
     </property>
     <addaction name="action_Clock"/>
-    <addaction name="action_ADC_Type"/>
+    <addaction name="actionDacType"/>
     <addaction name="actionClock_Frequency"/>
     <addaction name="action_GPIB"/>
    </widget>
@@ -117,9 +117,9 @@
     <string>&amp;Clock Port</string>
    </property>
   </action>
-  <action name="action_ADC_Type">
+  <action name="actionDacType">
    <property name="text">
-    <string>&amp;ADC Type</string>
+    <string>&amp;DAC Type</string>
    </property>
   </action>
   <action name="actionClock_Frequency">

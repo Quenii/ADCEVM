@@ -17,7 +17,11 @@ public:
 	~MainWindow();
 
 public:
-	QMdiSubWindowEx* addMdiWindow(QWidget* widget, QPushButton* btn);
+	//QMdiSubWindowEx* addMdiWindow(QWidget* widget, QPushButton* btn);
+
+public slots:
+	void on_actionDacType_triggered(bool checked);
+
 
 private:
 	Ui::MainWindowClass ui;
