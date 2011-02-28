@@ -2,6 +2,7 @@
 #include "statictestwindow.h"
 #include "dynamictestwindow.h"
 #include "qmdisubwindowex.h"
+#include "qdactypedialog.h"
 
 #include <QPushButton>
 #include <QList>
@@ -56,6 +57,16 @@ MainWindow::~MainWindow()
 {
 
 }
+
+void MainWindow::on_actionDacType_triggered(bool checked)
+{
+	QDacTypeDialog dlg;
+	if (QDialog::Accepted == dlg.exec())
+	{
+		DacTypeSettings dacType = dlg.settings();
+	}
+}
+
 /*
 QMdiSubWindowEx* MainWindow::addMdiWindow(QWidget* widget, QPushButton* btn)
 {
