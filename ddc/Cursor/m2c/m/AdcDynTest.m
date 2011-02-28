@@ -258,4 +258,5 @@ HD = 10*log10( Ph( 1:10 ) / Ph( 1 ) );
 SNRFS = SNR + abs( maxdB - ref_dB );
 ENOB = ( SINAD - 1.76 ) / 6.02;
 ENOBFS = ENOB + abs( maxdB - ref_dB ) / 6.02;
-HD = [ADout_dB( Harbin( 2 ) ) - ref_dB, ADout_dB( Harbin( 2 ) ) - ref_dB, ADout_dB( Harbin( 3 ) ) - ref_dB, ADout_dB( Harbin( 4 ) ) - ref_dB, ADout_dB( Harbin( 5 ) ) - ref_dB, ADout_dB( Harbin( 6 ) ) - ref_dB, ADout_dB( Harbin( 7 ) ) - ref_dB, ADout_dB( Harbin( 8 ) ) - ref_dB, ADout_dB( Harbin( 9 ) ) - ref_dB, ADout_dB( Harbin( 10 ) ) - ref_dB]; 
+HD = [ADout_dB(max(Harbin(2), 1))-ref_dB,ADout_dB(max(Harbin(2), 1))-ref_dB,ADout_dB(max(Harbin(3), 1))-ref_dB,ADout_dB(max(Harbin(4), 1))-ref_dB,ADout_dB(max(Harbin(5), 1))-ref_dB,ADout_dB(max(Harbin(6), 1))-ref_dB,ADout_dB(max(Harbin(7), 1))-ref_dB,ADout_dB(max(Harbin(8), 1))-ref_dB,ADout_dB(max(Harbin(9), 1))-ref_dB,ADout_dB(max(Harbin(10), 1))-ref_dB]; 
+y = ADout_dB - ref_dB;
