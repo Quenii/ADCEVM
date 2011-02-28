@@ -14,6 +14,9 @@ public:
 	void setDacTypeSettings(const DacTypeSettings& val);
 	DacTypeSettings dacTypeSettings() const;
 
+	void setClockFreq(const float& val);
+	float clockFreq() const;
+
 private:
 	QSettings m_s;
 };
