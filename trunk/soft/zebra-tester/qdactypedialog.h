@@ -17,10 +17,21 @@ struct DacTypeSettings
 	float refVolt;
 	float phase;	
 
-	operator QVariant() const
+	DacTypeSettings()
 	{
-		return QVariant::fromValue(*this);
+		if (!_inited)
+		{
+			qRegisterMetaType<DacTypeSettings>();
+			qRegisterMetaType<DacTypeSettings>("DacTypeSettings");
+			qRegisterMetaTypeStreamOperators<DacTypeSettings>("DacTypeSettings");
+
+			_inited = true;
+		}
 	}
+
+	operator QVariant() const {	return QVariant::fromValue(*this); }
+
+	static bool _inited;
 };
 
 Q_DECLARE_METATYPE(DacTypeSettings);

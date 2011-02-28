@@ -1,15 +1,6 @@
 #include "qdactypedialog.h"
 #include "dacanalyzersettings.h"
-#include "CustomTypeHandler.h"
-
-static void registerMetaType()
-{
-	qRegisterMetaType<DacTypeSettings>();
-	qRegisterMetaType<DacTypeSettings>("DacTypeSettings");
-	qRegisterMetaTypeStreamOperators<DacTypeSettings>("DacTypeSettings");
-}
-
-static CustomTypeHandler _inst(registerMetaType);
+bool DacTypeSettings::_inited = false;
 
 QDacTypeDialog::QDacTypeDialog(QWidget *parent)
 	: QDialog(parent)
