@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QList>
 #include <QPointer>
-
+/*
 class QActionUnckecker : public QObject
 {
 	Q_OBJECT
@@ -30,13 +30,13 @@ private:
 };
 
 #include "mainwindow.moc"
-
+*/
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
 
-	QMdiSubWindowEx* a = addMdiWindow(new StaticTestWindow(0), 0);
+	/*QMdiSubWindowEx* a = addMdiWindow(new StaticTestWindow(0), 0);
 	QMdiSubWindowEx* b = addMdiWindow(new DynamicTestWindow(0), 0);
 	a->adjustSize();
 	b->adjustSize();
@@ -49,13 +49,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 	ok = connect(b->toggleViewAction(), SIGNAL(toggled(bool)), _a, SLOT(uncheck(bool)));
 	Q_ASSERT(ok);
+	*/
 }
 
 MainWindow::~MainWindow()
 {
 
 }
-
+/*
 QMdiSubWindowEx* MainWindow::addMdiWindow(QWidget* widget, QPushButton* btn)
 {
 	QMdiSubWindowEx* subWindow = new QMdiSubWindowEx(this, Qt::MSWindowsFixedSizeDialogHint); 
@@ -72,4 +73,4 @@ QMdiSubWindowEx* MainWindow::addMdiWindow(QWidget* widget, QPushButton* btn)
 	}
 
 	return subWindow;
-}
+}*/
