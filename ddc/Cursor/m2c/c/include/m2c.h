@@ -23,9 +23,11 @@ M2C_API void AlgDynTest(double* cdata1, int cdata1_cnt,
 						double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o, double* cy);
 
 
+//M2C_API void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
+//						double& cSNR__o, double& cSFDR__o, double& cSNRFS__o, double& cSINAD__o, double* cy);
 M2C_API void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
-						double& cSNR__o, double& cSFDR__o, double& cSNRFS__o, double& cSINAD__o);
-
+				double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o,
+				double* cy);
 
 M2C_API void FFT(double* data, int data_cnt, double* result, int result_cnt);
 M2C_API void FFT_complex(double* r_data, double* i_data, int data_cnt, double* result, int result_cnt);

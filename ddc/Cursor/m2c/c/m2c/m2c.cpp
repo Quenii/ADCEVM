@@ -82,7 +82,7 @@ void AlgDynTest(double* cdata1, int cdata1_cnt,
 	Mm ENOB__o;
 	Mm y__o;
 
-	double peek[] = {data1.r(1, 1), data1.r(2, 1), data1.r(32767, 1)};
+//	double peek[] = {data1.r(1, 1), data1.r(2, 1), data1.r(32767, 1)};
 
 	AlgDynTest(data1, data2, numpt, fclk, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o,  ENOB__o, y__o);
 
@@ -94,7 +94,8 @@ void AlgDynTest(double* cdata1, int cdata1_cnt,
 }
 
 void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
-				double& cSNR__o, double& cSFDR__o, double& cSNRFS__o, double& cSINAD__o)
+				double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o,
+				double* cy)
 {
 	SingleLock lock(&cs);
 	
@@ -104,14 +105,21 @@ void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, doub
 	DECLEAR_Mm_ONE(NFFT, cNFFT);
 	DECLEAR_Mm_ONE(V, cV);
 	DECLEAR_Mm_ONE(code, ccode);
-	Mm SNR__o, SFDR__o, SNRFS__o, SINAD__o;
+	Mm SNR__o; 
+	Mm SINAD__o;
+	Mm SFDR__o; 
+	Mm ENOB__o;
+	Mm y__o;
 	
-	AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SFDR__o, SNRFS__o, SINAD__o);
+	AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, y__o);
 
-	cSNR__o = SNR__o.r(1, 1);
-	cSFDR__o = SFDR__o.r(1, 1);
-	cSNRFS__o = SNRFS__o.r(1, 1);
+	cSNR__o = SNR__o.r(1, 1); 
 	cSINAD__o = SINAD__o.r(1, 1);
+	cSFDR__o = SFDR__o.r(1, 1); 
+	cENOB__o = ENOB__o.r(1, 1);
+
+	memcpy(cy, y__o.addr(), cdata_cnt * sizeof(*cy));
+
 }
 
 void FFT(double* data, int data_cnt, double* result, int result_cnt)

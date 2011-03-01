@@ -153,7 +153,7 @@ void CAdcTestPlatView::OnInitialUpdate()
 	}
 	
 	// adc显示
-	AdcDisp();
+//	AdcDisp();
 	
 }
 
@@ -650,6 +650,7 @@ void CAdcTestPlatView::AdcDisp()
 	short* pwTemp = NULL;
 	double dActualMax;
 	double dActualMin;
+	TRACE("\nAdcDisp() Calling...\n");
 
 	UpdateData( TRUE );
 	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetDocument();
@@ -698,13 +699,13 @@ void CAdcTestPlatView::AdcDisp()
 
 		////////////////////////////////////////////////////////////////
 		// 调用matlab计算fft
-		for ( i = 0; i < MAX_DEPTH; i++ )
-		{
-			daIn[i] = pwTemp[i];
-		}
-		dDotnum = MAX_DEPTH;
+// 		for ( i = 0; i < MAX_DEPTH; i++ )
+// 		{
+// 			daIn[i] = pwTemp[i];
+// 		}
+// 		FFT(daIn, MAX_DEPTH, daY, MAX_DEPTH / 2);		
 
-		FFT(daIn, MAX_DEPTH, daY, MAX_DEPTH / 2);		
+		dDotnum = MAX_DEPTH;
 
 		
 		// plot
@@ -723,15 +724,22 @@ void CAdcTestPlatView::AdcDisp()
 		m_FFTDisp[0].m_bShowParam = TRUE;
 		// 使用matlab的fft结果
 		// 互斥
-		CSingleLock slDataBuf( &(m_FFTDisp[0].m_csFftDataBuf) );
-		slDataBuf.Lock();
-		memcpy( m_FFTDisp[0].m_FFTData, daY, (MAX_DEPTH / 2) * sizeof(double) );
+// 		CSingleLock slDataBuf( &(m_FFTDisp[0].m_csFftDataBuf) );
+// 		slDataBuf.Lock();
+// 		memcpy( m_FFTDisp[0].m_FFTData, daY, (MAX_DEPTH / 2) * sizeof(double) );
+		ASSERT(m_nPos < 4);
+		memcpy( m_FFTDisp[0].m_FFTData, &(pGB->dataSet[m_nPos].y[0]), (MAX_DEPTH) * sizeof(double) );
 
 		// 保存SNR/SFDR/SINAD/ENOB
-		m_FFTDisp[0].m_dSNR = pDoc->m_daResultSNR[m_nPos];
-		m_FFTDisp[0].m_dSFDR = pDoc->m_daResultSFDR[m_nPos];
-		m_FFTDisp[0].m_dSINAD = pDoc->m_daResultSINAD[m_nPos];
-		m_FFTDisp[0].m_dENOB = pDoc->m_daResultENOB[m_nPos];
+// 		m_FFTDisp[0].m_dSNR = pDoc->m_daResultSNR[m_nPos];
+// 		m_FFTDisp[0].m_dSFDR = pDoc->m_daResultSFDR[m_nPos];
+// 		m_FFTDisp[0].m_dSINAD = pDoc->m_daResultSINAD[m_nPos];
+// 		m_FFTDisp[0].m_dENOB = pDoc->m_daResultENOB[m_nPos];
+	
+		m_FFTDisp[0].m_dSNR = pGB->dataSet[m_nPos].SNR;
+		m_FFTDisp[0].m_dSFDR = pGB->dataSet[m_nPos].SFDR;
+		m_FFTDisp[0].m_dSINAD = pGB->dataSet[m_nPos].SINAD;
+		m_FFTDisp[0].m_dENOB = pGB->dataSet[m_nPos].ENOB;
 
 		// 查找最大值，算频率
 		int nPos;
@@ -776,10 +784,11 @@ void CAdcTestPlatView::AdcDisp()
 		//m_FFTDisp[0].DrawSpectrum();		
 		m_FFTDisp[0].DrawCurve();
 		m_DataDisp[0].DrawData();
-		slDataBuf.Unlock();
+//		slDataBuf.Unlock();
 
 	}
 
+	TRACE("\nAdcDisp() Called...\n");
 
 }
 
@@ -804,7 +813,8 @@ void CAdcTestPlatView::AlgDisp()
 	int nSampFreq = 80;
 	
 	double dNum;
-	
+	TRACE("\nAlgDisp() Calling...\n");
+
 	UpdateData( TRUE );
 	CAdcTestPlatDoc* pDoc = (CAdcTestPlatDoc*)GetDocument();
 	if ( pDoc != NULL )
@@ -915,9 +925,7 @@ void CAdcTestPlatView::AlgDisp()
 // 	slDataBuf.Lock();
 //	memcpy( m_FFTDisp[0].m_FFTData, daY, (nAlgDepth / 2) * sizeof(double) );
 	ASSERT(m_nPos < 4);
-	memcpy( m_FFTDisp[0].m_FFTData, 
-		&(pGB->dataSet[m_nPos].y[0]), 
-		nAlgDepth * sizeof(double) );
+	memcpy( m_FFTDisp[0].m_FFTData, &(pGB->dataSet[m_nPos].y[0]), nAlgDepth * sizeof(double) );
 	int k = 0;
 	// 分3种情况考虑
 	if ( m_bIData && !m_bQData )
@@ -963,9 +971,9 @@ void CAdcTestPlatView::AlgDisp()
 // 	m_FFTDisp[0].m_dENOB = pDoc->m_daResultENOB[m_nPos];
 
 	m_FFTDisp[0].m_dSNR = pGB->dataSet[m_nPos].SNR;
-	m_FFTDisp[0].m_dSFDR = pGB->dataSet[m_nPos].SNR;
-	m_FFTDisp[0].m_dSINAD = pGB->dataSet[m_nPos].SNR;
-	m_FFTDisp[0].m_dENOB = pGB->dataSet[m_nPos].SNR;
+	m_FFTDisp[0].m_dSFDR = pGB->dataSet[m_nPos].SFDR;
+	m_FFTDisp[0].m_dSINAD = pGB->dataSet[m_nPos].SINAD;
+	m_FFTDisp[0].m_dENOB = pGB->dataSet[m_nPos].ENOB;
 
 	// 查找最大值，算频率
 	int nPos;
@@ -1392,34 +1400,36 @@ void CAdcTestPlatView::AdcDispFourChannel()
 				}
 					
 			}			
-			// 调用matlab计算fft
-			for ( i = 0; i < MAX_DEPTH; i++ )
-			{
-				daIn[i] = pwTemp[i];
-			}
-			dDotnum = MAX_DEPTH;
-		/*	memcpy( mxGetPr(mxIn), daIn, MAX_DEPTH*sizeof(double) );
-			memcpy( mxGetPr(mxOut), daOut, MAX_DEPTH*sizeof(double) );
-			memcpy( mxGetPr(mxDotnum), &dDotnum, sizeof(double) );
-			mlfMyfft( 1, &(mxOut), mxIn, mxDotnum );
-			memcpy( daY, mxGetPr(mxOut), MAX_DEPTH*sizeof(double) );
-			*/
+// 			// 调用matlab计算fft
+// 			for ( i = 0; i < MAX_DEPTH; i++ )
+// 			{
+// 				daIn[i] = pwTemp[i];
+// 			}
+// 			FFT(daIn, MAX_VALUE, daY, MAX_DEPTH);
 
-			FFT(daIn, MAX_VALUE, daY, MAX_DEPTH);
+			dDotnum = MAX_DEPTH;
 
 			// ADC测试显示参数
 			pFFTDisp->m_bShowParam = TRUE;
 
 			// 使用matlab的fft结果
 			// 互斥保护
-			CSingleLock slDataBuf( &(pFFTDisp->m_csFftDataBuf) );
-			slDataBuf.Lock();
-			memcpy( pFFTDisp->m_FFTData, daY, (MAX_DEPTH / 2) * sizeof(double) );
+// 			CSingleLock slDataBuf( &(pFFTDisp->m_csFftDataBuf) );
+// 			slDataBuf.Lock();
+// 			memcpy( pFFTDisp->m_FFTData, daY, (MAX_DEPTH / 2) * sizeof(double) );
+
+			memcpy(pFFTDisp->m_FFTData, &(pGB->dataSet[j].y[0]), (MAX_DEPTH) * sizeof(double));
 			// 保存SNR/SFDR/SINAD/ENOB
-			pFFTDisp->m_dSNR = pDoc->m_daResultSNR[m_nPos];
-			pFFTDisp->m_dSFDR = pDoc->m_daResultSFDR[m_nPos];
-			pFFTDisp->m_dSINAD = pDoc->m_daResultSINAD[m_nPos];
-			pFFTDisp->m_dENOB = pDoc->m_daResultENOB[m_nPos];
+// 			pFFTDisp->m_dSNR = pDoc->m_daResultSNR[m_nPos];
+// 			pFFTDisp->m_dSFDR = pDoc->m_daResultSFDR[m_nPos];
+// 			pFFTDisp->m_dSINAD = pDoc->m_daResultSINAD[m_nPos];
+// 			pFFTDisp->m_dENOB = pDoc->m_daResultENOB[m_nPos];
+
+			pFFTDisp->m_dSNR = pGB->dataSet[j].SNR;
+			pFFTDisp->m_dSFDR = pGB->dataSet[j].SFDR;
+			pFFTDisp->m_dSINAD = pGB->dataSet[j].SINAD;
+			pFFTDisp->m_dENOB = pGB->dataSet[j].ENOB;
+
 
 			// 查找最大值，算频率
 			int nPos;
@@ -1464,7 +1474,7 @@ void CAdcTestPlatView::AdcDispFourChannel()
 			// 3.更新图形显示			
 			pFFTDisp->DrawCurve();
 			pDataDisp->DrawData();
-			slDataBuf.Unlock();			
+// 			slDataBuf.Unlock();			
 		}		
 	}
 }

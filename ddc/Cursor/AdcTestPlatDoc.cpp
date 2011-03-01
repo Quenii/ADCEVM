@@ -517,9 +517,20 @@ void CAdcTestPlatDoc::CalcPerf()
 			m_data[j] = pwTemp[j];
 		}		
 
-		double SNRFS = 0;
+		static std::vector<double> y(MAX_DEPTH);
 		AdcDynTest(m_data, MAX_DEPTH, fclk, numbit, MAX_DEPTH, 2, 1,
-						SNR, SINAD, SFDR, ENOB);
+						SNR, SINAD, SFDR, ENOB, &y[0]);
+
+		GlobalData& globalData = * GlobalData::lockInstance();		
+		copy2vector(globalData.dataSet[i].i, m_data, MAX_DEPTH);		
+		copy2vector(globalData.dataSet[i].y, &y[0], MAX_DEPTH);
+		
+		globalData.dataSet[i].SNR = SNR;
+		globalData.dataSet[i].SFDR = SFDR;
+		globalData.dataSet[i].SINAD = SINAD;
+		globalData.dataSet[i].ENOB = ENOB;
+		
+		globalData.unlock();
 		
 		// ±£´æ½á¹û
 		m_daResultSNR[i] = SNR;
