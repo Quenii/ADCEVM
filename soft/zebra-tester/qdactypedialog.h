@@ -6,7 +6,6 @@
 #include <QDialog>
 #include <QDataStream>
 
-
 struct DacTypeSettings
 {
 	QString type;
