@@ -55,7 +55,7 @@
     </property>
     <addaction name="action_Clock"/>
     <addaction name="actionDacType"/>
-    <addaction name="actionClock_Frequency"/>
+    <addaction name="actionClockFrequency"/>
     <addaction name="action_GPIB"/>
    </widget>
    <widget class="QMenu" name="menuInterface_Control">
@@ -109,7 +109,7 @@
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
-         <widget class="QDacTypeWidget" name="widget" native="true"/>
+         <widget class="QDacTypeWidget" name="dacTypeWidget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -121,7 +121,7 @@
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
-         <widget class="QClockFreqWidget" name="widget_2" native="true"/>
+         <widget class="QClockFreqWidget" name="clockFreqWidget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -133,7 +133,7 @@
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
-         <widget class="QTestWidget" name="widget_3" native="true"/>
+         <widget class="QTestWidget" name="testWidget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -184,7 +184,7 @@
     <string>&amp;DAC Type</string>
    </property>
   </action>
-  <action name="actionClock_Frequency">
+  <action name="actionClockFrequency">
    <property name="text">
     <string>Clock &amp;Frequency</string>
    </property>

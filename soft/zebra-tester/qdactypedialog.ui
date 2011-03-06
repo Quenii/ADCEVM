@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>294</width>
+    <width>292</width>
     <height>199</height>
    </rect>
   </property>
@@ -191,8 +191,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>94</x>
-     <y>85</y>
+     <x>103</x>
+     <y>188</y>
     </hint>
     <hint type="destinationlabel">
      <x>77</x>
@@ -207,8 +207,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>67</x>
-     <y>85</y>
+     <x>76</x>
+     <y>188</y>
     </hint>
     <hint type="destinationlabel">
      <x>59</x>

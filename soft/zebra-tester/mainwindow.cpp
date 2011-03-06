@@ -3,6 +3,7 @@
 #include "dynamictestwindow.h"
 #include "qmdisubwindowex.h"
 #include "qdactypedialog.h"
+#include "qclockfreqdialog.h"
 
 #include <QPushButton>
 #include <QList>
@@ -64,10 +65,20 @@ void MainWindow::on_actionDacType_triggered(bool checked)
 	QDacTypeDialog dlg;
 	if (QDialog::Accepted == dlg.exec())
 	{
-		DacTypeSettings dacType = dlg.settings();
+		DacTypeSettings dacTypeSettings = dlg.settings();
+		ui.dacTypeWidget->setDacTypeSettings(dacTypeSettings);
 	}
 }
 
+void MainWindow::on_actionClockFrequency_triggered(bool checked)
+{
+	QClockFreqDialog dlg;
+	if (QDialog::Accepted == dlg.exec())
+	{
+		float clockFreq = dlg.clockFreq();
+		ui.clockFreqWidget->setClockFreq(clockFreq);
+	}
+}
 
 void MainWindow::on_actionAboutCETC58DACAnalyzer_triggered(bool checked)
 {
