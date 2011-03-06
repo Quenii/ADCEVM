@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QList>
 #include <QPointer>
+#include <QMessageBox>
 /*
 class QActionUnckecker : public QObject
 {
@@ -66,6 +67,14 @@ void MainWindow::on_actionDacType_triggered(bool checked)
 		DacTypeSettings dacType = dlg.settings();
 	}
 }
+
+
+void MainWindow::on_actionAboutCETC58DACAnalyzer_triggered(bool checked)
+{
+	QMessageBox::about(this, tr("About CETC58 DAC Analyzer"),
+		tr("<br><b>DAC Analyzer</b> is designed to work with the USB-DAC evaluation board.<br><br><div align=center>Copyright (c) CETC58, 2010</div><br> "));
+}
+
 
 /*
 QMdiSubWindowEx* MainWindow::addMdiWindow(QWidget* widget, QPushButton* btn)
