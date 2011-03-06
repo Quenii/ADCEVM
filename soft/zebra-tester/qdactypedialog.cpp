@@ -1,6 +1,5 @@
 #include "qdactypedialog.h"
 #include "dacanalyzersettings.h"
-bool DacTypeSettings::_inited = false;
 
 QDacTypeDialog::QDacTypeDialog(QWidget *parent)
 	: QDialog(parent)
