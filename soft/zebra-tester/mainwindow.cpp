@@ -72,7 +72,7 @@ void MainWindow::on_actionDacType_triggered(bool checked)
 void MainWindow::on_actionAboutCETC58DACAnalyzer_triggered(bool checked)
 {
 	QMessageBox::about(this, tr("About CETC58 DAC Analyzer"),
-		tr("<br><b>DAC Analyzer</b> is designed to work with the USB-DAC evaluation board.<br><br><div align=center>Copyright (c) CETC58, 2010</div><br> "));
+		tr("<br><b>DAC Analyzer</b> is designed to work with the USB-DAC evaluation board.<br><br><div align=center>Copyright (c) CETC58, 2011</div><br> "));
 }
 
 
