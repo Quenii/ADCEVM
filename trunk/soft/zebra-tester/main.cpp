@@ -17,6 +17,6 @@ int main(int argc, char *argv[])
 	REGISTER_METATYPE_HELPER(DacTypeSettings);
 
 	MainWindow w;
-	w.show();
+	w.showMaximized();
 	return a.exec();
 }

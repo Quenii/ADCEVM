@@ -79,6 +79,18 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidget">
+   <property name="minimumSize">
+    <size>
+     <width>244</width>
+     <height>186</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>244</width>
+     <height>524287</height>
+    </size>
+   </property>
    <property name="features">
     <set>QDockWidget::NoDockWidgetFeatures</set>
    </property>
