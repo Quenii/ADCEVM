@@ -23,7 +23,6 @@ public slots:
 	void on_actionDacType_triggered(bool checked);
 	void on_actionAboutCETC58DACAnalyzer_triggered(bool checked);
 
-
 private:
 	Ui::MainWindowClass ui;
 };
