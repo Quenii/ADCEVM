@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>288</width>
+    <width>305</width>
     <height>67</height>
    </rect>
   </property>
@@ -31,7 +31,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="2">
+   <item row="1" column="0" colspan="3">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
@@ -50,12 +50,12 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>90</x>
-     <y>50</y>
+     <x>225</x>
+     <y>57</y>
     </hint>
     <hint type="destinationlabel">
-     <x>34</x>
-     <y>43</y>
+     <x>168</x>
+     <y>66</y>
     </hint>
    </hints>
   </connection>
@@ -66,12 +66,12 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>92</x>
-     <y>54</y>
+     <x>295</x>
+     <y>56</y>
     </hint>
     <hint type="destinationlabel">
-     <x>73</x>
-     <y>61</y>
+     <x>302</x>
+     <y>66</y>
     </hint>
    </hints>
   </connection>
