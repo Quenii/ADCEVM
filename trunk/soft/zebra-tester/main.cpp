@@ -4,8 +4,6 @@
 #include <QApplication>
 #include <QMetaType>
 
-// qRegisterMetaType<T>();
-
 #define REGISTER_METATYPE_HELPER( type ) \
 	qRegisterMetaType<type>(); \
 	qRegisterMetaType<type>(#type); \
