@@ -5,7 +5,6 @@
 
 #include <QDialog>
 #include <QDataStream>
-#include <QMetaType>
 
 
 struct DacTypeSettings
@@ -17,24 +16,10 @@ struct DacTypeSettings
 	float refVolt;
 	float phase;	
 
-	DacTypeSettings()
-	{
-		if (!_inited)
-		{
-			qRegisterMetaType<DacTypeSettings>();
-			qRegisterMetaType<DacTypeSettings>("DacTypeSettings");
-			qRegisterMetaTypeStreamOperators<DacTypeSettings>("DacTypeSettings");
-
-			_inited = true;
-		}
-	}
-
 	operator QVariant() const {	return QVariant::fromValue(*this); }
-
-	static bool _inited;
 };
-
 Q_DECLARE_METATYPE(DacTypeSettings);
+
 
 inline QDataStream& operator<<(QDataStream& out, const DacTypeSettings& val)
 {
