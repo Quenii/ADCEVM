@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>272</width>
+    <width>212</width>
     <height>150</height>
    </rect>
   </property>
@@ -112,22 +112,46 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLineEdit" name="lineEditVd"/>
+    <widget class="QLineEdit" name="lineEditVd">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="lineEditVa"/>
+    <widget class="QLineEdit" name="lineEditVa">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="lineEditDacType"/>
+    <widget class="QLineEdit" name="lineEditDacType">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QLineEdit" name="lineEditBitCount"/>
+    <widget class="QLineEdit" name="lineEditBitCount">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QLineEdit" name="lineEditRefVolt"/>
+    <widget class="QLineEdit" name="lineEditRefVolt">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QLineEdit" name="lineEditPhase"/>
+    <widget class="QLineEdit" name="lineEditPhase">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
