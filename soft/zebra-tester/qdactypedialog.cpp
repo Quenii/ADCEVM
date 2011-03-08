@@ -15,11 +15,6 @@ QDacTypeDialog::~QDacTypeDialog()
 
 }
 
-void QDacTypeDialog::accept()
-{
-
-}
-
 void QDacTypeDialog::setSettings(const DacTypeSettings& val)
 {
 

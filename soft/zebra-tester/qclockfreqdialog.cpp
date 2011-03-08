@@ -15,11 +15,6 @@ QClockFreqDialog::~QClockFreqDialog()
 
 }
 
-void QClockFreqDialog::accept()
-{
-
-}
-
 void QClockFreqDialog::setClockFreq(const float& val)
 {
 
