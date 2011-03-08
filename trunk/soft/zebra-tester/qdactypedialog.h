@@ -55,9 +55,6 @@ public:
 public:
 	DacTypeSettings settings() { return m_settings; }
 
-public slots:
-	void accept();
-	
 private:
 	void setSettings(const DacTypeSettings& val);
 

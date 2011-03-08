@@ -15,9 +15,6 @@ public:
 public:
 	float clockFreq() { return m_clockFreq; }
 
-public slots:
-	void accept();
-
 private:
 	void setClockFreq(const float& val);
 
