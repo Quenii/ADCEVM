@@ -18,8 +18,11 @@
 #ifdef _DEBUG
 #endif // _DEBUG
 
-#ifdef MATLAB   //defined in AdcBoardTypes.hpp
+#if defined(MATLAB)    //defined in AdcBoardTypes.hpp
 #include "libalgo_wrapper.h"
+#elif defined(MATCOM)
+#include "../m2cpp/m2c.h"
+#else
 #endif // MATLAB
 
 #pragma comment(lib, "CyAPI.lib")
@@ -353,8 +356,11 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 	fdReport.Spectrum.resize(buffer_cnt/2);
 
-#ifdef MATLAB
+#if defined(MATLAB) 
 	calc_dynam_params(tdReport.samples, 16, fdReport);
+
+#elif defined(MATCOM) 
+	
 
 #else
 	memcpy( &fdReport.Spectrum[0], &tdReport.samples[0], buffer_cnt/2);
@@ -368,15 +374,16 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 unsigned short AdcBoard::CalcReg(float v)
 {
 	//todo: 1, 
-	float min = 1.41f;
-	float max = 3.60f;
+	float min = 0.96f;
+	float max = 2.65f;
 	float step = 65536/(max - min);
 	//calibrite from vio@2s60;
-	//unsigned int reg = (int)((max-v)*step);
+	unsigned int reg = (int)((max-v)*step);
 
 	//
-	unsigned int reg = (int)((3.00f-v)*31000);
+//	unsigned int reg = (int)((3.00f-v)*31000);
 	unsigned short temp = reg;
+//	unsigned short temp = 0;
 	return temp;
 }
 
