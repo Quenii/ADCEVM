@@ -1,0 +1,173 @@
+<session jtag_chain="USB-Blaster [USB-0]" jtag_device="@1: EP2S30 (0x020920DD)" sof_file="output/top.sof" top_level_entity="top_cmos">
+  <display_tree gui_logging_enabled="0">
+    <display_branch instance="auto_signaltap_0" log="USE_GLOBAL_TEMP" signal_set="USE_GLOBAL_TEMP" trigger="USE_GLOBAL_TEMP"/>
+  </display_tree>
+  <instance entity_name="sld_signaltap" is_auto_node="yes" is_expanded="true" name="auto_signaltap_0" source_file="sld_signaltap.vhd">
+    <node_ip_info instance_id="0" mfg_id="110" node_id="0" version="6"/>
+    <position_info>
+      <single attribute="active tab" value="1"/>
+      <single attribute="data horizontal scroll position" value="0"/>
+      <single attribute="data vertical scroll position" value="0"/>
+      <single attribute="setup horizontal scroll position" value="0"/>
+      <single attribute="setup vertical scroll position" value="0"/>
+      <single attribute="zoom level denominator" value="128"/>
+      <single attribute="zoom level numerator" value="1"/>
+      <single attribute="zoom offset denominator" value="1"/>
+      <single attribute="zoom offset numerator" value="16777088"/>
+    </position_info>
+    <signal_set global_temp="1" name="signal_set: 2011/04/06 11:29:42  #0">
+      <clock name="clk_80m" polarity="posedge" tap_mode="classic"/>
+      <config ram_type="M4K" reserved_data_nodes="0" reserved_trigger_nodes="0" sample_depth="128" trigger_in_enable="no" trigger_out_enable="no"/>
+      <top_entity/>
+      <signal_vec>
+        <trigger_input_vec>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|adc_rst_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|clk_500K_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|i2c_scl_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|i2c_sda_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|i2c_sdo_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|spi_clk_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|spi_cs_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|spi_di_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|spi_do_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|spi_out_en_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|tm_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="rx_in_i[0]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[10]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[11]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[12]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[13]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[14]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[15]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[1]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[2]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[3]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[4]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[5]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[6]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[7]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[8]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[9]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_inclock_i" tap_mode="classic" type="input pin"/>
+        </trigger_input_vec>
+        <data_input_vec>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|adc_rst_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|clk_500K_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|i2c_scl_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|i2c_sda_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|i2c_sdo_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|spi_clk_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|spi_cs_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|spi_di_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|spi_do_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|spi_out_en_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|adc_config:adc_config_1|tm_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="rx_in_i[0]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[10]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[11]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[12]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[13]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[14]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[15]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[1]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[2]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[3]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[4]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[5]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[6]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[7]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[8]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_in_i[9]" tap_mode="classic" type="input pin"/>
+          <wire name="rx_inclock_i" tap_mode="classic" type="input pin"/>
+        </data_input_vec>
+      </signal_vec>
+      <presentation>
+        <data_view>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|adc_rst_n_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|clk_500K_i"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|i2c_scl_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|i2c_sda_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|i2c_sdo_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|spi_clk_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|spi_cs_n_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|spi_di_i"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|spi_do_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|spi_out_en_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|tm_o"/>
+          <bus is_signal_inverted="no" link="all" name="rx_in_i" order="lsb_to_msb" radix="line" state="collapse" type="input pin">
+            <net is_signal_inverted="no" name="rx_in_i[0]"/>
+            <net is_signal_inverted="no" name="rx_in_i[1]"/>
+            <net is_signal_inverted="no" name="rx_in_i[2]"/>
+            <net is_signal_inverted="no" name="rx_in_i[3]"/>
+            <net is_signal_inverted="no" name="rx_in_i[4]"/>
+            <net is_signal_inverted="no" name="rx_in_i[5]"/>
+            <net is_signal_inverted="no" name="rx_in_i[6]"/>
+            <net is_signal_inverted="no" name="rx_in_i[7]"/>
+            <net is_signal_inverted="no" name="rx_in_i[8]"/>
+            <net is_signal_inverted="no" name="rx_in_i[9]"/>
+            <net is_signal_inverted="no" name="rx_in_i[10]"/>
+            <net is_signal_inverted="no" name="rx_in_i[11]"/>
+            <net is_signal_inverted="no" name="rx_in_i[12]"/>
+            <net is_signal_inverted="no" name="rx_in_i[13]"/>
+            <net is_signal_inverted="no" name="rx_in_i[14]"/>
+            <net is_signal_inverted="no" name="rx_in_i[15]"/>
+          </bus>
+          <net is_signal_inverted="no" name="rx_inclock_i"/>
+        </data_view>
+        <setup_view>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|adc_rst_n_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|clk_500K_i"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|i2c_scl_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|i2c_sda_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|i2c_sdo_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|spi_clk_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|spi_cs_n_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|spi_di_i"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|spi_do_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|spi_out_en_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|adc_config:adc_config_1|tm_o"/>
+          <bus is_signal_inverted="no" link="all" name="rx_in_i" order="lsb_to_msb" radix="line" state="collapse" type="input pin">
+            <net is_signal_inverted="no" name="rx_in_i[0]"/>
+            <net is_signal_inverted="no" name="rx_in_i[1]"/>
+            <net is_signal_inverted="no" name="rx_in_i[2]"/>
+            <net is_signal_inverted="no" name="rx_in_i[3]"/>
+            <net is_signal_inverted="no" name="rx_in_i[4]"/>
+            <net is_signal_inverted="no" name="rx_in_i[5]"/>
+            <net is_signal_inverted="no" name="rx_in_i[6]"/>
+            <net is_signal_inverted="no" name="rx_in_i[7]"/>
+            <net is_signal_inverted="no" name="rx_in_i[8]"/>
+            <net is_signal_inverted="no" name="rx_in_i[9]"/>
+            <net is_signal_inverted="no" name="rx_in_i[10]"/>
+            <net is_signal_inverted="no" name="rx_in_i[11]"/>
+            <net is_signal_inverted="no" name="rx_in_i[12]"/>
+            <net is_signal_inverted="no" name="rx_in_i[13]"/>
+            <net is_signal_inverted="no" name="rx_in_i[14]"/>
+            <net is_signal_inverted="no" name="rx_in_i[15]"/>
+          </bus>
+          <net is_signal_inverted="no" name="rx_inclock_i"/>
+        </setup_view>
+      </presentation>
+      <trigger CRC="F562B135" attribute_mem_mode="false" global_temp="1" name="trigger: 2011/04/06 11:29:42  #1" position="pre" power_up_trigger_mode="false" segment_size="1" trigger_in="dont_care" trigger_out="active high" trigger_type="circular">
+        <power_up_trigger position="pre" trigger_in="dont_care" trigger_out="active high"/>
+        <events use_custom_flow_control="no">
+          <level enabled="yes" name="condition1" type="basic">
+            <power_up enabled="yes">
+            </power_up>
+            <op_node/>
+          </level>
+        </events>
+        <log>
+          <data global_temp="1" name="log: 2011/04/06 11:35:08  #0" power_up_mode="false" sample_depth="128" trigger_position="-1">00000000000011111000001101100000000000001111100000110111000000000000111110001011011000000000000011111001001101110000000000001111100010110110000000000000111110011011011000000000000011111000001101110000000000001111100100110110000000000000111110010011011100000000000011111001001101100000000000001111100100110110000000000000111110001011011100000000000011111001001101100000000000001111100100110111000000000000111110010011011000000000000011111001001101100000000000001111100100110111000000000000111110011011011000000000000011111001101101110000000000001111100111010110000000000000111110011011011000000000000011111001001101110000000000001111100110110110000000000000111110010011011100000000000011111001001101100000000000001111100100110110000000000000111110001011011100000000000011111000011101100000000000001111100100110111000000000000111110011011011000000000000011111000011101100000000000001111100000110111000000000000111110010011011000000000000011111000001101110000000000001111100000110110000000000000111110010011011000000000000011111001101101110000000000001111100100110110000000000000111110011011011100000000000011111001001101100000000000001111100100110110000000000000111110001011011100000000000011111000001101100000000000001111100001110111000000000000111110000011011000000000000011111000101101100000000000001111100100110111000000000000111110001011011000000000000011111000101101110000000000001111100100110110000000000000111110000011011000000000000011111001001101110000000000001111100010110110000000000000111110011101011100000000000011111001101101100000000000001111100110110110000000000000111110001011011100000000000011111001001101100000000000001111100100110111000000000000111110010011011000000000000011111000001101100000000000001111100000110111000000000000111110011011011000000000000011111000101101110000000000001111100100110110000000000000111110010011011000000000000011111000101101110000000000001111100110110110000000000000111110010011011100000000000011111001110101100000000000001111100110110110000000000000111110010011011100000000000011111001001101100000000000001111100100110111000000000000111110011011011000000000000011111000001101100000000000001111100100110111000000000000111110000011011000000000000011111000101101110000000000001111100110110110000000000000111110000011011000000000000011111000101101110000000000001111100110110110000000000000111110011011011100000000000011111001001101100000000000001111100000110110000000000000111110000111011100000000000011111000101101100000000000001111100100110111000000000000111110000011011000000000000011111001110101100000000000001111100100110111000000000000111110001011011000000000000011111000101101110000000000001111100010110110000000000000111110000011011000000000000011111000001101110000000000001111100010110110000000000000111110010011011100000000000011111001001101100000000000001111100100110110000000000000111110010011011100000000000011111000101101100000000000001111100010110111000000000000111110010011011000000000000011111000001101100000000000001111100000110111000000000000111110001011011000000000000011111001101101110000000000001111100000110110000000000000111110001011011000000000000011111000001101110000000000001111100111010110000000000000111110010011011100000000000011111001001101100000000000001111100000110110000000000000111110001011011100000000000011111000101101100000000000001111100010110111000000000000111110010011011000000000000011111000110101100000000000001111100110110111000000000000111110011011011000000000000011111000001101110000000000001111100111010110000000000000111110000011011000000000000011111000101101110000000000001111100000110110</data>
+          <extradata>1111111111111111T111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</extradata>
+        </log>
+      </trigger>
+    </signal_set>
+  </instance>
+  <mnemonics/>
+  <static_plugin_mnemonics/>
+  <global_info>
+    <single attribute="active instance" value="0"/>
+    <single attribute="lock mode" value="36110"/>
+    <multi attribute="window position" size="9" value="1280,711,398,124,356,50,124,0,1"/>
+  </global_info>
+</session>

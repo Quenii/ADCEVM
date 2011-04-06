@@ -2,7 +2,7 @@
 -- Title      : 
 -- Project    : 
 -------------------------------------------------------------------------------
--- File       : top.vhd%
+-- File       : top_cmos.vhd%
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
@@ -22,7 +22,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
 
-entity top is
+entity top_cmos is
   
   port (
     clk_80m              : in    std_logic;
@@ -99,12 +99,12 @@ entity top is
     ssram1_bwd_n_o       : out   std_logic
     );
 
-end top;
+end top_cmos;
 
-architecture behave of top is
+architecture behave of top_cmos is
 -------------------------------------------------------------------------------
   -- high ADC controller
-  component had_rec
+  component had_rec_cmos
     port (
       LB_Clk_i         : in  std_logic;
       LB_Reset_i       : in  std_logic;
@@ -314,7 +314,7 @@ begin  -- behave
 
 -------------------------------------------------------------------------------
   -- high ADC data buffer
-  had_rec_2 : had_rec
+  had_rec_2 : had_rec_cmos
     port map (
       -- lb
       LB_Clk_i         => LB_Clk_i,
