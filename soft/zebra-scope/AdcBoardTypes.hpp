@@ -7,7 +7,8 @@
 #include <QFile>
 
 
- #define MATLAB 1
+//#define MATLAB 1
+//#define MATCOM 2
 
 struct AdcBoardInfo 
 {
