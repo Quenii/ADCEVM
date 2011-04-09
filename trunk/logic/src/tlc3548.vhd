@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-07-03
--- Last update: 2011-01-09
+-- Last update: 2011-04-09
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -25,7 +25,10 @@ use ieee.std_logic_unsigned.all;
 
 entity tlc3548 is
   
-  port (
+    generic (
+      ADDR : std_logic_vector(15 downto 0));
+
+    port (
     -- lb
     LB_Clk_i          : in  std_logic;
     LB_Reset_i        : in  std_logic;
@@ -154,7 +157,7 @@ begin  -- behave
   
   lb_target_3548_spi_wr : lb_target_reg
     generic map (
-      ADDR => x"0009")
+      ADDR => ADDR)
     port map (
       LB_Clk_i   => LB_Clk_i,
       LB_Reset_i => LB_Reset_i,
