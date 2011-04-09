@@ -480,7 +480,7 @@ begin  -- behave
             ADDR => ADDR_GPIO)
         port map (
             LB_Clk_i   => LB_Clk,
-            LB_Reset_i => LB_Reset,
+            LB_Reset_i => '0',
             LB_Addr_i  => LB_Addr,
             LB_Write_i => LB_Write,
             LB_Read_i  => LB_Read,
@@ -492,7 +492,7 @@ begin  -- behave
             sta_i      => ctrl_gpio);
 
     GPIO_GEN: for i in 0 to 3 generate
-        gpio(i) <= '0' when ctrl_gpio(i*2+1 downto i*2) = "00"
+        gpio_o(i) <= '0' when ctrl_gpio(i*2+1 downto i*2) = "00"
                    else '1' when ctrl_gpio(i*2+1 downto i*2) = "01"
                    else 'Z';
     end generate GPIO_GEN;
