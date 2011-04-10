@@ -140,24 +140,6 @@ architecture behave of had_rec_cmos is
     signal buf_task_start : std_logic                     := '0';
     signal task_length    : std_logic_vector(15 downto 0) := (others => '0');
 
-    -- SPI converter
-    component spi
-        port (
-            clk_i         : in  std_logic;
-            rst_i         : in  std_logic;
-            -- control port
-            task_start_i  : in  std_logic;
-            ack_o         : out std_logic;
-            updata_da_n_i : in  std_logic;
-            data_i        : in  std_logic_vector(23 downto 0);
-            data_o        : out std_logic_vector(23 downto 0);
-            -- SPI port
-            sck_o         : out std_logic;
-            sdi_i         : in  std_logic;
-            sdo_o         : out std_logic;
-            ld_cs_n_o     : out std_logic;
-            ldac_n_o      : out std_logic);
-    end component;
     -- signal define
     signal ack_o : std_logic := '0';
 
@@ -179,9 +161,6 @@ architecture behave of had_rec_cmos is
             sta_i      : in  std_logic_vector(15 downto 0));
     end component;
     -- signal define
-    signal updated_had_spi_h : std_logic                     := '0';
-    signal spi_din           : std_logic_vector(31 downto 0) := (others => '0');
-    signal spi_dout          : std_logic_vector(31 downto 0) := (others => '0');
     signal LB_Ready_dat_buf  : std_logic                     := '0';
     -- fifo register define
     component lb_target_fifo_rome
@@ -264,18 +243,6 @@ architecture behave of had_rec_cmos is
         generic (
             IO_TYPE : string);
         port (
-            rst_i  : in  std_logic;
-            clk_i  : in  std_logic;
-            data_i : in  std_logic_vector(15 downto 0);
-            q_o    : out std_logic_vector(63 downto 0);
-            clk_o  : out std_logic;
-            locked : out std_logic);
-    end component;
-
-    component demux
-        generic (
-            IO_TYPE : string);
-        port (
             rst_i      : in  std_logic;
             clk_i      : in  std_logic;
             enable_i   : in  std_logic;
@@ -288,20 +255,9 @@ architecture behave of had_rec_cmos is
     
 begin  -- behave
 
-    demux_1: demux
+    demux_lvds: demux
         generic map (
             IO_TYPE => "LVDS")
-        port map (
-            rst_i  => LB_Reset_i,
-            clk_i  => rx_inclock_i,
-            data_i => rx_in_i,
-            q_o    => rx_out,
-            clk_o  => rx_outclock,
-            locked => rx_locked);
-
-    demux_2: demux
-        generic map (
-            IO_TYPE => IO_TYPE)
         port map (
             rst_i      => rst_i,
             clk_i      => clk_i,
@@ -312,77 +268,6 @@ begin  -- behave
             rd_q_o     => rd_q_o,
             rd_empty_o => rd_empty_o);
     
--- LVDS receiver
---    lvds_i_1 : lvds_i
---        port map (
---            pll_areset  => LB_Reset_i,
---            rx_in       => rx_in_i,
---            rx_inclock  => rx_inclock_i,
---            rx_out      => rx_out_disorder,
---            rx_outclock => rx_outclock,
---            rx_locked   => rx_locked);
-
---    order_data_bus_i : for i in 0 to 3 generate
---        order_data_bus_j : for j in 1 to 16 generate
---            rx_out(16 * i + j - 1) <= rx_out_disorder((j - 1) * 4 + i);
---        end generate order_data_bus_j;
---    end generate order_data_bus_i;
-
---    fifo16to64_1 : fifo16to64
---        port map (
---            data    => rx_in_i,   -- rx_in_i,
---            wrclk   => rx_inclock_i,
---            wrreq   => '1',
---            q       => rx_out_disorder,
---            rdclk   => rx_outclock,
---            rdreq   => '1',
---            rdempty => open,
---            rdfull  => open,
---            rdusedw => open,
---            wrempty => open,
---            wrfull  => open,
---            wrusedw => open);
-
---    rx_out(63 downto 48) <= rx_out_disorder(15 downto 0);
---    rx_out(47 downto 32) <= rx_out_disorder(31 downto 16);
---    rx_out(31 downto 16) <= rx_out_disorder(47 downto 32);
---    rx_out(15 downto 0)  <= rx_out_disorder(63 downto 48);
-
---    process (rx_inclock_i, LB_Reset_i)
---    begin  -- process
---        if LB_Reset_i = '1' then        -- asynchronous reset (active low)
---            rx_in <= (others => '0');
---        elsif rx_inclock_i'event and rx_inclock_i = '1' then  -- rising clock edge
---            rx_in <= rx_in + x"000F";
---        end if;
---    end process;
-
---    process (rx_inclock_i, LB_Reset_i)
---    begin  -- process
---        if LB_Reset_i = '1' then        -- asynchronous reset (active low)
---            div_cnt     <= 0;
---            rx_outclock <= '0';
---        elsif rx_inclock_i'event and rx_inclock_i = '1' then  -- rising clock edge
---            div_cnt <= div_cnt + 1;
---            if div_cnt = 0 then
---                rx_outclock <= not rx_outclock;
---            end if;
-----            case div_cnt is
-----                when 0 =>
-----                    rx_out(16*1-1 downto 16*0) <= rx_in_i;
-----                    rx_outclock                <= not rx_outclock;
-----                when 1 =>
-----                    rx_out(16*2-1 downto 16*1) <= rx_in_i;
-----                when 2 =>
-----                    rx_out(16*3-1 downto 16*2) <= rx_in_i;
-----                when 3 =>
-----                    rx_out(16*4-1 downto 16*3) <= rx_in_i;
-----                when others => null;
-----            end case;
---        end if;
---    end process;
-
-
     -- data buffer
     dat_buf_1 : dat_buf_cmos
         port map (
