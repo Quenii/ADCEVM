@@ -36,7 +36,14 @@ RegAccess::RegAccess(QWidget *parent, Qt::WFlags flags)
 	connect(signalMapper, SIGNAL(mapped(QWidget*)),
 		this, SLOT(slotRegAccessItemStateChanged(QWidget*)));
 
-	connect(buttonGroup0, SIGNAL(clicked(int)), this, SLOT(SetGpio()));
+	bool ok = connect(buttonGroup0, SIGNAL(buttonClicked(int)), this, SLOT(SetGpio(int))); 
+	Q_ASSERT(ok);
+	ok = connect(buttonGroup1, SIGNAL(buttonClicked(int)), this, SLOT(SetGpio(int))); 
+	Q_ASSERT(ok);
+	ok = connect(buttonGroup2, SIGNAL(buttonClicked(int)), this, SLOT(SetGpio(int))); 
+	Q_ASSERT(ok);
+	ok = connect(buttonGroup3, SIGNAL(buttonClicked(int)), this, SLOT(SetGpio(int))); 
+	Q_ASSERT(ok);
 	//connect(buttonGroup1, SIGNAL(clicked(int)), SLOT(SetGpio()));
 	//connect(buttonGroup2, SIGNAL(clicked(int)), SLOT(SetGpio()));
 	//connect(buttonGroup3, SIGNAL(clicked(int)), SLOT(SetGpio()));
@@ -56,12 +63,14 @@ RegAccess::~RegAccess()
 	m_settings.endGroup();
 }
 
-void RegAccess::SetGpio()
+void RegAccess::SetGpio(int id)
 {
 	AdcBoard* board = AdcBoard::instance();
 	
 
 	int t = buttonGroup0->checkedId();
+	t = buttonGroup1->checkedId();
+
 }
 
 void RegAccess::on_pushButtonResetCircuit_clicked()
