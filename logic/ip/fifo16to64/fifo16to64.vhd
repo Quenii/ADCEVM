@@ -50,10 +50,10 @@ ENTITY fifo16to64 IS
 		q		: OUT STD_LOGIC_VECTOR (63 DOWNTO 0);
 		rdempty		: OUT STD_LOGIC ;
 		rdfull		: OUT STD_LOGIC ;
-		rdusedw		: OUT STD_LOGIC_VECTOR (2 DOWNTO 0);
+		rdusedw		: OUT STD_LOGIC_VECTOR (5 DOWNTO 0);
 		wrempty		: OUT STD_LOGIC ;
 		wrfull		: OUT STD_LOGIC ;
-		wrusedw		: OUT STD_LOGIC_VECTOR (4 DOWNTO 0)
+		wrusedw		: OUT STD_LOGIC_VECTOR (7 DOWNTO 0)
 	);
 END fifo16to64;
 
@@ -62,11 +62,11 @@ ARCHITECTURE SYN OF fifo16to64 IS
 
 	SIGNAL sub_wire0	: STD_LOGIC ;
 	SIGNAL sub_wire1	: STD_LOGIC ;
-	SIGNAL sub_wire2	: STD_LOGIC_VECTOR (4 DOWNTO 0);
+	SIGNAL sub_wire2	: STD_LOGIC_VECTOR (7 DOWNTO 0);
 	SIGNAL sub_wire3	: STD_LOGIC ;
 	SIGNAL sub_wire4	: STD_LOGIC ;
 	SIGNAL sub_wire5	: STD_LOGIC_VECTOR (63 DOWNTO 0);
-	SIGNAL sub_wire6	: STD_LOGIC_VECTOR (2 DOWNTO 0);
+	SIGNAL sub_wire6	: STD_LOGIC_VECTOR (5 DOWNTO 0);
 
 
 
@@ -92,36 +92,36 @@ ARCHITECTURE SYN OF fifo16to64 IS
 			wrclk	: IN STD_LOGIC ;
 			rdempty	: OUT STD_LOGIC ;
 			rdreq	: IN STD_LOGIC ;
-			wrusedw	: OUT STD_LOGIC_VECTOR (4 DOWNTO 0);
+			wrusedw	: OUT STD_LOGIC_VECTOR (7 DOWNTO 0);
 			wrfull	: OUT STD_LOGIC ;
 			wrempty	: OUT STD_LOGIC ;
 			rdclk	: IN STD_LOGIC ;
 			q	: OUT STD_LOGIC_VECTOR (63 DOWNTO 0);
 			wrreq	: IN STD_LOGIC ;
 			data	: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-			rdusedw	: OUT STD_LOGIC_VECTOR (2 DOWNTO 0)
+			rdusedw	: OUT STD_LOGIC_VECTOR (5 DOWNTO 0)
 	);
 	END COMPONENT;
 
 BEGIN
 	rdfull    <= sub_wire0;
 	rdempty    <= sub_wire1;
-	wrusedw    <= sub_wire2(4 DOWNTO 0);
+	wrusedw    <= sub_wire2(7 DOWNTO 0);
 	wrfull    <= sub_wire3;
 	wrempty    <= sub_wire4;
 	q    <= sub_wire5(63 DOWNTO 0);
-	rdusedw    <= sub_wire6(2 DOWNTO 0);
+	rdusedw    <= sub_wire6(5 DOWNTO 0);
 
 	dcfifo_mixed_widths_component : dcfifo_mixed_widths
 	GENERIC MAP (
 		intended_device_family => "Stratix II",
 		lpm_hint => "MAXIMIZE_SPEED=7,",
-		lpm_numwords => 32,
+		lpm_numwords => 256,
 		lpm_showahead => "ON",
 		lpm_type => "dcfifo",
 		lpm_width => 16,
-		lpm_widthu => 5,
-		lpm_widthu_r => 3,
+		lpm_widthu => 8,
+		lpm_widthu_r => 6,
 		lpm_width_r => 64,
 		overflow_checking => "ON",
 		rdsync_delaypipe => 5,
@@ -157,7 +157,7 @@ END SYN;
 -- Retrieval info: PRIVATE: AlmostFullThr NUMERIC "-1"
 -- Retrieval info: PRIVATE: CLOCKS_ARE_SYNCHRONIZED NUMERIC "0"
 -- Retrieval info: PRIVATE: Clock NUMERIC "4"
--- Retrieval info: PRIVATE: Depth NUMERIC "32"
+-- Retrieval info: PRIVATE: Depth NUMERIC "256"
 -- Retrieval info: PRIVATE: Empty NUMERIC "1"
 -- Retrieval info: PRIVATE: Full NUMERIC "1"
 -- Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING "Stratix II"
@@ -185,12 +185,12 @@ END SYN;
 -- Retrieval info: PRIVATE: wsUsedW NUMERIC "1"
 -- Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Stratix II"
 -- Retrieval info: CONSTANT: LPM_HINT STRING "MAXIMIZE_SPEED=7,"
--- Retrieval info: CONSTANT: LPM_NUMWORDS NUMERIC "32"
+-- Retrieval info: CONSTANT: LPM_NUMWORDS NUMERIC "256"
 -- Retrieval info: CONSTANT: LPM_SHOWAHEAD STRING "ON"
 -- Retrieval info: CONSTANT: LPM_TYPE STRING "dcfifo"
 -- Retrieval info: CONSTANT: LPM_WIDTH NUMERIC "16"
--- Retrieval info: CONSTANT: LPM_WIDTHU NUMERIC "5"
--- Retrieval info: CONSTANT: LPM_WIDTHU_R NUMERIC "3"
+-- Retrieval info: CONSTANT: LPM_WIDTHU NUMERIC "8"
+-- Retrieval info: CONSTANT: LPM_WIDTHU_R NUMERIC "6"
 -- Retrieval info: CONSTANT: LPM_WIDTH_R NUMERIC "64"
 -- Retrieval info: CONSTANT: OVERFLOW_CHECKING STRING "ON"
 -- Retrieval info: CONSTANT: RDSYNC_DELAYPIPE NUMERIC "5"
@@ -203,12 +203,12 @@ END SYN;
 -- Retrieval info: USED_PORT: rdempty 0 0 0 0 OUTPUT NODEFVAL rdempty
 -- Retrieval info: USED_PORT: rdfull 0 0 0 0 OUTPUT NODEFVAL rdfull
 -- Retrieval info: USED_PORT: rdreq 0 0 0 0 INPUT NODEFVAL rdreq
--- Retrieval info: USED_PORT: rdusedw 0 0 3 0 OUTPUT NODEFVAL rdusedw[2..0]
+-- Retrieval info: USED_PORT: rdusedw 0 0 6 0 OUTPUT NODEFVAL rdusedw[5..0]
 -- Retrieval info: USED_PORT: wrclk 0 0 0 0 INPUT NODEFVAL wrclk
 -- Retrieval info: USED_PORT: wrempty 0 0 0 0 OUTPUT NODEFVAL wrempty
 -- Retrieval info: USED_PORT: wrfull 0 0 0 0 OUTPUT NODEFVAL wrfull
 -- Retrieval info: USED_PORT: wrreq 0 0 0 0 INPUT NODEFVAL wrreq
--- Retrieval info: USED_PORT: wrusedw 0 0 5 0 OUTPUT NODEFVAL wrusedw[4..0]
+-- Retrieval info: USED_PORT: wrusedw 0 0 8 0 OUTPUT NODEFVAL wrusedw[7..0]
 -- Retrieval info: CONNECT: @data 0 0 16 0 data 0 0 16 0
 -- Retrieval info: CONNECT: q 0 0 64 0 @q 0 0 64 0
 -- Retrieval info: CONNECT: @wrreq 0 0 0 0 wrreq 0 0 0 0
@@ -217,10 +217,10 @@ END SYN;
 -- Retrieval info: CONNECT: @wrclk 0 0 0 0 wrclk 0 0 0 0
 -- Retrieval info: CONNECT: rdfull 0 0 0 0 @rdfull 0 0 0 0
 -- Retrieval info: CONNECT: rdempty 0 0 0 0 @rdempty 0 0 0 0
--- Retrieval info: CONNECT: rdusedw 0 0 3 0 @rdusedw 0 0 3 0
+-- Retrieval info: CONNECT: rdusedw 0 0 6 0 @rdusedw 0 0 6 0
 -- Retrieval info: CONNECT: wrfull 0 0 0 0 @wrfull 0 0 0 0
 -- Retrieval info: CONNECT: wrempty 0 0 0 0 @wrempty 0 0 0 0
--- Retrieval info: CONNECT: wrusedw 0 0 5 0 @wrusedw 0 0 5 0
+-- Retrieval info: CONNECT: wrusedw 0 0 8 0 @wrusedw 0 0 8 0
 -- Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
 -- Retrieval info: GEN_FILE: TYPE_NORMAL fifo16to64.vhd TRUE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL fifo16to64.inc FALSE
