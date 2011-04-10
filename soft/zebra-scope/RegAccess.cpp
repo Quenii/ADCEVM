@@ -69,15 +69,12 @@ void RegAccess::SetGpio(int id)
 	
 
 	int t = buttonGroup0->checkedId();
-	t = buttonGroup1->checkedId();
+	m_gpio = -(t+1);
 
 }
 
 void RegAccess::on_pushButtonResetCircuit_clicked()
 {
-	int a = buttonGroup0->checkedId();
-	a = buttonGroup1->checkedId();
-	a = radioButton_0z->isChecked();
 	AdcBoard* board = AdcBoard::instance();
 
 	//board->writeReg(0xFFFF, 0xFFFF);  //reset
