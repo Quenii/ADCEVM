@@ -42,7 +42,7 @@ public slots:
 	void on_pushButtonBack2Top_clicked();
 	void on_pushButtonSaveSettings_clicked();
 	void on_pushButtonReadSettings_clicked();
-	void SetGpio();
+	void SetGpio(int);
 
 private:
 	QVector<RegAccessItem*> m_regAccessItems;
