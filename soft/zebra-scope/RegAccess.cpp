@@ -11,6 +11,7 @@ RegAccess::RegAccess(QWidget *parent, Qt::WFlags flags)
 : QWidget(parent, flags)
 , m_currentStep(-1)
 , m_bEnable_SlotRegAccessItemStateChanged(true)
+, m_gpio(0xAA)
 {
 	setupUi(this);
 
@@ -35,6 +36,11 @@ RegAccess::RegAccess(QWidget *parent, Qt::WFlags flags)
 	connect(signalMapper, SIGNAL(mapped(QWidget*)),
 		this, SLOT(slotRegAccessItemStateChanged(QWidget*)));
 
+	connect(buttonGroup0, SIGNAL(clicked(int)), this, SLOT(SetGpio()));
+	//connect(buttonGroup1, SIGNAL(clicked(int)), SLOT(SetGpio()));
+	//connect(buttonGroup2, SIGNAL(clicked(int)), SLOT(SetGpio()));
+	//connect(buttonGroup3, SIGNAL(clicked(int)), SLOT(SetGpio()));
+
 	QSpacerItem* verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
 	layout->addItem(verticalSpacer);
@@ -50,8 +56,19 @@ RegAccess::~RegAccess()
 	m_settings.endGroup();
 }
 
+void RegAccess::SetGpio()
+{
+	AdcBoard* board = AdcBoard::instance();
+	
+
+	int t = buttonGroup0->checkedId();
+}
+
 void RegAccess::on_pushButtonResetCircuit_clicked()
 {
+	int a = buttonGroup0->checkedId();
+	a = buttonGroup1->checkedId();
+	a = radioButton_0z->isChecked();
 	AdcBoard* board = AdcBoard::instance();
 
 	//board->writeReg(0xFFFF, 0xFFFF);  //reset

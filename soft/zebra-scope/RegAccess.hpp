@@ -42,11 +42,13 @@ public slots:
 	void on_pushButtonBack2Top_clicked();
 	void on_pushButtonSaveSettings_clicked();
 	void on_pushButtonReadSettings_clicked();
+	void SetGpio();
 
 private:
 	QVector<RegAccessItem*> m_regAccessItems;
 	int m_currentStep;
 	QSettings m_settings;
 	bool m_bEnable_SlotRegAccessItemStateChanged;
+	int m_gpio;
 };
 
