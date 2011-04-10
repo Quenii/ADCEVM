@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-16
--- Last update: 2011-04-09
+-- Last update: 2011-04-10
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -259,8 +259,60 @@ architecture behave of had_rec_cmos is
     end component;
 
     signal rx_in : std_logic_vector(15 downto 0);
+
+    component demux
+        generic (
+            IO_TYPE : string);
+        port (
+            rst_i  : in  std_logic;
+            clk_i  : in  std_logic;
+            data_i : in  std_logic_vector(15 downto 0);
+            q_o    : out std_logic_vector(63 downto 0);
+            clk_o  : out std_logic;
+            locked : out std_logic);
+    end component;
+
+    component demux
+        generic (
+            IO_TYPE : string);
+        port (
+            rst_i      : in  std_logic;
+            clk_i      : in  std_logic;
+            enable_i   : in  std_logic;
+            data_i     : in  std_logic_vector(15 downto 0);
+            rd_clk_i   : in  std_logic;
+            rd_req_i   : in  std_logic;
+            rd_q_o     : out std_logic_vector(63 downto 0);
+            rd_empty_o : out std_logic);
+    end component;
+    
 begin  -- behave
-    -- LVDS receiver
+
+    demux_1: demux
+        generic map (
+            IO_TYPE => "LVDS")
+        port map (
+            rst_i  => LB_Reset_i,
+            clk_i  => rx_inclock_i,
+            data_i => rx_in_i,
+            q_o    => rx_out,
+            clk_o  => rx_outclock,
+            locked => rx_locked);
+
+    demux_2: demux
+        generic map (
+            IO_TYPE => IO_TYPE)
+        port map (
+            rst_i      => rst_i,
+            clk_i      => clk_i,
+            enable_i   => enable_i,
+            data_i     => data_i,
+            rd_clk_i   => rd_clk_i,
+            rd_req_i   => rd_req_i,
+            rd_q_o     => rd_q_o,
+            rd_empty_o => rd_empty_o);
+    
+-- LVDS receiver
 --    lvds_i_1 : lvds_i
 --        port map (
 --            pll_areset  => LB_Reset_i,
@@ -276,59 +328,59 @@ begin  -- behave
 --        end generate order_data_bus_j;
 --    end generate order_data_bus_i;
 
-    fifo16to64_1 : fifo16to64
-        port map (
-            data    => rx_in_i,   -- rx_in_i,
-            wrclk   => rx_inclock_i,
-            wrreq   => '1',
-            q       => rx_out_disorder,
-            rdclk   => rx_outclock,
-            rdreq   => '1',
-            rdempty => open,
-            rdfull  => open,
-            rdusedw => open,
-            wrempty => open,
-            wrfull  => open,
-            wrusedw => open);
+--    fifo16to64_1 : fifo16to64
+--        port map (
+--            data    => rx_in_i,   -- rx_in_i,
+--            wrclk   => rx_inclock_i,
+--            wrreq   => '1',
+--            q       => rx_out_disorder,
+--            rdclk   => rx_outclock,
+--            rdreq   => '1',
+--            rdempty => open,
+--            rdfull  => open,
+--            rdusedw => open,
+--            wrempty => open,
+--            wrfull  => open,
+--            wrusedw => open);
 
-    rx_out(63 downto 48) <= rx_out_disorder(15 downto 0);
-    rx_out(47 downto 32) <= rx_out_disorder(31 downto 16);
-    rx_out(31 downto 16) <= rx_out_disorder(47 downto 32);
-    rx_out(15 downto 0)  <= rx_out_disorder(63 downto 48);
+--    rx_out(63 downto 48) <= rx_out_disorder(15 downto 0);
+--    rx_out(47 downto 32) <= rx_out_disorder(31 downto 16);
+--    rx_out(31 downto 16) <= rx_out_disorder(47 downto 32);
+--    rx_out(15 downto 0)  <= rx_out_disorder(63 downto 48);
 
-    process (rx_inclock_i, LB_Reset_i)
-    begin  -- process
-        if LB_Reset_i = '1' then        -- asynchronous reset (active low)
-            rx_in <= (others => '0');
-        elsif rx_inclock_i'event and rx_inclock_i = '1' then  -- rising clock edge
-            rx_in <= rx_in + x"000F";
-        end if;
-    end process;
+--    process (rx_inclock_i, LB_Reset_i)
+--    begin  -- process
+--        if LB_Reset_i = '1' then        -- asynchronous reset (active low)
+--            rx_in <= (others => '0');
+--        elsif rx_inclock_i'event and rx_inclock_i = '1' then  -- rising clock edge
+--            rx_in <= rx_in + x"000F";
+--        end if;
+--    end process;
 
-    process (rx_inclock_i, LB_Reset_i)
-    begin  -- process
-        if LB_Reset_i = '1' then        -- asynchronous reset (active low)
-            div_cnt     <= 0;
-            rx_outclock <= '0';
-        elsif rx_inclock_i'event and rx_inclock_i = '1' then  -- rising clock edge
-            div_cnt <= div_cnt + 1;
-            if div_cnt = 0 then
-                rx_outclock <= not rx_outclock;
-            end if;
---            case div_cnt is
---                when 0 =>
---                    rx_out(16*1-1 downto 16*0) <= rx_in_i;
---                    rx_outclock                <= not rx_outclock;
---                when 1 =>
---                    rx_out(16*2-1 downto 16*1) <= rx_in_i;
---                when 2 =>
---                    rx_out(16*3-1 downto 16*2) <= rx_in_i;
---                when 3 =>
---                    rx_out(16*4-1 downto 16*3) <= rx_in_i;
---                when others => null;
---            end case;
-        end if;
-    end process;
+--    process (rx_inclock_i, LB_Reset_i)
+--    begin  -- process
+--        if LB_Reset_i = '1' then        -- asynchronous reset (active low)
+--            div_cnt     <= 0;
+--            rx_outclock <= '0';
+--        elsif rx_inclock_i'event and rx_inclock_i = '1' then  -- rising clock edge
+--            div_cnt <= div_cnt + 1;
+--            if div_cnt = 0 then
+--                rx_outclock <= not rx_outclock;
+--            end if;
+----            case div_cnt is
+----                when 0 =>
+----                    rx_out(16*1-1 downto 16*0) <= rx_in_i;
+----                    rx_outclock                <= not rx_outclock;
+----                when 1 =>
+----                    rx_out(16*2-1 downto 16*1) <= rx_in_i;
+----                when 2 =>
+----                    rx_out(16*3-1 downto 16*2) <= rx_in_i;
+----                when 3 =>
+----                    rx_out(16*4-1 downto 16*3) <= rx_in_i;
+----                when others => null;
+----            end case;
+--        end if;
+--    end process;
 
 
     -- data buffer

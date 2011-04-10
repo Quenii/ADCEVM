@@ -396,6 +396,9 @@ set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=00
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=105" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_LOWORD=45365" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_HIWORD=62818" -section_id auto_signaltap_0
+set_global_assignment -name VHDL_FILE ../ip/fifo64to64/fifo64to64.vhd
+set_global_assignment -name VHDL_FILE ../ip/lvds_i/lvds_i.vhd
+set_global_assignment -name VHDL_FILE ../src/demux.vhd
 set_global_assignment -name VHDL_FILE ../ip/fifo16to64/fifo16to64.vhd
 set_global_assignment -name VHDL_FILE ../src/dat_buf_cmos.vhd
 set_global_assignment -name VHDL_FILE ../src/had_rec_cmos.vhd
