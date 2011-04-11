@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN-DESKTOP>
 -- Company    : 
 -- Created    : 2011-04-10
--- Last update: 2011-04-10
+-- Last update: 2011-04-11
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -42,6 +42,11 @@ entity ssr_buffer is
         ififo_q_i     : in  std_logic_vector(63 downto 0);
         ififo_empty_i : in  std_logic;
 
+        ofifo_rdclk_i : in  std_logic;
+        ofifo_rdreq_i : in  std_logic;
+        ofifo_q_o     : out std_logic_vector(63 downto 0);
+        ofifo_empty_o : out std_logic;
+
         -- ssram i/os
         ssram_adr_o  : out std_logic_vector(18 downto 0);
         ssram_dout_o : out std_logic_vector(63 downto 0);
@@ -63,7 +68,7 @@ architecture impl of ssr_buffer is
     signal rdptr : std_logic_vector(18 downto 0);
     signal wrptr : std_logic_vector(18 downto 0);
 
-    signal full : std_logic;
+    signal full  : std_logic;
     signal empty : std_logic;
 
     type   state_t is (s_rdy, s_pre_read , s_read, s_pre_write, s_write);
@@ -129,7 +134,7 @@ begin  -- impl
                     if rdptr = end_adr then
                         state <= s_rdy;
                     end if;
-                    
+
                     if ofifo_wrreq = '1' then
                         rdptr <= rdptr + '1';
                     end if;
@@ -140,15 +145,15 @@ begin  -- impl
     end process;
 
 
-    ofifo_aclr <= tsk_start_i;
-    ofifo_data <= ssram_din_i;
+    ofifo_aclr  <= tsk_start_i;
+    ofifo_data  <= ssram_din_i;
     ofifo_wrclk <= clk_i;
     ofifo_wrreq <= (not empty) and (not ofifo_wrfull);
 
-    ofifo_rdclk <= ;
-    ofifo_rdreq <= ;
-    
-    fifo64to16_1: fifo64to16
+    ofifo_rdclk <= ofifo_rdclk_i;
+    ofifo_rdreq <= ofifo_rdreq_i;
+
+    fifo64to16_1 : fifo64to16
         port map (
             aclr    => ofifo_aclr,
             data    => ofifo_data,
@@ -162,8 +167,10 @@ begin  -- impl
             wrfull  => ofifo_wrfull,
             wrusedw => ofifo_wrusedw);
 
-    empty_o <= ofifo_rdempty;
-    
+    empty_o       <= ofifo_rdempty;
+    ofifo_q_o     <= ofifo_q;
+    ofifo_empty_o <= ofifo_rdempty;
+
     process (clk_i, rst_i)
     begin  -- process
         if rst_i = '1' then             -- asynchronous reset (active high)
@@ -172,7 +179,7 @@ begin  -- impl
         elsif clk_i'event and clk_i = '1' then  -- rising clock edge
             if tsk_start_i = '1' then
                 start_adr <= start_adr_i;
-                end_adr   <= end_adr;
+                end_adr   <= end_adr_i;
             end if;
         end if;
     end process;
@@ -181,6 +188,7 @@ begin  -- impl
     begin  -- process
         if rst_i = '1' then             -- asynchronous reset (active low)
             full <= '0';
+            empty <= '1';
         elsif clk_i'event and clk_i = '1' then  -- rising clock edge
             if wrptr = end_adr then
                 full <= '1';
@@ -193,4 +201,23 @@ begin  -- impl
         end if;
     end process;
 
+    ssram_adr_o <= wrptr when state = s_write
+                   else rdptr when state = s_read
+                   else (others => '1');
+
+    ssram_dout_o <= ififo_q_i when state = s_write
+                    else (others => '1');
+    
+    ssram_oe_o <= '1' when state = s_read
+                  else '0';
+
+    ssram_we_o <= '1' when state = s_write
+                  else '0';
+
+    ssram_ce_o <= '0' when state = s_rdy
+                  else '1';
+
+    ssram_clk_o <= clk_i;
+    ssram_adv_o <= '0';
+    
 end impl;
