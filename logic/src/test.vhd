@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-04-09
+-- Last update: 2011-04-15
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -107,7 +107,9 @@ architecture behave of test is
     constant ADDR_GPIO  : std_logic_vector(15 downto 0) := x"2000";
     constant ADDR_3548  : std_logic_vector(15 downto 0) := x"0009";
     constant ADDR_2656  : std_logic_vector(15 downto 0) := x"0005";
-
+    constant ADDR_BASE_2656 : std_logic_vector(15 downto 0) := x"0005";
+    constant ADDR_BASE_HBUF : std_logic_vector(15 downto 0) := x"3000";
+    
     -- high ADC controller
     component had_rec_cmos
         port (
@@ -214,7 +216,7 @@ architecture behave of test is
 -------------------------------------------------------------------------------
     component ltc2656b
         generic (
-            ADDR : std_logic_vector(15 downto 0));
+            ADDR_BASE : std_logic_vector(15 downto 0));
         port (
             LB_Clk_i          : in  std_logic;
             LB_Reset_i        : in  std_logic;
@@ -296,7 +298,7 @@ architecture behave of test is
 
     component lb_target_buffer
         generic (
-            ADDR_START : std_logic_vector(15 downto 0);
+            ADDR_BASE : std_logic_vector(15 downto 0);
             LENGTH     : std_logic_vector(15 downto 0);
             IO_TYPE    : string);
         port (
@@ -432,7 +434,7 @@ begin  -- behave
 
     lb_target_buffer_1: lb_target_buffer
         generic map (
-            ADDR_START => x"3000",
+            ADDR_BASE => ADDR_BASE_HBUF,
             LENGTH     => x"0004",
             IO_TYPE    => "LVDS")
         port map (
@@ -488,7 +490,7 @@ begin  -- behave
 -------------------------------------------------------------------------------
     ltc2656b_1 : ltc2656b
         generic map (
-            ADDR => ADDR_2656)
+            ADDR_BASE => ADDR_BASE_2656)
         port map (
             LB_Clk_i          => LB_Clk,
             LB_Reset_i        => reset_ctr(1),
