@@ -21,7 +21,7 @@
 #if defined(MATLAB)    //defined in AdcBoardTypes.hpp
 #include "libalgo_wrapper.h"
 #elif defined(MATCOM)
-#include "../m2cpp/m2c.h"
+#include "libalgo_wrapper.h"
 #else
 #endif // MATLAB
 
@@ -96,6 +96,11 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	QZebraScopeSettings settings;
 	settings.adcSettings(m_adcSettings);
 	settings.signalSettings(m_signalSettings);
+
+	//writeReg(0x3000, 3);
+	//writeReg(0x3001, 3);
+	//writeReg(0x3002, 37);
+	//writeReg(0x3003, 3);
 
 	setAdcSettings(m_adcSettings);
 	setSignalSettings(m_signalSettings);
@@ -273,6 +278,8 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 {
 	//return ;
 
+	//setAdcSettings(m_adcSettings);
+
 	PowerStatus& powerStatus = report.powerStatus;
 	this->powerStatus(powerStatus);
 
@@ -294,12 +301,20 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 	if (usbDev->IsOpen() && (usbDev->DeviceCount()))
 	{
+
 		buff.resize(buffer_cnt);
 		writeReg(0xFFFF, 0x0001);  //reset
 		writeReg(0xFFFF, 0x0000);  //dereset
 		//buff[512] = {0x0032};
 		writeReg(0x1004, 0xEFFF);  //stor 1M
 		//read(0x04, buff, 256);
+		//constant ADDR_LA_START : std_logic_vector(15 downto 0) := ADDR_START + x"0000";
+		//constant ADDR_HA_START : std_logic_vector(15 downto 0) := ADDR_START + x"0001";
+		//constant ADDR_LA_END   : std_logic_vector(15 downto 0) := ADDR_START + x"0002";
+		//constant ADDR_HA_END   : std_logic_vector(15 downto 0) := ADDR_START + x"0003";
+
+
+
 		Sleep(200);	
 
 		unsigned short* p = &buff[0];
@@ -334,8 +349,8 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 			//tdReport.samples[i] = ((int)((i+offset)));
 			//tdReport.rawSamples[i] = ((int)((i+offset)));
 
-			tdReport.samples[i] = ((int)(qSin(pi/29*i+offset)*8192))*vpp/8192;
-			tdReport.rawSamples[i] = ((int)(qSin(pi/29*i+offset)*8192));
+			tdReport.samples[i] = ((int)(qSin(pi/29*i+offset)*max))*vpp/max;
+			tdReport.rawSamples[i] = ((int)(qSin(pi/29*i+offset)*max));
 		}
 #endif //_DEBUG
 	}
@@ -360,6 +375,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	calc_dynam_params(tdReport.samples, 16, fdReport);
 
 #elif defined(MATCOM) 
+	calc_dynam_params(tdReport.rawSamples, 16, fdReport);
 	
 
 #else

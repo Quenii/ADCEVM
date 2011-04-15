@@ -185,7 +185,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\m2c.h"
+				RelativePath=".\m2c.h"
 				>
 			</File>
 		</Filter>

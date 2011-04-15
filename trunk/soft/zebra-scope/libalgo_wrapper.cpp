@@ -53,3 +53,66 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 }
 
 #endif // MATLAB
+
+#ifdef MATCOM
+
+#include "../m2cpp/m2c.h"
+
+void calc_dynam_params(std::vector<unsigned short> samples, int bitCount, FreqDomainReport& param)
+{
+	//mwArray mwSamples(1, samples.size(), mxDOUBLE_CLASS);
+	//mwSamples.SetData(&samples[0], samples.size());
+	//mwArray mwBitCount(1, 1, mxDOUBLE_CLASS);
+	//mwBitCount.SetData(&bitCount, 1);
+
+	static std::vector<double> input(samples.size());
+	static std::vector<double> HD(16);
+	static std::vector<double> Spectrum(input.size());
+
+
+	double A;
+	double AdB;
+	double SINAD;
+	double SNR;
+	double THD;
+	double SFDR;
+	double ENOB;
+
+	for (int i = 0; i < samples.size(); ++i)
+	{
+		input[i] = samples[i];
+	}
+
+	//AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
+	//	double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o,
+	//	double* cHD, double* cy);
+	AdcDynTest(&input[0], input.size(), 80e6, bitCount, input.size(), 2, 1,
+		SNR, SINAD, SFDR, ENOB, 
+		&HD[0], &Spectrum[0]);
+
+	if (param.Spectrum.size() != Spectrum.size())
+	{
+		param.Spectrum.resize(Spectrum.size());
+	}
+	for (int i = 0; i < Spectrum.size(); ++i)
+	{
+		param.Spectrum[i] = Spectrum[i];
+	}
+
+	if (param.HD.size() != HD.size())
+	{
+		param.HD.resize(HD.size());
+	}
+	for (int i = 0; i < HD.size(); ++i)
+	{
+		param.HD[i] = HD[i];
+	}
+
+	param.ENOB = ENOB;
+	param.SNR = SNR;
+	param.SINAD = SINAD;
+	param.SFDR = SFDR;
+
+}
+
+#endif
