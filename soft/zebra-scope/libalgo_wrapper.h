@@ -4,4 +4,11 @@
 
 #include <AdcBoardTypes.hpp>
 
+#ifdef MATLAB
 void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainReport& param);
+#endif
+
+
+#ifdef MATCOM
+void calc_dynam_params(std::vector<unsigned short> samples, int bitCount, FreqDomainReport& param);
+#endif
