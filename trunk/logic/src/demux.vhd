@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-04-10
--- Last update: 2011-04-10
+-- Last update: 2011-04-15
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -148,6 +148,7 @@ begin  -- impl
         fifo64to64_wrreq <= rx_locked and enable_i;
         fifo64to64_rdreq <= rd_req_i;
         fifo64to64_rdclk <= rd_clk_i;
+
         fifo64to64_1 : fifo64to64
             port map (
                 data    => fifo64to64_data,
@@ -170,7 +171,15 @@ begin  -- impl
 
     GEN_CMOS_IMPL : if IO_TYPE = "CMOS" generate
 
-        fifo16to64_data  <= data_i;
+        process (clk_i, rst_i)
+         begin  -- process
+             if rst_i = '1' then        -- asynchronous reset (active high)
+                 fifo64to64_data <= (others => '0');
+             elsif clk_i'event and clk_i = '1' then  -- rising clock edge
+                 fifo64to64_data <= data_i;
+             end if;
+         end process; 
+            
         fifo16to64_wrclk <= clk_i;
         fifo16to64_wrreq <= enable_i;
         fifo16to64_rdreq <= rd_req_i;
@@ -194,4 +203,5 @@ begin  -- impl
         rd_q_o     <= fifo16to64_q;
         rd_empty_o <= fifo16to64_rdempty;
     end generate GEN_CMOS_IMPL;
+    
 end impl;

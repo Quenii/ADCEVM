@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-04-11
--- Last update: 2011-04-11
+-- Last update: 2011-04-12
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -26,11 +26,13 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;    
 
 entity lb_target_buffer is
     generic (
-        ADDR_START : std_logic_vector(15 downto 0);
-        LENGTH     : std_logic_vector(15 downto 0)
+        ADDR_START : std_logic_vector(15 downto 0) := x"0000";
+        LENGTH     : std_logic_vector(15 downto 0);
+        IO_TYPE : string := "LVDS"
         );
     port (
         LB_Clk_i   : in  std_logic;     --usb clk, 48M/24M
@@ -49,22 +51,22 @@ entity lb_target_buffer is
 
         ssram_adr_o  : out std_logic_vector(18 downto 0);
         ssram_dout_o : out std_logic_vector(63 downto 0);
-        ssram_din_i  : out std_logic_vector(63 downto 0);
+        ssram_din_i  : in std_logic_vector(63 downto 0);
         ssram_oe_o   : out std_logic;
         ssram_we_o   : out std_logic;
         ssram_ce_o   : out std_logic;
         ssram_clk_o  : out std_logic;
-        ssram_adv_o  : out std_logic;
+        ssram_adv_o  : out std_logic
 
         );
 end lb_target_buffer;
 
 architecture impl of lb_target_buffer is
 
-    constant ADDR_LA_START : std_logic_vector(15 downto 0) := ADDR_START + x"0";
-    constant ADDR_HA_START : std_logic_vector(15 downto 0) := ADDR_START + x"1";
-    constant ADDR_LA_END   : std_logic_vector(15 downto 0) := ADDR_START + x"2";
-    constant ADDR_HA_END   : std_logic_vector(15 downto 0) := ADDR_START + x"3";
+    constant ADDR_LA_START : std_logic_vector(15 downto 0) := ADDR_START + x"0000";
+    constant ADDR_HA_START : std_logic_vector(15 downto 0) := ADDR_START + x"0001";
+    constant ADDR_LA_END   : std_logic_vector(15 downto 0) := ADDR_START + x"0002";
+    constant ADDR_HA_END   : std_logic_vector(15 downto 0) := ADDR_START + x"0003";
 
     signal rst_i : std_logic;
     
@@ -148,11 +150,11 @@ architecture impl of lb_target_buffer is
             ififo_empty_i : in  std_logic;
             ofifo_rdclk_i : in  std_logic;
             ofifo_rdreq_i : in  std_logic;
-            ofifo_q_o     : out std_logic_vector(63 downto 0);
+            ofifo_q_o     : out std_logic_vector(15 downto 0);
             ofifo_empty_o : out std_logic;
             ssram_adr_o   : out std_logic_vector(18 downto 0);
             ssram_dout_o  : out std_logic_vector(63 downto 0);
-            ssram_din_i   : out std_logic_vector(63 downto 0);
+            ssram_din_i   : in std_logic_vector(63 downto 0);
             ssram_oe_o    : out std_logic;
             ssram_we_o    : out std_logic;
             ssram_ce_o    : out std_logic;
@@ -175,7 +177,7 @@ architecture impl of lb_target_buffer is
     signal sb_ififo_empty_i : std_logic;
     signal sb_ofifo_rdclk_i : std_logic;
     signal sb_ofifo_rdreq_i : std_logic;
-    signal sb_ofifo_q_o     : std_logic_vector(63 downto 0);
+    signal sb_ofifo_q_o     : std_logic_vector(15 downto 0);
     signal sb_ofifo_empty_o : std_logic;
 
     component starter
@@ -262,7 +264,7 @@ begin  -- impl
     
     demux_1 : demux
         generic map (
-            IO_TYPE => "CMOS")
+            IO_TYPE => IO_TYPE)
         port map (
             rst_i      => dm_rst_i,
             clk_i      => dm_clk_i,
