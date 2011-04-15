@@ -49,6 +49,6 @@ private:
 	int m_currentStep;
 	QSettings m_settings;
 	bool m_bEnable_SlotRegAccessItemStateChanged;
-	int m_gpio;
+	unsigned int m_gpio;
 };
 
