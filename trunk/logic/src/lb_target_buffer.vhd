@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-04-11
--- Last update: 2011-04-12
+-- Last update: 2011-04-15
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ use ieee.std_logic_unsigned.all;
 
 entity lb_target_buffer is
     generic (
-        ADDR_START : std_logic_vector(15 downto 0) := x"0000";
+        ADDR_BASE : std_logic_vector(15 downto 0) := x"3000";
         LENGTH     : std_logic_vector(15 downto 0);
         IO_TYPE : string := "LVDS"
         );
@@ -63,10 +63,15 @@ end lb_target_buffer;
 
 architecture impl of lb_target_buffer is
 
-    constant ADDR_LA_START : std_logic_vector(15 downto 0) := ADDR_START + x"0000";
-    constant ADDR_HA_START : std_logic_vector(15 downto 0) := ADDR_START + x"0001";
-    constant ADDR_LA_END   : std_logic_vector(15 downto 0) := ADDR_START + x"0002";
-    constant ADDR_HA_END   : std_logic_vector(15 downto 0) := ADDR_START + x"0003";
+--    constant ADDR_LA_START : std_logic_vector(15 downto 0) := ADDR_BASE + x"0000";
+--    constant ADDR_HA_START : std_logic_vector(15 downto 0) := ADDR_BASE + x"0001";
+--    constant ADDR_LA_END   : std_logic_vector(15 downto 0) := ADDR_BASE + x"0002";
+--    constant ADDR_HA_END   : std_logic_vector(15 downto 0) := ADDR_BASE + x"0003";
+
+    constant ADDR_LA_START : std_logic_vector(15 downto 0) := x"3000";
+    constant ADDR_HA_START : std_logic_vector(15 downto 0) := x"3001";
+    constant ADDR_LA_END   : std_logic_vector(15 downto 0) := x"3002";
+    constant ADDR_HA_END   : std_logic_vector(15 downto 0) := x"3003";
 
     signal rst_i : std_logic;
     
