@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN-DESKTOP>
 -- Company    : 
 -- Created    : 2011-04-10
--- Last update: 2011-04-11
+-- Last update: 2011-04-12
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -22,6 +22,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
 
 entity ssr_buffer is
 
@@ -44,13 +45,13 @@ entity ssr_buffer is
 
         ofifo_rdclk_i : in  std_logic;
         ofifo_rdreq_i : in  std_logic;
-        ofifo_q_o     : out std_logic_vector(63 downto 0);
+        ofifo_q_o     : out std_logic_vector(15 downto 0);
         ofifo_empty_o : out std_logic;
 
         -- ssram i/os
         ssram_adr_o  : out std_logic_vector(18 downto 0);
         ssram_dout_o : out std_logic_vector(63 downto 0);
-        ssram_din_i  : out std_logic_vector(63 downto 0);
+        ssram_din_i  : in std_logic_vector(63 downto 0);
 
         ssram_oe_o  : out std_logic;
         ssram_we_o  : out std_logic;
