@@ -69,8 +69,7 @@
     
     ADout_w = times(ADout,chebwin(ad_len_N,200.0));
     AA = zeros(NFFT-ad_len_N,1.0);
-    ADout_w = (BR(ADout_w),semi,
-    AA);
+    ADout_w = (BR(ADout_w),semi,AA);
     ad_len = length(ADout_w);
     ADout_spect = fft(ADout_w,NFFT);
     ADout_dB = 20.0*log10(abs(ADout_spect));

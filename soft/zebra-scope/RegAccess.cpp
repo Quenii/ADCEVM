@@ -66,10 +66,16 @@ RegAccess::~RegAccess()
 void RegAccess::SetGpio(int id)
 {
 	AdcBoard* board = AdcBoard::instance();
-	
 
-	int t = buttonGroup0->checkedId();
-	m_gpio = -(t+1);
+	int t[4];
+	t[0] = buttonGroup0->checkedId();
+	t[1] = buttonGroup1->checkedId();
+	t[2] = buttonGroup2->checkedId();
+	t[3] = buttonGroup3->checkedId();
+
+	m_gpio = (-2-t[0]) | ((-2-t[1]) << 2) | ((-2-t[2]) << 4) | ((-2-t[3]) << 6);
+
+	board->writeReg(0x2000, m_gpio);
 
 }
 
