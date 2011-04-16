@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-04-15
+-- Last update: 2011-04-16
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -436,7 +436,7 @@ begin  -- behave
         generic map (
             ADDR_BASE => ADDR_BASE_HBUF,
             LENGTH     => x"0004",
-            IO_TYPE    => "LVDS")
+            IO_TYPE    => "CMOS")
         port map (
             LB_Clk_i     => LB_Clk,
             LB_Reset_i   => '0',
