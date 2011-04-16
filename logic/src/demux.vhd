@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-04-10
--- Last update: 2011-04-15
+-- Last update: 2011-04-16
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -174,9 +174,9 @@ begin  -- impl
         process (clk_i, rst_i)
          begin  -- process
              if rst_i = '1' then        -- asynchronous reset (active high)
-                 fifo64to64_data <= (others => '0');
+                 fifo16to64_data <= (others => '0');
              elsif clk_i'event and clk_i = '1' then  -- rising clock edge
-                 fifo64to64_data <= data_i;
+                 fifo16to64_data <= data_i;
              end if;
          end process; 
             

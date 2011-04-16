@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN-DESKTOP>
 -- Company    : 
 -- Created    : 2011-04-10
--- Last update: 2011-04-12
+-- Last update: 2011-04-16
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ entity ssr_buffer is
         -- ssram i/os
         ssram_adr_o  : out std_logic_vector(18 downto 0);
         ssram_dout_o : out std_logic_vector(63 downto 0);
-        ssram_din_i  : in std_logic_vector(63 downto 0);
+        ssram_din_i  : in  std_logic_vector(63 downto 0);
 
         ssram_oe_o  : out std_logic;
         ssram_we_o  : out std_logic;
@@ -188,7 +188,7 @@ begin  -- impl
     process (clk_i, rst_i)
     begin  -- process
         if rst_i = '1' then             -- asynchronous reset (active low)
-            full <= '0';
+            full  <= '0';
             empty <= '1';
         elsif clk_i'event and clk_i = '1' then  -- rising clock edge
             if wrptr = end_adr then
@@ -209,10 +209,12 @@ begin  -- impl
     ssram_dout_o <= ififo_q_i when state = s_write
                     else (others => '1');
     
-    ssram_oe_o <= '1' when state = s_read
+    ssram_oe_o <= '1' when state = s_read and ofifo_wrfull = '0'
                   else '0';
+--    ofifo_wrreq <= '1' when state = s_read and ofifo_wrfull = '0'
+--                  else '0';
 
-    ssram_we_o <= '1' when state = s_write
+    ssram_we_o <= '1' when state = s_write and ififo_empty_i = '0'
                   else '0';
 
     ssram_ce_o <= '0' when state = s_rdy
@@ -220,5 +222,9 @@ begin  -- impl
 
     ssram_clk_o <= clk_i;
     ssram_adv_o <= '0';
+
+    ififo_rdreq_o <= '1' when state = s_write and ififo_empty_i = '0'
+                     else '0';
+    ififo_rdclk_o <= clk_i;
     
 end impl;
