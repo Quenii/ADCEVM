@@ -102,6 +102,10 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	//writeReg(0x3002, 37);
 	//writeReg(0x3003, 3);
 
+	//writeReg(0x10, 37);
+	//unsigned short t;
+	//okay = readReg(0x10, t);
+
 	setAdcSettings(m_adcSettings);
 	setSignalSettings(m_signalSettings);
 }
@@ -327,15 +331,15 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		}
 		for (int i = 0; i < tdReport.samples.size(); i+=4)
 		{
-			tdReport.rawSamples[i+0] = buff[i+3];
-			tdReport.rawSamples[i+1] = buff[i+2];
-			tdReport.rawSamples[i+2] = buff[i+1];
-			tdReport.rawSamples[i+3] = buff[i+0];
+			tdReport.rawSamples[i+0] = buff[i+3]>>(16-m_adcSettings.bitcount);
+			tdReport.rawSamples[i+1] = buff[i+2]>>(16-m_adcSettings.bitcount);
+			tdReport.rawSamples[i+2] = buff[i+1]>>(16-m_adcSettings.bitcount);
+			tdReport.rawSamples[i+3] = buff[i+0]>>(16-m_adcSettings.bitcount);
 
-			tdReport.samples[i+0] = (buff[i+3]/max-1)*vpp;
-			tdReport.samples[i+1] = (buff[i+2]/max-1)*vpp;
-			tdReport.samples[i+2] = (buff[i+1]/max-1)*vpp;
-			tdReport.samples[i+3] = (buff[i+0]/max-1)*vpp;	
+			tdReport.samples[i+0] = ((buff[i+3]>>(16-m_adcSettings.bitcount))/max-1)*vpp;
+			tdReport.samples[i+1] = ((buff[i+2]>>(16-m_adcSettings.bitcount))/max-1)*vpp;
+			tdReport.samples[i+2] = ((buff[i+1]>>(16-m_adcSettings.bitcount))/max-1)*vpp;
+			tdReport.samples[i+3] = ((buff[i+0]>>(16-m_adcSettings.bitcount))/max-1)*vpp;	
 		}
 	}
 	else
@@ -375,7 +379,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	calc_dynam_params(tdReport.samples, 16, fdReport);
 
 #elif defined(MATCOM) 
-	calc_dynam_params(tdReport.rawSamples, 16, fdReport);
+	calc_dynam_params(tdReport.rawSamples, m_adcSettings.bitcount, fdReport, m_adcSettings.vpp);
 	
 
 #else
