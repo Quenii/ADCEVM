@@ -44,7 +44,7 @@ public:
 	}
 
 	template<typename T>
-	void serialize(const std::vector<T> data)
+	void serialize(const std::vector<T>& data)
 	{
 		serialize<qint64>(data.size());
 		if (data.size() > 0)
@@ -54,7 +54,7 @@ public:
 	}
 
 	template<typename T>
-	bool deserialize(std::vector<T> data)
+	bool deserialize(std::vector<T>& data)
 	{		
 		qint64 size = 0;
 		if (!deserialize<qint64>(size))
