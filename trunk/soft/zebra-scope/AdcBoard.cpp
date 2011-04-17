@@ -84,7 +84,8 @@ AdcBoard* AdcBoard::_inst = 0;
 AdcBoard::AdcBoard(QObject* parent /* = 0 */) 
 : QObject(parent)
 , pi(3.141592653589793f)
-, m_timerId(0)
+, m_timerIdDyn(0)
+, m_timerIdPower(0)
 {
 	widget = new DummyWidget();
 	bool okay = connect(widget, SIGNAL(devChanged()), this, SLOT(devChanged()));
@@ -108,6 +109,10 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 
 	setAdcSettings(m_adcSettings);
 	setSignalSettings(m_signalSettings);
+	if (!m_timerIdPower)
+	{
+		m_timerIdPower = startTimer(1000);
+	}
 }
 
 AdcBoard::~AdcBoard()
@@ -127,20 +132,20 @@ AdcBoard::~AdcBoard()
 
 bool AdcBoard::isRunning()
 {
-	return m_timerId ? true : false;
+	return m_timerIdDyn ? true : false;
 }
 
 void AdcBoard::setDynamicOn(bool on /* = true */)
 {
-	if (on && !m_timerId)
+	if (on && !m_timerIdDyn)
 	{
-		m_timerId = startTimer(500);
+		m_timerIdDyn = startTimer(500);
 	}
 
-	if (!on && m_timerId)
+	if (!on && m_timerIdDyn)
 	{
-		killTimer(m_timerId);
-		m_timerId = 0;
+		killTimer(m_timerIdDyn);
+		m_timerIdDyn = 0;
 	}
 }
 
@@ -283,9 +288,14 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	//return ;
 
 	//setAdcSettings(m_adcSettings);
+	if (event->timerId() == m_timerIdPower)
+	{
+		PowerStatus& powerStatus = report.powerStatus;
+		this->powerStatus(powerStatus);
+		emit boardReport(report);
+		return;
+	}
 
-	PowerStatus& powerStatus = report.powerStatus;
-	this->powerStatus(powerStatus);
 
 	TimeDomainReport& tdReport = report.tdReport;
 	tdReport.samples.resize(buffer_cnt);
@@ -310,21 +320,18 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		writeReg(0xFFFF, 0x0001);  //reset
 		writeReg(0xFFFF, 0x0000);  //dereset
 		//buff[512] = {0x0032};
-		writeReg(0x1004, 0xEFFF);  //stor 1M
-		//read(0x04, buff, 256);
-		//constant ADDR_LA_START : std_logic_vector(15 downto 0) := ADDR_START + x"0000";
-		//constant ADDR_HA_START : std_logic_vector(15 downto 0) := ADDR_START + x"0001";
-		//constant ADDR_LA_END   : std_logic_vector(15 downto 0) := ADDR_START + x"0002";
-		//constant ADDR_HA_END   : std_logic_vector(15 downto 0) := ADDR_START + x"0003";
-
-
+		writeReg(0x1004, 0xFFFF);  //stor 1M
 
 		Sleep(200);	
 
 		unsigned short* p = &buff[0];
 		bool okay = read(0x1005, &buff[0], buffer_cnt);
 		Q_ASSERT(okay);
-
+		//for (int t=0; t<10; ++t)
+		//{
+		//	okay = read(0x1005, &buff[0], buffer_cnt);
+		//	Q_ASSERT(okay);
+		//}
 		if (tdReport.rawSamples.size() != buff.size())
 		{
 			tdReport.rawSamples.resize(buff.size());
