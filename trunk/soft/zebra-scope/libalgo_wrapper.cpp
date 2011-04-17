@@ -58,7 +58,7 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 
 #include "../m2cpp/m2c.h"
 
-void calc_dynam_params(std::vector<unsigned short> samples, int bitCount, FreqDomainReport& param)
+void calc_dynam_params(std::vector<unsigned short> samples, int bitCount, FreqDomainReport& param, float vpp)
 {
 	//mwArray mwSamples(1, samples.size(), mxDOUBLE_CLASS);
 	//mwSamples.SetData(&samples[0], samples.size());
@@ -86,7 +86,7 @@ void calc_dynam_params(std::vector<unsigned short> samples, int bitCount, FreqDo
 	//AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
 	//	double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o,
 	//	double* cHD, double* cy);
-	AdcDynTest(&input[0], input.size(), 80e6, bitCount, input.size(), 2, 1,
+	AdcDynTest(&input[0], input.size(), 80e6, bitCount, input.size(), 2*vpp, 1,
 		SNR, SINAD, SFDR, ENOB, 
 		&HD[0], &Spectrum[0]);
 

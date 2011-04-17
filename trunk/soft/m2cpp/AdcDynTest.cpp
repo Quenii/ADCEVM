@@ -39,9 +39,9 @@
     //[SNR, SFDR, SNRFS, SINAD, THD, HD, ENOB, ENOBFS, Pn_dB] = calc_dynam_params( 80e6, 16, 32768, 2, 1, 0.01, 1 )
     
     if (istrue(code==1.0)) {
-      if (istrue(numbit<16.0)) {
-        ADout = fix(ADout/mpower(2.0,(16.0-numbit)));
-      }
+      //if (istrue(numbit<16.0)) {
+      //  ADout = fix(ADout/mpower(2.0,(16.0-numbit)));
+      //}
       ADout = ADout/mpower(2.0,(numbit-1.0));
       
     } else
