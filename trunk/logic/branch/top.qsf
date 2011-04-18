@@ -102,78 +102,78 @@ set_location_assignment PIN_C17 -to TLC3548_sdi_i
 set_location_assignment PIN_C16 -to TLC3548_cs_n_o
 set_location_assignment PIN_C18 -to TLC3548_eco
 set_location_assignment PIN_C22 -to TLC3548_start_n_o
+#####################################
 
+# set_location_assignment PIN_R1 -to rx_inclock_i
+# set_location_assignment PIN_R2 -to "rx_inclock_i(n)"
+# set_location_assignment PIN_AD1 -to rx_in_i[0]
+# set_location_assignment PIN_AC2 -to rx_in_i[1]
+# set_location_assignment PIN_AB1 -to rx_in_i[2]
+# set_location_assignment PIN_AA1 -to rx_in_i[3]
+# set_location_assignment PIN_Y1 -to rx_in_i[4]
+# set_location_assignment PIN_W1 -to rx_in_i[5]
+# set_location_assignment PIN_V1 -to rx_in_i[6]
+# set_location_assignment PIN_U1 -to rx_in_i[7]
+# set_location_assignment PIN_M1 -to rx_in_i[8]
+# set_location_assignment PIN_L2 -to rx_in_i[9]
+# set_location_assignment PIN_K1 -to rx_in_i[10]
+# set_location_assignment PIN_J1 -to rx_in_i[11]
+# set_location_assignment PIN_H1 -to rx_in_i[12]
+# set_location_assignment PIN_G1 -to rx_in_i[13]
+# set_location_assignment PIN_F1 -to rx_in_i[14]
+# set_location_assignment PIN_E1 -to rx_in_i[15]
+# set_location_assignment PIN_AD2 -to "rx_in_i[0](n)"
+# set_location_assignment PIN_AC3 -to "rx_in_i[1](n)"
+# set_location_assignment PIN_AB2 -to "rx_in_i[2](n)"
+# set_location_assignment PIN_AA2 -to "rx_in_i[3](n)"
+# set_location_assignment PIN_Y2 -to "rx_in_i[4](n)"
+# set_location_assignment PIN_W2 -to "rx_in_i[5](n)"
+# set_location_assignment PIN_V2 -to "rx_in_i[6](n)"
+# set_location_assignment PIN_U2 -to "rx_in_i[7](n)"
+# set_location_assignment PIN_M2 -to "rx_in_i[8](n)"
+# set_location_assignment PIN_L3 -to "rx_in_i[9](n)"
+# set_location_assignment PIN_K2 -to "rx_in_i[10](n)"
+# set_location_assignment PIN_J2 -to "rx_in_i[11](n)"
+# set_location_assignment PIN_H2 -to "rx_in_i[12](n)"
+# set_location_assignment PIN_G2 -to "rx_in_i[13](n)"
+# set_location_assignment PIN_F2 -to "rx_in_i[14](n)"
+# set_location_assignment PIN_E2 -to "rx_in_i[15](n)"
+# set_location_assignment PIN_D2 -to rx_or_i
+# set_location_assignment PIN_D3 -to "rx_or_i(n)"
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[1]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[2]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[3]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[4]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[5]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[6]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[7]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[8]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[9]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[10]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[11]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[12]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[13]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[14]
+# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[15]
 
-set_location_assignment PIN_R1 -to rx_inclock_i
-set_location_assignment PIN_R2 -to "rx_inclock_i(n)"
-set_location_assignment PIN_AD1 -to rx_in_i[0]
-set_location_assignment PIN_AC2 -to rx_in_i[1]
-set_location_assignment PIN_AB1 -to rx_in_i[2]
-set_location_assignment PIN_AA1 -to rx_in_i[3]
-set_location_assignment PIN_Y1 -to rx_in_i[4]
-set_location_assignment PIN_W1 -to rx_in_i[5]
-set_location_assignment PIN_V1 -to rx_in_i[6]
-set_location_assignment PIN_U1 -to rx_in_i[7]
-set_location_assignment PIN_M1 -to rx_in_i[8]
-set_location_assignment PIN_L2 -to rx_in_i[9]
-set_location_assignment PIN_K1 -to rx_in_i[10]
-set_location_assignment PIN_J1 -to rx_in_i[11]
-set_location_assignment PIN_H1 -to rx_in_i[12]
-set_location_assignment PIN_G1 -to rx_in_i[13]
-set_location_assignment PIN_F1 -to rx_in_i[14]
-set_location_assignment PIN_E1 -to rx_in_i[15]
-set_location_assignment PIN_AD2 -to "rx_in_i[0](n)"
-set_location_assignment PIN_AC3 -to "rx_in_i[1](n)"
-set_location_assignment PIN_AB2 -to "rx_in_i[2](n)"
-set_location_assignment PIN_AA2 -to "rx_in_i[3](n)"
-set_location_assignment PIN_Y2 -to "rx_in_i[4](n)"
-set_location_assignment PIN_W2 -to "rx_in_i[5](n)"
-set_location_assignment PIN_V2 -to "rx_in_i[6](n)"
-set_location_assignment PIN_U2 -to "rx_in_i[7](n)"
-set_location_assignment PIN_M2 -to "rx_in_i[8](n)"
-set_location_assignment PIN_L3 -to "rx_in_i[9](n)"
-set_location_assignment PIN_K2 -to "rx_in_i[10](n)"
-set_location_assignment PIN_J2 -to "rx_in_i[11](n)"
-set_location_assignment PIN_H2 -to "rx_in_i[12](n)"
-set_location_assignment PIN_G2 -to "rx_in_i[13](n)"
-set_location_assignment PIN_F2 -to "rx_in_i[14](n)"
-set_location_assignment PIN_E2 -to "rx_in_i[15](n)"
-set_location_assignment PIN_D2 -to rx_or_i
-set_location_assignment PIN_D3 -to "rx_or_i(n)"
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[1]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[2]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[3]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[4]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[5]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[6]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[7]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[8]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[9]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[10]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[11]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[12]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[13]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[14]
-set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[15]
-
-# set_location_assignment PIN_B13 -to rx_inclock_i
-# set_location_assignment PIN_K10 -to rx_in_i[0]
-# set_location_assignment PIN_J10 -to rx_in_i[1]
-# set_location_assignment PIN_H10 -to rx_in_i[2]
-# set_location_assignment PIN_G10 -to rx_in_i[3]
-# set_location_assignment PIN_F10 -to rx_in_i[4]
-# set_location_assignment PIN_E10 -to rx_in_i[5]
-# set_location_assignment PIN_D10 -to rx_in_i[6]
-# set_location_assignment PIN_C10 -to rx_in_i[7]
-# set_location_assignment PIN_B10 -to rx_in_i[8]
-# set_location_assignment PIN_A10 -to rx_in_i[9]
-# set_location_assignment PIN_D6 -to rx_in_i[10]
-# set_location_assignment PIN_C5 -to rx_in_i[11]
-# set_location_assignment PIN_C3 -to rx_in_i[12]
-# set_location_assignment PIN_B3 -to rx_in_i[13]
-# set_location_assignment PIN_A3 -to rx_in_i[14]
-# set_location_assignment PIN_B5 -to rx_in_i[15]
-# set_location_assignment PIN_A5 -to rx_or_i
+set_location_assignment PIN_B13 -to rx_inclock_i
+set_location_assignment PIN_K10 -to rx_in_i[0]
+set_location_assignment PIN_J10 -to rx_in_i[1]
+set_location_assignment PIN_H10 -to rx_in_i[2]
+set_location_assignment PIN_G10 -to rx_in_i[3]
+set_location_assignment PIN_F10 -to rx_in_i[4]
+set_location_assignment PIN_E10 -to rx_in_i[5]
+set_location_assignment PIN_D10 -to rx_in_i[6]
+set_location_assignment PIN_C10 -to rx_in_i[7]
+set_location_assignment PIN_B10 -to rx_in_i[8]
+set_location_assignment PIN_A10 -to rx_in_i[9]
+set_location_assignment PIN_D6 -to rx_in_i[10]
+set_location_assignment PIN_C5 -to rx_in_i[11]
+set_location_assignment PIN_C3 -to rx_in_i[12]
+set_location_assignment PIN_B3 -to rx_in_i[13]
+set_location_assignment PIN_A3 -to rx_in_i[14]
+set_location_assignment PIN_B5 -to rx_in_i[15]
+set_location_assignment PIN_A5 -to rx_or_i
 
 set_location_assignment PIN_V23 -to ssram0_adr_o[0]
 set_location_assignment PIN_AA8 -to ssram1_adr_o[0]
@@ -352,19 +352,12 @@ set_global_assignment -name VHDL_FILE src/lb_arbiter.vhd
 set_global_assignment -name VHDL_FILE src/lb_target_fifo.vhd
 set_global_assignment -name VHDL_FILE src/lb_target_fifo_rome.vhd
 set_global_assignment -name VHDL_FILE src/lb_target_reg.vhd
-set_global_assignment -name QIP_FILE ip/dcm125_i/dcm125.qip
 set_global_assignment -name VHDL_FILE src/spi.vhd
 set_global_assignment -name VHDL_FILE src/top.vhd
-set_global_assignment -name QIP_FILE ip/lvds_i/lvds_i.qip
-set_global_assignment -name QIP_FILE ip/fifo64to16/fifo64to16.qip
 set_global_assignment -name SIGNALTAP_FILE stp/localbus.stp
-set_global_assignment -name QIP_FILE ip/test_fifo/test_fifo.qip
 set_global_assignment -name SIGNALTAP_FILE stp/fifo_test.stp
-set_global_assignment -name QIP_FILE ip/tri_bus/tri_bus.qip
 set_global_assignment -name SIGNALTAP_FILE stp/local_bus1.stp
-set_global_assignment -name QIP_FILE ip/dcm_user/dcm_user.qip
 set_global_assignment -name SIGNALTAP_FILE stp/stp1.stp
-set_global_assignment -name QIP_FILE ip/dcm_45/dcm45.qip
 set_global_assignment -name SIGNALTAP_FILE stp/kad5514p_jtag_spi.stp
 set_global_assignment -name SIGNALTAP_FILE stp1.stp
 set_global_assignment -name SMART_RECOMPILE ON
