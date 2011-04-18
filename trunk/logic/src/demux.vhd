@@ -102,10 +102,10 @@ architecture impl of demux is
             q       : out std_logic_vector (63 downto 0);
             rdempty : out std_logic;
             rdfull  : out std_logic;
-            rdusedw : out std_logic_vector (2 downto 0);
+            rdusedw : out std_logic_vector (5 downto 0);
             wrempty : out std_logic;
             wrfull  : out std_logic;
-            wrusedw : out std_logic_vector (4 downto 0));
+            wrusedw : out std_logic_vector (7 downto 0));
     end component;
 
     signal fifo16to64_data    : std_logic_vector (15 downto 0);
@@ -116,10 +116,10 @@ architecture impl of demux is
     signal fifo16to64_q       : std_logic_vector (63 downto 0);
     signal fifo16to64_rdempty : std_logic;
     signal fifo16to64_rdfull  : std_logic;
-    signal fifo16to64_rdusedw : std_logic_vector (2 downto 0);
+    signal fifo16to64_rdusedw : std_logic_vector (5 downto 0);
     signal fifo16to64_wrempty : std_logic;
     signal fifo16to64_wrfull  : std_logic;
-    signal fifo16to64_wrusedw : std_logic_vector (4 downto 0);
+    signal fifo16to64_wrusedw : std_logic_vector (7 downto 0);
     
 begin  -- impl
 

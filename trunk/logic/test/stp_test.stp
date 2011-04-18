@@ -1,0 +1,885 @@
+<session jtag_chain="USB-Blaster [USB-0]" jtag_device="@1: EP2S30 (0x020920DD)" sof_file="output/top.sof" top_level_entity="test">
+  <display_tree gui_logging_enabled="0">
+    <display_branch instance="auto_signaltap_0" log="USE_GLOBAL_TEMP" signal_set="USE_GLOBAL_TEMP" trigger="USE_GLOBAL_TEMP"/>
+  </display_tree>
+  <instance entity_name="sld_signaltap" is_auto_node="yes" is_expanded="true" name="auto_signaltap_0" source_file="sld_signaltap.vhd">
+    <node_ip_info instance_id="0" mfg_id="110" node_id="0" version="6"/>
+    <position_info>
+      <single attribute="active tab" value="0"/>
+      <single attribute="data horizontal scroll position" value="0"/>
+      <single attribute="data vertical scroll position" value="50"/>
+      <single attribute="setup horizontal scroll position" value="0"/>
+      <single attribute="setup vertical scroll position" value="51"/>
+      <single attribute="zoom level denominator" value="1"/>
+      <single attribute="zoom level numerator" value="1"/>
+      <single attribute="zoom offset denominator" value="1"/>
+      <single attribute="zoom offset numerator" value="130944"/>
+    </position_info>
+    <signal_set global_temp="1" name="signal_set: 2011/04/17 09:06:27  #0">
+      <clock name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|rx_inclock" polarity="posedge" tap_mode="classic"/>
+      <config ram_type="M4K" reserved_data_nodes="0" reserved_trigger_nodes="0" sample_depth="128" trigger_in_enable="no" trigger_out_enable="no"/>
+      <top_entity/>
+      <signal_vec>
+        <trigger_input_vec>
+          <wire name="FIFOADR_o[0]" tap_mode="classic" type="output pin"/>
+          <wire name="FIFOADR_o[1]" tap_mode="classic" type="output pin"/>
+          <wire name="FLAGA_i" tap_mode="classic" type="input pin"/>
+          <wire name="FLAGB_i" tap_mode="classic" type="input pin"/>
+          <wire name="FLAGC_i" tap_mode="classic" type="input pin"/>
+          <wire name="FX2FD_io[0]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[10]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[11]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[12]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[13]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[14]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[15]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[1]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[2]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[3]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[4]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[5]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[6]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[7]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[8]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[9]" tap_mode="classic" type="bidir pin"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|clk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|enable_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdclk" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdempty" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdfull" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrclk" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrempty" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrfull" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|pll_areset" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|rx_locked" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|rx_outclock" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rd_clk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rd_empty_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rd_req_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rst_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|clk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|empty" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|empty_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[0]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[10]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[11]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[12]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[13]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[14]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[15]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[16]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[17]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[18]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[1]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[2]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[3]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[4]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[5]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[6]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[7]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[8]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[9]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|full_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ififo_empty_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ififo_rdclk_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ififo_rdreq_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_empty_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_rdclk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_rdreq_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_wrreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[0]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[10]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[11]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[12]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[13]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[14]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[15]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[16]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[17]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[18]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[1]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[2]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[3]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[4]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[5]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[6]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[7]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[8]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[9]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rst_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_adv_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_ce_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_clk_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_oe_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_we_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[0]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[10]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[11]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[12]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[13]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[14]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[15]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[16]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[17]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[18]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[1]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[2]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[3]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[4]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[5]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[6]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[7]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[8]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[9]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_pre_read" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_pre_write" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_rdy" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_read" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_write" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|tsk_start_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[0]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[10]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[11]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[12]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[13]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[14]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[15]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[16]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[17]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[18]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[1]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[2]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[3]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[4]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[5]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[6]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[7]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[8]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[9]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|starter:starter_1|LB_Clk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|starter:starter_1|rst_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|starter:starter_1|tsk_start_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|arst_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rclk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rget_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rptr" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rrdy_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wclk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wptr" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wput_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wrdy_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[0]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[10]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[11]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[12]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[13]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[14]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[15]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[1]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[2]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[3]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[4]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[5]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[6]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[7]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[8]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[9]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[9]" tap_mode="classic" type="combinatorial"/>
+        </trigger_input_vec>
+        <data_input_vec>
+          <wire name="FIFOADR_o[0]" tap_mode="classic" type="output pin"/>
+          <wire name="FIFOADR_o[1]" tap_mode="classic" type="output pin"/>
+          <wire name="FLAGA_i" tap_mode="classic" type="input pin"/>
+          <wire name="FLAGB_i" tap_mode="classic" type="input pin"/>
+          <wire name="FLAGC_i" tap_mode="classic" type="input pin"/>
+          <wire name="FX2FD_io[0]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[10]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[11]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[12]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[13]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[14]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[15]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[1]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[2]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[3]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[4]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[5]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[6]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[7]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[8]" tap_mode="classic" type="bidir pin"/>
+          <wire name="FX2FD_io[9]" tap_mode="classic" type="bidir pin"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|clk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|enable_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdclk" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdempty" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdfull" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrclk" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrempty" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrfull" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|pll_areset" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|rx_locked" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|rx_outclock" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rd_clk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rd_empty_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rd_req_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rst_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|clk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|empty" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|empty_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[0]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[10]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[11]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[12]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[13]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[14]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[15]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[16]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[17]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[18]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[1]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[2]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[3]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[4]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[5]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[6]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[7]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[8]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[9]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|full_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ififo_empty_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ififo_rdclk_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ififo_rdreq_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_empty_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_rdclk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_rdreq_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_wrreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[0]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[10]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[11]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[12]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[13]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[14]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[15]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[16]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[17]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[18]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[1]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[2]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[3]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[4]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[5]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[6]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[7]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[8]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[9]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rst_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_adv_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_ce_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_clk_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_oe_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_we_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[0]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[10]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[11]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[12]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[13]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[14]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[15]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[16]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[17]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[18]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[1]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[2]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[3]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[4]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[5]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[6]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[7]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[8]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[9]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_pre_read" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_pre_write" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_rdy" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_read" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_write" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|tsk_start_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[0]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[10]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[11]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[12]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[13]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[14]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[15]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[16]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[17]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[18]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[1]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[2]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[3]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[4]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[5]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[6]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[7]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[8]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[9]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|starter:starter_1|LB_Clk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|starter:starter_1|rst_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_buffer:lb_target_buffer_1|starter:starter_1|tsk_start_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|arst_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rclk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rget_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rptr" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rrdy_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wclk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wptr" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wput_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wrdy_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[0]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[10]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[11]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[12]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[13]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[14]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[15]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[1]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[2]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[3]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[4]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[5]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[6]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[7]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[8]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|sta_i[9]" tap_mode="classic" type="register"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[9]" tap_mode="classic" type="combinatorial"/>
+        </data_input_vec>
+      </signal_vec>
+      <presentation>
+        <data_view>
+          <bus is_signal_inverted="no" link="all" name="FIFOADR_o" order="msb_to_lsb" radix="hex" state="collapse" type="output pin">
+            <net is_signal_inverted="no" name="FIFOADR_o[0]"/>
+            <net is_signal_inverted="no" name="FIFOADR_o[1]"/>
+          </bus>
+          <net is_signal_inverted="no" name="FLAGA_i"/>
+          <net is_signal_inverted="no" name="FLAGB_i"/>
+          <net is_signal_inverted="no" name="FLAGC_i"/>
+          <bus is_signal_inverted="no" link="all" name="FX2FD_io" order="lsb_to_msb" radix="hex" state="collapse" type="bidir pin">
+            <net is_signal_inverted="no" name="FX2FD_io[0]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[1]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[2]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[3]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[4]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[5]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[6]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[7]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[8]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[9]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[10]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[11]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[12]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[13]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[14]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[15]"/>
+          </bus>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|enable_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rd_clk_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rd_empty_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|clk_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rd_req_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rst_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|clk_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|empty"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|empty_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|full_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ififo_empty_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ififo_rdclk_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ififo_rdreq_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_empty_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_rdclk_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_rdreq_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_wrreq"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rst_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_adv_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_ce_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_clk_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_oe_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_we_o"/>
+          <bus is_signal_inverted="no" link="all" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[0]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[1]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[2]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[3]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[4]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[5]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[6]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[7]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[8]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[9]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[10]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[11]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[12]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[13]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[14]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[15]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[16]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[17]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[18]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[0]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[1]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[2]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[3]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[4]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[5]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[6]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[7]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[8]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[9]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[10]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[11]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[12]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[13]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[14]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[15]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[16]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[17]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[18]"/>
+          </bus>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_pre_read"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_pre_write"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_rdy"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_read"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_write"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|tsk_start_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|starter:starter_1|LB_Clk_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|starter:starter_1|rst_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|starter:starter_1|tsk_start_o"/>
+          <bus is_signal_inverted="no" link="all" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[0]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[1]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[2]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[3]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[4]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[5]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[6]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[7]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[8]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[9]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[10]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[11]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[12]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[13]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[14]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[15]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[16]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[17]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[18]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[0]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[1]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[2]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[3]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[4]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[5]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[6]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[7]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[8]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[9]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[10]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[11]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[12]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[13]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[14]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[15]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[16]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[17]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[18]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="lb_target_watchdog:lb_target_watchdog_1|sta_i" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[0]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[1]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[2]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[3]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[4]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[5]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[6]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[7]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[8]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[9]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[10]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[11]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[12]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[13]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[14]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[15]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[0]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[1]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[2]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[3]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[4]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[5]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[6]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[7]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[8]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[9]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[10]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[11]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[12]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[13]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[14]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[15]"/>
+          </bus>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|arst_i"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rclk_i"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rget_i"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rptr"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wclk_i"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wptr"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wput_i"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wrdy_o"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rrdy_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdclk"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdempty"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdfull"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdreq"/>
+          <bus is_signal_inverted="no" link="all" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[0]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[1]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[2]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[3]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[4]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[5]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[6]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[7]"/>
+          </bus>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrclk"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrempty"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrfull"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrreq"/>
+          <bus is_signal_inverted="no" link="all" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[0]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[1]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[2]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[3]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[4]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[5]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[6]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[7]"/>
+          </bus>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|pll_areset"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|rx_locked"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|rx_outclock"/>
+        </data_view>
+        <setup_view>
+          <bus is_signal_inverted="no" link="all" name="FIFOADR_o" order="msb_to_lsb" radix="hex" state="collapse" type="output pin">
+            <net is_signal_inverted="no" name="FIFOADR_o[0]"/>
+            <net is_signal_inverted="no" name="FIFOADR_o[1]"/>
+          </bus>
+          <net is_signal_inverted="no" name="FLAGA_i"/>
+          <net is_signal_inverted="no" name="FLAGB_i"/>
+          <net is_signal_inverted="no" name="FLAGC_i"/>
+          <bus is_signal_inverted="no" link="all" name="FX2FD_io" order="lsb_to_msb" radix="hex" state="collapse" type="bidir pin">
+            <net is_signal_inverted="no" name="FX2FD_io[0]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[1]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[2]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[3]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[4]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[5]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[6]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[7]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[8]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[9]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[10]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[11]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[12]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[13]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[14]"/>
+            <net is_signal_inverted="no" name="FX2FD_io[15]"/>
+          </bus>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|enable_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rd_clk_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rd_empty_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|clk_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rd_req_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|rst_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|clk_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|empty"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|empty_o"/>
+          <bus is_signal_inverted="no" link="all" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[0]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[1]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[2]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[3]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[4]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[5]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[6]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[7]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[8]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[9]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[10]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[11]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[12]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[13]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[14]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[15]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[16]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[17]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|end_adr[18]"/>
+          </bus>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|full_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ififo_empty_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ififo_rdclk_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ififo_rdreq_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_empty_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_rdclk_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_rdreq_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ofifo_wrreq"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rst_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_adv_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_ce_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_clk_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_oe_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|ssram_we_o"/>
+          <bus is_signal_inverted="no" link="all" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[0]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[1]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[2]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[3]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[4]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[5]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[6]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[7]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[8]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[9]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[10]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[11]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[12]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[13]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[14]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[15]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[16]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[17]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|start_adr[18]"/>
+          </bus>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_pre_read"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_pre_write"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_rdy"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_read"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|state.s_write"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|tsk_start_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|starter:starter_1|LB_Clk_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|starter:starter_1|rst_i"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|starter:starter_1|tsk_start_o"/>
+          <bus is_signal_inverted="no" link="all" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[0]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[1]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[2]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[3]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[4]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[5]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[6]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[7]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[8]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[9]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[10]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[11]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[12]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[13]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[14]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[15]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[16]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[17]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|rdptr[18]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[0]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[1]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[2]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[3]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[4]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[5]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[6]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[7]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[8]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[9]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[10]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[11]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[12]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[13]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[14]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[15]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[16]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[17]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|ssr_buffer:ssr_buffer_1|wrptr[18]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="lb_target_watchdog:lb_target_watchdog_1|sta_i" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[0]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[1]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[2]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[3]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[4]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[5]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[6]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[7]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[8]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[9]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[10]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[11]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[12]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[13]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[14]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|sta_i[15]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[0]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[1]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[2]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[3]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[4]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[5]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[6]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[7]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[8]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[9]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[10]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[11]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[12]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[13]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[14]"/>
+            <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|wd_reg[15]"/>
+          </bus>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|arst_i"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rclk_i"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rget_i"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rptr"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wclk_i"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wptr"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wput_i"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|wrdy_o"/>
+          <net is_signal_inverted="no" name="lb_target_watchdog:lb_target_watchdog_1|async_fifo_deep2:async_fifo_deep2_1|rrdy_o"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdclk"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdempty"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdfull"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdreq"/>
+          <bus is_signal_inverted="no" link="all" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[0]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[1]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[2]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[3]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[4]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[5]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[6]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|rdusedw[7]"/>
+          </bus>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrclk"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrempty"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrfull"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrreq"/>
+          <bus is_signal_inverted="no" link="all" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[0]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[1]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[2]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[3]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[4]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[5]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[6]"/>
+            <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|fifo64to64:\GEN_LVDS_IMPL:fifo64to64_1|wrusedw[7]"/>
+          </bus>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|pll_areset"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|rx_locked"/>
+          <net is_signal_inverted="no" name="lb_target_buffer:lb_target_buffer_1|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|rx_outclock"/>
+        </setup_view>
+      </presentation>
+      <trigger CRC="5B2BB6A0" attribute_mem_mode="false" global_temp="1" name="trigger: 2011/04/17 09:06:27  #1" position="pre" power_up_trigger_mode="false" segment_size="1" trigger_in="dont_care" trigger_out="active high" trigger_type="circular">
+        <power_up_trigger position="pre" trigger_in="dont_care" trigger_out="active high"/>
+        <events use_custom_flow_control="no">
+          <level enabled="yes" name="condition1" type="basic">
+            <power_up enabled="yes">
+            </power_up>
+            <op_node/>
+          </level>
+        </events>
+        <log>
+          <data global_temp="1" name="log: 2011/04/17 09:21:26  #0" power_up_mode="false" sample_depth="1" trigger_position="-1">00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000010000000</data>
+          <extradata>T</extradata>
+        </log>
+      </trigger>
+    </signal_set>
+  </instance>
+  <mnemonics/>
+  <static_plugin_mnemonics/>
+  <global_info>
+    <single attribute="active instance" value="0"/>
+    <single attribute="lock mode" value="36110"/>
+    <multi attribute="window position" size="9" value="1272,703,398,124,0,50,124,0,1"/>
+  </global_info>
+</session>
