@@ -1,0 +1,1246 @@
+<session jtag_chain="USB-Blaster [USB-0]" jtag_device="" sof_file="output/top.sof" top_level_entity="top">
+  <display_tree gui_logging_enabled="0">
+    <display_branch instance="auto_signaltap_0" log="USE_GLOBAL_TEMP" signal_set="USE_GLOBAL_TEMP" trigger="USE_GLOBAL_TEMP"/>
+  </display_tree>
+  <global_info>
+    <single attribute="active instance" value="0"/>
+    <single attribute="lock mode" value="36110"/>
+    <multi attribute="window position" size="9" value="1280,711,398,124,0,50,124,0,1"/>
+  </global_info>
+  <instance entity_name="sld_signaltap" is_auto_node="yes" name="auto_signaltap_0" source_file="sld_signaltap.vhd">
+    <node_ip_info instance_id="0" mfg_id="110" node_id="0" version="6"/>
+    <position_info>
+      <single attribute="active tab" value="0"/>
+      <single attribute="setup vertical scroll position" value="0"/>
+      <single attribute="setup horizontal scroll position" value="0"/>
+      <single attribute="data vertical scroll position" value="17"/>
+      <single attribute="data horizontal scroll position" value="61"/>
+      <single attribute="zoom level numerator" value="16"/>
+      <single attribute="zoom level denominator" value="1"/>
+      <single attribute="zoom offset numerator" value="8184"/>
+      <single attribute="zoom offset denominator" value="1"/>
+    </position_info>
+    <signal_set global_temp="1" name="signal_set: 2011/04/17 21:12:17  #0">
+      <clock name="had_rec:had_rec_2|demux:demux_1|clk_i" polarity="posedge" tap_mode="classic"/>
+      <config ram_type="M4K" reserved_data_nodes="0" reserved_trigger_nodes="0" sample_depth="512" trigger_in_enable="no" trigger_out_enable="no"/>
+      <top_entity/>
+      <signal_vec>
+        <trigger_input_vec>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.idle" tap_mode="classic" type="state machine"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.mid_state" tap_mode="classic" type="state machine"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.reception" tap_mode="classic" type="state machine"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.store" tap_mode="classic" type="state machine"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.wt_reception" tap_mode="classic" type="state machine"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.wt_store" tap_mode="classic" type="state machine"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|aclr" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdclk" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdempty" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrclk" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrfull" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[16]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[17]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[18]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_ce_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_gw_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_oe_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[16]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[17]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[18]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[19]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[20]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[21]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[22]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[23]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[24]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[25]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[26]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[27]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[28]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[29]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[30]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[31]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[32]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[33]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[34]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[35]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[36]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[37]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[38]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[39]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[40]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[41]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[42]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[43]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[44]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[45]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[46]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[47]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[48]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[49]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[50]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[51]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[52]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[53]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[54]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[55]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[56]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[57]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[58]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[59]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[60]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[61]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[62]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[63]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[16]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[17]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[18]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[19]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[20]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[21]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[22]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[23]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[24]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[25]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[26]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[27]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[28]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[29]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[30]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[31]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[32]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[33]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[34]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[35]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[36]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[37]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[38]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[39]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[40]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[41]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[42]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[43]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[44]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[45]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[46]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[47]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[48]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[49]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[50]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[51]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[52]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[53]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[54]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[55]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[56]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[57]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[58]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[59]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[60]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[61]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[62]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[63]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|enable_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdclk" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdempty" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdfull" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrclk" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrempty" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrfull" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_clk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_empty_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[16]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[17]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[18]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[19]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[20]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[21]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[22]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[23]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[24]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[25]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[26]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[27]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[28]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[29]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[30]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[31]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[32]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[33]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[34]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[35]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[36]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[37]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[38]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[39]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[40]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[41]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[42]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[43]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[44]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[45]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[46]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[47]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[48]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[49]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[50]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[51]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[52]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[53]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[54]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[55]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[56]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[57]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[58]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[59]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[60]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[61]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[62]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[63]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_req_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rst_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|rx_inclock_i" tap_mode="classic" type="combinatorial"/>
+        </trigger_input_vec>
+        <data_input_vec>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.idle" tap_mode="classic" type="state machine"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.mid_state" tap_mode="classic" type="state machine"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.reception" tap_mode="classic" type="state machine"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.store" tap_mode="classic" type="state machine"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.wt_reception" tap_mode="classic" type="state machine"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.wt_store" tap_mode="classic" type="state machine"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|aclr" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdclk" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdempty" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrclk" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrfull" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[16]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[17]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[18]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_ce_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_gw_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_oe_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[16]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[17]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[18]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[19]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[20]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[21]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[22]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[23]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[24]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[25]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[26]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[27]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[28]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[29]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[30]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[31]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[32]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[33]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[34]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[35]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[36]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[37]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[38]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[39]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[40]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[41]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[42]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[43]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[44]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[45]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[46]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[47]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[48]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[49]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[50]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[51]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[52]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[53]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[54]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[55]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[56]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[57]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[58]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[59]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[60]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[61]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[62]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[63]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[16]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[17]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[18]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[19]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[20]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[21]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[22]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[23]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[24]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[25]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[26]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[27]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[28]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[29]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[30]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[31]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[32]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[33]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[34]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[35]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[36]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[37]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[38]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[39]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[40]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[41]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[42]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[43]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[44]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[45]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[46]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[47]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[48]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[49]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[50]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[51]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[52]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[53]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[54]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[55]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[56]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[57]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[58]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[59]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[60]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[61]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[62]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[63]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|enable_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdclk" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdempty" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdfull" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrclk" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrempty" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrfull" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrreq" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_clk_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_empty_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[16]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[17]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[18]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[19]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[20]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[21]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[22]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[23]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[24]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[25]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[26]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[27]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[28]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[29]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[30]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[31]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[32]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[33]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[34]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[35]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[36]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[37]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[38]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[39]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[40]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[41]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[42]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[43]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[44]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[45]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[46]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[47]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[48]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[49]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[50]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[51]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[52]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[53]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[54]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[55]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[56]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[57]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[58]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[59]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[60]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[61]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[62]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[63]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_q_o[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rd_req_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|demux:demux_1|rst_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="had_rec:had_rec_2|rx_inclock_i" tap_mode="classic" type="combinatorial"/>
+        </data_input_vec>
+      </signal_vec>
+      <presentation>
+        <data_view>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|rx_inclock_i"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|enable_i"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_clk_i"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rst_i"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|aclr"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdclk"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdempty"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdreq"/>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[7]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[8]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[9]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[10]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[11]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[12]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[13]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[14]"/>
+          </bus>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrclk"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrfull"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrreq"/>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[7]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[8]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[9]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[10]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[11]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[12]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[7]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[8]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[9]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[10]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[11]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[12]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[13]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[14]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[15]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[16]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[17]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[18]"/>
+          </bus>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_ce_n_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_gw_n_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_oe_n_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_req_i"/>
+          <bus is_signal_inverted="no" link="all" mnemonics="cs_table (2)" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs" order="lsb_to_msb" state="collapse" type="state machine">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.idle"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.mid_state"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.reception"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.store"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.wt_reception"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.wt_store"/>
+          </bus>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdclk"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_empty_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdempty"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdreq"/>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[5]"/>
+          </bus>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdfull"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrclk"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrempty"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrfull"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrreq"/>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[7]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|demux:demux_1|rd_q_o" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[7]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[8]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[9]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[10]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[11]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[12]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[13]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[14]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[15]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[16]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[17]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[18]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[19]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[20]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[21]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[22]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[23]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[24]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[25]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[26]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[27]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[28]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[29]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[30]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[31]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[32]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[33]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[34]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[35]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[36]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[37]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[38]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[39]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[40]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[41]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[42]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[43]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[44]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[45]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[46]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[47]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[48]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[49]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[50]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[51]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[52]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[53]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[54]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[55]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[56]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[57]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[58]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[59]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[60]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[61]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[62]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[63]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[7]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[8]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[9]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[10]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[11]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[12]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[13]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[14]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[15]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[16]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[17]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[18]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[19]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[20]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[21]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[22]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[23]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[24]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[25]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[26]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[27]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[28]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[29]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[30]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[31]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[32]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[33]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[34]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[35]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[36]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[37]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[38]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[39]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[40]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[41]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[42]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[43]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[44]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[45]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[46]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[47]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[48]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[49]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[50]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[51]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[52]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[53]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[54]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[55]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[56]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[57]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[58]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[59]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[60]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[61]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[62]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[63]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[7]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[8]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[9]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[10]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[11]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[12]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[13]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[14]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[15]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[16]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[17]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[18]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[19]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[20]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[21]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[22]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[23]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[24]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[25]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[26]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[27]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[28]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[29]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[30]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[31]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[32]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[33]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[34]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[35]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[36]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[37]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[38]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[39]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[40]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[41]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[42]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[43]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[44]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[45]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[46]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[47]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[48]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[49]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[50]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[51]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[52]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[53]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[54]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[55]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[56]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[57]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[58]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[59]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[60]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[61]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[62]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[63]"/>
+          </bus>
+        </data_view>
+        <setup_view>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|rx_inclock_i"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|enable_i"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_clk_i"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_empty_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rst_i"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_req_i"/>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[7]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[8]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[9]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[10]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[11]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[12]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[13]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[14]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[15]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[16]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[17]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_adr_o[18]"/>
+          </bus>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|aclr"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdclk"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdempty"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdreq"/>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[7]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[8]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[9]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[10]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[11]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[12]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[13]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|rdusedw[14]"/>
+          </bus>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrclk"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrfull"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrreq"/>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[7]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[8]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[9]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[10]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[11]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|fifo64to16:fifo64to16_1|wrusedw[12]"/>
+          </bus>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_ce_n_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_gw_n_o"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram0_oe_n_o"/>
+          <bus is_signal_inverted="no" link="all" mnemonics="cs_table (2)" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs" order="lsb_to_msb" state="collapse" type="state machine">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.idle"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.mid_state"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.reception"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.store"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.wt_reception"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|cs.wt_store"/>
+          </bus>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdclk"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdempty"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdfull"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdreq"/>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|rdusedw[5]"/>
+          </bus>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrclk"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrempty"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrfull"/>
+          <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrreq"/>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|fifo16to64:\GEN_CMOS_IMPL:fifo16to64_1|wrusedw[7]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|demux:demux_1|rd_q_o" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[7]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[8]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[9]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[10]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[11]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[12]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[13]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[14]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[15]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[16]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[17]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[18]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[19]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[20]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[21]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[22]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[23]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[24]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[25]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[26]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[27]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[28]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[29]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[30]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[31]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[32]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[33]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[34]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[35]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[36]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[37]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[38]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[39]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[40]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[41]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[42]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[43]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[44]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[45]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[46]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[47]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[48]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[49]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[50]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[51]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[52]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[53]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[54]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[55]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[56]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[57]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[58]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[59]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[60]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[61]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[62]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|demux:demux_1|rd_q_o[63]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[7]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[8]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[9]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[10]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[11]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[12]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[13]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[14]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[15]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[16]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[17]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[18]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[19]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[20]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[21]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[22]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[23]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[24]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[25]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[26]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[27]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[28]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[29]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[30]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[31]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[32]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[33]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[34]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[35]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[36]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[37]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[38]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[39]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[40]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[41]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[42]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[43]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[44]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[45]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[46]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[47]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[48]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[49]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[50]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[51]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[52]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[53]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[54]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[55]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[56]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[57]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[58]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[59]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[60]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[61]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[62]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_din_i[63]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[0]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[1]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[2]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[3]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[4]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[5]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[6]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[7]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[8]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[9]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[10]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[11]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[12]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[13]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[14]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[15]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[16]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[17]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[18]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[19]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[20]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[21]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[22]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[23]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[24]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[25]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[26]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[27]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[28]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[29]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[30]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[31]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[32]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[33]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[34]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[35]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[36]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[37]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[38]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[39]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[40]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[41]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[42]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[43]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[44]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[45]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[46]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[47]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[48]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[49]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[50]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[51]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[52]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[53]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[54]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[55]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[56]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[57]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[58]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[59]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[60]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[61]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[62]"/>
+            <net is_signal_inverted="no" name="had_rec:had_rec_2|dat_buf:dat_buf_1|ssram_dout_o[63]"/>
+          </bus>
+        </setup_view>
+      </presentation>
+      <trigger CRC="F7E659D7" attribute_mem_mode="false" global_temp="1" name="trigger: 2011/04/17 22:03:49  #0" position="pre" power_up_trigger_mode="false" segment_size="1" trigger_in="dont_care" trigger_out="active high" trigger_type="circular">
+        <power_up_trigger position="pre" trigger_in="dont_care" trigger_out="active high"/>
+        <events use_custom_flow_control="no">
+          <level enabled="yes" name="condition1" type="basic">'had_rec:had_rec_2|demux:demux_1|enable_i' == rising edge
+            <power_up enabled="yes">
+            </power_up>
+            <op_node/>
+          </level>
+          <level enabled="yes" name="condition2" type="basic">'had_rec:had_rec_2|demux:demux_1|fifo16to64:\\GEN_CMOS_IMPL:fifo16to64_1|rdempty' == high &amp;&amp; 'had_rec:had_rec_2|demux:demux_1|fifo16to64:\\GEN_CMOS_IMPL:fifo16to64_1|rdreq' == high
+            <power_up enabled="yes">
+            </power_up>
+            <op_node/>
+          </level>
+        </events>
+        <log>
+          <data global_temp="1" name="log: 2011/04/17 22:16:09  #0" power_up_mode="false" sample_depth="1" trigger_position="-1">0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</data>
+          <extradata>T</extradata>
+        </log>
+      </trigger>
+    </signal_set>
+  </instance>
+  <mnemonics>
+    <table name="cs_table (1)" width="5">
+      <symbol name="idle" value="00001"/>
+      <symbol name="mid_state" value="00010"/>
+      <symbol name="reception" value="00100"/>
+      <symbol name="store" value="01000"/>
+      <symbol name="wt_reception" value="10000"/>
+    </table>
+    <table name="cs_table (2)" width="6">
+      <symbol name="idle" value="000001"/>
+      <symbol name="mid_state" value="000010"/>
+      <symbol name="reception" value="000100"/>
+      <symbol name="store" value="001000"/>
+      <symbol name="wt_reception" value="010000"/>
+      <symbol name="wt_store" value="100000"/>
+    </table>
+  </mnemonics>
+  <static_plugin_mnemonics/>
+</session>
