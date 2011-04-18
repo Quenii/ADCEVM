@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-17
--- Last update: 2010-07-19
+-- Last update: 2011-04-17
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -255,7 +255,7 @@ begin  -- behave
           ns <= IDLE;
         end if;
       when STORE =>
-        if ssram_adr(18 downto 3) = task_length - 1 and ssram_adr(2 downto 0) = "111" then
+        if ssram_adr(18 downto 3) = task_length & "111" then
           ns <= MID_STATE;
         else
           ns <= STORE;
@@ -272,12 +272,10 @@ begin  -- behave
         if almost_full = '1' then
           ns <= WT_RECEPTION;
         else
-          if ssram_adr(18 downto 3) /= task_length - 1 then
-            ns <= RECEPTION;
-          elsif ssram_adr(2 downto 0) /= "111" then
-            ns <= RECEPTION;
-          else
+          if ssram_adr(18 downto 3) = task_length & "111" then
             ns <= IDLE;
+          else
+            ns <= RECEPTION;
           end if;
         end if;
       when others =>
@@ -291,7 +289,7 @@ begin  -- behave
     port map (
       aclr    => rst_i,
       wrclk   => clk_i,
-      wrreq   => wrreq_new,
+      wrreq   => wrreq,
       wrfull  => wrfull,
       wrusedw => wrusedw,
       data    => din_i,

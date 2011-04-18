@@ -103,12 +103,14 @@ end test;
 
 architecture behave of test is
 -------------------------------------------------------------------------------
-    constant ADDR_RESET : std_logic_vector(15 downto 0) := x"FFFF";
-    constant ADDR_GPIO  : std_logic_vector(15 downto 0) := x"2000";
-    constant ADDR_3548  : std_logic_vector(15 downto 0) := x"0009";
-    constant ADDR_2656  : std_logic_vector(15 downto 0) := x"0005";
-    constant ADDR_BASE_2656 : std_logic_vector(15 downto 0) := x"0005";
-    constant ADDR_BASE_HBUF : std_logic_vector(15 downto 0) := x"3000";
+    constant ADDR_RESET     : std_logic_vector(15 downto 0) := x"FFFF";
+    constant ADDR_GPIO      : std_logic_vector(15 downto 0) := x"2000";
+    constant ADDR_BASE_2656 : std_logic_vector(15 downto 0) := x"0005";  -- len=2
+    constant ADDR_3548      : std_logic_vector(15 downto 0) := x"0009";
+    constant ADDR_WD        : std_logic_vector(15 downto 0) := x"0010";
+    constant ADDR_BASE_HBUF : std_logic_vector(15 downto 0) := x"3000";  -- len=4
+
+    constant IO_TYPE : string := "LVDS";
     
     -- high ADC controller
     component had_rec_cmos
@@ -247,6 +249,24 @@ architecture behave of test is
     signal LB_DataR_gpio : std_logic_vector(15 downto 0);
     signal updated_gpio  : std_logic;
     signal ctrl_gpio     : std_logic_vector(15 downto 0);
+
+    component lb_target_watchdog
+        generic (
+            ADDR : std_logic_vector(15 downto 0)); 
+        port (
+            LB_Clk_i     : in  std_logic;
+            LB_Reset_i   : in  std_logic;
+            LB_Addr_i    : in  std_logic_vector(15 downto 0);
+            LB_Write_i   : in  std_logic;
+            LB_Read_i    : in  std_logic;
+            LB_Ready_o   : out std_logic;
+            LB_DataW_i   : in  std_logic_vector(15 downto 0);
+            LB_DataR_o   : out std_logic_vector(15 downto 0);
+            rx_inclock_i : in  std_logic); 
+    end component;
+
+    signal LB_Ready_wd : std_logic;
+    signal LB_DataR_wd : std_logic_vector(15 downto 0);
 -------------------------------------------------------------------------------
     component lb_target_reg
         generic (
@@ -299,8 +319,8 @@ architecture behave of test is
     component lb_target_buffer
         generic (
             ADDR_BASE : std_logic_vector(15 downto 0);
-            LENGTH     : std_logic_vector(15 downto 0);
-            IO_TYPE    : string);
+            LENGTH    : std_logic_vector(15 downto 0);
+            IO_TYPE   : string);
         port (
             LB_Clk_i     : in  std_logic;
             LB_Reset_i   : in  std_logic;
@@ -315,7 +335,7 @@ architecture behave of test is
             rx_clk_i     : in  std_logic;
             ssram_adr_o  : out std_logic_vector(18 downto 0);
             ssram_dout_o : out std_logic_vector(63 downto 0);
-            ssram_din_i  : in std_logic_vector(63 downto 0);
+            ssram_din_i  : in  std_logic_vector(63 downto 0);
             ssram_oe_o   : out std_logic;
             ssram_we_o   : out std_logic;
             ssram_ce_o   : out std_logic;
@@ -323,14 +343,14 @@ architecture behave of test is
             ssram_adv_o  : out std_logic);
     end component;
 
-    signal ssram_adr_o  : std_logic_vector(18 downto 0);
+    signal ssram_adr_o : std_logic_vector(18 downto 0);
 --    signal ssram_dout_o : std_logic_vector(63 downto 0);
 --    signal ssram_din_i  : std_logic_vector(63 downto 0);
-    signal ssram_oe_o   : std_logic;
-    signal ssram_we_o   : std_logic;
-    signal ssram_ce_o   : std_logic;
-    signal ssram_clk_o  : std_logic;
-    signal ssram_adv_o  : std_logic;
+    signal ssram_oe_o  : std_logic;
+    signal ssram_we_o  : std_logic;
+    signal ssram_ce_o  : std_logic;
+    signal ssram_clk_o : std_logic;
+    signal ssram_adv_o : std_logic;
     
 begin  -- behave
     
@@ -365,9 +385,9 @@ begin  -- behave
     ssram_din_i <= ssram0_dq_io(63 downto 0);
 
     LB_Ready <= LB_Ready_had or LB_Ready_2656 or LB_Ready_reset_ctr
-                or LB_Ready_tlc3548 or LB_Ready_gpio;
+                or LB_Ready_tlc3548 or LB_Ready_gpio or LB_Ready_wd;
     LB_DataR <= LB_DataR_had or LB_DataR_2656 or LB_DataR_reset_ctr
-                or LB_DataR_tlc3548 or LB_DataR_gpio;
+                or LB_DataR_tlc3548 or LB_DataR_gpio or LB_DataR_wd;
 
 -------------------------------------------------------------------------------
 --    -- high ADC data buffer
@@ -432,11 +452,11 @@ begin  -- behave
 --    KAD5514P_spi_di_input <= KAD5514P_spi_di_i when KAD5514P_spi_out_en_o = '0'
 --                             else '0';
 
-    lb_target_buffer_1: lb_target_buffer
+    lb_target_buffer_1 : lb_target_buffer
         generic map (
             ADDR_BASE => ADDR_BASE_HBUF,
-            LENGTH     => x"0004",
-            IO_TYPE    => "CMOS")
+            LENGTH    => x"0004",
+            IO_TYPE   => IO_TYPE)
         port map (
             LB_Clk_i     => LB_Clk,
             LB_Reset_i   => '0',
@@ -459,9 +479,9 @@ begin  -- behave
             ssram_adv_o  => ssram_adv_o);
 
     ssram0_adv_n_o <= not ssram_adv_o;
-    ssram0_clk_o <= clk_80m;
-    ssram0_adr_o <= ssram_adr_o;
-    
+    ssram0_clk_o   <= clk_80m;
+    ssram0_adr_o   <= ssram_adr_o;
+
 -------------------------------------------------------------------------------
     -- local bus
     lb_1 : lb
@@ -560,10 +580,24 @@ begin  -- behave
             ctrl_o     => ctrl_gpio,
             sta_i      => ctrl_gpio);
 
-    GPIO_GEN: for i in 0 to 3 generate
+    GPIO_GEN : for i in 0 to 3 generate
         gpio_o(i) <= '0' when ctrl_gpio(i*2+1 downto i*2) = "00"
-                   else '1' when ctrl_gpio(i*2+1 downto i*2) = "01"
-                   else 'Z';
+                     else '1' when ctrl_gpio(i*2+1 downto i*2) = "01"
+                     else 'Z';
     end generate GPIO_GEN;
-        
+
+    lb_target_watchdog_1 : lb_target_watchdog
+        generic map (
+            ADDR => ADDR_WD)
+        port map (
+            LB_Clk_i     => LB_Clk,
+            LB_Reset_i   => '0',
+            LB_Addr_i    => LB_Addr,
+            LB_Write_i   => LB_Write,
+            LB_Read_i    => LB_Read,
+            LB_Ready_o   => LB_Ready_wd,
+            LB_DataW_i   => LB_DataW,
+            LB_DataR_o   => LB_DataR_wd,
+            rx_inclock_i => rx_inclock_i);
+
 end behave;
