@@ -53,10 +53,13 @@ entity ssram_inf is
 
     ssram_addr_o : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
     ssram_d_i    : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
-    ssram_oe_n_o : out std_logic;
     ssram_d_o    : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+    ssram_d_t_o  : out std_logic;
     ssram_adv_o  : out std_logic;
     ssram_we_n_o : out std_logic;
+    ssram_bw_n_o : out std_logic;
+    ssram_oe_n_o : out std_logic;
+    ssram_cke_n_o : out std_logic;
     ssram_zz_o   : out std_logic;
     ssram_mode_o : out std_logic);
 
@@ -86,7 +89,7 @@ architecture archi of ssram_inf is
   end component;
 
   signal we_en, rd_en       : std_logic;
-  signal we, rd, rd_r2      : std_logic;
+  signal we, rd, we_r2      : std_logic;
   signal d_r2, ssram_din_r2 : std_logic_vector(DATA_WIDTH - 1 downto 0);
 
   signal ce : std_logic;
@@ -94,12 +97,14 @@ architecture archi of ssram_inf is
 begin  -- archi
 
   ssram_clk_o   <= clk_i;
+  ssram_cke_n_o <= '0';
   ssram_ce1_n_o <= not ce;
   ssram_ce2_n_o <= not ce;
   ssram_ce2_o   <= ce;
 
   ssram_d_o    <= d_r2;
-  ssram_oe_n_o <= '0' when rd_r2 = '1' else '1';
+  ssram_oe_n_o <= not rd;
+  ssram_d_t_o  <= '1' when we_r2 = '1' else '0';
   ssram_adv_o  <= '0';
 
   ssram_zz_o   <= '0';
@@ -108,6 +113,7 @@ begin  -- archi
   ssram_addr_o <= addr_i;
 
   ssram_we_n_o <= not we;
+  ssram_bw_n_o <= not we;
 
   q_o <= ssram_d_i;
 
@@ -127,9 +133,9 @@ begin  -- archi
     port map (
       CK     => clk_i,
       Clear  => rst_i,
-      Data   => rd,
+      Data   => we,
       Enable => '1',
-      Q      => rd_r2);
+      Q      => we_r2);
   d_r2_ffd : dff_en_r_pline_w
     generic map (
       Pipeline => 1)
