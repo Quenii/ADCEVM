@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-04-17
+-- Last update: 2011-04-19
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -99,10 +99,19 @@ end top;
 
 architecture behave of top is
 -------------------------------------------------------------------------------
-    -- high ADC controller
+
+    constant ADDR_RESET_REG : std_logic_vector(15 downto 0) := x"FFFF";
+    constant ADDR_LEN_REG   : std_logic_vector(15 downto 0) := x"1004";
+    constant ADDR_FIFO      : std_logic_vector(15 downto 0) := x"1005";
+    constant ADDR_3548      : std_logic_vector(15 downto 0) := x"0009";
+    constant ADDR_2656_L    : std_logic_vector(15 downto 0) := x"0005";
+    constant ADDR_2656_H    : std_logic_vector(15 downto 0) := x"0006";
+-- high ADC controller
     component had_rec
         generic (
-            IO_TYPE : string);
+            IO_TYPE   : string;
+            ADDR_LEN  : std_logic_vector(15 downto 0);
+            ADDR_FIFO : std_logic_vector(15 downto 0));
         port (
             clk_i            : in  std_logic;
             LB_Clk_i         : in  std_logic;
@@ -217,6 +226,10 @@ architecture behave of top is
     signal fifo_dout_o    : std_logic_vector(15 downto 0);
 -------------------------------------------------------------------------------
     component ltc2656b
+        generic (
+            ADDR_L : std_logic_vector(15 downto 0);
+            ADDR_H : std_logic_vector(15 downto 0)
+            );
         port (
             LB_Clk_i          : in  std_logic;
             LB_Reset_i        : in  std_logic;
@@ -260,6 +273,8 @@ architecture behave of top is
     signal ssram0_gw_n          : std_logic;
 -------------------------------------------------------------------------------
     component tlc3548
+        generic (
+            ADDR : std_logic_vector(15 downto 0));
         port (
             LB_Clk_i          : in  std_logic;
             LB_Reset_i        : in  std_logic;
@@ -347,9 +362,12 @@ begin  -- behave
     -- high ADC data buffer
     had_rec_2 : had_rec
         generic map (
-            IO_TYPE => "LVDS")
+            IO_TYPE   => "CMOS",
+            ADDR_LEN  => ADDR_LEN_REG,
+            ADDR_FIFO => ADDR_FIFO
+            )
         port map (
-            clk_i =>  clk_80m,
+            clk_i            => clk_80m,
             -- lb
             LB_Clk_i         => LB_Clk_i,
             LB_Reset_i       => reset_ctr_o(0),
@@ -433,6 +451,10 @@ begin  -- behave
             fifo_dout_o    => fifo_dout_o);
 -------------------------------------------------------------------------------
     ltc2656b_1 : ltc2656b
+        generic map (
+            ADDR_L => ADDR_2656_L,
+            ADDR_H => ADDR_2656_H)
+
         port map (
             LB_Clk_i          => LB_Clk_i,
             LB_Reset_i        => reset_ctr_o(1),
@@ -450,6 +472,8 @@ begin  -- behave
             );
 -------------------------------------------------------------------------------
     tlc3548_1 : tlc3548
+        generic map (
+            ADDR => ADDR_3548)
         port map (
             LB_Clk_i          => LB_Clk_i,
             LB_Reset_i        => reset_ctr_o(2),
@@ -470,7 +494,7 @@ begin  -- behave
 -------------------------------------------------------------------------------
     lb_target_reset_ctr : lb_target_reg
         generic map (
-            ADDR => x"FFFF")
+            ADDR => ADDR_RESET_REG)
         port map (
             LB_Clk_i   => LB_Clk_i,
             LB_Reset_i => '0',

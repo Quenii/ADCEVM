@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-16
--- Last update: 2011-04-17
+-- Last update: 2011-04-19
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -26,7 +26,9 @@ use ieee.std_logic_unsigned.all;
 entity had_rec is
     
     generic (
-        IO_TYPE : string);
+        IO_TYPE   : string;
+        ADDR_LEN  : std_logic_vector(15 downto 0) := x"1004";
+        ADDR_FIFO : std_logic_vector(15 downto 0) := x"1005");
     port (
         clk_i : in std_logic;
 
@@ -178,7 +180,6 @@ architecture behave of had_rec is
             ssram0_adsp_n_o     : out std_logic;
             ssram0_adsc_n_o     : out std_logic;
             ssram0_gw_n_o       : out std_logic;
-            ssram0_clk_o        : out std_logic;
             ssram0_ce_n_o       : out std_logic;
             ssram0_ce2_n_o      : out std_logic;
             ssram0_ce2_o        : out std_logic;
@@ -303,7 +304,29 @@ architecture behave of had_rec is
     signal LB_DataR_adc_config : std_logic_vector(15 downto 0) := (others => '0');
 
     signal test : std_logic_vector(15 downto 0);
+
+    component dcm45
+        port (
+            areset : in  std_logic := '0';
+            inclk0 : in  std_logic := '0';
+            c0     : out std_logic;
+            c1     : out std_logic;
+            locked : out std_logic);
+    end component;
+
+    signal clk : std_logic;
+
 begin  -- behave
+
+    dcm45_1 : dcm45
+        port map (
+            areset => LB_Reset_i,
+            inclk0 => clk_i,
+            c0     => open,--ssram0_clk_o,     -- 180 degree
+            c1     => clk,              -- 0 degree
+            locked => open);
+    ssram0_clk_o <= clk;
+    
 --  -- LVDS receiver
 --  lvds_i_1 : lvds_i
 --    port map (
@@ -371,15 +394,15 @@ begin  -- behave
             rst_i      => LB_Reset_i,
             clk_i      => rx_inclock_i,
             enable_i   => buf_task_start_r,
-            data_i     => rx_in_i,
-            rd_clk_i   => clk_i,
+            data_i     => test,         -- rx_in_i,
+            rd_clk_i   => clk,
             rd_req_i   => rd_req_i,
             rd_q_o     => rd_q_o,
             rd_empty_o => rd_empty_o);
 
     dat_buf_1 : dat_buf
         port map (
-            clk_i               => clk_i,
+            clk_i               => clk,
             rst_i               => LB_Reset_i,
             task_start          => buf_task_start_r,
             task_length         => task_length,
@@ -399,7 +422,6 @@ begin  -- behave
             ssram0_adsp_n_o     => ssram0_adsp_n_o,
             ssram0_adsc_n_o     => ssram0_adsc_n_o,
             ssram0_gw_n_o       => ssram0_gw_n_o,
-            ssram0_clk_o        => ssram0_clk_o,
             ssram0_ce_n_o       => ssram0_ce_n_o,
             ssram0_ce2_n_o      => ssram0_ce2_n_o,
             ssram0_ce2_o        => ssram0_ce2_o,
@@ -463,7 +485,7 @@ begin  -- behave
 
     lb_target_had_dat_buf_ctrl : lb_target_reg
         generic map (
-            ADDR => x"1004")
+            ADDR => ADDR_LEN)
         port map (
             LB_Clk_i   => LB_Clk_i,
             LB_Reset_i => LB_Reset_i,
@@ -479,7 +501,7 @@ begin  -- behave
 
     lb_target_had_fifo_rome_1 : lb_target_fifo_rome
         generic map (
-            ADDR => x"1005")
+            ADDR => ADDR_FIFO)
         port map (
             LB_Clk_i    => LB_Clk_i,
             LB_Reset_i  => LB_Reset_i,

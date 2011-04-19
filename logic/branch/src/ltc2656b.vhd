@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-06-04
--- Last update: 2010-07-19
+-- Last update: 2011-04-19
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -25,6 +25,10 @@ use ieee.std_logic_unsigned.all;
 
 entity ltc2656b is
   
+    generic (
+      ADDR_L : std_logic_vector(15 downto 0);
+      ADDR_H : std_logic_vector(15 downto 0)
+      );
   port (
     -- lb
     LB_Clk_i          : in  std_logic;
@@ -116,7 +120,7 @@ begin  -- behave
 
   lb_target_2656_spi_wr_l : lb_target_reg
     generic map (
-      ADDR => x"0005")
+      ADDR => ADDR_L)
     port map (
       LB_Clk_i   => LB_Clk_i,
       LB_Reset_i => '0',
@@ -132,7 +136,7 @@ begin  -- behave
 
   lb_target_2656_spi_wr_h : lb_target_reg
     generic map (
-      ADDR => x"0006")
+      ADDR => ADDR_H)
     port map (
       LB_Clk_i   => LB_Clk_i,
       LB_Reset_i => '0',
