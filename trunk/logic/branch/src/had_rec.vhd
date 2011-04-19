@@ -121,43 +121,6 @@ architecture behave of had_rec is
     signal rd_empty_o : std_logic;
 
     -- data buffer
---  component dat_buf
---    port (
---      clk_i            : in  std_logic;
---      rst_i            : in  std_logic;
---      task_start       : in  std_logic;
---      task_length      : in  std_logic_vector(15 downto 0);
---      din_i            : in  std_logic_vector(63 downto 0);
---      rd_clk_i         : in  std_logic;
---      rd_i             : in  std_logic;
---      empty_o          : out std_logic;
---      dout_o           : out std_logic_vector(15 downto 0);
---      ssram_din_i      : in  std_logic_vector(63 downto 0);
---      ssram_dout_o     : out std_logic_vector(63 downto 0);
---      ssram0_adr_o     : out std_logic_vector(18 downto 0);
---      ssram0_dout_en_o : out std_logic;
---      ssram0_adv_n_o   : out std_logic;
---      ssram0_adsp_n_o  : out std_logic;
---      ssram0_adsc_n_o  : out std_logic;
---      ssram0_gw_n_o    : out std_logic;
---      ssram0_clk_o     : out std_logic;
---      ssram0_ce_n_o    : out std_logic;
---      ssram0_ce2_n_o   : out std_logic;
---      ssram0_ce2_o     : out std_logic;
---      ssram0_bwa_n_o   : out std_logic;
---      ssram0_bwb_n_o   : out std_logic;
---      ssram0_bwc_n_o   : out std_logic;
---      ssram0_bwd_n_o   : out std_logic;
---      ssram0_bwe_n_o   : out std_logic;
---      ssram0_oe_n_o    : out std_logic;
---      ssram0_zz_o      : out std_logic;
---      ssram0_mode_o    : out std_logic;
---      ssram1_bwa_n_o   : out std_logic;
---      ssram1_bwb_n_o   : out std_logic;
---      ssram1_bwc_n_o   : out std_logic;
---      ssram1_bwd_n_o   : out std_logic);
---  end component;
-
     component dat_buf
         port (
             clk_i               : in  std_logic;
@@ -326,58 +289,6 @@ begin  -- behave
             c1     => clk,              -- 0 degree
             locked => open);
     ssram0_clk_o <= clk;
-    
---  -- LVDS receiver
---  lvds_i_1 : lvds_i
---    port map (
---      pll_areset  => LB_Reset_i,
---      rx_in       => rx_in_i,
---      rx_inclock  => rx_inclock_i,
---      rx_out      => rx_out_disorder,
---      rx_outclock => rx_outclock);
-
---  order_data_bus_i : for i in 0 to 3 generate
---    order_data_bus_j : for j in 1 to 16 generate
---      rx_out(16 * i + j - 1) <= rx_out_disorder((j - 1) * 4 + i);
---    end generate order_data_bus_j;
---  end generate order_data_bus_i;
-
---  -- data buffer
---  dat_buf_1 : dat_buf
---    port map (
---      clk_i            => rx_outclock,  -- clk for ADC lvds port
---      din_i            => rx_out,
---      rst_i            => LB_Reset_i,
---      task_length      => task_length,
---      task_start       => buf_task_start_r,
---      rd_clk_i         => LB_Clk_i,
---      rd_i             => rd,
---      empty_o          => empty,
---      dout_o           => dout,
---      ssram_din_i      => ssram_din_i,
---      ssram_dout_o     => ssram_dout_o,
---      ssram0_adr_o     => ssram0_adr_o,
---      ssram0_dout_en_o => ssram0_dout_en_o,
---      ssram0_adv_n_o   => ssram0_adv_n_o,
---      ssram0_adsp_n_o  => ssram0_adsp_n_o,
---      ssram0_adsc_n_o  => ssram0_adsc_n_o,
---      ssram0_gw_n_o    => ssram0_gw_n_o,
---      ssram0_clk_o     => ssram0_clk_o,
---      ssram0_ce_n_o    => ssram0_ce_n_o,
---      ssram0_ce2_n_o   => ssram0_ce2_n_o,
---      ssram0_ce2_o     => ssram0_ce2_o,
---      ssram0_bwa_n_o   => ssram0_bwa_n_o,
---      ssram0_bwb_n_o   => ssram0_bwb_n_o,
---      ssram0_bwc_n_o   => ssram0_bwc_n_o,
---      ssram0_bwd_n_o   => ssram0_bwd_n_o,
---      ssram0_bwe_n_o   => ssram0_bwe_n_o,
---      ssram0_oe_n_o    => ssram0_oe_n_o,
---      ssram0_zz_o      => ssram0_zz_o,
---      ssram0_mode_o    => ssram0_mode_o,
---      ssram1_bwa_n_o   => ssram1_bwa_n_o,
---      ssram1_bwb_n_o   => ssram1_bwb_n_o,
---      ssram1_bwc_n_o   => ssram1_bwc_n_o,
---      ssram1_bwd_n_o   => ssram1_bwd_n_o);
 
     process (rx_inclock_i, LB_Reset_i)
     begin  -- process
@@ -410,10 +321,12 @@ begin  -- behave
             fifo_almost_empty_i => rd_empty_o,
             fifo_rd_o           => rd_req_i,
             fifo_rst_n_o        => open,
+            
             rd_clk_i            => LB_Clk_i,
             rd_i                => rd,
             empty_o             => empty,
             dout_o              => dout,
+
             ssram_din_i         => ssram_din_i,
             ssram_dout_o        => ssram_dout_o,
             ssram0_adr_o        => ssram0_adr_o,
