@@ -2,7 +2,7 @@
 -- Title      : 
 -- Project    : 
 -------------------------------------------------------------------------------
--- File       : ssram_buffer.vhd
+-- File       : ssram_fifo.vhd
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-04-19
@@ -26,42 +26,42 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
 
-entity ssram_buffer is
+entity ssram_fifo is
 
   generic (
     DATA_WIDTH : integer := 32;
-    ADDR_WIDTH : integer := 19)
-    port (
-      clk_i : in std_logic;
-      rst_i : in std_logic;
+    ADDR_WIDTH : integer := 19);
+  port (
+    clk_i : in std_logic;
+    rst_i : in std_logic;
 
-      count_o : out integer range 2**ADDR_WIDTH downto 0;
-      empty_o : out std_logic;
-      full_o  : out std_logic;
+    count_o : out integer range 2**ADDR_WIDTH downto 0;
+    empty_o : out std_logic;
+    full_o  : out std_logic;
 
-      wr_i : in std_logic;
-      d_i  : in std_logic_vector(DATA_WIDTH - 1 downto 0);
+    wr_i : in std_logic;
+    d_i  : in std_logic_vector(DATA_WIDTH - 1 downto 0);
 
-      rd_i  : in  std_logic;
-      vld_o : out std_logic;
-      q_o   : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+    rd_i  : in  std_logic;
+    vld_o : out std_logic;
+    q_o   : out std_logic_vector(DATA_WIDTH - 1 downto 0);
 
-      ssram_clk_o   : out std_logic;
-      ssram_ce1_n_o : out std_logic;
-      ssram_ce2_n_o : out std_logic;
-      ssram_ce2_o   : out std_logic;
-      ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
-      ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
-      ssram_oe_n_o  : out std_logic;
-      ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
-      ssram_adv_o   : out std_logic;
-      ssram_we_n_o  : out std_logic;
-      ssram_zz_o    : out std_logic;
-      ssram_mode_o  : out std_logic);
+    ssram_clk_o   : out std_logic;
+    ssram_ce1_n_o : out std_logic;
+    ssram_ce2_n_o : out std_logic;
+    ssram_ce2_o   : out std_logic;
+    ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
+    ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
+    ssram_oe_n_o  : out std_logic;
+    ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+    ssram_adv_o   : out std_logic;
+    ssram_we_n_o  : out std_logic;
+    ssram_zz_o    : out std_logic;
+    ssram_mode_o  : out std_logic);
 
-end ssram_buffer;
+end ssram_fifo;
 
-architecture archi of ssram_buffer is
+architecture archi of ssram_fifo is
 
   component ssram_inf
     generic (
@@ -151,9 +151,9 @@ begin  -- archi
       if rd_en = '1' then
         rd_ptr <= rd_ptr + 1;
       end if;
-      if wr_en = '1' and rd_ptr = '0' then
+      if wr_en = '1' and rd_en = '0' then
         cnt <= cnt + 1;
-      elsif wr_en = '0' and rd_ptr = '1' then
+      elsif wr_en = '0' and rd_en = '1' then
         cnt <= cnt - 1;
       end if;
     end if;
