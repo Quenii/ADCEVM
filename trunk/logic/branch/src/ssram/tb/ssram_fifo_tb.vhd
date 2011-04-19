@@ -58,16 +58,17 @@ architecture impl of ssram_fifo_tb is
       DATA_WIDTH : integer;
       ADDR_WIDTH : integer);
     port (
-      clk_i   : in  std_logic;
-      rst_i   : in  std_logic;
-      count_o : in  integer range 2**ADDR_WIDTH downto 0;
-      empty_o : in  std_logic;
-      full_o  : in  std_logic;
-      wr_i    : out std_logic;
-      d_i     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
-      rd_i    : out std_logic;
-      vld_o   : in  std_logic;
-      q_o     : in  std_logic_vector(DATA_WIDTH - 1 downto 0));
+      clk_i        : in  std_logic;
+      rst_i        : in  std_logic;
+      reset_fifo_o : out std_logic;
+      count_o      : in  integer range 2**ADDR_WIDTH downto 0;
+      empty_o      : in  std_logic;
+      full_o       : in  std_logic;
+      wr_i         : out std_logic;
+      d_i          : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+      rd_i         : out std_logic;
+      vld_o        : in  std_logic;
+      q_o          : in  std_logic_vector(DATA_WIDTH - 1 downto 0));
   end component;
 
   component ssram_fifo
@@ -91,10 +92,13 @@ architecture impl of ssram_fifo_tb is
       ssram_ce2_o   : out std_logic;
       ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
       ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
-      ssram_oe_n_o  : out std_logic;
       ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+      ssram_d_t_o   : out std_logic;
+      ssram_oe_n_o  : out std_logic;
       ssram_adv_o   : out std_logic;
       ssram_we_n_o  : out std_logic;
+      ssram_bw_n_o : out std_logic;
+      ssram_cke_n_o : out std_logic;
       ssram_zz_o    : out std_logic;
       ssram_mode_o  : out std_logic);
   end component;
@@ -112,6 +116,9 @@ architecture impl of ssram_fifo_tb is
   signal ssram_oe_n_o : std_logic;
   signal ssram_d_o    : std_logic_vector(DATA_WIDTH - 1 downto 0);
   signal ssram_we_n_o : std_logic;
+  signal ssram_d_t_o  : std_logic;
+
+  signal reset_fifo_o : std_logic;
 
   signal rst_i : std_logic := '0';
 begin  -- impl
@@ -122,16 +129,17 @@ begin  -- impl
       DATA_WIDTH => DATA_WIDTH,
       ADDR_WIDTH => ADDR_WIDTH)
     port map (
-      clk_i   => clk_i,
-      rst_i   => rst_i,
-      count_o => count_o,
-      empty_o => empty_o,
-      full_o  => full_o,
-      wr_i    => wr_i,
-      d_i     => d_i,
-      rd_i    => rd_i,
-      vld_o   => vld_o,
-      q_o     => q_o);
+      clk_i        => clk_i,
+      rst_i        => rst_i,
+      reset_fifo_o => reset_fifo_o,
+      count_o      => count_o,
+      empty_o      => empty_o,
+      full_o       => full_o,
+      wr_i         => wr_i,
+      d_i          => d_i,
+      rd_i         => rd_i,
+      vld_o        => vld_o,
+      q_o          => q_o);
 
   ssram_fifo_1 : ssram_fifo
     generic map (
@@ -139,7 +147,7 @@ begin  -- impl
       ADDR_WIDTH => ADDR_WIDTH)
     port map (
       clk_i         => clk_i,
-      rst_i         => rst_i,
+      rst_i         => reset_fifo_o,
       count_o       => count_o,
       empty_o       => empty_o,
       full_o        => full_o,
@@ -155,19 +163,18 @@ begin  -- impl
       ssram_addr_o  => ssram0_addr_o,
       ssram_d_i     => ssram_d_i,
       ssram_d_o     => ssram_d_o,
-      ssram_oe_n_o  => ssram_oe_n_o,
-      ssram_we_n_o  => ssram_we_n_o,
+      ssram_d_t_o   => ssram_d_t_o,
+      ssram_we_n_o  => ssram0_we_n_o,
+      ssram_oe_n_o  => ssram0_oe_n_o,
       ssram_adv_o   => ssram0_adv_o,
+      ssram_cke_n_o => ssram0_cke_n_o,
+      ssram_bw_n_o => ssram0_bw_n_o,
       ssram_zz_o    => ssram0_zz_o,
       ssram_mode_o  => ssram0_mode_o);
 
 
-  ssram0_oe_n_o <= ssram_oe_n_o;
-  ssram0_we_n_o <= ssram_we_n_o;
-  ssram0_bw_n_o <= ssram_we_n_o;
-
   for_gen : for i in ssram_d_o'length - 1 downto 0 generate
-    ssram0_dq_io(i) <= ssram_d_o(i) when ssram_oe_n_o = '1' else 'Z';
+    ssram0_dq_io(i) <= ssram_d_o(i) when ssram_d_t_o = '1' else 'Z';
     ssram_d_i(i)    <= ssram0_dq_io(i);
 
   end generate;

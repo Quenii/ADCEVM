@@ -52,10 +52,13 @@ entity ssram_fifo is
     ssram_ce2_o   : out std_logic;
     ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
     ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
-    ssram_oe_n_o  : out std_logic;
+    ssram_d_t_o   : out std_logic;
     ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
     ssram_adv_o   : out std_logic;
     ssram_we_n_o  : out std_logic;
+    ssram_oe_n_o  : out std_logic;
+    ssram_bw_n_o  : out std_logic;
+    ssram_cke_n_o : out std_logic;
     ssram_zz_o    : out std_logic;
     ssram_mode_o  : out std_logic);
 
@@ -66,7 +69,7 @@ architecture archi of ssram_fifo is
   component ssram_inf
     generic (
       DATA_WIDTH : integer;
-      ADDR_WIDTH : integer);
+      ADDR_WIDTH : integer); 
     port (
       clk_i         : in  std_logic;
       rst_i         : in  std_logic;
@@ -81,12 +84,15 @@ architecture archi of ssram_fifo is
       ssram_ce2_o   : out std_logic;
       ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
       ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
-      ssram_oe_n_o  : out std_logic;
       ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+      ssram_d_t_o   : out std_logic;
       ssram_adv_o   : out std_logic;
       ssram_we_n_o  : out std_logic;
+      ssram_oe_n_o  : out std_logic;
+      ssram_bw_n_o  : out std_logic;
+      ssram_cke_n_o : out std_logic;
       ssram_zz_o    : out std_logic;
-      ssram_mode_o  : out std_logic);
+      ssram_mode_o  : out std_logic); 
   end component;
   component dff_en_r_pline
     generic (
@@ -105,10 +111,12 @@ architecture archi of ssram_fifo is
   signal ram_d_i    : std_logic_vector(DATA_WIDTH - 1 downto 0);
   signal ram_q_o    : std_logic_vector(DATA_WIDTH - 1 downto 0);
 
+  constant DEPTH : integer := 2**ADDR_WIDTH;
+
   signal full, empty    : std_logic;
   signal wr_en, rd_en   : std_logic;
-  signal wr_ptr, rd_ptr : integer range 2**ADDR_WIDTH - 1 downto 0;
-  signal cnt            : integer range 2**ADDR_WIDTH downto 0;
+  signal wr_ptr, rd_ptr : integer range DEPTH - 1 downto 0;
+  signal cnt            : integer range DEPTH downto 0;
 
   signal vld : std_logic;
   signal q   : std_logic_vector(DATA_WIDTH - 1 downto 0);
@@ -146,10 +154,18 @@ begin  -- archi
       cnt    <= 0;
     elsif rising_edge(clk_i) then
       if wr_en = '1' then
-        wr_ptr <= wr_ptr + 1;
+        if wr_ptr = DEPTH - 1 then
+          wr_ptr <= 0;
+        else
+          wr_ptr <= wr_ptr + 1;
+        end if;
       end if;
       if rd_en = '1' then
-        rd_ptr <= rd_ptr + 1;
+        if rd_ptr = DEPTH - 1 then
+          rd_ptr <= 0;
+        else
+          rd_ptr <= rd_ptr + 1;
+        end if;
       end if;
       if wr_en = '1' and rd_en = '0' then
         cnt <= cnt + 1;
@@ -184,11 +200,16 @@ begin  -- archi
       ssram_ce2_o   => ssram_ce2_o,
       ssram_addr_o  => ssram_addr_o,
       ssram_d_i     => ssram_d_i,
-      ssram_oe_n_o  => ssram_oe_n_o,
+      ssram_d_t_o   => ssram_d_t_o,
       ssram_d_o     => ssram_d_o,
       ssram_adv_o   => ssram_adv_o,
       ssram_we_n_o  => ssram_we_n_o,
+      ssram_oe_n_o  => ssram_oe_n_o,
+      ssram_cke_n_o => ssram_cke_n_o,
+      ssram_bw_n_o  => ssram_bw_n_o,
       ssram_zz_o    => ssram_zz_o,
       ssram_mode_o  => ssram_mode_o);
+
+
 
 end archi;
