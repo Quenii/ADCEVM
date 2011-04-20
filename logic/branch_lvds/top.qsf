@@ -1,0 +1,373 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2009 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II
+# Version 9.0 Build 132 02/25/2009 SJ Full Version
+# Date created = 08:24:50  May 10, 2010
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		top_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name DEVICE EP2S30F672I4
+set_global_assignment -name FAMILY "Stratix II"
+set_global_assignment -name TOP_LEVEL_ENTITY top
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 9.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "08:24:50  MAY 10, 2010"
+set_global_assignment -name LAST_QUARTUS_VERSION "8.0 SP1"
+set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_blast_fpga
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
+set_global_assignment -name MISC_FILE ./top.dpf
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+
+set_location_assignment PIN_P23 -to FX_CLK_i
+
+set_location_assignment PIN_C25 -to FX2FD_io[0]
+set_location_assignment PIN_C26 -to FX2FD_io[1]
+set_location_assignment PIN_D25 -to FX2FD_io[2]
+set_location_assignment PIN_E25 -to FX2FD_io[3]
+set_location_assignment PIN_E26 -to FX2FD_io[4]
+set_location_assignment PIN_F25 -to FX2FD_io[5]
+set_location_assignment PIN_F26 -to FX2FD_io[6]
+set_location_assignment PIN_G25 -to FX2FD_io[7]
+set_location_assignment PIN_H25 -to FX2FD_io[8]
+set_location_assignment PIN_J26 -to FX2FD_io[9]
+set_location_assignment PIN_J25 -to FX2FD_io[10]
+set_location_assignment PIN_K26 -to FX2FD_io[11]
+set_location_assignment PIN_K25 -to FX2FD_io[12]
+set_location_assignment PIN_L25 -to FX2FD_io[13]
+set_location_assignment PIN_M26 -to FX2FD_io[14]
+set_location_assignment PIN_M25 -to FX2FD_io[15]
+
+set_location_assignment PIN_G26 -to FLAGA_i
+set_location_assignment PIN_E23 -to FLAGB_i
+set_location_assignment PIN_D24 -to FLAGC_i
+
+set_location_assignment PIN_J23 -to SLRD_n_o
+set_location_assignment PIN_J24 -to SLWR_n_o
+set_location_assignment PIN_F24 -to SL_OE_n_o
+set_location_assignment PIN_H23 -to FIFOADR_o[1]
+set_location_assignment PIN_G24 -to FIFOADR_o[0]
+set_location_assignment PIN_H24 -to PKTEND_o
+set_location_assignment PIN_A22 -to LTC2656_clr_o
+set_location_assignment PIN_A21 -to LTC2656_sdi_i
+set_location_assignment PIN_A20 -to LTC2656_sdo_o
+set_location_assignment PIN_A19 -to LTC2656_sck_o
+set_location_assignment PIN_A18 -to LTC2656_ld_cs_n_o
+set_location_assignment PIN_A17 -to LTC2656_ldac_n_o
+set_location_assignment PIN_A24 -to LTC2656_pos_o
+#set_location_assignment PIN_C21 -to KAD5514P_sck_o
+#set_location_assignment PIN_C19 -to KAD5514P_sdo_o
+#set_location_assignment PIN_C17 -to KAD5514P_sdi_i
+#set_location_assignment PIN_C16 -to KAD5514P_cs_n_o
+set_location_assignment PIN_AC14 -to clk_80m
+
+set_location_assignment PIN_N25 -to sys_rst_i
+set_location_assignment PIN_N20 -to UMR
+set_location_assignment PIN_C21 -to TLC3548_sck_o
+set_location_assignment PIN_C20 -to TLC3548_fs_o
+set_location_assignment PIN_C19 -to TLC3548_sdo_o
+set_location_assignment PIN_C17 -to TLC3548_sdi_i
+set_location_assignment PIN_C16 -to TLC3548_cs_n_o
+set_location_assignment PIN_C18 -to TLC3548_eco
+set_location_assignment PIN_C22 -to TLC3548_start_n_o
+#####################################
+
+set_location_assignment PIN_R1 -to rx_inclock_i
+set_location_assignment PIN_R2 -to "rx_inclock_i(n)"
+set_location_assignment PIN_AD1 -to rx_in_i[0]
+set_location_assignment PIN_AC2 -to rx_in_i[1]
+set_location_assignment PIN_AB1 -to rx_in_i[2]
+set_location_assignment PIN_AA1 -to rx_in_i[3]
+set_location_assignment PIN_Y1 -to rx_in_i[4]
+set_location_assignment PIN_W1 -to rx_in_i[5]
+set_location_assignment PIN_V1 -to rx_in_i[6]
+set_location_assignment PIN_U1 -to rx_in_i[7]
+set_location_assignment PIN_M1 -to rx_in_i[8]
+set_location_assignment PIN_L2 -to rx_in_i[9]
+set_location_assignment PIN_K1 -to rx_in_i[10]
+set_location_assignment PIN_J1 -to rx_in_i[11]
+set_location_assignment PIN_H1 -to rx_in_i[12]
+set_location_assignment PIN_G1 -to rx_in_i[13]
+set_location_assignment PIN_F1 -to rx_in_i[14]
+set_location_assignment PIN_E1 -to rx_in_i[15]
+set_location_assignment PIN_AD2 -to "rx_in_i[0](n)"
+set_location_assignment PIN_AC3 -to "rx_in_i[1](n)"
+set_location_assignment PIN_AB2 -to "rx_in_i[2](n)"
+set_location_assignment PIN_AA2 -to "rx_in_i[3](n)"
+set_location_assignment PIN_Y2 -to "rx_in_i[4](n)"
+set_location_assignment PIN_W2 -to "rx_in_i[5](n)"
+set_location_assignment PIN_V2 -to "rx_in_i[6](n)"
+set_location_assignment PIN_U2 -to "rx_in_i[7](n)"
+set_location_assignment PIN_M2 -to "rx_in_i[8](n)"
+set_location_assignment PIN_L3 -to "rx_in_i[9](n)"
+set_location_assignment PIN_K2 -to "rx_in_i[10](n)"
+set_location_assignment PIN_J2 -to "rx_in_i[11](n)"
+set_location_assignment PIN_H2 -to "rx_in_i[12](n)"
+set_location_assignment PIN_G2 -to "rx_in_i[13](n)"
+set_location_assignment PIN_F2 -to "rx_in_i[14](n)"
+set_location_assignment PIN_E2 -to "rx_in_i[15](n)"
+set_location_assignment PIN_D2 -to rx_or_i
+set_location_assignment PIN_D3 -to "rx_or_i(n)"
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[1]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[2]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[3]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[4]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[5]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[6]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[7]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[8]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[9]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[10]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[11]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[12]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[13]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[14]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[15]
+
+# set_location_assignment PIN_B13 -to rx_inclock_i
+# set_location_assignment PIN_K10 -to rx_in_i[0]
+# set_location_assignment PIN_J10 -to rx_in_i[1]
+# set_location_assignment PIN_H10 -to rx_in_i[2]
+# set_location_assignment PIN_G10 -to rx_in_i[3]
+# set_location_assignment PIN_F10 -to rx_in_i[4]
+# set_location_assignment PIN_E10 -to rx_in_i[5]
+# set_location_assignment PIN_D10 -to rx_in_i[6]
+# set_location_assignment PIN_C10 -to rx_in_i[7]
+# set_location_assignment PIN_B10 -to rx_in_i[8]
+# set_location_assignment PIN_A10 -to rx_in_i[9]
+# set_location_assignment PIN_D6 -to rx_in_i[10]
+# set_location_assignment PIN_C5 -to rx_in_i[11]
+# set_location_assignment PIN_C3 -to rx_in_i[12]
+# set_location_assignment PIN_B3 -to rx_in_i[13]
+# set_location_assignment PIN_A3 -to rx_in_i[14]
+# set_location_assignment PIN_B5 -to rx_in_i[15]
+# set_location_assignment PIN_A5 -to rx_or_i
+
+set_location_assignment PIN_V23 -to ssram0_adr_o[0]
+set_location_assignment PIN_AA8 -to ssram1_adr_o[0]
+set_location_assignment PIN_V24 -to ssram0_adr_o[1]
+set_location_assignment PIN_AB7 -to ssram1_adr_o[1]
+set_location_assignment PIN_W24 -to ssram0_adr_o[2]
+set_location_assignment PIN_AE6 -to ssram1_adr_o[2]
+set_location_assignment PIN_W23 -to ssram0_adr_o[3]
+set_location_assignment PIN_AF6 -to ssram1_adr_o[3]
+set_location_assignment PIN_V26 -to ssram0_adr_o[4]
+set_location_assignment PIN_AD5 -to ssram1_adr_o[4]
+set_location_assignment PIN_V25 -to ssram0_adr_o[5]
+set_location_assignment PIN_AC6 -to ssram1_adr_o[5]
+set_location_assignment PIN_AC18 -to ssram0_adr_o[6]
+set_location_assignment PIN_AA17 -to ssram1_adr_o[6]
+set_location_assignment PIN_AD18 -to ssram0_adr_o[7]
+set_location_assignment PIN_AB17 -to ssram1_adr_o[7]
+set_location_assignment PIN_R24 -to ssram0_adr_o[8]
+set_location_assignment PIN_AE5 -to ssram1_adr_o[8]
+set_location_assignment PIN_T24 -to ssram0_adr_o[9]
+set_location_assignment PIN_AF5 -to ssram1_adr_o[9]
+set_location_assignment PIN_T25 -to ssram0_adr_o[10]
+set_location_assignment PIN_AD4 -to ssram1_adr_o[10]
+set_location_assignment PIN_U23 -to ssram0_adr_o[11]
+set_location_assignment PIN_AE4 -to ssram1_adr_o[11]
+set_location_assignment PIN_U24 -to ssram0_adr_o[12]
+set_location_assignment PIN_AD3 -to ssram1_adr_o[12]
+set_location_assignment PIN_U25 -to ssram0_adr_o[13]
+set_location_assignment PIN_AE3 -to ssram1_adr_o[13]
+set_location_assignment PIN_U26 -to ssram0_adr_o[14]
+set_location_assignment PIN_AF3 -to ssram1_adr_o[14]
+set_location_assignment PIN_AE19 -to ssram0_adr_o[15]
+set_location_assignment PIN_W17 -to ssram1_adr_o[15]
+set_location_assignment PIN_AF19 -to ssram0_adr_o[16]
+set_location_assignment PIN_Y17 -to ssram1_adr_o[16]
+set_location_assignment PIN_AD16 -to ssram0_adr_o[17]
+set_location_assignment PIN_W15 -to ssram1_adr_o[17]
+set_location_assignment PIN_AE16 -to ssram0_adr_o[18]
+set_location_assignment PIN_V14 -to ssram1_adr_o[18]
+
+set_location_assignment PIN_AE18 -to ssram0_adv_n_o
+set_location_assignment PIN_V17 -to ssram1_adv_n_o
+set_location_assignment PIN_AF17 -to ssram0_ce_n_o
+set_location_assignment PIN_V16 -to ssram1_ce_n_o
+set_location_assignment PIN_AC17 -to ssram0_cke_n_o
+set_location_assignment PIN_AA16 -to ssram1_cke_n_o
+set_location_assignment PIN_AD12 -to ssram0_clk_o
+set_location_assignment PIN_AF12 -to ssram1_clk_o
+set_location_assignment PIN_AF18 -to ssram0_oe_n_o
+set_location_assignment PIN_AB16 -to ssram1_oe_n_o
+set_location_assignment PIN_AD17 -to ssram0_we_n_o
+set_location_assignment PIN_Y16 -to ssram1_we_n_o
+
+set_location_assignment PIN_AE17 -to ssram0_bw_n_o
+set_location_assignment PIN_W16 -to ssram1_bw_n_o
+
+set_location_assignment PIN_W25 -to ssram0_dq_io[0]
+set_location_assignment PIN_AD6 -to ssram1_dq_io[0]
+set_location_assignment PIN_Y23 -to ssram0_dq_io[1]
+set_location_assignment PIN_AD7 -to ssram1_dq_io[1]
+set_location_assignment PIN_Y25 -to ssram0_dq_io[2]
+set_location_assignment PIN_AE7 -to ssram1_dq_io[2]
+set_location_assignment PIN_AA23 -to ssram0_dq_io[3]
+set_location_assignment PIN_AF7 -to ssram1_dq_io[3]
+set_location_assignment PIN_AA25 -to ssram0_dq_io[4]
+set_location_assignment PIN_AC8 -to ssram1_dq_io[4]
+set_location_assignment PIN_AB23 -to ssram0_dq_io[5]
+set_location_assignment PIN_AD8 -to ssram1_dq_io[5]
+set_location_assignment PIN_AB25 -to ssram0_dq_io[6]
+set_location_assignment PIN_AE8 -to ssram1_dq_io[6]
+set_location_assignment PIN_AC24 -to ssram0_dq_io[7]
+set_location_assignment PIN_AF8 -to ssram1_dq_io[7]
+set_location_assignment PIN_AD25 -to ssram0_dq_io[8]
+set_location_assignment PIN_AC9 -to ssram1_dq_io[8]
+set_location_assignment PIN_AE24 -to ssram0_dq_io[9]
+set_location_assignment PIN_AD9 -to ssram1_dq_io[9]
+set_location_assignment PIN_AD23 -to ssram0_dq_io[10]
+set_location_assignment PIN_AE9 -to ssram1_dq_io[10]
+set_location_assignment PIN_V18 -to ssram0_dq_io[11]
+set_location_assignment PIN_AF9 -to ssram1_dq_io[11]
+set_location_assignment PIN_AE22 -to ssram0_dq_io[12]
+set_location_assignment PIN_AC10 -to ssram1_dq_io[12]
+set_location_assignment PIN_W18 -to ssram0_dq_io[13]
+set_location_assignment PIN_AD10 -to ssram1_dq_io[13]
+set_location_assignment PIN_AE21 -to ssram0_dq_io[14]
+set_location_assignment PIN_AE10 -to ssram1_dq_io[14]
+set_location_assignment PIN_Y18 -to ssram0_dq_io[15]
+set_location_assignment PIN_AF10 -to ssram1_dq_io[15]
+set_location_assignment PIN_AE20 -to ssram0_dq_io[16]
+set_location_assignment PIN_AD11 -to ssram1_dq_io[16]
+set_location_assignment PIN_AC19 -to ssram0_dq_io[17]
+set_location_assignment PIN_AE11 -to ssram1_dq_io[17]
+set_location_assignment PIN_AD19 -to ssram0_dq_io[18]
+set_location_assignment PIN_V12 -to ssram1_dq_io[18]
+set_location_assignment PIN_AF20 -to ssram0_dq_io[19]
+set_location_assignment PIN_W12 -to ssram1_dq_io[19]
+set_location_assignment PIN_AD20 -to ssram0_dq_io[20]
+set_location_assignment PIN_Y12 -to ssram1_dq_io[20]
+set_location_assignment PIN_AF21 -to ssram0_dq_io[21]
+set_location_assignment PIN_AD13 -to ssram1_dq_io[21]
+set_location_assignment PIN_AD21 -to ssram0_dq_io[22]
+set_location_assignment PIN_AE13 -to ssram1_dq_io[22]
+set_location_assignment PIN_AF22 -to ssram0_dq_io[23]
+set_location_assignment PIN_Y11 -to ssram1_dq_io[23]
+set_location_assignment PIN_AD22 -to ssram0_dq_io[24]
+set_location_assignment PIN_AB12 -to ssram1_dq_io[24]
+set_location_assignment PIN_AE23 -to ssram0_dq_io[25]
+set_location_assignment PIN_AB11 -to ssram1_dq_io[25]
+set_location_assignment PIN_AF24 -to ssram0_dq_io[26]
+set_location_assignment PIN_AA12 -to ssram1_dq_io[26]
+set_location_assignment PIN_AD26 -to ssram0_dq_io[27]
+set_location_assignment PIN_W10 -to ssram1_dq_io[27]
+set_location_assignment PIN_AC25 -to ssram0_dq_io[28]
+set_location_assignment PIN_Y10 -to ssram1_dq_io[28]
+set_location_assignment PIN_AB26 -to ssram0_dq_io[29]
+set_location_assignment PIN_AA10 -to ssram1_dq_io[29]
+set_location_assignment PIN_AB24 -to ssram0_dq_io[30]
+set_location_assignment PIN_W11 -to ssram1_dq_io[30]
+set_location_assignment PIN_AA26 -to ssram0_dq_io[31]
+set_location_assignment PIN_Y9 -to ssram1_dq_io[31]
+set_location_assignment PIN_AA24 -to ssram0_dq_io[32]
+set_location_assignment PIN_W9 -to ssram1_dq_io[32]
+set_location_assignment PIN_Y26 -to ssram0_dq_io[33]
+set_location_assignment PIN_AB8 -to ssram1_dq_io[33]
+set_location_assignment PIN_Y24 -to ssram0_dq_io[34]
+set_location_assignment PIN_AC7 -to ssram1_dq_io[34]
+set_location_assignment PIN_W26 -to ssram0_dq_io[35]
+set_location_assignment PIN_V10 -to ssram1_dq_io[35]
+
+set_location_assignment PIN_A8 -to KAD5514P_adc_rst_n_o
+set_location_assignment PIN_A9 -to KAD5514P_spi_clk_o
+set_location_assignment PIN_B8 -to KAD5514P_spi_cs_n_o
+set_location_assignment PIN_B9 -to KAD5514P_spi_di_i
+set_location_assignment PIN_C11 -to KAD5514P_tm_o
+set_location_assignment PIN_B11 -to KAD5514P_i2c_sda_o
+set_location_assignment PIN_A6 -to gpio_o[0]
+set_location_assignment PIN_B6 -to gpio_o[1]
+set_location_assignment PIN_A7 -to gpio_o[2]
+set_location_assignment PIN_B7 -to gpio_o[3]
+
+
+set_global_assignment -name ENABLE_SIGNALTAP ON
+set_global_assignment -name USE_SIGNALTAP_FILE ssram_fifo.stp
+set_global_assignment -name STATE_MACHINE_PROCESSING "ONE-HOT"
+set_global_assignment -name SAFE_STATE_MACHINE ON
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output
+set_global_assignment -name FMAX_REQUIREMENT "300 MHz" -section_id "lvds_i:lvds_i_1|rx_inclock"
+set_global_assignment -name FMAX_REQUIREMENT "80 MHz" -section_id "dcm_user:dcm_user_1|c0"
+set_global_assignment -name OPTIMIZE_HOLD_TIMING "IO PATHS AND MINIMUM TPD PATHS"
+set_instance_assignment -name CLOCK_SETTINGS "dcm_user:dcm_user_1|c0" -to "dcm_user:dcm_user_1|c0"
+set_global_assignment -name STRATIXII_CONFIGURATION_SCHEME "ACTIVE SERIAL"
+set_global_assignment -name STRATIXII_CONFIGURATION_DEVICE EPCS16
+set_global_assignment -name GENERATE_TTF_FILE ON
+set_global_assignment -name RESERVE_ASDO_AFTER_CONFIGURATION "AS INPUT TRI-STATED"
+set_global_assignment -name USER_LIBRARIES "stp/;src/;output/;ip/tri_bus/;ip/test_fifo/;ip/lvds_i/;ip/fifo64to16/;ip/dcm_user/;ip/dcm_45/;ip/dcm125_i/"
+set_instance_assignment -name CLOCK_SETTINGS "lvds_i:lvds_i_1|rx_inclock" -to rx_inclock_i
+set_global_assignment -name FMAX_REQUIREMENT "75 MHz" -section_id rx_clk_o
+set_instance_assignment -name CLOCK_SETTINGS rx_clk_o -to "had_rec:had_rec_2|lvds_i:lvds_i_1|rx_outclock"
+set_instance_assignment -name CURRENT_STRENGTH_NEW 4MA -to KAD5514P_adc_rst_n_o
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-STATED"
+set_global_assignment -name SMART_RECOMPILE ON
+set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
+set_global_assignment -name FLOW_ENABLE_IO_ASSIGNMENT_ANALYSIS ON
+set_global_assignment -name STRATIXII_OPTIMIZATION_TECHNIQUE SPEED
+set_global_assignment -name ENABLE_ADVANCED_IO_TIMING OFF
+set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS OFF
+set_global_assignment -name USE_TIMEQUEST_TIMING_ANALYZER ON
+
+set_global_assignment -name VHDL_FILE ../branch/src/top_lvds.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/dff_en_r_pline_spec.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/dff_en_r_pline_w_untitled.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/ssram_fifo.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/ssram_inf.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/dat_buf_v2.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/demux.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/dcm_45/dcm45.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/fifo64to16/fifo64to16.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/dcm_user/dcm_user.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/fifo16to64/fifo16to64.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/fifo64to64/fifo64to64.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/spi16.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/dcm_1M/dcm_1M.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/tlc3548.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/adc_config.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/adc_jtag_ctr.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/spi24.vhd
+set_global_assignment -name SDC_FILE top.sdc
+set_global_assignment -name VHDL_FILE ../branch/src/ltc2656b.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/dat_buf.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/had_rec.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb_arbiter.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb_target_fifo.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb_target_fifo_rome.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb_target_reg.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/spi.vhd
