@@ -40,40 +40,6 @@
 		</pin>
 		<pin name="ssram0_adr_o[13]" direction="Output" source="Hierarchy Database" diff_pair_node="rx_in_i[4]" >
 		</pin>
-		<pin name="rx_inclock_i(n)" direction="Input" source="Assignments" diff_pair_node="rx_inclock_i" >
-		</pin>
-		<pin name="rx_in_i[0](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[0]" >
-		</pin>
-		<pin name="rx_in_i[1](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[1]" >
-		</pin>
-		<pin name="rx_in_i[2](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[2]" >
-		</pin>
-		<pin name="rx_in_i[3](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[3]" >
-		</pin>
-		<pin name="rx_in_i[4](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[4]" >
-		</pin>
-		<pin name="rx_in_i[5](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[5]" >
-		</pin>
-		<pin name="rx_in_i[6](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[6]" >
-		</pin>
-		<pin name="rx_in_i[7](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[7]" >
-		</pin>
-		<pin name="rx_in_i[8](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[8]" >
-		</pin>
-		<pin name="rx_in_i[9](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[9]" >
-		</pin>
-		<pin name="rx_in_i[10](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[10]" >
-		</pin>
-		<pin name="rx_in_i[11](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[11]" >
-		</pin>
-		<pin name="rx_in_i[12](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[12]" >
-		</pin>
-		<pin name="rx_in_i[13](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[13]" >
-		</pin>
-		<pin name="rx_in_i[14](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[14]" >
-		</pin>
-		<pin name="rx_in_i[15](n)" direction="Input" source="Assignments" diff_pair_node="rx_in_i[15]" >
-		</pin>
 	</pin_info>
 	<buses>
 	</buses>

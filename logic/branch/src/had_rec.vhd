@@ -318,7 +318,7 @@ begin  -- behave
       rst_i      => LB_Reset_i,
       clk_i      => rx_inclock_i,
       enable_i   => buf_task_start_r,
-      data_i     => test,               -- rx_in_i,
+      data_i     => rx_in_i,
       rd_clk_i   => clk,
       rd_req_i   => rd_req_i,
       rd_q_o     => rd_q_o,

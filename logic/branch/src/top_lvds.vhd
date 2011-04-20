@@ -353,7 +353,7 @@ begin  -- behave
   -- high ADC data buffer
   had_rec_2 : had_rec
     generic map (
-      IO_TYPE   => "CMOS",
+      IO_TYPE   => "LVDS",
       ADDR_LEN  => ADDR_LEN_REG,
       ADDR_FIFO => ADDR_FIFO
       )
