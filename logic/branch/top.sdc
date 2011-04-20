@@ -34,7 +34,7 @@ create_clock -period "25.000 ns" \
 
 
 # Original Clock Setting Name: clk_80m
-create_clock -period "8.000 ns" \
+create_clock -period "7.000 ns" \
              -name {clk_80m} {clk_80m}
 # ---------------------------------------------
 

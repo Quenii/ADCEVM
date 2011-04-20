@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-04-10
--- Last update: 2011-04-17
+-- Last update: 2011-04-20
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -141,7 +141,7 @@ begin  -- impl
 
         order_data_bus_i : for i in 0 to 3 generate
             order_data_bus_j : for j in 1 to 16 generate
-                rx_out(16 * i + j - 1) <= rx_out_disorder((j - 1) * 4 + i);
+                rx_out(16 * (3-i) + j - 1) <= rx_out_disorder((j - 1) * 4 + i);
             end generate order_data_bus_j;
         end generate order_data_bus_i;
 

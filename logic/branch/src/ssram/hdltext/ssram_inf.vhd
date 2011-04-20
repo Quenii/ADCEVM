@@ -6,14 +6,16 @@
 -- Author     :   <Liu Peng@GKHY-LIUPENG>
 -- Company    : 
 -- Created    : 2011-04-19
--- Last update: 2011-04-19
+-- Last update: 2011-04-20
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
 -- Description:
 --
---
---
+-- Supported devices:
+--      IS61NLP25672/IS61NVP25672 - ISSI, Integrated Silicon Solutions, Inc.
+--      IS61NLP51236/IS61NVP51236 - ISSI, Integrated Silicon Solutions, Inc.
+--      IS61NLP102418/IS61NVP102418 - ISSI, Integrated Silicon Solutions, Inc.
 -- 
 -------------------------------------------------------------------------------
 -- Copyright (c) 2011 
@@ -51,17 +53,17 @@ entity ssram_inf is
     ssram_ce2_n_o : out std_logic;
     ssram_ce2_o   : out std_logic;
 
-    ssram_addr_o : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
-    ssram_d_i    : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
-    ssram_d_o    : out std_logic_vector(DATA_WIDTH - 1 downto 0);
-    ssram_d_t_o  : out std_logic;
-    ssram_adv_o  : out std_logic;
-    ssram_we_n_o : out std_logic;
-    ssram_bw_n_o : out std_logic;
-    ssram_oe_n_o : out std_logic;
+    ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
+    ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
+    ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+    ssram_d_t_o   : out std_logic;
+    ssram_adv_o   : out std_logic;
+    ssram_we_n_o  : out std_logic;
+    ssram_bw_n_o  : out std_logic;
+    ssram_oe_n_o  : out std_logic;
     ssram_cke_n_o : out std_logic;
-    ssram_zz_o   : out std_logic;
-    ssram_mode_o : out std_logic);
+    ssram_zz_o    : out std_logic;
+    ssram_mode_o  : out std_logic);
 
 end ssram_inf;
 
@@ -88,9 +90,9 @@ architecture archi of ssram_inf is
       Q      : out std_logic_vector);
   end component;
 
-  signal we_en, rd_en       : std_logic;
-  signal we, rd, we_r2      : std_logic;
-  signal d_r2, ssram_din_r2 : std_logic_vector(DATA_WIDTH - 1 downto 0);
+  signal we_en, rd_en         : std_logic;
+  signal we, rd, we_r2, rd_r2 : std_logic;
+  signal d_r2, ssram_din_r2   : std_logic_vector(DATA_WIDTH - 1 downto 0);
 
   signal ce : std_logic;
 
@@ -103,7 +105,7 @@ begin  -- archi
   ssram_ce2_o   <= ce;
 
   ssram_d_o    <= d_r2;
-  ssram_oe_n_o <= not rd;
+  ssram_oe_n_o <= '0' when rd_r2 = '1' else '0';
   ssram_d_t_o  <= '1' when we_r2 = '1' else '0';
   ssram_adv_o  <= '0';
 
@@ -136,6 +138,15 @@ begin  -- archi
       Data   => we,
       Enable => '1',
       Q      => we_r2);
+  rd_r2_ffd : dff_en_r_pline
+    generic map (
+      Pipeline => 1)
+    port map (
+      CK     => clk_i,
+      Clear  => rst_i,
+      Data   => rd,
+      Enable => '1',
+      Q      => rd_r2);
   d_r2_ffd : dff_en_r_pline_w
     generic map (
       Pipeline => 1)

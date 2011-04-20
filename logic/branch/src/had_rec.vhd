@@ -30,7 +30,7 @@ entity had_rec is
     ADDR_LEN  : std_logic_vector(15 downto 0) := x"1004";
     ADDR_FIFO : std_logic_vector(15 downto 0) := x"1005");
   port (
-    clk_i : in std_logic;
+    sys_clk_i : in std_logic;
 
     -- lb
     LB_Clk_i      : in  std_logic;
@@ -99,50 +99,12 @@ architecture behave of had_rec is
   signal rd_empty_o : std_logic;
 
   -- data buffer
---    component dat_buf
---        port (
---            clk_i               : in  std_logic;
---            rst_i               : in  std_logic;
---            task_start          : in  std_logic;
---            task_length         : in  std_logic_vector(15 downto 0);
---            din_i               : in  std_logic_vector(63 downto 0);
---            fifo_almost_empty_i : in  std_logic;
---            fifo_rd_o           : out std_logic;
---            fifo_rst_n_o        : out std_logic;
---            rd_clk_i            : in  std_logic;
---            rd_i                : in  std_logic;
---            empty_o             : out std_logic;
---            dout_o              : out std_logic_vector(15 downto 0);
---            ssram_din_i         : in  std_logic_vector(63 downto 0);
---            ssram_dout_o        : out std_logic_vector(63 downto 0);
---            ssram0_adr_o        : out std_logic_vector(18 downto 0);
---            ssram0_dout_en_o    : out std_logic;
---            ssram0_adv_n_o      : out std_logic;
---            ssram0_adsp_n_o     : out std_logic;
---            ssram0_adsc_n_o     : out std_logic;
---            ssram0_gw_n_o       : out std_logic;
---            ssram0_ce_n_o       : out std_logic;
---            ssram0_ce2_n_o      : out std_logic;
---            ssram0_ce2_o        : out std_logic;
---            ssram0_bwa_n_o      : out std_logic;
---            ssram0_bwb_n_o      : out std_logic;
---            ssram0_bwc_n_o      : out std_logic;
---            ssram0_bwd_n_o      : out std_logic;
---            ssram0_bwe_n_o      : out std_logic;
---            ssram0_oe_n_o       : out std_logic;
---            ssram0_zz_o         : out std_logic;
---            ssram0_mode_o       : out std_logic;
---            ssram1_bwa_n_o      : out std_logic;
---            ssram1_bwb_n_o      : out std_logic;
---            ssram1_bwc_n_o      : out std_logic;
---            ssram1_bwd_n_o      : out std_logic);
---    end component;
   component dat_buf_v2
     generic (
       DATA_WIDTH : integer;
       ADDR_WIDTH : integer);
     port (
-      clk_i       : in  std_logic;
+      sys_clk_i       : in  std_logic;
       rst_i       : in  std_logic;
       task_start  : in  std_logic;
       task_length : in  std_logic_vector(15 downto 0);
@@ -175,24 +137,6 @@ architecture behave of had_rec is
   signal buf_task_start : std_logic                     := '0';
   signal task_length    : std_logic_vector(15 downto 0) := (others => '0');
 
-  -- SPI converter
-  component spi
-    port (
-      clk_i         : in  std_logic;
-      rst_i         : in  std_logic;
-      -- control port
-      task_start_i  : in  std_logic;
-      ack_o         : out std_logic;
-      updata_da_n_i : in  std_logic;
-      data_i        : in  std_logic_vector(23 downto 0);
-      data_o        : out std_logic_vector(23 downto 0);
-      -- SPI port
-      sck_o         : out std_logic;
-      sdi_i         : in  std_logic;
-      sdo_o         : out std_logic;
-      ld_cs_n_o     : out std_logic;
-      ldac_n_o      : out std_logic);
-  end component;
   -- signal define
   signal ack_o : std_logic := '0';
 
@@ -288,19 +232,19 @@ architecture behave of had_rec is
       locked : out std_logic);
   end component;
 
-  signal clk : std_logic;
+  signal sys_clk : std_logic;
 
 begin  -- behave
 
-  dcm45_1 : dcm45
-    port map (
-      areset => LB_Reset_i,
-      inclk0 => clk_i,
-      c0     => open,  --ssram0_clk_o,     -- 180 degree
-      c1     => clk,                    -- 0 degree
-      locked => open);
+--  dcm45_1 : dcm45
+--    port map (
+--      areset => LB_Reset_i,
+--      inclk0 => sys_clk_i,
+--      c0     => open,  --ssram0_clk_o,     -- 180 degree
+--      c1     => sys_clk,                    -- 0 degree
+--      locked => open);
 
---  ssram_clk_o <= clk;
+  sys_clk <= sys_clk_i;
 
   process (rx_inclock_i, LB_Reset_i)
   begin  -- process
@@ -319,7 +263,7 @@ begin  -- behave
       clk_i      => rx_inclock_i,
       enable_i   => buf_task_start_r,
       data_i     => rx_in_i,
-      rd_clk_i   => clk,
+      rd_clk_i   => sys_clk,
       rd_req_i   => rd_req_i,
       rd_q_o     => rd_q_o,
       rd_empty_o => rd_empty_o);
@@ -329,7 +273,7 @@ begin  -- behave
       DATA_WIDTH => DATA_WIDTH,
       ADDR_WIDTH => ADDR_WIDTH)
     port map (
-      clk_i         => clk,
+      sys_clk_i         => sys_clk,
       rst_i         => LB_Reset_i,
       task_start    => buf_task_start,
       task_length   => task_length,
@@ -355,45 +299,6 @@ begin  -- behave
       ssram_cke_n_o => ssram_cke_n_o,
       ssram_zz_o    => ssram_zz_o,
       ssram_mode_o  => ssram_mode_o);
---    dat_buf_1 : dat_buf
---        port map (
---            clk_i               => clk,
---            rst_i               => LB_Reset_i,
---            task_start          => buf_task_start_r,
---            task_length         => task_length,
---            din_i               => rd_q_o,
---            fifo_almost_empty_i => rd_empty_o,
---            fifo_rd_o           => rd_req_i,
---            fifo_rst_n_o        => open,
-
---            rd_clk_i            => LB_Clk_i,
---            rd_i                => rd,
---            empty_o             => empty,
---            dout_o              => dout,
-
---            ssram_din_i         => ssram_din_i,
---            ssram_dout_o        => ssram_dout_o,
---            ssram0_adr_o        => ssram0_adr_o,
---            ssram0_dout_en_o    => ssram0_dout_en_o,
---            ssram0_adv_n_o      => ssram0_adv_n_o,
---            ssram0_adsp_n_o     => ssram0_adsp_n_o,
---            ssram0_adsc_n_o     => ssram0_adsc_n_o,
---            ssram0_gw_n_o       => ssram0_gw_n_o,
---            ssram0_ce_n_o       => ssram0_ce_n_o,
---            ssram0_ce2_n_o      => ssram0_ce2_n_o,
---            ssram0_ce2_o        => ssram0_ce2_o,
---            ssram0_bwa_n_o      => ssram0_bwa_n_o,
---            ssram0_bwb_n_o      => ssram0_bwb_n_o,
---            ssram0_bwc_n_o      => ssram0_bwc_n_o,
---            ssram0_bwd_n_o      => ssram0_bwd_n_o,
---            ssram0_bwe_n_o      => ssram0_bwe_n_o,
---            ssram0_oe_n_o       => ssram0_oe_n_o,
---            ssram0_zz_o         => ssram0_zz_o,
---            ssram0_mode_o       => ssram0_mode_o,
---            ssram1_bwa_n_o      => ssram1_bwa_n_o,
---            ssram1_bwb_n_o      => ssram1_bwb_n_o,
---            ssram1_bwc_n_o      => ssram1_bwc_n_o,
---            ssram1_bwd_n_o      => ssram1_bwd_n_o);
 
   process (LB_Clk_i)
   begin  -- process
