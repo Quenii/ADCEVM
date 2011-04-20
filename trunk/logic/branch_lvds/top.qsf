@@ -343,6 +343,7 @@ set_global_assignment -name ENABLE_ADVANCED_IO_TIMING OFF
 set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS OFF
 set_global_assignment -name USE_TIMEQUEST_TIMING_ANALYZER ON
 
+set_global_assignment -name VHDL_FILE ../branch/ip/lvds_i/lvds_i.vhd
 set_global_assignment -name VHDL_FILE ../branch/src/top_lvds.vhd
 set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/dff_en_r_pline_spec.vhd
 set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/dff_en_r_pline_w_untitled.vhd
