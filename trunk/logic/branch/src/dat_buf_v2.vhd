@@ -29,7 +29,7 @@ entity dat_buf_v2 is
     DATA_WIDTH : integer;
     ADDR_WIDTH : integer);
   port (
-    clk_i : in std_logic;
+    sys_clk_i : in std_logic;
     rst_i : in std_logic;
 
     task_start  : in std_logic;
@@ -171,7 +171,7 @@ begin  -- impl
     generic map (
       Pipeline => 1)
     port map (
-      CK     => clk_i,
+      CK     => sys_clk_i,
       Clear  => '0',
       Data   => task_start,
       Enable => '1',
@@ -182,7 +182,7 @@ begin  -- impl
       DATA_WIDTH => DATA_WIDTH,
       ADDR_WIDTH => ADDR_WIDTH)
     port map (
-      clk_i => clk_i,
+      clk_i => sys_clk_i,
       rst_i => rst_i,
 
       count_o => ss_count_o,
@@ -213,7 +213,7 @@ begin  -- impl
 
   
   async_aclr  <= rst_i;
-  async_wrclk <= clk_i;
+  async_wrclk <= sys_clk_i;
 
   async_rdclk <= LB_Clk_i;
   async_rdreq <= rd_i;
@@ -234,13 +234,13 @@ begin  -- impl
       wrfull  => async_wrfull,
       wrusedw => async_wrusedw);
 
-  process (clk_i, rst_i)
+  process (sys_clk_i, rst_i)
   begin  -- process
     if rst_i = '1' then
       cs      <= s_idle;
       rst_cnt <= 0;
       
-    elsif clk_i'event and clk_i = '1' then  -- rising clock edge
+    elsif sys_clk_i'event and sys_clk_i = '1' then  -- rising clock edge
 
       case cs is
         when s_idle =>

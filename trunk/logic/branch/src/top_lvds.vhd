@@ -112,7 +112,7 @@ architecture behave of top is
       ADDR_LEN  : std_logic_vector(15 downto 0);
       ADDR_FIFO : std_logic_vector(15 downto 0));
     port (
-      clk_i         : in  std_logic;
+      sys_clk_i         : in  std_logic;
       LB_Clk_i      : in  std_logic;
       LB_Reset_i    : in  std_logic;
       LB_Addr_i     : in  std_logic_vector(15 downto 0);
@@ -358,7 +358,7 @@ begin  -- behave
       ADDR_FIFO => ADDR_FIFO
       )
     port map (
-      clk_i         => clk_80m,
+      sys_clk_i         => clk_80m,
       -- lb
       LB_Clk_i      => LB_Clk_i,
       LB_Reset_i    => reset_ctr_o(0),
