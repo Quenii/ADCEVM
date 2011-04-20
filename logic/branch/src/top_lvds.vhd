@@ -48,8 +48,6 @@ entity top is
     rx_inclock_i         : in    std_logic := '0';
     --
     KAD5514P_tm_o        : out   std_logic;
-    KAD5514P_gpio1_o     : out   std_logic;
-    KAD5514P_gpio3_o     : out   std_logic;
     KAD5514P_adc_rst_n_o : out   std_logic;
     KAD5514P_spi_clk_o   : out   std_logic;
     KAD5514P_spi_di_i    : inout std_logic;
