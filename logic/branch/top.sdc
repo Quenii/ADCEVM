@@ -5,7 +5,7 @@
 # Project      : top
 # Revision     : top
 #
-# Date         : Sun Apr 17 22:21:11 China Standard Time 2011
+# Date         : Wed Apr 20 10:17:02 China Standard Time 2011
 #
 ###########################################################################
  
@@ -38,24 +38,6 @@ create_clock -period "8.000 ns" \
              -name {clk_80m} {clk_80m}
 # ---------------------------------------------
 
-
-# Original Clock Setting Name: had_rec:had_rec_2|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|altlvds_rx:altlvds_rx_component|lvds_i_lvds_rx1:auto_generated|wire_pll_clk[0]
-# WARNING: Ignoring OFFSET_FROM_BASE_CLOCK assignment for clock 'had_rec:had_rec_2|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|altlvds_rx:altlvds_rx_component|lvds_i_lvds_rx1:auto_generated|wire_pll_clk[0]'
-create_generated_clock -divide_by 4 -multiply_by 1  \
-                       -source rx_inclock_i \
-                       -name {had_rec:had_rec_2|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|altlvds_rx:altlvds_rx_component|lvds_i_lvds_rx1:auto_generated|wire_pll_clk[0]} \
-                       {had_rec:had_rec_2|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|altlvds_rx:altlvds_rx_component|lvds_i_lvds_rx1:auto_generated|wire_pll_clk[0]}
-# ---------------------------------------------
-
-
-# Original Clock Setting Name: had_rec:had_rec_2|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|altlvds_rx:altlvds_rx_component|lvds_i_lvds_rx1:auto_generated|wire_pll_sclkout[0]
-# WARNING: Ignoring OFFSET_FROM_BASE_CLOCK assignment for clock 'had_rec:had_rec_2|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|altlvds_rx:altlvds_rx_component|lvds_i_lvds_rx1:auto_generated|wire_pll_sclkout[0]'
-create_generated_clock -multiply_by 1  \
-                       -source rx_inclock_i \
-                       -name {had_rec:had_rec_2|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|altlvds_rx:altlvds_rx_component|lvds_i_lvds_rx1:auto_generated|wire_pll_sclkout[0]} \
-                       {had_rec:had_rec_2|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|altlvds_rx:altlvds_rx_component|lvds_i_lvds_rx1:auto_generated|wire_pll_sclkout[0]}
-# ---------------------------------------------
-
 # ** Clock Latency
 #    -------------
 
@@ -86,16 +68,6 @@ create_generated_clock -multiply_by 1  \
 # ** Tco/MinTco requirements
 #    -----------------------
 
-#
-# Entity Specific Timing Assignments found in
-# the Timing Analyzer Settings report panel
-#
-set_false_path -from [get_keepers {*dcfifo_3lj1*|delayed_wrptr_g[*]}] -to [get_keepers {*dcfifo_3lj1*|*rs_dgwp|*dffpipe13|dffe14a[*]}]
-set_false_path -from [get_keepers {*dcfifo_3lj1*|rdptr_g[*]}] -to [get_keepers {*dcfifo_3lj1*|*ws_dgrp|*dffpipe17|dffe18a[*]}]
-set_false_path -from [get_keepers {*dcfifo_mvk1*|delayed_wrptr_g[*]}] -to [get_keepers {*dcfifo_mvk1*|*rs_dgwp|*dffpipe10|dffe11a[*]}]
-set_false_path -from [get_keepers {*dcfifo_mvk1*|rdptr_g[*]}] -to [get_keepers {*dcfifo_mvk1*|*ws_dgrp|*dffpipe14|dffe15a[*]}]
-set_multicycle_path -setup -start 4 -from [get_keepers {*lvds_i_lvds_rx1*|wire_rx_dataout*}] -to [get_keepers {*lvds_i_lvds_rx1*|rxreg*}]
-set_multicycle_path -hold -start 3 -from [get_keepers {*lvds_i_lvds_rx1*|wire_rx_dataout*}] -to [get_keepers {*lvds_i_lvds_rx1*|rxreg*}]
 
 
 # ---------------------------------------------
@@ -106,12 +78,10 @@ set_multicycle_path -hold -start 3 -from [get_keepers {*lvds_i_lvds_rx1*|wire_rx
 
 set_clock_groups -asynchronous \
                  -group { \
-                       had_rec:had_rec_2|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|altlvds_rx:altlvds_rx_component|lvds_i_lvds_rx1:auto_generated|wire_pll_clk[0] \
-                       had_rec:had_rec_2|demux:demux_1|lvds_i:\GEN_LVDS_IMPL:lvds_i_1|altlvds_rx:altlvds_rx_component|lvds_i_lvds_rx1:auto_generated|wire_pll_sclkout[0] \
                        rx_inclock_i \
                         } \
                  -group { \
-                       had_rec:had_rec_2|dat_buf:dat_buf_1|dcm45:dcm45_1|altpll:altpll_component|_clk0 \
+                       had_rec:had_rec_2|dcm45:dcm45_1|altpll:altpll_component|_clk1 \
                        clk_80m \
                         } \
                  -group { \
