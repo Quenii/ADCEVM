@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-04-19
--- Last update: 2011-04-19
+-- Last update: 2011-04-20
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -25,42 +25,40 @@ use ieee.std_logic_arith.all;
 
 entity dat_buf_v2 is
 
+  generic (
+    DATA_WIDTH : integer;
+    ADDR_WIDTH : integer);
   port (
-    LB_Clk_i   : in  std_logic;
-    LB_Reset_i : in  std_logic;
-    LB_Addr_i  : in  std_logic_vector(15 downto 0);
-    LB_Write_i : in  std_logic;
-    LB_Read_i  : in  std_logic;
-    LB_Ready_o : out std_logic;
-    LB_DataW_i : in  std_logic_vector(15 downto 0);
-    LB_DataR_o : out std_logic_vector(15 downto 0);
-
     clk_i : in std_logic;
     rst_i : in std_logic;
 
-    rd_req_o   : out std_logic;
-    rd_q_i     : in  std_logic_vector(63 downto 0);
+    task_start  : in std_logic;
+    task_length : in std_logic_vector(15 downto 0);
+
+    fifo_rd_o  : out std_logic;
+    din_i      : in  std_logic_vector(63 downto 0);
     rd_empty_i : in  std_logic;
 
-    rd_i    : in  std_logic;
-    empty_o : out std_logic;
-    dout_o  : out std_logic_vector(15 downto 0);
+    LB_Clk_i : in  std_logic;
+    rd_i     : in  std_logic;
+    empty_o  : out std_logic;
+    dout_o   : out std_logic_vector(15 downto 0);
 
-    ssram0_clk_o   : out std_logic;
-    ssram0_cke_n_o : out std_logic;
-    ssram0_ce1_n_o : out std_logic;
-    ssram0_ce2_n_o : out std_logic;
-    ssram0_ce2_o   : out std_logic;
-
-    ssram0_oe_n_o : out   std_logic;
-    ssram0_we_n_o : out   std_logic;
-    ssram0_bw_n_o : out   std_logic;
-    ssram0_addr_o : out   std_logic_vector(ADDR_WIDTH - 1 downto 0);
-    ssram0_dq_io  : inout std_logic_vector(DATA_WIDTH - 1 downto 0);
-    ssram0_adv_o  : out   std_logic;
-
-    ssram0_zz_o   : out std_logic;
-    ssram0_mode_o : out std_logic);
+    ssram_clk_o   : out std_logic;
+    ssram_ce1_n_o : out std_logic;
+    ssram_ce2_n_o : out std_logic;
+    ssram_ce2_o   : out std_logic;
+    ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
+    ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
+    ssram_d_t_o   : out std_logic;
+    ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+    ssram_adv_o   : out std_logic;
+    ssram_we_n_o  : out std_logic;
+    ssram_oe_n_o  : out std_logic;
+    ssram_bw_n_o  : out std_logic;
+    ssram_cke_n_o : out std_logic;
+    ssram_zz_o    : out std_logic;
+    ssram_mode_o  : out std_logic);
 
 end dat_buf_v2;
 
@@ -107,27 +105,7 @@ architecture impl of dat_buf_v2 is
   signal ss_vld_o   : std_logic;
   signal ss_q_o     : std_logic_vector(DATA_WIDTH - 1 downto 0);
 
-  component lb_target_reg
-    generic (
-      ADDR : std_logic_vector(15 downto 0));
-    port (
-      LB_Clk_i   : in  std_logic;
-      LB_Reset_i : in  std_logic;
-      LB_Addr_i  : in  std_logic_vector(15 downto 0);
-      LB_Write_i : in  std_logic;
-      LB_Read_i  : in  std_logic;
-      LB_Ready_o : out std_logic;
-      LB_DataW_i : in  std_logic_vector(15 downto 0);
-      LB_DataR_o : out std_logic_vector(15 downto 0);
-      updated_o  : out std_logic;
-      ctrl_o     : out std_logic_vector(15 downto 0);
-      sta_i      : in  std_logic_vector(15 downto 0));
-  end component;
-
-  signal reg_updated_o : std_logic;
-  signal updated_r2    : std_logic;
-  signal reg_ctrl_o    : std_logic_vector(15 downto 0);
-  signal reg_sta_i     : std_logic_vector(15 downto 0);
+  signal task_r2 : std_logic;
 
   component dff_en_r_pline
     generic (
@@ -170,7 +148,7 @@ architecture impl of dat_buf_v2 is
   type   state_t is (s_idle, s_reset, s_fill, s_dump);
   signal cs : state_t;
 
-  constant RST_CNT_MAX : 32;
+  constant RST_CNT_MAX : integer := 32;
   signal   rst_cnt     : integer range 0 to RST_CNT_MAX - 1;
 
   
@@ -178,11 +156,11 @@ begin  -- impl
 
 
 --  ss_empty_o : std_logic;
-  ss_wr_i <= '1' when cs = s_write and rd_empty_i = '0'
+  ss_wr_i <= '1' when cs = s_fill and rd_empty_i = '0'
              else '0';
-  rd_req_o <= ss_wr_i;
+  fifo_rd_o <= ss_wr_i;
 
-  ss_d_i <= rd_q_i;
+  ss_d_i <= din_i;
 
   ss_rd_i <= '1' when cs = s_idle and async_wrusedw(async_wrusedw'length - 1) = '0' and ss_empty_o = '0'
              else '0';
@@ -195,26 +173,9 @@ begin  -- impl
     port map (
       CK     => clk_i,
       Clear  => '0',
-      Data   => reg_updated_o,
+      Data   => task_start,
       Enable => '1',
-      Q      => updated_r2);
-
-  lb_target_reg_1 : lb_target_reg
-    generic map (
-      ADDR => ADDR)
-    port map (
-      LB_Clk_i   => LB_Clk_i,
-      LB_Reset_i => LB_Reset_i,
-      LB_Addr_i  => LB_Addr_i,
-      LB_Write_i => LB_Write_i,
-      LB_Read_i  => LB_Read_i,
-      LB_Ready_o => LB_Ready_o,
-      LB_DataW_i => LB_DataW_i,
-      LB_DataR_o => LB_DataR_o,
-      updated_o  => reg_updated_o,
-      ctrl_o     => reg_ctrl_o,
-      sta_i      => reg_sta_i);
-
+      Q      => task_r2);
 
   ssram_fifo_1 : ssram_fifo
     generic map (
@@ -234,21 +195,21 @@ begin  -- impl
       empty_o => ss_empty_o,
       q_o     => ss_q_o,
 
-      ssram_clk_o   => ssram0_clk_o,
-      ssram_ce1_n_o => ssram0_ce1_n_o,
-      ssram_ce2_n_o => ssram0_ce2_n_o,
-      ssram_ce2_o   => ssram0_ce2_o,
-      ssram_addr_o  => ssram0_addr_o,
-      ssram_d_i     => ssram0_d_i,
-      ssram_d_t_o   => ssram0_d_t_o,
-      ssram_d_o     => ssram0_d_o,
-      ssram_adv_o   => ssram0_adv_o,
-      ssram_we_n_o  => ssram0_we_n_o,
-      ssram_oe_n_o  => ssram0_oe_n_o,
-      ssram_bw_n_o  => ssram0_bw_n_o,
-      ssram_cke_n_o => ssram0_cke_n_o,
-      ssram_zz_o    => ssram0_zz_o,
-      ssram_mode_o  => ssram0_mode_o);
+      ssram_clk_o   => ssram_clk_o,
+      ssram_ce1_n_o => ssram_ce1_n_o,
+      ssram_ce2_n_o => ssram_ce2_n_o,
+      ssram_ce2_o   => ssram_ce2_o,
+      ssram_addr_o  => ssram_addr_o,
+      ssram_d_i     => ssram_d_i,
+      ssram_d_t_o   => ssram_d_t_o,
+      ssram_d_o     => ssram_d_o,
+      ssram_adv_o   => ssram_adv_o,
+      ssram_we_n_o  => ssram_we_n_o,
+      ssram_oe_n_o  => ssram_oe_n_o,
+      ssram_bw_n_o  => ssram_bw_n_o,
+      ssram_cke_n_o => ssram_cke_n_o,
+      ssram_zz_o    => ssram_zz_o,
+      ssram_mode_o  => ssram_mode_o);
 
   
   async_aclr  <= rst_i;
@@ -283,7 +244,7 @@ begin  -- impl
 
       case cs is
         when s_idle =>
-          if updated_r2 = '1' then
+          if task_r2 = '1' then
             cs <= s_reset;
           end if;
           rst_cnt <= 0;
