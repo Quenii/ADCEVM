@@ -140,8 +140,8 @@ begin  -- impl
                 rx_locked   => rx_locked);
 
         order_data_bus_i : for i in 0 to 3 generate
-            order_data_bus_j : for j in 1 to 16 generate
-                rx_out(16 * (3-i) + j - 1) <= rx_out_disorder((j - 1) * 4 + i);
+            order_data_bus_j : for j in 0 to 15 generate
+                rx_out(16 * i + j) <= rx_out_disorder(j * 4 + i);
             end generate order_data_bus_j;
         end generate order_data_bus_i;
 
