@@ -306,7 +306,6 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		PowerStatus& powerStatus = report.powerStatus;
 		this->powerStatus(powerStatus);
 		emit boardReport(report);
-		clocked();
 		return;
 	}
 
@@ -316,7 +315,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	float vpp = m_adcSettings.vpp;
 	float max = (1 << (m_adcSettings.bitcount - 1));
 
-	if (usbDev->IsOpen() && (usbDev->DeviceCount()))
+	if (usbDev->IsOpen() && (usbDev->DeviceCount())/* && clocked() */)
 	{
 		if (buff.size() < buffer_cnt)
 			buff.resize(buffer_cnt);
@@ -330,15 +329,15 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		unsigned short* p = &buff[0];
 		bool okay = read(0x1005, &buff[0], buffer_cnt);
 		Q_ASSERT(okay);
-		okay = read(0x1005, &buff[0], buffer_cnt);
-		Q_ASSERT(okay);
-		okay = read(0x1005, &buff[0], buffer_cnt);
+		//okay = read(0x1005, &buff[0], buffer_cnt);
 		//Q_ASSERT(okay);
-		//for (int t=0; t<10; ++t)
-		//{
-		//	okay = read(0x1005, &buff[0], buffer_cnt);
-		//	Q_ASSERT(okay);
-		//}
+		//okay = read(0x1005, &buff[0], buffer_cnt);
+		//Q_ASSERT(okay);
+		for (int t=0; t<30; ++t)
+		{
+			okay = read(0x1005, &buff[0], buffer_cnt);
+			Q_ASSERT(okay);
+		}
 		if (tdReport.rawSamples.size() != buff.size())
 		{
 			tdReport.rawSamples.resize(buff.size());
