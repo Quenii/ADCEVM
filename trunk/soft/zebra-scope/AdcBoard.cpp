@@ -295,7 +295,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		this->powerStatus(powerStatus);
 		emit boardReport(report);
 
-		writeReg(0x2000, 0);
+//		writeReg(0x2000, 0);
 
 		return;
 	}
