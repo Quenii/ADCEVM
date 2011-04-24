@@ -1,6 +1,6 @@
 //
 // MATLAB Compiler: 4.8 (R2008a)
-// Date: Sat Jun 19 22:45:32 2010
+// Date: Sun Apr 24 13:53:55 2011
 // Arguments: "-B" "macro_default" "-W" "cpplib:libalgo" "-T" "link:lib"
 // "myfft" "calc_dynam_params" 
 //
@@ -98,7 +98,7 @@ bool MW_CALL_CONV libalgoInitializeWithHandlers(
                                                      &__MCC_libalgo_component_data,
                                                      true, NoObjectType,
                                                      LibTarget, error_handler,
-                                                     print_handler, 81652, path_to_dll))
+                                                     print_handler, 83178, path_to_dll))
     return false;
   return true;
 }

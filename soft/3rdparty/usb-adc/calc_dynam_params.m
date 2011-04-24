@@ -44,7 +44,7 @@ fin=find(Dout_dB(1:numpt/2)==maxdB);
 %Span of the input frequency on each side 
 span=max(round(numpt/200),5); 
 
-if fin > span
+
 %Approximate search span for harmonics on each side 
 spanh=2;
 %Determine power spectrum
@@ -52,7 +52,7 @@ spectP=(abs(Dout_spect)).*(abs(Dout_spect));
 %Find DC offset power 
 Pdc=sum(spectP(1:span)); 
 %Extract overall signal power 
-Ps=sum(spectP(fin-span:fin+span));
+Ps=sum(spectP(max(1, fin-span):fin+span));
 %Vector/matrix to store both frequency and power of signal and harmonics
 Fh=[]; 
 %The 1st element in the vector/matrix represents the signal, the next element represents
@@ -90,16 +90,7 @@ THD=10*log10(Pd/Ph(1));
 SFDR=10*log10(Ph(1)/max(Ph(2:10))); 
 ENOB=(SINAD-1.763)/6.02;
 HD=10*log10(Ph(1:10)/Ph(1)); 
-else
-    A=(max(code)-min(code)); 
-    AdB=20*log10(A/sqrt(2));
-    SINAD=-1;
-    SNR=-1;
-    THD=-1;
-    SFDR=-1; 
-    ENOB=-1;
-    HD=-1; 
-end
+
 
 
 
