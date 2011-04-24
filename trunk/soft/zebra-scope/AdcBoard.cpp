@@ -111,7 +111,7 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	setSignalSettings(m_signalSettings);
 	if (!m_timerIdPower)
 	{
-		m_timerIdPower = startTimer(1000);
+		m_timerIdPower = startTimer(2000);
 	}
 }
 
@@ -286,32 +286,28 @@ void AdcBoard::changeSampleRate(uint sampleFreq)
 void AdcBoard::timerEvent(QTimerEvent* event)
 {
 	//return ;
-
+	static int counter;
+	qDebug() << "time" << endl;
 	//setAdcSettings(m_adcSettings);
 	if (event->timerId() == m_timerIdPower)
 	{
 		PowerStatus& powerStatus = report.powerStatus;
 		this->powerStatus(powerStatus);
 		emit boardReport(report);
+
+		writeReg(0x2000, 0);
+
 		return;
 	}
 
+	writeReg(0x2000, 0x50);
+	return;
 
 	TimeDomainReport& tdReport = report.tdReport;
 	tdReport.samples.resize(buffer_cnt);
 
 	float vpp = m_adcSettings.vpp;
 	float max = (1 << (m_adcSettings.bitcount - 1));
-	if (m_adcSettings.coding == AdcCodingOffset)
-	{
-	}
-	else if (m_adcSettings.coding == AdcCodingComplement)
-	{
-	}
-	else
-	{
-		Q_ASSERT(false);
-	}
 
 	if (usbDev->IsOpen() && (usbDev->DeviceCount()))
 	{
@@ -327,6 +323,10 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		unsigned short* p = &buff[0];
 		bool okay = read(0x1005, &buff[0], buffer_cnt);
 		Q_ASSERT(okay);
+		okay = read(0x1005, &buff[0], buffer_cnt);
+		Q_ASSERT(okay);
+		okay = read(0x1005, &buff[0], buffer_cnt);
+		//Q_ASSERT(okay);
 		//for (int t=0; t<10; ++t)
 		//{
 		//	okay = read(0x1005, &buff[0], buffer_cnt);
@@ -336,17 +336,27 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		{
 			tdReport.rawSamples.resize(buff.size());
 		}
-		for (int i = 0; i < tdReport.samples.size(); i+=4)
+		for (int i = 0; i < tdReport.samples.size(); ++i)
 		{
-			tdReport.rawSamples[i+0] = buff[i+3]>>(16-m_adcSettings.bitcount);
-			tdReport.rawSamples[i+1] = buff[i+2]>>(16-m_adcSettings.bitcount);
-			tdReport.rawSamples[i+2] = buff[i+1]>>(16-m_adcSettings.bitcount);
-			tdReport.rawSamples[i+3] = buff[i+0]>>(16-m_adcSettings.bitcount);
+			int t = 16-m_adcSettings.bitcount;
+			tdReport.rawSamples[i] = buff[i]>>t;
 
-			tdReport.samples[i+0] = ((buff[i+3]>>(16-m_adcSettings.bitcount))/max-1)*vpp;
-			tdReport.samples[i+1] = ((buff[i+2]>>(16-m_adcSettings.bitcount))/max-1)*vpp;
-			tdReport.samples[i+2] = ((buff[i+1]>>(16-m_adcSettings.bitcount))/max-1)*vpp;
-			tdReport.samples[i+3] = ((buff[i+0]>>(16-m_adcSettings.bitcount))/max-1)*vpp;	
+			if (m_adcSettings.coding == AdcCodingOffset)
+			{
+				tdReport.samples[i] = ((buff[i]>>t)/max-1)*vpp;
+			}
+			else if (m_adcSettings.coding == AdcCodingComplement)
+			{
+				static short s;
+				static float f;
+				s = buff[i];
+				f = s; 
+				tdReport.samples[i] = f/(max)*vpp/pow(2.0, t);
+			}
+			else
+			{
+				Q_ASSERT(false);
+			}
 		}
 	}
 	else
