@@ -224,7 +224,14 @@ bool AdcBoard::writeIOCmd(unsigned short addr, bool dirRead, unsigned short data
 
 bool AdcBoard::readReg(unsigned short addr, unsigned short &val)
 {
-	return read(addr, &val, 1);
+	static unsigned short temp[1024];
+
+	if ( !read(addr, temp, 1024) )
+	{
+		return false;
+	}
+	val = temp[0];
+	return true;
 }
 
 bool AdcBoard::writeReg(unsigned short addr, unsigned short val)
@@ -261,13 +268,6 @@ bool AdcBoard::readReg24b(unsigned short addr,unsigned short& val)
 	}
 	val = temp[0];
 
-	//if ( !read(0x1002, &buff[0], 1024)  )
-	//{
-	//	return false;
-	//}
-
-	//	val = buff[0];
-
 	return 	true;
 }
 
@@ -283,25 +283,32 @@ void AdcBoard::changeSampleRate(uint sampleFreq)
 
 }
 
+bool AdcBoard::clocked()
+{
+	static unsigned short watchdog;
+	unsigned short t = 0;
+	writeReg(0x2001, 0);
+	readReg(0x2001, t);
+	if(t && (t - watchdog))
+	{
+		return true;
+	}
+	
+	return false;
+
+}
+
 void AdcBoard::timerEvent(QTimerEvent* event)
 {
-	//return ;
-	static int counter;
-	qDebug() << "time" << endl;
 	//setAdcSettings(m_adcSettings);
 	if (event->timerId() == m_timerIdPower)
 	{
 		PowerStatus& powerStatus = report.powerStatus;
 		this->powerStatus(powerStatus);
 		emit boardReport(report);
-
-//		writeReg(0x2000, 0);
-
+		clocked();
 		return;
 	}
-
-	writeReg(0x2000, 0x50);
-	return;
 
 	TimeDomainReport& tdReport = report.tdReport;
 	tdReport.samples.resize(buffer_cnt);
@@ -311,8 +318,8 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 	if (usbDev->IsOpen() && (usbDev->DeviceCount()))
 	{
-
-		buff.resize(buffer_cnt);
+		if (buff.size() < buffer_cnt)
+			buff.resize(buffer_cnt);
 		writeReg(0xFFFF, 0x0001);  //reset
 		writeReg(0xFFFF, 0x0000);  //dereset
 		//buff[512] = {0x0032};
@@ -518,53 +525,39 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 
 void AdcBoard::powerStatus(PowerStatus& powerStatus)
 {
-
-	if (buff.size() < 1024)
-	{
-		buff.resize(1024);
-	}
-	unsigned short* p = &buff[0];
+	unsigned short reg = 0;
 	writeReg(9, 0xA400);  //select 3548, work at default mode
 	writeReg(9, 0xA400);  //select 3548, work at default mode
 	//writeReg(9, 0xFFFF);  //select 3548, work at default mode
 	//writeReg(9, 0xFFFF);  //select 3548, work at default mode
 
-	//writeReg(9, 0xA740);  //select 3548, work at sweep mode
-
-	//for (int i=0; i<=7; ++i)
-	//{
-	//	writeReg(9, i*0x1000);
-	//}
-
-	//writeReg(9, 0xE000);
-
 	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	read(0x0009, &buff[0], 1024);
-	powerStatus.va = (float(buff[0]>>2)) * 4 / 16384;
+	readReg(0x0009, reg);
+	powerStatus.va = (float(reg>>2)) * 4 / 16384;
 	
 	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	read(0x0009, &buff[0], 1024);
-	powerStatus.vd = (float(buff[0]>>2)) * 4 / 16384;
+	readReg(0x0009, reg);
+	powerStatus.vd = (float(reg>>2)) * 4 / 16384;
 
 	writeReg(9, 0x4FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x4FFF);  //select 3548, select 7th channel
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	read(0x0009, &buff[0], 1024);
-	powerStatus.ia = (float(buff[0]>>2)) * 1000 * 4 / 16384;
+	readReg(0x0009, reg);
+	powerStatus.ia = (float(reg>>2)) * 1000 * 4 / 16384;
 
 	writeReg(9, 0x1FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x1FFF);  //select 3548, select 7th channel
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	read(0x0009, &buff[0], 1024);
-	powerStatus.id = (float(buff[0]>>2)) * 1000 * 4 / 16384;
+	readReg(0x0009, reg);
+	powerStatus.id = (float(reg>>2)) * 1000 * 4 / 16384;
 
 	powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
 
