@@ -8,7 +8,7 @@
 
 
 //#define MATLAB 1
-#define MATCOM 2
+//#define MATCOM 2
 
 struct AdcBoardInfo 
 {
