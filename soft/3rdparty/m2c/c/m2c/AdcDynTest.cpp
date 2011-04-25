@@ -7,27 +7,27 @@
   
   
   Mm AdcDynTest(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm code, i_o_t, Mm& SNR__o, Mm& SINAD__o, Mm& SFDR__o, \
-     Mm& ENOB__o, Mm& HD__o, Mm& y__o) {
+     Mm& ENOB__o, Mm& HD__o, Mm& y__o, Mm& Vpp__o, Mm& Vin__o) {
     begin_scope
     ADout.setname("ADout"); fclk.setname("fclk"); numbit.setname("numbit"); NFFT.setname("NFFT"); V.setname("V");  \
       code.setname("code"); 
-    dMm(SNR); dMm(SINAD); dMm(SFDR); dMm(ENOB); dMm(HD); dMm(y); dMm(ad_len_N); dMm(maxADout); dMm(AmpMax); dMm(t1) \
-      ; dMm(AmpMin); dMm(t2); dMm(Vpp); dMm(ADout_w); dMm(AA); dMm(ad_len); dMm(ADout_spect); dMm(ADout_dB); dMm(maxdB) \
-      ; dMm(fin_v); dMm(fin); dMm(freq_fin); dMm(data_ref); dMm(n); dMm(n_AdcDynTest_v0); dMm(data_ref_w); dMm(data_ref_spect) \
-      ; dMm(data_ref_dB); dMm(ref_dB); dMm(span); dMm(spanh_har); dMm(span_s); dMm(spectP); dMm(Pdc); dMm(Pdc_dB);  \
-      dMm(l); dMm(u); dMm(Ps); dMm(Ps_dB); dMm(Fh); dMm(Ph); dMm(Harbin); dMm(Ph_dB); dMm(har_num); dMm(har_num_AdcDynTest_v1) \
-      ; dMm(tone); dMm(har_peak); dMm(har_bin); dMm(spectP_temp); dMm(i_); dMm(i_AdcDynTest_v2); dMm(disturb_len);  \
-      dMm(spectP_disturb); dMm(Harbin_disturb); dMm(findSpac); dMm(findSpan); dMm(findStart); dMm(i_AdcDynTest_v3);  \
-      dMm(spectP_disturb_peak); dMm(num); dMm(array_flag); dMm(jj); dMm(jj_AdcDynTest_v4); dMm(k); dMm(k_AdcDynTest_v5) \
-      ; dMm(spectP_disturb_temp); dMm(Harbin_disturb_temp); dMm(Ph_disturb); dMm(Ph_disturb_dB); dMm(Fn_disturb); dMm( \
-      i_AdcDynTest_v6); dMm(Pd_disturb); dMm(Pd_disturb_dB); dMm(Pd); dMm(Pd_dB); dMm(Pn); dMm(Pn_dB); dMm(Vin); dMm( \
-      THD); dMm(SNRFS); dMm(ENOBFS); 
+    dMm(SNR); dMm(SINAD); dMm(SFDR); dMm(ENOB); dMm(HD); dMm(y); dMm(Vpp); dMm(Vin); dMm(ad_len_N); dMm(maxADout) \
+      ; dMm(AmpMax); dMm(t1); dMm(AmpMin); dMm(t2); dMm(ADout_w); dMm(AA); dMm(ad_len); dMm(ADout_spect); dMm(ADout_dB) \
+      ; dMm(maxdB); dMm(fin_v); dMm(fin); dMm(freq_fin); dMm(data_ref); dMm(n); dMm(n_AdcDynTest_v0); dMm(data_ref_w) \
+      ; dMm(data_ref_spect); dMm(data_ref_dB); dMm(ref_dB); dMm(span); dMm(spanh_har); dMm(span_s); dMm(spectP); dMm( \
+      Pdc); dMm(Pdc_dB); dMm(l); dMm(u); dMm(Ps); dMm(Ps_dB); dMm(Fh); dMm(Ph); dMm(Harbin); dMm(Ph_dB); dMm(har_num) \
+      ; dMm(har_num_AdcDynTest_v1); dMm(tone); dMm(har_peak); dMm(har_bin); dMm(spectP_temp); dMm(i_); dMm(i_AdcDynTest_v2) \
+      ; dMm(disturb_len); dMm(spectP_disturb); dMm(Harbin_disturb); dMm(findSpac); dMm(findSpan); dMm(findStart); dMm( \
+      i_AdcDynTest_v3); dMm(spectP_disturb_peak); dMm(num); dMm(array_flag); dMm(jj); dMm(jj_AdcDynTest_v4); dMm(k) \
+      ; dMm(k_AdcDynTest_v5); dMm(spectP_disturb_temp); dMm(Harbin_disturb_temp); dMm(Ph_disturb); dMm(Ph_disturb_dB) \
+      ; dMm(Fn_disturb); dMm(i_AdcDynTest_v6); dMm(Pd_disturb); dMm(Pd_disturb_dB); dMm(Pd); dMm(Pd_dB); dMm(Pn); dMm( \
+      Pn_dB); dMm(THD); dMm(SNRFS); dMm(ENOBFS); 
     
     call_stack_begin;
     // nargin, nargout entry code
     double old_nargin=nargin_val; if (!nargin_set) nargin_val=6.0;
     nargin_set=0;
-    double old_nargout=nargout_val; if (!nargout_set) nargout_val=6.0;
+    double old_nargout=nargout_val; if (!nargout_set) nargout_val=8.0;
     nargout_set=0;
     
     // translated code
@@ -39,26 +39,24 @@
     //[SNR, SFDR, SNRFS, SINAD, THD, HD, ENOB, ENOBFS, Pn_dB] = calc_dynam_params( 80e6, 16, 32768, 2, 1, 0.01, 1 )
     
     if (istrue(code==1.0)) {
-      if (istrue(numbit<16.0)) {
-        ADout = fix(ADout/mpower(2.0,(16.0-numbit)));
-      }
-      ADout = ADout/mpower(2.0,(numbit-1.0));
-      
+      //  if numbit < 16
+      //   ADout = fix( ADout / 2^( 16 - numbit ) );
+      //  end
+      //   ADout = ADout / 2^( numbit - 1 ); 
     } else
     if (istrue(code==2.0)) {
-      if (istrue(numbit<16.0)) {
-        ADout = fix(ADout/mpower(2.0,(16.0-numbit)));
-      }
-      ADout = ADout/mpower(2.0,(numbit-1.0))-1.0;
+      //  if numbit < 16
+      //   ADout = fix( ADout / 2^( 16 - numbit ) );
+      //  end  
+      //  ADout = ADout / 2^( numbit - 1 ) - 1;
     } else {
       
-      if (istrue(numbit<16.0)) {
-        ADout = fix(ADout/mpower(2.0,(16.0-numbit)));
-      }
+      //   if numbit < 16
+      //   ADout = fix( ADout / 2^( 16 - numbit ) );
+      //  end 
     }
     
-    ADout = V/2.0*ADout;
-    
+    // ADout = V/2 * ADout;  
     ad_len_N = length(ADout);
     
     maxADout = max(abs(ADout));
@@ -344,7 +342,7 @@
     // function exit code
     ADout.setname(NULL); fclk.setname(NULL); numbit.setname(NULL); NFFT.setname(NULL); V.setname(NULL); code.setname( \
       NULL); 
-    SNR__o=SNR; SINAD__o=SINAD; SFDR__o=SFDR; ENOB__o=ENOB; HD__o=HD; y__o=y; 
+    SNR__o=SNR; SINAD__o=SINAD; SFDR__o=SFDR; ENOB__o=ENOB; HD__o=HD; y__o=y; Vpp__o=Vpp; Vin__o=Vin; 
     return x_M;
     end_scope
   }
@@ -354,8 +352,9 @@
     begin_scope
     double old_nargin=nargin_val; nargin_val=6.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=1.0; nargout_set=1;
-    dMm(SNR__o); dMm(SINAD__o); dMm(SFDR__o); dMm(ENOB__o); dMm(HD__o); dMm(y__o); 
-    AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o);
+    dMm(SNR__o); dMm(SINAD__o); dMm(SFDR__o); dMm(ENOB__o); dMm(HD__o); dMm(y__o); dMm(Vpp__o); dMm(Vin__o); 
+    AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o, Vpp__o,  \
+      Vin__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return(SNR__o);
@@ -366,8 +365,9 @@
     begin_scope
     double old_nargin=nargin_val; nargin_val=6.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=2.0; nargout_set=1;
-    dMm(SFDR__o); dMm(ENOB__o); dMm(HD__o); dMm(y__o); 
-    AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o);
+    dMm(SFDR__o); dMm(ENOB__o); dMm(HD__o); dMm(y__o); dMm(Vpp__o); dMm(Vin__o); 
+    AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o, Vpp__o,  \
+      Vin__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
@@ -379,8 +379,9 @@
     begin_scope
     double old_nargin=nargin_val; nargin_val=6.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=3.0; nargout_set=1;
-    dMm(ENOB__o); dMm(HD__o); dMm(y__o); 
-    AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o);
+    dMm(ENOB__o); dMm(HD__o); dMm(y__o); dMm(Vpp__o); dMm(Vin__o); 
+    AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o, Vpp__o,  \
+      Vin__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
@@ -392,8 +393,9 @@
     begin_scope
     double old_nargin=nargin_val; nargin_val=6.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=4.0; nargout_set=1;
-    dMm(HD__o); dMm(y__o); 
-    AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o);
+    dMm(HD__o); dMm(y__o); dMm(Vpp__o); dMm(Vin__o); 
+    AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o, Vpp__o,  \
+      Vin__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
@@ -405,8 +407,37 @@
     begin_scope
     double old_nargin=nargin_val; nargin_val=6.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=5.0; nargout_set=1;
-    dMm(y__o); 
-    AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o);
+    dMm(y__o); dMm(Vpp__o); dMm(Vin__o); 
+    AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o, Vpp__o,  \
+      Vin__o);
+    nargout_val=old_nargout;
+    nargin_val=old_nargin;
+    return x_M;
+    end_scope
+  }
+  
+  Mm AdcDynTest(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm code, i_o_t, Mm& SNR__o, Mm& SINAD__o, Mm& SFDR__o, \
+     Mm& ENOB__o, Mm& HD__o, Mm& y__o) {
+    begin_scope
+    double old_nargin=nargin_val; nargin_val=6.0; nargin_set=1;
+    double old_nargout=nargout_val; nargout_val=6.0; nargout_set=1;
+    dMm(Vpp__o); dMm(Vin__o); 
+    AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o, Vpp__o,  \
+      Vin__o);
+    nargout_val=old_nargout;
+    nargin_val=old_nargin;
+    return x_M;
+    end_scope
+  }
+  
+  Mm AdcDynTest(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm code, i_o_t, Mm& SNR__o, Mm& SINAD__o, Mm& SFDR__o, \
+     Mm& ENOB__o, Mm& HD__o, Mm& y__o, Mm& Vpp__o) {
+    begin_scope
+    double old_nargin=nargin_val; nargin_val=6.0; nargin_set=1;
+    double old_nargout=nargout_val; nargout_val=7.0; nargout_set=1;
+    dMm(Vin__o); 
+    AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o, Vpp__o,  \
+      Vin__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;

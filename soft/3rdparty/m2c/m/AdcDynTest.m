@@ -1,4 +1,4 @@
-function [SNR, SINAD, SFDR, ENOB, HD, y] = AdcDynTest( ADout, fclk, numbit, NFFT, V, code )
+function [SNR, SINAD, SFDR, ENOB, HD, y, Vpp, Vin] = AdcDynTest( ADout, fclk, numbit, NFFT, V, code )
 % function [SNR, SFDR, SNRFS, SINAD, y, THD, HD, ENOB, ENOBFS, Pn_dB] = AdcDynTest( ADout, fclk, numbit, NFFT, V, code )
 % Pn_dB为底噪声，fclk为采样频率，numbit为采样精度，NFFT为FFT的深度，V为峰峰值，TPY和TPX分别为时域图的Y和X轴，code
 % 为1：补码，2：偏移码，3：格雷码。
@@ -6,22 +6,22 @@ function [SNR, SINAD, SFDR, ENOB, HD, y] = AdcDynTest( ADout, fclk, numbit, NFFT
 %[SNR, SFDR, SNRFS, SINAD, THD, HD, ENOB, ENOBFS, Pn_dB] = calc_dynam_params( 80e6, 16, 32768, 2, 1, 0.01, 1 )
 
 if code == 1
- if numbit < 16
-  ADout = fix( ADout / 2^( 16 - numbit ) );
- end
-  ADout = ADout / 2^( numbit - 1 ); 
+%  if numbit < 16
+%   ADout = fix( ADout / 2^( 16 - numbit ) );
+%  end
+%   ADout = ADout / 2^( numbit - 1 ); 
 elseif code == 2
- if numbit < 16
-  ADout = fix( ADout / 2^( 16 - numbit ) );
- end  
- ADout = ADout / 2^( numbit - 1 ) - 1;
+%  if numbit < 16
+%   ADout = fix( ADout / 2^( 16 - numbit ) );
+%  end  
+%  ADout = ADout / 2^( numbit - 1 ) - 1;
 else
-  if numbit < 16
-  ADout = fix( ADout / 2^( 16 - numbit ) );
- end 
+%   if numbit < 16
+%   ADout = fix( ADout / 2^( 16 - numbit ) );
+%  end 
 end
  
-ADout = V/2 * ADout;  
+% ADout = V/2 * ADout;  
 ad_len_N = length( ADout );
 
 maxADout = max( abs( ADout ) );
