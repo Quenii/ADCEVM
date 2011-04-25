@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-04-20
+-- Last update: 2011-04-24
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -21,31 +21,36 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
 
 entity top is
   
   port (
-    clk_80m              : in    std_logic;
+    clk_80m   : in    std_logic;
     -- System reset in
-    sys_rst_i            : in    std_logic;
+    sys_rst_i : in    std_logic;
     -- Power reset out, active low
-    UMR                  : out   std_logic;
+    UMR       : out   std_logic;
     -- 68013 port
     -- FX2 SLAV FIFO
-    FX_CLK_i             : in    std_logic;
-    FX2FD_io             : inout std_logic_vector (15 downto 0);  -- fifo data/q
-    FLAGA_i              : in    std_logic;  -- program strobe
-    FLAGB_i              : in    std_logic;  -- full
-    FLAGC_i              : in    std_logic;  -- empty
-    FLAGD_i              : in    std_logic;  -- not used
-    SLRD_n_o             : out   std_logic;  -- fifo_rd
-    SLWR_n_o             : out   std_logic;  -- fifo_wr
-    SL_OE_n_o            : out   std_logic;
-    PKTEND_o             : out   std_logic;  -- not used
-    FIFOADR_o            : out   std_logic_vector(1 downto 0);    -- fifo adr
+    FX_CLK_i  : in    std_logic;
+    FX2FD_io  : inout std_logic_vector (15 downto 0);  -- fifo data/q
+    FLAGA_i   : in    std_logic;                       -- program strobe
+    FLAGB_i   : in    std_logic;                       -- full
+    FLAGC_i   : in    std_logic;                       -- empty
+    FLAGD_i   : in    std_logic;                       -- not used
+    SLRD_n_o  : out   std_logic;                       -- fifo_rd
+    SLWR_n_o  : out   std_logic;                       -- fifo_wr
+    SL_OE_n_o : out   std_logic;
+    PKTEND_o  : out   std_logic;                       -- not used
+    FIFOADR_o : out   std_logic_vector(1 downto 0);    -- fifo adr
+
+    gpio_o : out std_logic_vector(3 downto 0);
+
     -- high ADC data port and SPI port
-    rx_in_i              : in    std_logic_vector(15 downto 0);
-    rx_inclock_i         : in    std_logic := '0';
+    rx_in_i      : in std_logic_vector(15 downto 0);
+    rx_inclock_i : in std_logic := '0';
+
     --
     KAD5514P_tm_o        : out   std_logic;
     KAD5514P_adc_rst_n_o : out   std_logic;
@@ -55,42 +60,45 @@ entity top is
     KAD5514P_i2c_sdo_o   : out   std_logic;
     KAD5514P_i2c_scl_o   : out   std_logic;
     KAD5514P_i2c_sda_o   : out   std_logic;
+
     -- TLC3548 SPI port
-    TLC3548_sck_o        : out   std_logic;
-    TLC3548_sdi_i        : in    std_logic;
-    TLC3548_sdo_o        : out   std_logic;
-    TLC3548_cs_n_o       : out   std_logic;
-    TLC3548_fs_o         : out   std_logic;
-    TLC3548_start_n_o    : out   std_logic;  -- do not use it, pull it up
-    TLC3548_eco          : in    std_logic;  -- not used yet
+    TLC3548_sck_o     : out std_logic;
+    TLC3548_sdi_i     : in  std_logic;
+    TLC3548_sdo_o     : out std_logic;
+    TLC3548_cs_n_o    : out std_logic;
+    TLC3548_fs_o      : out std_logic;
+    TLC3548_start_n_o : out std_logic;  -- do not use it, pull it up
+    TLC3548_eco       : in  std_logic;  -- not used yet
+
     -- LTC2656 SPI port and configuration port
-    LTC2656_sck_o        : out   std_logic;
-    LTC2656_sdi_i        : in    std_logic;
-    LTC2656_sdo_o        : out   std_logic;
-    LTC2656_clr_o        : out   std_logic;
-    LTC2656_pos_o        : out   std_logic;
-    LTC2656_ld_cs_n_o    : out   std_logic;
-    LTC2656_ldac_n_o     : out   std_logic;
+    LTC2656_sck_o     : out std_logic;
+    LTC2656_sdi_i     : in  std_logic;
+    LTC2656_sdo_o     : out std_logic;
+    LTC2656_clr_o     : out std_logic;
+    LTC2656_pos_o     : out std_logic;
+    LTC2656_ld_cs_n_o : out std_logic;
+    LTC2656_ldac_n_o  : out std_logic;
+
     -- SSRAM 0
-    ssram0_clk_o         : out   std_logic;
-    ssram0_ce_n_o        : out   std_logic;
-    ssram0_cke_n_o       : out   std_logic;
-    ssram0_adr_o         : out   std_logic_vector(18 downto 0);
-    ssram0_dq_io         : inout std_logic_vector(35 downto 0);
-    ssram0_adv_n_o       : out   std_logic;
-    ssram0_bw_n_o        : out   std_logic;
-    ssram0_we_n_o        : out   std_logic;
-    ssram0_oe_n_o        : out   std_logic;
+    ssram0_clk_o   : out   std_logic;
+    ssram0_ce_n_o  : out   std_logic;
+    ssram0_cke_n_o : out   std_logic;
+    ssram0_adr_o   : out   std_logic_vector(18 downto 0);
+    ssram0_dq_io   : inout std_logic_vector(35 downto 0);
+    ssram0_adv_n_o : out   std_logic;
+    ssram0_bw_n_o  : out   std_logic;
+    ssram0_we_n_o  : out   std_logic;
+    ssram0_oe_n_o  : out   std_logic;
     -- SSRAM 1
-    ssram1_clk_o         : out   std_logic;
-    ssram1_ce_n_o        : out   std_logic;
-    ssram1_cke_n_o       : out   std_logic;
-    ssram1_adr_o         : out   std_logic_vector(18 downto 0);
-    ssram1_dq_io         : inout std_logic_vector(35 downto 0);
-    ssram1_adv_n_o       : out   std_logic;
-    ssram1_bw_n_o        : out   std_logic;
-    ssram1_we_n_o        : out   std_logic;
-    ssram1_oe_n_o        : out   std_logic
+    ssram1_clk_o   : out   std_logic;
+    ssram1_ce_n_o  : out   std_logic;
+    ssram1_cke_n_o : out   std_logic;
+    ssram1_adr_o   : out   std_logic_vector(18 downto 0);
+    ssram1_dq_io   : inout std_logic_vector(35 downto 0);
+    ssram1_adv_n_o : out   std_logic;
+    ssram1_bw_n_o  : out   std_logic;
+    ssram1_we_n_o  : out   std_logic;
+    ssram1_oe_n_o  : out   std_logic
     );
 
 end top;
@@ -103,14 +111,33 @@ architecture behave of top is
   constant ADDR_3548      : std_logic_vector(15 downto 0) := x"0009";
   constant ADDR_2656_L    : std_logic_vector(15 downto 0) := x"0005";
   constant ADDR_2656_H    : std_logic_vector(15 downto 0) := x"0006";
+  constant ADDR_GPIO      : std_logic_vector(15 downto 0) := x"2000";
+  constant ADDR_WD      : std_logic_vector(15 downto 0) := x"2001";
 -- high ADC controller
+
+  signal LB_Ready_reset_ctr_i : std_logic;
+  signal LB_DataR_reset_ctr_i : std_logic_vector(15 downto 0);
+  signal reset_ctr_o          : std_logic_vector(15 downto 0);
+
+  signal LB_Ready_gpio : std_logic;
+  signal LB_DataR_gpio : std_logic_vector(15 downto 0);
+  signal ctrl_gpio     : std_logic_vector(15 downto 0);
+  signal updated_gpio  : std_logic;
+  signal sta_gpio      : std_logic_vector(15 downto 0);
+
+  signal LB_Ready_wd : std_logic;
+  signal LB_DataR_wd : std_logic_vector(15 downto 0);
+  signal ctrl_wd     : std_logic_vector(15 downto 0);
+  signal updated_wd  : std_logic;
+  signal sta_wd      : std_logic_vector(15 downto 0);
+
   component had_rec
     generic (
       IO_TYPE   : string;
       ADDR_LEN  : std_logic_vector(15 downto 0);
       ADDR_FIFO : std_logic_vector(15 downto 0));
     port (
-      sys_clk_i         : in  std_logic;
+      sys_clk_i     : in  std_logic;
       LB_Clk_i      : in  std_logic;
       LB_Reset_i    : in  std_logic;
       LB_Addr_i     : in  std_logic_vector(15 downto 0);
@@ -166,7 +193,6 @@ architecture behave of top is
   signal ssram0_bw_n  : std_logic;
   signal ssram0_we_n  : std_logic;
   signal ssram0_oe_n  : std_logic;
-
 
 -------------------------------------------------------------------------------
   -- local bus
@@ -256,10 +282,7 @@ architecture behave of top is
       sta_i      : in  std_logic_vector(15 downto 0));
   end component;
   --
-  signal LB_Ready_reset_ctr_i : std_logic;
-  signal LB_DataR_reset_ctr_i : std_logic_vector(15 downto 0);
-  signal reset_ctr_o          : std_logic_vector(15 downto 0);
-  signal ssram0_gw_n          : std_logic;
+  signal ssram0_gw_n : std_logic;
 -------------------------------------------------------------------------------
   component tlc3548
     generic (
@@ -344,8 +367,10 @@ begin  -- behave
   ssram_d_i(31 downto 0)  <= ssram0_dq_io(31 downto 0);
   ssram_d_i(63 downto 32) <= ssram1_dq_io(31 downto 0);
 
-  LB_Ready_i <= LB_Ready_had_i or LB_Ready_2656_i or LB_Ready_reset_ctr_i or LB_Ready_tlc3548_i;
-  LB_DataR_i <= LB_DataR_had_i or LB_DataR_2656_i or LB_DataR_reset_ctr_i or LB_DataR_tlc3548_i;
+  LB_Ready_i <= LB_Ready_had_i or LB_Ready_2656_i or LB_Ready_reset_ctr_i
+                or LB_Ready_tlc3548_i or LB_Ready_gpio or LB_Ready_wd;
+  LB_DataR_i <= LB_DataR_had_i or LB_DataR_2656_i or LB_DataR_reset_ctr_i
+                or LB_DataR_tlc3548_i or LB_DataR_gpio or LB_DataR_wd;
 
 -------------------------------------------------------------------------------
   -- high ADC data buffer
@@ -356,7 +381,7 @@ begin  -- behave
       ADDR_FIFO => ADDR_FIFO
       )
     port map (
-      sys_clk_i         => clk_80m,
+      sys_clk_i     => clk_80m,
       -- lb
       LB_Clk_i      => LB_Clk_i,
       LB_Reset_i    => reset_ctr_o(0),
@@ -380,34 +405,6 @@ begin  -- behave
       i2c_sdo_o     => KAD5514P_i2c_sdo_o ,
       i2c_scl_o     => KAD5514P_i2c_scl_o,
       i2c_sda_o     => KAD5514P_i2c_sda_o,
-      -- SSRAM0
---      ssram_dout_o     => ssram_dout,
---      ssram_din_i      => ssram_din,
---      --
---      ssram0_adr_o     => ssram0_adr,
---      ssram0_dout_en_o => open,
---      ssram0_adv_n_o   => ssram0_adv_n,
---      ssram0_adsp_n_o  => open,
---      ssram0_adsc_n_o  => open,
---      ssram0_gw_n_o    => ssram0_gw_n,
---      ssram0_clk_o     => ssram0_clk,
---      ssram0_ce_n_o    => ssram0_ce_n,
---      ssram0_ce2_n_o   => open,
---      ssram0_ce2_o     => open,
---      ssram0_bwa_n_o   => open,
---      ssram0_bwb_n_o   => open,
---      ssram0_bwc_n_o   => open,
---      ssram0_bwd_n_o   => open,
---      ssram0_bwe_n_o   => open,
---      ssram0_oe_n_o    => ssram0_oe_n,
---      ssram0_zz_o      => open,
---      ssram0_mode_o    => open,
---      -- SSRAM1
---      ssram1_bwa_n_o   => open,
---      ssram1_bwb_n_o   => open,
---      ssram1_bwc_n_o   => open,
---      ssram1_bwd_n_o   => open
---      );
       ssram_clk_o   => ssram0_clk,
       ssram_ce1_n_o => ssram0_ce_n,
       ssram_ce2_n_o => open,
@@ -510,4 +507,66 @@ begin  -- behave
       ctrl_o     => reset_ctr_o,
       sta_i      => x"0000");
 
+  lb_target_reg_1 : lb_target_reg
+    generic map (
+      ADDR => ADDR_GPIO)
+    port map (
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => '0',
+      LB_Addr_i  => LB_Addr_o,
+      LB_Write_i => LB_Write_o,
+      LB_Read_i  => LB_Read_o,
+      LB_Ready_o => LB_Ready_gpio,
+      LB_DataW_i => LB_DataW_o,
+      LB_DataR_o => LB_DataR_gpio,
+      updated_o  => updated_gpio,
+      ctrl_o     => ctrl_gpio,
+      sta_i      => sta_gpio);
+
+  GEN_GPIO : for i in 0 to 3 generate
+    process (LB_Clk_i)
+    begin
+      if rising_edge(LB_Clk_i) then
+        if updated_gpio = '1' then
+          case ctrl_gpio(i*2+1 downto i*2) is
+            when "00" =>
+              gpio_o(i) <= '0';
+            when "01" =>
+              gpio_o(i) <= '1';
+            when "10" =>
+              gpio_o(i) <= 'Z';
+            when others =>
+              gpio_o(i) <= 'Z';
+          end case;
+        end if;
+      end if;
+    end process;
+  end generate GEN_GPIO;
+
+  lb_target_reg_2: lb_target_reg
+    generic map (
+      ADDR => ADDR_WD)
+    port map (
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => '0',
+      LB_Addr_i  => LB_Addr_o,
+      LB_Write_i => LB_Write_o,
+      LB_Read_i  => LB_Read_o,
+      LB_Ready_o => LB_Ready_wd,
+      LB_DataW_i => LB_DataW_o,
+      LB_DataR_o => LB_DataR_wd,
+      updated_o  => updated_wd,
+      ctrl_o     => ctrl_wd,
+      sta_i      => sta_wd);
+
+  process (rx_inclock_i)
+  begin  -- process
+    if reset_ctr_o(3) = '1' then
+      sta_wd <= (others => '0');
+    elsif rising_edge(rx_inclock_i) then
+      if updated_wd = '1' then
+        sta_wd <= sta_wd + 1;
+      end if;
+    end if;
+  end process;
 end behave;
