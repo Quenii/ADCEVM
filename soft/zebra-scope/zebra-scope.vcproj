@@ -251,7 +251,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL  &quot;-I.&quot; &quot;-I.\..&quot; &quot;-I.\..\include&quot; &quot;-I$(QTDIR)\..\qt-solutions\qtsingleapplication&quot; &quot;-I$(QTDIR)\..\qt-solutions\qtsingleapplication\src&quot; &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-IC:\Program Files\MATLAB\R2008a\extern\include&quot; &quot;-ID:\Matlab\R2008a\extern\include&quot; &quot;.\AdcBoard.hpp&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL  -I&quot;.&quot; -I&quot;.\..&quot; -I&quot;.\..\include&quot; -I&quot;$(QTDIR)\..\qt-solutions\qtsingleapplication&quot; -I&quot;$(QTDIR)\..\qt-solutions\qtsingleapplication\src&quot; -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;C:\Program Files\MATLAB\R2008a\extern\include&quot; -I&quot;D:\Matlab\R2008a\extern\include&quot; &quot;.\AdcBoard.hpp&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
