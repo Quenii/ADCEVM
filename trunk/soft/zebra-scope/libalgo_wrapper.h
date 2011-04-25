@@ -10,5 +10,5 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 
 
 #ifdef MATCOM
-void calc_dynam_params(std::vector<unsigned short> samples, int bitCount, FreqDomainReport& param, float vpp);
+void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainReport& param, float vpp);
 #endif

@@ -402,7 +402,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	calc_dynam_params(tdReport.samples, 16, fdReport);
 
 #elif defined(MATCOM) 
-	calc_dynam_params(tdReport.rawSamples, m_adcSettings.bitcount, fdReport, m_adcSettings.vpp);
+	calc_dynam_params(tdReport.samples, m_adcSettings.bitcount, fdReport, m_adcSettings.vpp);
 	
 
 #else

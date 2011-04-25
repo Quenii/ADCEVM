@@ -56,9 +56,9 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 
 #ifdef MATCOM
 
-#include "../m2cpp/m2c.h"
+#include "./3rdparty/m2c/c/include/m2c.h"
 
-void calc_dynam_params(std::vector<unsigned short> samples, int bitCount, FreqDomainReport& param, float vpp)
+void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainReport& param, float vpp)
 {
 	//mwArray mwSamples(1, samples.size(), mxDOUBLE_CLASS);
 	//mwSamples.SetData(&samples[0], samples.size());
@@ -88,7 +88,7 @@ void calc_dynam_params(std::vector<unsigned short> samples, int bitCount, FreqDo
 	//	double* cHD, double* cy);
 	AdcDynTest(&input[0], input.size(), 80e6, bitCount, input.size(), 2*vpp, 1,
 		SNR, SINAD, SFDR, ENOB, 
-		&HD[0], &Spectrum[0]);
+		&HD[0], &Spectrum[0], A, AdB);
 
 	if (param.Spectrum.size() != Spectrum.size())
 	{
@@ -112,6 +112,8 @@ void calc_dynam_params(std::vector<unsigned short> samples, int bitCount, FreqDo
 	param.SNR = SNR;
 	param.SINAD = SINAD;
 	param.SFDR = SFDR;
+	param.A = A;
+	param.AdB = AdB;
 
 }
 

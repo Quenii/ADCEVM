@@ -95,7 +95,7 @@ void AlgDynTest(double* cdata1, int cdata1_cnt,
 
 void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
 				double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o,
-				double* cHD, double* cy)
+				double* cHD, double* cy, double& cVpp__o, double& cVin__o)
 {
 	SingleLock lock(&cs);
 	
@@ -111,13 +111,17 @@ void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, doub
 	Mm ENOB__o;
 	Mm HD__o;
 	Mm y__o;
+	Mm Vpp__o;
+	Mm Vin__o;
 	
-	AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o);
+	AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o, Vpp__o, Vin__o);
 
 	cSNR__o = SNR__o.r(1, 1); 
 	cSINAD__o = SINAD__o.r(1, 1);
 	cSFDR__o = SFDR__o.r(1, 1); 
 	cENOB__o = ENOB__o.r(1, 1);
+	cVpp__o = Vpp__o.r(1, 1);
+	cVin__o = Vin__o.r(1, 1);
 
 	memcpy(cy, y__o.addr(), cdata_cnt * sizeof(*cy));
 	memcpy(cHD, HD__o.addr(), 10 * sizeof(*cHD));
