@@ -138,7 +138,7 @@ begin  -- archi
 
   rd_en_ffd : dff_en_r_pline
     generic map (
-      Pipeline => 2)  
+      Pipeline => 1)  
     port map (
       CK     => clk_i,
       Clear  => rst_i,
