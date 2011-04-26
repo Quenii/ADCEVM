@@ -205,6 +205,8 @@ void ControlPanel::on_pushButtonStartStaticTest_clicked()
 	ui.pushButtonStartStaticTest->setEnabled(false);
 	ui.pushButtonStopStaticTest->setEnabled(true);		
 	ui.dynamicTestButtons->setEnabled(false);
+	AdcBoard::instance()->staticTest();
+
 }
 
 void ControlPanel::on_pushButtonStopStaticTest_clicked()
@@ -212,6 +214,7 @@ void ControlPanel::on_pushButtonStopStaticTest_clicked()
 	ui.pushButtonStopStaticTest->setEnabled(false);	
 	ui.pushButtonStartStaticTest->setEnabled(true);
 	ui.dynamicTestButtons->setEnabled(true);
+
 }
 
 void ControlPanel::setUiPowerStatus(const PowerStatus& status)
