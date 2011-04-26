@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-16
--- Last update: 2011-04-20
+-- Last update: 2011-04-26
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -251,7 +251,7 @@ begin  -- behave
     if LB_Reset_i = '1' then            -- asynchronous reset (active low)
       test <= (others => '0');
     elsif rx_inclock_i'event and rx_inclock_i = '1' then  -- rising clock edge
-      test <= test + x"10";
+      test <= test + x"1";
     end if;
   end process;
 
@@ -262,7 +262,7 @@ begin  -- behave
       rst_i      => LB_Reset_i,
       clk_i      => rx_inclock_i,
       enable_i   => buf_task_start_r,
-      data_i     => rx_in_i,
+      data_i     => test, -- rx_in_i,
       rd_clk_i   => sys_clk,
       rd_req_i   => rd_req_i,
       rd_q_o     => rd_q_o,
