@@ -8,6 +8,8 @@
 #include <QList>
 #include <QTimer>
 #include <QSettings>
+#include <QApplication>
+#include <QDir>
 
 #include "AdcBoard.hpp"
 #include "CyAPI.h"
@@ -97,15 +99,6 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	QZebraScopeSettings settings;
 	settings.adcSettings(m_adcSettings);
 	settings.signalSettings(m_signalSettings);
-
-	//writeReg(0x3000, 3);
-	//writeReg(0x3001, 3);
-	//writeReg(0x3002, 37);
-	//writeReg(0x3003, 3);
-
-	//writeReg(0x10, 37);
-	//unsigned short t;
-	//okay = readReg(0x10, t);
 
 	setAdcSettings(m_adcSettings);
 	setSignalSettings(m_signalSettings);
@@ -329,15 +322,15 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		unsigned short* p = &buff[0];
 		bool okay = read(0x1005, &buff[0], buffer_cnt);
 		Q_ASSERT(okay);
+		okay = read(0x1005, &buff[0], buffer_cnt);
+		Q_ASSERT(okay);
 		//okay = read(0x1005, &buff[0], buffer_cnt);
 		//Q_ASSERT(okay);
-		//okay = read(0x1005, &buff[0], buffer_cnt);
-		//Q_ASSERT(okay);
-		for (int t=0; t<30; ++t)
-		{
-			okay = read(0x1005, &buff[0], buffer_cnt);
-			Q_ASSERT(okay);
-		}
+		//for (int t=0; t<30; ++t)
+		//{
+		//	okay = read(0x1005, &buff[0], buffer_cnt);
+		//	Q_ASSERT(okay);
+		//}
 		if (tdReport.rawSamples.size() != buff.size())
 		{
 			tdReport.rawSamples.resize(buff.size());
@@ -560,5 +553,34 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 
 	powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
 
+}
 
+void AdcBoard::staticTest()
+{
+
+	QString fileName = QDir( QApplication::applicationDirPath() ).filePath("file.dat");
+	QFile file( fileName );
+	file.open(QIODevice::WriteOnly);
+	QDataStream out(&file);   // we will serialize the data into the file
+
+	if (buff.size() < buffer_cnt)
+		buff.resize(buffer_cnt);
+	writeReg(0xFFFF, 0x0001);  //reset
+	writeReg(0xFFFF, 0x0000);  //dereset
+	writeReg(0x1004, 0xFFFF);  //fill the fifo
+
+	Sleep(200);	
+
+	unsigned short* p = &buff[0];
+	bool okay = false;
+
+	for (int t=0; t<32; ++t)
+	{
+		okay = read(0x1005, &buff[0], buffer_cnt);
+		Q_ASSERT(okay);
+
+		out.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
+
+	}
+	
 }

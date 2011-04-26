@@ -57,6 +57,7 @@ public:
 
 	void setDynamicOn(bool on = true);
 	bool isRunning();
+	void staticTest();
 	const AdcBoardReport& reportRef() { return report; }
 	bool clocked();
 
