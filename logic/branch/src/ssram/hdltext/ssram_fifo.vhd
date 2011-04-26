@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-04-19
--- Last update: 2011-04-20
+-- Last update: 2011-04-26
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -138,7 +138,7 @@ begin  -- archi
 
   rd_en_ffd : dff_en_r_pline
     generic map (
-      Pipeline => 1) 
+      Pipeline => 2)  
     port map (
       CK     => clk_i,
       Clear  => rst_i,

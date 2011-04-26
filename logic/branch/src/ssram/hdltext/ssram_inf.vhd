@@ -6,7 +6,7 @@
 -- Author     :   <Liu Peng@GKHY-LIUPENG>
 -- Company    : 
 -- Created    : 2011-04-19
--- Last update: 2011-04-20
+-- Last update: 2011-04-26
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ architecture archi of ssram_inf is
 
   signal we_en, rd_en         : std_logic;
   signal we, rd, we_r2, rd_r2 : std_logic;
-  signal d_r2, ssram_din_r2   : std_logic_vector(DATA_WIDTH - 1 downto 0);
+  signal d_r2                 : std_logic_vector(DATA_WIDTH - 1 downto 0);
 
   signal ce : std_logic;
 
@@ -105,7 +105,7 @@ begin  -- archi
   ssram_ce2_o   <= ce;
 
   ssram_d_o    <= d_r2;
-  ssram_oe_n_o <= '0' when rd_r2 = '1' else '0';
+  ssram_oe_n_o <= '0' when rd_r2 = '1' else '1';
   ssram_d_t_o  <= '1' when we_r2 = '1' else '0';
   ssram_adv_o  <= '0';
 
@@ -118,7 +118,6 @@ begin  -- archi
   ssram_bw_n_o <= not we;
 
   q_o <= ssram_d_i;
-
 
   -----------------------------------------------------------------------------
 
@@ -157,15 +156,15 @@ begin  -- archi
       Enable => '1',
       Q      => d_r2);  
 
-  ssram_din_r2_ffd : dff_en_r_pline_w
-    generic map (
-      Pipeline => 1)
-    port map (
-      Clk    => clk_i,
-      Clear  => rst_i,
-      D      => ssram_d_i,
-      Enable => '1',
-      Q      => ssram_din_r2);  
+--  ssram_din_r2_ffd : dff_en_r_pline_w
+--    generic map (
+--      Pipeline => 1)
+--    port map (
+--      Clk    => clk_i,
+--      Clear  => rst_i,
+--      D      => ssram_d_i,
+--      Enable => '1',
+--      Q      => ssram_din_r2);  
 
 
 end archi;
