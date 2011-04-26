@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-04-19
--- Last update: 2011-04-19
+-- Last update: 2011-04-26
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -67,10 +67,14 @@ begin  -- arcdhi
     elsif rising_edge(clk_i) then
       case state is
         when s_idle =>
-          state        <= s_reset_fifo;
-          rd_i         <= '0';
-          wr_i         <= '0';
-          reset_fifo_o <= '1';
+          if cnt > 0 then
+            cnt <= cnt - 1;
+          else
+            state        <= s_reset_fifo;
+            rd_i         <= '0';
+            wr_i         <= '0';
+            reset_fifo_o <= '1';            
+          end if;
 
 
         when s_reset_fifo =>
@@ -93,7 +97,7 @@ begin  -- arcdhi
         when s_read =>
           if cnt = DEPTH - 1 then
             state <= s_idle;
-            cnt   <= 0;
+            cnt   <= 10;
             rd_i  <= '0';
             wr_i  <= '0';
           else
