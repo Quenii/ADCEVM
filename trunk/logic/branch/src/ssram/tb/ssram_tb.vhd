@@ -6,7 +6,7 @@
 -- Author     :   <Liu Peng@GKHY-LIUPENG>
 -- Company    : 
 -- Created    : 2011-04-19
--- Last update: 2011-04-19
+-- Last update: 2011-04-26
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ entity ssram_tb is
     ADDR_WIDTH : integer := 19);
   port(
     clk_i : in std_logic;
-    rst_i : in std_logic;
+--    rst_i : in std_logic;
 
     -- SSRAM 0
     ssram0_clk_o   : out std_logic;
@@ -43,7 +43,6 @@ entity ssram_tb is
     ssram0_bw_n_o : out   std_logic;
     ssram0_addr_o : out   std_logic_vector(ADDR_WIDTH - 1 downto 0);
     ssram0_dq_io  : inout std_logic_vector(DATA_WIDTH - 1 downto 0);
-    dq_io         : inout std_logic_vector(DATA_WIDTH - 1 downto 0);
     ssram0_adv_o  : out   std_logic;
 
     ssram0_zz_o   : out std_logic;
@@ -84,10 +83,13 @@ architecture archi of ssram_tb is
       ssram_ce2_o   : out std_logic;
       ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
       ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
-      ssram_oe_n_o  : out std_logic;
       ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+      ssram_d_t_o   : out std_logic;
       ssram_adv_o   : out std_logic;
       ssram_we_n_o  : out std_logic;
+      ssram_bw_n_o  : out std_logic;
+      ssram_oe_n_o  : out std_logic;
+      ssram_cke_n_o : out std_logic;
       ssram_zz_o    : out std_logic;
       ssram_mode_o  : out std_logic);
   end component;
@@ -105,21 +107,9 @@ architecture archi of ssram_tb is
   signal d    : std_logic_vector(DATA_WIDTH - 1 downto 0);
   signal q    : std_logic_vector(DATA_WIDTH - 1 downto 0);
 
-  signal ssram_clk_o   : std_logic;
-  signal ssram_ce1_n_o : std_logic;
-  signal ssram_ce2_n_o : std_logic;
-  signal ssram_ce2_o   : std_logic;
-  signal ssram_addr_o  : std_logic_vector(ADDR_WIDTH - 1 downto 0);
-  signal ssram_d_i     : std_logic_vector(DATA_WIDTH - 1 downto 0);
-  signal ssram_oe_n_o  : std_logic;
-  signal ssram_we_n_o  : std_logic;
-  signal ssram_d_o     : std_logic_vector(DATA_WIDTH - 1 downto 0);
-  signal ssram_adv_o   : std_logic;
-  signal ssram_zz_o    : std_logic;
-  signal ssram_mode_o  : std_logic;
-
---  signal clk_i : std_logic := '1';
---  signal rst_i : std_logic := '1';
+  signal ssram_d_i   : std_logic_vector(DATA_WIDTH - 1 downto 0);
+  signal ssram_d_o   : std_logic_vector(DATA_WIDTH - 1 downto 0);
+  signal ssram_d_t_o : std_logic;
 
   signal rst_cnt : integer range 0 to 1000;
   signal rst     : std_logic := '1';
@@ -138,10 +128,6 @@ begin  -- archi
       end if;
     end if;
   end process;
-
---  clk_i <= not clk_i after 500 ps;
-
---  rst_i <= '1' after 0 ns, '0' after 10 ns;
 
   ssram_tester_1 : ssram_tester
     generic map (
@@ -173,29 +159,19 @@ begin  -- archi
       ssram_ce2_o   => ssram0_ce2_o,
       ssram_addr_o  => ssram0_addr_o,
       ssram_d_i     => ssram_d_i,
-      ssram_oe_n_o  => ssram_oe_n_o,
       ssram_d_o     => ssram_d_o,
-      ssram_we_n_o  => ssram_we_n_o,
+      ssram_d_t_o   => ssram_d_t_o,
       ssram_adv_o   => ssram0_adv_o,
+      ssram_we_n_o  => ssram0_we_n_o,
+      ssram_bw_n_o  => ssram0_bw_n_o,
+      ssram_oe_n_o  => ssram0_oe_n_o,
+      ssram_cke_n_o => ssram0_cke_n_o,
       ssram_zz_o    => ssram0_zz_o,
       ssram_mode_o  => ssram0_mode_o);
 
---  ssram0_oe_n_o <= '1';                 --ssram_oe_n_o;
-  ssram0_oe_n_o <= ssram_oe_n_o;
-
-  ssram0_we_n_o  <= ssram_we_n_o;
-  ssram0_bw_n_o  <= ssram_we_n_o;
-  ssram0_cke_n_o <= '0';
-
-  -- Instantiating TRI
-
   for_gen : for i in ssram_d_o'length - 1 downto 0 generate
-    ssram0_dq_io(i) <= ssram_d_o(i) when ssram_oe_n_o = '1' else 'Z';
+    ssram0_dq_io(i) <= ssram_d_o(i) when ssram_d_t_o = '1' else 'Z';
     ssram_d_i(i)    <= ssram0_dq_io(i);
-
-    --    ssram0_dq_io(i) <= 'Z';
---     dq_io(i) <= ssram_d_o(i) when ssram_oe_n_o = '1' else 'Z';
---     ssram_d_i(i) <= dq_io(i);
   end generate;
   
   
