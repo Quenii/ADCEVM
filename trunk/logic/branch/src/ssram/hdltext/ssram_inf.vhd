@@ -98,7 +98,8 @@ architecture archi of ssram_inf is
 
 begin  -- archi
 
-  ssram_clk_o   <= not clk_i;
+  ssram_clk_o <= clk_i;
+
   ssram_cke_n_o <= '0';
   ssram_ce1_n_o <= not ce;
   ssram_ce2_n_o <= not ce;
