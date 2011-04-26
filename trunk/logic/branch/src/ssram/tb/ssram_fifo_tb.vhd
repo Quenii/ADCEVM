@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-04-19
--- Last update: 2011-04-19
+-- Last update: 2011-04-26
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -121,6 +121,7 @@ architecture impl of ssram_fifo_tb is
   signal reset_fifo_o : std_logic;
 
   signal rst_i : std_logic := '0';
+  
 begin  -- impl
 
   rst_i <= '0';
