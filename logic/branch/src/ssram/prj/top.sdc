@@ -39,10 +39,24 @@ create_clock -period "8.000 ns" \
 
 # ** Input/Output Delays
 #    -------------------
+set_input_delay -clock { clk_i } -min 0 [get_ports {ssram0_dq_io*}]
+set_input_delay -clock { clk_i } -max 3 [get_ports {ssram0_dq_io*}]
 
 
+set_output_delay -clock { clk_i } -min -0.4 [get_ports {ssram0_dq_io*}]
+set_output_delay -clock { clk_i } -max 1.4 [get_ports {ssram0_dq_io*}]
 
+set_output_delay -clock { clk_i } -min -0.4 [get_ports {ssram0_addr_o*}]
+set_output_delay -clock { clk_i } -max 1.4 [get_ports {ssram0_addr_o*}]
 
+set_output_delay -clock { clk_i } -min -0.4 [get_ports {ssram0_we*}]
+set_output_delay -clock { clk_i } -max 1.4 [get_ports {ssram0_we*}]
+set_output_delay -clock { clk_i } -min -0.4 [get_ports {ssram0_oe*}]
+set_output_delay -clock { clk_i } -max 1.4 [get_ports {ssram0_oe*}]
+set_output_delay -clock { clk_i } -min -0.4 [get_ports {ssram0_ce*}]
+set_output_delay -clock { clk_i } -max 1.4 [get_ports {ssram0_ce*}]
+set_output_delay -clock { clk_i } -min -0.4 [get_ports {ssram0_cke*}]
+set_output_delay -clock { clk_i } -max 1.4 [get_ports {ssram0_cke*}]
 # ** Tpd requirements
 #    ----------------
 

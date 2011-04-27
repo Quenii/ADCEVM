@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-04-19
--- Last update: 2011-04-26
+-- Last update: 2011-04-27
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -103,6 +103,15 @@ architecture impl of ssram_fifo_tb is
       ssram_mode_o  : out std_logic);
   end component;
 
+  component dcm45
+    port (
+      areset : in  std_logic := '0';
+      inclk0 : in  std_logic := '0';
+      c0     : out std_logic;
+      c1     : out std_logic;
+      locked : out std_logic); 
+  end component;
+
   signal count_o : integer range 2**ADDR_WIDTH downto 0;
   signal empty_o : std_logic;
   signal full_o  : std_logic;
@@ -121,16 +130,27 @@ architecture impl of ssram_fifo_tb is
   signal reset_fifo_o : std_logic;
 
   signal rst_i : std_logic := '0';
+
+  signal clk : std_logic;
+  signal locked : std_logic;
   
 begin  -- impl
 
-  rst_i <= '0';
+  dcm45_1: dcm45
+    port map (
+      areset => '0',
+      inclk0 => clk_i,
+      c0     => open,
+      c1     => clk,
+      locked => locked);
+
+  rst_i <= not locked;
   ssram_fifo_tester_1 : ssram_fifo_tester
     generic map (
       DATA_WIDTH => DATA_WIDTH,
       ADDR_WIDTH => ADDR_WIDTH)
     port map (
-      clk_i        => clk_i,
+      clk_i        => clk,
       rst_i        => rst_i,
       reset_fifo_o => reset_fifo_o,
       count_o      => count_o,
@@ -147,7 +167,7 @@ begin  -- impl
       DATA_WIDTH => DATA_WIDTH,
       ADDR_WIDTH => ADDR_WIDTH)
     port map (
-      clk_i         => clk_i,
+      clk_i         => clk,
       rst_i         => reset_fifo_o,
       count_o       => count_o,
       empty_o       => empty_o,
