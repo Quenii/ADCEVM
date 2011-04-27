@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-04-24
+-- Last update: 2011-04-27
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ architecture behave of top is
   constant ADDR_2656_L    : std_logic_vector(15 downto 0) := x"0005";
   constant ADDR_2656_H    : std_logic_vector(15 downto 0) := x"0006";
   constant ADDR_GPIO      : std_logic_vector(15 downto 0) := x"2000";
-  constant ADDR_WD      : std_logic_vector(15 downto 0) := x"2001";
+  constant ADDR_WD        : std_logic_vector(15 downto 0) := x"2001";
 -- high ADC controller
 
   signal LB_Ready_reset_ctr_i : std_logic;
@@ -314,7 +314,19 @@ architecture behave of top is
       inclk0 : in  std_logic := '0';
       c0     : out std_logic);
   end component;
-  
+
+  component dcm45
+    port (
+      areset : in  std_logic := '0';
+      inclk0 : in  std_logic := '0';
+      c0     : out std_logic;
+      c1     : out std_logic;
+      locked : out std_logic);
+  end component;
+
+  signal sys_clk : std_logic;
+  signal sys_rst : std_logic;
+  signal locked  : std_logic;
 begin  -- behave
   
   dcm_user_1 : dcm_user
@@ -322,6 +334,16 @@ begin  -- behave
       areset => '0',
       inclk0 => FX_CLK_i,
       c0     => LB_Clk_i);
+
+  dcm45_ssram : dcm45
+    port map (
+      areset => '0',
+      inclk0 => clk_80m,
+      c0     => open,
+      c1     => sys_clk,
+      locked => locked);
+
+  sys_rst        <= not locked;
 -------------------------------------------------------------------------------
   -- 68013 port
   FX2FD_io       <= fifo_dout_o when fifo_adr_o(1) = '1' else (others => 'Z');
@@ -381,7 +403,7 @@ begin  -- behave
       ADDR_FIFO => ADDR_FIFO
       )
     port map (
-      sys_clk_i     => clk_80m,
+      sys_clk_i     => sys_clk,
       -- lb
       LB_Clk_i      => LB_Clk_i,
       LB_Reset_i    => reset_ctr_o(0),
@@ -430,7 +452,7 @@ begin  -- behave
       FIFO_WR_PORT => "10",
       FIFO_RD_PORT => "00")
     port map (
-      sys_rst_i      => '0',            --sys_rst_i,
+      sys_rst_i      => sys_rst,        --sys_rst_i,
       LB_Clk_i       => LB_Clk_i,
       LB_Addr_o      => LB_Addr_o,
       LB_Write_o     => LB_Write_o,
@@ -496,7 +518,7 @@ begin  -- behave
       ADDR => ADDR_RESET_REG)
     port map (
       LB_Clk_i   => LB_Clk_i,
-      LB_Reset_i => '0',
+      LB_Reset_i => sys_rst,
       LB_Addr_i  => LB_Addr_o,
       LB_Write_i => LB_Write_o,
       LB_Read_i  => LB_Read_o,
@@ -512,7 +534,7 @@ begin  -- behave
       ADDR => ADDR_GPIO)
     port map (
       LB_Clk_i   => LB_Clk_i,
-      LB_Reset_i => '0',
+      LB_Reset_i => sys_rst,
       LB_Addr_i  => LB_Addr_o,
       LB_Write_i => LB_Write_o,
       LB_Read_i  => LB_Read_o,
@@ -543,12 +565,12 @@ begin  -- behave
     end process;
   end generate GEN_GPIO;
 
-  lb_target_reg_2: lb_target_reg
+  lb_target_reg_2 : lb_target_reg
     generic map (
       ADDR => ADDR_WD)
     port map (
       LB_Clk_i   => LB_Clk_i,
-      LB_Reset_i => '0',
+      LB_Reset_i => sys_rst,
       LB_Addr_i  => LB_Addr_o,
       LB_Write_i => LB_Write_o,
       LB_Read_i  => LB_Read_o,
@@ -569,4 +591,5 @@ begin  -- behave
       end if;
     end if;
   end process;
+
 end behave;
