@@ -58,8 +58,8 @@ set_input_delay -clock { clk_80m } -max 3 [get_ports {ssram0_dq_io*}]
 set_output_delay -clock { clk_80m } -min -0.4 [get_ports {ssram0_dq_io*}]
 set_output_delay -clock { clk_80m } -max 1.4 [get_ports {ssram0_dq_io*}]
 
-set_output_delay -clock { clk_80m } -min -0.4 [get_ports {ssram0_addr_o*}]
-set_output_delay -clock { clk_80m } -max 1.4 [get_ports {ssram0_addr_o*}]
+set_output_delay -clock { clk_80m } -min -0.4 [get_ports {ssram0_adr_o*}]
+set_output_delay -clock { clk_80m } -max 1.4 [get_ports {ssram0_adr_o*}]
 
 set_output_delay -clock { clk_80m } -min -0.4 [get_ports {ssram0_we*}]
 set_output_delay -clock { clk_80m } -max 1.4 [get_ports {ssram0_we*}]
@@ -77,8 +77,8 @@ set_input_delay -clock { clk_80m } -max 3 [get_ports {ssram1_dq_io*}]
 set_output_delay -clock { clk_80m } -min -0.4 [get_ports {ssram1_dq_io*}]
 set_output_delay -clock { clk_80m } -max 1.4 [get_ports {ssram1_dq_io*}]
 
-set_output_delay -clock { clk_80m } -min -0.4 [get_ports {ssram1_addr_o*}]
-set_output_delay -clock { clk_80m } -max 1.4 [get_ports {ssram1_addr_o*}]
+set_output_delay -clock { clk_80m } -min -0.4 [get_ports {ssram1_adr_o*}]
+set_output_delay -clock { clk_80m } -max 1.4 [get_ports {ssram1_adr_o*}]
 
 set_output_delay -clock { clk_80m } -min -0.4 [get_ports {ssram1_we*}]
 set_output_delay -clock { clk_80m } -max 1.4 [get_ports {ssram1_we*}]
@@ -118,7 +118,7 @@ set_clock_groups -asynchronous \
                        rx_inclock_i \
                         } \
                  -group { \
-                       had_rec:had_rec_2|dcm45:dcm45_1|altpll:altpll_component|_clk1 \
+                       dcm45:dcm45_ssram|altpll:altpll_component|_clk1 \
                        clk_80m \
                         } \
                  -group { \
