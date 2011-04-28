@@ -20,7 +20,6 @@ derive_pll_clocks -use_tan_name
 #
 # ------------------------------------------
 
-
 # Original Clock Setting Name: lvds_i:lvds_i_1|rx_inclock
 create_clock -period "3.333 ns" \
              -name {rx_inclock_i} {rx_inclock_i}
@@ -34,9 +33,9 @@ create_clock -period "25.000 ns" \
 
 
 # Original Clock Setting Name: clk_80m
-create_clock -period "7.000 ns" \
+create_clock -period "8.000 ns" \
              -name {clk_80m} {clk_80m}
-# ---------------------------------------------
+
 
 # ** Clock Latency
 #    -------------
