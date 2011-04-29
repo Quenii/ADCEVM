@@ -154,13 +154,13 @@ BEGIN
 	altpll_component : altpll
 	GENERIC MAP (
 		bandwidth_type => "AUTO",
-		clk0_divide_by => 1,
+		clk0_divide_by => 5,
 		clk0_duty_cycle => 50,
-		clk0_multiply_by => 1,
-		clk0_phase_shift => "6000",
-		clk1_divide_by => 1,
+		clk0_multiply_by => 4,
+		clk0_phase_shift => "5000",
+		clk1_divide_by => 5,
 		clk1_duty_cycle => 50,
-		clk1_multiply_by => 1,
+		clk1_multiply_by => 4,
 		clk1_phase_shift => "0",
 		compensate_clock => "CLK0",
 		gate_lock_signal => "NO",
@@ -281,13 +281,13 @@ END SYN;
 -- Retrieval info: PRIVATE: NORMAL_MODE_RADIO STRING "1"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ0 STRING "100.00000000"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ1 STRING "100.00000000"
--- Retrieval info: PRIVATE: OUTPUT_FREQ_MODE0 STRING "0"
--- Retrieval info: PRIVATE: OUTPUT_FREQ_MODE1 STRING "0"
+-- Retrieval info: PRIVATE: OUTPUT_FREQ_MODE0 STRING "1"
+-- Retrieval info: PRIVATE: OUTPUT_FREQ_MODE1 STRING "1"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ_UNIT0 STRING "MHz"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ_UNIT1 STRING "MHz"
 -- Retrieval info: PRIVATE: PHASE_RECONFIG_FEATURE_ENABLED STRING "0"
 -- Retrieval info: PRIVATE: PHASE_RECONFIG_INPUTS_CHECK STRING "0"
--- Retrieval info: PRIVATE: PHASE_SHIFT0 STRING "270.00000000"
+-- Retrieval info: PRIVATE: PHASE_SHIFT0 STRING "180.00000000"
 -- Retrieval info: PRIVATE: PHASE_SHIFT1 STRING "0.00000000"
 -- Retrieval info: PRIVATE: PHASE_SHIFT_STEP_ENABLED_CHECK STRING "0"
 -- Retrieval info: PRIVATE: PHASE_SHIFT_UNIT0 STRING "deg"
@@ -325,13 +325,13 @@ END SYN;
 -- Retrieval info: PRIVATE: ZERO_DELAY_RADIO STRING "0"
 -- Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
 -- Retrieval info: CONSTANT: BANDWIDTH_TYPE STRING "AUTO"
--- Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "1"
+-- Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "5"
 -- Retrieval info: CONSTANT: CLK0_DUTY_CYCLE NUMERIC "50"
--- Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "1"
--- Retrieval info: CONSTANT: CLK0_PHASE_SHIFT STRING "6000"
--- Retrieval info: CONSTANT: CLK1_DIVIDE_BY NUMERIC "1"
+-- Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "4"
+-- Retrieval info: CONSTANT: CLK0_PHASE_SHIFT STRING "5000"
+-- Retrieval info: CONSTANT: CLK1_DIVIDE_BY NUMERIC "5"
 -- Retrieval info: CONSTANT: CLK1_DUTY_CYCLE NUMERIC "50"
--- Retrieval info: CONSTANT: CLK1_MULTIPLY_BY NUMERIC "1"
+-- Retrieval info: CONSTANT: CLK1_MULTIPLY_BY NUMERIC "4"
 -- Retrieval info: CONSTANT: CLK1_PHASE_SHIFT STRING "0"
 -- Retrieval info: CONSTANT: COMPENSATE_CLOCK STRING "CLK0"
 -- Retrieval info: CONSTANT: GATE_LOCK_SIGNAL STRING "NO"
@@ -406,7 +406,7 @@ END SYN;
 -- Retrieval info: GEN_FILE: TYPE_NORMAL dcm45.ppf TRUE FALSE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL dcm45.inc FALSE FALSE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL dcm45.cmp FALSE FALSE
--- Retrieval info: GEN_FILE: TYPE_NORMAL dcm45.bsf TRUE FALSE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL dcm45.bsf TRUE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL dcm45_inst.vhd TRUE FALSE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL dcm45_waveforms.html TRUE FALSE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL dcm45_wave*.jpg TRUE FALSE

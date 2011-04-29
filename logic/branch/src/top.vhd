@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-04-27
+-- Last update: 2011-04-29
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -324,9 +324,10 @@ architecture behave of top is
       locked : out std_logic);
   end component;
 
-  signal sys_clk : std_logic;
-  signal sys_rst : std_logic;
-  signal locked  : std_logic;
+  signal sys_clk   : std_logic;
+  signal ssram_clk : std_logic;
+  signal sys_rst   : std_logic;
+  signal locked    : std_logic;
 begin  -- behave
   
   dcm_user_1 : dcm_user
@@ -339,10 +340,12 @@ begin  -- behave
     port map (
       areset => '0',
       inclk0 => clk_80m,
-      c0     => open,
+      c0     => ssram_clk,
       c1     => sys_clk,
       locked => locked);
 
+  ssram0_clk_o   <= ssram_clk;
+  ssram1_clk_o   <= ssram_clk;
   sys_rst        <= not locked;
 -------------------------------------------------------------------------------
   -- 68013 port
@@ -363,7 +366,6 @@ begin  -- behave
 
   -- SSRAM data bus
   ssram0_adr_o               <= ssram0_adr;
-  ssram0_clk_o               <= ssram0_clk;
   ssram0_cke_n_o             <= ssram0_cke_n;
   ssram0_bw_n_o              <= ssram0_bw_n;
   ssram0_we_n_o              <= ssram0_we_n;
@@ -374,7 +376,6 @@ begin  -- behave
   ssram0_oe_n_o              <= ssram0_oe_n;
 
   ssram1_adr_o               <= ssram0_adr;
-  ssram1_clk_o               <= ssram0_clk;
   ssram1_cke_n_o             <= ssram0_cke_n;
   ssram1_bw_n_o              <= ssram0_bw_n;
   ssram1_we_n_o              <= ssram0_we_n;
