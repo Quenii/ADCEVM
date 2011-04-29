@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-16
--- Last update: 2011-04-27
+-- Last update: 2011-04-29
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
