@@ -558,17 +558,16 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 
 void AdcBoard::staticTest()
 {
-
+	static char txtBuffer[10];
 	QString fileNameDat = QDir( QApplication::applicationDirPath() ).filePath("file.dat");
 	QFile fileDat( fileNameDat );
 	fileDat.open(QIODevice::WriteOnly);
 	QDataStream outDat(&fileDat);   // we will serialize the data into the file
 
-	//QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath("file.txt");
-	//QFile fileTxt( fileNameTxt );
-	//fileTxt.open(QIODevice::WriteOnly);
-	//QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
-	//static txtBuffer[buffer_cnt * (sizeof(unsigned short)/sizeof(char))*3];
+	QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath("file.txt");
+	QFile fileTxt( fileNameTxt );
+	fileTxt.open(QIODevice::WriteOnly);
+	QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
 
 	if (buff.size() < buffer_cnt)
 		buff.resize(buffer_cnt);
@@ -586,6 +585,15 @@ void AdcBoard::staticTest()
 		okay = read(0x1005, &buff[0], buffer_cnt);
 		Q_ASSERT(okay);
 		outDat.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
+
+		for (int k=0; k<buffer_cnt; ++k)
+		{
+			//QString txt = QString("%1\n").arg(p[k]);
+			sprintf(txtBuffer, "%d\r\n", p[k]);
+			QString a = QString(txtBuffer);
+			int m = a.size();
+			outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
+		}
 
 	}
 
