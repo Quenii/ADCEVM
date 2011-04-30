@@ -113,6 +113,7 @@ architecture behave of top is
   constant ADDR_2656_H    : std_logic_vector(15 downto 0) := x"0006";
   constant ADDR_GPIO      : std_logic_vector(15 downto 0) := x"2000";
   constant ADDR_WD        : std_logic_vector(15 downto 0) := x"2001";
+  constant ADDR_SW        : std_logic_vector(15 downto 0) := x"2002";
 -- high ADC controller
 
   signal LB_Ready_reset_ctr_i : std_logic;
@@ -135,6 +136,7 @@ architecture behave of top is
     generic (
       IO_TYPE   : string;
       ADDR_LEN  : std_logic_vector(15 downto 0);
+      ADDR_SW   : std_logic_vector(15 downto 0);
       ADDR_FIFO : std_logic_vector(15 downto 0));
     port (
       sys_clk_i     : in  std_logic;
@@ -401,6 +403,7 @@ begin  -- behave
     generic map (
       IO_TYPE   => "CMOS",
       ADDR_LEN  => ADDR_LEN_REG,
+      ADDR_SW   => ADDR_SW,
       ADDR_FIFO => ADDR_FIFO
       )
     port map (

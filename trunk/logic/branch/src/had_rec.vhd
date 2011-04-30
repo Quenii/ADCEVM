@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-16
--- Last update: 2011-04-29
+-- Last update: 2011-04-30
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -28,6 +28,7 @@ entity had_rec is
   generic (
     IO_TYPE   : string;
     ADDR_LEN  : std_logic_vector(15 downto 0) := x"1004";
+    ADDR_SW   : std_logic_vector(15 downto 0) := x"2002";
     ADDR_FIFO : std_logic_vector(15 downto 0) := x"1005");
   port (
     sys_clk_i : in std_logic;
@@ -94,17 +95,24 @@ architecture behave of had_rec is
       rd_empty_o : out std_logic);
   end component;
 
+  signal dm_data_i  : std_logic_vector(15 downto 0);
   signal rd_req_i   : std_logic;
   signal rd_q_o     : std_logic_vector(63 downto 0);
   signal rd_empty_o : std_logic;
 
-  -- data buffer
+  signal LB_Ready_sw : std_logic;
+  signal LB_DataR_sw : std_logic_vector(15 downto 0);
+  signal updated_sw  : std_logic;
+  signal ctrl_sw     : std_logic_vector(15 downto 0);
+  signal sta_sw      : std_logic_vector(15 downto 0);
+
+-- data buffer
   component dat_buf_v2
     generic (
       DATA_WIDTH : integer;
       ADDR_WIDTH : integer);
     port (
-      sys_clk_i       : in  std_logic;
+      sys_clk_i   : in  std_logic;
       rst_i       : in  std_logic;
       task_start  : in  std_logic;
       task_length : in  std_logic_vector(15 downto 0);
@@ -251,7 +259,7 @@ begin  -- behave
     if LB_Reset_i = '1' then            -- asynchronous reset (active low)
       test <= (others => '0');
     elsif rx_inclock_i'event and rx_inclock_i = '1' then  -- rising clock edge
-      test <= test + x"1";
+      test <= test + x"8";
     end if;
   end process;
 
@@ -262,18 +270,37 @@ begin  -- behave
       rst_i      => LB_Reset_i,
       clk_i      => rx_inclock_i,
       enable_i   => buf_task_start_r,
-      data_i     => rx_in_i,
+      data_i     => dm_data_i,
       rd_clk_i   => sys_clk,
       rd_req_i   => rd_req_i,
       rd_q_o     => rd_q_o,
       rd_empty_o => rd_empty_o);
+
+  dm_data_i <= rx_in_i;
+  sta_sw <= ctrl_sw;
+
+  lb_target_data_src : lb_target_reg
+    generic map (
+      ADDR => ADDR_SW)
+    port map (
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => LB_Reset_i,
+      LB_Addr_i  => LB_Addr_i,
+      LB_Write_i => LB_Write_i,
+      LB_Read_i  => LB_Read_i,
+      LB_Ready_o => LB_Ready_sw,
+      LB_DataW_i => LB_DataW_i,
+      LB_DataR_o => LB_DataR_sw,
+      updated_o  => updated_sw,
+      ctrl_o     => ctrl_sw,
+      sta_i      => sta_sw);
 
   dat_buf_v2_1 : dat_buf_v2
     generic map (
       DATA_WIDTH => DATA_WIDTH,
       ADDR_WIDTH => ADDR_WIDTH)
     port map (
-      sys_clk_i         => sys_clk,
+      sys_clk_i     => sys_clk,
       rst_i         => LB_Reset_i,
       task_start    => buf_task_start,
       task_length   => task_length,
@@ -381,7 +408,8 @@ begin  -- behave
       fifo_dout_o => open
       );
 
-  LB_DataR_o <= LB_DataR_had_fifo or LB_DataR_adc_config;
-  LB_Ready_o <= LB_Ready_had_fifo or LB_Ready_dat_buf or LB_Ready_adc_config;
+  LB_DataR_o <= LB_DataR_had_fifo or LB_DataR_adc_config or LB_DataR_sw;
+  LB_Ready_o <= LB_Ready_had_fifo or LB_Ready_dat_buf or LB_Ready_adc_config
+                or LB_Ready_sw;
 
 end behave;
