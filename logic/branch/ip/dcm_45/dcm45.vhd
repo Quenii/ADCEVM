@@ -156,11 +156,11 @@ BEGIN
 		bandwidth_type => "AUTO",
 		clk0_divide_by => 5,
 		clk0_duty_cycle => 50,
-		clk0_multiply_by => 4,
-		clk0_phase_shift => "5000",
+		clk0_multiply_by => 3,
+		clk0_phase_shift => "0",
 		clk1_divide_by => 5,
 		clk1_duty_cycle => 50,
-		clk1_multiply_by => 4,
+		clk1_multiply_by => 3,
 		clk1_phase_shift => "0",
 		compensate_clock => "CLK0",
 		gate_lock_signal => "NO",
@@ -170,7 +170,7 @@ BEGIN
 		lpm_hint => "CBX_MODULE_PREFIX=dcm45",
 		lpm_type => "altpll",
 		operation_mode => "NORMAL",
-		pll_type => "AUTO",
+		pll_type => "Enhanced",
 		port_activeclock => "PORT_UNUSED",
 		port_areset => "PORT_USED",
 		port_clkbad0 => "PORT_UNUSED",
@@ -250,8 +250,8 @@ END SYN;
 -- Retrieval info: PRIVATE: CUR_DEDICATED_CLK STRING "c0"
 -- Retrieval info: PRIVATE: CUR_FBIN_CLK STRING "c0"
 -- Retrieval info: PRIVATE: DEVICE_SPEED_GRADE STRING "4"
--- Retrieval info: PRIVATE: DIV_FACTOR0 NUMERIC "1"
--- Retrieval info: PRIVATE: DIV_FACTOR1 NUMERIC "1"
+-- Retrieval info: PRIVATE: DIV_FACTOR0 NUMERIC "5"
+-- Retrieval info: PRIVATE: DIV_FACTOR1 NUMERIC "5"
 -- Retrieval info: PRIVATE: DUTY_CYCLE0 STRING "50.00000000"
 -- Retrieval info: PRIVATE: DUTY_CYCLE1 STRING "50.00000000"
 -- Retrieval info: PRIVATE: EXPLICIT_SWITCHOVER_COUNTER STRING "0"
@@ -271,32 +271,32 @@ END SYN;
 -- Retrieval info: PRIVATE: INT_FEEDBACK__MODE_RADIO STRING "1"
 -- Retrieval info: PRIVATE: LOCKED_OUTPUT_CHECK STRING "1"
 -- Retrieval info: PRIVATE: LONG_SCAN_RADIO STRING "1"
--- Retrieval info: PRIVATE: LVDS_MODE_DATA_RATE STRING "250.000"
+-- Retrieval info: PRIVATE: LVDS_MODE_DATA_RATE STRING "Not Available"
 -- Retrieval info: PRIVATE: LVDS_MODE_DATA_RATE_DIRTY NUMERIC "0"
 -- Retrieval info: PRIVATE: LVDS_PHASE_SHIFT_UNIT0 STRING "deg"
 -- Retrieval info: PRIVATE: LVDS_PHASE_SHIFT_UNIT1 STRING "ps"
 -- Retrieval info: PRIVATE: MIG_DEVICE_SPEED_GRADE STRING "Any"
--- Retrieval info: PRIVATE: MULT_FACTOR0 NUMERIC "1"
--- Retrieval info: PRIVATE: MULT_FACTOR1 NUMERIC "1"
+-- Retrieval info: PRIVATE: MULT_FACTOR0 NUMERIC "3"
+-- Retrieval info: PRIVATE: MULT_FACTOR1 NUMERIC "3"
 -- Retrieval info: PRIVATE: NORMAL_MODE_RADIO STRING "1"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ0 STRING "100.00000000"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ1 STRING "100.00000000"
--- Retrieval info: PRIVATE: OUTPUT_FREQ_MODE0 STRING "1"
--- Retrieval info: PRIVATE: OUTPUT_FREQ_MODE1 STRING "1"
+-- Retrieval info: PRIVATE: OUTPUT_FREQ_MODE0 STRING "0"
+-- Retrieval info: PRIVATE: OUTPUT_FREQ_MODE1 STRING "0"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ_UNIT0 STRING "MHz"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ_UNIT1 STRING "MHz"
 -- Retrieval info: PRIVATE: PHASE_RECONFIG_FEATURE_ENABLED STRING "0"
 -- Retrieval info: PRIVATE: PHASE_RECONFIG_INPUTS_CHECK STRING "0"
--- Retrieval info: PRIVATE: PHASE_SHIFT0 STRING "180.00000000"
+-- Retrieval info: PRIVATE: PHASE_SHIFT0 STRING "0.00000000"
 -- Retrieval info: PRIVATE: PHASE_SHIFT1 STRING "0.00000000"
 -- Retrieval info: PRIVATE: PHASE_SHIFT_STEP_ENABLED_CHECK STRING "0"
 -- Retrieval info: PRIVATE: PHASE_SHIFT_UNIT0 STRING "deg"
 -- Retrieval info: PRIVATE: PHASE_SHIFT_UNIT1 STRING "deg"
 -- Retrieval info: PRIVATE: PLL_ADVANCED_PARAM_CHECK STRING "0"
 -- Retrieval info: PRIVATE: PLL_ARESET_CHECK STRING "1"
--- Retrieval info: PRIVATE: PLL_AUTOPLL_CHECK NUMERIC "1"
+-- Retrieval info: PRIVATE: PLL_AUTOPLL_CHECK NUMERIC "0"
 -- Retrieval info: PRIVATE: PLL_ENA_CHECK STRING "0"
--- Retrieval info: PRIVATE: PLL_ENHPLL_CHECK NUMERIC "0"
+-- Retrieval info: PRIVATE: PLL_ENHPLL_CHECK NUMERIC "1"
 -- Retrieval info: PRIVATE: PLL_FASTPLL_CHECK NUMERIC "0"
 -- Retrieval info: PRIVATE: PLL_FBMIMIC_CHECK STRING "0"
 -- Retrieval info: PRIVATE: PLL_LVDS_PLL_CHECK NUMERIC "0"
@@ -327,11 +327,11 @@ END SYN;
 -- Retrieval info: CONSTANT: BANDWIDTH_TYPE STRING "AUTO"
 -- Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "5"
 -- Retrieval info: CONSTANT: CLK0_DUTY_CYCLE NUMERIC "50"
--- Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "4"
--- Retrieval info: CONSTANT: CLK0_PHASE_SHIFT STRING "5000"
+-- Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "3"
+-- Retrieval info: CONSTANT: CLK0_PHASE_SHIFT STRING "0"
 -- Retrieval info: CONSTANT: CLK1_DIVIDE_BY NUMERIC "5"
 -- Retrieval info: CONSTANT: CLK1_DUTY_CYCLE NUMERIC "50"
--- Retrieval info: CONSTANT: CLK1_MULTIPLY_BY NUMERIC "4"
+-- Retrieval info: CONSTANT: CLK1_MULTIPLY_BY NUMERIC "3"
 -- Retrieval info: CONSTANT: CLK1_PHASE_SHIFT STRING "0"
 -- Retrieval info: CONSTANT: COMPENSATE_CLOCK STRING "CLK0"
 -- Retrieval info: CONSTANT: GATE_LOCK_SIGNAL STRING "NO"
@@ -340,7 +340,7 @@ END SYN;
 -- Retrieval info: CONSTANT: INVALID_LOCK_MULTIPLIER NUMERIC "5"
 -- Retrieval info: CONSTANT: LPM_TYPE STRING "altpll"
 -- Retrieval info: CONSTANT: OPERATION_MODE STRING "NORMAL"
--- Retrieval info: CONSTANT: PLL_TYPE STRING "AUTO"
+-- Retrieval info: CONSTANT: PLL_TYPE STRING "Enhanced"
 -- Retrieval info: CONSTANT: PORT_ACTIVECLOCK STRING "PORT_UNUSED"
 -- Retrieval info: CONSTANT: PORT_ARESET STRING "PORT_USED"
 -- Retrieval info: CONSTANT: PORT_CLKBAD0 STRING "PORT_UNUSED"
