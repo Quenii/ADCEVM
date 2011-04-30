@@ -202,10 +202,11 @@ void ControlPanel::on_pushButtonStopDynamicTest_clicked()
 void ControlPanel::on_pushButtonStartStaticTest_clicked()
 {
 	
-	ui.pushButtonStartStaticTest->setEnabled(false);
-	ui.pushButtonStopStaticTest->setEnabled(true);		
+//	ui.pushButtonStartStaticTest->setEnabled(false);
+//	ui.pushButtonStopStaticTest->setEnabled(true);		
 	ui.dynamicTestButtons->setEnabled(false);
 	AdcBoard::instance()->staticTest();
+	ui.dynamicTestButtons->setEnabled(true);
 
 }
 
