@@ -310,6 +310,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 	if (usbDev->IsOpen() && (usbDev->DeviceCount())/* && clocked() */)
 	{
+		writeReg(0x2002, 0);
 		if (buff.size() < buffer_cnt)
 			buff.resize(buffer_cnt);
 		writeReg(0xFFFF, 0x0001);  //reset
@@ -542,14 +543,14 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	readReg(0x0009, reg);
-	powerStatus.ia = (float(reg>>2)) * 1000 * 4 / 16384;
+	powerStatus.ia = (float(reg>>2)) * 500 * 4 / 16384;
 
 	writeReg(9, 0x1FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x1FFF);  //select 3548, select 7th channel
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
 	readReg(0x0009, reg);
-	powerStatus.id = (float(reg>>2)) * 1000 * 4 / 16384;
+	powerStatus.id = (float(reg>>2)) * 500 * 4 / 16384;
 
 	powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
 
@@ -558,10 +559,16 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 void AdcBoard::staticTest()
 {
 
-	QString fileName = QDir( QApplication::applicationDirPath() ).filePath("file.dat");
-	QFile file( fileName );
-	file.open(QIODevice::WriteOnly);
-	QDataStream out(&file);   // we will serialize the data into the file
+	QString fileNameDat = QDir( QApplication::applicationDirPath() ).filePath("file.dat");
+	QFile fileDat( fileNameDat );
+	fileDat.open(QIODevice::WriteOnly);
+	QDataStream outDat(&fileDat);   // we will serialize the data into the file
+
+	//QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath("file.txt");
+	//QFile fileTxt( fileNameTxt );
+	//fileTxt.open(QIODevice::WriteOnly);
+	//QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
+	//static txtBuffer[buffer_cnt * (sizeof(unsigned short)/sizeof(char))*3];
 
 	if (buff.size() < buffer_cnt)
 		buff.resize(buffer_cnt);
@@ -578,9 +585,8 @@ void AdcBoard::staticTest()
 	{
 		okay = read(0x1005, &buff[0], buffer_cnt);
 		Q_ASSERT(okay);
-
-		out.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
+		outDat.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
 
 	}
-	
+
 }

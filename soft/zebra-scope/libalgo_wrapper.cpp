@@ -66,7 +66,7 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 	//mwBitCount.SetData(&bitCount, 1);
 
 	static std::vector<double> input(samples.size());
-	static std::vector<double> HD(16);
+	static std::vector<double> HD(10);
 	static std::vector<double> Spectrum(input.size());
 
 
