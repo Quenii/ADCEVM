@@ -73,6 +73,8 @@ private:
 	bool writeIOCmd(unsigned short addr, bool dirRead, unsigned short data);
 
 	unsigned short CalcReg(float v);
+	void Covert(TimeDomainReport&, float, float);
+
 
 signals:
 	void devListChanged(const QList<AdcBoardInfo>& lst);
