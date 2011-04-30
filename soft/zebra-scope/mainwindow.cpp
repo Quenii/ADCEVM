@@ -97,6 +97,13 @@ static QString make_dot_adc_file_name(QString fn)
 	return fn;
 }
 
+static QString getTextFileName(QString adcDataFileName)
+{
+	QFileInfo fi(adcDataFileName);
+	QString settingsFileName = QDir(fi.dir()).absoluteFilePath(fi.completeBaseName() + ".txt");
+	return settingsFileName;
+}
+
 void MainWindow::on_actionLoadData_triggered(bool checked /*= false*/)
 {
 	QString fileName = QFileDialog::getOpenFileName(
@@ -135,6 +142,10 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 	QString fileName = QFileDialog::getSaveFileName(this, tr("Save as..."),
 		QString(), tr("ADC Samples (*.adc)"));
 
+	static char txtBuffer[10];
+
+
+
 	if (!fileName.isEmpty())
 	{
 		fileName = make_dot_adc_file_name(fileName);
@@ -153,6 +164,23 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 		QZebraScopeSerializer reportFile(fileName);
 		if (reportFile.open(QZebraScopeSerializer::Truncate | QZebraScopeSerializer::WriteOnly))
 			reportFile.serialize(AdcBoard::instance()->reportRef());
+
+		QString txtFileName = getTextFileName(fileName);
+		QFile fileTxt( txtFileName );
+		fileTxt.open(QIODevice::WriteOnly);
+		QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
+
+		const AdcBoardReport &report = AdcBoard::instance()->reportRef();
+		const unsigned short* p = &report.tdReport.rawSamples[0];
+
+		for (int k=0; k<report.tdReport.rawSamples.size(); ++k)
+		{
+			sprintf(txtBuffer, "%d\r\n", p[k]);
+			QString a = QString(txtBuffer);
+			int m = a.size();
+			outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
+		}
+
 
 	}
 }
