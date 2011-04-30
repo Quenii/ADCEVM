@@ -558,12 +558,12 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 
 void AdcBoard::staticTest()
 {
-	static char txtBuffer[10];
 	QString fileNameDat = QDir( QApplication::applicationDirPath() ).filePath("file.dat");
 	QFile fileDat( fileNameDat );
 	fileDat.open(QIODevice::WriteOnly);
 	QDataStream outDat(&fileDat);   // we will serialize the data into the file
 
+	static char txtBuffer[10];
 	QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath("file.txt");
 	QFile fileTxt( fileNameTxt );
 	fileTxt.open(QIODevice::WriteOnly);
