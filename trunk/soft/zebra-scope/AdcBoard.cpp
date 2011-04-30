@@ -303,7 +303,6 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	}
 
 	TimeDomainReport& tdReport = report.tdReport;
-	tdReport.samples.resize(buffer_cnt);
 
 	float vpp = m_adcSettings.vpp;
 	float max = (1 << (m_adcSettings.bitcount - 1));
@@ -317,7 +316,6 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		writeReg(0xFFFF, 0x0000);  //dereset
 		//buff[512] = {0x0032};
 		writeReg(0x1004, 0xFFFF);  //stor 1M
-
 		Sleep(200);	
 
 		unsigned short* p = &buff[0];
@@ -325,51 +323,17 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		Q_ASSERT(okay);
 		okay = read(0x1005, &buff[0], buffer_cnt);
 		Q_ASSERT(okay);
-		//okay = read(0x1005, &buff[0], buffer_cnt);
-		//Q_ASSERT(okay);
-		//for (int t=0; t<30; ++t)
-		//{
-		//	okay = read(0x1005, &buff[0], buffer_cnt);
-		//	Q_ASSERT(okay);
-		//}
-		if (tdReport.rawSamples.size() != buff.size())
-		{
-			tdReport.rawSamples.resize(buff.size());
-		}
-		for (int i = 0; i < tdReport.samples.size(); ++i)
-		{
-			int t = 16-m_adcSettings.bitcount;
-			tdReport.rawSamples[i] = buff[i]>>t;
-
-			if (m_adcSettings.coding == AdcCodingOffset)
-			{
-				tdReport.samples[i] = ((buff[i]>>t)/max-1)*vpp;
-			}
-			else if (m_adcSettings.coding == AdcCodingComplement)
-			{
-				static short s;
-				static float f;
-				s = buff[i];
-				f = s; 
-				tdReport.samples[i] = f/(max)*vpp/pow(2.0, t);
-			}
-			else
-			{
-				Q_ASSERT(false);
-			}
-		}
+		Covert(tdReport, max, vpp);
 	}
 	else
 	{
 #ifdef _DEBUG
 
 		int offset = rand();
+		tdReport.samples.resize(buffer_cnt);
 		tdReport.rawSamples.resize(tdReport.samples.size());
 		for (int i = 0; i < tdReport.samples.size(); ++i)
 		{
-			//tdReport.samples[i] = ((int)((i+offset)));
-			//tdReport.rawSamples[i] = ((int)((i+offset)));
-
 			tdReport.samples[i] = ((int)(qSin(pi/29*i+offset)*max))*vpp/max;
 			tdReport.rawSamples[i] = ((int)(qSin(pi/29*i+offset)*max));
 		}
@@ -406,7 +370,40 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 	emit boardReport(report);
 }
+void AdcBoard::Covert(TimeDomainReport& tdReport, float max, float vpp)
+{
+	if (tdReport.samples.size()<buff.size())
+	{
+		tdReport.samples.resize(buff.size());
+	}
+	if (tdReport.rawSamples.size() != buff.size())
+	{
+		tdReport.rawSamples.resize(buff.size());
+	}
 
+	for (int i = 0; i < tdReport.samples.size(); ++i)
+	{
+		int t = 16-m_adcSettings.bitcount;
+		tdReport.rawSamples[i] = buff[i]>>t;
+
+		if (m_adcSettings.coding == AdcCodingOffset)
+		{
+			tdReport.samples[i] = ((buff[i]>>t)/max-1)*vpp;
+		}
+		else if (m_adcSettings.coding == AdcCodingComplement)
+		{
+			static short s;
+			static float f;
+			s = buff[i];
+			f = s; 
+			tdReport.samples[i] = f/(max)*vpp/pow(2.0, t);
+		}
+		else
+		{
+			Q_ASSERT(false);
+		}
+	}
+}
 
 unsigned short AdcBoard::CalcReg(float v)
 {
@@ -579,6 +576,9 @@ void AdcBoard::staticTest()
 
 	unsigned short* p = &buff[0];
 	bool okay = false;
+	float vpp = m_adcSettings.vpp;
+	float max = (1 << (m_adcSettings.bitcount - 1));
+	TimeDomainReport& tdReport = report.tdReport;
 
 	for (int t=0; t<32; ++t)
 	{
@@ -586,10 +586,10 @@ void AdcBoard::staticTest()
 		Q_ASSERT(okay);
 		outDat.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
 
-		for (int k=0; k<buffer_cnt; ++k)
+		Covert(tdReport, max, vpp);
+		for (int k=0; k<buff.size(); ++k)
 		{
-			//QString txt = QString("%1\n").arg(p[k]);
-			sprintf(txtBuffer, "%d\r\n", p[k]);
+			sprintf(txtBuffer, "%f\r\n", tdReport.samples[k]);
 			QString a = QString(txtBuffer);
 			int m = a.size();
 			outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
