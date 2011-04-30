@@ -1,4 +1,4 @@
-function [SNR, SINAD, SFDR, ENOB, HD, y, Vpp, Vin] = AdcDynTest( ADout, fclk, numbit, NFFT, V, code )
+function [SNR, SINAD, SFDR, ENOB, HD, y, Vpp, Vin, THD] = AdcDynTest( ADout, fclk, numbit, NFFT, V, code )
 % function [SNR, SFDR, SNRFS, SINAD, y, THD, HD, ENOB, ENOBFS, Pn_dB] = AdcDynTest( ADout, fclk, numbit, NFFT, V, code )
 % Pn_dB为底噪声，fclk为采样频率，numbit为采样精度，NFFT为FFT的深度，V为峰峰值，TPY和TPX分别为时域图的Y和X轴，code
 % 为1：补码，2：偏移码，3：格雷码。

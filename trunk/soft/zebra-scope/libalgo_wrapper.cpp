@@ -88,7 +88,7 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 	//	double* cHD, double* cy);
 	AdcDynTest(&input[0], input.size(), 80e6, bitCount, input.size(), 2*vpp, 1,
 		SNR, SINAD, SFDR, ENOB, 
-		&HD[0], &Spectrum[0], A, AdB);
+		&HD[0], &Spectrum[0], A, AdB, THD);
 
 	if (param.Spectrum.size() != Spectrum.size())
 	{
@@ -114,6 +114,7 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 	param.SFDR = SFDR;
 	param.A = A;
 	param.AdB = AdB;
+	param.THD = THD;
 
 }
 
