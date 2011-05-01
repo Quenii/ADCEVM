@@ -104,76 +104,77 @@ set_location_assignment PIN_C18 -to TLC3548_eco
 set_location_assignment PIN_C22 -to TLC3548_start_n_o
 #####################################
 
-# set_location_assignment PIN_R1 -to rx_inclock_i
-# set_location_assignment PIN_R2 -to "rx_inclock_i(n)"
-# set_location_assignment PIN_AD1 -to rx_in_i[0]
-# set_location_assignment PIN_AC2 -to rx_in_i[1]
-# set_location_assignment PIN_AB1 -to rx_in_i[2]
-# set_location_assignment PIN_AA1 -to rx_in_i[3]
-# set_location_assignment PIN_Y1 -to rx_in_i[4]
-# set_location_assignment PIN_W1 -to rx_in_i[5]
-# set_location_assignment PIN_V1 -to rx_in_i[6]
-# set_location_assignment PIN_U1 -to rx_in_i[7]
-# set_location_assignment PIN_M1 -to rx_in_i[8]
-# set_location_assignment PIN_L2 -to rx_in_i[9]
-# set_location_assignment PIN_K1 -to rx_in_i[10]
-# set_location_assignment PIN_J1 -to rx_in_i[11]
-# set_location_assignment PIN_H1 -to rx_in_i[12]
-# set_location_assignment PIN_G1 -to rx_in_i[13]
-# set_location_assignment PIN_F1 -to rx_in_i[14]
-# set_location_assignment PIN_E1 -to rx_in_i[15]
-# set_location_assignment PIN_AD2 -to "rx_in_i[0](n)"
-# set_location_assignment PIN_AC3 -to "rx_in_i[1](n)"
-# set_location_assignment PIN_AB2 -to "rx_in_i[2](n)"
-# set_location_assignment PIN_AA2 -to "rx_in_i[3](n)"
-# set_location_assignment PIN_Y2 -to "rx_in_i[4](n)"
-# set_location_assignment PIN_W2 -to "rx_in_i[5](n)"
-# set_location_assignment PIN_V2 -to "rx_in_i[6](n)"
-# set_location_assignment PIN_U2 -to "rx_in_i[7](n)"
-# set_location_assignment PIN_M2 -to "rx_in_i[8](n)"
-# set_location_assignment PIN_L3 -to "rx_in_i[9](n)"
-# set_location_assignment PIN_K2 -to "rx_in_i[10](n)"
-# set_location_assignment PIN_J2 -to "rx_in_i[11](n)"
-# set_location_assignment PIN_H2 -to "rx_in_i[12](n)"
-# set_location_assignment PIN_G2 -to "rx_in_i[13](n)"
-# set_location_assignment PIN_F2 -to "rx_in_i[14](n)"
-# set_location_assignment PIN_E2 -to "rx_in_i[15](n)"
-# set_location_assignment PIN_D2 -to rx_or_i
-# set_location_assignment PIN_D3 -to "rx_or_i(n)"
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[1]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[2]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[3]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[4]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[5]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[6]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[7]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[8]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[9]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[10]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[11]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[12]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[13]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[14]
-# set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[15]
+set_location_assignment PIN_R1 -to rx_inclock_i
+set_location_assignment PIN_R2 -to "rx_inclock_i(n)"
+set_location_assignment PIN_AD1 -to rx_in_i[0]
+set_location_assignment PIN_AC2 -to rx_in_i[1]
+set_location_assignment PIN_AB1 -to rx_in_i[2]
+set_location_assignment PIN_AA1 -to rx_in_i[3]
+set_location_assignment PIN_Y1 -to rx_in_i[4]
+set_location_assignment PIN_W1 -to rx_in_i[5]
+set_location_assignment PIN_V1 -to rx_in_i[6]
+set_location_assignment PIN_U1 -to rx_in_i[7]
+set_location_assignment PIN_M1 -to rx_in_i[8]
+set_location_assignment PIN_L2 -to rx_in_i[9]
+set_location_assignment PIN_K1 -to rx_in_i[10]
+set_location_assignment PIN_J1 -to rx_in_i[11]
+set_location_assignment PIN_H1 -to rx_in_i[12]
+set_location_assignment PIN_G1 -to rx_in_i[13]
+set_location_assignment PIN_F1 -to rx_in_i[14]
+set_location_assignment PIN_E1 -to rx_in_i[15]
+set_location_assignment PIN_AD2 -to "rx_in_i[0](n)"
+set_location_assignment PIN_AC3 -to "rx_in_i[1](n)"
+set_location_assignment PIN_AB2 -to "rx_in_i[2](n)"
+set_location_assignment PIN_AA2 -to "rx_in_i[3](n)"
+set_location_assignment PIN_Y2 -to "rx_in_i[4](n)"
+set_location_assignment PIN_W2 -to "rx_in_i[5](n)"
+set_location_assignment PIN_V2 -to "rx_in_i[6](n)"
+set_location_assignment PIN_U2 -to "rx_in_i[7](n)"
+set_location_assignment PIN_M2 -to "rx_in_i[8](n)"
+set_location_assignment PIN_L3 -to "rx_in_i[9](n)"
+set_location_assignment PIN_K2 -to "rx_in_i[10](n)"
+set_location_assignment PIN_J2 -to "rx_in_i[11](n)"
+set_location_assignment PIN_H2 -to "rx_in_i[12](n)"
+set_location_assignment PIN_G2 -to "rx_in_i[13](n)"
+set_location_assignment PIN_F2 -to "rx_in_i[14](n)"
+set_location_assignment PIN_E2 -to "rx_in_i[15](n)"
+set_location_assignment PIN_D2 -to rx_or_i
+set_location_assignment PIN_D3 -to "rx_or_i(n)"
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[0]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[1]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[2]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[3]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[4]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[5]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[6]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[7]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[8]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[9]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[10]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[11]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[12]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[13]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[14]
+set_instance_assignment -name IO_STANDARD LVDS -to rx_in_i[15]
 
-set_location_assignment PIN_B13 -to rx_inclock_i
-set_location_assignment PIN_K10 -to rx_in_i[0]
-set_location_assignment PIN_J10 -to rx_in_i[1]
-set_location_assignment PIN_H10 -to rx_in_i[2]
-set_location_assignment PIN_G10 -to rx_in_i[3]
-set_location_assignment PIN_F10 -to rx_in_i[4]
-set_location_assignment PIN_E10 -to rx_in_i[5]
-set_location_assignment PIN_D10 -to rx_in_i[6]
-set_location_assignment PIN_C10 -to rx_in_i[7]
-set_location_assignment PIN_B10 -to rx_in_i[8]
-set_location_assignment PIN_A10 -to rx_in_i[9]
-set_location_assignment PIN_D6 -to rx_in_i[10]
-set_location_assignment PIN_C5 -to rx_in_i[11]
-set_location_assignment PIN_C3 -to rx_in_i[12]
-set_location_assignment PIN_B3 -to rx_in_i[13]
-set_location_assignment PIN_A3 -to rx_in_i[14]
-set_location_assignment PIN_B5 -to rx_in_i[15]
-set_location_assignment PIN_A5 -to rx_or_i
+# set_location_assignment PIN_B13 -to rx_inclock_i
+# set_location_assignment PIN_K10 -to rx_in_i[0]
+# set_location_assignment PIN_J10 -to rx_in_i[1]
+# set_location_assignment PIN_H10 -to rx_in_i[2]
+# set_location_assignment PIN_G10 -to rx_in_i[3]
+# set_location_assignment PIN_F10 -to rx_in_i[4]
+# set_location_assignment PIN_E10 -to rx_in_i[5]
+# set_location_assignment PIN_D10 -to rx_in_i[6]
+# set_location_assignment PIN_C10 -to rx_in_i[7]
+# set_location_assignment PIN_B10 -to rx_in_i[8]
+# set_location_assignment PIN_A10 -to rx_in_i[9]
+# set_location_assignment PIN_D6 -to rx_in_i[10]
+# set_location_assignment PIN_C5 -to rx_in_i[11]
+# set_location_assignment PIN_C3 -to rx_in_i[12]
+# set_location_assignment PIN_B3 -to rx_in_i[13]
+# set_location_assignment PIN_A3 -to rx_in_i[14]
+# set_location_assignment PIN_B5 -to rx_in_i[15]
+# set_location_assignment PIN_A5 -to rx_or_i
 
 set_location_assignment PIN_V23 -to ssram0_adr_o[0]
 set_location_assignment PIN_AA8 -to ssram1_adr_o[0]
@@ -315,8 +316,8 @@ set_location_assignment PIN_A7 -to gpio_o[2]
 set_location_assignment PIN_B7 -to gpio_o[3]
 
 
-set_global_assignment -name ENABLE_SIGNALTAP OFF
-set_global_assignment -name USE_SIGNALTAP_FILE stp_cmos_in.stp
+set_global_assignment -name ENABLE_SIGNALTAP ON
+set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
 set_global_assignment -name STATE_MACHINE_PROCESSING "ONE-HOT"
 set_global_assignment -name SAFE_STATE_MACHINE ON
 set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
@@ -344,34 +345,34 @@ set_global_assignment -name USE_TIMEQUEST_TIMING_ANALYZER ON
 set_global_assignment -name ENABLE_DA_RULE "C101, C102, C103, C104, C105, C106, R101, R102, R103, R104, R105, T101, T102, A101, A102, A103, A104, A105, A106, A107, A108, A109, A110, S101, S102, S103, S104, D101, D102, D103, M101, M102, M103, M104, M105"
 set_global_assignment -name DISABLE_DA_RULE "H101, H102"
 set_global_assignment -name ENABLE_DRC_SETTINGS ON
-set_global_assignment -name VHDL_FILE src/spi24_v2.vhd
-set_global_assignment -name VHDL_FILE src/ssram/hdltext/dff_en_r_pline_spec.vhd
-set_global_assignment -name VHDL_FILE src/ssram/hdltext/dff_en_r_pline_w_untitled.vhd
-set_global_assignment -name VHDL_FILE src/ssram/hdltext/ssram_fifo.vhd
-set_global_assignment -name VHDL_FILE src/ssram/hdltext/ssram_inf.vhd
-set_global_assignment -name VHDL_FILE src/dat_buf_v2.vhd
-set_global_assignment -name VHDL_FILE src/demux.vhd
-set_global_assignment -name VHDL_FILE src/spi16.vhd
-set_global_assignment -name VHDL_FILE src/tlc3548.vhd
-set_global_assignment -name VHDL_FILE src/adc_config.vhd
-set_global_assignment -name VHDL_FILE src/adc_jtag_ctr.vhd
-set_global_assignment -name VHDL_FILE src/spi24.vhd
-set_global_assignment -name VHDL_FILE src/ltc2656b.vhd
-set_global_assignment -name VHDL_FILE src/dat_buf.vhd
-set_global_assignment -name VHDL_FILE src/had_rec.vhd
-set_global_assignment -name VHDL_FILE src/lb.vhd
-set_global_assignment -name VHDL_FILE src/lb_arbiter.vhd
-set_global_assignment -name VHDL_FILE src/lb_target_fifo.vhd
-set_global_assignment -name VHDL_FILE src/lb_target_fifo_rome.vhd
-set_global_assignment -name VHDL_FILE src/lb_target_reg.vhd
-set_global_assignment -name VHDL_FILE src/spi.vhd
-set_global_assignment -name VHDL_FILE src/top.vhd
-set_global_assignment -name VHDL_FILE ip/dcm_1M/dcm_1M.vhd
-set_global_assignment -name VHDL_FILE ip/dcm_45/dcm45.vhd
-set_global_assignment -name VHDL_FILE ip/fifo64to16/fifo64to16.vhd
-set_global_assignment -name VHDL_FILE ip/dcm_user/dcm_user.vhd
-set_global_assignment -name VHDL_FILE ip/fifo16to64/fifo16to64.vhd
-set_global_assignment -name VHDL_FILE ip/fifo64to64/fifo64to64.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/spi24_v2.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/dff_en_r_pline_spec.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/dff_en_r_pline_w_untitled.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/ssram_fifo.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/ssram_inf.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/dat_buf_v2.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/demux.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/spi16.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/tlc3548.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/adc_config.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/adc_jtag_ctr.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/spi24.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ltc2656b.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/dat_buf.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/had_rec.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb_arbiter.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb_target_fifo.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb_target_fifo_rome.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb_target_reg.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/spi.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/top.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/dcm_1M/dcm_1M.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/dcm_45/dcm45.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/fifo64to16/fifo64to16.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/dcm_user/dcm_user.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/fifo16to64/fifo16to64.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/fifo64to64/fifo64to64.vhd
 set_global_assignment -name SDC_FILE top.sdc
 
 set_global_assignment -name OPTIMIZE_FAST_CORNER_TIMING ON
@@ -379,3 +380,60 @@ set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-
 set_global_assignment -name MUX_RESTRUCTURE OFF
 set_global_assignment -name ADV_NETLIST_OPT_SYNTH_WYSIWYG_REMAP ON
 set_global_assignment -name ADV_NETLIST_OPT_SYNTH_GATE_RETIME ON
+set_global_assignment -name SIGNALTAP_FILE stp1.stp
+set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to rx_inclock_i -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to rx_in_i[0] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to rx_in_i[10] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[2] -to rx_in_i[11] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[3] -to rx_in_i[12] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[4] -to rx_in_i[13] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[5] -to rx_in_i[14] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[6] -to rx_in_i[15] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[7] -to rx_in_i[1] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[8] -to rx_in_i[2] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[9] -to rx_in_i[3] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[10] -to rx_in_i[4] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[11] -to rx_in_i[5] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[12] -to rx_in_i[6] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[13] -to rx_in_i[7] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[14] -to rx_in_i[8] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[15] -to rx_in_i[9] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to rx_in_i[0] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to rx_in_i[10] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to rx_in_i[11] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[3] -to rx_in_i[12] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[4] -to rx_in_i[13] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[5] -to rx_in_i[14] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[6] -to rx_in_i[15] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[7] -to rx_in_i[1] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[8] -to rx_in_i[2] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[9] -to rx_in_i[3] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[10] -to rx_in_i[4] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[11] -to rx_in_i[5] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[12] -to rx_in_i[6] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[13] -to rx_in_i[7] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[14] -to rx_in_i[8] -section_id auto_signaltap_0
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[15] -to rx_in_i[9] -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_BLOCK_TYPE=M4K" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=16" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=16" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334528" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=000000000000000000000000000000000000000000000000000000000000000000000" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=69" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=128" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GENERATED=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_LOWORD=1034" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_HIWORD=60419" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=128" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id auto_signaltap_0
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id auto_signaltap_0
