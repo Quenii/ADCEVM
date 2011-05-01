@@ -384,24 +384,21 @@ void AdcBoard::Covert(TimeDomainReport& tdReport, float max, float vpp)
 	for (int i = 0; i < tdReport.samples.size(); ++i)
 	{
 		int t = 16-m_adcSettings.bitcount;
-		tdReport.rawSamples[i] = buff[i]>>t;
 
 		if (m_adcSettings.coding == AdcCodingOffset)
 		{
-			tdReport.samples[i] = ((buff[i]>>t)/max-1)*vpp;
+			buff[i] = buff[i] ^ 0x8000;
 		}
 		else if (m_adcSettings.coding == AdcCodingComplement)
 		{
-			static short s;
-			static float f;
-			s = buff[i];
-			f = s; 
-			tdReport.samples[i] = f/(max)*vpp/pow(2.0, t);
 		}
 		else
 		{
 			Q_ASSERT(false);
 		}
+
+		tdReport.samples[i] = short(buff[i]) * vpp / max / pow(2.0, t);
+		tdReport.rawSamples[i] = buff[i]; /* buff[i] >>t; */
 	}
 }
 
@@ -589,7 +586,8 @@ void AdcBoard::staticTest()
 		Covert(tdReport, max, vpp);
 		for (int k=0; k<buff.size(); ++k)
 		{
-			sprintf(txtBuffer, "%f\r\n", tdReport.samples[k]);
+//			sprintf(txtBuffer, "%f\r\n", tdReport.samples[k]);
+			sprintf(txtBuffer, "%d\r\n", short(tdReport.rawSamples[k]));
 			QString a = QString(txtBuffer);
 			int m = a.size();
 			outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());

@@ -52,7 +52,7 @@ data_ref_w = [data_ref_w ; AA];
 data_ref_spect = fft( data_ref_w, NFFT );
 data_ref_dB = 20 * log10( abs( data_ref_spect ) );
 ref_dB = max( data_ref_dB( 1 : ad_len / 2 ) );
-
+y = ADout_dB - ref_dB;
 % $$$ figure( 1 )
 % $$$ plot( [0:round( ad_len / 2 ) - 1].*fclk / ad_len, - 20, ' - k' );
 % $$$ hold on;
@@ -260,4 +260,3 @@ SNRFS = SNR + abs( maxdB - ref_dB );
 ENOB = ( SINAD - 1.76 ) / 6.02;
 ENOBFS = ENOB + abs( maxdB - ref_dB ) / 6.02;
 HD = [ADout_dB(max(Harbin(2), 1))-ref_dB,ADout_dB(max(Harbin(2), 1))-ref_dB,ADout_dB(max(Harbin(3), 1))-ref_dB,ADout_dB(max(Harbin(4), 1))-ref_dB,ADout_dB(max(Harbin(5), 1))-ref_dB,ADout_dB(max(Harbin(6), 1))-ref_dB,ADout_dB(max(Harbin(7), 1))-ref_dB,ADout_dB(max(Harbin(8), 1))-ref_dB,ADout_dB(max(Harbin(9), 1))-ref_dB,ADout_dB(max(Harbin(10), 1))-ref_dB]; 
-y = ADout_dB - ref_dB;
