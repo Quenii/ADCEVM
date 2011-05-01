@@ -93,7 +93,7 @@
     data_ref_spect = fft(data_ref_w,NFFT);
     data_ref_dB = 20.0*log10(abs(data_ref_spect));
     ref_dB = max(data_ref_dB(colon(1.0,1.0,ad_len/2.0)));
-    
+    y = ADout_dB-ref_dB;
     // $$$ figure( 1 )
     // $$$ plot( [0:round( ad_len / 2 ) - 1].*fclk / ad_len, - 20, ' - k' );
     // $$$ hold on;
@@ -332,7 +332,6 @@
       6.0),1.0))-ref_dB,ADout_dB(max(Harbin(7.0),1.0))-ref_dB,ADout_dB(max(Harbin(8.0),1.0))-ref_dB,ADout_dB(max(Harbin( \
       9.0),1.0))-ref_dB,ADout_dB(max(Harbin(10.0),1.0))-ref_dB);
     
-    y = ADout_dB-ref_dB;
     
     call_stack_end;
     
