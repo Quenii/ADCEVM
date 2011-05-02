@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-04-29
+-- Last update: 2011-05-02
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -132,7 +132,7 @@ architecture behave of top is
   signal updated_wd  : std_logic;
   signal sta_wd      : std_logic_vector(15 downto 0);
 
-  component had_rec
+  component dac_wrap
     generic (
       IO_TYPE   : string;
       ADDR_LEN  : std_logic_vector(15 downto 0);
@@ -148,11 +148,11 @@ architecture behave of top is
       LB_Ready_o    : out std_logic;
       LB_DataW_i    : in  std_logic_vector(15 downto 0);
       LB_DataR_o    : out std_logic_vector(15 downto 0);
-      rx_in_i       : in  std_logic_vector (15 downto 0);
-      rx_inclock_i  : in  std_logic;
+
+      dac_data_o    : out std_logic_vector (15 downto 0);
+      dac_dco_i     : in  std_logic;
       --
-      tm_o          : out std_logic;
-      adc_rst_n_o   : out std_logic;
+      chip_rst_n_o   : out std_logic;
       spi_clk_o     : out std_logic;
       spi_out_en_o  : out std_logic;
       spi_di_i      : in  std_logic;
@@ -399,7 +399,7 @@ begin  -- behave
 
 -------------------------------------------------------------------------------
   -- high ADC data buffer
-  had_rec_2 : had_rec
+  dac : dac_wrap
     generic map (
       IO_TYPE   => "CMOS",
       ADDR_LEN  => ADDR_LEN_REG,
@@ -418,11 +418,10 @@ begin  -- behave
       LB_DataW_i    => LB_DataW_o,
       LB_DataR_o    => LB_DataR_had_i,
       -- high ADC LVDS port
-      rx_in_i       => rx_in_i,
-      rx_inclock_i  => rx_inclock_i,
+      dac_data_o    => open,
+      dac_dco_i     => rx_inclock_i,
       -- high ADC SPI port
-      tm_o          => KAD5514P_tm_o,
-      adc_rst_n_o   => KAD5514P_adc_rst_n_o,
+      chip_rst_n_o  => KAD5514P_adc_rst_n_o,
       spi_clk_o     => KAD5514P_spi_clk_o,
       spi_out_en_o  => KAD5514P_spi_out_en_o,
       spi_di_i      => KAD5514P_spi_di_input,
