@@ -14,14 +14,13 @@ numpt=input('Enter Number of Data Points:  ');
 numbit=input ('Enter ADC Resolution:  ');
 mid_code=input('Enter Mid-Code (Mean Code):  ');
 
-for i=1:13,	
-   fgetl(fid);
-end
-[v1,count]=fscanf(fid,'%f',[2,numpt]);
+% for i=1:13,	
+%    fgetl(fid);
+% end
+[v1,count]=fscanf(fid,'%f',[1,numpt]);
 fclose(fid);
 
-v1=v1';
-code=v1(:,2);
+code=v1';
 code_count=zeros(1,2^numbit);
 
 for i=1:size(code),
@@ -31,7 +30,7 @@ end
 if code_count(1) == 0 | code_count(2^numbit) == 0 | ...
   (code_count(1) < code_count(2)) | (code_count(2^numbit-1) > code_count(2^numbit))
    disp('ADC not clipping ... Increase sinewave amplitude!');
-   break;
+%    break;
 end
 
 A=max(mid_code,2^numbit-1-mid_code)+0.1; 
@@ -50,7 +49,7 @@ plot([0:2^numbit-1],code_count,[0:2^numbit-1],sin2ramp*numpt);
 title('CODE HISTOGRAM - SINE WAVE');
 xlabel('DIGITAL OUTPUT CODE');
 ylabel('COUNTS');
-axis([0 2^numbit-1 0 max(code_count(2),code_count(2^numbit-1))]);
+% axis([0 2^numbit-1 0 max(code_count(2),code_count(2^numbit-1))]);
 code_countn=code_count(2:2^numbit-1)./(numpt*sin2ramp(2:2^numbit-1)); 
 figure;
 plot([1:2^numbit-2],code_countn);
