@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-16
--- Last update: 2011-04-30
+-- Last update: 2011-05-02
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -416,7 +416,7 @@ begin  -- behave
       fifo_emp_i  => empty,
       fifo_rd_o   => rd,
       fifo_din_i  => dout,
-      fifo_ful_i  => fifo_ful_i,
+      fifo_ful_i  => '0',
       fifo_wr_o   => fifo_wr_o,
       fifo_dout_o => fifo_dout_o
       );
@@ -434,7 +434,7 @@ begin  -- behave
       rdfull  => open,
       rdusedw => open,
       wrempty => open,
-      wrfull  => fifo_ful_i,
+      wrfull  => open,
       wrusedw => open);
   
   LB_DataR_o <= LB_DataR_had_fifo or LB_DataR_adc_config or LB_DataR_sw;

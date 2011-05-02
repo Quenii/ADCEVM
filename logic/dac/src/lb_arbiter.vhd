@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-25
--- Last update: 2010-07-19
+-- Last update: 2011-05-02
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -43,6 +43,7 @@ entity lb_arbiter is
     dat_i          : in  std_logic_vector(15 downto 0);
     --
     PKTEND_o       : out std_logic;
+    fifo_emp_i     : in  std_logic;
     fifo_wr_o      : out std_logic;
     fifo_dout_o    : out std_logic_vector(15 downto 0);
     fifo_progful_i : in  std_logic
@@ -128,6 +129,7 @@ begin  -- behave
         end if;
       when USB_WR2LOC =>
         if LB_Ready_i = '0' then
+--        if fifo_emp_i = '0' then
           ns <= USB_WR2LOC;
         else
           ns <= IDLE;

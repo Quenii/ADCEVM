@@ -90,7 +90,7 @@ set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max
 
 
 set_input_delay -clock { rx_inclock_i } -min 0 [get_ports {rx_in_i*}]
-set_input_delay -clock { rx_inclock_i } -max 2.6 [get_ports {rx_in_i*}]
+set_input_delay -clock { rx_inclock_i } -max 1.5 [get_ports {rx_in_i*}]
 
 
 # ** Tpd requirements

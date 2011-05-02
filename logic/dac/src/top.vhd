@@ -139,20 +139,20 @@ architecture behave of top is
       ADDR_SW   : std_logic_vector(15 downto 0);
       ADDR_FIFO : std_logic_vector(15 downto 0));
     port (
-      sys_clk_i     : in  std_logic;
-      LB_Clk_i      : in  std_logic;
-      LB_Reset_i    : in  std_logic;
-      LB_Addr_i     : in  std_logic_vector(15 downto 0);
-      LB_Write_i    : in  std_logic;
-      LB_Read_i     : in  std_logic;
-      LB_Ready_o    : out std_logic;
-      LB_DataW_i    : in  std_logic_vector(15 downto 0);
-      LB_DataR_o    : out std_logic_vector(15 downto 0);
+      sys_clk_i  : in  std_logic;
+      LB_Clk_i   : in  std_logic;
+      LB_Reset_i : in  std_logic;
+      LB_Addr_i  : in  std_logic_vector(15 downto 0);
+      LB_Write_i : in  std_logic;
+      LB_Read_i  : in  std_logic;
+      LB_Ready_o : out std_logic;
+      LB_DataW_i : in  std_logic_vector(15 downto 0);
+      LB_DataR_o : out std_logic_vector(15 downto 0);
 
       dac_data_o    : out std_logic_vector (15 downto 0);
       dac_dco_i     : in  std_logic;
       --
-      chip_rst_n_o   : out std_logic;
+      chip_rst_n_o  : out std_logic;
       spi_clk_o     : out std_logic;
       spi_out_en_o  : out std_logic;
       spi_di_i      : in  std_logic;
@@ -367,28 +367,31 @@ begin  -- behave
   UMR           <= '1';                 -- not reset
 
   -- SSRAM data bus
-  ssram0_adr_o               <= ssram0_adr;
-  ssram0_cke_n_o             <= ssram0_cke_n;
-  ssram0_bw_n_o              <= ssram0_bw_n;
-  ssram0_we_n_o              <= ssram0_we_n;
-  ssram0_dq_io(35 downto 32) <= (others                                                    => '0');
-  ssram0_dq_io(31 downto 0)  <= ssram_d_o(31 downto 0) when ssram_d_t_o = '1' else (others => 'Z');
-  ssram0_ce_n_o              <= ssram0_ce_n;  --
-  ssram0_adv_n_o             <= ssram0_adv_n;
-  ssram0_oe_n_o              <= ssram0_oe_n;
+  ssram0_adr_o   <= ssram0_adr;
+  ssram0_cke_n_o <= ssram0_cke_n;
+  ssram0_bw_n_o  <= ssram0_bw_n;
+  ssram0_we_n_o  <= ssram0_we_n;
+  ssram0_ce_n_o  <= ssram0_ce_n;        --
+  ssram0_adv_n_o <= ssram0_adv_n;
+  ssram0_oe_n_o  <= ssram0_oe_n;
 
-  ssram1_adr_o               <= ssram0_adr;
-  ssram1_cke_n_o             <= ssram0_cke_n;
-  ssram1_bw_n_o              <= ssram0_bw_n;
-  ssram1_we_n_o              <= ssram0_we_n;
-  ssram1_dq_io(35 downto 32) <= (others                                                     => '0');
-  ssram1_dq_io(31 downto 0)  <= ssram_d_o(63 downto 32) when ssram_d_t_o = '1' else (others => 'Z');
-  ssram1_ce_n_o              <= ssram0_ce_n;
-  ssram1_adv_n_o             <= ssram0_adv_n;
-  ssram1_oe_n_o              <= ssram0_oe_n;
+  ssram0_dq_io(35 downto 32) <= (others => '0');
+  ssram0_dq_io(31 downto 0)  <= ssram_d_o(31 downto 0) when ssram_d_t_o = '1'
+                               else (others => 'Z');
+
+  ssram1_adr_o   <= ssram0_adr;
+  ssram1_cke_n_o <= ssram0_cke_n;
+  ssram1_bw_n_o  <= ssram0_bw_n;
+  ssram1_we_n_o  <= ssram0_we_n;
+  ssram1_ce_n_o  <= ssram0_ce_n;
+  ssram1_adv_n_o <= ssram0_adv_n;
+  ssram1_oe_n_o  <= ssram0_oe_n;
+
+  ssram1_dq_io(35 downto 32) <= (others => '0');
+  ssram1_dq_io(31 downto 0)  <= ssram_d_o(63 downto 32) when ssram_d_t_o = '1'
+                                else (others => 'Z');
 
 
-                                        --ssram0_dinout_io(63 downto 0)  <= ssram_dout_o when ssram0_gw_n = '0' else (others => 'Z');
   ssram_d_i(31 downto 0)  <= ssram0_dq_io(31 downto 0);
   ssram_d_i(63 downto 32) <= ssram1_dq_io(31 downto 0);
 
