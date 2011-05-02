@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-25
--- Last update: 2010-07-19
+-- Last update: 2011-05-02
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -70,6 +70,7 @@ architecture behave of lb is
       addr_i         : in  std_logic_vector(15 downto 0);
       dat_i          : in  std_logic_vector(15 downto 0);
       PKTEND_o       : out std_logic;
+      fifo_emp_i     : in  std_logic;
       fifo_wr_o      : out std_logic;
       fifo_dout_o    : out std_logic_vector(15 downto 0);
       fifo_progful_i : in  std_logic);
@@ -182,7 +183,7 @@ begin  -- behave
           adr      <= adr;
           dat      <= fifo_din_i;
         when WR_GET_DAT =>
-          fifo_rd  <= '0';
+          fifo_rd  <= '1';
           fifo_adr <= FIFO_WR_PORT;
           rd_en    <= '0';
           wr_en    <= '1';
@@ -240,7 +241,12 @@ begin  -- behave
       when RD_GET_DAT =>
         ns <= WT_READY;
       when WR_GET_DAT =>
-        ns <= WT_READY;
+        if fifo_emp_i = '1' then
+          ns <= IDLE;
+        else
+          ns <= WR_GET_DAT;
+        end if;
+--        ns <= WT_READY;
       when WT_READY =>
         if lb_conv_busy = '0' and lb_conv_busy_r = '1' then
           ns <= IDLE;
@@ -269,6 +275,7 @@ begin  -- behave
       addr_i         => adr,
       dat_i          => dat,
       PKTEND_o       => PKTEND_o,
+      fifo_emp_i     => fifo_emp_i,
       fifo_wr_o      => fifo_wr_o,
       fifo_dout_o    => fifo_dout_o,
       fifo_progful_i => fifo_progful_i);

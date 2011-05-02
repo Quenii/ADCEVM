@@ -125,66 +125,66 @@ architecture impl of demux is
     
 begin  -- impl
 
-    GEN_LVDS_IMPL : if IO_TYPE = "LVDS" generate
-        pll_areset <= rst_i;
-        rx_in      <= data_i;
-        rx_inclock <= clk_i;
-
-        lvds_i_1 : lvds_i
-            port map (
-                pll_areset  => pll_areset,
-                rx_in       => rx_in,
-                rx_inclock  => rx_inclock,
-                rx_out      => rx_out_disorder,
-                rx_outclock => rx_outclock,
-                rx_locked   => rx_locked);
-
-        order_data_bus_i : for i in 0 to 3 generate
-            order_data_bus_j : for j in 0 to 15 generate
-                rx_out(16 * i + j) <= rx_out_disorder(j * 4 + i);
-            end generate order_data_bus_j;
-        end generate order_data_bus_i;
-
-        fifo64to64_data  <= rx_out;
-        fifo64to64_wrclk <= rx_outclock;
-        fifo64to64_wrreq <= rx_locked and enable_i and (not fifo64to64_wrfull);
-        fifo64to64_rdreq <= rd_req_i;
-        fifo64to64_rdclk <= rd_clk_i;
-
-        fifo64to64_1 : fifo64to64
-            port map (
-                aclr    => rst_i,
-                data    => fifo64to64_data,
-                wrclk   => fifo64to64_wrclk,
-                wrreq   => fifo64to64_wrreq,
-                wrempty => fifo64to64_wrempty,
-                wrfull  => fifo64to64_wrfull,
-                wrusedw => fifo64to64_wrusedw,
-                q       => fifo64to64_q,
-                rdclk   => fifo64to64_rdclk,
-                rdreq   => fifo64to64_rdreq,
-                rdempty => fifo64to64_rdempty,
-                rdfull  => fifo64to64_rdfull,
-                rdusedw => fifo64to64_rdusedw);
-
-        rd_q_o     <= fifo64to64_q;
---        rd_empty_o <= fifo64to64_rdempty;
-        process (rd_clk_i, rst_i)
-        begin  -- process
-            if rst_i = '1' then         -- asynchronous reset (active low)
-                rd_empty_o <= '1';
-            elsif rd_clk_i'event and rd_clk_i = '1' then  -- rising clock edge
-                if fifo64to64_rdempty = '1' or fifo64to64_rdusedw < x"08" then
-                    rd_empty_o <= '1';
-                else
-                    rd_empty_o <= '0';
-                end if;
-            end if;
-        end process;
-        
-    end generate GEN_LVDS_IMPL;
-
-    GEN_CMOS_IMPL : if IO_TYPE = "CMOS" generate
+--    GEN_LVDS_IMPL : if IO_TYPE = "LVDS" generate
+--        pll_areset <= rst_i;
+--        rx_in      <= data_i;
+--        rx_inclock <= clk_i;
+--
+--        lvds_i_1 : lvds_i
+--            port map (
+--                pll_areset  => pll_areset,
+--                rx_in       => rx_in,
+--                rx_inclock  => rx_inclock,
+--                rx_out      => rx_out_disorder,
+--                rx_outclock => rx_outclock,
+--                rx_locked   => rx_locked);
+--
+--        order_data_bus_i : for i in 0 to 3 generate
+--            order_data_bus_j : for j in 0 to 15 generate
+--                rx_out(16 * i + j) <= rx_out_disorder(j * 4 + i);
+--            end generate order_data_bus_j;
+--        end generate order_data_bus_i;
+--
+--        fifo64to64_data  <= rx_out;
+--        fifo64to64_wrclk <= rx_outclock;
+--        fifo64to64_wrreq <= rx_locked and enable_i and (not fifo64to64_wrfull);
+--        fifo64to64_rdreq <= rd_req_i;
+--        fifo64to64_rdclk <= rd_clk_i;
+--
+--        fifo64to64_1 : fifo64to64
+--            port map (
+--                aclr    => rst_i,
+--                data    => fifo64to64_data,
+--                wrclk   => fifo64to64_wrclk,
+--                wrreq   => fifo64to64_wrreq,
+--                wrempty => fifo64to64_wrempty,
+--                wrfull  => fifo64to64_wrfull,
+--                wrusedw => fifo64to64_wrusedw,
+--                q       => fifo64to64_q,
+--                rdclk   => fifo64to64_rdclk,
+--                rdreq   => fifo64to64_rdreq,
+--                rdempty => fifo64to64_rdempty,
+--                rdfull  => fifo64to64_rdfull,
+--                rdusedw => fifo64to64_rdusedw);
+--
+--        rd_q_o     <= fifo64to64_q;
+----        rd_empty_o <= fifo64to64_rdempty;
+--        process (rd_clk_i, rst_i)
+--        begin  -- process
+--            if rst_i = '1' then         -- asynchronous reset (active low)
+--                rd_empty_o <= '1';
+--            elsif rd_clk_i'event and rd_clk_i = '1' then  -- rising clock edge
+--                if fifo64to64_rdempty = '1' or fifo64to64_rdusedw < x"08" then
+--                    rd_empty_o <= '1';
+--                else
+--                    rd_empty_o <= '0';
+--                end if;
+--            end if;
+--        end process;
+--        
+--    end generate GEN_LVDS_IMPL;
+--
+--    GEN_CMOS_IMPL : if IO_TYPE = "CMOS" generate
 
         process (clk_i, rst_i)
         begin  -- process
@@ -231,6 +231,6 @@ begin  -- impl
             end if;
         end process;
 
-    end generate GEN_CMOS_IMPL;
+--    end generate GEN_CMOS_IMPL;
     
 end impl;
