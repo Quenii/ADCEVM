@@ -48,8 +48,8 @@ entity top is
     gpio_o : out std_logic_vector(3 downto 0);
 
     -- high ADC data port and SPI port
-    rx_in_i      : in std_logic_vector(15 downto 0);
-    rx_inclock_i : in std_logic := '0';
+    data_o       : out std_logic_vector(15 downto 0);
+    rx_inclock_i : in  std_logic := '0';
 
     --
     KAD5514P_tm_o        : out   std_logic;
@@ -108,6 +108,9 @@ architecture behave of top is
   constant ADDR_RESET_REG : std_logic_vector(15 downto 0) := x"FFFF";
   constant ADDR_LEN_REG   : std_logic_vector(15 downto 0) := x"1004";
   constant ADDR_FIFO      : std_logic_vector(15 downto 0) := x"1005";
+  constant ADDR_LEN_L     : std_logic_vector(15 downto 0) := x"1006";
+  constant ADDR_LEN_H     : std_logic_vector(15 downto 0) := x"1007";
+  
   constant ADDR_3548      : std_logic_vector(15 downto 0) := x"0009";
   constant ADDR_2656_L    : std_logic_vector(15 downto 0) := x"0005";
   constant ADDR_2656_H    : std_logic_vector(15 downto 0) := x"0006";
@@ -134,10 +137,10 @@ architecture behave of top is
 
   component dac_wrap
     generic (
-      IO_TYPE   : string;
-      ADDR_LEN  : std_logic_vector(15 downto 0);
-      ADDR_SW   : std_logic_vector(15 downto 0);
-      ADDR_FIFO : std_logic_vector(15 downto 0));
+      ADDR_LEN_L : std_logic_vector(15 downto 0);
+      ADDR_LEN_H : std_logic_vector(15 downto 0);
+      ADDR_LEN   : std_logic_vector(15 downto 0);
+      ADDR_FIFO  : std_logic_vector(15 downto 0));
     port (
       sys_clk_i  : in  std_logic;
       LB_Clk_i   : in  std_logic;
@@ -377,7 +380,7 @@ begin  -- behave
 
   ssram0_dq_io(35 downto 32) <= (others => '0');
   ssram0_dq_io(31 downto 0)  <= ssram_d_o(31 downto 0) when ssram_d_t_o = '1'
-                               else (others => 'Z');
+                                else (others => 'Z');
 
   ssram1_adr_o   <= ssram0_adr;
   ssram1_cke_n_o <= ssram0_cke_n;
@@ -404,10 +407,10 @@ begin  -- behave
   -- high ADC data buffer
   dac : dac_wrap
     generic map (
-      IO_TYPE   => "CMOS",
-      ADDR_LEN  => ADDR_LEN_REG,
-      ADDR_SW   => ADDR_SW,
-      ADDR_FIFO => ADDR_FIFO
+      ADDR_LEN_L => ADDR_LEN_L,
+      ADDR_LEN_H => ADDR_LEN_H,
+      ADDR_LEN   => ADDR_LEN_REG,
+      ADDR_FIFO  => ADDR_FIFO
       )
     port map (
       sys_clk_i     => sys_clk,
@@ -421,7 +424,7 @@ begin  -- behave
       LB_DataW_i    => LB_DataW_o,
       LB_DataR_o    => LB_DataR_had_i,
       -- high ADC LVDS port
-      dac_data_o    => open,
+      dac_data_o    => data_o,
       dac_dco_i     => rx_inclock_i,
       -- high ADC SPI port
       chip_rst_n_o  => KAD5514P_adc_rst_n_o,

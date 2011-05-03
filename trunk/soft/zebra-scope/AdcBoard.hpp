@@ -65,6 +65,7 @@ protected:
 	void timerEvent (QTimerEvent * event);
 	// len - number of unsigned-short's
 	bool read(unsigned short addr, unsigned short* buf, unsigned int len);
+	bool write(unsigned short addr, unsigned short *buf, unsigned int len);
 	// len - number of unsigned-short's
 	//bool write(unsigned int addr, const unsigned short* buf, int len);
 	

@@ -21,6 +21,8 @@ mid_code=input('Enter Mid-Code (Mean Code):  ');
 fclose(fid);
 
 code=v1';
+code = fix( code / 2^( 16 - numbit ) );
+code = code + 2^(numbit-1);
 code_count=zeros(1,2^numbit);
 
 for i=1:size(code),
