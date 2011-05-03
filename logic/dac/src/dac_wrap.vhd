@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-16
--- Last update: 2011-05-02
+-- Last update: 2011-05-03
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -26,9 +26,9 @@ use ieee.std_logic_unsigned.all;
 entity dac_wrap is
   
   generic (
-    IO_TYPE   : string;
+    ADDR_LEN_L : std_logic_vector(15 downto 0) := x"1006";
+    ADDR_LEN_H : std_logic_vector(15 downto 0) := x"1007";
     ADDR_LEN  : std_logic_vector(15 downto 0) := x"1004";
-    ADDR_SW   : std_logic_vector(15 downto 0) := x"2002";
     ADDR_FIFO : std_logic_vector(15 downto 0) := x"1005");
   port (
     sys_clk_i : in std_logic;
@@ -46,7 +46,7 @@ entity dac_wrap is
     dac_data_o    : out std_logic_vector (15 downto 0);
     dac_dco_i     : in  std_logic;
     -- had SPI port
-    chip_rst_n_o   : out std_logic;
+    chip_rst_n_o  : out std_logic;
     spi_clk_o     : out std_logic;
     spi_out_en_o  : out std_logic;
     spi_di_i      : in  std_logic;
@@ -80,20 +80,6 @@ architecture behave of dac_wrap is
   constant DATA_WIDTH : integer := 64;
   constant ADDR_WIDTH : integer := 19;
 
-  component demux
-    generic (
-      IO_TYPE : string);
-    port (
-      rst_i      : in  std_logic;
-      clk_i      : in  std_logic;
-      enable_i   : in  std_logic;
-      data_i     : in  std_logic_vector(15 downto 0);
-      rd_clk_i   : in  std_logic;
-      rd_req_i   : in  std_logic;
-      rd_q_o     : out std_logic_vector(63 downto 0);
-      rd_empty_o : out std_logic);
-  end component;
-
   signal dm_data_i  : std_logic_vector(15 downto 0);
   signal rd_req_i   : std_logic;
   signal rd_q_o     : std_logic_vector(63 downto 0);
@@ -106,39 +92,6 @@ architecture behave of dac_wrap is
   signal sta_sw      : std_logic_vector(15 downto 0);
 
 -- data buffer
-  component dat_buf_v2
-    generic (
-      DATA_WIDTH : integer;
-      ADDR_WIDTH : integer);
-    port (
-      sys_clk_i   : in  std_logic;
-      rst_i       : in  std_logic;
-      task_start  : in  std_logic;
-      task_length : in  std_logic_vector(15 downto 0);
-      fifo_rd_o   : out std_logic;
-      din_i       : in  std_logic_vector(63 downto 0);
-
-      LB_Clk_i      : in  std_logic;
-      rd_empty_i    : in  std_logic;
-      rd_i          : in  std_logic;
-      empty_o       : out std_logic;
-      dout_o        : out std_logic_vector(15 downto 0);
-      ssram_clk_o   : out std_logic;
-      ssram_ce1_n_o : out std_logic;
-      ssram_ce2_n_o : out std_logic;
-      ssram_ce2_o   : out std_logic;
-      ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
-      ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
-      ssram_d_t_o   : out std_logic;
-      ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
-      ssram_adv_o   : out std_logic;
-      ssram_we_n_o  : out std_logic;
-      ssram_oe_n_o  : out std_logic;
-      ssram_bw_n_o  : out std_logic;
-      ssram_cke_n_o : out std_logic;
-      ssram_zz_o    : out std_logic;
-      ssram_mode_o  : out std_logic);
-  end component;
 
   -- signal define
   signal buf_task_start : std_logic                     := '0';
@@ -193,7 +146,7 @@ architecture behave of dac_wrap is
   signal fifo_ful_i  : std_logic;
   signal fifo_wr_o   : std_logic;
   signal fifo_dout_o : std_logic_vector(15 downto 0);
-  
+
   -- signal define
   signal LB_Ready_had_fifo : std_logic                     := '0';
   signal LB_DataR_had_fifo : std_logic_vector(15 downto 0) := (others => '0');
@@ -233,112 +186,57 @@ architecture behave of dac_wrap is
   signal LB_Ready_adc_config : std_logic                     := '0';
   signal LB_DataR_adc_config : std_logic_vector(15 downto 0) := (others => '0');
 
-  signal test : std_logic_vector(15 downto 0);
-
-  component dcm45
+  component ram_manager_v2
+    generic (
+      DATA_WIDTH : integer;
+      ADDR_WIDTH : integer);
     port (
-      areset : in  std_logic := '0';
-      inclk0 : in  std_logic := '0';
-      c0     : out std_logic;
-      c1     : out std_logic;
-      locked : out std_logic);
+      sys_clk_i     : in  std_logic;
+      rst_i         : in  std_logic;
+      LB_Clk_i      : in  std_logic;
+      wr_start_i    : in  std_logic;
+      rd_start_i    : in  std_logic;
+      rd_len_i      : in  std_logic_vector(31 downto 0);
+      data_i        : in  std_logic_vector(15 downto 0);
+      wrreq_i       : in  std_logic;
+      wrrdy_o       : out std_logic;
+      dco_i         : in  std_logic;
+      q_o           : out std_logic_vector(15 downto 0);
+      ssram_clk_o   : out std_logic;
+      ssram_ce1_n_o : out std_logic;
+      ssram_ce2_n_o : out std_logic;
+      ssram_ce2_o   : out std_logic;
+      ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
+      ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
+      ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+      ssram_d_t_o   : out std_logic;
+      ssram_adv_o   : out std_logic;
+      ssram_we_n_o  : out std_logic;
+      ssram_bw_n_o  : out std_logic;
+      ssram_oe_n_o  : out std_logic;
+      ssram_cke_n_o : out std_logic;
+      ssram_zz_o    : out std_logic;
+      ssram_mode_o  : out std_logic); 
   end component;
 
-  signal sys_clk : std_logic;
+  signal wr_start_i : std_logic;
+  signal rd_start_i : std_logic;
+  signal rd_len_i   : std_logic_vector(31 downto 0);
+  signal wrrdy_o    : std_logic;
 
-  component fifo16to64
-    port (
-      aclr    : in  std_logic := '0';
-      data    : in  std_logic_vector (15 downto 0);
-      rdclk   : in  std_logic;
-      rdreq   : in  std_logic;
-      wrclk   : in  std_logic;
-      wrreq   : in  std_logic;
-      q       : out std_logic_vector (63 downto 0);
-      rdempty : out std_logic;
-      rdfull  : out std_logic;
-      rdusedw : out std_logic_vector (5 downto 0);
-      wrempty : out std_logic;
-      wrfull  : out std_logic;
-      wrusedw : out std_logic_vector (7 downto 0));
-  end component;
+  signal LB_Ready_ll : std_logic;
+  signal LB_DataR_ll : std_logic_vector(15 downto 0);
+  signal updated_ll  : std_logic;
+  signal ctrl_ll     : std_logic_vector(15 downto 0);
+  signal sta_ll      : std_logic_vector(15 downto 0);
   
+  signal LB_Ready_lh : std_logic;
+  signal LB_DataR_lh : std_logic_vector(15 downto 0);
+  signal updated_lh  : std_logic;
+  signal ctrl_lh     : std_logic_vector(15 downto 0);
+  signal sta_lh      : std_logic_vector(15 downto 0);
+
 begin  -- behave
-
-  sys_clk <= sys_clk_i;
-
---  process (rx_inclock_i, LB_Reset_i)
---  begin  -- process
---    if LB_Reset_i = '1' then            -- asynchronous reset (active low)
---      test <= (others => '0');
---    elsif rx_inclock_i'event and rx_inclock_i = '1' then  -- rising clock edge
---      test <= test + x"8";
---    end if;
---  end process;
-
---  demux_1 : demux
---    generic map (
---      IO_TYPE => IO_TYPE)
---    port map (
---      rst_i      => LB_Reset_i,
---      clk_i      => rx_inclock_i,
---      enable_i   => buf_task_start_r,
---      data_i     => dm_data_i,
---      rd_clk_i   => sys_clk,
---      rd_req_i   => rd_req_i,
---      rd_q_o     => rd_q_o,
---      rd_empty_o => rd_empty_o);
-
---  dm_data_i <= rx_in_i;
-  sta_sw    <= ctrl_sw;
-
-  lb_target_data_src : lb_target_reg
-    generic map (
-      ADDR => ADDR_SW)
-    port map (
-      LB_Clk_i   => LB_Clk_i,
-      LB_Reset_i => LB_Reset_i,
-      LB_Addr_i  => LB_Addr_i,
-      LB_Write_i => LB_Write_i,
-      LB_Read_i  => LB_Read_i,
-      LB_Ready_o => LB_Ready_sw,
-      LB_DataW_i => LB_DataW_i,
-      LB_DataR_o => LB_DataR_sw,
-      updated_o  => updated_sw,
-      ctrl_o     => ctrl_sw,
-      sta_i      => sta_sw);
-
-  dat_buf_v2_1 : dat_buf_v2
-    generic map (
-      DATA_WIDTH => DATA_WIDTH,
-      ADDR_WIDTH => ADDR_WIDTH)
-    port map (
-      sys_clk_i     => sys_clk,
-      rst_i         => LB_Reset_i,
-      task_start    => buf_task_start,
-      task_length   => task_length,
-      fifo_rd_o     => rd_req_i,
-      din_i         => rd_q_o,
-      rd_empty_i    => rd_empty_o,
-      LB_Clk_i      => LB_Clk_i,
-      rd_i          => rd,
-      empty_o       => empty,
-      dout_o        => dout,
-      ssram_clk_o   => ssram_clk_o,
-      ssram_ce1_n_o => ssram_ce1_n_o,
-      ssram_ce2_n_o => ssram_ce2_n_o,
-      ssram_ce2_o   => ssram_ce2_o,
-      ssram_addr_o  => ssram_addr_o,
-      ssram_d_i     => ssram_d_i,
-      ssram_d_t_o   => ssram_d_t_o,
-      ssram_d_o     => ssram_d_o,
-      ssram_adv_o   => ssram_adv_o,
-      ssram_we_n_o  => ssram_we_n_o,
-      ssram_oe_n_o  => ssram_oe_n_o,
-      ssram_bw_n_o  => ssram_bw_n_o,
-      ssram_cke_n_o => ssram_cke_n_o,
-      ssram_zz_o    => ssram_zz_o,
-      ssram_mode_o  => ssram_mode_o);
 
   process (LB_Clk_i)
   begin  -- process
@@ -346,17 +244,6 @@ begin  -- behave
 --      if cnt = "1111111" then           -- 40MHz divide by 128 => 312.5KHz
       clk_500K_i <= cnt(8);                    --not clk_500K_i;
       cnt        <= cnt + 1;
-    end if;
-  end process;
-
-  process(LB_Clk_i, LB_Reset_i)
-  begin
-    if LB_Reset_i = '1' then
-      buf_task_start_r <= '0';
-    elsif LB_Clk_i'event and LB_Clk_i = '1' then
-      if buf_task_start = '1' then
-        buf_task_start_r <= '1';
-      end if;
     end if;
   end process;
 
@@ -385,7 +272,7 @@ begin  -- behave
       i2c_scl_o    => i2c_scl_o,
       i2c_sda_o    => i2c_sda_o);
 
-  lb_target_had_dat_buf_ctrl : lb_target_reg
+  lb_target_reg_wr_start : lb_target_reg
     generic map (
       ADDR => ADDR_LEN)
     port map (
@@ -397,7 +284,7 @@ begin  -- behave
       LB_Ready_o => LB_Ready_dat_buf,
       LB_DataW_i => LB_DataW_i,
       LB_DataR_o => open,
-      updated_o  => buf_task_start,
+      updated_o  => wr_start_i,
       ctrl_o     => task_length,
       sta_i      => x"0000");
 
@@ -416,29 +303,82 @@ begin  -- behave
       fifo_emp_i  => empty,
       fifo_rd_o   => rd,
       fifo_din_i  => dout,
-      fifo_ful_i  => '0',
+      fifo_ful_i  => fifo_ful_i,
       fifo_wr_o   => fifo_wr_o,
       fifo_dout_o => fifo_dout_o
       );
 
-  fifo16to64_1: fifo16to64
+  fifo_ful_i <= not wrrdy_o;
+
+  ram_manager_1 : ram_manager_v2
+    generic map (
+      DATA_WIDTH => DATA_WIDTH,
+      ADDR_WIDTH => ADDR_WIDTH)
     port map (
-      aclr    => LB_Reset_i,
-      data    => fifo_dout_o,
-      wrclk   => LB_Clk_i,
-      wrreq   => fifo_wr_o,
-      q       => open,
-      rdclk   => sys_clk,
-      rdreq   => '0',
-      rdempty => open,
-      rdfull  => open,
-      rdusedw => open,
-      wrempty => open,
-      wrfull  => open,
-      wrusedw => open);
-  
-  LB_DataR_o <= LB_DataR_had_fifo or LB_DataR_adc_config or LB_DataR_sw;
+      sys_clk_i     => sys_clk_i,
+      rst_i         => LB_Reset_i,
+      LB_Clk_i      => LB_Clk_i,
+      wr_start_i    => wr_start_i,
+      rd_start_i    => rd_start_i,
+      rd_len_i      => rd_len_i,
+      data_i        => fifo_dout_o,
+      wrreq_i       => fifo_wr_o,
+      wrrdy_o       => wrrdy_o,
+      dco_i         => dac_dco_i,
+      q_o           => dac_data_o,
+      ssram_clk_o   => ssram_clk_o,
+      ssram_ce1_n_o => ssram_ce1_n_o,
+      ssram_ce2_n_o => ssram_ce2_n_o,
+      ssram_ce2_o   => ssram_ce2_o,
+      ssram_addr_o  => ssram_addr_o,
+      ssram_d_i     => ssram_d_i,
+      ssram_d_o     => ssram_d_o,
+      ssram_d_t_o   => ssram_d_t_o,
+      ssram_adv_o   => ssram_adv_o,
+      ssram_we_n_o  => ssram_we_n_o,
+      ssram_bw_n_o  => ssram_bw_n_o,
+      ssram_oe_n_o  => ssram_oe_n_o,
+      ssram_cke_n_o => ssram_cke_n_o,
+      ssram_zz_o    => ssram_zz_o,
+      ssram_mode_o  => ssram_mode_o);
+
+  lb_target_reg_ll: lb_target_reg
+    generic map (
+      ADDR => ADDR_LEN_L)
+    port map (
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => LB_Reset_i,
+      LB_Addr_i  => LB_Addr_i,
+      LB_Write_i => LB_Write_i,
+      LB_Read_i  => LB_Read_i,
+      LB_Ready_o => LB_Ready_ll,
+      LB_DataW_i => LB_DataW_i,
+      LB_DataR_o => LB_DataR_ll,
+      updated_o  => updated_ll,
+      ctrl_o     => ctrl_ll,
+      sta_i      => sta_ll);
+
+  lb_target_reg_lh: lb_target_reg
+    generic map (
+      ADDR => ADDR_LEN_H)
+    port map (
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => LB_Reset_i,
+      LB_Addr_i  => LB_Addr_i,
+      LB_Write_i => LB_Write_i,
+      LB_Read_i  => LB_Read_i,
+      LB_Ready_o => LB_Ready_lh,
+      LB_DataW_i => LB_DataW_i,
+      LB_DataR_o => LB_DataR_lh,
+      updated_o  => updated_lh,
+      ctrl_o     => ctrl_lh,
+      sta_i      => sta_lh);
+
+  rd_start_i <= updated_lh;
+  rd_len_i <= ctrl_lh & ctrl_ll;
+
+  LB_DataR_o <= LB_DataR_had_fifo or LB_DataR_adc_config or LB_DataR_ll or LB_DataR_lh;
   LB_Ready_o <= LB_Ready_had_fifo or LB_Ready_dat_buf or LB_Ready_adc_config
-                or LB_Ready_sw;
+                or LB_Ready_ll or LB_Ready_lh;
 
 end behave;

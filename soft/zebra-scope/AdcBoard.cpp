@@ -197,6 +197,31 @@ bool AdcBoard::read(unsigned short addr, unsigned short *buf, unsigned int len)
 	return true;
 }
 
+bool AdcBoard::write(unsigned short addr, unsigned short *buf, unsigned int len)
+{	
+	if (! usbDev->BulkOutEndPt)
+		return false;
+
+	if (bulkIOBuff.size() < len) bulkIOBuff.resize(len);
+	float max = (1 << (m_adcSettings.bitcount - 1));
+
+	float fs = m_signalSettings.clockFreq;
+	float fc = m_signalSettings.signalFreq;
+
+	for (int i=0; i<len/4; ++i)
+	{
+		bulkIOBuff[4*i+0] = 0xbc95;
+		bulkIOBuff[4*i+1] = addr;
+		bulkIOBuff[4*i+2] = 0x00FF;
+		bulkIOBuff[4*i+3] = ((short)(qSin(2*pi*i*fc/fs)*max));
+	}
+	long llen = len * sizeof(unsigned short);
+	if (!usbDev->BulkOutEndPt->XferData((UCHAR*)&bulkIOBuff[0], llen))
+		return false;
+
+	return true;
+}
+
 bool AdcBoard::writeIOCmd(unsigned short addr, bool dirRead, unsigned short data)
 {	
 	if (! usbDev->BulkOutEndPt)
@@ -307,6 +332,8 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	float vpp = m_adcSettings.vpp;
 	float max = (1 << (m_adcSettings.bitcount - 1));
 
+
+
 	if (usbDev->IsOpen() && (usbDev->DeviceCount())/* && clocked() */)
 	{
 		writeReg(0x2002, 0);
@@ -329,13 +356,17 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	{
 #ifdef _DEBUG
 
+		float fs = m_signalSettings.clockFreq;
+		float fc = m_signalSettings.signalFreq;
+		
+
 		int offset = rand();
 		tdReport.samples.resize(buffer_cnt);
 		tdReport.rawSamples.resize(tdReport.samples.size());
 		for (int i = 0; i < tdReport.samples.size(); ++i)
 		{
-			tdReport.samples[i] = ((int)(qSin(pi/29*i+offset)*max))*vpp/max;
-			tdReport.rawSamples[i] = ((int)(qSin(pi/29*i+offset)*max));
+			tdReport.samples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max))*vpp/max;
+			tdReport.rawSamples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max));
 		}
 #endif //_DEBUG
 	}
@@ -406,7 +437,7 @@ unsigned short AdcBoard::CalcReg(float v)
 {
 	//todo: 1, 
 	float min = 0.96f;
-	float max = 2.65f;
+	float max = 2.93f;
 	float step = 65536/(max - min);
 	//calibrite from vio@2s60;
 	unsigned int reg = (int)((max-v)*step);
@@ -552,6 +583,15 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 
 void AdcBoard::staticTest()
 {
+	writeReg(0x1004, 0);
+	if (buff.size() < buffer_cnt)
+		buff.resize(buffer_cnt);
+	bool okay = write(0x1005, &buff[0], 20*1000*4);
+	writeReg(0x1006, 0);
+	writeReg(0x1007, 1);
+	return;
+
+
 	QString fileNameDat = QDir( QApplication::applicationDirPath() ).filePath("file.dat");
 	QFile fileDat( fileNameDat );
 	fileDat.open(QIODevice::WriteOnly);
@@ -572,13 +612,13 @@ void AdcBoard::staticTest()
 	Sleep(200);	
 
 	unsigned short* p = &buff[0];
-	bool okay = false;
 	float vpp = m_adcSettings.vpp;
 	float max = (1 << (m_adcSettings.bitcount - 1));
 	TimeDomainReport& tdReport = report.tdReport;
 
 	for (int t=0; t<32; ++t)
 	{
+		bool okay = false;
 		okay = read(0x1005, &buff[0], buffer_cnt);
 		Q_ASSERT(okay);
 		outDat.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
