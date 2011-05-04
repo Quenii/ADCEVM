@@ -413,7 +413,7 @@ begin  -- behave
       ADDR_FIFO  => ADDR_FIFO
       )
     port map (
-      sys_clk_i     => sys_clk,
+      sys_clk_i     => '0',
       -- lb
       LB_Clk_i      => LB_Clk_i,
       LB_Reset_i    => reset_ctr_o(0),

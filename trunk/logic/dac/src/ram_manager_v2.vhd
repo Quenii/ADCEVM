@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-05-02
--- Last update: 2011-05-03
+-- Last update: 2011-05-04
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -179,7 +179,6 @@ begin  -- impl
 
   wrclock <= LB_Clk_i;
   rdclock <= dco_i;
-  q_o     <= q;
   data    <= data_i;
 
   ram20k_1 : ram20k
@@ -196,6 +195,13 @@ begin  -- impl
 
   wrrdy_o <= '0' when cs = s_read
              else '1';
+
+  process (rdclock)
+  begin  -- process
+    if rising_edge(rdclock) then
+      q_o <= q;
+    end if;
+  end process;
   
 end impl;
 
