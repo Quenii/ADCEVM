@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-05-02
+-- Last update: 2011-05-04
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -329,8 +329,8 @@ architecture behave of top is
       locked : out std_logic);
   end component;
 
-  signal sys_clk   : std_logic;
-  signal ssram_clk : std_logic;
+  signal dco_0   : std_logic;
+  signal dco_90 : std_logic;
   signal sys_rst   : std_logic;
   signal locked    : std_logic;
 begin  -- behave
@@ -344,13 +344,13 @@ begin  -- behave
   dcm45_ssram : dcm45
     port map (
       areset => '0',
-      inclk0 => clk_80m,
-      c0     => ssram_clk,
-      c1     => sys_clk,
+      inclk0 => rx_inclock_i,
+      c0     => dco_0,
+      c1     => dco_90,
       locked => locked);
 
-  ssram0_clk_o   <= ssram_clk;
-  ssram1_clk_o   <= ssram_clk;
+--  ssram0_clk_o   <= ssram_clk;
+--  ssram1_clk_o   <= ssram_clk;
   sys_rst        <= not locked;
 -------------------------------------------------------------------------------
   -- 68013 port
@@ -425,7 +425,7 @@ begin  -- behave
       LB_DataR_o    => LB_DataR_had_i,
       -- high ADC LVDS port
       dac_data_o    => data_o,
-      dac_dco_i     => rx_inclock_i,
+      dac_dco_i     => dco_0,
       -- high ADC SPI port
       chip_rst_n_o  => KAD5514P_adc_rst_n_o,
       spi_clk_o     => KAD5514P_spi_clk_o,
