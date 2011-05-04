@@ -89,9 +89,11 @@ create_clock -period "8.000 ns" \
 #set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram1_cke*}]
 
 
-set_output_delay -clock { rx_inclock_i } -min 0 [get_ports {data_o*}]
-set_output_delay -clock { rx_inclock_i } -max 2.0 [get_ports {data_o*}]
+set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min 0 [get_ports {data_o*}]
+set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 2.0 [get_ports {data_o*}]
 
+# set_output_delay -clock { rx_inclock_i } -min 0 [get_ports {data_o*}]
+# set_output_delay -clock { rx_inclock_i } -max 2.0 [get_ports {data_o*}]
 
 # ** Tpd requirements
 #    ----------------

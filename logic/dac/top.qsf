@@ -409,37 +409,6 @@ set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[19] -t
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=256" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=256" -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to rx_inclock_i -section_id auto_signaltap_0
-set_global_assignment -name VHDL_FILE src/ram_manager_v2.vhd
-set_global_assignment -name VHDL_FILE src/dac_wrap.vhd
-set_global_assignment -name VHDL_FILE ip/ram20k/ram20k.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/lb_arbiter.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/lb.vhd
-set_global_assignment -name VHDL_FILE src/top.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/spi24_v2.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/dff_en_r_pline_spec.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/dff_en_r_pline_w_untitled.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/ssram_fifo.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/ssram_inf.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/dat_buf_v2.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/demux.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/spi16.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/tlc3548.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/adc_config.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/adc_jtag_ctr.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/spi24.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/ltc2656b.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/lb_target_fifo.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/lb_target_fifo_rome.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/lb_target_reg.vhd
-set_global_assignment -name VHDL_FILE ../branch/src/spi.vhd
-set_global_assignment -name VHDL_FILE ../branch/ip/dcm_1M/dcm_1M.vhd
-set_global_assignment -name VHDL_FILE ../branch/ip/dcm_45/dcm45.vhd
-set_global_assignment -name VHDL_FILE ../branch/ip/fifo64to16/fifo64to16.vhd
-set_global_assignment -name VHDL_FILE ../branch/ip/dcm_user/dcm_user.vhd
-set_global_assignment -name VHDL_FILE ../branch/ip/fifo16to64/fifo16to64.vhd
-set_global_assignment -name VHDL_FILE ../branch/ip/fifo64to64/fifo64to64.vhd
-set_global_assignment -name SDC_FILE top.sdc
-set_global_assignment -name SIGNALTAP_FILE stp_wfifo.stp
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[20] -to "dac_wrap:dac|ram_manager_v2:ram_manager_1|cs.s_idle" -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[21] -to "dac_wrap:dac|ram_manager_v2:ram_manager_1|cs.s_read" -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[22] -to "dac_wrap:dac|ram_manager_v2:ram_manager_1|cs.s_wait" -section_id auto_signaltap_0
@@ -618,3 +587,34 @@ set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=00
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=340" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_HIWORD=2840" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_LOWORD=48529" -section_id auto_signaltap_0
+set_global_assignment -name VHDL_FILE ip/dcm_45/dcm45.vhd
+set_global_assignment -name VHDL_FILE src/ram_manager_v2.vhd
+set_global_assignment -name VHDL_FILE src/dac_wrap.vhd
+set_global_assignment -name VHDL_FILE ip/ram20k/ram20k.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb_arbiter.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb.vhd
+set_global_assignment -name VHDL_FILE src/top.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/spi24_v2.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/dff_en_r_pline_spec.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/dff_en_r_pline_w_untitled.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/ssram_fifo.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ssram/hdltext/ssram_inf.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/dat_buf_v2.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/demux.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/spi16.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/tlc3548.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/adc_config.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/adc_jtag_ctr.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/spi24.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/ltc2656b.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb_target_fifo.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb_target_fifo_rome.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/lb_target_reg.vhd
+set_global_assignment -name VHDL_FILE ../branch/src/spi.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/dcm_1M/dcm_1M.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/fifo64to16/fifo64to16.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/dcm_user/dcm_user.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/fifo16to64/fifo16to64.vhd
+set_global_assignment -name VHDL_FILE ../branch/ip/fifo64to64/fifo64to64.vhd
+set_global_assignment -name SDC_FILE top.sdc
+set_global_assignment -name SIGNALTAP_FILE stp_wfifo.stp
