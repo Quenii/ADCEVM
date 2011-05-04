@@ -409,7 +409,6 @@ set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[19] -t
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=256" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=256" -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to rx_inclock_i -section_id auto_signaltap_0
-set_global_assignment -name TIMEQUEST_DO_CCPP_REMOVAL OFF
 set_global_assignment -name VHDL_FILE src/ram_manager_v2.vhd
 set_global_assignment -name VHDL_FILE src/dac_wrap.vhd
 set_global_assignment -name VHDL_FILE ip/ram20k/ram20k.vhd
