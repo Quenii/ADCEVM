@@ -163,7 +163,7 @@ begin  -- impl
       rdaddress <= (others => '0');
     elsif dco_i'event and dco_i = '1' then  -- rising clock edge
       if cs_rr = s_read then
-        if rdaddress < x"4E20" then
+        if rdaddress < x"4E1F" then
           rdaddress <= rdaddress + 1;
         else
           rdaddress <= (others => '0');
