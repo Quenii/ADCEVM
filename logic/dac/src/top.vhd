@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-05-04
+-- Last update: 2011-05-05
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -110,13 +110,13 @@ architecture behave of top is
   constant ADDR_FIFO      : std_logic_vector(15 downto 0) := x"1005";
   constant ADDR_LEN_L     : std_logic_vector(15 downto 0) := x"1006";
   constant ADDR_LEN_H     : std_logic_vector(15 downto 0) := x"1007";
-  
-  constant ADDR_3548      : std_logic_vector(15 downto 0) := x"0009";
-  constant ADDR_2656_L    : std_logic_vector(15 downto 0) := x"0005";
-  constant ADDR_2656_H    : std_logic_vector(15 downto 0) := x"0006";
-  constant ADDR_GPIO      : std_logic_vector(15 downto 0) := x"2000";
-  constant ADDR_WD        : std_logic_vector(15 downto 0) := x"2001";
-  constant ADDR_SW        : std_logic_vector(15 downto 0) := x"2002";
+
+  constant ADDR_3548   : std_logic_vector(15 downto 0) := x"0009";
+  constant ADDR_2656_L : std_logic_vector(15 downto 0) := x"0005";
+  constant ADDR_2656_H : std_logic_vector(15 downto 0) := x"0006";
+  constant ADDR_GPIO   : std_logic_vector(15 downto 0) := x"2000";
+  constant ADDR_WD     : std_logic_vector(15 downto 0) := x"2001";
+  constant ADDR_SW     : std_logic_vector(15 downto 0) := x"2002";
 -- high ADC controller
 
   signal LB_Ready_reset_ctr_i : std_logic;
@@ -330,9 +330,12 @@ architecture behave of top is
   end component;
 
   signal dco_0   : std_logic;
-  signal dco_90 : std_logic;
-  signal sys_rst   : std_logic;
-  signal locked    : std_logic;
+  signal dco_90  : std_logic;
+  signal sys_rst : std_logic;
+  signal locked  : std_logic;
+
+  signal sys_clk   : std_logic;
+  signal ssram_clk : std_logic;
 begin  -- behave
   
   dcm_user_1 : dcm_user
@@ -342,6 +345,14 @@ begin  -- behave
       c0     => LB_Clk_i);
 
   dcm45_ssram : dcm45
+    port map (
+      areset => '0',
+      inclk0 => clk_80m,
+      c0     => ssram_clk,
+      c1     => sys_clk,
+      locked => open);
+
+  dcm45_dac : dcm45
     port map (
       areset => '0',
       inclk0 => rx_inclock_i,
