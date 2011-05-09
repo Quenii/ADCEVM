@@ -59,6 +59,7 @@ public:
 	bool isRunning();
 	void staticTest();
 	const AdcBoardReport& reportRef() { return report; }
+	int setVoltage(int adcChannel, int dacChannel, float v);
 	bool clocked();
 
 protected:
@@ -73,7 +74,6 @@ protected:
 private:
 	bool writeIOCmd(unsigned short addr, bool dirRead, unsigned short data);
 
-	unsigned short CalcReg(float v);
 	void Covert(TimeDomainReport&, float, float);
 
 

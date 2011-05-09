@@ -433,45 +433,21 @@ void AdcBoard::Covert(TimeDomainReport& tdReport, float max, float vpp)
 	}
 }
 
-unsigned short AdcBoard::CalcReg(float v)
-{
-	//todo: 1, 
-	float min = 0.96f;
-	float max = 3.66f;
-	float step = 65536/(max - min);
-	//calibrite from vio@2s60;
-	unsigned int reg = (int)((max-v)*step);
-
-	//
-//	unsigned int reg = (int)((3.00f-v)*31000);
-	unsigned short temp = reg;
-//	unsigned short temp = 0;
-	return temp;
-}
-
 bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 {	
 	float vio = adcSettings.vd;
+	unsigned short reg = 0;
 
-	//配置2656，控制板卡电压
-	if (!writeReg(5, CalcReg(vio)) ) //控制VIO电压到1.8V
+	writeReg(9, 0xA400);  //select 3548, work at default mode
+	writeReg(9, 0xA400);  //select 3548, work at default mode
+
+	unsigned short regValue = setVoltage(0x3FFF, 0, adcSettings.vd);
+	setVoltage(0x7FFF, 2, adcSettings.va);
+
+	if (!writeReg(5, regValue)) //设置VIO = VD
 		return false;
-
 	if (!writeReg(6, 0x0004))  //执行 通道E
 		return false;
-
-	//writeReg(5, 0x8000);  //控制VD电压到1.8V
-	if (!writeReg(5, CalcReg(adcSettings.vd)))
-		return false;
-	if (!writeReg(6, 0x0000))  //执行 通道A
-		return false;
-
-	//writeReg(5, 0x77FF);  //控制VA电压到1.8V
-	if (!writeReg(5, CalcReg(adcSettings.va)))
-		return false;
-	if (!writeReg(6, 0x0002))  //执行 通道C
-		return false;
-
 
 	if (!writeReg(0xFFFF, 0xFFFF))  //reset
 		return false;
@@ -491,7 +467,7 @@ bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 	gkhy::MfcMinus::Win32App::sleep(2);
 
 	if (!writeReg(0x1000, 0x0001)) return false;
-	gkhy::MfcMinus::Win32App::sleep(600);
+	gkhy::MfcMinus::Win32App::sleep(100);
 	if (!writeReg(0x1000, 0x0003)) return false;
 	gkhy::MfcMinus::Win32App::sleep(100);
 	if (!writeReg(0x1000, 0x000B)) return false;
@@ -546,8 +522,6 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 	unsigned short reg = 0;
 	writeReg(9, 0xA400);  //select 3548, work at default mode
 	writeReg(9, 0xA400);  //select 3548, work at default mode
-	//writeReg(9, 0xFFFF);  //select 3548, work at default mode
-	//writeReg(9, 0xFFFF);  //select 3548, work at default mode
 
 	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
 	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
@@ -635,5 +609,47 @@ void AdcBoard::staticTest()
 		}
 
 	}
+
+}
+
+int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
+{
+	int fine = 600;
+	int coarse = 100;
+	unsigned short reg = 0;
+
+	int regValue;
+
+	for (int i=coarse; i>0; --i)
+	{
+		if (!writeReg(5, i*65535/coarse))
+			return false;
+		if (!writeReg(6, dacChannel))  //执行 通道A
+			return false;
+		writeReg(9, adcChannel);  //select 3548, select 7th channel
+		writeReg(9, adcChannel);  //select 3548, select 7th channel
+		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
+		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
+		readReg(0x0009, reg);
+		if ((float(reg>>2)) * 4 / 16384 > v)
+			break;
+	}
+	for (int i=0; i<fine; ++i)
+	{
+		regValue = i*65535/fine;
+		if (!writeReg(5, regValue))
+			return false;
+		if (!writeReg(6, dacChannel))  //执行 通道A
+			return false;
+		writeReg(9, adcChannel);  //select 3548, select 7th channel
+		writeReg(9, adcChannel);  //select 3548, select 7th channel
+		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
+		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
+		readReg(0x0009, reg);
+		if ((float(reg>>2)) * 4 / 16384 < v)
+			break;
+
+	}
+	return regValue;
 
 }
