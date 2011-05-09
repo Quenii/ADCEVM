@@ -213,7 +213,7 @@ bool AdcBoard::write(unsigned short addr, unsigned short *buf, unsigned int len)
 		bulkIOBuff[4*i+0] = 0xbc95;
 		bulkIOBuff[4*i+1] = addr;
 		bulkIOBuff[4*i+2] = 0x00FF;
-		bulkIOBuff[4*i+3] = ((short)(qSin(2*pi*i*fc/fs)*max));
+		bulkIOBuff[4*i+3] = ((short)((qSin(2*pi*i*fc/fs)+1)*max));
 	}
 	long llen = len * sizeof(unsigned short);
 	if (!usbDev->BulkOutEndPt->XferData((UCHAR*)&bulkIOBuff[0], llen))
@@ -437,7 +437,7 @@ unsigned short AdcBoard::CalcReg(float v)
 {
 	//todo: 1, 
 	float min = 0.96f;
-	float max = 2.93f;
+	float max = 3.66f;
 	float step = 65536/(max - min);
 	//calibrite from vio@2s60;
 	unsigned int reg = (int)((max-v)*step);
@@ -583,13 +583,14 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 
 void AdcBoard::staticTest()
 {
-	writeReg(0x1004, 0);
-	if (buff.size() < buffer_cnt)
-		buff.resize(buffer_cnt);
-	bool okay = write(0x1005, &buff[0], 20*1000*4);
-	writeReg(0x1006, 0);
-	writeReg(0x1007, 1);
-	return;
+	//uncomment this section to send sine wave through dac;
+	//writeReg(0x1004, 0);
+	//if (buff.size() < buffer_cnt)
+	//	buff.resize(buffer_cnt);
+	//bool okay = write(0x1005, &buff[0], 20*1000*4);
+	//writeReg(0x1006, 0);
+	//writeReg(0x1007, 1);
+	//return;
 
 
 	QString fileNameDat = QDir( QApplication::applicationDirPath() ).filePath("file.dat");
