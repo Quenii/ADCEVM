@@ -100,8 +100,9 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	settings.adcSettings(m_adcSettings);
 	settings.signalSettings(m_signalSettings);
 
-	setAdcSettings(m_adcSettings);
-	setSignalSettings(m_signalSettings);
+	//setAdcSettings(m_adcSettings);
+	//setSignalSettings(m_signalSettings);
+
 	if (!m_timerIdPower)
 	{
 		m_timerIdPower = startTimer(2000);
