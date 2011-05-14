@@ -1,0 +1,396 @@
+<session sof_file="" top_level_entity="top">
+  <display_tree gui_logging_enabled="0">
+    <display_branch instance="auto_signaltap_0" signal_set="USE_GLOBAL_TEMP" trigger="USE_GLOBAL_TEMP"/>
+  </display_tree>
+  <global_info>
+    <single attribute="active instance" value="0"/>
+    <single attribute="lock mode" value="36110"/>
+    <multi attribute="window position" size="9" value="1366,673,398,124,356,50,0,0,0"/>
+  </global_info>
+  <instance entity_name="sld_signaltap" is_auto_node="yes" name="auto_signaltap_0" source_file="sld_signaltap.vhd">
+    <node_ip_info instance_id="0" mfg_id="110" node_id="0" version="6"/>
+    <position_info>
+      <single attribute="active tab" value="1"/>
+    </position_info>
+    <signal_set global_temp="1" name="signal_set: 2011/05/11 21:43:35  #0">
+      <clock name="dcm_user:dcm_user_1|c0" polarity="posedge" tap_mode="classic"/>
+      <config ram_type="M4K" reserved_data_nodes="0" reserved_trigger_nodes="0" sample_depth="2048" trigger_in_enable="no" trigger_out_enable="no"/>
+      <top_entity/>
+      <signal_vec>
+        <trigger_input_vec>
+          <wire name="lb:lb_1|cs.chk_sof" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.get_adr" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.get_cmd" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.idle" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.rd_adr" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.rd_get_dat" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.rd_sof" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.wr_get_dat" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.wt_ready" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs.idle" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs.loc_wr2usb" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs.usb_wr2loc" tap_mode="classic" type="state machine"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cnt[0]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cnt[1]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cnt[2]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cnt[3]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cnt[4]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cnt[5]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cs.dc" tap_mode="classic" type="state machine"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cs.idle" tap_mode="classic" type="state machine"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cs.transfer" tap_mode="classic" type="state machine"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cs.updata" tap_mode="classic" type="state machine"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[16]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[17]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[18]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[19]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[20]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[21]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[22]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[23]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|ld_cs_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|ldac_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[0]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[10]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[11]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[12]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[13]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[14]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[15]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[16]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[17]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[18]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[19]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[1]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[20]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[21]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[22]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[23]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[2]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[3]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[4]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[5]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[6]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[7]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[8]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[9]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|sck_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|sdo_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|task_start_i" tap_mode="classic" type="combinatorial"/>
+        </trigger_input_vec>
+        <data_input_vec>
+          <wire name="lb:lb_1|cs.chk_sof" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.get_adr" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.get_cmd" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.idle" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.rd_adr" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.rd_get_dat" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.rd_sof" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.wr_get_dat" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|cs.wt_ready" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs.idle" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs.loc_wr2usb" tap_mode="classic" type="state machine"/>
+          <wire name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs.usb_wr2loc" tap_mode="classic" type="state machine"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cnt[0]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cnt[1]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cnt[2]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cnt[3]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cnt[4]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cnt[5]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cs.dc" tap_mode="classic" type="state machine"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cs.idle" tap_mode="classic" type="state machine"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cs.transfer" tap_mode="classic" type="state machine"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|cs.updata" tap_mode="classic" type="state machine"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[16]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[17]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[18]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[19]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[20]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[21]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[22]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[23]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|data_i[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|ld_cs_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|ldac_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[0]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[10]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[11]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[12]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[13]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[14]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[15]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[16]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[17]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[18]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[19]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[1]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[20]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[21]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[22]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[23]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[2]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[3]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[4]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[5]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[6]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[7]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[8]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[9]" tap_mode="classic" type="register"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|sck_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|sdo_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="ltc2656b:DAC7612|spi:spi_1|task_start_i" tap_mode="classic" type="combinatorial"/>
+        </data_input_vec>
+      </signal_vec>
+      <presentation>
+        <data_view>
+          <bus is_signal_inverted="no" link="all" mnemonics="cs_table (1)" name="ltc2656b:DAC7612|spi:spi_1|cs" order="lsb_to_msb" state="collapse" type="state machine">
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cs.dc"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cs.idle"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cs.transfer"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cs.updata"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" mnemonics="cs_table" name="lb:lb_1|cs" order="lsb_to_msb" state="collapse" type="state machine">
+            <net is_signal_inverted="no" name="lb:lb_1|cs.chk_sof"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.get_adr"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.get_cmd"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.idle"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.rd_adr"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.rd_get_dat"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.rd_sof"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.wr_get_dat"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.wt_ready"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" mnemonics="cs_table (2)" name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs" order="lsb_to_msb" state="collapse" type="state machine">
+            <net is_signal_inverted="no" name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs.idle"/>
+            <net is_signal_inverted="no" name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs.loc_wr2usb"/>
+            <net is_signal_inverted="no" name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs.usb_wr2loc"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="ltc2656b:DAC7612|spi:spi_1|cnt" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cnt[0]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cnt[1]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cnt[2]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cnt[3]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cnt[4]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cnt[5]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="ltc2656b:DAC7612|spi:spi_1|data_i" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[0]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[1]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[2]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[3]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[4]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[5]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[6]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[7]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[8]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[9]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[10]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[11]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[12]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[13]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[14]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[15]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[16]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[17]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[18]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[19]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[20]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[21]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[22]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[23]"/>
+          </bus>
+          <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|ld_cs_n_o"/>
+          <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|ldac_n_o"/>
+          <bus is_signal_inverted="no" link="all" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[0]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[1]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[2]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[3]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[4]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[5]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[6]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[7]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[8]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[9]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[10]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[11]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[12]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[13]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[14]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[15]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[16]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[17]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[18]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[19]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[20]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[21]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[22]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[23]"/>
+          </bus>
+          <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|sck_o"/>
+          <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|sdo_o"/>
+          <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|task_start_i"/>
+        </data_view>
+        <setup_view>
+          <bus is_signal_inverted="no" link="all" mnemonics="cs_table (1)" name="ltc2656b:DAC7612|spi:spi_1|cs" order="lsb_to_msb" state="collapse" type="state machine">
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cs.dc"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cs.idle"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cs.transfer"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cs.updata"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" mnemonics="cs_table" name="lb:lb_1|cs" order="lsb_to_msb" state="collapse" type="state machine">
+            <net is_signal_inverted="no" name="lb:lb_1|cs.chk_sof"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.get_adr"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.get_cmd"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.idle"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.rd_adr"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.rd_get_dat"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.rd_sof"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.wr_get_dat"/>
+            <net is_signal_inverted="no" name="lb:lb_1|cs.wt_ready"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" mnemonics="cs_table (2)" name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs" order="lsb_to_msb" state="collapse" type="state machine">
+            <net is_signal_inverted="no" name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs.idle"/>
+            <net is_signal_inverted="no" name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs.loc_wr2usb"/>
+            <net is_signal_inverted="no" name="lb:lb_1|lb_arbiter:lb_arbiter_1|cs.usb_wr2loc"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="ltc2656b:DAC7612|spi:spi_1|cnt" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cnt[0]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cnt[1]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cnt[2]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cnt[3]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cnt[4]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|cnt[5]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="ltc2656b:DAC7612|spi:spi_1|data_i" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[0]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[1]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[2]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[3]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[4]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[5]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[6]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[7]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[8]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[9]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[10]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[11]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[12]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[13]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[14]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[15]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[16]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[17]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[18]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[19]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[20]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[21]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[22]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|data_i[23]"/>
+          </bus>
+          <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|ld_cs_n_o"/>
+          <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|ldac_n_o"/>
+          <bus is_signal_inverted="no" link="all" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg" order="lsb_to_msb" radix="hex" state="collapse" type="register">
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[0]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[1]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[2]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[3]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[4]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[5]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[6]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[7]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[8]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[9]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[10]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[11]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[12]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[13]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[14]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[15]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[16]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[17]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[18]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[19]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[20]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[21]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[22]"/>
+            <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|rec_shift_reg[23]"/>
+          </bus>
+          <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|sck_o"/>
+          <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|sdo_o"/>
+          <net is_signal_inverted="no" name="ltc2656b:DAC7612|spi:spi_1|task_start_i"/>
+        </setup_view>
+      </presentation>
+      <trigger attribute_mem_mode="false" global_temp="1" name="trigger: 2011/05/11 21:43:35  #1" position="pre" power_up_trigger_mode="false" segment_size="1" trigger_in="dont_care" trigger_out="active high" trigger_type="circular">
+        <power_up_trigger position="pre" trigger_in="dont_care" trigger_out="active high"/>
+        <events use_custom_flow_control="no">
+          <level enabled="yes" name="condition1" type="basic">
+            <power_up enabled="yes">
+            </power_up>
+            <op_node/>
+          </level>
+          <level enabled="yes" name="condition2" type="basic">
+            <power_up enabled="yes">
+            </power_up>
+            <op_node/>
+          </level>
+        </events>
+      </trigger>
+    </signal_set>
+  </instance>
+  <mnemonics>
+    <table name="cs_table (1)" width="4">
+      <symbol name="dc" value="0001"/>
+      <symbol name="idle" value="0010"/>
+      <symbol name="transfer" value="0100"/>
+      <symbol name="updata" value="1000"/>
+    </table>
+    <table name="cs_table" width="9">
+      <symbol name="chk_sof" value="000000001"/>
+      <symbol name="get_adr" value="000000010"/>
+      <symbol name="get_cmd" value="000000100"/>
+      <symbol name="idle" value="000001000"/>
+      <symbol name="rd_adr" value="000010000"/>
+      <symbol name="rd_get_dat" value="000100000"/>
+      <symbol name="rd_sof" value="001000000"/>
+      <symbol name="wr_get_dat" value="010000000"/>
+      <symbol name="wt_ready" value="100000000"/>
+    </table>
+    <table name="cs_table (2)" width="3">
+      <symbol name="idle" value="001"/>
+      <symbol name="loc_wr2usb" value="010"/>
+      <symbol name="usb_wr2loc" value="100"/>
+    </table>
+  </mnemonics>
+</session>

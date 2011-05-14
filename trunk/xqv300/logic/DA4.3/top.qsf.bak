@@ -1,0 +1,124 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2009 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II
+# Version 9.0 Build 132 02/25/2009 SJ Full Version
+# Date created = 08:24:50  May 10, 2010
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		top_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name DEVICE EP2S60F484C5
+set_global_assignment -name FAMILY "Stratix II"
+set_global_assignment -name TOP_LEVEL_ENTITY top
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 9.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "08:24:50  MAY 10, 2010"
+set_global_assignment -name LAST_QUARTUS_VERSION "8.0 SP1"
+set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_blast_fpga
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
+set_global_assignment -name MISC_FILE "E:/FPGA_project/quartus/da/top.dpf"
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+
+
+
+
+
+
+
+
+
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name USE_SIGNALTAP_FILE stp/kad5514p_jtag_spi.stp
+set_global_assignment -name STATE_MACHINE_PROCESSING "ONE-HOT"
+set_global_assignment -name SAFE_STATE_MACHINE ON
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output
+set_global_assignment -name FMAX_REQUIREMENT "300 MHz" -section_id "lvds_i:lvds_i_1|rx_inclock"
+#set_location_assignment PIN_C21 -to KAD5514P_sck_o
+#set_location_assignment PIN_C19 -to KAD5514P_sdo_o
+#set_location_assignment PIN_C17 -to KAD5514P_sdi_i
+#set_location_assignment PIN_C16 -to KAD5514P_cs_n_o
+
+# SSRAM
+
+
+
+
+
+set_global_assignment -name FMAX_REQUIREMENT "80 MHz" -section_id "dcm_user:dcm_user_1|c0"
+set_global_assignment -name OPTIMIZE_HOLD_TIMING "IO PATHS AND MINIMUM TPD PATHS"
+set_instance_assignment -name CLOCK_SETTINGS "dcm_user:dcm_user_1|c0" -to "dcm_user:dcm_user_1|c0"
+set_global_assignment -name STRATIXII_CONFIGURATION_SCHEME "ACTIVE SERIAL"
+set_global_assignment -name STRATIXII_CONFIGURATION_DEVICE EPCS16
+set_global_assignment -name GENERATE_TTF_FILE ON
+set_global_assignment -name RESERVE_ASDO_AFTER_CONFIGURATION "AS INPUT TRI-STATED"
+set_global_assignment -name USE_TIMEQUEST_TIMING_ANALYZER OFF
+set_global_assignment -name USER_LIBRARIES "stp/;src/;output/;ip/tri_bus/;ip/test_fifo/;ip/lvds_i/;ip/fifo64to16/;ip/dcm_user/;ip/dcm_45/;ip/dcm125_i/"
+set_instance_assignment -name CLOCK_SETTINGS "lvds_i:lvds_i_1|rx_inclock" -to rx_inclock_i
+set_global_assignment -name FMAX_REQUIREMENT "75 MHz" -section_id rx_clk_o
+set_instance_assignment -name CLOCK_SETTINGS rx_clk_o -to "had_rec:had_rec_2|lvds_i:lvds_i_1|rx_outclock"
+set_global_assignment -name VHDL_FILE src/spi16.vhd
+set_global_assignment -name VHDL_FILE ip/dcm_1M/dcm_1M.vhd
+set_global_assignment -name VHDL_FILE src/tlc3548.vhd
+set_global_assignment -name VHDL_FILE src/adc_config.vhd
+set_global_assignment -name VHDL_FILE src/adc_jtag_ctr.vhd
+set_global_assignment -name VHDL_FILE src/spi24.vhd
+set_global_assignment -name SDC_FILE top.sdc
+set_global_assignment -name VHDL_FILE src/ltc2656b.vhd
+set_global_assignment -name VHDL_FILE src/dat_buf.vhd
+set_global_assignment -name VHDL_FILE src/had_rec.vhd
+set_global_assignment -name VHDL_FILE src/lb.vhd
+set_global_assignment -name VHDL_FILE src/lb_arbiter.vhd
+set_global_assignment -name VHDL_FILE src/lb_target_fifo.vhd
+set_global_assignment -name VHDL_FILE src/lb_target_fifo_rome.vhd
+set_global_assignment -name VHDL_FILE src/lb_target_reg.vhd
+set_global_assignment -name QIP_FILE ip/dcm125_i/dcm125.qip
+set_global_assignment -name VHDL_FILE src/spi.vhd
+set_global_assignment -name VHDL_FILE src/top.vhd
+set_global_assignment -name QIP_FILE ip/lvds_i/lvds_i.qip
+set_global_assignment -name QIP_FILE ip/fifo64to16/fifo64to16.qip
+set_global_assignment -name SIGNALTAP_FILE stp/localbus.stp
+set_global_assignment -name QIP_FILE ip/test_fifo/test_fifo.qip
+set_global_assignment -name SIGNALTAP_FILE stp/fifo_test.stp
+set_global_assignment -name QIP_FILE ip/tri_bus/tri_bus.qip
+set_global_assignment -name SIGNALTAP_FILE stp/local_bus1.stp
+set_global_assignment -name QIP_FILE ip/dcm_user/dcm_user.qip
+set_global_assignment -name SIGNALTAP_FILE stp/stp1.stp
+set_global_assignment -name QIP_FILE ip/dcm_45/dcm45.qip
+set_global_assignment -name USE_CONFIGURATION_DEVICE ON
+set_global_assignment -name SIGNALTAP_FILE stp/kad5514p_jtag_spi.stp
+set_instance_assignment -name CURRENT_STRENGTH_NEW 4MA -to KAD5514P_adc_rst_n_o
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
