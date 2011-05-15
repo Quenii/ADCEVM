@@ -31,6 +31,10 @@
 
 using namespace std;
 
+#define ADCCH0 0x1
+#define ADCCH1 0x5
+#define ADCCH2 0x2
+#define ADCCH3 0x6
 
 DummyWidget::DummyWidget(QWidget* parent /*= 0*/, Qt::WindowFlags f /*= 0*/ ) : QWidget(parent, f) 
 {
@@ -100,10 +104,32 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	settings.adcSettings(m_adcSettings);
 	settings.signalSettings(m_signalSettings);
 
-	writeReg(0x2006, 0x97);
+	writeReg(0x2006, 1<<7 | ADCCH0<<4 | 0x7);
 	writeReg(0x2005, 0);
-	writeReg(0x2006, 0xA7);
+	writeReg(0x2006, 1<<7 | ADCCH1<<4 | 0x7);
 	writeReg(0x2005, 0);
+	writeReg(0x2006, 1<<7 | ADCCH2<<4 | 0x7);
+	writeReg(0x2005, 0);
+	writeReg(0x2006, 1<<7 | ADCCH3<<4 | 0x7);
+	writeReg(0x2005, 0);
+
+	writeReg(0x2008, 1<<7 | ADCCH0<<4 | 0x7);
+	writeReg(0x2007, 0);
+	writeReg(0x2008, 1<<7 | ADCCH1<<4 | 0x7);
+	writeReg(0x2007, 0);
+	writeReg(0x2008, 1<<7 | ADCCH2<<4 | 0x7);
+	writeReg(0x2007, 0);
+	writeReg(0x2008, 1<<7 | ADCCH3<<4 | 0x7);
+	writeReg(0x2007, 0);
+
+	writeReg(0x200A, 1<<7 | ADCCH0<<4 | 0x7);
+	writeReg(0x2009, 0);
+	writeReg(0x200A, 1<<7 | ADCCH1<<4 | 0x7);
+	writeReg(0x2009, 0);
+	writeReg(0x200A, 1<<7 | ADCCH2<<4 | 0x7);
+	writeReg(0x2009, 0);
+	writeReg(0x200A, 1<<7 | ADCCH3<<4 | 0x7);
+	writeReg(0x2009, 0);
 
 	for (int i=100; i>0; --i)
 	{
