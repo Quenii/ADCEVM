@@ -59,7 +59,19 @@ entity top is
     adcp_busy_i : in  std_logic;
     adcp_sck_o  : out std_logic;
     adcp_sdo_o  : out std_logic;
-    adcp_sdi_i  : in  std_logic
+    adcp_sdi_i  : in  std_logic;
+
+    adcio0_cs_n_o : out std_logic;
+    adcio0_busy_i : in  std_logic;
+    adcio0_sck_o  : out std_logic;
+    adcio0_sdo_o  : out std_logic;
+    adcio0_sdi_i  : in  std_logic;
+
+    adcio1_cs_n_o : out std_logic;
+    adcio1_busy_i : in  std_logic;
+    adcio1_sck_o  : out std_logic;
+    adcio1_sdo_o  : out std_logic;
+    adcio1_sdi_i  : in  std_logic
 
     );
 
@@ -67,18 +79,25 @@ end top;
 
 architecture behave of top is
 -------------------------------------------------------------------------------
-  constant ADDR_RESET_REG    : std_logic_vector(15 downto 0) := x"FFFF";
-  constant ADDR_LEN_REG      : std_logic_vector(15 downto 0) := x"1004";
-  constant ADDR_FIFO         : std_logic_vector(15 downto 0) := x"1005";
-  constant ADDR_GPIO         : std_logic_vector(15 downto 0) := x"2000";
-  constant ADDR_WD           : std_logic_vector(15 downto 0) := x"2001";
-  constant ADDR_SW           : std_logic_vector(15 downto 0) := x"2002";
-  constant ADDR_DAC          : std_logic_vector(15 downto 0) := x"2003";
-  constant C_SCK_RATIO_DAC   : integer                       := 8;
-  constant C_REG_WIDTH_DAC   : integer                       := 14;
-  constant ADDR_ADC_P        : std_logic_vector(15 downto 0) := x"2005";
-  constant C_SCK_RATIO_ADC_P : integer                       := 200;
-  constant C_REG_WIDTH_ADC_P : integer                       := 24;
+  constant ADDR_RESET_REG  : std_logic_vector(15 downto 0) := x"FFFF";
+  constant ADDR_LEN_REG    : std_logic_vector(15 downto 0) := x"1004";
+  constant ADDR_FIFO       : std_logic_vector(15 downto 0) := x"1005";
+  constant ADDR_GPIO       : std_logic_vector(15 downto 0) := x"2000";
+  constant ADDR_WD         : std_logic_vector(15 downto 0) := x"2001";
+  constant ADDR_SW         : std_logic_vector(15 downto 0) := x"2002";
+  constant ADDR_DAC        : std_logic_vector(15 downto 0) := x"2003";
+  constant C_SCK_RATIO_DAC : integer                       := 8;
+  constant C_REG_WIDTH_DAC : integer                       := 14;
+
+  constant ADDR_ADC_P          : std_logic_vector(15 downto 0) := x"2005";
+  constant C_SCK_RATIO_ADC_P   : integer                       := 200;
+  constant C_REG_WIDTH_ADC_P   : integer                       := 24;
+  constant ADDR_ADC_IO0        : std_logic_vector(15 downto 0) := x"2007";
+  constant C_SCK_RATIO_ADC_IO0 : integer                       := 200;
+  constant C_REG_WIDTH_ADC_IO0 : integer                       := 24;
+  constant ADDR_ADC_IO1        : std_logic_vector(15 downto 0) := x"2009";
+  constant C_SCK_RATIO_ADC_IO1 : integer                       := 200;
+  constant C_REG_WIDTH_ADC_IO1 : integer                       := 24;
 
   signal LB_Ready_rst : std_logic;
   signal LB_DataR_rst : std_logic_vector(15 downto 0);
@@ -185,8 +204,12 @@ architecture behave of top is
   signal dac_sdi_i    : std_logic;
   signal dac_cs_n     : std_logic;
 
-  signal LB_Ready_adcp : std_logic;
-  signal LB_DataR_adcp : std_logic_vector(15 downto 0);
+  signal LB_Ready_adcp   : std_logic;
+  signal LB_DataR_adcp   : std_logic_vector(15 downto 0);
+  signal LB_Ready_adcio0 : std_logic;
+  signal LB_DataR_adcio0 : std_logic_vector(15 downto 0);
+  signal LB_Ready_adcio1 : std_logic;
+  signal LB_DataR_adcio1 : std_logic_vector(15 downto 0);
 
 -------------------------------------------------------------------------------
   component dcm_user
@@ -239,9 +262,9 @@ begin  -- behave
   u_sloe_n_o     <= fifo_adr_o(1);
 
   LB_Ready_i <= LB_Ready_dac or LB_Ready_rst or LB_Ready_gpio or LB_Ready_wd
-                or LB_Ready_adcp;
+                or LB_Ready_adcp or LB_Ready_adcio0 or LB_Ready_adcio1;
   LB_DataR_i <= LB_DataR_dac or LB_DataR_rst or LB_DataR_gpio or LB_DataR_wd
-                or LB_DataR_adcp;
+                or LB_DataR_adcp or LB_DataR_adcio0 or LB_DataR_adcio1;
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -313,6 +336,45 @@ begin  -- behave
       sdo_o      => adcp_sdo_o,
       cs_n_o     => adcp_cs_n_o);
 
+  ADC_IO0 : lb_target_spi
+    generic map (
+      C_SCK_RATIO => C_SCK_RATIO_ADC_IO0,
+      C_REG_WIDTH => C_REG_WIDTH_ADC_IO0,
+      ADDR        => ADDR_ADC_IO0)
+    port map (
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => sys_rst,
+      LB_Addr_i  => LB_Addr_o,
+      LB_Write_i => LB_Write_o,
+      LB_Read_i  => LB_Read_o,
+      LB_Ready_o => LB_Ready_adcio0,
+      LB_DataW_i => LB_DataW_o,
+      LB_DataR_o => LB_DataR_adcio0,
+      spi_en_o   => open,
+      sck_o      => adcio0_sck_o,
+      sdi_i      => adcio0_sdi_i,
+      sdo_o      => adcio0_sdo_o,
+      cs_n_o     => adcio0_cs_n_o);
+
+  ADC_IO1 : lb_target_spi
+    generic map (
+      C_SCK_RATIO => C_SCK_RATIO_ADC_IO1,
+      C_REG_WIDTH => C_REG_WIDTH_ADC_IO1,
+      ADDR        => ADDR_ADC_IO1)
+    port map (
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => sys_rst,
+      LB_Addr_i  => LB_Addr_o,
+      LB_Write_i => LB_Write_o,
+      LB_Read_i  => LB_Read_o,
+      LB_Ready_o => LB_Ready_adcio1,
+      LB_DataW_i => LB_DataW_o,
+      LB_DataR_o => LB_DataR_adcio1,
+      spi_en_o   => open,
+      sck_o      => adcio1_sck_o,
+      sdi_i      => adcio1_sdi_i,
+      sdo_o      => adcio1_sdo_o,
+      cs_n_o     => adcio1_cs_n_o);
 -------------------------------------------------------------------------------
   GlobalReset : lb_target_reg
     generic map (

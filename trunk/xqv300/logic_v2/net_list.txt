@@ -151,19 +151,19 @@ set_location_assignment PIN_AA9 -to en_io_4700
 set_location_assignment PIN_C10 -to en_vtest 
 	
 	
-set_location_assignment PIN_J18 -to ads7841_busy
+set_location_assignment PIN_J18 -to adcp_busy_i
 set_location_assignment PIN_F15 -to ads7841_busy_i1
 set_location_assignment PIN_T13 -to ads7841_busy_i2
-set_location_assignment PIN_L16 -to ads7841_cs
+set_location_assignment PIN_L16 -to adcp_cs_n_o
 set_location_assignment PIN_F14 -to ads7841_cs_i1
 set_location_assignment PIN_U14 -to ads7841_cs_i2
-set_location_assignment PIN_K18 -to ads7841_dclk
+set_location_assignment PIN_K18 -to adcp_sck_o
 set_location_assignment PIN_H14 -to ads7841_dclk_i1
 set_location_assignment PIN_T14 -to ads7841_dclk_i2
-set_location_assignment PIN_K17 -to ads7841_din
+set_location_assignment PIN_K17 -to adcp_sdo_o
 set_location_assignment PIN_J15 -to ads7841_din_i1
 set_location_assignment PIN_U12 -to ads7841_din_i2
-set_location_assignment PIN_J19 -to ads7841_dout
+set_location_assignment PIN_J19 -to adcp_sdi_i
 set_location_assignment PIN_F16 -to ads7841_dout_i1
 set_location_assignment PIN_T15 -to ads7841_dout_i2
 	
