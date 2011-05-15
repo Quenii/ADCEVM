@@ -100,6 +100,19 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	settings.adcSettings(m_adcSettings);
 	settings.signalSettings(m_signalSettings);
 
+	writeReg(0x2006, 0x97);
+	writeReg(0x2005, 0);
+	writeReg(0x2006, 0xA7);
+	writeReg(0x2005, 0);
+
+	for (int i=100; i>0; --i)
+	{
+		writeReg(0x2003, 0x2000+i*40);
+	}
+	writeReg(0x2003, 0x2AAA);
+	writeReg(0x2003, 0x3555);
+	writeReg(0x2003, 0x2FFF);
+	writeReg(0x2003, 0x3FFF);
 	setAdcSettings(m_adcSettings);
 	setSignalSettings(m_signalSettings);
 	if (!m_timerIdPower)

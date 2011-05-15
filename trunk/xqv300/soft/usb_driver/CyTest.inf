@@ -26,13 +26,13 @@ CyUsb.spt = 1
 
 %VID_04B4&PID_8613.DeviceDesc%=MYDEVICE, USB\VID_04B4&PID_8613
 
+%VID_0B1E&PID_0006.DeviceDesc%=MYDEVICE, USB\VID_0B1E&PID_0006
+
 %VID_04B4&PID_0081.DeviceDesc%=CyUsb, USB\VID_04B4&PID_0081
 
 %VID_0524&PID_0210.DeviceDesc%=CyUsb, USB\VID_0524&PID_0210
 
 %VID_0525&PID_0210.DeviceDesc%=CyUsb, USB\VID_0525&PID_0210
-
-%VID_0B1E&PID_0006.DeviceDesc%=CyUsb, USB\VID_0B1E&PID_0006
 
 [DestinationDirs]
 CYUSB.Files = 10,System32\Drivers
@@ -90,11 +90,11 @@ PROVIDER="Cypress"
 MFGNAME="Cypress Semiconductor"
 CYUSB_INSTALL="Cypress Installation Disk"
 VID_04B4&PID_8613.DeviceDesc="Initial USB"
+VID_0B1E&PID_0006.DeviceDesc="Initial USB"
 VID_04B4&PID_0081.DeviceDesc="ADC EVM Platform"
 VID_0525&PID_0210.DeviceDesc="ADC EVM Platform"
 VID_0524&PID_0210.DeviceDesc="ADC EVM Platform"
 VID_0547&PID_1002.DeviceDesc="ADC EVM Platform"
-VID_0B1E&PID_0006.DeviceDesc="FPGA EVM Platform"
 CYUSB.SvcDesc="Cypress USB Device"
 CYUSB.GUID="{AE18AA60-7F6A-11d4-97DD-00010229B959}"
 MYDEVICE.EXECSCRIPT="\systemroot\system32\MYDEVICE\CyTest.spt"
