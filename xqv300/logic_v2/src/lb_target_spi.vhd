@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-05-14
--- Last update: 2011-05-14
+-- Last update: 2011-05-15
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -22,6 +22,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
 
 entity lb_target_spi is
   generic (
@@ -71,9 +72,13 @@ architecture impl of lb_target_spi is
       sta_i      : in  std_logic_vector(15 downto 0));
   end component;
 
+  signal LB_DataR_l : std_logic_vector(15 downto 0);
+  signal LB_Ready_l : std_logic;
+  signal LB_DataR_h : std_logic_vector(15 downto 0);
+  signal LB_Ready_h : std_logic;
   signal updated_o  : std_logic;
-  signal ctrl_o     : std_logic_vector(15 downto 0);
-  signal sta_i      : std_logic_vector(15 downto 0);
+  signal ctrl_o     : std_logic_vector(31 downto 0);
+  signal sta_i      : std_logic_vector(31 downto 0);
 
   component spi24_v2
     generic (
@@ -95,7 +100,10 @@ architecture impl of lb_target_spi is
   
 begin  -- impl
 
-  lb_target_reg_1 : lb_target_reg
+  LB_Ready_o <= LB_Ready_l or LB_Ready_h;
+  LB_DataR_o <= LB_DataR_l or LB_DataR_h;
+  
+  lb_target_reg_l : lb_target_reg
     generic map (
       ADDR => ADDR)
     port map (
@@ -104,13 +112,29 @@ begin  -- impl
       LB_Addr_i  => LB_Addr_i,
       LB_Write_i => LB_Write_i,
       LB_Read_i  => LB_Read_i,
-      LB_Ready_o => LB_Ready_o,
+      LB_Ready_o => LB_Ready_l,
       LB_DataW_i => LB_DataW_i,
-      LB_DataR_o => LB_DataR_o,
+      LB_DataR_o => LB_DataR_l,
       updated_o  => updated_o,
-      ctrl_o     => ctrl_o,
-      sta_i      => sta_i);
+      ctrl_o     => ctrl_o(15 downto 0),
+      sta_i      => sta_i(15 downto 0));
 
+  lb_target_reg_h: lb_target_reg
+    generic map (
+      ADDR => ADDR + 1)
+    port map (
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => LB_Reset_i,
+      LB_Addr_i  => LB_Addr_i,
+      LB_Write_i => LB_Write_i,
+      LB_Read_i  => LB_Read_i,
+      LB_Ready_o => LB_Ready_h,
+      LB_DataW_i => LB_DataW_i,
+      LB_DataR_o => LB_DataR_h,
+      updated_o  => open,
+      ctrl_o     => ctrl_o(31 downto 16),
+      sta_i      => sta_i(31 downto 16));
+  
   spi24_v2_1 : spi24_v2
     generic map (
       C_SCK_RATIO => C_SCK_RATIO,
@@ -125,6 +149,7 @@ begin  -- impl
       sck_o        => sck_o,
       sdi_i        => sdi_i,
       sdo_o        => sdo_o,
-      spi_en_o     => open,
+      spi_en_o     => spi_en_o,
       cs_n_o       => cs_n_o);
+    
 end impl;

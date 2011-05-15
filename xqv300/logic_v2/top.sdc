@@ -20,21 +20,15 @@ derive_pll_clocks -use_tan_name
 #
 # ------------------------------------------
 
-# Original Clock Setting Name: lvds_i:lvds_i_1|rx_inclock
-create_clock -period "3.333 ns" \
-             -name {rx_inclock_i} {rx_inclock_i}
-# ---------------------------------------------
-
-
-# Original Clock Setting Name: FX_CLK_i
+# Original Clock Setting Name: u_ifclk_i
 create_clock -period "25.000 ns" \
-             -name {FX_CLK_i} {FX_CLK_i}
+             -name {u_ifclk_i} {u_ifclk_i}
 # ---------------------------------------------
 
 
-# Original Clock Setting Name: clk_80m
+# Original Clock Setting Name: sys_clk_i
 create_clock -period "8.000 ns" \
-             -name {clk_80m} {clk_80m}
+             -name {sys_clk_i} {sys_clk_i}
 
 
 # ** Clock Latency
@@ -50,47 +44,47 @@ create_clock -period "8.000 ns" \
 
 # ** Input/Output Delays
 #    -------------------
-set_input_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min 0 [get_ports {ssram0_dq_io*}]
-set_input_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 3 [get_ports {ssram0_dq_io*}]
+# set_input_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min 0 [get_ports {ssram0_dq_io*}]
+# set_input_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 3 [get_ports {ssram0_dq_io*}]
 
 
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram0_dq_io*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram0_dq_io*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram0_dq_io*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram0_dq_io*}]
 
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram0_adr_o*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram0_adr_o*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram0_adr_o*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram0_adr_o*}]
 
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram0_we*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram0_we*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram0_oe*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram0_oe*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram0_ce*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram0_ce*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram0_cke*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram0_cke*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram0_we*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram0_we*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram0_oe*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram0_oe*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram0_ce*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram0_ce*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram0_cke*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram0_cke*}]
 
-set_input_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min 0 [get_ports {ssram1_dq_io*}]
-set_input_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 3 [get_ports {ssram1_dq_io*}]
-
-
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram1_dq_io*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram1_dq_io*}]
-
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram1_adr_o*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram1_adr_o*}]
-
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram1_we*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram1_we*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram1_oe*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram1_oe*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram1_ce*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram1_ce*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram1_cke*}]
-set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram1_cke*}]
+# set_input_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min 0 [get_ports {ssram1_dq_io*}]
+# set_input_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 3 [get_ports {ssram1_dq_io*}]
 
 
-set_input_delay -clock { rx_inclock_i } -min 0 [get_ports {rx_in_i*}]
-set_input_delay -clock { rx_inclock_i } -max 2.6 [get_ports {rx_in_i*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram1_dq_io*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram1_dq_io*}]
+
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram1_adr_o*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram1_adr_o*}]
+
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram1_we*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram1_we*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram1_oe*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram1_oe*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram1_ce*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram1_ce*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -min -0.4 [get_ports {ssram1_cke*}]
+# set_output_delay -clock { dcm45:dcm45_ssram|altpll:altpll_component|_clk0 } -max 1.4 [get_ports {ssram1_cke*}]
+
+
+# set_input_delay -clock { rx_inclock_i } -min 0 [get_ports {rx_in_i*}]
+# set_input_delay -clock { rx_inclock_i } -max 2.6 [get_ports {rx_in_i*}]
 
 
 # ** Tpd requirements
@@ -116,17 +110,13 @@ set_input_delay -clock { rx_inclock_i } -max 2.6 [get_ports {rx_in_i*}]
 
 set_clock_groups -asynchronous \
                  -group { \
-                       rx_inclock_i \
+                       dcm45:PLL_SYS_CLK|altpll:altpll_component|_clk1 \
+                       dcm45:PLL_SYS_CLK|altpll:altpll_component|_clk0 \
+                       sys_clk_i \
                         } \
                  -group { \
-                       dcm45:dcm45_ssram|altpll:altpll_component|_clk1 \
-                       dcm45:dcm45_ssram|altpll:altpll_component|_clk0 \
-                       clk_80m \
-                        } \
-                 -group { \
-                       tlc3548:tlc3548_1|dcm_1M:dcm_1M_1|altpll:altpll_component|_clk0 \
-                       dcm_user:dcm_user_1|altpll:altpll_component|_clk0 \
-                       FX_CLK_i \
+                       dcm_user:PLL_USB_CLK|altpll:altpll_component|_clk0 \
+                       u_ifclk_i \
                         } \
 
 # ---------------------------------------------
