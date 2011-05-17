@@ -226,10 +226,10 @@ void ControlPanel::on_pushButtonStopStaticTest_clicked()
 
 void ControlPanel::setUiPowerStatus(const PowerStatus& status)
 {
-	ui.vaLineEdit->setText(QString("%L1").arg(status.va, 0, 'f', 2));
-	ui.vdLineEdit->setText(QString("%L1").arg(status.vd, 0, 'f', 2));
-	ui.iaLineEdit->setText(QString("%L1").arg(status.ia, 0, 'f', 1));
-	ui.idLineEdit->setText(QString("%L1").arg(status.id, 0, 'f', 1));
+	ui.vaLineEdit->setText(QString("%L1").arg(status.vio, 0, 'f', 2));
+	ui.vdLineEdit->setText(QString("%L1").arg(status.vcore, 0, 'f', 2));
+	ui.iaLineEdit->setText(QString("%L1").arg(status.iio, 0, 'f', 1));
+	ui.idLineEdit->setText(QString("%L1").arg(status.icore, 0, 'f', 1));
 	ui.powerLineEdit->setText(QString("%1").arg(status.power));
 }
 

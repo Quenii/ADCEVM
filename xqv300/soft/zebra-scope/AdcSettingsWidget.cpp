@@ -36,8 +36,8 @@ void AdcSettingsWidget::setSettings(const AdcSettings& settings)
 
 	adcTypeLineEdit->setText(settings.adcType);
 
-	vaDoubleLineEdit->setText(QString("%1").arg(settings.va));
-	vdDoubleLineEdit->setText(QString("%1").arg(settings.vd));
+	vaDoubleLineEdit->setText(QString("%1").arg(settings.vcore));
+	vdDoubleLineEdit->setText(QString("%1").arg(settings.vio));
 	//bitCountLineEdit->setText(QString("%1").arg(settings.bitcount));
 	//vppLineEdit->setText(QString("%1").arg(settings.vpp * 2));
 	//codingLineEdit->setText(conv_to_string((AdcCoding)settings.coding));

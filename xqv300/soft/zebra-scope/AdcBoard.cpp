@@ -36,6 +36,14 @@ using namespace std;
 #define ADCCH2 0x2
 #define ADCCH3 0x6
 
+#define DACPWR 0x2003
+#define ADCPWR 0x2005
+#define ADCIO0 0x2007
+#define ADCIO1 0x2009
+
+#define DACCH0 0x2
+#define DACCH1 0x3
+
 DummyWidget::DummyWidget(QWidget* parent /*= 0*/, Qt::WindowFlags f /*= 0*/ ) : QWidget(parent, f) 
 {
 	bPnP_Arrival = false;
@@ -104,43 +112,11 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	settings.adcSettings(m_adcSettings);
 	settings.signalSettings(m_signalSettings);
 
-	writeReg(0x2006, 1<<7 | ADCCH0<<4 | 0x7);
-	writeReg(0x2005, 0);
-	writeReg(0x2006, 1<<7 | ADCCH1<<4 | 0x7);
-	writeReg(0x2005, 0);
-	writeReg(0x2006, 1<<7 | ADCCH2<<4 | 0x7);
-	writeReg(0x2005, 0);
-	writeReg(0x2006, 1<<7 | ADCCH3<<4 | 0x7);
-	writeReg(0x2005, 0);
+	unsigned short reg;
 
-	writeReg(0x2008, 1<<7 | ADCCH0<<4 | 0x7);
-	writeReg(0x2007, 0);
-	writeReg(0x2008, 1<<7 | ADCCH1<<4 | 0x7);
-	writeReg(0x2007, 0);
-	writeReg(0x2008, 1<<7 | ADCCH2<<4 | 0x7);
-	writeReg(0x2007, 0);
-	writeReg(0x2008, 1<<7 | ADCCH3<<4 | 0x7);
-	writeReg(0x2007, 0);
 
-	writeReg(0x200A, 1<<7 | ADCCH0<<4 | 0x7);
-	writeReg(0x2009, 0);
-	writeReg(0x200A, 1<<7 | ADCCH1<<4 | 0x7);
-	writeReg(0x2009, 0);
-	writeReg(0x200A, 1<<7 | ADCCH2<<4 | 0x7);
-	writeReg(0x2009, 0);
-	writeReg(0x200A, 1<<7 | ADCCH3<<4 | 0x7);
-	writeReg(0x2009, 0);
-
-	for (int i=100; i>0; --i)
-	{
-		writeReg(0x2003, 0x2000+i*40);
-	}
-	writeReg(0x2003, 0x2AAA);
-	writeReg(0x2003, 0x3555);
-	writeReg(0x2003, 0x2FFF);
-	writeReg(0x2003, 0x3FFF);
-	setAdcSettings(m_adcSettings);
-	setSignalSettings(m_signalSettings);
+	//setAdcSettings(m_adcSettings);
+	//setSignalSettings(m_signalSettings);
 	if (!m_timerIdPower)
 	{
 		m_timerIdPower = startTimer(2000);
@@ -360,6 +336,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	//setAdcSettings(m_adcSettings);
 	if (event->timerId() == m_timerIdPower)
 	{
+
 		PowerStatus& powerStatus = report.powerStatus;
 		this->powerStatus(powerStatus);
 		emit boardReport(report);
@@ -474,49 +451,54 @@ void AdcBoard::Covert(TimeDomainReport& tdReport, float max, float vpp)
 
 bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 {	
-	float vio = adcSettings.vd;
-	unsigned short reg = 0;
-
-	writeReg(9, 0xA400);  //select 3548, work at default mode
-	writeReg(9, 0xA400);  //select 3548, work at default mode
-
-	unsigned short regValue = setVoltage(0x3FFF, 0, adcSettings.vd);
-	setVoltage(0x7FFF, 2, adcSettings.va);
-
-	if (!writeReg(5, regValue)) //设置VIO = VD
-		return false;
-	if (!writeReg(6, 0x0004))  //执行 通道E
-		return false;
-
-	if (!writeReg(0xFFFF, 0xFFFF))  //reset
-		return false;
-	gkhy::MfcMinus::Win32App::sleep(10);
-
-	if (!writeReg(0xFFFF, 0x0000))  //dereset
-		return false;
-	gkhy::MfcMinus::Win32App::sleep(200);
-
-	//writeReg(0x1000, 0x000C);  //jad14p1 reset
-	//gkhy::MfcMinus::Win32App::sleep(200);
-
-	//writeReg(0x1000, 0x0003);
-
-	if (!writeReg(0x1000, 0x000D)) return false;
-	if (!writeReg(0x1000, 0x000C)) return false;  //jad14p1  reset
-	gkhy::MfcMinus::Win32App::sleep(2);
-
-	if (!writeReg(0x1000, 0x0001)) return false;
-	gkhy::MfcMinus::Win32App::sleep(100);
-	if (!writeReg(0x1000, 0x0003)) return false;
-	gkhy::MfcMinus::Win32App::sleep(100);
-	if (!writeReg(0x1000, 0x000B)) return false;
-
-	m_adcSettings = adcSettings;
-	//m_adcSettings.writeSettings(m_settings);
-	QZebraScopeSettings settings;
-	settings.setAdcSettings(m_adcSettings);
+	setVoltage(ADCCH1, DACCH0, adcSettings.vcore);
+	
+	setVoltage(ADCCH3, DACCH1, adcSettings.vio);
 
 	return true;
+	//float vio = adcSettings.vio;
+	//unsigned short reg = 0;
+
+	//writeReg(9, 0xA400);  //select 3548, work at default mode
+	//writeReg(9, 0xA400);  //select 3548, work at default mode
+
+	//unsigned short regValue = setVoltage(0x3FFF, 0, adcSettings.vio);
+	//setVoltage(0x7FFF, 2, adcSettings.vcore);
+
+	//if (!writeReg(5, regValue)) //设置VIO = VD
+	//	return false;
+	//if (!writeReg(6, 0x0004))  //执行 通道E
+	//	return false;
+
+	//if (!writeReg(0xFFFF, 0xFFFF))  //reset
+	//	return false;
+	//gkhy::MfcMinus::Win32App::sleep(10);
+
+	//if (!writeReg(0xFFFF, 0x0000))  //dereset
+	//	return false;
+	//gkhy::MfcMinus::Win32App::sleep(200);
+
+	////writeReg(0x1000, 0x000C);  //jad14p1 reset
+	////gkhy::MfcMinus::Win32App::sleep(200);
+
+	////writeReg(0x1000, 0x0003);
+
+	//if (!writeReg(0x1000, 0x000D)) return false;
+	//if (!writeReg(0x1000, 0x000C)) return false;  //jad14p1  reset
+	//gkhy::MfcMinus::Win32App::sleep(2);
+
+	//if (!writeReg(0x1000, 0x0001)) return false;
+	//gkhy::MfcMinus::Win32App::sleep(100);
+	//if (!writeReg(0x1000, 0x0003)) return false;
+	//gkhy::MfcMinus::Win32App::sleep(100);
+	//if (!writeReg(0x1000, 0x000B)) return false;
+
+	//m_adcSettings = adcSettings;
+	////m_adcSettings.writeSettings(m_settings);
+	//QZebraScopeSettings settings;
+	//settings.setAdcSettings(m_adcSettings);
+
+	//return true;
 
 }
 
@@ -559,53 +541,54 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 void AdcBoard::powerStatus(PowerStatus& powerStatus)
 {
 	unsigned short reg = 0;
-	writeReg(9, 0xA400);  //select 3548, work at default mode
-	writeReg(9, 0xA400);  //select 3548, work at default mode
 
-	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
-	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	readReg(0x0009, reg);
-	powerStatus.va = (float(reg>>2)) * 4 / 16384;
+	writeReg(ADCPWR + 1, 1<<7 | ADCCH0<<4 | 0x7);
+	writeReg(ADCPWR, 0);
+	readReg(ADCPWR, reg);
+	powerStatus.icore = (float(reg>>3)) * 500 * 3.3 / 4096;
+
+	reg = 0;
+	writeReg(ADCPWR + 1, 1<<7 | ADCCH1<<4 | 0x7);
+	writeReg(ADCPWR, 0);
+	readReg(ADCPWR, reg);
+	powerStatus.vcore = (float(reg>>3)) * 3.3 / 4096 * 2;
+
+	reg = 0;
+	writeReg(ADCPWR + 1, 1<<7 | ADCCH2<<4 | 0x7);
+	writeReg(ADCPWR, 0);
+	readReg(ADCPWR, reg);
+	powerStatus.iio = (float(reg>>3)) * 500 * 3.3 / 4096;
+
+	reg = 0;
+	writeReg(ADCPWR + 1, 1<<7 | ADCCH3<<4 | 0x7);
+	writeReg(ADCPWR, 0);
+	readReg(ADCPWR, reg);
+	powerStatus.vio = (float(reg>>3)) * 3.3 / 4096 * 2;
 	
-	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
-	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	readReg(0x0009, reg);
-	powerStatus.vd = (float(reg>>2)) * 4 / 16384;
+	powerStatus.power = powerStatus.vcore * powerStatus.icore + powerStatus.vio * powerStatus.iio;
 
-	writeReg(9, 0x4FFF);  //select 3548, select 7th channel
-	writeReg(9, 0x4FFF);  //select 3548, select 7th channel
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	readReg(0x0009, reg);
-	powerStatus.ia = (float(reg>>2)) * 500 * 4 / 16384;
+	//writeReg(ADCIO0 + 1, 1<<7 | ADCCH0<<4 | 0x7);
+	//writeReg(ADCIO0, 0);
+	//writeReg(ADCIO0 + 1, 1<<7 | ADCCH1<<4 | 0x7);
+	//writeReg(ADCIO0, 0);
+	//writeReg(ADCIO0 + 1, 1<<7 | ADCCH2<<4 | 0x7);
+	//writeReg(ADCIO0, 0);
+	//writeReg(ADCIO0 + 1, 1<<7 | ADCCH3<<4 | 0x7);
+	//writeReg(ADCIO0, 0);
 
-	writeReg(9, 0x1FFF);  //select 3548, select 7th channel
-	writeReg(9, 0x1FFF);  //select 3548, select 7th channel
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	readReg(0x0009, reg);
-	powerStatus.id = (float(reg>>2)) * 500 * 4 / 16384;
-
-	powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
+	//writeReg(ADCIO1 + 1, 1<<7 | ADCCH0<<4 | 0x7);
+	//writeReg(ADCIO1, 0);
+	//writeReg(ADCIO1 + 1, 1<<7 | ADCCH1<<4 | 0x7);
+	//writeReg(ADCIO1, 0);
+	//writeReg(ADCIO1 + 1, 1<<7 | ADCCH2<<4 | 0x7);
+	//writeReg(ADCIO1, 0);
+	//writeReg(ADCIO1 + 1, 1<<7 | ADCCH3<<4 | 0x7);
+	//writeReg(ADCIO1, 0);
 
 }
 
 void AdcBoard::staticTest()
 {
-	//uncomment this section to send sine wave through dac;
-	//writeReg(0x1004, 0);
-	//if (buff.size() < buffer_cnt)
-	//	buff.resize(buffer_cnt);
-	//bool okay = write(0x1005, &buff[0], 20*1000*4);
-	//writeReg(0x1006, 0);
-	//writeReg(0x1007, 1);
-	//return;
-
-
 	QString fileNameDat = QDir( QApplication::applicationDirPath() ).filePath("file.dat");
 	QFile fileDat( fileNameDat );
 	fileDat.open(QIODevice::WriteOnly);
@@ -656,39 +639,37 @@ int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
 	int fine = 600;
 	int coarse = 100;
 	unsigned short reg = 0;
+	float vol[100];
+	int regs[100];
 
-	int regValue;
 
-	for (int i=coarse; i>0; --i)
+	for (int i=coarse-1; i>=0; --i)
 	{
-		if (!writeReg(5, i*65535/coarse))
+		regs[i] = dacChannel<<12 | i*4096/coarse;
+		if (!writeReg(DACPWR, regs[i]))
 			return false;
-		if (!writeReg(6, dacChannel))  //执行 通道A
-			return false;
-		writeReg(9, adcChannel);  //select 3548, select 7th channel
-		writeReg(9, adcChannel);  //select 3548, select 7th channel
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
-		readReg(0x0009, reg);
-		if ((float(reg>>2)) * 4 / 16384 > v)
-			break;
+		Sleep(50);
+		writeReg(ADCPWR + 1, 1<<7 | adcChannel<<4 | 0x7);
+		writeReg(ADCPWR, 0);
+		readReg(ADCPWR, reg);
+		vol[i] = (float(reg>>3)) * 3.3 / 4096 * 2;
+		//if ( vol > v)
+		//	break;
 	}
-	for (int i=0; i<fine; ++i)
-	{
-		regValue = i*65535/fine;
-		if (!writeReg(5, regValue))
-			return false;
-		if (!writeReg(6, dacChannel))  //执行 通道A
-			return false;
-		writeReg(9, adcChannel);  //select 3548, select 7th channel
-		writeReg(9, adcChannel);  //select 3548, select 7th channel
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
-		readReg(0x0009, reg);
-		if ((float(reg>>2)) * 4 / 16384 < v)
-			break;
-
-	}
-	return regValue;
+	//for (int i=0; i<fine; ++i)
+	//{
+	//	if (!writeReg(5, i*4096/fine))
+	//		return false;
+	//	if (!writeReg(6, dacChannel))  //执行 通道A
+	//		return false;
+	//	writeReg(9, adcChannel);  //select 3548, select 7th channel
+	//	writeReg(9, adcChannel);  //select 3548, select 7th channel
+	//	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
+	//	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
+	//	readReg(0x0009, reg);
+	//	if ((float(reg>>2)) * 4 / 16384 < v)
+	//		break;
+	//}
+	return reg;
 
 }

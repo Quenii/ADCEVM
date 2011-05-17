@@ -43,8 +43,8 @@ inline QString conv_to_string(const AdcCoding& e)
 struct AdcSettings
 {
 	QString adcType;
-	float va;
-	float vd;
+	float vcore;
+	float vio;
 	unsigned int bitcount;
 	float vpp;
 	AdcCoding coding;
@@ -53,8 +53,8 @@ struct AdcSettings
 	AdcSettings()
 	{
 		adcType = "JAD14P1";
-		va = 1.8f;
-		vd = 1.8f;  
+		vcore = 2.5f;
+		vio = 3.3f;  
 		bitcount = 16;
 		vpp = .72f;
 		coding = AdcCodingComplement;
@@ -66,8 +66,8 @@ struct AdcSettings
 		settings.beginGroup("AdcSettings");
 
 		settings.setValue("Adc Type", adcType);
-		settings.setValue("Va", va);
-		settings.setValue("Vd", vd);
+		settings.setValue("Va", vcore);
+		settings.setValue("Vd", vio);
 		settings.setValue("Bit Count", bitcount);
 		settings.setValue("Vpp", vpp);
 		settings.setValue("Coding", (int)coding);
@@ -81,8 +81,8 @@ struct AdcSettings
 		settings.beginGroup("AdcSettings");
 
 		adcType = settings.value("Adc Type", adcType).toString();
-		va = settings.value("Va", va).toString().toFloat();
-		vd = settings.value("Vd", vd).toString().toFloat();
+		vcore = settings.value("Va", vcore).toString().toFloat();
+		vio = settings.value("Vd", vio).toString().toFloat();
 		bitcount = settings.value("Bit Count", bitcount).toString().toFloat();
 		vpp = settings.value("Vpp", vpp).toString().toFloat();
 		coding = (AdcCoding) settings.value("Coding", (int)coding).toInt();
@@ -131,10 +131,10 @@ struct SignalSettings
 
 struct PowerStatus
 {
-	float va;
-	float vd;
-	float ia;
-	float id;
+	float vcore;
+	float vio;
+	float icore;
+	float iio;
 	float power;
 };
 
