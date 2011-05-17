@@ -230,7 +230,8 @@ void ControlPanel::setUiPowerStatus(const PowerStatus& status)
 	ui.vdLineEdit->setText(QString("%L1").arg(status.vcore, 0, 'f', 2));
 	ui.iaLineEdit->setText(QString("%L1").arg(status.iio, 0, 'f', 1));
 	ui.idLineEdit->setText(QString("%L1").arg(status.icore, 0, 'f', 1));
-	ui.powerLineEdit->setText(QString("%1").arg(status.power));
+	ui.powerLineEdit->setText(QString("%1").arg(status.power, 0, 'f', 2));
+	ui.temperatureLineEdit->setText(QString("%L1").arg(status.temperature, 0, 'f', 2));
 }
 
 bool ControlPanel::on_pushButtonJtagTest_clicked()

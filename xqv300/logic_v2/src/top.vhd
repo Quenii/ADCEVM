@@ -101,6 +101,8 @@ architecture behave of top is
   constant C_SCK_RATIO_ADC_IO1 : integer                       := 200;
   constant C_REG_WIDTH_ADC_IO1 : integer                       := 24;
 
+  constant ADDR_TMP03 : std_logic_vector(15 downto 0) := x"200B";
+  
   signal LB_Ready_rst : std_logic;
   signal LB_DataR_rst : std_logic_vector(15 downto 0);
   signal ctrl_rst     : std_logic_vector(15 downto 0);
@@ -469,15 +471,15 @@ begin  -- behave
 
   TMP03 : lb_target_sensor
     generic map (
-      ADDR => ADDR)
+      ADDR => ADDR_TMP03)
     port map (
       LB_Clk_i   => LB_Clk_i,
-      LB_Reset_i => LB_Reset_i,
-      LB_Addr_i  => LB_Addr_i,
-      LB_Write_i => LB_Write_i,
-      LB_Read_i  => LB_Read_i,
+      LB_Reset_i => sys_rst,
+      LB_Addr_i  => LB_Addr_o,
+      LB_Write_i => LB_Write_o,
+      LB_Read_i  => LB_Read_o,
       LB_Ready_o => LB_Ready_tmp03,
-      LB_DataW_i => LB_DataW_i,
+      LB_DataW_i => LB_DataW_o,
       LB_DataR_o => LB_DataR_tmp03,
       sensor_i   => sensor_i);
 

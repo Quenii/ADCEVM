@@ -44,6 +44,8 @@ using namespace std;
 #define DACCH0 0x2
 #define DACCH1 0x3
 
+#define TMP03 0x200B
+
 DummyWidget::DummyWidget(QWidget* parent /*= 0*/, Qt::WindowFlags f /*= 0*/ ) : QWidget(parent, f) 
 {
 	bPnP_Arrival = false;
@@ -566,6 +568,11 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 	powerStatus.vio = (float(reg>>3)) * 3.3 / 4096 * 2;
 	
 	powerStatus.power = powerStatus.vcore * powerStatus.icore + powerStatus.vio * powerStatus.iio;
+
+	unsigned short t1, t2;
+	readReg(TMP03, t1);
+	readReg(TMP03+1, t2);
+	powerStatus.temperature = 235.0 - 400.0 * t1 / t2;
 
 	//writeReg(ADCIO0 + 1, 1<<7 | ADCCH0<<4 | 0x7);
 	//writeReg(ADCIO0, 0);
