@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-05-15
+-- Last update: 2011-05-17
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -47,6 +47,8 @@ entity top is
     u_fifoadr_o : out   std_logic_vector(1 downto 0);    -- fifo adr
 
     gpio_o : out std_logic_vector(GPIO_WIDTH-1 downto 0);
+
+    sensor_i : in std_logic;
 
     -- DAC7612
     dac_sck_o     : out std_logic;
@@ -114,6 +116,10 @@ architecture behave of top is
   signal ctrl_wd     : std_logic_vector(15 downto 0);
   signal updated_wd  : std_logic;
   signal sta_wd      : std_logic_vector(15 downto 0);
+
+  signal LB_Ready_tmp03 : std_logic;
+  signal LB_DataR_tmp03 : std_logic_vector(15 downto 0);
+
 -------------------------------------------------------------------------------
   -- local bus
   component lb
@@ -231,6 +237,23 @@ architecture behave of top is
   signal sys_clk : std_logic;
   signal sys_rst : std_logic;
   signal locked  : std_logic;
+
+  component lb_target_sensor
+    generic (
+      ADDR : std_logic_vector(15 downto 0));
+    port (
+      LB_Clk_i   : in  std_logic;
+      LB_Reset_i : in  std_logic;
+      LB_Addr_i  : in  std_logic_vector(15 downto 0);
+      LB_Write_i : in  std_logic;
+      LB_Read_i  : in  std_logic;
+      LB_Ready_o : out std_logic;
+      LB_DataW_i : in  std_logic_vector(15 downto 0);
+      LB_DataR_o : out std_logic_vector(15 downto 0);
+      sensor_i   : in  std_logic);
+  end component;
+
+  
 begin  -- behave
   
   PLL_USB_CLK : dcm_user
@@ -262,9 +285,9 @@ begin  -- behave
   u_sloe_n_o     <= fifo_adr_o(1);
 
   LB_Ready_i <= LB_Ready_dac or LB_Ready_rst or LB_Ready_gpio or LB_Ready_wd
-                or LB_Ready_adcp or LB_Ready_adcio0 or LB_Ready_adcio1;
+                or LB_Ready_adcp or LB_Ready_adcio0 or LB_Ready_adcio1 or LB_Ready_tmp03;
   LB_DataR_i <= LB_DataR_dac or LB_DataR_rst or LB_DataR_gpio or LB_DataR_wd
-                or LB_DataR_adcp or LB_DataR_adcio0 or LB_DataR_adcio1;
+                or LB_DataR_adcp or LB_DataR_adcio0 or LB_DataR_adcio1 or LB_DataR_tmp03;
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -443,5 +466,19 @@ begin  -- behave
       updated_o  => updated_wd,
       ctrl_o     => ctrl_wd,
       sta_i      => sta_wd);
+
+  TMP03 : lb_target_sensor
+    generic map (
+      ADDR => ADDR)
+    port map (
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => LB_Reset_i,
+      LB_Addr_i  => LB_Addr_i,
+      LB_Write_i => LB_Write_i,
+      LB_Read_i  => LB_Read_i,
+      LB_Ready_o => LB_Ready_tmp03,
+      LB_DataW_i => LB_DataW_i,
+      LB_DataR_o => LB_DataR_tmp03,
+      sensor_i   => sensor_i);
 
 end behave;

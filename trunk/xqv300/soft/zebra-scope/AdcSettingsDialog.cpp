@@ -20,8 +20,8 @@ void AdcSettingsDialog::setSettings(const AdcSettings& settings)
 {
 	adcTypeLineEdit->setText(settings.adcType);
 
-	vaDoubleSpinBox->setValue(settings.va);
-	vdDoubleSpinBox->setValue(settings.vd);
+	vaDoubleSpinBox->setValue(settings.vcore);
+	vdDoubleSpinBox->setValue(settings.vio);
 	//bitCountSpinBox->setValue(settings.bitcount);
 	//vppLineEdit->setText(QString("%1").arg(settings.vpp * 2));
 	//codingComboBox->setCurrentIndex(settings.coding);
@@ -33,8 +33,8 @@ void AdcSettingsDialog::settings(AdcSettings& settings)
 	QLocale c(QLocale::C);
 
 	settings.adcType = adcTypeLineEdit->text();
-	settings.va = vaDoubleSpinBox->value();
-	settings.vd = vdDoubleSpinBox->value();
+	settings.vcore = vaDoubleSpinBox->value();
+	settings.vio = vdDoubleSpinBox->value();
 	//settings.bitcount = bitCountSpinBox->value();
 	//settings.vpp = c.toFloat( vppLineEdit->text() ) / 2;
 	//settings.coding = (AdcCoding) codingComboBox->currentIndex();
