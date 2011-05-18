@@ -1,0 +1,290 @@
+<session jtag_chain="USB-Blaster [USB-0]" jtag_device="@1: EP2S30 (0x020920DD)" sof_file="output/top.sof" top_level_entity="top">
+  <display_tree gui_logging_enabled="0">
+    <display_branch instance="auto_signaltap_0" log="USE_GLOBAL_TEMP" signal_set="USE_GLOBAL_TEMP" trigger="USE_GLOBAL_TEMP"/>
+  </display_tree>
+  <instance entity_name="sld_signaltap" is_auto_node="yes" is_expanded="true" name="auto_signaltap_0" source_file="sld_signaltap.vhd">
+    <node_ip_info instance_id="0" mfg_id="110" node_id="0" version="6"/>
+    <position_info>
+      <single attribute="active tab" value="0"/>
+      <single attribute="data horizontal scroll position" value="487"/>
+      <single attribute="data vertical scroll position" value="0"/>
+      <single attribute="setup horizontal scroll position" value="0"/>
+      <single attribute="setup vertical scroll position" value="0"/>
+      <single attribute="zoom level denominator" value="128"/>
+      <single attribute="zoom level numerator" value="1"/>
+      <single attribute="zoom offset denominator" value="1"/>
+      <single attribute="zoom offset numerator" value="16777088"/>
+    </position_info>
+    <signal_set global_temp="1" name="signal_set: 2011/05/18 01:00:05  #0">
+      <clock name="dcm_user:PLL_USB_CLK|c0" polarity="posedge" tap_mode="classic"/>
+      <config ram_type="M4K" reserved_data_nodes="0" reserved_trigger_nodes="0" sample_depth="4096" trigger_in_enable="no" trigger_out_enable="no"/>
+      <top_entity/>
+      <signal_vec>
+        <trigger_input_vec>
+          <wire name="adcio0_busy_i" tap_mode="classic" type="input pin"/>
+          <wire name="adcio0_cs_n_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcio0_sck_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcio0_sdi_i" tap_mode="classic" type="input pin"/>
+          <wire name="adcio0_sdo_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcio1_busy_i" tap_mode="classic" type="input pin"/>
+          <wire name="adcio1_cs_n_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcio1_sck_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcio1_sdi_i" tap_mode="classic" type="input pin"/>
+          <wire name="adcio1_sdo_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcp_busy_i" tap_mode="classic" type="input pin"/>
+          <wire name="adcp_cs_n_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcp_sck_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcp_sdi_i" tap_mode="classic" type="input pin"/>
+          <wire name="adcp_sdo_o" tap_mode="classic" type="output pin"/>
+          <wire name="dac_ldacs_n_o" tap_mode="classic" type="output pin"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|updated_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|updated_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:DAC7612|cs_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:DAC7612|lb_target_reg:lb_target_reg_l|updated_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:DAC7612|sck_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:DAC7612|sdi_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:DAC7612|sdo_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:DAC7612|spi_en_o" tap_mode="classic" type="combinatorial"/>
+        </trigger_input_vec>
+        <data_input_vec>
+          <wire name="adcio0_busy_i" tap_mode="classic" type="input pin"/>
+          <wire name="adcio0_cs_n_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcio0_sck_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcio0_sdi_i" tap_mode="classic" type="input pin"/>
+          <wire name="adcio0_sdo_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcio1_busy_i" tap_mode="classic" type="input pin"/>
+          <wire name="adcio1_cs_n_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcio1_sck_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcio1_sdi_i" tap_mode="classic" type="input pin"/>
+          <wire name="adcio1_sdo_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcp_busy_i" tap_mode="classic" type="input pin"/>
+          <wire name="adcp_cs_n_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcp_sck_o" tap_mode="classic" type="output pin"/>
+          <wire name="adcp_sdi_i" tap_mode="classic" type="input pin"/>
+          <wire name="adcp_sdo_o" tap_mode="classic" type="output pin"/>
+          <wire name="dac_ldacs_n_o" tap_mode="classic" type="output pin"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|updated_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[0]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[10]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[11]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[12]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[13]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[14]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[15]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[1]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[2]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[3]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[4]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[5]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[6]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[7]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[8]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[9]" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|updated_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:DAC7612|cs_n_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:DAC7612|lb_target_reg:lb_target_reg_l|updated_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:DAC7612|sck_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:DAC7612|sdi_i" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:DAC7612|sdo_o" tap_mode="classic" type="combinatorial"/>
+          <wire name="lb_target_spi:DAC7612|spi_en_o" tap_mode="classic" type="combinatorial"/>
+        </data_input_vec>
+      </signal_vec>
+      <presentation>
+        <data_view>
+          <net is_signal_inverted="no" name="dac_ldacs_n_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:DAC7612|cs_n_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:DAC7612|sck_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:DAC7612|sdi_i"/>
+          <net is_signal_inverted="no" name="lb_target_spi:DAC7612|sdo_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:DAC7612|spi_en_o"/>
+          <net is_signal_inverted="no" name="adcp_busy_i"/>
+          <net is_signal_inverted="no" name="adcp_cs_n_o"/>
+          <net is_signal_inverted="no" name="adcp_sck_o"/>
+          <net is_signal_inverted="no" name="adcp_sdi_i"/>
+          <net is_signal_inverted="no" name="adcp_sdo_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|updated_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|updated_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:DAC7612|lb_target_reg:lb_target_reg_l|updated_o"/>
+          <net is_signal_inverted="no" name="adcio0_busy_i"/>
+          <net is_signal_inverted="no" name="adcio0_cs_n_o"/>
+          <net is_signal_inverted="no" name="adcio0_sck_o"/>
+          <net is_signal_inverted="no" name="adcio0_sdi_i"/>
+          <net is_signal_inverted="no" name="adcio0_sdo_o"/>
+          <net is_signal_inverted="no" name="adcio1_busy_i"/>
+          <net is_signal_inverted="no" name="adcio1_cs_n_o"/>
+          <net is_signal_inverted="no" name="adcio1_sck_o"/>
+          <net is_signal_inverted="no" name="adcio1_sdi_i"/>
+          <net is_signal_inverted="no" name="adcio1_sdo_o"/>
+          <bus is_signal_inverted="no" link="all" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[0]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[1]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[2]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[3]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[4]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[5]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[6]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[7]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[8]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[9]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[10]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[11]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[12]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[13]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[14]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[15]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[0]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[1]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[2]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[3]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[4]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[5]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[6]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[7]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[8]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[9]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[10]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[11]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[12]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[13]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[14]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[15]"/>
+          </bus>
+        </data_view>
+        <setup_view>
+          <net is_signal_inverted="no" name="dac_ldacs_n_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:DAC7612|cs_n_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:DAC7612|sck_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:DAC7612|sdi_i"/>
+          <net is_signal_inverted="no" name="lb_target_spi:DAC7612|sdo_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:DAC7612|spi_en_o"/>
+          <net is_signal_inverted="no" name="adcp_busy_i"/>
+          <net is_signal_inverted="no" name="adcp_cs_n_o"/>
+          <net is_signal_inverted="no" name="adcp_sck_o"/>
+          <net is_signal_inverted="no" name="adcp_sdi_i"/>
+          <net is_signal_inverted="no" name="adcp_sdo_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|updated_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|updated_o"/>
+          <net is_signal_inverted="no" name="lb_target_spi:DAC7612|lb_target_reg:lb_target_reg_l|updated_o"/>
+          <net is_signal_inverted="no" name="adcio0_busy_i"/>
+          <net is_signal_inverted="no" name="adcio0_cs_n_o"/>
+          <net is_signal_inverted="no" name="adcio0_sck_o"/>
+          <net is_signal_inverted="no" name="adcio0_sdi_i"/>
+          <net is_signal_inverted="no" name="adcio0_sdo_o"/>
+          <net is_signal_inverted="no" name="adcio1_busy_i"/>
+          <net is_signal_inverted="no" name="adcio1_cs_n_o"/>
+          <net is_signal_inverted="no" name="adcio1_sck_o"/>
+          <net is_signal_inverted="no" name="adcio1_sdi_i"/>
+          <net is_signal_inverted="no" name="adcio1_sdo_o"/>
+          <bus is_signal_inverted="no" link="all" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[0]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[1]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[2]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[3]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[4]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[5]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[6]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[7]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[8]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[9]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[10]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[11]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[12]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[13]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[14]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_h|sta_i[15]"/>
+          </bus>
+          <bus is_signal_inverted="no" link="all" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i" order="lsb_to_msb" radix="hex" state="collapse" type="combinatorial">
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[0]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[1]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[2]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[3]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[4]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[5]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[6]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[7]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[8]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[9]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[10]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[11]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[12]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[13]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[14]"/>
+            <net is_signal_inverted="no" name="lb_target_spi:ADC_POWER|lb_target_reg:lb_target_reg_l|sta_i[15]"/>
+          </bus>
+        </setup_view>
+      </presentation>
+      <trigger CRC="BBD3D1A0" attribute_mem_mode="false" global_temp="1" name="trigger: 2011/05/18 01:00:05  #1" position="pre" power_up_trigger_mode="false" segment_size="1" trigger_in="dont_care" trigger_out="active high" trigger_type="circular">
+        <power_up_trigger position="pre" trigger_in="dont_care" trigger_out="active high"/>
+        <events use_custom_flow_control="no">
+          <level enabled="yes" name="condition1" type="basic">'lb_target_spi:DAC7612|cs_n_o' == falling edge
+            <power_up enabled="yes">
+            </power_up>
+            <op_node/>
+          </level>
+        </events>
+        <log>
+          <data global_temp="1" name="log: 2011/05/18 01:51:31  #0"/>
+          <extradata/>
+        </log>
+      </trigger>
+    </signal_set>
+  </instance>
+  <mnemonics/>
+  <static_plugin_mnemonics/>
+  <global_info>
+    <single attribute="active instance" value="0"/>
+    <single attribute="lock mode" value="36110"/>
+    <multi attribute="column width" size="18" value="34,34,318,74,100,70,88,100,101,101,101,101,101,101,101,101,107,78"/>
+    <multi attribute="window position" size="9" value="1272,703,398,124,0,50,124,0,1"/>
+  </global_info>
+</session>
