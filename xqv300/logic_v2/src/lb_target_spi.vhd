@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-05-14
--- Last update: 2011-05-15
+-- Last update: 2011-05-19
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -45,10 +45,11 @@ entity lb_target_spi is
     -- SPI port
     spi_en_o : out std_logic;
 
-    sck_o  : out std_logic;
-    sdi_i  : in  std_logic;
-    sdo_o  : out std_logic;
-    cs_n_o : out std_logic
+    sck_o     : out std_logic;
+    sdi_i     : in  std_logic;
+    sdo_o     : out std_logic;
+    ldacs_n_o : out std_logic;
+    cs_n_o    : out std_logic
     );
 
 end lb_target_spi;
@@ -80,7 +81,7 @@ architecture impl of lb_target_spi is
   signal ctrl_o     : std_logic_vector(31 downto 0);
   signal sta_i      : std_logic_vector(31 downto 0);
 
-  component spi24_v2
+  component spi24_dac7612
     generic (
       C_SCK_RATIO : integer;
       C_REG_WIDTH : integer);
@@ -95,6 +96,7 @@ architecture impl of lb_target_spi is
       sdi_i        : in  std_logic;
       sdo_o        : out std_logic;
       spi_en_o     : out std_logic;
+      ldacs_n_o    : out std_logic;
       cs_n_o       : out std_logic);
   end component;
   
@@ -102,7 +104,7 @@ begin  -- impl
 
   LB_Ready_o <= LB_Ready_l or LB_Ready_h;
   LB_DataR_o <= LB_DataR_l or LB_DataR_h;
-  
+
   lb_target_reg_l : lb_target_reg
     generic map (
       ADDR => ADDR)
@@ -119,7 +121,7 @@ begin  -- impl
       ctrl_o     => ctrl_o(15 downto 0),
       sta_i      => sta_i(15 downto 0));
 
-  lb_target_reg_h: lb_target_reg
+  lb_target_reg_h : lb_target_reg
     generic map (
       ADDR => ADDR + 1)
     port map (
@@ -134,8 +136,8 @@ begin  -- impl
       updated_o  => open,
       ctrl_o     => ctrl_o(31 downto 16),
       sta_i      => sta_i(31 downto 16));
-  
-  spi24_v2_1 : spi24_v2
+
+  spi24_v2_1 : spi24_dac7612
     generic map (
       C_SCK_RATIO => C_SCK_RATIO,
       C_REG_WIDTH => C_REG_WIDTH)
@@ -150,6 +152,7 @@ begin  -- impl
       sdi_i        => sdi_i,
       sdo_o        => sdo_o,
       spi_en_o     => spi_en_o,
+      ldacs_n_o    => ldacs_n_o,
       cs_n_o       => cs_n_o);
-    
+
 end impl;
