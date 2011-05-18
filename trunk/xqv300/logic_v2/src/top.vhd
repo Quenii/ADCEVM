@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-05-17
+-- Last update: 2011-05-19
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ architecture behave of top is
   constant C_REG_WIDTH_ADC_IO1 : integer                       := 24;
 
   constant ADDR_TMP03 : std_logic_vector(15 downto 0) := x"200B";
-  
+
   signal LB_Ready_rst : std_logic;
   signal LB_DataR_rst : std_logic_vector(15 downto 0);
   signal ctrl_rst     : std_logic_vector(15 downto 0);
@@ -203,6 +203,7 @@ architecture behave of top is
       sck_o      : out std_logic;
       sdi_i      : in  std_logic;
       sdo_o      : out std_logic;
+      ldacs_n_o  : out std_logic;
       cs_n_o     : out std_logic);
   end component;
 
@@ -336,6 +337,7 @@ begin  -- behave
       sck_o      => dac_sck_o,
       sdi_i      => dac_sdi_i,
       sdo_o      => dac_sdo_o,
+      ldacs_n_o  => dac_ldacs_n_o,
       cs_n_o     => dac_cs_n);
 
   dac_ldacs_n_o <= not dac_cs_n;
@@ -359,6 +361,7 @@ begin  -- behave
       sck_o      => adcp_sck_o,
       sdi_i      => adcp_sdi_i,
       sdo_o      => adcp_sdo_o,
+      ldacs_n_o  => open,
       cs_n_o     => adcp_cs_n_o);
 
   ADC_IO0 : lb_target_spi
@@ -379,6 +382,7 @@ begin  -- behave
       sck_o      => adcio0_sck_o,
       sdi_i      => adcio0_sdi_i,
       sdo_o      => adcio0_sdo_o,
+      ldacs_n_o  => open,
       cs_n_o     => adcio0_cs_n_o);
 
   ADC_IO1 : lb_target_spi
@@ -399,6 +403,7 @@ begin  -- behave
       sck_o      => adcio1_sck_o,
       sdi_i      => adcio1_sdi_i,
       sdo_o      => adcio1_sdo_o,
+      ldacs_n_o  => open,
       cs_n_o     => adcio1_cs_n_o);
 -------------------------------------------------------------------------------
   GlobalReset : lb_target_reg
