@@ -310,11 +310,11 @@ set_location_assignment PIN_A9 -to KAD5514P_spi_clk_o
 set_location_assignment PIN_B8 -to KAD5514P_spi_cs_n_o
 set_location_assignment PIN_B9 -to KAD5514P_spi_di_i
 set_location_assignment PIN_C11 -to KAD5514P_tm_o
+set_location_assignment PIN_B7 -to KAD5514P_i2c_sdo_o
 set_location_assignment PIN_B11 -to KAD5514P_i2c_sda_o
 set_location_assignment PIN_A6 -to gpio_o[0]
 set_location_assignment PIN_B6 -to gpio_o[1]
 set_location_assignment PIN_A7 -to gpio_o[2]
-set_location_assignment PIN_B7 -to gpio_o[3]
 
 
 set_global_assignment -name ENABLE_SIGNALTAP OFF
