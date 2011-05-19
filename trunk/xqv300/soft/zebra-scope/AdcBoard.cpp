@@ -453,55 +453,15 @@ void AdcBoard::Covert(TimeDomainReport& tdReport, float max, float vpp)
 
 bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 {	
+	//writeReg(DACPWR, 0x2355);
+	//writeReg(DACPWR, 0x2000);
+	//writeReg(DACPWR, 0x2FFF);
+
 	setVoltage(ADCCH1, DACCH0, adcSettings.vcore);
 	
 	setVoltage(ADCCH3, DACCH1, adcSettings.vio);
 
 	return true;
-	//float vio = adcSettings.vio;
-	//unsigned short reg = 0;
-
-	//writeReg(9, 0xA400);  //select 3548, work at default mode
-	//writeReg(9, 0xA400);  //select 3548, work at default mode
-
-	//unsigned short regValue = setVoltage(0x3FFF, 0, adcSettings.vio);
-	//setVoltage(0x7FFF, 2, adcSettings.vcore);
-
-	//if (!writeReg(5, regValue)) //设置VIO = VD
-	//	return false;
-	//if (!writeReg(6, 0x0004))  //执行 通道E
-	//	return false;
-
-	//if (!writeReg(0xFFFF, 0xFFFF))  //reset
-	//	return false;
-	//gkhy::MfcMinus::Win32App::sleep(10);
-
-	//if (!writeReg(0xFFFF, 0x0000))  //dereset
-	//	return false;
-	//gkhy::MfcMinus::Win32App::sleep(200);
-
-	////writeReg(0x1000, 0x000C);  //jad14p1 reset
-	////gkhy::MfcMinus::Win32App::sleep(200);
-
-	////writeReg(0x1000, 0x0003);
-
-	//if (!writeReg(0x1000, 0x000D)) return false;
-	//if (!writeReg(0x1000, 0x000C)) return false;  //jad14p1  reset
-	//gkhy::MfcMinus::Win32App::sleep(2);
-
-	//if (!writeReg(0x1000, 0x0001)) return false;
-	//gkhy::MfcMinus::Win32App::sleep(100);
-	//if (!writeReg(0x1000, 0x0003)) return false;
-	//gkhy::MfcMinus::Win32App::sleep(100);
-	//if (!writeReg(0x1000, 0x000B)) return false;
-
-	//m_adcSettings = adcSettings;
-	////m_adcSettings.writeSettings(m_settings);
-	//QZebraScopeSettings settings;
-	//settings.setAdcSettings(m_adcSettings);
-
-	//return true;
-
 }
 
 bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
@@ -631,7 +591,7 @@ void AdcBoard::staticTest()
 		for (int k=0; k<buff.size(); ++k)
 		{
 //			sprintf(txtBuffer, "%f\r\n", tdReport.samples[k]);
-			sprintf(txtBuffer, "%d\r\n", short(tdReport.rawSamples[k]));
+			sprintf_s(txtBuffer, "%d\r\n", short(tdReport.rawSamples[k]));
 			QString a = QString(txtBuffer);
 			int m = a.size();
 			outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
@@ -655,13 +615,12 @@ int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
 		regs[i] = dacChannel<<12 | i*4096/coarse;
 		if (!writeReg(DACPWR, regs[i]))
 			return false;
-		Sleep(50);
 		writeReg(ADCPWR + 1, 1<<7 | adcChannel<<4 | 0x7);
 		writeReg(ADCPWR, 0);
 		readReg(ADCPWR, reg);
 		vol[i] = (float(reg>>3)) * 3.3 / 4096 * 2;
-		//if ( vol > v)
-		//	break;
+		if ( vol[i] > v)
+			break;
 	}
 	//for (int i=0; i<fine; ++i)
 	//{

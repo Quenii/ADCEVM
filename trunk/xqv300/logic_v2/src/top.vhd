@@ -338,10 +338,7 @@ begin  -- behave
       sdi_i      => dac_sdi_i,
       sdo_o      => dac_sdo_o,
       ldacs_n_o  => dac_ldacs_n_o,
-      cs_n_o     => dac_cs_n);
-
-  dac_ldacs_n_o <= not dac_cs_n;
-  dac_cs_n_o    <= dac_cs_n;
+      cs_n_o     => dac_cs_n_o);
 
   ADC_POWER : lb_target_spi
     generic map (
