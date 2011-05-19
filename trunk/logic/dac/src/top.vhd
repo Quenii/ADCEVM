@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-05-05
+-- Last update: 2011-05-19
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -360,8 +360,8 @@ begin  -- behave
       c1     => dco_90,
       locked => locked);
 
---  ssram0_clk_o   <= ssram_clk;
---  ssram1_clk_o   <= ssram_clk;
+  ssram0_clk_o   <= ssram_clk;
+  ssram1_clk_o   <= ssram_clk;
   sys_rst        <= not locked;
 -------------------------------------------------------------------------------
   -- 68013 port
@@ -424,7 +424,7 @@ begin  -- behave
       ADDR_FIFO  => ADDR_FIFO
       )
     port map (
-      sys_clk_i     => '0',
+      sys_clk_i     => sys_clk,
       -- lb
       LB_Clk_i      => LB_Clk_i,
       LB_Reset_i    => reset_ctr_o(0),
