@@ -320,6 +320,7 @@ bool AdcBoard::clocked()
 void AdcBoard::timerEvent(QTimerEvent* event)
 {
 	//setAdcSettings(m_adcSettings);
+	clocked();
 	if (event->timerId() == m_timerIdPower)
 	{
 		PowerStatus& powerStatus = report.powerStatus;
