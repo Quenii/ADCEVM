@@ -1,0 +1,971 @@
+Release 10.1.03 - xst K.39 (nt)
+Copyright (c) 1995-2008 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to E:/Projects/XQV300/Working/dut/resource/xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.19 secs
+ 
+--> Parameter xsthdpdir set to E:/Projects/XQV300/Working/dut/resource/xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.19 secs
+ 
+--> Reading design: top.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) Design Hierarchy Analysis
+  4) HDL Analysis
+  5) HDL Synthesis
+     5.1) HDL Synthesis Report
+  6) Advanced HDL Synthesis
+     6.1) Advanced HDL Synthesis Report
+  7) Low Level Synthesis
+  8) Partition Report
+  9) Final Report
+     9.1) Device utilization summary
+     9.2) Partition Resource Summary
+     9.3) TIMING REPORT
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "top.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "top"
+Output Format                      : NGC
+Target Device                      : xqv300-4-cb228
+
+---- Source Options
+Top Module Name                    : top
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : lut
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Mux Style                          : Auto
+Decoder Extraction                 : YES
+Priority Encoder Extraction        : YES
+Shift Register Extraction          : YES
+Logical Shifter Extraction         : YES
+XOR Collapsing                     : YES
+ROM Style                          : Auto
+Mux Extraction                     : YES
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Multiplier Style                   : lut
+Automatic Register Balancing       : No
+
+---- Target Options
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100
+Add Generic Clock Buffer(BUFG)     : 4
+Register Duplication               : YES
+Slice Packing                      : YES
+Optimize Instantiated Primitives   : NO
+Convert Tristates To Logic         : Yes
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
+Pack IO Registers into IOBs        : auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Area
+Optimization Effort                : 1
+Library Search Order               : top.lso
+Keep Hierarchy                     : NO
+Netlist Hierarchy                  : as_optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+Verilog 2001                       : YES
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling vhdl file "E:/Projects/XQV300/Working/dut/resource/hdltext/dec_func.vhd" in Library work.
+Architecture behaviour of Entity dec_func is up to date.
+Compiling vhdl file "E:/Projects/XQV300/Working/dut/resource/hdltext/err_check.vhd" in Library work.
+Architecture behaviour of Entity err_check is up to date.
+Compiling vhdl file "E:/Projects/XQV300/Working/dut/resource/hdltext/enc_func.vhd" in Library work.
+Architecture behaviour of Entity enc_func is up to date.
+Compiling vhdl file "E:/Projects/XQV300/Working/dut/resource/hdltext/dis_gen_low.vhd" in Library work.
+Architecture behaviour of Entity dis_gen_low is up to date.
+Compiling vhdl file "E:/Projects/XQV300/Working/dut/resource/hdltext/s_gen.vhd" in Library work.
+Architecture behaviour of Entity s_gen is up to date.
+Compiling vhdl file "E:/Projects/XQV300/Working/dut/resource/hdltext/dis_gen_up.vhd" in Library work.
+Architecture behaviour of Entity dis_gen_up is up to date.
+Compiling vhdl file "E:/Projects/XQV300/Working/dut/resource/hdltext/main_dec.vhd" in Library work.
+Architecture behaviour of Entity decoder is up to date.
+Compiling vhdl file "E:/Projects/XQV300/Working/dut/resource/hdltext/err_det.vhd" in Library work.
+Architecture behaviour of Entity err_det is up to date.
+Compiling vhdl file "E:/Projects/XQV300/Working/dut/resource/hdltext/main_enc_up.vhd" in Library work.
+Architecture behaviour of Entity encoder_up is up to date.
+Compiling vhdl file "E:/Projects/XQV300/Working/dut/resource/hdltext/main_enc_low.vhd" in Library work.
+Architecture behaviour of Entity encoder_low is up to date.
+Compiling vhdl file "E:/Projects/XQV300/Working/dut/resource/hdltext/encoder.vhd" in Library work.
+Architecture behaviour of Entity enc_16b20b is up to date.
+Compiling vhdl file "E:/Projects/XQV300/Working/dut/resource/hdltext/decoder.vhd" in Library work.
+Architecture behaviour of Entity dec_16b20b is up to date.
+Compiling vhdl file "E:/Projects/XQV300/Working/dut/resource/hdltext/top.vhd" in Library work.
+Architecture impl of Entity top is up to date.
+
+=========================================================================
+*                     Design Hierarchy Analysis                         *
+=========================================================================
+Analyzing hierarchy for entity <top> in library <work> (architecture <impl>) with generics.
+	INSTS = 7
+
+Analyzing hierarchy for entity <ENC_16B20B> in library <work> (architecture <behaviour>).
+
+Analyzing hierarchy for entity <DEC_16B20B> in library <work> (architecture <behaviour>).
+
+Analyzing hierarchy for entity <ENCODER_UP> in library <work> (architecture <behaviour>).
+
+Analyzing hierarchy for entity <ENCODER_LOW> in library <work> (architecture <behaviour>).
+
+Analyzing hierarchy for entity <DECODER> in library <work> (architecture <behaviour>).
+
+Analyzing hierarchy for entity <ERR_DET> in library <work> (architecture <behaviour>).
+
+Analyzing hierarchy for entity <ENC_FUNC> in library <work> (architecture <behaviour>).
+
+Analyzing hierarchy for entity <DIS_GEN_UP> in library <work> (architecture <behaviour>).
+
+Analyzing hierarchy for entity <S_GEN> in library <work> (architecture <behaviour>).
+
+Analyzing hierarchy for entity <DIS_GEN_LOW> in library <work> (architecture <behaviour>).
+
+Analyzing hierarchy for entity <DEC_FUNC> in library <work> (architecture <behaviour>).
+
+Analyzing hierarchy for entity <ERR_CHECK> in library <work> (architecture <behaviour>).
+
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing generic Entity <top> in library <work> (Architecture <impl>).
+	INSTS = 7
+Entity <top> analyzed. Unit <top> generated.
+
+Analyzing Entity <ENC_16B20B> in library <work> (Architecture <behaviour>).
+Entity <ENC_16B20B> analyzed. Unit <ENC_16B20B> generated.
+
+Analyzing Entity <ENCODER_UP> in library <work> (Architecture <behaviour>).
+WARNING:Xst:819 - "E:/Projects/XQV300/Working/dut/resource/hdltext/main_enc_up.vhd" line 292: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <data_in>
+Entity <ENCODER_UP> analyzed. Unit <ENCODER_UP> generated.
+
+Analyzing Entity <ENC_FUNC> in library <work> (Architecture <behaviour>).
+WARNING:Xst:819 - "E:/Projects/XQV300/Working/dut/resource/hdltext/enc_func.vhd" line 160: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <pos_l40>, <bin>, <pos_l04>, <cin>, <pos_l13>, <ein>, <din>, <ain>, <b_prel>, <c_prel>, <d_prel>, <e_prel>, <pos_l22>, <kin>, <fin>, <fgh_and>, <sin>, <gin>, <hin>
+Entity <ENC_FUNC> analyzed. Unit <ENC_FUNC> generated.
+
+Analyzing Entity <DIS_GEN_UP> in library <work> (Architecture <behaviour>).
+Entity <DIS_GEN_UP> analyzed. Unit <DIS_GEN_UP> generated.
+
+Analyzing Entity <S_GEN> in library <work> (Architecture <behaviour>).
+WARNING:Xst:819 - "E:/Projects/XQV300/Working/dut/resource/hdltext/s_gen.vhd" line 101: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <pos_l31>, <din>, <ein>, <dis_in>, <nds6>, <pds6>, <pos_l13>
+Entity <S_GEN> analyzed. Unit <S_GEN> generated.
+
+Analyzing Entity <ENCODER_LOW> in library <work> (Architecture <behaviour>).
+WARNING:Xst:819 - "E:/Projects/XQV300/Working/dut/resource/hdltext/main_enc_low.vhd" line 292: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <data_in>
+Entity <ENCODER_LOW> analyzed. Unit <ENCODER_LOW> generated.
+
+Analyzing Entity <DIS_GEN_LOW> in library <work> (Architecture <behaviour>).
+Entity <DIS_GEN_LOW> analyzed. Unit <DIS_GEN_LOW> generated.
+
+Analyzing Entity <DEC_16B20B> in library <work> (Architecture <behaviour>).
+Entity <DEC_16B20B> analyzed. Unit <DEC_16B20B> generated.
+
+Analyzing Entity <DECODER> in library <work> (Architecture <behaviour>).
+WARNING:Xst:819 - "E:/Projects/XQV300/Working/dut/resource/hdltext/main_dec.vhd" line 227: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <data_in>, <aout>, <bout>, <cout>, <dout>, <eout>, <fout>, <gout>, <hout>, <k_dec>
+Entity <DECODER> analyzed. Unit <DECODER> generated.
+
+Analyzing Entity <DEC_FUNC> in library <work> (Architecture <behaviour>).
+WARNING:Xst:819 - "E:/Projects/XQV300/Working/dut/resource/hdltext/dec_func.vhd" line 232: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <a_cl2>, <ain>, <a_cl1>, <a_cl3>, <b_cl1>, <cin>, <b_cl2>, <b_cl3>, <ein>, <c_cl2>, <c_cl1>, <c_cl3>, <d_cl3>, <din>, <iin>, <d_cl1>, <d_cl2>, <e_cl2>, <e_cl3>, <e_cl1>, <jin>, <f_sel1>, <gin>, <fin>, <g_cl1>, <f_sel2>, <g_cl2>, <h_cl1>, <hin>, <h_cl2>, <k_cl2>, <k_cl1>
+Entity <DEC_FUNC> analyzed. Unit <DEC_FUNC> generated.
+
+Analyzing Entity <ERR_CHECK> in library <work> (Architecture <behaviour>).
+WARNING:Xst:819 - "E:/Projects/XQV300/Working/dut/resource/hdltext/err_check.vhd" line 116: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <ain>, <bin>, <cin>, <din>, <err_cl1>, <err_cl2>, <err_cl3>
+Entity <ERR_CHECK> analyzed. Unit <ERR_CHECK> generated.
+
+Analyzing Entity <ERR_DET> in library <work> (Architecture <behaviour>).
+WARNING:Xst:819 - "E:/Projects/XQV300/Working/dut/resource/hdltext/err_det.vhd" line 97: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <ill_cl1>, <ill_cl2>, <ill_cl3>, <error1>, <error2>, <k1>, <k2>
+Entity <ERR_DET> analyzed. Unit <ERR_DET> generated.
+
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Performing bidirectional port resolution...
+
+Synthesizing Unit <ENC_FUNC>.
+    Related source file is "E:/Projects/XQV300/Working/dut/resource/hdltext/enc_func.vhd".
+    Found finite state machine <FSM_0> for signal <prs_state>.
+    -----------------------------------------------------------------------
+    | States             | 5                                              |
+    | Transitions        | 8                                              |
+    | Inputs             | 2                                              |
+    | Outputs            | 3                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Reset              | rst (negative)                                 |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 10-bit register for signal <do>.
+    Found 1-bit register for signal <b_prel>.
+    Found 1-bit register for signal <c_prel>.
+    Found 1-bit register for signal <d_prel>.
+    Found 1-bit register for signal <e_prel>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred  14 D-type flip-flop(s).
+Unit <ENC_FUNC> synthesized.
+
+
+Synthesizing Unit <DIS_GEN_UP>.
+    Related source file is "E:/Projects/XQV300/Working/dut/resource/hdltext/dis_gen_up.vhd".
+    Found finite state machine <FSM_1> for signal <prs_state>.
+    -----------------------------------------------------------------------
+    | States             | 4                                              |
+    | Transitions        | 6                                              |
+    | Inputs             | 1                                              |
+    | Outputs            | 5                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Reset              | rst (negative)                                 |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Summary:
+	inferred   1 Finite State Machine(s).
+Unit <DIS_GEN_UP> synthesized.
+
+
+Synthesizing Unit <S_GEN>.
+    Related source file is "E:/Projects/XQV300/Working/dut/resource/hdltext/s_gen.vhd".
+    Found finite state machine <FSM_2> for signal <prs_state>.
+    -----------------------------------------------------------------------
+    | States             | 3                                              |
+    | Transitions        | 6                                              |
+    | Inputs             | 3                                              |
+    | Outputs            | 1                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Reset              | rst (negative)                                 |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 1-bit register for signal <sout>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   1 D-type flip-flop(s).
+Unit <S_GEN> synthesized.
+
+
+Synthesizing Unit <DIS_GEN_LOW>.
+    Related source file is "E:/Projects/XQV300/Working/dut/resource/hdltext/dis_gen_low.vhd".
+    Found finite state machine <FSM_3> for signal <prs_state>.
+    -----------------------------------------------------------------------
+    | States             | 5                                              |
+    | Transitions        | 8                                              |
+    | Inputs             | 2                                              |
+    | Outputs            | 5                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Reset              | rst (negative)                                 |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 1-bit register for signal <dis_out>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   1 D-type flip-flop(s).
+Unit <DIS_GEN_LOW> synthesized.
+
+
+Synthesizing Unit <ERR_DET>.
+    Related source file is "E:/Projects/XQV300/Working/dut/resource/hdltext/err_det.vhd".
+    Found finite state machine <FSM_4> for signal <prs_state>.
+    -----------------------------------------------------------------------
+    | States             | 4                                              |
+    | Transitions        | 6                                              |
+    | Inputs             | 1                                              |
+    | Outputs            | 2                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Reset              | rst (negative)                                 |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 1-bit xor2 for signal <ill_char_det$xor0000> created at line 123.
+    Found 1-bit xor2 for signal <ill_cl1$xor0000> created at line 60.
+    Found 1-bit xor2 for signal <ill_cl1$xor0001> created at line 60.
+    Found 1-bit xor2 for signal <ill_cl1$xor0002> created at line 60.
+    Found 1-bit xor2 for signal <ill_cl2$xor0000> created at line 64.
+    Found 1-bit xor2 for signal <ill_cl2$xor0001> created at line 64.
+    Found 1-bit xor2 for signal <ill_cl2$xor0002> created at line 64.
+    Found 1-bit xor2 for signal <ill_cl3$xor0000> created at line 68.
+    Found 1-bit xor2 for signal <ill_cl3$xor0001> created at line 68.
+    Summary:
+	inferred   1 Finite State Machine(s).
+Unit <ERR_DET> synthesized.
+
+
+Synthesizing Unit <DEC_FUNC>.
+    Related source file is "E:/Projects/XQV300/Working/dut/resource/hdltext/dec_func.vhd".
+    Found finite state machine <FSM_5> for signal <prs_state>.
+    -----------------------------------------------------------------------
+    | States             | 4                                              |
+    | Transitions        | 6                                              |
+    | Inputs             | 1                                              |
+    | Outputs            | 2                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Reset              | rst (negative)                                 |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 1-bit register for signal <fout>.
+    Found 1-bit register for signal <cout>.
+    Found 1-bit register for signal <kout>.
+    Found 1-bit register for signal <hout>.
+    Found 1-bit register for signal <eout>.
+    Found 1-bit register for signal <bout>.
+    Found 1-bit register for signal <gout>.
+    Found 1-bit register for signal <dout>.
+    Found 1-bit register for signal <aout>.
+    Found 1-bit xor2 for signal <a_cl1$xor0000> created at line 95.
+    Found 1-bit xor2 for signal <b_cl1$xor0000> created at line 108.
+    Found 1-bit xor2 for signal <b_cl3$xor0000> created at line 115.
+    Found 1-bit xor2 for signal <c_cl2$xor0000> created at line 123.
+    Found 1-bit xor2 for signal <eout_com$xor0000> created at line 276.
+    Found 1-bit xor2 for signal <h_cl2$xor0000> created at line 183.
+    Found 1-bit xor2 for signal <h_cl2$xor0001> created at line 183.
+    Found 1-bit xor2 for signal <k_cl2$xor0000> created at line 192.
+    Found 1-bit xor2 for signal <k_cl2$xor0001> created at line 192.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   9 D-type flip-flop(s).
+Unit <DEC_FUNC> synthesized.
+
+
+Synthesizing Unit <ERR_CHECK>.
+    Related source file is "E:/Projects/XQV300/Working/dut/resource/hdltext/err_check.vhd".
+    Found finite state machine <FSM_6> for signal <prs_state>.
+    -----------------------------------------------------------------------
+    | States             | 4                                              |
+    | Transitions        | 6                                              |
+    | Inputs             | 1                                              |
+    | Outputs            | 2                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Reset              | rst (negative)                                 |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Summary:
+	inferred   1 Finite State Machine(s).
+Unit <ERR_CHECK> synthesized.
+
+
+Synthesizing Unit <ENCODER_UP>.
+    Related source file is "E:/Projects/XQV300/Working/dut/resource/hdltext/main_enc_up.vhd".
+WARNING:Xst:1780 - Signal <e_prel> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <d_prel> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <c_prel> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <b_prel> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+INFO:Xst:1799 - State waiting is never reached in FSM <prs_state>.
+    Found finite state machine <FSM_7> for signal <prs_state>.
+    -----------------------------------------------------------------------
+    | States             | 3                                              |
+    | Transitions        | 6                                              |
+    | Inputs             | 2                                              |
+    | Outputs            | 3                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Reset              | rst (negative)                                 |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Summary:
+	inferred   1 Finite State Machine(s).
+Unit <ENCODER_UP> synthesized.
+
+
+Synthesizing Unit <ENCODER_LOW>.
+    Related source file is "E:/Projects/XQV300/Working/dut/resource/hdltext/main_enc_low.vhd".
+WARNING:Xst:1780 - Signal <assign_rdy> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+INFO:Xst:1799 - State waiting is never reached in FSM <prs_state>.
+    Found finite state machine <FSM_8> for signal <prs_state>.
+    -----------------------------------------------------------------------
+    | States             | 3                                              |
+    | Transitions        | 6                                              |
+    | Inputs             | 2                                              |
+    | Outputs            | 3                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Reset              | rst (negative)                                 |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Summary:
+	inferred   1 Finite State Machine(s).
+Unit <ENCODER_LOW> synthesized.
+
+
+Synthesizing Unit <DECODER>.
+    Related source file is "E:/Projects/XQV300/Working/dut/resource/hdltext/main_dec.vhd".
+    Found finite state machine <FSM_9> for signal <prs_state>.
+    -----------------------------------------------------------------------
+    | States             | 3                                              |
+    | Transitions        | 7                                              |
+    | Inputs             | 3                                              |
+    | Outputs            | 2                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Reset              | rst (negative)                                 |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Summary:
+	inferred   1 Finite State Machine(s).
+Unit <DECODER> synthesized.
+
+
+Synthesizing Unit <ENC_16B20B>.
+    Related source file is "E:/Projects/XQV300/Working/dut/resource/hdltext/encoder.vhd".
+Unit <ENC_16B20B> synthesized.
+
+
+Synthesizing Unit <DEC_16B20B>.
+    Related source file is "E:/Projects/XQV300/Working/dut/resource/hdltext/decoder.vhd".
+Unit <DEC_16B20B> synthesized.
+
+
+Synthesizing Unit <top>.
+    Related source file is "E:/Projects/XQV300/Working/dut/resource/hdltext/top.vhd".
+WARNING:Xst:647 - Input <data_in<22>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:1306 - Output <err> is never assigned.
+WARNING:Xst:646 - Signal <frame_out_enc> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <frame_out_dec> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <frame_in_enc> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <dis_out> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <dis_in> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <decoded_data<111:96>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:1780 - Signal <data_trs> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+Unit <top> synthesized.
+
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Registers                                            : 217
+ 1-bit register                                        : 203
+ 10-bit register                                       : 14
+# Xors                                                 : 189
+ 1-bit xor2                                            : 189
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+Analyzing FSM <FSM_9> for best encoding.
+Optimizing FSM <GEN[0].DEC_16B20B_1/UPPER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[1].DEC_16B20B_1/UPPER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[2].DEC_16B20B_1/UPPER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[3].DEC_16B20B_1/UPPER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[4].DEC_16B20B_1/UPPER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[5].DEC_16B20B_1/UPPER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[6].DEC_16B20B_1/UPPER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[0].DEC_16B20B_1/LOWER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[1].DEC_16B20B_1/LOWER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[2].DEC_16B20B_1/LOWER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[3].DEC_16B20B_1/LOWER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[4].DEC_16B20B_1/LOWER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[5].DEC_16B20B_1/LOWER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[6].DEC_16B20B_1/LOWER_DEC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+--------------------
+ State  | Encoding
+--------------------
+ idle   | 00
+ assign | 01
+ done   | 11
+--------------------
+Analyzing FSM <FSM_8> for best encoding.
+Optimizing FSM <GEN[0].ENC_16B20B_1/LOWER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[1].ENC_16B20B_1/LOWER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[2].ENC_16B20B_1/LOWER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[3].ENC_16B20B_1/LOWER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[4].ENC_16B20B_1/LOWER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[5].ENC_16B20B_1/LOWER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[6].ENC_16B20B_1/LOWER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+---------------------
+ State   | Encoding
+---------------------
+ idle    | 00
+ assign  | 01
+ waiting | unreached
+ done    | 11
+---------------------
+Analyzing FSM <FSM_7> for best encoding.
+Optimizing FSM <GEN[0].ENC_16B20B_1/UPPER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[1].ENC_16B20B_1/UPPER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[2].ENC_16B20B_1/UPPER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[3].ENC_16B20B_1/UPPER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[4].ENC_16B20B_1/UPPER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[5].ENC_16B20B_1/UPPER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[6].ENC_16B20B_1/UPPER_ENC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+---------------------
+ State   | Encoding
+---------------------
+ idle    | 00
+ assign  | 01
+ waiting | unreached
+ done    | 11
+---------------------
+Analyzing FSM <FSM_6> for best encoding.
+Optimizing FSM <GEN[0].DEC_16B20B_1/UPPER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[1].DEC_16B20B_1/UPPER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[2].DEC_16B20B_1/UPPER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[3].DEC_16B20B_1/UPPER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[4].DEC_16B20B_1/UPPER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[5].DEC_16B20B_1/UPPER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[6].DEC_16B20B_1/UPPER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[0].DEC_16B20B_1/LOWER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[1].DEC_16B20B_1/LOWER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[2].DEC_16B20B_1/LOWER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[3].DEC_16B20B_1/LOWER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[4].DEC_16B20B_1/LOWER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[5].DEC_16B20B_1/LOWER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[6].DEC_16B20B_1/LOWER_DEC/ERR_CHK/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+-----------------------
+ State     | Encoding
+-----------------------
+ idle      | 00
+ prel      | 01
+ error_chk | 11
+ done      | 10
+-----------------------
+Analyzing FSM <FSM_5> for best encoding.
+Optimizing FSM <GEN[0].DEC_16B20B_1/UPPER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[1].DEC_16B20B_1/UPPER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[2].DEC_16B20B_1/UPPER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[3].DEC_16B20B_1/UPPER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[4].DEC_16B20B_1/UPPER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[5].DEC_16B20B_1/UPPER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[6].DEC_16B20B_1/UPPER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[0].DEC_16B20B_1/LOWER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[1].DEC_16B20B_1/LOWER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[2].DEC_16B20B_1/LOWER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[3].DEC_16B20B_1/LOWER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[4].DEC_16B20B_1/LOWER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[5].DEC_16B20B_1/LOWER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[6].DEC_16B20B_1/LOWER_DEC/DEC_8B10B/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+--------------------
+ State  | Encoding
+--------------------
+ idle   | 00
+ prel   | 01
+ decode | 11
+ done   | 10
+--------------------
+Analyzing FSM <FSM_4> for best encoding.
+Optimizing FSM <GEN[0].DEC_16B20B_1/ERR/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[1].DEC_16B20B_1/ERR/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[2].DEC_16B20B_1/ERR/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[3].DEC_16B20B_1/ERR/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[4].DEC_16B20B_1/ERR/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[5].DEC_16B20B_1/ERR/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[6].DEC_16B20B_1/ERR/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+--------------------
+ State  | Encoding
+--------------------
+ idle   | 00
+ prel   | 01
+ detect | 11
+ done   | 10
+--------------------
+Analyzing FSM <FSM_3> for best encoding.
+Optimizing FSM <GEN[0].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[1].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[2].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[3].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[4].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[5].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[6].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+----------------------
+ State    | Encoding
+----------------------
+ idle     | 000
+ dis_func | 001
+ dis_wait | 010
+ dis_asgn | 011
+ done     | 100
+----------------------
+Analyzing FSM <FSM_2> for best encoding.
+Optimizing FSM <GEN[0].ENC_16B20B_1/UPPER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+Optimizing FSM <GEN[1].ENC_16B20B_1/UPPER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+Optimizing FSM <GEN[2].ENC_16B20B_1/UPPER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+Optimizing FSM <GEN[3].ENC_16B20B_1/UPPER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+Optimizing FSM <GEN[4].ENC_16B20B_1/UPPER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+Optimizing FSM <GEN[5].ENC_16B20B_1/UPPER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+Optimizing FSM <GEN[6].ENC_16B20B_1/UPPER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+Optimizing FSM <GEN[0].ENC_16B20B_1/LOWER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+Optimizing FSM <GEN[1].ENC_16B20B_1/LOWER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+Optimizing FSM <GEN[2].ENC_16B20B_1/LOWER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+Optimizing FSM <GEN[3].ENC_16B20B_1/LOWER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+Optimizing FSM <GEN[4].ENC_16B20B_1/LOWER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+Optimizing FSM <GEN[5].ENC_16B20B_1/LOWER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+Optimizing FSM <GEN[6].ENC_16B20B_1/LOWER_ENC/S_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with sequential encoding.
+----------------------
+ State    | Encoding
+----------------------
+ idle     | 00
+ assign_s | 01
+ done     | 10
+----------------------
+Analyzing FSM <FSM_1> for best encoding.
+Optimizing FSM <GEN[0].ENC_16B20B_1/UPPER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[1].ENC_16B20B_1/UPPER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[2].ENC_16B20B_1/UPPER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[3].ENC_16B20B_1/UPPER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[4].ENC_16B20B_1/UPPER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[5].ENC_16B20B_1/UPPER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+Optimizing FSM <GEN[6].ENC_16B20B_1/UPPER_ENC/DIS_FUNC/prs_state/FSM> on signal <prs_state[1:2]> with gray encoding.
+----------------------
+ State    | Encoding
+----------------------
+ idle     | 00
+ dis_func | 01
+ dis_asgn | 11
+ done     | 10
+----------------------
+Analyzing FSM <FSM_0> for best encoding.
+Optimizing FSM <GEN[0].ENC_16B20B_1/UPPER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[1].ENC_16B20B_1/UPPER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[2].ENC_16B20B_1/UPPER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[3].ENC_16B20B_1/UPPER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[4].ENC_16B20B_1/UPPER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[5].ENC_16B20B_1/UPPER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[6].ENC_16B20B_1/UPPER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[0].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[1].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[2].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[3].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[4].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+Optimizing FSM <GEN[6].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/prs_state/FSM> on signal <prs_state[1:3]> with sequential encoding.
+---------------------
+ State   | Encoding
+---------------------
+ idle    | 000
+ encode  | 001
+ s_input | 010
+ assign  | 011
+ done    | 100
+---------------------
+Loading device for application Rf_Device from file 'v300.nph' in environment D:\FPGA\ISE101\ISE.
+WARNING:Xst:2677 - Node <dis_out> of sequential type is unconnected in block <DIS_FUNC>.
+WARNING:Xst:2677 - Node <dis_out> of sequential type is unconnected in block <DIS_FUNC>.
+WARNING:Xst:2677 - Node <dis_out> of sequential type is unconnected in block <DIS_FUNC>.
+WARNING:Xst:2677 - Node <dis_out> of sequential type is unconnected in block <DIS_FUNC>.
+WARNING:Xst:2677 - Node <dis_out> of sequential type is unconnected in block <DIS_FUNC>.
+WARNING:Xst:2677 - Node <dis_out> of sequential type is unconnected in block <DIS_FUNC>.
+WARNING:Xst:2677 - Node <dis_out> of sequential type is unconnected in block <DIS_FUNC>.
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# Registers                                            : 574
+ Flip-Flops                                            : 574
+# Xors                                                 : 189
+ 1-bit xor2                                            : 189
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+
+Optimizing unit <top> ...
+
+Optimizing unit <DIS_GEN_UP> ...
+
+Optimizing unit <DIS_GEN_LOW> ...
+
+Optimizing unit <DECODER> ...
+WARNING:Xst:2677 - Node <GEN[0].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/dis_out> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <GEN[1].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/dis_out> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <GEN[2].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/dis_out> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <GEN[3].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/dis_out> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <GEN[4].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/dis_out> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <GEN[5].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/dis_out> of sequential type is unconnected in block <top>.
+WARNING:Xst:2677 - Node <GEN[6].ENC_16B20B_1/LOWER_ENC/DIS_FUNC/dis_out> of sequential type is unconnected in block <top>.
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block top, actual ratio is 50.
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 567
+ Flip-Flops                                            : 567
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                             *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+RTL Top Level Output File Name     : top.ngr
+Top Level Output File Name         : top
+Output Format                      : NGC
+Optimization Goal                  : Area
+Keep Hierarchy                     : NO
+
+Design Statistics
+# IOs                              : 50
+
+Cell Usage :
+# BELS                             : 2738
+#      BUF                         : 3
+#      GND                         : 1
+#      INV                         : 3
+#      LUT2                        : 381
+#      LUT3                        : 591
+#      LUT4                        : 1548
+#      MUXF5                       : 211
+# FlipFlops/Latches                : 567
+#      FDC                         : 231
+#      FDE                         : 336
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 47
+#      IBUF                        : 30
+#      OBUF                        : 17
+=========================================================================
+
+Device utilization summary:
+---------------------------
+
+Selected Device : xqv300cb228-4 
+
+ Number of Slices:                     1400  out of   3072    45%  
+ Number of Slice Flip Flops:            567  out of   6144     9%  
+ Number of 4 input LUTs:               2523  out of   6144    41%  
+ Number of IOs:                          50
+ Number of bonded IOBs:                  48  out of    162    29%  
+ Number of GCLKs:                         1  out of      4    25%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+TIMING REPORT
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+clk                                | BUFGP                  | 567   |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------+-------+
+Control Signal                                                                                                                                  | Buffer(FF name)                                                  | Load  |
+------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------+-------+
+GEN[0].DEC_16B20B_1/ERR/prs_state_FSM_Acst_inv(GEN[6].ENC_16B20B_1/UPPER_ENC/DIS_FUNC/prs_state_FSM_Acst_inv1_INV_0:O)                          | NONE(GEN[0].DEC_16B20B_1/LOWER_DEC/ERR_CHK/prs_state_FSM_FFd1)   | 77    |
+GEN[6].ENC_16B20B_1/UPPER_ENC/DIS_FUNC/prs_state_FSM_Acst_inv1_INV_0_1(GEN[6].ENC_16B20B_1/UPPER_ENC/DIS_FUNC/prs_state_FSM_Acst_inv1_INV_0_1:O)| NONE(GEN[6].DEC_16B20B_1/UPPER_DEC/ERR_CHK/prs_state_FSM_FFd2)   | 77    |
+GEN[6].ENC_16B20B_1/UPPER_ENC/DIS_FUNC/prs_state_FSM_Acst_inv1_INV_0_2(GEN[6].ENC_16B20B_1/UPPER_ENC/DIS_FUNC/prs_state_FSM_Acst_inv1_INV_0_2:O)| NONE(GEN[2].ENC_16B20B_1/UPPER_ENC/ENC_8B_10B/prs_state_FSM_FFd2)| 77    |
+------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------+-------+
+
+Timing Summary:
+---------------
+Speed Grade: -4
+
+   Minimum period: 17.917ns (Maximum Frequency: 55.813MHz)
+   Minimum input arrival time before clock: 17.919ns
+   Maximum output required time after clock: 27.547ns
+   Maximum combinational path delay: No path found
+
+Timing Detail:
+--------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk'
+  Clock period: 17.917ns (frequency: 55.813MHz)
+  Total number of paths / destination ports: 7086 / 567
+-------------------------------------------------------------------------
+Delay:               17.917ns (Levels of Logic = 6)
+  Source:            GEN[5].ENC_16B20B_1/LOWER_ENC/prs_state_FSM_FFd2 (FF)
+  Destination:       GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_4 (FF)
+  Source Clock:      clk rising
+  Destination Clock: clk rising
+
+  Data Path: GEN[5].ENC_16B20B_1/LOWER_ENC/prs_state_FSM_FFd2 to GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_4
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q             21   1.372   3.575  GEN[5].ENC_16B20B_1/LOWER_ENC/prs_state_FSM_FFd2 (GEN[5].ENC_16B20B_1/LOWER_ENC/prs_state_FSM_FFd2)
+     LUT2:I0->O            7   0.738   2.145  GEN[5].ENC_16B20B_1/LOWER_ENC/din1 (GEN[5].ENC_16B20B_1/LOWER_ENC/din)
+     LUT4:I0->O            2   0.738   1.474  GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/pos_l13_SW0 (N785)
+     LUT2:I0->O            3   0.738   1.628  GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/pos_l13 (GEN[5].ENC_16B20B_1/LOWER_ENC/l13)
+     LUT4:I1->O            1   0.738   1.265  GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_com_4_mux00007 (GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_com_4_mux00007)
+     LUT4:I3->O            1   0.738   1.265  GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_com_4_mux0000161_SW0 (N1900)
+     LUT3:I2->O            1   0.738   0.000  GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_com_4_mux0000161 (GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_com<4>)
+     FDE:D                     0.765          GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_4
+    ----------------------------------------
+    Total                     17.917ns (6.565ns logic, 11.352ns route)
+                                       (36.6% logic, 63.4% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
+  Total number of paths / destination ports: 1788 / 546
+-------------------------------------------------------------------------
+Offset:              17.919ns (Levels of Logic = 7)
+  Source:            data_in<8> (PAD)
+  Destination:       GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_4 (FF)
+  Destination Clock: clk rising
+
+  Data Path: data_in<8> to GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_4
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O            28   0.989   3.960  data_in_8_IBUF (data_in_8_IBUF)
+     LUT2:I1->O            7   0.738   2.145  GEN[5].ENC_16B20B_1/LOWER_ENC/din1 (GEN[5].ENC_16B20B_1/LOWER_ENC/din)
+     LUT4:I0->O            2   0.738   1.474  GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/pos_l13_SW0 (N785)
+     LUT2:I0->O            3   0.738   1.628  GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/pos_l13 (GEN[5].ENC_16B20B_1/LOWER_ENC/l13)
+     LUT4:I1->O            1   0.738   1.265  GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_com_4_mux00007 (GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_com_4_mux00007)
+     LUT4:I3->O            1   0.738   1.265  GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_com_4_mux0000161_SW0 (N1900)
+     LUT3:I2->O            1   0.738   0.000  GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_com_4_mux0000161 (GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_com<4>)
+     FDE:D                     0.765          GEN[5].ENC_16B20B_1/LOWER_ENC/ENC_8B_10B/do_4
+    ----------------------------------------
+    Total                     17.919ns (6.182ns logic, 11.737ns route)
+                                       (34.5% logic, 65.5% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clk'
+  Total number of paths / destination ports: 1542 / 17
+-------------------------------------------------------------------------
+Offset:              27.547ns (Levels of Logic = 9)
+  Source:            GEN[4].ENC_16B20B_1/UPPER_ENC/ENC_8B_10B/do_8 (FF)
+  Destination:       ill_char_det_o (PAD)
+  Source Clock:      clk rising
+
+  Data Path: GEN[4].ENC_16B20B_1/UPPER_ENC/ENC_8B_10B/do_8 to ill_char_det_o
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE:C->Q             34   1.372   4.290  GEN[4].ENC_16B20B_1/UPPER_ENC/ENC_8B_10B/do_8 (GEN[4].ENC_16B20B_1/UPPER_ENC/ENC_8B_10B/do_8)
+     LUT3:I1->O            2   0.738   1.474  GEN[4].DEC_16B20B_1/UPPER_DEC/ERR_CHK/err_out141 (GEN[4].DEC_16B20B_1/UPPER_DEC/N29)
+     LUT4:I0->O            1   0.738   1.265  ill_char_det_o3581_SW0 (N1735)
+     LUT4:I3->O            1   0.738   1.265  ill_char_det_o3581 (ill_char_det_o3581)
+     LUT4:I3->O            1   0.738   1.265  ill_char_det_o3777_SW0 (N1351)
+     LUT4:I3->O            1   0.738   1.265  ill_char_det_o3777 (ill_char_det_o3777)
+     LUT4:I2->O            1   0.738   1.265  ill_char_det_o4099 (ill_char_det_o4099)
+     LUT4:I0->O            1   0.738   1.265  ill_char_det_o5760_SW0 (N1377)
+     LUT4:I3->O            1   0.738   1.265  ill_char_det_o5760 (ill_char_det_o_OBUF)
+     OBUF:I->O                 5.652          ill_char_det_o_OBUF (ill_char_det_o)
+    ----------------------------------------
+    Total                     27.547ns (12.928ns logic, 14.619ns route)
+                                       (46.9% logic, 53.1% route)
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 22.00 secs
+Total CPU time to Xst completion: 21.45 secs
+ 
+--> 
+
+Total memory usage is 214536 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :   36 (   0 filtered)
+Number of infos    :    2 (   0 filtered)
+

@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-05-19
+-- Last update: 2011-05-22
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -73,7 +73,12 @@ entity top is
     adcio1_busy_i : in  std_logic;
     adcio1_sck_o  : out std_logic;
     adcio1_sdo_o  : out std_logic;
-    adcio1_sdi_i  : in  std_logic
+    adcio1_sdi_i  : in  std_logic;
+
+    jtag_tck_i : in std_logic;
+    jtag_tdi_i : in std_logic;
+    jtag_tdo_i : in std_logic;
+    jtag_tms_i : in std_logic
 
     );
 
