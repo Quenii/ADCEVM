@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-16
--- Last update: 2011-05-03
+-- Last update: 2011-05-21
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -26,35 +26,42 @@ use ieee.std_logic_unsigned.all;
 entity dac_wrap is
   
   generic (
+    ADDR_SPI   : std_logic_vector(15 downto 0) := x"";
     ADDR_LEN_L : std_logic_vector(15 downto 0) := x"1006";
     ADDR_LEN_H : std_logic_vector(15 downto 0) := x"1007";
-    ADDR_LEN  : std_logic_vector(15 downto 0) := x"1004";
-    ADDR_FIFO : std_logic_vector(15 downto 0) := x"1005");
+    ADDR_LEN   : std_logic_vector(15 downto 0) := x"1004";
+    ADDR_FIFO  : std_logic_vector(15 downto 0) := x"1005");
   port (
     sys_clk_i : in std_logic;
 
     -- lb
-    LB_Clk_i      : in  std_logic;
-    LB_Reset_i    : in  std_logic;
-    LB_Addr_i     : in  std_logic_vector(15 downto 0);
-    LB_Write_i    : in  std_logic;
-    LB_Read_i     : in  std_logic;
-    LB_Ready_o    : out std_logic;
-    LB_DataW_i    : in  std_logic_vector(15 downto 0);
-    LB_DataR_o    : out std_logic_vector(15 downto 0);
+    LB_Clk_i   : in  std_logic;
+    LB_Reset_i : in  std_logic;
+    LB_Addr_i  : in  std_logic_vector(15 downto 0);
+    LB_Write_i : in  std_logic;
+    LB_Read_i  : in  std_logic;
+    LB_Ready_o : out std_logic;
+    LB_DataW_i : in  std_logic_vector(15 downto 0);
+    LB_DataR_o : out std_logic_vector(15 downto 0);
     -- LVDS
-    dac_data_o    : out std_logic_vector (15 downto 0);
-    dac_dco_i     : in  std_logic;
+    dac_data_o : out std_logic_vector (15 downto 0);
+    dac_dco_i  : in  std_logic;
     -- had SPI port
-    chip_rst_n_o  : out std_logic;
-    spi_clk_o     : out std_logic;
-    spi_out_en_o  : out std_logic;
-    spi_di_i      : in  std_logic;
-    spi_do_o      : out std_logic;
-    spi_cs_n_o    : out std_logic;
-    i2c_sdo_o     : out std_logic;
-    i2c_scl_o     : out std_logic;
-    i2c_sda_o     : out std_logic;
+
+    spi_en_o      : out std_logic;
+    sck_o         : out std_logic;
+    sdi_i         : in  std_logic;
+    sdo_o         : out std_logic;
+    cs_n_o        : out std_logic;
+--    chip_rst_n_o  : out std_logic;
+--    spi_clk_o     : out std_logic;
+--    spi_out_en_o  : out std_logic;
+--    spi_di_i      : in  std_logic;
+--    spi_do_o      : out std_logic;
+--    spi_cs_n_o    : out std_logic;
+--    i2c_sdo_o     : out std_logic;
+--    i2c_scl_o     : out std_logic;
+--    i2c_sda_o     : out std_logic;
     -- SSRAM 0
     ssram_clk_o   : out std_logic;
     ssram_ce1_n_o : out std_logic;
@@ -157,34 +164,60 @@ architecture behave of dac_wrap is
   signal cnt               : std_logic_vector(8 downto 0)  := (others => '0');
   signal buf_task_start_r  : std_logic                     := '0';
 
-  --
-  component adc_config
+  constant C_SCK_RATIO : integer := 10;
+  constant C_REG_WIDTH : integer := 16;
+
+  component lb_target_spi
+    generic (
+      C_SCK_RATIO : integer;
+      C_REG_WIDTH : integer;
+      ADDR        : std_logic_vector(15 downto 0));
     port (
-      LB_Clk_i     : in  std_logic;
-      LB_Reset_i   : in  std_logic;
-      LB_Addr_i    : in  std_logic_vector(15 downto 0);
-      LB_Write_i   : in  std_logic;
-      LB_Read_i    : in  std_logic;
-      LB_Ready_o   : out std_logic;
-      LB_DataW_i   : in  std_logic_vector(15 downto 0);
-      LB_DataR_o   : out std_logic_vector(15 downto 0);
-      clk_500K_i   : in  std_logic;
-      tm_o         : out std_logic;
-      gpio1_o      : out std_logic;
-      gpio3_o      : out std_logic;
-      adc_rst_n_o  : out std_logic;
-      spi_clk_o    : out std_logic;
-      spi_out_en_o : out std_logic;
-      spi_di_i     : in  std_logic;
-      spi_do_o     : out std_logic;
-      spi_cs_n_o   : out std_logic;
-      i2c_sdo_o    : out std_logic;
-      i2c_scl_o    : out std_logic;
-      i2c_sda_o    : out std_logic);
+      LB_Clk_i   : in  std_logic;
+      LB_Reset_i : in  std_logic;
+      LB_Addr_i  : in  std_logic_vector(15 downto 0);
+      LB_Write_i : in  std_logic;
+      LB_Read_i  : in  std_logic;
+      LB_Ready_o : out std_logic;
+      LB_DataW_i : in  std_logic_vector(15 downto 0);
+      LB_DataR_o : out std_logic_vector(15 downto 0);
+      spi_en_o   : out std_logic;
+      sck_o      : out std_logic;
+      sdi_i      : in  std_logic;
+      sdo_o      : out std_logic;
+      cs_n_o     : out std_logic);
   end component;
+
+  signal LB_Ready_spi : std_logic;
+  signal LB_DataR_spi : std_logic_vector(15 downto 0);
+--  --
+--  component adc_config
+--    port (
+--      LB_Clk_i     : in  std_logic;
+--      LB_Reset_i   : in  std_logic;
+--      LB_Addr_i    : in  std_logic_vector(15 downto 0);
+--      LB_Write_i   : in  std_logic;
+--      LB_Read_i    : in  std_logic;
+--      LB_Ready_o   : out std_logic;
+--      LB_DataW_i   : in  std_logic_vector(15 downto 0);
+--      LB_DataR_o   : out std_logic_vector(15 downto 0);
+--      clk_500K_i   : in  std_logic;
+--      tm_o         : out std_logic;
+--      gpio1_o      : out std_logic;
+--      gpio3_o      : out std_logic;
+--      adc_rst_n_o  : out std_logic;
+--      spi_clk_o    : out std_logic;
+--      spi_out_en_o : out std_logic;
+--      spi_di_i     : in  std_logic;
+--      spi_do_o     : out std_logic;
+--      spi_cs_n_o   : out std_logic;
+--      i2c_sdo_o    : out std_logic;
+--      i2c_scl_o    : out std_logic;
+--      i2c_sda_o    : out std_logic);
+--  end component;
   --
-  signal LB_Ready_adc_config : std_logic                     := '0';
-  signal LB_DataR_adc_config : std_logic_vector(15 downto 0) := (others => '0');
+--  signal LB_Ready_adc_config : std_logic                     := '0';
+--  signal LB_DataR_adc_config : std_logic_vector(15 downto 0) := (others => '0');
 
   component ram_manager_v2
     generic (
@@ -229,7 +262,7 @@ architecture behave of dac_wrap is
   signal updated_ll  : std_logic;
   signal ctrl_ll     : std_logic_vector(15 downto 0);
   signal sta_ll      : std_logic_vector(15 downto 0);
-  
+
   signal LB_Ready_lh : std_logic;
   signal LB_DataR_lh : std_logic_vector(15 downto 0);
   signal updated_lh  : std_logic;
@@ -238,39 +271,59 @@ architecture behave of dac_wrap is
 
 begin  -- behave
 
-  process (LB_Clk_i)
-  begin  -- process
-    if LB_Clk_i'event and LB_Clk_i = '1' then  -- rising clock edge
---      if cnt = "1111111" then           -- 40MHz divide by 128 => 312.5KHz
-      clk_500K_i <= cnt(8);                    --not clk_500K_i;
-      cnt        <= cnt + 1;
-    end if;
-  end process;
+--  process (LB_Clk_i)
+--  begin  -- process
+--    if LB_Clk_i'event and LB_Clk_i = '1' then  -- rising clock edge
+----      if cnt = "1111111" then           -- 40MHz divide by 128 => 312.5KHz
+--      clk_500K_i <= cnt(8);                    --not clk_500K_i;
+--      cnt        <= cnt + 1;
+--    end if;
+--  end process;
 
-  adc_config_1 : adc_config
+--  adc_config_1 : adc_config
+--    port map (
+--      LB_Clk_i     => LB_Clk_i,
+--      LB_Reset_i   => LB_Reset_i,
+--      LB_Addr_i    => LB_Addr_i,
+--      LB_Write_i   => LB_Write_i,
+--      LB_Read_i    => LB_Read_i,
+--      LB_Ready_o   => LB_Ready_adc_config,
+--      LB_DataW_i   => LB_DataW_i,
+--      LB_DataR_o   => LB_DataR_adc_config,
+--      -- JTAG and SPI
+--      clk_500K_i   => clk_500K_i,
+--      tm_o         => open,
+--      gpio1_o      => open,
+--      gpio3_o      => open,
+--      adc_rst_n_o  => chip_rst_n_o,
+--      spi_clk_o    => spi_clk_o,
+--      spi_out_en_o => spi_out_en_o,
+--      spi_di_i     => spi_di_i,
+--      spi_do_o     => spi_do_o,
+--      spi_cs_n_o   => spi_cs_n_o,
+--      i2c_sdo_o    => i2c_sdo_o,
+--      i2c_scl_o    => i2c_scl_o,
+--      i2c_sda_o    => i2c_sda_o);
+
+  lb_target_spi_1 : lb_target_spi
+    generic map (
+      C_SCK_RATIO => C_SCK_RATIO,
+      C_REG_WIDTH => C_REG_WIDTH,
+      ADDR        => ADDR_SPI)
     port map (
-      LB_Clk_i     => LB_Clk_i,
-      LB_Reset_i   => LB_Reset_i,
-      LB_Addr_i    => LB_Addr_i,
-      LB_Write_i   => LB_Write_i,
-      LB_Read_i    => LB_Read_i,
-      LB_Ready_o   => LB_Ready_adc_config,
-      LB_DataW_i   => LB_DataW_i,
-      LB_DataR_o   => LB_DataR_adc_config,
-      -- JTAG and SPI
-      clk_500K_i   => clk_500K_i,
-      tm_o         => open,
-      gpio1_o      => open,
-      gpio3_o      => open,
-      adc_rst_n_o  => chip_rst_n_o,
-      spi_clk_o    => spi_clk_o,
-      spi_out_en_o => spi_out_en_o,
-      spi_di_i     => spi_di_i,
-      spi_do_o     => spi_do_o,
-      spi_cs_n_o   => spi_cs_n_o,
-      i2c_sdo_o    => i2c_sdo_o,
-      i2c_scl_o    => i2c_scl_o,
-      i2c_sda_o    => i2c_sda_o);
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => LB_Reset_i,
+      LB_Addr_i  => LB_Addr_i,
+      LB_Write_i => LB_Write_i,
+      LB_Read_i  => LB_Read_i,
+      LB_Ready_o => LB_Ready_o,
+      LB_DataW_i => LB_DataW_i,
+      LB_DataR_o => LB_DataR_o,
+      spi_en_o   => spi_en_o,
+      sck_o      => sck_o,
+      sdi_i      => sdi_i,
+      sdo_o      => sdo_o,
+      cs_n_o     => cs_n_o);
 
   lb_target_reg_wr_start : lb_target_reg
     generic map (
@@ -342,7 +395,7 @@ begin  -- behave
       ssram_zz_o    => ssram_zz_o,
       ssram_mode_o  => ssram_mode_o);
 
-  lb_target_reg_ll: lb_target_reg
+  lb_target_reg_ll : lb_target_reg
     generic map (
       ADDR => ADDR_LEN_L)
     port map (
@@ -358,7 +411,7 @@ begin  -- behave
       ctrl_o     => ctrl_ll,
       sta_i      => sta_ll);
 
-  lb_target_reg_lh: lb_target_reg
+  lb_target_reg_lh : lb_target_reg
     generic map (
       ADDR => ADDR_LEN_H)
     port map (
@@ -375,10 +428,10 @@ begin  -- behave
       sta_i      => sta_lh);
 
   rd_start_i <= updated_lh;
-  rd_len_i <= ctrl_lh & ctrl_ll;
+  rd_len_i   <= ctrl_lh & ctrl_ll;
 
-  LB_DataR_o <= LB_DataR_had_fifo or LB_DataR_adc_config or LB_DataR_ll or LB_DataR_lh;
-  LB_Ready_o <= LB_Ready_had_fifo or LB_Ready_dat_buf or LB_Ready_adc_config
+  LB_DataR_o <= LB_DataR_had_fifo or LB_DataR_spi or LB_DataR_ll or LB_DataR_lh;
+  LB_Ready_o <= LB_Ready_had_fifo or LB_Ready_dat_buf or LB_Ready_spi
                 or LB_Ready_ll or LB_Ready_lh;
 
 end behave;

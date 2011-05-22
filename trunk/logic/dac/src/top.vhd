@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-05-02
+-- Last update: 2011-05-21
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -47,19 +47,23 @@ entity top is
 
     gpio_o : out std_logic_vector(3 downto 0);
 
-    -- high ADC data port and SPI port
+    -- DAC(DUT) data port and SPI port
     data_o       : out std_logic_vector(15 downto 0);
     rx_inclock_i : in  std_logic;
 
-    --
-    KAD5514P_tm_o        : out   std_logic;
-    KAD5514P_adc_rst_n_o : out   std_logic;
-    KAD5514P_spi_clk_o   : out   std_logic;
-    KAD5514P_spi_di_i    : inout std_logic;
-    KAD5514P_spi_cs_n_o  : out   std_logic;
-    KAD5514P_i2c_sdo_o   : out   std_logic;
-    KAD5514P_i2c_scl_o   : out   std_logic;
-    KAD5514P_i2c_sda_o   : out   std_logic;
+    dac_rst_o   : out   std_logic;
+    dac_sck_o   : out   std_logic;
+    dac_sdio_io : inout std_logic;
+    dac_cs_n_o  : out   std_logic;
+--    --
+--    KAD5514P_tm_o        : out   std_logic;
+--    KAD5514P_adc_rst_n_o : out   std_logic;
+--    KAD5514P_spi_clk_o   : out   std_logic;
+--    KAD5514P_spi_di_i    : inout std_logic;
+--    KAD5514P_spi_cs_n_o  : out   std_logic;
+--    KAD5514P_i2c_sdo_o   : out   std_logic;
+--    KAD5514P_i2c_scl_o   : out   std_logic;
+--    KAD5514P_i2c_sda_o   : out   std_logic;
 
     -- TLC3548 SPI port
     TLC3548_sck_o     : out std_logic;
@@ -110,13 +114,13 @@ architecture behave of top is
   constant ADDR_FIFO      : std_logic_vector(15 downto 0) := x"1005";
   constant ADDR_LEN_L     : std_logic_vector(15 downto 0) := x"1006";
   constant ADDR_LEN_H     : std_logic_vector(15 downto 0) := x"1007";
-  
-  constant ADDR_3548      : std_logic_vector(15 downto 0) := x"0009";
-  constant ADDR_2656_L    : std_logic_vector(15 downto 0) := x"0005";
-  constant ADDR_2656_H    : std_logic_vector(15 downto 0) := x"0006";
-  constant ADDR_GPIO      : std_logic_vector(15 downto 0) := x"2000";
-  constant ADDR_WD        : std_logic_vector(15 downto 0) := x"2001";
-  constant ADDR_SW        : std_logic_vector(15 downto 0) := x"2002";
+
+  constant ADDR_3548   : std_logic_vector(15 downto 0) := x"0009";
+  constant ADDR_2656_L : std_logic_vector(15 downto 0) := x"0005";
+  constant ADDR_2656_H : std_logic_vector(15 downto 0) := x"0006";
+  constant ADDR_GPIO   : std_logic_vector(15 downto 0) := x"2000";
+  constant ADDR_WD     : std_logic_vector(15 downto 0) := x"2001";
+  constant ADDR_SW     : std_logic_vector(15 downto 0) := x"2002";
 -- high ADC controller
 
   signal LB_Ready_reset_ctr_i : std_logic;
@@ -155,15 +159,20 @@ architecture behave of top is
       dac_data_o    : out std_logic_vector (15 downto 0);
       dac_dco_i     : in  std_logic;
       --
-      chip_rst_n_o  : out std_logic;
-      spi_clk_o     : out std_logic;
-      spi_out_en_o  : out std_logic;
-      spi_di_i      : in  std_logic;
-      spi_do_o      : out std_logic;
-      spi_cs_n_o    : out std_logic;
-      i2c_sdo_o     : out std_logic;
-      i2c_scl_o     : out std_logic;
-      i2c_sda_o     : out std_logic;
+      spi_en_o      : out std_logic;
+      sck_o         : out std_logic;
+      sdi_i         : in  std_logic;
+      sdo_o         : out std_logic;
+      cs_n_o        : out std_logic;
+--      chip_rst_n_o  : out std_logic;
+--      spi_clk_o     : out std_logic;
+--      spi_out_en_o  : out std_logic;
+--      spi_di_i      : in  std_logic;
+--      spi_do_o      : out std_logic;
+--      spi_cs_n_o    : out std_logic;
+--      i2c_sdo_o     : out std_logic;
+--      i2c_scl_o     : out std_logic;
+--      i2c_sda_o     : out std_logic;
       ssram_clk_o   : out std_logic;
       ssram_ce1_n_o : out std_logic;
       ssram_ce2_n_o : out std_logic;
@@ -182,9 +191,12 @@ architecture behave of top is
   end component;
   --
   --
-  signal KAD5514P_spi_out_en_o : std_logic;
-  signal KAD5514P_spi_do_o     : std_logic;
-  signal KAD5514P_spi_di_input : std_logic;
+--  signal KAD5514P_spi_out_en_o : std_logic;
+--  signal KAD5514P_spi_do_o     : std_logic;
+--  signal KAD5514P_spi_di_input : std_logic;
+  signal dac_spi_en : std_logic;
+  signal dac_sdi    : std_logic;
+  signal dac_sdo    : std_logic;
 
   signal ssram_d_o    : std_logic_vector(63 downto 0);
   signal ssram_d_i    : std_logic_vector(63 downto 0);
@@ -329,9 +341,9 @@ architecture behave of top is
       locked : out std_logic);
   end component;
 
-  signal dco_0   : std_logic;
+  signal dco_0  : std_logic;
   signal dco_90 : std_logic;
-  
+
   signal sys_clk   : std_logic;
   signal ssram_clk : std_logic;
   signal sys_rst   : std_logic;
@@ -359,7 +371,7 @@ begin  -- behave
       c0     => dco_0,
       c1     => dco_90,
       locked => open);
-		
+
   ssram0_clk_o   <= ssram_clk;
   ssram1_clk_o   <= ssram_clk;
   sys_rst        <= not locked;
@@ -438,15 +450,20 @@ begin  -- behave
       dac_data_o    => data_o,
       dac_dco_i     => dco_0,
       -- high ADC SPI port
-      chip_rst_n_o  => KAD5514P_adc_rst_n_o,
-      spi_clk_o     => KAD5514P_spi_clk_o,
-      spi_out_en_o  => KAD5514P_spi_out_en_o,
-      spi_di_i      => KAD5514P_spi_di_input,
-      spi_do_o      => KAD5514P_spi_do_o,
-      spi_cs_n_o    => KAD5514P_spi_cs_n_o,
-      i2c_sdo_o     => KAD5514P_i2c_sdo_o ,
-      i2c_scl_o     => KAD5514P_i2c_scl_o,
-      i2c_sda_o     => KAD5514P_i2c_sda_o,
+--      chip_rst_n_o  => KAD5514P_adc_rst_n_o,
+--      spi_clk_o     => KAD5514P_spi_clk_o,
+--      spi_out_en_o  => KAD5514P_spi_out_en_o,
+--      spi_di_i      => KAD5514P_spi_di_input,
+--      spi_do_o      => KAD5514P_spi_do_o,
+--      spi_cs_n_o    => KAD5514P_spi_cs_n_o,
+--      i2c_sdo_o     => KAD5514P_i2c_sdo_o ,
+--      i2c_scl_o     => KAD5514P_i2c_scl_o,
+--      i2c_sda_o     => KAD5514P_i2c_sda_o,
+      spi_en_o      => dac_spi_en,
+      sck_o         => dac_sck_o,
+      sdi_i         => dac_sdi,
+      sdo_o         => dac_sdo,
+      cs_n_o        => dac_cs_n_o,
       ssram_clk_o   => ssram0_clk,
       ssram_ce1_n_o => ssram0_ce_n,
       ssram_ce2_n_o => open,
@@ -463,8 +480,9 @@ begin  -- behave
       ssram_zz_o    => open,
       ssram_mode_o  => open);
 
-  KAD5514P_spi_di_i     <= KAD5514P_spi_do_o when KAD5514P_spi_out_en_o = '1' else 'Z';
-  KAD5514P_spi_di_input <= KAD5514P_spi_di_i when KAD5514P_spi_out_en_o = '0' else '0';
+  dac_sdi     <= dac_sdio_io when dac_spi_en = '0' else '0';
+  dac_sdio_io <= dac_sdo     when dac_spi_en = '1' else 'Z';
+
 -------------------------------------------------------------------------------
   -- local bus
   lb_1 : lb

@@ -303,10 +303,16 @@ set_location_assignment PIN_AC7 -to ssram1_dq_io[34]
 set_location_assignment PIN_W26 -to ssram0_dq_io[35]
 set_location_assignment PIN_V10 -to ssram1_dq_io[35]
 
-set_location_assignment PIN_A8 -to KAD5514P_adc_rst_n_o
-set_location_assignment PIN_A9 -to KAD5514P_spi_clk_o
-set_location_assignment PIN_B8 -to KAD5514P_spi_cs_n_o
-set_location_assignment PIN_B9 -to KAD5514P_spi_di_i
+# set_location_assignment PIN_A8 -to KAD5514P_adc_rst_n_o
+# set_location_assignment PIN_A9 -to KAD5514P_spi_clk_o
+# set_location_assignment PIN_B8 -to KAD5514P_spi_cs_n_o
+# set_location_assignment PIN_B9 -to KAD5514P_spi_di_i
+# set_location_assignment PIN_C11 -to KAD5514P_tm_o
+# set_location_assignment PIN_B11 -to KAD5514P_i2c_sda_o
+set_location_assignment PIN_A8 -to dac_rst_o
+set_location_assignment PIN_A9 -to dac_sck_o
+set_location_assignment PIN_B8 -to dac_cs_n_o
+set_location_assignment PIN_B9 -to dac_sdio_io
 set_location_assignment PIN_C11 -to KAD5514P_tm_o
 set_location_assignment PIN_B11 -to KAD5514P_i2c_sda_o
 set_location_assignment PIN_A6 -to gpio_o[0]
