@@ -1,0 +1,10 @@
+Device Utilization Summary:
+
+   Number of GCLKs                           1 out of 4      25%
+   Number of External GCLKIOBs               1 out of 4      25%
+      Number of LOCed GCLKIOBs               1 out of 1     100%
+
+   Number of External IOBs                  43 out of 162    26%
+      Number of LOCed IOBs                   1 out of 43      2%
+
+   Number of SLICEs                        934 out of 3072   30%
