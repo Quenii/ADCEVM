@@ -144,7 +144,7 @@ struct TimeDomainReport
 {
 	std::vector<float> samples;
 	std::vector<float> xaxis;
-	std::vector<unsigned short> rawSamples;
+	std::vector<unsigned int> rawSamples;
 	float min;
 	float max;	
 };

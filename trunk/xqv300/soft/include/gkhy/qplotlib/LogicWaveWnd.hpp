@@ -20,10 +20,11 @@ namespace gkhy
 			virtual ~LogicWaveWnd();
 
 		public:
-			void update(const std::vector<unsigned short> & xdata);
+			void update(const std::vector<unsigned int> & xdata);
 
 		private:
 			ArrayList m_arrayList;
+			int m_chnum;
 			std::vector<float> m_x;
 			std::vector<float> m_y;
 		};

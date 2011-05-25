@@ -21,16 +21,17 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
 
 entity top_10 is
   generic (
     INSTS : integer := 2);
   port (
-    clk     : in  std_logic;
-    rst     : in  std_logic;
-    err     : out std_logic;
-    data_in : in  std_logic_vector(INSTS+16-1 downto 0);
-    k_char  : in  std_logic_vector(INSTS-1 downto 0);
+    clk    : in  std_logic;
+    rst    : in  std_logic;
+    err    : out std_logic;
+--    data_in : in  std_logic_vector(INSTS+16-1 downto 0);
+    k_char : in  std_logic_vector(INSTS-1 downto 0);
 
     decode_o       : out std_logic_vector(15 downto 0);
     ill_char_det_o : out std_logic
@@ -39,6 +40,8 @@ end top_10;
 
 
 architecture impl of top_10 is
+
+  signal data_in : std_logic_vector(INSTS+16-1 downto 0);
 
   component ENC_16B20B
     port (
@@ -74,15 +77,25 @@ architecture impl of top_10 is
   signal frame_out_dec : std_logic_vector(INSTS-1 downto 0);
   signal decoded_data  : std_logic_vector(16*INSTS-1 downto 0);
   signal ill_char_det  : std_logic_vector(INSTS-1 downto 0);
-  
+
+  signal rst_n : std_logic;
 begin  -- impl
+
+  rst_n <= rst;
+
+  process (clk)
+  begin  -- process
+    if rising_edge(clk) then
+      data_in <= data_in + 1;
+    end if;
+  end process;
 
   GEN : for i in 0 to INSTS-1 generate
 
     ENC_16B20B_1 : ENC_16B20B
       port map (
         clk           => clk,
-        rst           => rst,
+        rst           => rst_n,
         data_trs      => data_in(i+15 downto 0+i),
         k_char        => k_char(i),
         dis_in        => k_char(i),
@@ -94,7 +107,7 @@ begin  -- impl
     DEC_16B20B_1 : DEC_16B20B
       port map (
         clk           => clk,
-        rst           => rst,
+        rst           => rst_n,
         serial_data   => serial_data(20*(i+1)-1 downto 20*i),
         frame_in_dec  => k_char(i),
         frame_out_dec => frame_out_dec(i),
