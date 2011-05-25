@@ -176,6 +176,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DynamicPowerWnd.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\EyeScope.cpp"
 				>
 			</File>
@@ -227,6 +231,10 @@
 			>
 			<File
 				RelativePath="..\include\gkhy\qplotlib\ConstScope.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\gkhy\qplotlib\DynamicPowerWnd.hpp"
 				>
 			</File>
 			<File

@@ -2,11 +2,11 @@
 -- Title      : 
 -- Project    : 
 -------------------------------------------------------------------------------
--- File       : rec.vhd
+-- File       : io_rec.vhd
 -- Author     :   <Administrator@CHINA-6E5B7FBFB>
 -- Company    : 
 -- Created    : 2011-05-20
--- Last update: 2011-05-22
+-- Last update: 2011-05-26
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -24,12 +24,12 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
 
-entity rec is
+entity io_rec is
   
   generic (
-    DATA_WIDTH : integer := 8;
+    DATA_WIDTH : integer                       := 8;
     REG_ADDR   : std_logic_vector(15 downto 0) := x"0080";
-    FIFO_ADDR   : std_logic_vector(15 downto 0) := x"0081"
+    FIFO_ADDR  : std_logic_vector(15 downto 0) := x"0081"
     );
 
   port (
@@ -47,9 +47,9 @@ entity rec is
     clk_i      : in  std_logic;
     din_i      : in  std_logic_vector(DATA_WIDTH - 1 downto 0));
 
-end rec;
+end io_rec;
 
-architecture behave of rec is
+architecture behave of io_rec is
 
   component lb_target_reg
     generic (
@@ -103,11 +103,11 @@ architecture behave of rec is
       dout_o       : out std_logic_vector(15 downto 0));
   end component;
 
-  signal rd_i    : std_logic;
-  signal empty_o : std_logic;
-  signal dout_o  : std_logic_vector(15 downto 0);
+  signal rd_i            : std_logic;
+  signal empty_o         : std_logic;
+  signal dout_o          : std_logic_vector(15 downto 0);
   signal LB_Ready_fifo_o : std_logic;
-  signal LB_Ready_reg_o : std_logic;
+  signal LB_Ready_reg_o  : std_logic;
   
 begin  -- behave
 

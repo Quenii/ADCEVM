@@ -170,3 +170,10 @@ struct AdcBoardReport
 	FreqDomainReport fdReport;
 	TimeDomainReport tdReport;
 };
+
+struct ThermalTestInfo
+{
+	QString bitFileName[5];
+	float last;
+	float interval;
+};

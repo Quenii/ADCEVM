@@ -211,7 +211,7 @@ void ControlPanel::on_pushButtonStartStaticTest_clicked()
 //	ui.pushButtonStartStaticTest->setEnabled(false);
 //	ui.pushButtonStopStaticTest->setEnabled(true);		
 	ui.dynamicTestButtons->setEnabled(false);
-	AdcBoard::instance()->staticTest();
+//	AdcBoard::instance()->staticTest();
 	ui.dynamicTestButtons->setEnabled(true);
 
 }
@@ -269,6 +269,15 @@ void ControlPanel::on_pushButtonThermal_clicked()
 	LogicPercentsTest dlg;
 	if (QDialog::Accepted  == dlg.exec())
 	{
+		m_thermalTestInfo.bitFileName[0] = dlg.bitFileName1->text();
+		m_thermalTestInfo.bitFileName[1] = dlg.bitFileName3->text();
+		m_thermalTestInfo.bitFileName[2] = dlg.bitFileName5->text();
+		m_thermalTestInfo.bitFileName[3] = dlg.bitFileName7->text();
+		m_thermalTestInfo.bitFileName[4] = dlg.bitFileName9->text();
+
+		m_thermalTestInfo.interval = dlg.intervalDoubleSpinBox->value();
+		m_thermalTestInfo.last = dlg.lastDoubleSpinBox->value();
+
 	}
 
 }

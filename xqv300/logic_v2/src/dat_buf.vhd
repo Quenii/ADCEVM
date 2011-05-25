@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-17
--- Last update: 2011-05-22
+-- Last update: 2011-05-26
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ entity dat_buf is
 end dat_buf;
 
 architecture behave of dat_buf is
-  component fifo8to16d2048
+  component fifo8to16
     port
       (
         aclr    : in  std_logic := '0';
@@ -57,10 +57,10 @@ architecture behave of dat_buf is
         wrusedw : out std_logic_vector (11 downto 0)
         );
   end component;
-  signal wrreq : std_logic;
-  signal wrfull         : std_logic;
-  signal almost_full    : std_logic;
-  signal wrusedw        : std_logic_vector (11 downto 0);
+  signal wrreq       : std_logic;
+  signal wrfull      : std_logic;
+  signal almost_full : std_logic;
+  signal wrusedw     : std_logic_vector (11 downto 0);
 
   -- FSM define
   type FSMState is (
@@ -70,9 +70,9 @@ architecture behave of dat_buf is
     RECEPTION,
     WT_RECEPTION);
 
-  signal cs, ns : FSMState;
+  signal cs, ns                                     : FSMState;
   signal task_start_r, task_start_rr, task_start_r3 : std_logic;
-  signal cnt    : integer;
+  signal cnt                                        : integer;
   
 begin  -- behave
 
@@ -84,7 +84,7 @@ begin  -- behave
 -- purpose: Generate next cs state
   FSM_CS_GEN : process (clk_i, rst_i)
   begin  -- process FSM_CS_GEN
-    if rst_i = '1' then                   -- asynchronous reset (active low)
+    if rst_i = '1' then                     -- asynchronous reset (active low)
       cs            <= IDLE;
       task_start_rr <= '0';
       task_start_r3 <= '0';
@@ -97,20 +97,20 @@ begin  -- behave
 -- purpose: Generate output
   FSM_OUTPUT_GEN : process (clk_i, rst_i)
   begin  -- process FSM_NS_GEN
-    if rst_i = '1' then                   -- asynchronous reset (active low)
+    if rst_i = '1' then                     -- asynchronous reset (active low)
       wrreq <= '0';
-      cnt <= 0;
+      cnt   <= 0;
     elsif clk_i'event and clk_i = '1' then  -- rising clock edge
       case cs is
         when IDLE =>
           wrreq <= '0';
-          cnt <= 0;
+          cnt   <= 0;
         when STORE =>
           wrreq <= '1';
-          cnt <= 0;
+          cnt   <= 0;
         when MID_STATE =>
           wrreq <= '0';
-          cnt <= cnt + 1;
+          cnt   <= cnt + 1;
         when others => null;
       end case;
     end if;
@@ -143,7 +143,7 @@ begin  -- behave
   end process FSM_NS_GEN;
 
   -- fifo
-  fifo8to16_1 : fifo8to16d2048
+  fifo8to16_1 : fifo8to16
     port map (
       aclr    => rst_i,
       data    => din_i,
