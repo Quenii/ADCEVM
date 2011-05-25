@@ -4,7 +4,7 @@
 
 using namespace gkhy::QPlotLab;
 
-LogicWaveWnd::LogicWaveWnd(QWidget *parent /*= 0*/, Qt::WindowFlags f /*= 0*/) : QScope(parent, f) 
+LogicWaveWnd::LogicWaveWnd(QWidget *parent /*= 0*/, Qt::WindowFlags f /*= 0*/) : QScope(parent, f),m_chnum(21) 
 {
 	USES_CONVERSION;
 
@@ -17,7 +17,7 @@ LogicWaveWnd::LogicWaveWnd(QWidget *parent /*= 0*/, Qt::WindowFlags f /*= 0*/) :
 		scope.Channels.Delete(0);
 	}
 
-	m_arrayList.resize(16);
+	m_arrayList.resize(m_chnum);
 
 	scope.Channels.Add(m_arrayList.size());
 	for (size_t i = 0; i < scope.Channels.Count; ++i)
@@ -42,13 +42,13 @@ LogicWaveWnd::~LogicWaveWnd()
 
 }
 
-void LogicWaveWnd::update(const std::vector<unsigned short> & xdata)
+void LogicWaveWnd::update(const std::vector<unsigned int> & xdata)
 {
 	CTSLScope& scope = rawScope();
 
 	const int points2Display = 1024;
 
-	for (int i = 0; i < 16; ++i)
+	for (int i = 0; i < m_chnum; ++i)
 	{
 		m_x.resize(0);//xdata.size());
 		m_y.resize(0);//xdata.size());

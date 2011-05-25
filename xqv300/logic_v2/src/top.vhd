@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-05-22
+-- Last update: 2011-05-23
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -78,7 +78,9 @@ entity top is
     jtag_tck_i : in std_logic;
     jtag_tdi_i : in std_logic;
     jtag_tdo_i : in std_logic;
-    jtag_tms_i : in std_logic
+    jtag_tms_i : in std_logic;
+
+    gck_o : out std_logic_vector(3 downto 0)
 
     );
 
@@ -239,6 +241,7 @@ architecture behave of top is
       inclk0 : in  std_logic := '0';
       c0     : out std_logic;
       c1     : out std_logic;
+      c2     : out std_logic;
       locked : out std_logic);
   end component;
 
@@ -274,10 +277,12 @@ begin  -- behave
     port map (
       areset => '0',
       inclk0 => sys_clk_i,
-      c0     => open,
-      c1     => sys_clk,
+      c0     => gck_o(2),
+      c1     => gck_o(1),
+      c2     => gck_o(0),
       locked => locked);
 
+--  gck_o(2)       <= sys_clk;
   sys_rst        <= not locked;
 -------------------------------------------------------------------------------
   -- 68013 port
