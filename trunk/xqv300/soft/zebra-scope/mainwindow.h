@@ -15,6 +15,7 @@ namespace gkhy
 		class WaveWnd;
 		class LogicWaveWnd;
 		class FFTWnd;
+		class DynamicPowerWnd;
 	}
 }
 class QSplitter;
@@ -46,6 +47,7 @@ private slots:
 	void on_actionSpiCtrl_triggered(bool checked = false);
 	void on_actionSpectrum_toggled(bool checked = false);
 	void on_actionLogic_toggled(bool checked = false);
+	void on_action_Thermal_toggled(bool checked);
 	
  	void slotShowWaveWnd();
  	void slotShowFFtWnd();
@@ -58,6 +60,7 @@ private:
 	gkhy::QPlotLab::WaveWnd* waveWnd;
 	gkhy::QPlotLab::FFTWnd* fftWnd;
 	gkhy::QPlotLab::LogicWaveWnd* logicWaveWnd;
+	gkhy::QPlotLab::DynamicPowerWnd* dynamicPowerWnd;
 	QPointer<RegAccess> regAccess;
 	AdcBoard* adcBoard;
 };

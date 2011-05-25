@@ -10,6 +10,8 @@
 #include <QSettings>
 #include <QApplication>
 #include <QDir>
+#include <QProcess>
+#include <QByteArray>
 
 #include "AdcBoard.hpp"
 #include "CyAPI.h"
@@ -121,7 +123,7 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	//setSignalSettings(m_signalSettings);
 	if (!m_timerIdPower)
 	{
-		m_timerIdPower = startTimer(2000);
+		m_timerIdPower = startTimer(800);
 	}
 }
 
@@ -149,6 +151,19 @@ void AdcBoard::setDynamicOn(bool on /* = true */)
 {
 	if (on && !m_timerIdDyn)
 	{
+		QString dir = QDir::currentPath();
+
+		QMessageBox box()
+		QProcess impact;
+		impact.setProcessChannelMode(QProcess::MergedChannels);
+
+		impact.start("impact", QStringList() << "-batch ./dut/io_test/io_test.cmd");
+
+		if (!impact.waitForFinished())
+			qDebug() << "Make failed:" << impact.errorString();
+		else
+			qDebug() << "Make output:" << impact.readAll();		
+		
 		m_timerIdDyn = startTimer(500);
 	}
 
@@ -347,75 +362,83 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 	TimeDomainReport& tdReport = report.tdReport;
 
-	float vpp = m_adcSettings.vpp;
-	float max = (1 << (m_adcSettings.bitcount - 1));
+	//float vpp = m_adcSettings.vpp;
+	//float max = (1 << (m_adcSettings.bitcount - 1));
 
 
 
 	if (usbDev->IsOpen() && (usbDev->DeviceCount())/* && clocked() */)
 	{
-		writeReg(0x2002, 0);
-		if (buff.size() < buffer_cnt)
-			buff.resize(buffer_cnt);
-		writeReg(0xFFFF, 0x0001);  //reset
-		writeReg(0xFFFF, 0x0000);  //dereset
-		//buff[512] = {0x0032};
-		writeReg(0x1004, 0xFFFF);  //stor 1M
-		Sleep(200);	
+//		writeReg(0x2002, 0);
+		if (buff.size() != 1024)
+			buff.resize(1024);
+
+		writeReg(0x1004, 1);
+		writeReg(0x1004, 0);
+		writeReg(0x1004, 0x8000);
+		Sleep(100);	
 
 		unsigned short* p = &buff[0];
-		bool okay = read(0x1005, &buff[0], buffer_cnt);
+		bool okay = read(0x1005, &buff[0], 1024);
 		Q_ASSERT(okay);
-		okay = read(0x1005, &buff[0], buffer_cnt);
-		Q_ASSERT(okay);
-		Covert(tdReport, max, vpp);
-	}
-	else
-	{
-#ifdef _DEBUG
 
-		float fs = m_signalSettings.clockFreq;
-		float fc = m_signalSettings.signalFreq;
-		
-
-		int offset = rand();
-		tdReport.samples.resize(buffer_cnt);
-		tdReport.rawSamples.resize(tdReport.samples.size());
-		for (int i = 0; i < tdReport.samples.size(); ++i)
+		if (tdReport.rawSamples.size() != buff.size())
 		{
-			tdReport.samples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max))*vpp/max;
-			tdReport.rawSamples[i] = i+offset;//((int)(qSin(2*pi*i*fc/fs+offset)*max));
+			tdReport.rawSamples.resize(buff.size());
 		}
-#endif //_DEBUG
+
+		for (int i = 0; i < buff.size(); ++i)
+		{
+			tdReport.rawSamples[i] = buff[i]; /* buff[i] >>t; */
+		}
+
 	}
-
-	float fmin = vpp;
-	float fmax = -vpp;
-	for (int i = 0; i < tdReport.samples.size(); ++i )
-	{
-		float f = tdReport.samples[i];
-		fmin = min(fmin, f);
-		fmax = max(fmax, f);
-	}
-
-	tdReport.max = fmax;
-	tdReport.min = fmin;
-
-	FreqDomainReport& fdReport = report.fdReport;
-
-	fdReport.Spectrum.resize(buffer_cnt/2);
-
-#if defined(MATLAB) 
-	calc_dynam_params(tdReport.samples, 16, fdReport);
-
-#elif defined(MATCOM) 
-	calc_dynam_params(tdReport.samples, m_adcSettings.bitcount, fdReport, m_adcSettings.vpp);
-	
-
-#else
-	memcpy( &fdReport.Spectrum[0], &tdReport.samples[0], buffer_cnt/2);
-
-#endif // MATLAB
+//	else
+//	{
+//#ifdef _DEBUG
+//
+//		float fs = m_signalSettings.clockFreq;
+//		float fc = m_signalSettings.signalFreq;
+//		
+//
+//		int offset = rand();
+//		tdReport.samples.resize(buffer_cnt);
+//		tdReport.rawSamples.resize(tdReport.samples.size());
+//		for (int i = 0; i < tdReport.samples.size(); ++i)
+//		{
+//			tdReport.samples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max))*vpp/max;
+//			tdReport.rawSamples[i] = i+offset;//((int)(qSin(2*pi*i*fc/fs+offset)*max));
+//		}
+//#endif //_DEBUG
+//	}
+//
+//	float fmin = vpp;
+//	float fmax = -vpp;
+//	for (int i = 0; i < tdReport.samples.size(); ++i )
+//	{
+//		float f = tdReport.samples[i];
+//		fmin = min(fmin, f);
+//		fmax = max(fmax, f);
+//	}
+//
+//	tdReport.max = fmax;
+//	tdReport.min = fmin;
+//
+//	FreqDomainReport& fdReport = report.fdReport;
+//
+//	fdReport.Spectrum.resize(buffer_cnt/2);
+//
+//#if defined(MATLAB) 
+//	calc_dynam_params(tdReport.samples, 16, fdReport);
+//
+//#elif defined(MATCOM) 
+//	calc_dynam_params(tdReport.samples, m_adcSettings.bitcount, fdReport, m_adcSettings.vpp);
+//	
+//
+//#else
+//	memcpy( &fdReport.Spectrum[0], &tdReport.samples[0], buffer_cnt/2);
+//
+//#endif // MATLAB
 
 	emit boardReport(report);
 }

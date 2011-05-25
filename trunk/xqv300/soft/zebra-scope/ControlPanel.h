@@ -55,5 +55,7 @@ private:
  	QStandardItemModel *tdReportModel;
  	QStandardItemModel *rdReportModel;
 
+	ThermalTestInfo m_thermalTestInfo;
+
 };
 

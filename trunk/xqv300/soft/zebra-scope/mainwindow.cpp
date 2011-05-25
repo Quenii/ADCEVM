@@ -3,6 +3,7 @@
 #include "gkhy/qplotlib/WaveWnd.hpp"
 #include "gkhy/qplotlib/FFTWnd.hpp"
 #include "gkhy/qplotlib/LogicWaveWnd.hpp"
+#include "gkhy/qplotlib/DynamicPowerWnd.hpp"
 #include "RegAccess.hpp"
 #include "QZebraScopeSettings.h"
 #include "QZebraScopeSerializer.h"
@@ -36,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 	logicWaveWnd = new gkhy::QPlotLab::LogicWaveWnd();
 	ui.dockWidgetLogicWave->setWidget(logicWaveWnd);
+
+	dynamicPowerWnd = new gkhy::QPlotLab::DynamicPowerWnd();
 
 	ui.actionLogic->setChecked(true);
 
@@ -213,6 +216,14 @@ void MainWindow::slotShowBoardReport(const AdcBoardReport& report)
 	waveWnd->update(report.tdReport.xaxis, report.tdReport.samples);
 	fftWnd->update(report.fdReport.xaxis, report.fdReport.Spectrum);
 	logicWaveWnd->update(report.tdReport.rawSamples);
+	std::vector<float> power;
+	power.push_back(report.powerStatus.vcore);
+	power.push_back(report.powerStatus.vio);
+	power.push_back(report.powerStatus.icore);
+	power.push_back(report.powerStatus.iio);
+	power.push_back(report.powerStatus.power);
+
+	dynamicPowerWnd->update(power);
 	ui.controlPanel->updateReport(report);
 }
 
@@ -249,6 +260,16 @@ void MainWindow::on_actionLogic_toggled(bool checked)
 	}
 };
 
+void MainWindow::on_action_Thermal_toggled(bool checked)
+{
+	if (checked)
+	{
+		ui.dockWidgetWave->setWidget(dynamicPowerWnd);
+		ui.dockWidgetWave->setVisible(checked);
+		ui.dockWidgetFFT->setVisible(!checked);
+		ui.dockWidgetLogicWave->setVisible(!checked);
+	}
+}
 void MainWindow::on_menuSettings_hovered(QAction * action)
 {
 	bool running = AdcBoard::instance()->isRunning();

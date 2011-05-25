@@ -69,6 +69,8 @@
     </property>
     <addaction name="actionSpectrum"/>
     <addaction name="actionLogic"/>
+    <addaction name="action_Thermal"/>
+    <addaction name="action_Dynamic"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -221,7 +223,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>逻辑分析(&amp;L)</string>
+    <string>I/O测试(&amp;I)</string>
    </property>
   </action>
   <action name="action_7">
@@ -232,6 +234,22 @@
   <action name="action_AboutAdcAnalyzer">
    <property name="text">
     <string>关于ADC Analyzer（&amp;A）</string>
+   </property>
+  </action>
+  <action name="action_Thermal">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>表面温度动态测试(&amp;T)</string>
+   </property>
+  </action>
+  <action name="action_Dynamic">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>动态功耗测试(&amp;D)</string>
    </property>
   </action>
  </widget>

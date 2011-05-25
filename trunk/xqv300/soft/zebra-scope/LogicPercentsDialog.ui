@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>378</width>
-    <height>232</height>
+    <height>240</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -75,7 +75,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QDoubleSpinBox" name="vaDoubleSpinBox">
+      <widget class="QDoubleSpinBox" name="intervalDoubleSpinBox">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -133,7 +133,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item row="6" column="1">
-      <widget class="QDoubleSpinBox" name="vdDoubleSpinBox">
+      <widget class="QDoubleSpinBox" name="lastDoubleSpinBox">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>

@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-05-23
+-- Last update: 2011-05-26
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -80,6 +80,15 @@ entity top is
     jtag_tdo_i : in std_logic;
     jtag_tms_i : in std_logic;
 
+    b0_io : in std_logic_vector(18 downto 0);
+    b1_io : in std_logic_vector(17 downto 0);
+    b2_io : in std_logic_vector(16 downto 0);
+    b3_io : in std_logic_vector(14 downto 0);
+    b4_io : in std_logic_vector(20 downto 0);
+    b5_io : in std_logic_vector(18 downto 0);
+    b6_io : in std_logic_vector(20 downto 0);
+    b7_io : in std_logic_vector(19 downto 0);
+
     gck_o : out std_logic_vector(3 downto 0)
 
     );
@@ -89,7 +98,7 @@ end top;
 architecture behave of top is
 -------------------------------------------------------------------------------
   constant ADDR_RESET_REG  : std_logic_vector(15 downto 0) := x"FFFF";
-  constant ADDR_LEN_REG    : std_logic_vector(15 downto 0) := x"1004";
+  constant ADDR_CTL_REG    : std_logic_vector(15 downto 0) := x"1004";
   constant ADDR_FIFO       : std_logic_vector(15 downto 0) := x"1005";
   constant ADDR_GPIO       : std_logic_vector(15 downto 0) := x"2000";
   constant ADDR_WD         : std_logic_vector(15 downto 0) := x"2001";
@@ -264,6 +273,29 @@ architecture behave of top is
       sensor_i   : in  std_logic);
   end component;
 
+  component io_rec
+    generic (
+      DATA_WIDTH : integer;
+      REG_ADDR   : std_logic_vector(15 downto 0);
+      FIFO_ADDR  : std_logic_vector(15 downto 0));
+    port (
+      rst_n_i    : in  std_logic;
+      LB_Clk_i   : in  std_logic;
+      LB_Reset_i : in  std_logic;
+      LB_Addr_i  : in  std_logic_vector(15 downto 0);
+      LB_Write_i : in  std_logic;
+      LB_Read_i  : in  std_logic;
+      LB_Ready_o : out std_logic;
+      LB_DataW_i : in  std_logic_vector(15 downto 0);
+      LB_DataR_o : out std_logic_vector(15 downto 0);
+      clk_i      : in  std_logic;
+      din_i      : in  std_logic_vector(DATA_WIDTH - 1 downto 0));
+  end component;
+
+  signal LB_Ready_io : std_logic;
+  signal LB_DataR_io : std_logic_vector(15 downto 0);
+  signal clk_i      : std_logic;
+  signal din_i      : std_logic_vector(7 downto 0);
   
 begin  -- behave
   
@@ -298,9 +330,11 @@ begin  -- behave
   u_sloe_n_o     <= fifo_adr_o(1);
 
   LB_Ready_i <= LB_Ready_dac or LB_Ready_rst or LB_Ready_gpio or LB_Ready_wd
-                or LB_Ready_adcp or LB_Ready_adcio0 or LB_Ready_adcio1 or LB_Ready_tmp03;
+                or LB_Ready_adcp or LB_Ready_adcio0 or LB_Ready_adcio1
+                or LB_Ready_tmp03 or LB_Ready_io;
   LB_DataR_i <= LB_DataR_dac or LB_DataR_rst or LB_DataR_gpio or LB_DataR_wd
-                or LB_DataR_adcp or LB_DataR_adcio0 or LB_DataR_adcio1 or LB_DataR_tmp03;
+                or LB_DataR_adcp or LB_DataR_adcio0 or LB_DataR_adcio1
+                or LB_DataR_tmp03 or LB_DataR_io;
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -329,6 +363,27 @@ begin  -- behave
       fifo_din_i     => fifo_din_i,
       fifo_dout_o    => fifo_dout_o);
 -------------------------------------------------------------------------------
+
+  io_rec_1: io_rec
+    generic map (
+      DATA_WIDTH => 8,
+      REG_ADDR   => ADDR_CTL_REG,
+      FIFO_ADDR  => ADDR_FIFO)
+    port map (
+      rst_n_i    => locked,
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => sys_rst,
+      LB_Addr_i  => LB_Addr_o,
+      LB_Write_i => LB_Write_o,
+      LB_Read_i  => LB_Read_o,
+      LB_Ready_o => LB_Ready_io,
+      LB_DataW_i => LB_DataW_o,
+      LB_DataR_o => LB_DataR_io,
+      clk_i      => LB_Clk_i,
+      din_i      => din_i);
+
+  din_i <= b0_io(7 downto 0);
+  
   DAC7612 : lb_target_spi
     generic map (
       C_SCK_RATIO => C_SCK_RATIO_DAC,
