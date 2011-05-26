@@ -94,7 +94,7 @@ architecture behave of io_rec is
   component dat_buf
     port (
       clk_i        : in  std_logic;
-      din_i        : in  std_logic_vector(7 downto 0);
+      din_i        : in  std_logic_vector(31 downto 0);
       rst_i        : in  std_logic;
       task_start_i : in  std_logic;
       rd_clk_i     : in  std_logic;

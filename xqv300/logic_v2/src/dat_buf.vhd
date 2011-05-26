@@ -27,7 +27,7 @@ entity dat_buf is
   
   port (
     clk_i        : in  std_logic;
-    din_i        : in  std_logic_vector(7 downto 0);
+    din_i        : in  std_logic_vector(31 downto 0);
     -- cmd port
     rst_i        : in  std_logic;
     task_start_i : in  std_logic;
@@ -41,26 +41,46 @@ entity dat_buf is
 end dat_buf;
 
 architecture behave of dat_buf is
-  component fifo8to16
-    port
-      (
-        aclr    : in  std_logic := '0';
-        data    : in  std_logic_vector (7 downto 0);
-        rdclk   : in  std_logic;
-        rdreq   : in  std_logic;
-        wrclk   : in  std_logic;
-        wrreq   : in  std_logic;
-        q       : out std_logic_vector (15 downto 0);
-        rdempty : out std_logic;
-        rdusedw : out std_logic_vector (10 downto 0);
-        wrfull  : out std_logic;
-        wrusedw : out std_logic_vector (11 downto 0)
-        );
+--  component fifo8to16
+--    port (
+--      aclr    : in  std_logic := '0';
+--      data    : in  std_logic_vector (7 downto 0);
+--      rdclk   : in  std_logic;
+--      rdreq   : in  std_logic;
+--      wrclk   : in  std_logic;
+--      wrreq   : in  std_logic;
+--      q       : out std_logic_vector (15 downto 0);
+--      rdempty : out std_logic;
+--      rdusedw : out std_logic_vector (10 downto 0);
+--      wrfull  : out std_logic;
+--      wrusedw : out std_logic_vector (11 downto 0)
+--      );
+--  end component;
+
+--  signal wrreq       : std_logic;
+--  signal wrfull      : std_logic;
+--  signal almost_full : std_logic;
+--  signal wrusedw     : std_logic_vector (11 downto 0);
+
+  component fifo32to16
+    port (
+      aclr    : in  std_logic;
+      data    : in  std_logic_vector (31 downto 0);
+      rdclk   : in  std_logic;
+      rdreq   : in  std_logic;
+      wrclk   : in  std_logic;
+      wrreq   : in  std_logic;
+      q       : out std_logic_vector (15 downto 0);
+      rdempty : out std_logic;
+      rdusedw : out std_logic_vector (11 downto 0);
+      wrfull  : out std_logic;
+      wrusedw : out std_logic_vector (10 downto 0));
   end component;
+
   signal wrreq       : std_logic;
   signal wrfull      : std_logic;
   signal almost_full : std_logic;
-  signal wrusedw     : std_logic_vector (11 downto 0);
+  signal wrusedw     : std_logic_vector (10 downto 0);
 
   -- FSM define
   type FSMState is (
@@ -143,7 +163,24 @@ begin  -- behave
   end process FSM_NS_GEN;
 
   -- fifo
-  fifo8to16_1 : fifo8to16
+--  fifo8to16_1 : fifo8to16
+--    port map (
+--      aclr    => rst_i,
+--      data    => din_i,
+--      rdclk   => rd_clk_i,
+--      rdreq   => rd_i,
+--      wrclk   => clk_i,
+--      wrreq   => wrreq,
+--      q       => dout_o,
+--      rdempty => empty_o,
+--      rdusedw => open,
+--      wrfull  => wrfull,
+--      wrusedw => wrusedw);
+
+
+--  almost_full <= '1' when wrusedw > x"7FF" or wrfull = '1' else '0';
+
+  fifo32to16_1 : fifo32to16
     port map (
       aclr    => rst_i,
       data    => din_i,
@@ -157,7 +194,5 @@ begin  -- behave
       wrfull  => wrfull,
       wrusedw => wrusedw);
 
-
-  almost_full <= '1' when wrusedw > x"7FF" or wrfull = '1' else '0';
-
+  almost_full <= '1' when wrusedw > x"3FF" or wrfull = '1' else '0';
 end behave;
