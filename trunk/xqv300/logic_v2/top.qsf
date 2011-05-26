@@ -293,6 +293,7 @@ set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=2048
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_LOWORD=47288" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_HIWORD=44108" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=2048" -section_id auto_signaltap_0
+set_global_assignment -name VHDL_FILE ip/fifo32to16/fifo32to16.vhd
 set_global_assignment -name VHDL_FILE ip/fifo8to16/fifo8to16.vhd
 set_global_assignment -name VHDL_FILE src/spi24_dac7612.vhd
 set_global_assignment -name VHDL_FILE src/lb_target_spi.vhd

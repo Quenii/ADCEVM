@@ -295,7 +295,7 @@ architecture behave of top is
   signal LB_Ready_io : std_logic;
   signal LB_DataR_io : std_logic_vector(15 downto 0);
   signal clk_i      : std_logic;
-  signal din_i      : std_logic_vector(7 downto 0);
+  signal din_i      : std_logic_vector(31 downto 0);
   
 begin  -- behave
   
@@ -309,12 +309,12 @@ begin  -- behave
     port map (
       areset => '0',
       inclk0 => sys_clk_i,
-      c0     => gck_o(2),
+      c0     => sys_clk,
       c1     => gck_o(1),
       c2     => gck_o(0),
       locked => locked);
 
---  gck_o(2)       <= sys_clk;
+  gck_o(2)       <= sys_clk;
   sys_rst        <= not locked;
 -------------------------------------------------------------------------------
   -- 68013 port
@@ -366,7 +366,7 @@ begin  -- behave
 
   io_rec_1: io_rec
     generic map (
-      DATA_WIDTH => 8,
+      DATA_WIDTH => 32,
       REG_ADDR   => ADDR_CTL_REG,
       FIFO_ADDR  => ADDR_FIFO)
     port map (
@@ -379,10 +379,10 @@ begin  -- behave
       LB_Ready_o => LB_Ready_io,
       LB_DataW_i => LB_DataW_o,
       LB_DataR_o => LB_DataR_io,
-      clk_i      => LB_Clk_i,
+      clk_i      => sys_clk,
       din_i      => din_i);
 
-  din_i <= b0_io(7 downto 0);
+  din_i(18 downto 0) <= b0_io;
   
   DAC7612 : lb_target_spi
     generic map (
