@@ -153,7 +153,7 @@ void AdcBoard::setDynamicOn(bool on /* = true */)
 	{
 		QString dir = QDir::currentPath();
 
-		QMessageBox box()
+//		QMessageBox box()
 		QProcess impact;
 		impact.setProcessChannelMode(QProcess::MergedChannels);
 
@@ -525,30 +525,48 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 
 void AdcBoard::powerStatus(PowerStatus& powerStatus)
 {
-	unsigned short reg = 0;
+	unsigned short reg[6];
 
-	writeReg(ADCPWR + 1, 1<<7 | ADCCH0<<4 | 0x7);
-	writeReg(ADCPWR, 0);
-	readReg(ADCPWR, reg);
-	powerStatus.icore = (float(reg>>3)) * 500 * 3.3 / 4096;
+	reg[5] = 0;
+	for (int i=0; i<5; ++i)
+	{
+		writeReg(ADCPWR + 1, 1<<7 | ADCCH0<<4 | 0x7);
+		writeReg(ADCPWR, 0);
+		readReg(ADCPWR, reg[i]);
+		reg[5] += reg[i];
+	}
+	powerStatus.icore = (float(reg[5]>>3)) * 500 * 3.3 / 4096 / 5;
 
-	reg = 0;
-	writeReg(ADCPWR + 1, 1<<7 | ADCCH1<<4 | 0x7);
-	writeReg(ADCPWR, 0);
-	readReg(ADCPWR, reg);
-	powerStatus.vcore = (float(reg>>3)) * 3.3 / 4096 * 2;
+	reg[5] = 0;
 
-	reg = 0;
-	writeReg(ADCPWR + 1, 1<<7 | ADCCH2<<4 | 0x7);
-	writeReg(ADCPWR, 0);
-	readReg(ADCPWR, reg);
-	powerStatus.iio = (float(reg>>3)) * 500 * 3.3 / 4096;
+	for (int i=0; i<5; ++i)
+	{
+		writeReg(ADCPWR + 1, 1<<7 | ADCCH1<<4 | 0x7);
+		writeReg(ADCPWR, 0);
+		readReg(ADCPWR, reg[i]);
+		reg[5] += reg[i];
+	}
+	powerStatus.vcore = (float(reg[5]>>3)) * 3.3 / 4096 * 2 / 5;
 
-	reg = 0;
-	writeReg(ADCPWR + 1, 1<<7 | ADCCH3<<4 | 0x7);
-	writeReg(ADCPWR, 0);
-	readReg(ADCPWR, reg);
-	powerStatus.vio = (float(reg>>3)) * 3.3 / 4096 * 2;
+	reg[5] = 0;
+	for (int i=0; i<5; ++i)
+	{
+		writeReg(ADCPWR + 1, 1<<7 | ADCCH2<<4 | 0x7);
+		writeReg(ADCPWR, 0);
+		readReg(ADCPWR, reg[i]);
+		reg[5] += reg[i];
+	}
+	powerStatus.iio = (float(reg[5]>>3)) * 500 * 3.3 / 4096 / 5;
+
+	reg[5] = 0;
+	for (int i=0; i<5; ++i)
+	{
+		writeReg(ADCPWR + 1, 1<<7 | ADCCH3<<4 | 0x7);
+		writeReg(ADCPWR, 0);
+		readReg(ADCPWR, reg[i]);
+		reg[5] += reg[i];
+	}
+	powerStatus.vio = (float(reg[5]>>3)) * 3.3 / 4096 * 2 / 5;
 	
 	powerStatus.power = powerStatus.vcore * powerStatus.icore + powerStatus.vio * powerStatus.iio;
 
