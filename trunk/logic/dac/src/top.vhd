@@ -115,6 +115,8 @@ architecture behave of top is
   constant ADDR_FIFO      : std_logic_vector(15 downto 0) := x"1005";
   constant ADDR_LEN_L     : std_logic_vector(15 downto 0) := x"1006";
   constant ADDR_LEN_H     : std_logic_vector(15 downto 0) := x"1007";
+  constant ADDR_CTRL      : std_logic_vector(15 downto 0) := x"1008";
+  constant ADDR_STATIC    : std_logic_vector(15 downto 0) := x"1009";
 
   constant ADDR_3548   : std_logic_vector(15 downto 0) := x"0009";
   constant ADDR_2656_L : std_logic_vector(15 downto 0) := x"0005";
@@ -142,11 +144,13 @@ architecture behave of top is
 
   component dac_wrap
     generic (
-      ADDR_SPI   : std_logic_vector(15 downto 0);
-      ADDR_LEN_L : std_logic_vector(15 downto 0);
-      ADDR_LEN_H : std_logic_vector(15 downto 0);
-      ADDR_LEN   : std_logic_vector(15 downto 0);
-      ADDR_FIFO  : std_logic_vector(15 downto 0));
+      ADDR_SPI    : std_logic_vector(15 downto 0);
+      ADDR_LEN_L  : std_logic_vector(15 downto 0);
+      ADDR_LEN_H  : std_logic_vector(15 downto 0);
+      ADDR_LEN    : std_logic_vector(15 downto 0);
+      ADDR_FIFO   : std_logic_vector(15 downto 0);
+      ADDR_CTRL   : std_logic_vector(15 downto 0);
+      ADDR_STATIC : std_logic_vector(15 downto 0));
     port (
       sys_clk_i  : in  std_logic;
       LB_Clk_i   : in  std_logic;
@@ -161,6 +165,7 @@ architecture behave of top is
       dac_data_o    : out std_logic_vector (15 downto 0);
       dac_dco_i     : in  std_logic;
       --
+      rst_o         : out std_logic;
       spi_en_o      : out std_logic;
       sck_o         : out std_logic;
       sdi_i         : in  std_logic;
@@ -432,11 +437,13 @@ begin  -- behave
   -- high ADC data buffer
   dac : dac_wrap
     generic map (
-      ADDR_SPI   => ADDR_SPI,
-      ADDR_LEN_L => ADDR_LEN_L,
-      ADDR_LEN_H => ADDR_LEN_H,
-      ADDR_LEN   => ADDR_LEN_REG,
-      ADDR_FIFO  => ADDR_FIFO
+      ADDR_SPI    => ADDR_SPI,
+      ADDR_LEN_L  => ADDR_LEN_L,
+      ADDR_LEN_H  => ADDR_LEN_H,
+      ADDR_LEN    => ADDR_LEN_REG,
+      ADDR_FIFO   => ADDR_FIFO,
+      ADDR_CTRL   => ADDR_CTRL,
+      ADDR_STATIC => ADDR_STATIC
       )
     port map (
       sys_clk_i     => '0',
@@ -462,6 +469,7 @@ begin  -- behave
 --      i2c_sdo_o     => KAD5514P_i2c_sdo_o ,
 --      i2c_scl_o     => KAD5514P_i2c_scl_o,
 --      i2c_sda_o     => KAD5514P_i2c_sda_o,
+      rst_o         => dac_rst_o,
       spi_en_o      => dac_spi_en,
       sck_o         => dac_sck_o,
       sdi_i         => dac_sdi,

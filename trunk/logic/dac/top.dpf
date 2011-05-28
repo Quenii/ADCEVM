@@ -2,6 +2,10 @@
 
 <pin_planner>
 	<pin_info>
+		<pin name="rx_inclock_i" direction="Input" source="Hierarchy Database" diff_pair_node="rx_inclock_i(n)" >
+		</pin>
+		<pin name="ssram0_adr_o[13]" direction="Output" source="Hierarchy Database" diff_pair_node="rx_in_i[4]" >
+		</pin>
 		<pin name="rx_in_i[15..0]" direction="Input Group" source="Hierarchy Database" diff_pair_node="rx_in_i(n)" >
 		</pin>
 		<pin name="rx_in_i[15]" direction="Input" source="Hierarchy Database" diff_pair_node="rx_in_i[15](n)" >
@@ -35,10 +39,6 @@
 		<pin name="rx_in_i[1]" direction="Input" source="Hierarchy Database" diff_pair_node="rx_in_i[1](n)" >
 		</pin>
 		<pin name="rx_in_i[0]" direction="Input" source="Hierarchy Database" diff_pair_node="rx_in_i[0](n)" >
-		</pin>
-		<pin name="rx_inclock_i" direction="Input" source="Hierarchy Database" diff_pair_node="rx_inclock_i(n)" >
-		</pin>
-		<pin name="ssram0_adr_o[13]" direction="Output" source="Hierarchy Database" diff_pair_node="rx_in_i[4]" >
 		</pin>
 	</pin_info>
 	<buses>

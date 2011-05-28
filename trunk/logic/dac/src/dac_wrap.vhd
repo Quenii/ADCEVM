@@ -26,28 +26,31 @@ use ieee.std_logic_unsigned.all;
 entity dac_wrap is
   
   generic (
-    ADDR_SPI   : std_logic_vector(15 downto 0) := x"1002";
-    ADDR_LEN_L : std_logic_vector(15 downto 0) := x"1006";
-    ADDR_LEN_H : std_logic_vector(15 downto 0) := x"1007";
-    ADDR_LEN   : std_logic_vector(15 downto 0) := x"1004";
-    ADDR_FIFO  : std_logic_vector(15 downto 0) := x"1005");
+    ADDR_SPI    : std_logic_vector(15 downto 0) := x"1002";
+    ADDR_LEN    : std_logic_vector(15 downto 0) := x"1004";
+    ADDR_FIFO   : std_logic_vector(15 downto 0) := x"1005";
+    ADDR_LEN_L  : std_logic_vector(15 downto 0) := x"1006";
+    ADDR_LEN_H  : std_logic_vector(15 downto 0) := x"1007";
+    ADDR_CTRL   : std_logic_vector(15 downto 0) := x"1008";
+    ADDR_STATIC : std_logic_vector(15 downto 0) := x"1009"
+    );
   port (
     sys_clk_i : in std_logic;
 
     -- lb
-    LB_Clk_i   : in  std_logic;
-    LB_Reset_i : in  std_logic;
-    LB_Addr_i  : in  std_logic_vector(15 downto 0);
-    LB_Write_i : in  std_logic;
-    LB_Read_i  : in  std_logic;
-    LB_Ready_o : out std_logic;
-    LB_DataW_i : in  std_logic_vector(15 downto 0);
-    LB_DataR_o : out std_logic_vector(15 downto 0);
+    LB_Clk_i      : in  std_logic;
+    LB_Reset_i    : in  std_logic;
+    LB_Addr_i     : in  std_logic_vector(15 downto 0);
+    LB_Write_i    : in  std_logic;
+    LB_Read_i     : in  std_logic;
+    LB_Ready_o    : out std_logic;
+    LB_DataW_i    : in  std_logic_vector(15 downto 0);
+    LB_DataR_o    : out std_logic_vector(15 downto 0);
     -- LVDS
-    dac_data_o : out std_logic_vector (15 downto 0);
-    dac_dco_i  : in  std_logic;
+    dac_data_o    : out std_logic_vector (15 downto 0);
+    dac_dco_i     : in  std_logic;
     -- had SPI port
-
+    rst_o         : out std_logic;
     spi_en_o      : out std_logic;
     sck_o         : out std_logic;
     sdi_i         : in  std_logic;
@@ -84,6 +87,9 @@ end dac_wrap;
 
 architecture behave of dac_wrap is
 
+  constant C_SCK_RATIO : integer := 10;
+  constant C_REG_WIDTH : integer := 16;
+
   constant DATA_WIDTH : integer := 64;
   constant ADDR_WIDTH : integer := 19;
 
@@ -98,8 +104,21 @@ architecture behave of dac_wrap is
   signal ctrl_sw     : std_logic_vector(15 downto 0);
   signal sta_sw      : std_logic_vector(15 downto 0);
 
+  signal LB_Ready_ctrl : std_logic;
+  signal LB_DataR_ctrl : std_logic_vector(15 downto 0);
+  signal updated_ctrl  : std_logic;
+  signal ctrl_ctrl     : std_logic_vector(15 downto 0);
+  signal sta_ctrl      : std_logic_vector(15 downto 0);
+
+  signal LB_Ready_static : std_logic;
+  signal LB_DataR_static : std_logic_vector(15 downto 0);
+  signal updated_static  : std_logic;
+  signal ctrl_static     : std_logic_vector(15 downto 0);
+  signal sta_static      : std_logic_vector(15 downto 0);
 -- data buffer
 
+  signal dac_data : std_logic_vector(15 downto 0);
+  
   -- signal define
   signal buf_task_start : std_logic                     := '0';
   signal task_length    : std_logic_vector(15 downto 0) := (others => '0');
@@ -164,8 +183,6 @@ architecture behave of dac_wrap is
   signal cnt               : std_logic_vector(8 downto 0)  := (others => '0');
   signal buf_task_start_r  : std_logic                     := '0';
 
-  constant C_SCK_RATIO : integer := 10;
-  constant C_REG_WIDTH : integer := 24;
 
   component lb_target_spi
     generic (
@@ -378,7 +395,7 @@ begin  -- behave
       wrreq_i       => fifo_wr_o,
       wrrdy_o       => wrrdy_o,
       dco_i         => dac_dco_i,
-      q_o           => dac_data_o,
+      q_o           => dac_data,
       ssram_clk_o   => ssram_clk_o,
       ssram_ce1_n_o => ssram_ce1_n_o,
       ssram_ce2_n_o => ssram_ce2_n_o,
@@ -430,8 +447,46 @@ begin  -- behave
   rd_start_i <= updated_lh;
   rd_len_i   <= ctrl_lh & ctrl_ll;
 
-  LB_DataR_o <= LB_DataR_had_fifo or LB_DataR_spi or LB_DataR_ll or LB_DataR_lh;
+  REG_CTRL : lb_target_reg
+    generic map (
+      ADDR => ADDR_CTRL)
+    port map (
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => LB_Reset_i,
+      LB_Addr_i  => LB_Addr_i,
+      LB_Write_i => LB_Write_i,
+      LB_Read_i  => LB_Read_i,
+      LB_Ready_o => LB_Ready_ctrl,
+      LB_DataW_i => LB_DataW_i,
+      LB_DataR_o => LB_DataR_ctrl,
+      updated_o  => updated_ctrl,
+      ctrl_o     => ctrl_ctrl,
+      sta_i      => sta_ctrl);
+
+  rst_o <= ctrl_ctrl(0);
+
+  REG_STATIC : lb_target_reg
+    generic map (
+      ADDR => ADDR_STATIC)
+    port map (
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => LB_Reset_i,
+      LB_Addr_i  => LB_Addr_i,
+      LB_Write_i => LB_Write_i,
+      LB_Read_i  => LB_Read_i,
+      LB_Ready_o => LB_Ready_static,
+      LB_DataW_i => LB_DataW_i,
+      LB_DataR_o => LB_DataR_static,
+      updated_o  => updated_static,
+      ctrl_o     => ctrl_static,
+      sta_i      => sta_static);
+
+  dac_data_o <= dac_data when ctrl_ctrl(15) = '0'
+                else ctrl_static;
+  
+  LB_DataR_o <= LB_DataR_had_fifo or LB_DataR_spi or LB_DataR_ll or LB_DataR_lh
+                or LB_DataR_ctrl or LB_DataR_static;
   LB_Ready_o <= LB_Ready_had_fifo or LB_Ready_dat_buf or LB_Ready_spi
-                or LB_Ready_ll or LB_Ready_lh;
+                or LB_Ready_ll or LB_Ready_lh or LB_Ready_ctrl or LB_Ready_static;
 
 end behave;

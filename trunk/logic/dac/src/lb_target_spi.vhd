@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-05-14
--- Last update: 2011-05-19
+-- Last update: 2011-05-28
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -147,7 +147,7 @@ begin  -- impl
       task_start_i => updated_o,
       data_i       => ctrl_o(C_REG_WIDTH-1 downto 0),
       data_o       => sta_i(C_REG_WIDTH-1 downto 0),
-      spi_wren_i   => '1',
+      spi_wren_i   => ctrl_o(C_REG_WIDTH-1),
       sck_o        => sck_o,
       sdi_i        => sdi_i,
       sdo_o        => sdo_o,
