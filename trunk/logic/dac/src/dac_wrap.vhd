@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-16
--- Last update: 2011-05-21
+-- Last update: 2011-05-28
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ use ieee.std_logic_unsigned.all;
 entity dac_wrap is
   
   generic (
-    ADDR_SPI   : std_logic_vector(15 downto 0) := x"";
+    ADDR_SPI   : std_logic_vector(15 downto 0) := x"1002";
     ADDR_LEN_L : std_logic_vector(15 downto 0) := x"1006";
     ADDR_LEN_H : std_logic_vector(15 downto 0) := x"1007";
     ADDR_LEN   : std_logic_vector(15 downto 0) := x"1004";
@@ -165,7 +165,7 @@ architecture behave of dac_wrap is
   signal buf_task_start_r  : std_logic                     := '0';
 
   constant C_SCK_RATIO : integer := 10;
-  constant C_REG_WIDTH : integer := 16;
+  constant C_REG_WIDTH : integer := 24;
 
   component lb_target_spi
     generic (
@@ -316,9 +316,9 @@ begin  -- behave
       LB_Addr_i  => LB_Addr_i,
       LB_Write_i => LB_Write_i,
       LB_Read_i  => LB_Read_i,
-      LB_Ready_o => LB_Ready_o,
+      LB_Ready_o => LB_Ready_spi,
       LB_DataW_i => LB_DataW_i,
-      LB_DataR_o => LB_DataR_o,
+      LB_DataR_o => LB_DataR_spi,
       spi_en_o   => spi_en_o,
       sck_o      => sck_o,
       sdi_i      => sdi_i,

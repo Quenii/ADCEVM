@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-05-21
+-- Last update: 2011-05-28
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -110,6 +110,7 @@ end top;
 architecture behave of top is
 -------------------------------------------------------------------------------
   constant ADDR_RESET_REG : std_logic_vector(15 downto 0) := x"FFFF";
+  constant ADDR_SPI       : std_logic_vector(15 downto 0) := x"1002";
   constant ADDR_LEN_REG   : std_logic_vector(15 downto 0) := x"1004";
   constant ADDR_FIFO      : std_logic_vector(15 downto 0) := x"1005";
   constant ADDR_LEN_L     : std_logic_vector(15 downto 0) := x"1006";
@@ -141,6 +142,7 @@ architecture behave of top is
 
   component dac_wrap
     generic (
+      ADDR_SPI   : std_logic_vector(15 downto 0);
       ADDR_LEN_L : std_logic_vector(15 downto 0);
       ADDR_LEN_H : std_logic_vector(15 downto 0);
       ADDR_LEN   : std_logic_vector(15 downto 0);
@@ -430,6 +432,7 @@ begin  -- behave
   -- high ADC data buffer
   dac : dac_wrap
     generic map (
+      ADDR_SPI   => ADDR_SPI,
       ADDR_LEN_L => ADDR_LEN_L,
       ADDR_LEN_H => ADDR_LEN_H,
       ADDR_LEN   => ADDR_LEN_REG,
