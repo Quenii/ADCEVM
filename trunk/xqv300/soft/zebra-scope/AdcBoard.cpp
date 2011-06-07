@@ -350,6 +350,7 @@ bool AdcBoard::clocked()
 
 void AdcBoard::timerEvent(QTimerEvent* event)
 {
+	const int length = 2048;
 	//setAdcSettings(m_adcSettings);
 	if (event->timerId() == m_timerIdPower)
 	{
@@ -370,8 +371,8 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	if (usbDev->IsOpen() && (usbDev->DeviceCount())/* && clocked() */)
 	{
 //		writeReg(0x2002, 0);
-		if (buff.size() != 1024)
-			buff.resize(1024);
+		if (buff.size() != length)
+			buff.resize(length);
 
 		writeReg(0x1004, 1);
 		writeReg(0x1004, 0);
@@ -379,7 +380,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		Sleep(100);	
 
 		unsigned short* p = &buff[0];
-		bool okay = read(0x1005, &buff[0], 1024);
+		bool okay = read(0x1005, &buff[0], length);
 		Q_ASSERT(okay);
 
 		if (tdReport.rawSamples.size() != buff.size())
@@ -387,58 +388,13 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 			tdReport.rawSamples.resize(buff.size());
 		}
 
-		for (int i = 0; i < buff.size(); ++i)
+		unsigned int t;
+		for (int i = 0; i < buff.size()/2; ++i)
 		{
-			tdReport.rawSamples[i] = buff[i]; /* buff[i] >>t; */
+			tdReport.rawSamples[i] = buff[2*i+1] | buff[2*i] << 16; /* buff[i] >>t; */
 		}
 
 	}
-//	else
-//	{
-//#ifdef _DEBUG
-//
-//		float fs = m_signalSettings.clockFreq;
-//		float fc = m_signalSettings.signalFreq;
-//		
-//
-//		int offset = rand();
-//		tdReport.samples.resize(buffer_cnt);
-//		tdReport.rawSamples.resize(tdReport.samples.size());
-//		for (int i = 0; i < tdReport.samples.size(); ++i)
-//		{
-//			tdReport.samples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max))*vpp/max;
-//			tdReport.rawSamples[i] = i+offset;//((int)(qSin(2*pi*i*fc/fs+offset)*max));
-//		}
-//#endif //_DEBUG
-//	}
-//
-//	float fmin = vpp;
-//	float fmax = -vpp;
-//	for (int i = 0; i < tdReport.samples.size(); ++i )
-//	{
-//		float f = tdReport.samples[i];
-//		fmin = min(fmin, f);
-//		fmax = max(fmax, f);
-//	}
-//
-//	tdReport.max = fmax;
-//	tdReport.min = fmin;
-//
-//	FreqDomainReport& fdReport = report.fdReport;
-//
-//	fdReport.Spectrum.resize(buffer_cnt/2);
-//
-//#if defined(MATLAB) 
-//	calc_dynam_params(tdReport.samples, 16, fdReport);
-//
-//#elif defined(MATCOM) 
-//	calc_dynam_params(tdReport.samples, m_adcSettings.bitcount, fdReport, m_adcSettings.vpp);
-//	
-//
-//#else
-//	memcpy( &fdReport.Spectrum[0], &tdReport.samples[0], buffer_cnt/2);
-//
-//#endif // MATLAB
 
 	emit boardReport(report);
 }
@@ -523,50 +479,48 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 	return true;
 }
 
+void AdcBoard::average(unsigned char adcchannel, float& result)
+{
+	unsigned short regs[5], max, min;
+	unsigned int sum;
+
+	sum = 0; max = 0; min = 0xFFFF;
+
+	for (int i=0; i<5; ++i)
+	{
+		writeReg(ADCPWR + 1, 1<<7 | adcchannel<<4 | 0x7);
+		writeReg(ADCPWR, 0);
+		readReg(ADCPWR, regs[i]);
+		sum += regs[i];
+		if (regs[i] > max) max = regs[i];
+		if (regs[i] < min) min = regs[i];
+	}
+	sum -= max + min;
+	result = (float(sum>>3)) * 3.3 / 4096 / 3;
+
+}
+
+
 void AdcBoard::powerStatus(PowerStatus& powerStatus)
 {
 	unsigned short reg[6];
+	unsigned short max, min;
+	unsigned int sum;
 
-	reg[5] = 0;
-	for (int i=0; i<5; ++i)
-	{
-		writeReg(ADCPWR + 1, 1<<7 | ADCCH0<<4 | 0x7);
-		writeReg(ADCPWR, 0);
-		readReg(ADCPWR, reg[i]);
-		reg[5] += reg[i];
-	}
-	powerStatus.icore = (float(reg[5]>>3)) * 500 * 3.3 / 4096 / 5;
+	float result;
 
-	reg[5] = 0;
+	average(ADCCH0, result);
+	powerStatus.icore = result * 500;
 
-	for (int i=0; i<5; ++i)
-	{
-		writeReg(ADCPWR + 1, 1<<7 | ADCCH1<<4 | 0x7);
-		writeReg(ADCPWR, 0);
-		readReg(ADCPWR, reg[i]);
-		reg[5] += reg[i];
-	}
-	powerStatus.vcore = (float(reg[5]>>3)) * 3.3 / 4096 * 2 / 5;
+	average(ADCCH1, result);
+	powerStatus.vcore = result * 2;
 
-	reg[5] = 0;
-	for (int i=0; i<5; ++i)
-	{
-		writeReg(ADCPWR + 1, 1<<7 | ADCCH2<<4 | 0x7);
-		writeReg(ADCPWR, 0);
-		readReg(ADCPWR, reg[i]);
-		reg[5] += reg[i];
-	}
-	powerStatus.iio = (float(reg[5]>>3)) * 500 * 3.3 / 4096 / 5;
+	average(ADCCH2, result);
+	powerStatus.iio = result * 500;
 
-	reg[5] = 0;
-	for (int i=0; i<5; ++i)
-	{
-		writeReg(ADCPWR + 1, 1<<7 | ADCCH3<<4 | 0x7);
-		writeReg(ADCPWR, 0);
-		readReg(ADCPWR, reg[i]);
-		reg[5] += reg[i];
-	}
-	powerStatus.vio = (float(reg[5]>>3)) * 3.3 / 4096 * 2 / 5;
+	average(ADCCH3, result);
+	powerStatus.vio = result * 2;
+
 	
 	powerStatus.power = powerStatus.vcore * powerStatus.icore + powerStatus.vio * powerStatus.iio;
 
@@ -575,23 +529,6 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 	readReg(TMP03+1, t2);
 	powerStatus.temperature = 235.0 - 400.0 * t1 / t2;
 
-	//writeReg(ADCIO0 + 1, 1<<7 | ADCCH0<<4 | 0x7);
-	//writeReg(ADCIO0, 0);
-	//writeReg(ADCIO0 + 1, 1<<7 | ADCCH1<<4 | 0x7);
-	//writeReg(ADCIO0, 0);
-	//writeReg(ADCIO0 + 1, 1<<7 | ADCCH2<<4 | 0x7);
-	//writeReg(ADCIO0, 0);
-	//writeReg(ADCIO0 + 1, 1<<7 | ADCCH3<<4 | 0x7);
-	//writeReg(ADCIO0, 0);
-
-	//writeReg(ADCIO1 + 1, 1<<7 | ADCCH0<<4 | 0x7);
-	//writeReg(ADCIO1, 0);
-	//writeReg(ADCIO1 + 1, 1<<7 | ADCCH1<<4 | 0x7);
-	//writeReg(ADCIO1, 0);
-	//writeReg(ADCIO1 + 1, 1<<7 | ADCCH2<<4 | 0x7);
-	//writeReg(ADCIO1, 0);
-	//writeReg(ADCIO1 + 1, 1<<7 | ADCCH3<<4 | 0x7);
-	//writeReg(ADCIO1, 0);
 
 }
 
