@@ -54,6 +54,7 @@ public:
 	void adcSettings(AdcSettings& adcSettings) { adcSettings = m_adcSettings; }
 	void signalSettings(SignalSettings& signalSettings) { signalSettings = m_signalSettings; }	
 	void powerStatus(PowerStatus& powerStatus);
+	void average(unsigned char adcchannel, float& result);
 
 	void setDynamicOn(bool on = true);
 	bool isRunning();
