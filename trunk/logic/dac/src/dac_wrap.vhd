@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-16
--- Last update: 2011-05-28
+-- Last update: 2011-06-14
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -118,7 +118,7 @@ architecture behave of dac_wrap is
 -- data buffer
 
   signal dac_data : std_logic_vector(15 downto 0);
-  
+
   -- signal define
   signal buf_task_start : std_logic                     := '0';
   signal task_length    : std_logic_vector(15 downto 0) := (others => '0');
@@ -245,6 +245,7 @@ architecture behave of dac_wrap is
       rst_i         : in  std_logic;
       LB_Clk_i      : in  std_logic;
       wr_start_i    : in  std_logic;
+      task_length_i : in  std_logic_vector(15 downto 0);
       rd_start_i    : in  std_logic;
       rd_len_i      : in  std_logic_vector(31 downto 0);
       data_i        : in  std_logic_vector(15 downto 0);
@@ -389,6 +390,7 @@ begin  -- behave
       rst_i         => LB_Reset_i,
       LB_Clk_i      => LB_Clk_i,
       wr_start_i    => wr_start_i,
+      task_length_i => task_length,
       rd_start_i    => rd_start_i,
       rd_len_i      => rd_len_i,
       data_i        => fifo_dout_o,

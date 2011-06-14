@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-05-28
+-- Last update: 2011-06-12
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -578,7 +578,7 @@ begin  -- behave
       ctrl_o     => reset_ctr_o,
       sta_i      => x"0000");
 
-  lb_target_reg_1 : lb_target_reg
+  GPIO_REG : lb_target_reg
     generic map (
       ADDR => ADDR_GPIO)
     port map (
@@ -614,7 +614,7 @@ begin  -- behave
     end process;
   end generate GEN_GPIO;
 
-  lb_target_reg_2 : lb_target_reg
+  WATCH_DOG : lb_target_reg
     generic map (
       ADDR => ADDR_WD)
     port map (

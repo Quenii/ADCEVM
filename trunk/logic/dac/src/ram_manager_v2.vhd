@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-05-02
--- Last update: 2011-05-04
+-- Last update: 2011-06-14
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -31,10 +31,11 @@ entity ram_manager_v2 is
     sys_clk_i : in std_logic;
     rst_i     : in std_logic;
 
-    LB_Clk_i   : in std_logic;
-    wr_start_i : in std_logic;
-    rd_start_i : in std_logic;
-    rd_len_i   : in std_logic_vector(31 downto 0);
+    LB_Clk_i      : in std_logic;
+    wr_start_i    : in std_logic;
+    task_length_i : in std_logic_vector(15 downto 0);
+    rd_start_i    : in std_logic;
+    rd_len_i      : in std_logic_vector(31 downto 0);
 
     data_i  : in  std_logic_vector(15 downto 0);
     wrreq_i : in  std_logic;
@@ -132,7 +133,8 @@ begin  -- impl
       wraddress <= (others => '0');
     elsif LB_Clk_i'event and LB_Clk_i = '1' then       -- rising clock edge
       if cs = s_write then
-        if wrreq_i = '1' and wraddress < x"4E20" then  -- 20000 in decimal
+--        if wrreq_i = '1' and wraddress < x"4E20" then  -- 20000 in decimal
+        if wrreq_i = '1' and wraddress < task_length_i then  -- 20000 in decimal
           wraddress <= wraddress + 1;
         else
           wraddress <= wraddress;
@@ -163,7 +165,8 @@ begin  -- impl
       rdaddress <= (others => '0');
     elsif dco_i'event and dco_i = '1' then  -- rising clock edge
       if cs_rr = s_read then
-        if rdaddress < x"4E1F" then
+--        if rdaddress < x"4E1F" then
+        if rdaddress < task_length_i-1 then
           rdaddress <= rdaddress + 1;
         else
           rdaddress <= (others => '0');
