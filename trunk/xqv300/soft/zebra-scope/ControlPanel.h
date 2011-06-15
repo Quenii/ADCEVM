@@ -8,6 +8,9 @@
 #include <QPointer>
 #include <QList>
 
+#include <vector>
+
+using namespace std;
 class QModelIndex;
 class QStandardItemModel;
 
@@ -21,6 +24,7 @@ public:
 
 public:
 	void setUiPowerStatus(const PowerStatus& status);
+	void timerEvent(QTimerEvent* event);
 
 public slots:
 	void setDevList(const QList<AdcBoardInfo>& lst);
@@ -30,6 +34,7 @@ signals:
 	void devSelected(int usbAddr);
 	void changeSettings(const AdcSettings& data);
 	void changeSettings(const SignalSettings& data);
+	void changeTest(const vector<float>& data);
 
 private slots:	
 	void devItemClicked(const QModelIndex& index);
@@ -56,6 +61,8 @@ private:
  	QStandardItemModel *rdReportModel;
 
 	ThermalTestInfo m_thermalTestInfo;
+
+	int m_timeId;
 
 };
 

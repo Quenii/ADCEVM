@@ -55,11 +55,30 @@ void DynamicPowerWnd::update(const std::vector<float> & xdata)
 {
 	CTSLScope& scope = rawScope();
 
-	const int points2Display = 1024;
-
 	for (int i = 0; i < m_chnum; ++i)
 	{
 		scope.Channels[i].Data.AddYPoint(xdata[i], false);  // .SetXYData(&m_x[0], &m_y[0], m_x.size());
 		//CTColor color = scope.Channels[0].Color;
 	}
+}
+
+void DynamicPowerWnd::addMarker(const std::vector<float> & xdata)
+{
+	CTSLScope& scope = rawScope();
+
+	//add a marker
+
+	for (int i = 0; i < m_chnum; ++i)
+	{
+		scope.Channels[i].Data.Clear();
+	}
+
+	scope.Cursors.Clear();
+	scope.Cursors.Add( xdata.size() );
+
+	for (int i = 0; i < xdata.size(); ++i)
+	{
+		scope.Cursors[ i ].Position.X = xdata[i];
+	}
+
 }

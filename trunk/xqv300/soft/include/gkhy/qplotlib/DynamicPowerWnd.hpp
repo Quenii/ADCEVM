@@ -21,6 +21,8 @@ namespace gkhy
 
 		public:
 			void update(const std::vector<float> & xdata);
+			void addMarker(const std::vector<float> & xdata);
+
 
 		private:
 			ArrayList m_arrayList;

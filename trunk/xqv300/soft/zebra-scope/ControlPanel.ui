@@ -66,6 +66,9 @@
    </item>
    <item>
     <widget class="QTabWidget" name="tabWidget">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="tabPosition">
       <enum>QTabWidget::North</enum>
      </property>
@@ -73,7 +76,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
@@ -96,7 +99,7 @@
      </widget>
      <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>时钟信号设置</string>
+       <string>-</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
@@ -162,23 +165,6 @@
          <property name="margin">
           <number>0</number>
          </property>
-         <item>
-          <widget class="QPushButton" name="pushButtonStartStaticTest">
-           <property name="text">
-            <string>静态测试</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonStopStaticTest">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>停止</string>
-           </property>
-          </widget>
-         </item>
         </layout>
        </widget>
       </item>
@@ -214,15 +200,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButtonLogicTest">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+          <widget class="QPushButton" name="pushButtonMaxFreq">
+           <property name="enabled">
+            <bool>false</bool>
            </property>
            <property name="text">
-            <string>逻辑功能测试</string>
+            <string>最大工作频率测试</string>
            </property>
           </widget>
          </item>
@@ -237,6 +220,9 @@
          </property>
          <item>
           <widget class="QPushButton" name="pushButtonDLLTest">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>DLL功能测试</string>
            </property>
@@ -269,16 +255,6 @@
        <widget class="QPushButton" name="pushButtonThermal">
         <property name="text">
          <string>表面温度动态测试</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QPushButton" name="pushButtonMaxFreq">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>最大工作频率测试</string>
         </property>
        </widget>
       </item>
