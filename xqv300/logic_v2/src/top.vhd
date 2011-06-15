@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-05-26
+-- Last update: 2011-06-09
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -251,6 +251,7 @@ architecture behave of top is
       c0     : out std_logic;
       c1     : out std_logic;
       c2     : out std_logic;
+      c3     : out std_logic;
       locked : out std_logic);
   end component;
 
@@ -294,8 +295,8 @@ architecture behave of top is
 
   signal LB_Ready_io : std_logic;
   signal LB_DataR_io : std_logic_vector(15 downto 0);
-  signal clk_i      : std_logic;
-  signal din_i      : std_logic_vector(31 downto 0);
+  signal clk_i       : std_logic;
+  signal din_i       : std_logic_vector(31 downto 0);
   
 begin  -- behave
   
@@ -312,6 +313,7 @@ begin  -- behave
       c0     => sys_clk,
       c1     => gck_o(1),
       c2     => gck_o(0),
+      c3     => gck_o(3),
       locked => locked);
 
   gck_o(2)       <= sys_clk;
@@ -364,7 +366,7 @@ begin  -- behave
       fifo_dout_o    => fifo_dout_o);
 -------------------------------------------------------------------------------
 
-  io_rec_1: io_rec
+  io_rec_1 : io_rec
     generic map (
       DATA_WIDTH => 32,
       REG_ADDR   => ADDR_CTL_REG,
@@ -383,7 +385,7 @@ begin  -- behave
       din_i      => din_i);
 
   din_i(18 downto 0) <= b0_io;
-  
+
   DAC7612 : lb_target_spi
     generic map (
       C_SCK_RATIO => C_SCK_RATIO_DAC,
