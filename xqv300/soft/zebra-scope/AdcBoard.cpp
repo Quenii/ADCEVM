@@ -123,7 +123,7 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	//setSignalSettings(m_signalSettings);
 	if (!m_timerIdPower)
 	{
-		m_timerIdPower = startTimer(800);
+		m_timerIdPower = startTimer(500);
 	}
 }
 
@@ -164,7 +164,7 @@ void AdcBoard::setDynamicOn(bool on /* = true */)
 		else
 			qDebug() << "Make output:" << impact.readAll();		
 		
-		m_timerIdDyn = startTimer(500);
+		m_timerIdDyn = startTimer(800);
 	}
 
 	if (!on && m_timerIdDyn)

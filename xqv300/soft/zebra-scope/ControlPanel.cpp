@@ -7,6 +7,10 @@
 #include <QStandardItemModel>
 #include <QStringList>
 #include <QProcess>
+#include <Qdir>
+#include <QFile>
+#include <QTextStream>
+#include <QDebug>
 
 #include "gkhy/mfcminus/Win32App.hpp"
 
@@ -99,73 +103,6 @@ void ControlPanel::updateReport(const AdcBoardReport &rpt)
 	const TimeDomainReport& tdRpt = rpt.tdReport;
 	const FreqDomainReport& fdRpt = rpt.fdReport;
 
-	//tdReportModel->removeRows(0, tdReportModel->rowCount());
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "Max(V)");
-	////tdReportModel->item(0, 0)->setEditable(false);
-
-	//tdReportModel->setData(tdReportModel->index(0, 1), tdRpt.max);
-	////tdReportModel->item(0, 1)->setEditable(false);
-	//
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "Min(V)");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), tdRpt.min);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//for (int i = fdRpt.HD.size() - 1; i >= 0 ; --i)
-	//{
-	//	tdReportModel->insertRow(0);
-	//	tdReportModel->setData(tdReportModel->index(0, 0), tr("HD[%n]", "", i) );
-	//	//tdReportModel->item(0, 0)->setEditable(false);
-	//	tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.HD[i]);
-	//	//tdReportModel->item(0, 1)->tdReportModel(false);
-	//}
-
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "ENOB");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.ENOB);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "THD");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.THD);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "SINAD");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.SINAD);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "SNR");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.SNR);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "SFDR");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.SFDR);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "Input(dB)");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.AdB);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "Input(Vpp)");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.A);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-
 }
 
 
@@ -218,9 +155,9 @@ void ControlPanel::on_pushButtonStartStaticTest_clicked()
 
 void ControlPanel::on_pushButtonStopStaticTest_clicked()
 {		
-	ui.pushButtonStopStaticTest->setEnabled(false);	
-	ui.pushButtonStartStaticTest->setEnabled(true);
-	ui.dynamicTestButtons->setEnabled(true);
+	//ui.pushButtonStopStaticTest->setEnabled(false);	
+	//ui.pushButtonStartStaticTest->setEnabled(true);
+	//ui.dynamicTestButtons->setEnabled(true);
 
 }
 
@@ -267,6 +204,8 @@ void ControlPanel::on_pushButtonLogicTest_clicked()
 void ControlPanel::on_pushButtonThermal_clicked()
 {
 	LogicPercentsTest dlg;
+	QString cmdFilePrefix = "setMode -bscan \nsetCable -p auto \naddDevice -p 1 -part xcf04s \naddDevice -p 2 -file ";
+	QString cmdFileSufix = "\nprogram -p 2 \nquit";
 	if (QDialog::Accepted  == dlg.exec())
 	{
 		m_thermalTestInfo.bitFileName[0] = dlg.bitFileName1->text();
@@ -280,13 +219,124 @@ void ControlPanel::on_pushButtonThermal_clicked()
 
 	}
 
+	std::vector<float> markers;
+	for (int i = 0; i < 5; ++i)
+	{
+		markers.push_back(i*2*(m_thermalTestInfo.interval + m_thermalTestInfo.last));
+
+		QString fileName = QString("%1.cmd").arg(i);
+
+		QString filePath = QDir(qApp->applicationDirPath()).filePath(fileName);
+
+		QFile m_file;
+		m_file.setFileName(filePath);
+		if (!m_file.open(QIODevice::WriteOnly | QIODevice::Text))
+			Q_ASSERT(false);
+		QTextStream out(&m_file);
+		out << cmdFilePrefix << m_thermalTestInfo.bitFileName[i] << cmdFileSufix;
+
+	}
+	QProcess impact;
+	impact.setProcessChannelMode(QProcess::MergedChannels);
+
+	QString fileName = QString("0.cmd");
+
+	QString filePath = QDir(qApp->applicationDirPath()).filePath(fileName);
+
+	impact.start("impact", QStringList() << "-batch " << filePath);
+
+	if (!impact.waitForFinished())
+		qDebug() << "Make failed:" << impact.errorString();
+	else
+		qDebug() << "Make output:" << impact.readAll();		
+
+	emit( changeTest(markers));
+	m_timeId = startTimer((m_thermalTestInfo.interval + m_thermalTestInfo.last)*1000);
+
 }
 
 void ControlPanel::on_pushButtonDynPower_clicked()
 {
 	LogicDynamicTest dlg;
+	QString cmdFilePrefix = "setMode -bscan \nsetCable -p auto \naddDevice -p 1 -part xcf04s \naddDevice -p 2 -file ";
+	QString cmdFileSufix = "\nprogram -p 2 \nquit";
 	if (QDialog::Accepted  == dlg.exec())
 	{
+		m_thermalTestInfo.bitFileName[0] = dlg.bitFileName1->text();
+		m_thermalTestInfo.bitFileName[1] = dlg.bitFileName3->text();
+		m_thermalTestInfo.bitFileName[2] = dlg.bitFileName5->text();
+		m_thermalTestInfo.bitFileName[3] = dlg.bitFileName7->text();
+		m_thermalTestInfo.bitFileName[4] = dlg.bitFileName9->text();
+
+		m_thermalTestInfo.interval = dlg.intervalDoubleSpinBox->value();
+		m_thermalTestInfo.last = dlg.lastDoubleSpinBox->value();
 	}
+	std::vector<float> markers;
+	for (int i = 0; i < 5; ++i)
+	{
+		markers.push_back(i*2*(m_thermalTestInfo.interval + m_thermalTestInfo.last));
+
+		QString fileName = QString("%1.cmd").arg(i);
+
+		QString filePath = QDir(qApp->applicationDirPath()).filePath(fileName);
+
+		QFile m_file;
+		m_file.setFileName(filePath);
+		if (!m_file.open(QIODevice::WriteOnly | QIODevice::Text))
+			Q_ASSERT(false);
+		QTextStream out(&m_file);
+		out << cmdFilePrefix << m_thermalTestInfo.bitFileName[i] << cmdFileSufix;
+
+	}
+	QProcess impact;
+	impact.setProcessChannelMode(QProcess::MergedChannels);
+
+	QString fileName = QString("0.cmd");
+
+	QString filePath = QDir(qApp->applicationDirPath()).filePath(fileName);
+
+	impact.start("impact", QStringList() << "-batch " << filePath);
+
+	if (!impact.waitForFinished())
+		qDebug() << "Make failed:" << impact.errorString();
+	else
+		qDebug() << "Make output:" << impact.readAll();		
+
+	emit( changeTest(markers));
+	m_timeId = startTimer((m_thermalTestInfo.interval + m_thermalTestInfo.last)*1000);
+
+}
+
+void ControlPanel::timerEvent(QTimerEvent* event)
+{
+	if (event->timerId() == m_timeId)
+	{
+		qDebug() << "timeEvent \n";
+		static int i = 0;
+		++i;
+		QProcess impact;
+		impact.setProcessChannelMode(QProcess::MergedChannels);
+
+		QString fileName = QString("%1.cmd").arg(i);
+
+		QString filePath = QDir(qApp->applicationDirPath()).filePath(fileName);
+
+		impact.start("impact", QStringList() << "-batch " << filePath);
+
+		if (!impact.waitForFinished())
+			qDebug() << "Make failed:" << impact.errorString();
+		else
+			qDebug() << "Make output:" << impact.readAll();		
+		killTimer(m_timeId);
+		if (i < 4)
+		{
+			m_timeId = startTimer((m_thermalTestInfo.interval + m_thermalTestInfo.last)*1000);
+		}
+		else
+		{
+			i = 0;
+		}
+	}
+
 
 }

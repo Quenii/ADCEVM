@@ -6,7 +6,8 @@
 #include <QPointer>
 #include "AdcBoardTypes.hpp"
 
-
+#include <vector>
+using namespace std;
 
 namespace gkhy
 {
@@ -54,6 +55,7 @@ private slots:
  	void slotShowControlPanel();
 	void slotShowAbout();
 	void slotShowBoardReport(const AdcBoardReport& report);
+	void slotAddMarkers(const vector<float>& data);
 
 private:
 	Ui::MainWindowClass ui;

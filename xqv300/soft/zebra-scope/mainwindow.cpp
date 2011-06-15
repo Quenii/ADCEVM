@@ -19,6 +19,9 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <vector>
+
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
@@ -57,6 +60,9 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 	okay = connect(this, SIGNAL(settingsLoaded(const AdcSettings&)), 
 		ui.controlPanel, SIGNAL(changeSettings(const AdcSettings&)));
+	Q_ASSERT(okay);
+
+	okay = connect(ui.controlPanel, SIGNAL(changeTest(const vector<float>&)), this, SLOT(slotAddMarkers(const vector<float>&)));
 	Q_ASSERT(okay);
 
 	okay = connect(this, SIGNAL(adcBoardReportLoaded(const AdcBoardReport&)), this, SLOT(slotShowBoardReport(const AdcBoardReport&)));
@@ -190,6 +196,11 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 	}
 }
 
+void MainWindow::slotAddMarkers(const vector<float>& data)
+{
+	dynamicPowerWnd->addMarker(data);
+};
+
 void MainWindow::slotShowWaveWnd()
 {
 	waveWnd->show();
@@ -207,8 +218,8 @@ void MainWindow::slotShowControlPanel()
 
 void MainWindow::slotShowAbout()
 {
-	QMessageBox::about(this, tr("About FPGA验证单元"),
-		tr("<br><b>ADC Analyzer</b> is designed to work with the USB-FPGA evaluation board.<br><br><div align=center>Copyright (c) CAST, 2011</div><br> "));
+	QMessageBox::about(this, tr("About Analyzer"),
+		tr("<br><b>Analyzer</b> is designed to work with the USB-FPGA evaluation board.<br><br><div align=center>Copyright (c) CAST, 2011</div><br> "));
 }
 
 void MainWindow::slotShowBoardReport(const AdcBoardReport& report)
