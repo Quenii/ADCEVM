@@ -467,28 +467,28 @@ begin  -- behave
 
   rst_o <= ctrl_ctrl(0);
 
-  REG_STATIC : lb_target_reg
-    generic map (
-      ADDR => ADDR_STATIC)
-    port map (
-      LB_Clk_i   => LB_Clk_i,
-      LB_Reset_i => LB_Reset_i,
-      LB_Addr_i  => LB_Addr_i,
-      LB_Write_i => LB_Write_i,
-      LB_Read_i  => LB_Read_i,
-      LB_Ready_o => LB_Ready_static,
-      LB_DataW_i => LB_DataW_i,
-      LB_DataR_o => LB_DataR_static,
-      updated_o  => updated_static,
-      ctrl_o     => ctrl_static,
-      sta_i      => sta_static);
+--  REG_STATIC : lb_target_reg
+--    generic map (
+--      ADDR => ADDR_STATIC)
+--    port map (
+--      LB_Clk_i   => LB_Clk_i,
+--      LB_Reset_i => LB_Reset_i,
+--      LB_Addr_i  => LB_Addr_i,
+--      LB_Write_i => LB_Write_i,
+--      LB_Read_i  => LB_Read_i,
+--      LB_Ready_o => LB_Ready_static,
+--      LB_DataW_i => LB_DataW_i,
+--      LB_DataR_o => LB_DataR_static,
+--      updated_o  => updated_static,
+--      ctrl_o     => ctrl_static,
+--      sta_i      => sta_static);
 
-  dac_data_o <= dac_data when ctrl_ctrl(15) = '0'
-                else ctrl_static;
-  
+  dac_data_o <= dac_data;               --  when ctrl_ctrl(15) = '0'
+                                        --  else ctrl_static;
+
   LB_DataR_o <= LB_DataR_had_fifo or LB_DataR_spi or LB_DataR_ll or LB_DataR_lh
-                or LB_DataR_ctrl or LB_DataR_static;
+                or LB_DataR_ctrl;       -- or LB_DataR_static;
   LB_Ready_o <= LB_Ready_had_fifo or LB_Ready_dat_buf or LB_Ready_spi
-                or LB_Ready_ll or LB_Ready_lh or LB_Ready_ctrl or LB_Ready_static;
+                or LB_Ready_ll or LB_Ready_lh or LB_Ready_ctrl;  -- or LB_Ready_static;
 
 end behave;
