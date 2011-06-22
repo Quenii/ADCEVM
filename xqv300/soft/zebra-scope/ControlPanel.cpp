@@ -39,6 +39,18 @@ ControlPanel::ControlPanel(QWidget *parent, Qt::WFlags flags)
 		ui.adcSettingsWidget, SLOT(setSettings(const AdcSettings&)));
 	Q_ASSERT(okay);
 
+	for (int i=0; i<8; ++i)
+	{
+		this->ui.comboBoxBank->addItem(tr("Bank%1").arg(i));
+	}
+	//buttonsOrientationComboBox->addItem(tr("Horizontal"), Qt::Horizontal);
+	//buttonsOrientationComboBox->addItem(tr("Vertical"), Qt::Vertical);
+
+	//connect(buttonsOrientationComboBox, SIGNAL(currentIndexChanged(int)),
+	//	this, SLOT(buttonsOrientationChanged(int)));
+	okay = connect(this->ui.comboBoxBank, SIGNAL( activated(int) ), this, SLOT(on_comboBoxBank_activated(int)));
+	Q_ASSERT(okay);
+
 	//tdReportModel = new QStandardItemModel(0, 2, ui.treeViewTdReport);
 	//tdReportModel->setHeaderData(0, Qt::Horizontal, QObject::tr("Addr"));
 	//tdReportModel->setHeaderData(0, Qt::Horizontal, QObject::tr("Name"));
@@ -130,7 +142,7 @@ void ControlPanel::on_pushButtonStartDynamicTest_clicked()
 {	
 	ui.pushButtonStartDynamicTest->setEnabled(false);
 	ui.pushButtonStopDynamicTest->setEnabled(true);	
-	ui.staticTestButtons->setEnabled(false);
+//	ui.staticTestButtons->setEnabled(false);
 	AdcBoard::instance()->setDynamicOn(true);
 }
 
@@ -138,7 +150,7 @@ void ControlPanel::on_pushButtonStopDynamicTest_clicked()
 {		
 	ui.pushButtonStopDynamicTest->setEnabled(false);
 	ui.pushButtonStartDynamicTest->setEnabled(true);	
-	ui.staticTestButtons->setEnabled(true);
+//	ui.staticTestButtons->setEnabled(true);
 	AdcBoard::instance()->setDynamicOn(false);
 }
 
@@ -338,5 +350,14 @@ void ControlPanel::timerEvent(QTimerEvent* event)
 		}
 	}
 
+
+}
+
+void ControlPanel::on_comboBoxBank_activated(int bank)
+{
+	bank = ui.comboBoxBank->currentIndex();
+	AdcBoard& board = *(AdcBoard::instance());
+
+	board.changeBank(bank);
 
 }

@@ -50,6 +50,7 @@ private slots:
 	void on_pushButtonLogicTest_clicked();
 	void on_pushButtonThermal_clicked();
 	void on_pushButtonDynPower_clicked();
+	void on_comboBoxBank_activated(int);
 
 private:
 	Ui::ControlPanelClass ui;

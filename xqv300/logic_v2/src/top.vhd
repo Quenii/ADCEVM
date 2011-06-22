@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-06-09
+-- Last update: 2011-06-20
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -118,6 +118,7 @@ architecture behave of top is
   constant C_REG_WIDTH_ADC_IO1 : integer                       := 24;
 
   constant ADDR_TMP03 : std_logic_vector(15 downto 0) := x"200B";
+  constant ADDR_IOSEL : std_logic_vector(15 downto 0) := x"200D";
 
   signal LB_Ready_rst : std_logic;
   signal LB_DataR_rst : std_logic_vector(15 downto 0);
@@ -137,6 +138,12 @@ architecture behave of top is
 
   signal LB_Ready_tmp03 : std_logic;
   signal LB_DataR_tmp03 : std_logic_vector(15 downto 0);
+
+  signal LB_Ready_iosel : std_logic;
+  signal LB_DataR_iosel : std_logic_vector(15 downto 0);
+  signal ctrl_iosel     : std_logic_vector(15 downto 0);
+  signal updated_iosel  : std_logic;
+  signal sta_iosel      : std_logic_vector(15 downto 0);
 
 -------------------------------------------------------------------------------
   -- local bus
@@ -297,6 +304,32 @@ architecture behave of top is
   signal LB_DataR_io : std_logic_vector(15 downto 0);
   signal clk_i       : std_logic;
   signal din_i       : std_logic_vector(31 downto 0);
+
+  component mux8
+    port (
+      clock  : in  std_logic;
+      data0x : in  std_logic_vector (20 downto 0);
+      data1x : in  std_logic_vector (20 downto 0);
+      data2x : in  std_logic_vector (20 downto 0);
+      data3x : in  std_logic_vector (20 downto 0);
+      data4x : in  std_logic_vector (20 downto 0);
+      data5x : in  std_logic_vector (20 downto 0);
+      data6x : in  std_logic_vector (20 downto 0);
+      data7x : in  std_logic_vector (20 downto 0);
+      sel    : in  std_logic_vector (2 downto 0);
+      result : out std_logic_vector (20 downto 0));
+  end component;
+
+  signal data0x : std_logic_vector (20 downto 0);
+  signal data1x : std_logic_vector (20 downto 0);
+  signal data2x : std_logic_vector (20 downto 0);
+  signal data3x : std_logic_vector (20 downto 0);
+  signal data4x : std_logic_vector (20 downto 0);
+  signal data5x : std_logic_vector (20 downto 0);
+  signal data6x : std_logic_vector (20 downto 0);
+  signal data7x : std_logic_vector (20 downto 0);
+  signal sel    : std_logic_vector (2 downto 0);
+  signal result : std_logic_vector (20 downto 0);
   
 begin  -- behave
   
@@ -333,10 +366,10 @@ begin  -- behave
 
   LB_Ready_i <= LB_Ready_dac or LB_Ready_rst or LB_Ready_gpio or LB_Ready_wd
                 or LB_Ready_adcp or LB_Ready_adcio0 or LB_Ready_adcio1
-                or LB_Ready_tmp03 or LB_Ready_io;
+                or LB_Ready_tmp03 or LB_Ready_io or LB_Ready_iosel;
   LB_DataR_i <= LB_DataR_dac or LB_DataR_rst or LB_DataR_gpio or LB_DataR_wd
                 or LB_DataR_adcp or LB_DataR_adcio0 or LB_DataR_adcio1
-                or LB_DataR_tmp03 or LB_DataR_io;
+                or LB_DataR_tmp03 or LB_DataR_io or LB_DataR_iosel;
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -384,7 +417,49 @@ begin  -- behave
       clk_i      => sys_clk,
       din_i      => din_i);
 
-  din_i(18 downto 0) <= b0_io;
+  IO_SEL_REG : lb_target_reg
+    generic map (
+      ADDR => ADDR_IOSEL)
+    port map (
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => sys_rst,
+      LB_Addr_i  => LB_Addr_o,
+      LB_Write_i => LB_Write_o,
+      LB_Read_i  => LB_Read_o,
+      LB_Ready_o => LB_Ready_iosel,
+      LB_DataW_i => LB_DataW_o,
+      LB_DataR_o => LB_DataR_iosel,
+      updated_o  => updated_iosel,
+      ctrl_o     => ctrl_iosel,
+      sta_i      => sta_iosel);
+
+--  din_i(18 downto 0) <= b0_io;
+
+  data0x(18 downto 0) <= b0_io;
+  data1x(17 downto 0) <= b1_io;
+  data2x(16 downto 0) <= b2_io;
+  data3x(14 downto 0) <= b3_io;
+  data4x(20 downto 0) <= b4_io;
+  data5x(18 downto 0) <= b5_io;
+  data6x(20 downto 0) <= b6_io;
+  data7x(19 downto 0) <= b7_io;
+  sel                 <= ctrl_iosel(2 downto 0);
+
+  mux8_1 : mux8
+    port map (
+      clock  => sys_clk,
+      data0x => data0x,
+      data1x => data1x,
+      data2x => data2x,
+      data3x => data3x,
+      data4x => data4x,
+      data5x => data5x,
+      data6x => data6x,
+      data7x => data7x,
+      sel    => sel,
+      result => result);
+
+  din_i(20 downto 0) <= result;
 
   DAC7612 : lb_target_spi
     generic map (
