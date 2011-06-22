@@ -63,6 +63,8 @@ public:
 	int setVoltage(int adcChannel, int dacChannel, float v);
 	bool clocked();
 
+	void changeBank(int bank);
+
 protected:
 	void timerEvent (QTimerEvent * event);
 	// len - number of unsigned-short's
@@ -104,6 +106,8 @@ private:
 //	QSettings m_settings;
 	int m_timerIdDyn;
 	int m_timerIdPower;
+
+	int m_bank;
 
 };
 

@@ -370,7 +370,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 	if (usbDev->IsOpen() && (usbDev->DeviceCount())/* && clocked() */)
 	{
-//		writeReg(0x2002, 0);
+		writeReg(0x200D, m_bank);
 		if (buff.size() != length)
 			buff.resize(length);
 
@@ -616,4 +616,9 @@ int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
 	//}
 	return reg;
 
+}
+
+void AdcBoard::changeBank(int bank)
+{
+	m_bank = bank;
 }
