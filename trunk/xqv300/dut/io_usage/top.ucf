@@ -1,5 +1,5 @@
-#NET clk_i loc = "P199";  ##2
-NET clk_i loc = "P84";   ##1
+NET clk_i loc = "P199";  ##2  100MHz
+#NET clk_i loc = "P84";   ##1
 #NET clk_i loc = "P87";   ##0
 #NET clk_i loc = "P202";  ##3
 
