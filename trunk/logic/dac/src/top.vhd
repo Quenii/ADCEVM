@@ -379,8 +379,8 @@ begin  -- behave
       c1     => dco_90,
       locked => open);
 
-  ssram0_clk_o   <= ssram_clk;
-  ssram1_clk_o   <= ssram_clk;
+  ssram0_clk_o   <= '0';
+  ssram1_clk_o   <= '0';
   sys_rst        <= not locked;
 -------------------------------------------------------------------------------
   -- 68013 port
