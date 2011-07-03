@@ -229,41 +229,40 @@ void ControlPanel::on_pushButtonThermal_clicked()
 		m_thermalTestInfo.interval = dlg.intervalDoubleSpinBox->value();
 		m_thermalTestInfo.last = dlg.lastDoubleSpinBox->value();
 
-	}
+		std::vector<float> markers;
+		for (int i = 0; i < 5; ++i)
+		{
+			markers.push_back(i*2*(m_thermalTestInfo.interval + m_thermalTestInfo.last));
 
-	std::vector<float> markers;
-	for (int i = 0; i < 5; ++i)
-	{
-		markers.push_back(i*2*(m_thermalTestInfo.interval + m_thermalTestInfo.last));
+			QString fileName = QString("%1.cmd").arg(i);
 
-		QString fileName = QString("%1.cmd").arg(i);
+			QString filePath = QDir(qApp->applicationDirPath()).filePath(fileName);
+
+			QFile m_file;
+			m_file.setFileName(filePath);
+			if (!m_file.open(QIODevice::WriteOnly | QIODevice::Text))
+				Q_ASSERT(false);
+			QTextStream out(&m_file);
+			out << cmdFilePrefix << m_thermalTestInfo.bitFileName[i] << cmdFileSufix;
+
+		}
+		QProcess impact;
+		impact.setProcessChannelMode(QProcess::MergedChannels);
+
+		QString fileName = QString("0.cmd");
 
 		QString filePath = QDir(qApp->applicationDirPath()).filePath(fileName);
 
-		QFile m_file;
-		m_file.setFileName(filePath);
-		if (!m_file.open(QIODevice::WriteOnly | QIODevice::Text))
-			Q_ASSERT(false);
-		QTextStream out(&m_file);
-		out << cmdFilePrefix << m_thermalTestInfo.bitFileName[i] << cmdFileSufix;
+		impact.start("impact", QStringList() << "-batch " << filePath);
 
+		if (!impact.waitForFinished())
+			qDebug() << "Make failed:" << impact.errorString();
+		else
+			qDebug() << "Make output:" << impact.readAll();		
+
+		emit( changeTest(markers));
+		m_timeId = startTimer((m_thermalTestInfo.interval + m_thermalTestInfo.last)*1000);
 	}
-	QProcess impact;
-	impact.setProcessChannelMode(QProcess::MergedChannels);
-
-	QString fileName = QString("0.cmd");
-
-	QString filePath = QDir(qApp->applicationDirPath()).filePath(fileName);
-
-	impact.start("impact", QStringList() << "-batch " << filePath);
-
-	if (!impact.waitForFinished())
-		qDebug() << "Make failed:" << impact.errorString();
-	else
-		qDebug() << "Make output:" << impact.readAll();		
-
-	emit( changeTest(markers));
-	m_timeId = startTimer((m_thermalTestInfo.interval + m_thermalTestInfo.last)*1000);
 
 }
 
@@ -282,40 +281,41 @@ void ControlPanel::on_pushButtonDynPower_clicked()
 
 		m_thermalTestInfo.interval = dlg.intervalDoubleSpinBox->value();
 		m_thermalTestInfo.last = dlg.lastDoubleSpinBox->value();
-	}
-	std::vector<float> markers;
-	for (int i = 0; i < 5; ++i)
-	{
-		markers.push_back(i*2*(m_thermalTestInfo.interval + m_thermalTestInfo.last));
 
-		QString fileName = QString("%1.cmd").arg(i);
+		std::vector<float> markers;
+		for (int i = 0; i < 5; ++i)
+		{
+			markers.push_back(i*2*(m_thermalTestInfo.interval + m_thermalTestInfo.last));
+
+			QString fileName = QString("%1.cmd").arg(i);
+
+			QString filePath = QDir(qApp->applicationDirPath()).filePath(fileName);
+
+			QFile m_file;
+			m_file.setFileName(filePath);
+			if (!m_file.open(QIODevice::WriteOnly | QIODevice::Text))
+				Q_ASSERT(false);
+			QTextStream out(&m_file);
+			out << cmdFilePrefix << m_thermalTestInfo.bitFileName[i] << cmdFileSufix;
+
+		}
+		QProcess impact;
+		impact.setProcessChannelMode(QProcess::MergedChannels);
+
+		QString fileName = QString("0.cmd");
 
 		QString filePath = QDir(qApp->applicationDirPath()).filePath(fileName);
 
-		QFile m_file;
-		m_file.setFileName(filePath);
-		if (!m_file.open(QIODevice::WriteOnly | QIODevice::Text))
-			Q_ASSERT(false);
-		QTextStream out(&m_file);
-		out << cmdFilePrefix << m_thermalTestInfo.bitFileName[i] << cmdFileSufix;
+		impact.start("impact", QStringList() << "-batch " << filePath);
 
+		if (!impact.waitForFinished())
+			qDebug() << "Make failed:" << impact.errorString();
+		else
+			qDebug() << "Make output:" << impact.readAll();		
+
+		emit( changeTest(markers));
+		m_timeId = startTimer((m_thermalTestInfo.interval + m_thermalTestInfo.last)*1000);
 	}
-	QProcess impact;
-	impact.setProcessChannelMode(QProcess::MergedChannels);
-
-	QString fileName = QString("0.cmd");
-
-	QString filePath = QDir(qApp->applicationDirPath()).filePath(fileName);
-
-	impact.start("impact", QStringList() << "-batch " << filePath);
-
-	if (!impact.waitForFinished())
-		qDebug() << "Make failed:" << impact.errorString();
-	else
-		qDebug() << "Make output:" << impact.readAll();		
-
-	emit( changeTest(markers));
-	m_timeId = startTimer((m_thermalTestInfo.interval + m_thermalTestInfo.last)*1000);
 
 }
 

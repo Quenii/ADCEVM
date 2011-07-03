@@ -12,6 +12,7 @@
 #include <QDir>
 #include <QProcess>
 #include <QByteArray>
+#include <QTime>
 
 #include "AdcBoard.hpp"
 #include "CyAPI.h"
@@ -123,7 +124,7 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	//setSignalSettings(m_signalSettings);
 	if (!m_timerIdPower)
 	{
-		m_timerIdPower = startTimer(500);
+		m_timerIdPower = startTimer(100);
 	}
 }
 
@@ -587,9 +588,11 @@ int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
 	float vol[100];
 	int regs[100];
 
-
+	QTime a;
+	a.start();
 	for (int i=coarse-1; i>=0; --i)
 	{
+//		Sleep(10);
 		regs[i] = dacChannel<<12 | i*4096/coarse;
 		if (!writeReg(DACPWR, regs[i]))
 			return false;
@@ -600,6 +603,7 @@ int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
 		if ( vol[i] > v)
 			break;
 	}
+	int t = a.elapsed();
 	//for (int i=0; i<fine; ++i)
 	//{
 	//	if (!writeReg(5, i*4096/fine))
