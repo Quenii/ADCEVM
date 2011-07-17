@@ -88,7 +88,7 @@ end dac_wrap;
 architecture behave of dac_wrap is
 
   constant C_SCK_RATIO : integer := 10;
-  constant C_REG_WIDTH : integer := 16;
+  constant C_REG_WIDTH : integer := 24;
 
   constant DATA_WIDTH : integer := 64;
   constant ADDR_WIDTH : integer := 19;
