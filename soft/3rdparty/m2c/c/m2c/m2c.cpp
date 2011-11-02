@@ -6,6 +6,8 @@
 #include "AdcDynTest.h"
 #include "myfft.h"
 #include "myfft_complex.h"
+#include "inldnl.h"
+
 #include <Windows.h>
 
 class CriticalSection
@@ -150,4 +152,36 @@ void FFT_complex(double* r_data, double* i_data, int data_cnt, double* result, i
 	DECLEAR_Mm_ONE(n, data_cnt);		
 	Mm ret = myfft_complex(r, i, n);
 	memcpy(result, ret.addr(), result_cnt * sizeof(*result));
+}
+
+
+void inldnl(double* csamples, int cnumbit, int cnumpt, double cT1, double cT2, 
+            double cT_ideal_1, double cT_ideal_2, double* cINLar__o, double* cDNLar__o,
+            double* cH__o, int& cindexl__o, int& cindexh__o) 
+{
+	SingleLock lock(&cs);
+
+    DECLEAR_Mm_MORE(samples, csamples, cnumpt);
+    DECLEAR_Mm_ONE(numbit, cnumbit);
+	DECLEAR_Mm_ONE(numpt, cnumpt); 
+	DECLEAR_Mm_ONE(T1, cT1); 
+	DECLEAR_Mm_ONE(T2, cT2); 
+	DECLEAR_Mm_ONE(T_ideal_1, cT_ideal_1); 
+	DECLEAR_Mm_ONE(T_ideal_2, cT_ideal_2);
+
+    Mm INLar__o;
+    Mm DNLar__o;
+    Mm H__o;
+    Mm indexl__o;
+    Mm indexh__o;
+
+    inldnl(samples, numbit, numpt, T1, T2, T_ideal_1, T_ideal_2, i_o, 
+           INLar__o, DNLar__o, H__o, indexl__o, indexh__o);
+
+    cindexl__o = indexl__o.r(1, 1);
+    cindexh__o = indexh__o.r(1, 1);
+    memcpy(cH__o, H__o.addr(), (1<<cnumbit));
+    memcpy(cINLar__o, INLar__o.addr(), cindexh__o - cindexl__o);
+    memcpy(cDNLar__o, DNLar__o.addr(), cindexh__o - cindexl__o - 1);
+
 }
