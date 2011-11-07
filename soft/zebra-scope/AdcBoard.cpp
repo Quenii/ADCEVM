@@ -580,11 +580,8 @@ void AdcBoard::staticTest()
 	fileTxt.open(QIODevice::WriteOnly);
 	QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
 
-
-	unsigned short* p = &buff[0];
-	float vpp = m_adcSettings.vpp;
-	float max = (1 << (m_adcSettings.bitcount - 1));
-	TimeDomainReport& tdReport = report.tdReport;
+	QZebraScopeSettings settings;
+	settings.staticSettings(m_staticSettings);
 
 	if (buff.size() < buffer_cnt)
 		buff.resize(buffer_cnt);
@@ -594,6 +591,11 @@ void AdcBoard::staticTest()
 
 	Sleep(200);	
 
+//	unsigned short* p = &buff[0];
+	float vpp = m_adcSettings.vpp;
+	float max = (1 << (m_adcSettings.bitcount - 1));
+	//TimeDomainReport& tdReport = report.tdReport;
+
 	for (int t=0; t<32; ++t)
 	{
 		bool okay = false;
@@ -601,11 +603,14 @@ void AdcBoard::staticTest()
 		Q_ASSERT(okay);
 		outDat.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
 
-		Convert(tdReport, max, vpp);
+		//Convert(tdReport, max, vpp);
 		for (int k=0; k<buff.size(); ++k)
 		{
-//			sprintf(txtBuffer, "%f\r\n", tdReport.samples[k]);
-			sprintf_s(txtBuffer, "%d\r\n", short(tdReport.rawSamples[k]));
+			if (m_adcSettings.coding == AdcCodingOffset)
+			{
+				buff[k] = buff[k] ^ 0x8000;
+			}
+			sprintf_s(txtBuffer, "%d\r\n", short(buff[k]));
 			//QString a = QString(txtBuffer);
 			//int m = a.size();
 			outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
