@@ -1,5 +1,7 @@
 #include "ControlPanel.h"
 #include "AdcBoard.hpp"
+#include "StaticSettingsDialog.h"
+#include "QZebraScopeSettings.h"
 
 #include <QStandardItemModel>
 #include <QStringList>
@@ -205,6 +207,16 @@ void ControlPanel::on_pushButtonStartStaticTest_clicked()
 //	ui.pushButtonStartStaticTest->setEnabled(false);
 //	ui.pushButtonStopStaticTest->setEnabled(true);		
 	ui.dynamicTestButtons->setEnabled(false);
+
+	StaticSettingsDialog dlg;
+	dlg.setSettings(m_staticSettings);
+	if (QDialog::Accepted  == dlg.exec())
+	{
+		dlg.settings(m_staticSettings);
+		QZebraScopeSettings settings;
+		settings.setStaticSettings(m_staticSettings);
+	}
+
 	AdcBoard::instance()->staticTest();
 	ui.dynamicTestButtons->setEnabled(true);
 

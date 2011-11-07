@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include "ui_StaticSettingsDialog.h"
-#include "StaticBoardTypes.hpp"
+#include "AdcBoardTypes.hpp"
 
 using namespace Ui;
 

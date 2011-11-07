@@ -46,6 +46,7 @@ private:
 	QStandardItemModel *devListModel;
 	AdcSettings adcSettings;
 	SignalSettings signalSettings;
+	StaticSettings m_staticSettings;
 
  	QStandardItemModel *tdReportModel;
  	QStandardItemModel *rdReportModel;
