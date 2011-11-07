@@ -16,6 +16,12 @@
 #include "gkhy/mfcminus/Win32App.hpp"
 #include "QZebraScopeSettings.h"
 #include "QZebraScopeSettings.h"
+#include "./3rdparty/m2c/c/include/m2c.h"
+#include "./include/gkhy/qplotlib/qscope.hpp"
+
+using namespace gkhy::QPlotLab;
+
+#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -30,6 +36,17 @@
 #pragma comment(lib, "CyAPI.lib")
 
 using namespace std;
+
+static void plot(const std::vector<double>& data, const QString& title, double min, double max)
+{
+	QScope* scope = new QScope(0);
+	scope->setWindowTitle(title);
+	scope->plot(&data[0], int(data.size()));
+	scope->show();
+	scope->resize(640, 480);
+//	scope->adjust(min, max);
+
+}
 
 
 DummyWidget::DummyWidget(QWidget* parent /*= 0*/, Qt::WindowFlags f /*= 0*/ ) : QWidget(parent, f) 
@@ -585,41 +602,82 @@ void AdcBoard::staticTest()
 
 	if (buff.size() < buffer_cnt)
 		buff.resize(buffer_cnt);
-	writeReg(0xFFFF, 0x0001);  //reset
-	writeReg(0xFFFF, 0x0000);  //dereset
-	writeReg(0x1004, 0xFFFF);  //fill the fifo
 
-	Sleep(200);	
+	vector<double> samples;
+	int numpt = m_staticSettings.numpt * 1024 * 1024;
 
-//	unsigned short* p = &buff[0];
-	float vpp = m_adcSettings.vpp;
-	float max = (1 << (m_adcSettings.bitcount - 1));
-	//TimeDomainReport& tdReport = report.tdReport;
-
-	for (int t=0; t<32; ++t)
+#ifndef NOBOARD
+	const int innerLoop = 32;
+	for (int i=0; i<m_staticSettings.numpt*(32/innerLoop); ++i)
 	{
-		bool okay = false;
-		okay = read(0x1005, &buff[0], buffer_cnt);
-		Q_ASSERT(okay);
-		outDat.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
+		writeReg(0xFFFF, 0x0001);  //reset
+		writeReg(0xFFFF, 0x0000);  //dereset
+		writeReg(0x1004, 0xFFFF);  //fill the fifo
 
-		//Convert(tdReport, max, vpp);
-		for (int k=0; k<buff.size(); ++k)
+		Sleep(200);	
+
+	//	unsigned short* p = &buff[0];
+		float vpp = m_adcSettings.vpp;
+		float max = (1 << (m_adcSettings.bitcount - 1));
+		//TimeDomainReport& tdReport = report.tdReport;
+
+		for (int t=0; t<innerLoop; ++t)
 		{
-			if (m_adcSettings.coding == AdcCodingOffset)
-			{
-				buff[k] = buff[k] ^ 0x8000;
-			}
-			sprintf_s(txtBuffer, "%d\r\n", short(buff[k]));
-			//QString a = QString(txtBuffer);
-			//int m = a.size();
-			outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
-		}
+			bool okay = false;
+			okay = read(0x1005, &buff[0], buffer_cnt);
+			Q_ASSERT(okay);
 
+			samples.insert(samples.end(), buff.begin(), buff.end());
+
+			outDat.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
+
+			//Convert(tdReport, max, vpp);
+			for (int k=0; k<buff.size(); ++k)
+			{
+				if (m_adcSettings.coding == AdcCodingOffset)
+				{
+					buff[k] = buff[k] ^ 0x8000;
+				}
+				sprintf_s(txtBuffer, "%d\r\n", short(buff[k]));
+				//QString a = QString(txtBuffer);
+				//int m = a.size();
+				outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
+			}
+		}
 	}
+#else // NOBOARD
+	QFile file("INL.TXT");
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+		Q_ASSERT(false);
+
+	while (!file.atEnd()) {
+		QString line = file.readLine();
+		samples.push_back(line.toDouble());
+	}
+
+#endif // NOBOARD
+
 	fileTxt.close();
 	fileDat.close();
 
+	Q_ASSERT(samples.size() >= numpt);
+	
+	vector<double> inl(1<<m_adcSettings.bitcount);
+	vector<double> dnl(inl.size());
+	vector<double> histogram(inl.size());
+	int indexLeft = 0;
+	int indexRight = 0;
+
+	//inldnl(double* csamples, int cnumbit, int cnumpt, double cT1, double cT2, 
+	//	double cT_ideal_1, double cT_ideal_2, double* cINLar__o, double* cDNLar__o,
+	//	double* cH__o, int& cindexl__o, int& cindexh__o) ;
+	inldnl(&samples[0], m_adcSettings.bitcount, numpt, 0, m_staticSettings.vpp, 
+		0, m_staticSettings.vt, &inl[0], &dnl[0], &histogram[0], indexLeft, indexRight);
+
+	plot(inl, "INTEGRAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
+
+	plot(dnl, "DIFFERENTIAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
+	
 }
 
 int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)

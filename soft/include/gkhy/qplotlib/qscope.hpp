@@ -14,6 +14,10 @@ namespace gkhy
 			QScope(QWidget* parent = 0, Qt::WindowFlags f = 0);
 			virtual ~QScope();
 
+		public:
+			void plot(const double* data, int len);
+			void QScope::adjust(double min, double max);
+
 		protected:
 			CTSLScope& rawScope()	{ return *m_scope; }
 			void resizeEvent(QResizeEvent * event);

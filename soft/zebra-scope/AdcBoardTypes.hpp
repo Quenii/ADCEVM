@@ -55,7 +55,7 @@ struct AdcSettings
 		adcType = "JAD14P1";
 		va = 1.8f;
 		vd = 1.8f;  
-		bitcount = 16;
+		bitcount = 14;
 		vpp = .72f;
 		coding = AdcCodingComplement;
 		phase = 0;
@@ -179,7 +179,7 @@ struct StaticSettings
 
 	StaticSettings()
 	{
-		numpt = 14;
+		numpt = 8;
 		vpp = 2.0f;
 		vt = 2.0f;
 	}

@@ -53,7 +53,7 @@
     NCODES = mpower(2.0,numbit);
     
     v1 = samples;
-    v1 = ctranspose(v1);
+    //v1 = ctranspose(v1);
     v2 = v1/mpower(2.0,(16.0-numbit))+mpower(2.0,(numbit-1.0));
     code = round(v2(c_p,1.0)-0.4999999);
     
@@ -176,25 +176,28 @@
     //==============
     //plot figures
     //==============
-    figure();
-    plot((CL((BR(colon(1.0,1.0,NCODES)))),H));
-    axis((BR(0.0),NCODES,0.0,max(H)));
+    H = H(colon(1.0,1.0,NCODES));
+    //figure();
+    //plot((CL((BR(colon(1.0,1.0,NCODES)))),H));
+    //axis((BR(0.0),NCODES,0.0,max(H)));
     
-    figure();
-    plot((CL((BR(colon((indexl),1.0,(indexh-2.0))))),DNLar));
-    axis((BR(0.0),NCODES,-max(abs(DNLar)),max(abs(DNLar))));
-    grid(TM("on"));
-    title((CL(TM("DIFFERENTIAL NONLINEARITY vs. DIGITAL OUTPUT CODE"))));
-    xlabel((CL(TM("DIGITAL OUTPUT CODE"))));
-    ylabel((CL(TM("DNL (LSB)"))));
+    DNLar = DNLar(colon((indexl),1.0,(indexh-2.0)));
+    //figure();
+    //plot((CL((BR(colon((indexl),1.0,(indexh-2.0))))),DNLar));
+    //axis((BR(0.0),NCODES,-max(abs(DNLar)),max(abs(DNLar))));
+    //grid(TM("on"));
+    //title((CL(TM("DIFFERENTIAL NONLINEARITY vs. DIGITAL OUTPUT CODE"))));
+    //xlabel((CL(TM("DIGITAL OUTPUT CODE"))));
+    //ylabel((CL(TM("DNL (LSB)"))));
     
-    figure();
-    plot((CL((BR(colon((indexl),1.0,(indexh-1.0))))),INLar));
-    axis((BR(0.0),NCODES,-max(abs(INLar)),max(abs(INLar))));
-    grid(TM("on"));
-    title((CL(TM("INTEGRAL NONLINEARITY vs. DIGITAL OUTPUT CODE"))));
-    xlabel((CL(TM("DIGITAL OUTPUT CODE"))));
-    ylabel((CL(TM("INL(LSB)"))));
+    INLar = INLar(colon((indexl),1.0,(indexh-1.0)));
+    //figure();
+    //plot((CL((BR(colon((indexl),1.0,(indexh-1.0))))),INLar));
+    //axis((BR(0.0),NCODES,-max(abs(INLar)),max(abs(INLar))));
+    //grid(TM("on"));
+    //title((CL(TM("INTEGRAL NONLINEARITY vs. DIGITAL OUTPUT CODE"))));
+    //xlabel((CL(TM("DIGITAL OUTPUT CODE"))));
+    //ylabel((CL(TM("INL(LSB)"))));
     
     return_from_inldnl: call_stack_end;
     

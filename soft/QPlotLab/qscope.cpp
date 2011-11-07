@@ -20,7 +20,7 @@ QWidget(parent, f)
 	// the reason is not yet found.
 	QHBoxLayout* hbox = new QHBoxLayout(this);
 	hbox->setSpacing(0);
-	hbox->setMargin(0);
+//	hbox->setMargin(0);
 	QWidget* b = new QWidget();
 	hbox->addWidget(b);
 	m_scope->Open((HWND)b->winId());	
@@ -56,4 +56,20 @@ void QScope::hideEvent(QHideEvent *event)
 {
 	m_scope->Visible = false;
 	QWidget::hideEvent(event);
+}
+
+void QScope::plot(const double* data, int len)
+{
+	if(len > 0)
+		rawScope().Channels[0].Data.SetYData(data, len); 	
+}
+
+void QScope::adjust(double min, double max)
+{
+	rawScope().YAxis.AutoScaling.Enabled = false;
+	rawScope().YAxis.Max.AutoScale = false;	
+	rawScope().YAxis.Min.AutoScale = false;
+
+	rawScope().YAxis.Max.Value = max;
+	rawScope().YAxis.Min.Value = min;
 }
