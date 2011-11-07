@@ -55,6 +55,10 @@ public:
 	void signalSettings(SignalSettings& signalSettings) { signalSettings = m_signalSettings; }	
 	void powerStatus(PowerStatus& powerStatus);
 
+	bool setStaticSettings(const StaticSettings& staticSettings);	
+	void staticSettings(StaticSettings& staticSettings) { staticSettings = m_staticSettings; }	
+
+
 	void setDynamicOn(bool on = true);
 	bool isRunning();
 	void staticTest();
@@ -74,8 +78,7 @@ protected:
 private:
 	bool writeIOCmd(unsigned short addr, bool dirRead, unsigned short data);
 
-	void Covert(TimeDomainReport&, float, float);
-
+	void Convert(TimeDomainReport&, float, float);
 
 signals:
 	void devListChanged(const QList<AdcBoardInfo>& lst);
@@ -100,6 +103,7 @@ private:
 private:	
 	AdcSettings m_adcSettings;
 	SignalSettings m_signalSettings;
+	StaticSettings m_staticSettings;
 //	QSettings m_settings;
 	int m_timerIdDyn;
 	int m_timerIdPower;

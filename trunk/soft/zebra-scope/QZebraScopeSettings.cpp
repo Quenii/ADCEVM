@@ -2,6 +2,7 @@
 
 static const char* adcSettingsKey = "AdcBoard/AdcSettings";
 static const char* signalSettingsKey = "AdcBoard/SignalSettings";
+static const char* staticSettingsKey = "AdcBoard/StaticSettings";
 
 QZebraScopeSettings::QZebraScopeSettings(const QString & fileName, Format format, QObject * parent /* = 0 */) : QSettings(fileName, format, parent)
 {
@@ -39,6 +40,19 @@ void QZebraScopeSettings::setSignalSettings(const SignalSettings& data)
 void QZebraScopeSettings::signalSettings(SignalSettings& data)
 {
 	beginGroup(signalSettingsKey);
+	data.readSettings(*this);
+	endGroup();
+}
+
+void QZebraScopeSettings::setStaticSettings(const StaticSettings& data)
+{
+	beginGroup(staticSettingsKey);
+	data.writeSettings(*this);
+	endGroup();
+}
+void QZebraScopeSettings::staticSettings(StaticSettings& data)
+{
+	beginGroup(staticSettingsKey);
 	data.readSettings(*this);
 	endGroup();
 }

@@ -169,3 +169,40 @@ struct AdcBoardReport
 	FreqDomainReport fdReport;
 	TimeDomainReport tdReport;
 };
+
+
+struct StaticSettings
+{
+	int numpt;
+	float vpp;
+	float vt;
+
+	StaticSettings()
+	{
+		numpt = 14;
+		vpp = 2.0f;
+		vt = 2.0f;
+	}
+
+	void writeSettings(QSettings& settings) const
+	{
+		settings.beginGroup("StaticSettings");
+
+		settings.setValue("Num of Points", numpt);
+		settings.setValue("Vpp", vpp);
+		settings.setValue("VT", vt);
+
+		settings.endGroup();
+	}
+
+	void readSettings(QSettings& settings)
+	{
+		settings.beginGroup("StaticSettings");
+
+		numpt = settings.value("Num of Points", numpt).toString().toInt();
+		vpp = settings.value("Vpp", vpp).toString().toFloat();
+		vt = settings.value("VT", vt).toString().toFloat();
+
+		settings.endGroup();
+	}
+};

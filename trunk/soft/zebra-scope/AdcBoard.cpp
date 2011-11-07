@@ -352,7 +352,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		Q_ASSERT(okay);
 		okay = read(0x1005, &buff[0], buffer_cnt);
 		Q_ASSERT(okay);
-		Covert(tdReport, max, vpp);
+		Convert(tdReport, max, vpp);
 	}
 	else
 	{
@@ -390,7 +390,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	fdReport.Spectrum.resize(buffer_cnt/2);
 
 #if defined(MATLAB) 
-	calc_dynam_params(tdReport.samples, 16, fdReport);
+	calc_dynam_params(tdReport.samples, m_adcSettings.bitcount, fdReport);
 
 #elif defined(MATCOM) 
 	calc_dynam_params(tdReport.samples, m_adcSettings.bitcount, fdReport, m_adcSettings.vpp);
@@ -403,7 +403,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 	emit boardReport(report);
 }
-void AdcBoard::Covert(TimeDomainReport& tdReport, float max, float vpp)
+void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
 {
 	if (tdReport.samples.size()<buff.size())
 	{
@@ -430,7 +430,7 @@ void AdcBoard::Covert(TimeDomainReport& tdReport, float max, float vpp)
 			Q_ASSERT(false);
 		}
 
-		tdReport.samples[i] = short(buff[i]) * vpp / max / pow(2.0, t);
+		tdReport.samples[i] = short(buff[i]) * vpp / max / (1<<t);
 		tdReport.rawSamples[i] = buff[i]; /* buff[i] >>t; */
 	}
 }
@@ -574,11 +574,17 @@ void AdcBoard::staticTest()
 	fileDat.open(QIODevice::WriteOnly);
 	QDataStream outDat(&fileDat);   // we will serialize the data into the file
 
-	static char txtBuffer[10];
+	static char txtBuffer[20];
 	QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath("file.txt");
 	QFile fileTxt( fileNameTxt );
 	fileTxt.open(QIODevice::WriteOnly);
 	QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
+
+
+	unsigned short* p = &buff[0];
+	float vpp = m_adcSettings.vpp;
+	float max = (1 << (m_adcSettings.bitcount - 1));
+	TimeDomainReport& tdReport = report.tdReport;
 
 	if (buff.size() < buffer_cnt)
 		buff.resize(buffer_cnt);
@@ -588,11 +594,6 @@ void AdcBoard::staticTest()
 
 	Sleep(200);	
 
-	unsigned short* p = &buff[0];
-	float vpp = m_adcSettings.vpp;
-	float max = (1 << (m_adcSettings.bitcount - 1));
-	TimeDomainReport& tdReport = report.tdReport;
-
 	for (int t=0; t<32; ++t)
 	{
 		bool okay = false;
@@ -600,17 +601,19 @@ void AdcBoard::staticTest()
 		Q_ASSERT(okay);
 		outDat.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
 
-		Covert(tdReport, max, vpp);
+		Convert(tdReport, max, vpp);
 		for (int k=0; k<buff.size(); ++k)
 		{
 //			sprintf(txtBuffer, "%f\r\n", tdReport.samples[k]);
-			sprintf(txtBuffer, "%d\r\n", short(tdReport.rawSamples[k]));
-			QString a = QString(txtBuffer);
-			int m = a.size();
+			sprintf_s(txtBuffer, "%d\r\n", short(tdReport.rawSamples[k]));
+			//QString a = QString(txtBuffer);
+			//int m = a.size();
 			outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
 		}
 
 	}
+	fileTxt.close();
+	fileDat.close();
 
 }
 
