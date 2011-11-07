@@ -144,8 +144,6 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 
 	static char txtBuffer[10];
 
-
-
 	if (!fileName.isEmpty())
 	{
 		fileName = make_dot_adc_file_name(fileName);
@@ -177,13 +175,11 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 		for (int k=0; k<report.tdReport.samples.size(); ++k)
 		{
 //			sprintf(txtBuffer, "%f\r\n", p[k]);
-			sprintf(txtBuffer, "%d\r\n", short(p[k]));
+			sprintf_s(txtBuffer, "%d\r\n", short(p[k]));
 			QString a = QString(txtBuffer);
 			int m = a.size();
 			outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
 		}
-
-
 	}
 }
 

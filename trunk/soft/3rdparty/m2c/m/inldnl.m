@@ -129,10 +129,12 @@ end
 %==============
 %plot figures
 %==============
+H = H(1: NCODES);
 figure;
 plot([1:NCODES],H);
 axis([0 NCODES 0 max(H)]);
 
+DNLar = DNLar((indexl) : (indexh-2));
 figure;
 plot([(indexl):(indexh-2)],DNLar);
 axis([0 NCODES -max(abs(DNLar)) max(abs(DNLar))]);
@@ -141,6 +143,7 @@ title('DIFFERENTIAL NONLINEARITY vs. DIGITAL OUTPUT CODE');
 xlabel('DIGITAL OUTPUT CODE');
 ylabel('DNL (LSB)');
 
+INLar = INLar((indexl) : (indexh-1));
 figure;
 plot([(indexl):(indexh-1)],INLar);
 axis([0 NCODES -max(abs(INLar)) max(abs(INLar))]);
