@@ -17,4 +17,7 @@ public:
 
 	void setSignalSettings(const SignalSettings& data);
 	void signalSettings(SignalSettings& data);
+
+	void setStaticSettings(const StaticSettings& data);
+	void staticSettings(StaticSettings& data);
 };
