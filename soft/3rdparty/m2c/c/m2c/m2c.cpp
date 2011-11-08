@@ -180,8 +180,7 @@ void inldnl(double* csamples, int cnumbit, int cnumpt, double cT1, double cT2,
 
     cindexl__o = indexl__o.r(1, 1);
     cindexh__o = indexh__o.r(1, 1);
-    memcpy(cH__o, H__o.addr(), (1<<cnumbit));
-    memcpy(cINLar__o, INLar__o.addr(), cindexh__o - cindexl__o);
-    memcpy(cDNLar__o, DNLar__o.addr(), cindexh__o - cindexl__o - 1);
-
+    memcpy(cH__o, H__o.addr(), (1<<cnumbit)*sizeof(*cH__o));
+    memcpy(cINLar__o, INLar__o.addr(), ((1<<cnumbit)-1)*sizeof(*cH__o));
+    memcpy(cDNLar__o, DNLar__o.addr(), ((1<<cnumbit)-2)*sizeof(*cH__o));
 }

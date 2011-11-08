@@ -21,7 +21,7 @@
 
 using namespace gkhy::QPlotLab;
 
-#define NOBOARD 1
+//#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -41,7 +41,7 @@ static void plot(const std::vector<double>& data, const QString& title, double m
 {
 	QScope* scope = new QScope(0);
 	scope->setWindowTitle(title);
-	scope->plot(&data[0], int(data.size()));
+	scope->plot(&data[0], 16384);
 	scope->show();
 	scope->resize(640, 480);
 //	scope->adjust(min, max);
@@ -650,8 +650,11 @@ void AdcBoard::staticTest()
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 		Q_ASSERT(false);
 
-	while (!file.atEnd()) {
-		QString line = file.readLine();
+	//while (!file.atEnd()) {
+	//	QString line = file.readLine();
+	QTextStream in(&file);
+	while (!in.atEnd()) {
+		QString line = in.readLine();
 		samples.push_back(line.toDouble());
 	}
 
@@ -661,7 +664,7 @@ void AdcBoard::staticTest()
 	fileDat.close();
 
 	Q_ASSERT(samples.size() >= numpt);
-	
+
 	vector<double> inl(1<<m_adcSettings.bitcount);
 	vector<double> dnl(inl.size());
 	vector<double> histogram(inl.size());

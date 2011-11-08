@@ -61,7 +61,10 @@ void QScope::hideEvent(QHideEvent *event)
 void QScope::plot(const double* data, int len)
 {
 	if(len > 0)
-		rawScope().Channels[0].Data.SetYData(data, len); 	
+	{
+		m_scope->Channels[0].Data.SetYData(data, len);
+	}
+	//	rawScope().Channels[0].Data.SetYData(data, len); 	
 }
 
 void QScope::adjust(double min, double max)

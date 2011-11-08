@@ -172,7 +172,8 @@
       DNLar(k) = G*(T(k+1.0)-T(k))/Q-1.0;
     }
     
-    
+    DNLar = ctranspose(DNLar);
+	INLar = ctranspose(INLar);
     //==============
     //plot figures
     //==============
@@ -181,7 +182,7 @@
     //plot((CL((BR(colon(1.0,1.0,NCODES)))),H));
     //axis((BR(0.0),NCODES,0.0,max(H)));
     
-    DNLar = DNLar(colon((indexl),1.0,(indexh-2.0)));
+    //DNLar = DNLar(colon((indexl),1.0,(indexh-2.0)));
     //figure();
     //plot((CL((BR(colon((indexl),1.0,(indexh-2.0))))),DNLar));
     //axis((BR(0.0),NCODES,-max(abs(DNLar)),max(abs(DNLar))));
@@ -190,7 +191,7 @@
     //xlabel((CL(TM("DIGITAL OUTPUT CODE"))));
     //ylabel((CL(TM("DNL (LSB)"))));
     
-    INLar = INLar(colon((indexl),1.0,(indexh-1.0)));
+    //INLar = INLar(colon((indexl),1.0,(indexh-1.0)));
     //figure();
     //plot((CL((BR(colon((indexl),1.0,(indexh-1.0))))),INLar));
     //axis((BR(0.0),NCODES,-max(abs(INLar)),max(abs(INLar))));
