@@ -12,6 +12,8 @@ WaveWnd::WaveWnd(QWidget *parent /*= 0*/, Qt::WindowFlags f /*= 0*/) : QScope(pa
 	
 	rawScope().YAxis.AxisLabel.Text = _T("Amplitude (V)");
 
+	rawScope().XAxis.AxisLabel.Visible = true;
+	rawScope().YAxis.AxisLabel.Visible = true;
 	//rawScope().XAxis.OnCustomLabel.Set(this, &WaveWnd::CustomXAxesLabel);
 
 

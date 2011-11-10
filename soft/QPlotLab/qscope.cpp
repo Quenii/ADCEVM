@@ -20,11 +20,12 @@ QWidget(parent, f)
 	// the reason is not yet found.
 	QHBoxLayout* hbox = new QHBoxLayout(this);
 	hbox->setSpacing(0);
-//	hbox->setMargin(0);
+	hbox->setMargin(0);
 	QWidget* b = new QWidget();
 	hbox->addWidget(b);
 	m_scope->Open((HWND)b->winId());	
-
+	m_scope->YAxis.AxisLabel.Visible = true;
+	m_scope->XAxis.AxisLabel.Visible = true;
 	m_scope->Visible = false;
 
 }
