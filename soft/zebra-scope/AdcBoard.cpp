@@ -10,6 +10,8 @@
 #include <QSettings>
 #include <QApplication>
 #include <QDir>
+#include <QTime>
+#include <QDate>
 
 #include "AdcBoard.hpp"
 #include "CyAPI.h"
@@ -585,14 +587,18 @@ void AdcBoard::staticTest()
 	//writeReg(0x1007, 1);
 	//return;
 
+	QString fileName = QString("%1-%2").arg(
+		QDate::currentDate().toString("yyMMdd"),
+		QTime::currentTime().toString("hhmmss"));
 
-	QString fileNameDat = QDir( QApplication::applicationDirPath() ).filePath("file.dat");
+
+	QString fileNameDat = QDir( QApplication::applicationDirPath() ).filePath(fileName+".dat");
 	QFile fileDat( fileNameDat );
 	fileDat.open(QIODevice::WriteOnly);
 	QDataStream outDat(&fileDat);   // we will serialize the data into the file
 
 	static char txtBuffer[20];
-	QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath("file.txt");
+	QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath(fileName+".txt");
 	QFile fileTxt( fileNameTxt );
 	fileTxt.open(QIODevice::WriteOnly);
 	QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
