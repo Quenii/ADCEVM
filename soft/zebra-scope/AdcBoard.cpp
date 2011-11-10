@@ -23,7 +23,7 @@
 
 using namespace gkhy::QPlotLab;
 
-//#define NOBOARD 1
+#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -592,10 +592,10 @@ void AdcBoard::staticTest()
 		QTime::currentTime().toString("hhmmss"));
 
 
-	QString fileNameDat = QDir( QApplication::applicationDirPath() ).filePath(fileName+".dat");
-	QFile fileDat( fileNameDat );
-	fileDat.open(QIODevice::WriteOnly);
-	QDataStream outDat(&fileDat);   // we will serialize the data into the file
+	//QString fileNameDat = QDir( QApplication::applicationDirPath() ).filePath(fileName+".dat");
+	//QFile fileDat( fileNameDat );
+	//fileDat.open(QIODevice::WriteOnly);
+	//QDataStream outDat(&fileDat);   // we will serialize the data into the file
 
 	static char txtBuffer[20];
 	QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath(fileName+".txt");
@@ -625,7 +625,6 @@ void AdcBoard::staticTest()
 	//	unsigned short* p = &buff[0];
 		float vpp = m_adcSettings.vpp;
 		float max = (1 << (m_adcSettings.bitcount - 1));
-		//TimeDomainReport& tdReport = report.tdReport;
 
 		for (int t=0; t<innerLoop; ++t)
 		{
@@ -635,9 +634,8 @@ void AdcBoard::staticTest()
 
 			samples.insert(samples.end(), buff.begin(), buff.end());
 
-			outDat.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
+			//outDat.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
 
-			//Convert(tdReport, max, vpp);
 			for (int k=0; k<buff.size(); ++k)
 			{
 				if (m_adcSettings.coding == AdcCodingOffset)
@@ -645,19 +643,15 @@ void AdcBoard::staticTest()
 					buff[k] = buff[k] ^ 0x8000;
 				}
 				sprintf_s(txtBuffer, "%d\r\n", short(buff[k]));
-				//QString a = QString(txtBuffer);
-				//int m = a.size();
 				outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
 			}
 		}
 	}
 #else // NOBOARD
-	QFile file("INL.TXT");
+	QFile file("111110-140158.txt");
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 		Q_ASSERT(false);
 
-	//while (!file.atEnd()) {
-	//	QString line = file.readLine();
 	QTextStream in(&file);
 	while (!in.atEnd()) {
 		QString line = in.readLine();
@@ -667,7 +661,7 @@ void AdcBoard::staticTest()
 #endif // NOBOARD
 
 	fileTxt.close();
-	fileDat.close();
+//	fileDat.close();
 
 	Q_ASSERT(samples.size() >= numpt);
 
