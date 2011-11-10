@@ -23,7 +23,7 @@
 
 using namespace gkhy::QPlotLab;
 
-#define NOBOARD 1
+//#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -613,6 +613,7 @@ void AdcBoard::staticTest()
 	int numpt = m_staticSettings.numpt * 1024 * 1024;
 
 #ifndef NOBOARD
+	bool voltageUnderFlow = true;
 	const int innerLoop = 32;
 	for (int i=0; i<m_staticSettings.numpt*(32/innerLoop); ++i)
 	{
@@ -632,7 +633,7 @@ void AdcBoard::staticTest()
 			okay = read(0x1005, &buff[0], buffer_cnt);
 			Q_ASSERT(okay);
 
-			samples.insert(samples.end(), buff.begin(), buff.end());
+			//samples.insert(samples.end(), buff.begin(), buff.end());
 
 			//outDat.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
 
@@ -642,6 +643,7 @@ void AdcBoard::staticTest()
 				{
 					buff[k] = buff[k] ^ 0x8000;
 				}
+				samples.push_back(double(short(buff[k])));
 				sprintf_s(txtBuffer, "%d\r\n", short(buff[k]));
 				outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
 			}
