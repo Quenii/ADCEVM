@@ -22,6 +22,7 @@ class ControlPanel;
 class QTimerEvent;
 class AdcBoard;
 class RegAccess;
+class QPowerMonitor;
 
 class MainWindow : public QMainWindow
 {
@@ -60,6 +61,8 @@ private:
 	gkhy::QPlotLab::LogicWaveWnd* logicWaveWnd;
 	QPointer<RegAccess> regAccess;
 	AdcBoard* adcBoard;
+	QPowerMonitor* m_powerMonitorWidget;
+
 };
 
 #endif // MAINWINDOW_H

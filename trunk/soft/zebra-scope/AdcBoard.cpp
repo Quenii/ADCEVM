@@ -12,6 +12,8 @@
 #include <QDir>
 #include <QTime>
 #include <QDate>
+#include <QMessageBox>
+#include <QThread>
 
 #include "AdcBoard.hpp"
 #include "CyAPI.h"
@@ -38,6 +40,21 @@ using namespace gkhy::QPlotLab;
 #pragma comment(lib, "CyAPI.lib")
 
 using namespace std;
+
+class QThreadL : public QThread
+{
+public:
+	static void msleep (unsigned long msecs)
+	{
+		QThread::msleep(msecs);
+	}
+};
+
+static void msleep (unsigned long msecs)
+{
+	QThreadL::msleep(msecs);
+}
+
 
 static void plot(const std::vector<double>& data, const QString& title, double min, double max)
 {
@@ -344,16 +361,14 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	{
 		PowerStatus& powerStatus = report.powerStatus;
 		this->powerStatus(powerStatus);
-		emit boardReport(report);
+		emit powerMonitorDataUpdated(powerStatus);
 		return;
 	}
 
 	TimeDomainReport& tdReport = report.tdReport;
 
 	float vpp = m_adcSettings.vpp;
-	float max = (1 << (m_adcSettings.bitcount - 1));
-
-
+	float max = 1 << 15;
 
 	if (usbDev->IsOpen() && (usbDev->DeviceCount())/* && clocked() */)
 	{
@@ -540,6 +555,14 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 
 void AdcBoard::powerStatus(PowerStatus& powerStatus)
 {
+	powerStatus.va = getVoltage(0x7FFF);
+	powerStatus.vd = getVoltage(0x3FFF);
+	powerStatus.ia = getCurrent(0x4FFF);
+	powerStatus.id = getCurrent(0x1FFF);
+	powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
+
+	return;
+
 	unsigned short reg = 0;
 	writeReg(9, 0xA400);  //select 3548, work at default mode
 	writeReg(9, 0xA400);  //select 3548, work at default mode
@@ -613,8 +636,9 @@ void AdcBoard::staticTest()
 	int numpt = m_staticSettings.numpt * 1024 * 1024;
 
 #ifndef NOBOARD
-	bool voltageUnderFlow = true;
+	unsigned short mask = (1<<16) - (1<<(16-m_adcSettings.bitcount));
 	const int innerLoop = 32;
+
 	for (int i=0; i<m_staticSettings.numpt*(32/innerLoop); ++i)
 	{
 		writeReg(0xFFFF, 0x0001);  //reset
@@ -623,9 +647,8 @@ void AdcBoard::staticTest()
 
 		Sleep(200);	
 
-	//	unsigned short* p = &buff[0];
 		float vpp = m_adcSettings.vpp;
-		float max = (1 << (m_adcSettings.bitcount - 1));
+		float max = (1 << 15);
 
 		for (int t=0; t<innerLoop; ++t)
 		{
@@ -633,9 +656,8 @@ void AdcBoard::staticTest()
 			okay = read(0x1005, &buff[0], buffer_cnt);
 			Q_ASSERT(okay);
 
-			//samples.insert(samples.end(), buff.begin(), buff.end());
-
-			//outDat.writeRawData((const char *)(&buff[0]), buffer_cnt * (sizeof(unsigned short)/sizeof(char)));
+			int upperOverCount = 0;
+			int lowerOverCount = 0;
 
 			for (int k=0; k<buff.size(); ++k)
 			{
@@ -643,9 +665,25 @@ void AdcBoard::staticTest()
 				{
 					buff[k] = buff[k] ^ 0x8000;
 				}
+				if (((buff[k] ^ 0x8000) & mask) == mask)
+				{
+					upperOverCount ++;
+				}
+				if ((buff[k] ^ 0x8000) == 0)
+				{
+					lowerOverCount ++;
+				}
 				samples.push_back(double(short(buff[k])));
 				sprintf_s(txtBuffer, "%d\r\n", short(buff[k]));
 				outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
+			}
+			if (lowerOverCount < 5 || upperOverCount < 5)
+			{
+				QMessageBox::warning(NULL, QString::fromLocal8Bit("静态测试"), 
+					QString::fromLocal8Bit("信号幅值太低，请适当增加信号源输出功率！"), 
+					QMessageBox::Ok, QMessageBox::Ok);
+
+				return;
 			}
 		}
 	}
@@ -725,4 +763,59 @@ int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
 	}
 	return regValue;
 
+}
+
+
+unsigned short AdcBoard::getAdcData(unsigned short ch)
+{
+	const int cnt = 5;
+	unsigned short regs[cnt] = {0};
+	unsigned short min = 0xffff;
+	unsigned short max = 0;
+	int sum = 0;
+
+	writeReg(9, 0xA400);  //select 3548, work at default mode
+	writeReg(9, 0xA400);  //select 3548, work at default mode
+	do 
+	{
+		writeReg(9, ch);  //select 3548, select 7th channel
+		writeReg(9, ch);  //select 3548, select 7th channel
+		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+		readReg(0x0009, regs[0]);
+		msleep(30);
+	} while (regs[0] == 0xFFFF);
+
+	for (int i=0; i<cnt; ++i)
+	{
+		writeReg(9, ch);  //select 3548, select 7th channel
+		writeReg(9, ch);  //select 3548, select 7th channel
+		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+		readReg(0x0009, regs[i]);
+		if (regs[i] >= 0xfff0)
+		{
+			msleep(30);
+			qDebug() << "Bizarre valued!" << endl;
+		}
+		sum += regs[i];
+		min = regs[i] < min ? regs[i] : min;
+		max = regs[i] > max ? regs[i] : max;
+	}
+	sum = sum - min - max;
+	return unsigned short(sum/(cnt-2));
+}
+
+float AdcBoard::getVoltage(unsigned short ch)
+{
+	unsigned short reg = 0;
+	reg = getAdcData(ch);
+	return (float(reg>>2)) * 4 / 16384;
+}
+
+float AdcBoard::getCurrent(unsigned short ch)
+{
+	unsigned short reg = 0;
+	reg = getAdcData(ch);
+	return (float(reg>>2)) * 500 * 4 / 16384;
 }

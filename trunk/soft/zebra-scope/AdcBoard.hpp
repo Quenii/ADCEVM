@@ -66,6 +66,10 @@ public:
 	int setVoltage(int adcChannel, int dacChannel, float v);
 	bool clocked();
 
+	unsigned short getAdcData(unsigned short ch);
+	float getVoltage(unsigned short ch);
+	float getCurrent(unsigned short ch);
+
 protected:
 	void timerEvent (QTimerEvent * event);
 	// len - number of unsigned-short's
@@ -83,6 +87,7 @@ private:
 signals:
 	void devListChanged(const QList<AdcBoardInfo>& lst);
 	void boardReport(const AdcBoardReport& report);
+	void powerMonitorDataUpdated(const PowerStatus& data);
 
 public slots:
 	bool open(int usbAddr);

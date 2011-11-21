@@ -3,6 +3,7 @@
 #include "gkhy/qplotlib/WaveWnd.hpp"
 #include "gkhy/qplotlib/FFTWnd.hpp"
 #include "gkhy/qplotlib/LogicWaveWnd.hpp"
+#include "qpowermonitor.h"
 #include "RegAccess.hpp"
 #include "QZebraScopeSettings.h"
 #include "QZebraScopeSerializer.h"
@@ -58,6 +59,9 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 	okay = connect(this, SIGNAL(adcBoardReportLoaded(const AdcBoardReport&)), this, SLOT(slotShowBoardReport(const AdcBoardReport&)));
 	Q_ASSERT(okay);
+
+	m_powerMonitorWidget = new QPowerMonitor(this);
+	ui.menuWindow->addAction(m_powerMonitorWidget->toggleViewAction());
 
 	setCentralWidget(0);
 
@@ -222,6 +226,7 @@ void MainWindow::on_actionSpiCtrl_triggered(bool checked)
 
 	regAccess->show();
 }
+
 
 void MainWindow::on_actionSpectrum_toggled(bool checked)
 {
