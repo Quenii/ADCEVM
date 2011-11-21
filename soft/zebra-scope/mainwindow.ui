@@ -44,7 +44,7 @@
      <x>0</x>
      <y>0</y>
      <width>662</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -232,6 +232,11 @@
   <action name="action_AboutAdcAnalyzer">
    <property name="text">
     <string>关于ADC Analyzer（&amp;A）</string>
+   </property>
+  </action>
+  <action name="actionPowerStatus">
+   <property name="text">
+    <string>电源状态</string>
    </property>
   </action>
  </widget>
