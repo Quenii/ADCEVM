@@ -25,7 +25,6 @@ void AdcSettingsDialog::setSettings(const AdcSettings& settings)
 	bitCountSpinBox->setValue(settings.bitcount);
 	vppLineEdit->setText(QString("%1").arg(settings.vpp * 2));
 	codingComboBox->setCurrentIndex(settings.coding);
-	phaseLineEdit->setText(QString("%1").arg(settings.phase));
 }
 
 void AdcSettingsDialog::settings(AdcSettings& settings)
@@ -38,7 +37,6 @@ void AdcSettingsDialog::settings(AdcSettings& settings)
 	settings.bitcount = bitCountSpinBox->value();
 	settings.vpp = c.toFloat( vppLineEdit->text() ) / 2;
 	settings.coding = (AdcCoding) codingComboBox->currentIndex();
-	settings.phase = c.toFloat( phaseLineEdit->text() );
 }
 
 

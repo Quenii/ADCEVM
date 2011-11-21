@@ -41,7 +41,6 @@ void AdcSettingsWidget::setSettings(const AdcSettings& settings)
 	bitCountLineEdit->setText(QString("%1").arg(settings.bitcount));
 	vppLineEdit->setText(QString("%1").arg(settings.vpp * 2));
 	codingLineEdit->setText(conv_to_string((AdcCoding)settings.coding));
-	phaseLineEdit->setText(QString("%1").arg(settings.phase));
 }
 
 void AdcSettingsWidget::settings(AdcSettings& settings)

@@ -19,9 +19,6 @@ public:
 	ControlPanel(QWidget *parent = 0, Qt::WFlags flags = 0);
 	virtual ~ControlPanel();
 
-public:
-	void setUiPowerStatus(const PowerStatus& status);
-
 public slots:
 	void setDevList(const QList<AdcBoardInfo>& lst);
 	void updateReport(const AdcBoardReport& rpt);
