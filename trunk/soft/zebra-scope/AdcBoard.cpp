@@ -130,14 +130,9 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	Q_ASSERT(okay);
 	usbDev = new CCyUSBDevice((HANDLE)(widget->winId()));
 
-	//m_settings.beginGroup("AdcBoard");
-
 	QZebraScopeSettings settings;
 	settings.adcSettings(m_adcSettings);
 	settings.signalSettings(m_signalSettings);
-
-	//setAdcSettings(m_adcSettings);
-	//setSignalSettings(m_signalSettings);
 
 	if (!m_timerIdPower)
 	{
@@ -477,10 +472,10 @@ bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 	writeReg(9, 0xA400);  //select 3548, work at default mode
 	writeReg(9, 0xA400);  //select 3548, work at default mode
 
-	unsigned short regValue = setVoltage(0x3FFF, 0, adcSettings.vd);
-	setVoltage(0x7FFF, 2, adcSettings.va);
+	unsigned short regValue = setVoltage(VDADDR, 0, adcSettings.vd);
+	setVoltage(VAADDR, 2, adcSettings.va);
 
-	if (!writeReg(5, regValue)) //设置VIO = VD
+	if (!writeReg(5, regValue)) //设置VIO = VD, VIO无法监控，故不能采用setVoltage
 		return false;
 	if (!writeReg(6, 0x0004))  //执行 通道E
 		return false;
@@ -493,10 +488,6 @@ bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 		return false;
 	gkhy::MfcMinus::Win32App::sleep(200);
 
-	//writeReg(0x1000, 0x000C);  //jad14p1 reset
-	//gkhy::MfcMinus::Win32App::sleep(200);
-
-	//writeReg(0x1000, 0x0003);
 
 	if (!writeReg(0x1000, 0x000D)) return false;
 	if (!writeReg(0x1000, 0x000C)) return false;  //jad14p1  reset
@@ -509,7 +500,6 @@ bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 	if (!writeReg(0x1000, 0x000B)) return false;
 
 	m_adcSettings = adcSettings;
-	//m_adcSettings.writeSettings(m_settings);
 	QZebraScopeSettings settings;
 	settings.setAdcSettings(m_adcSettings);
 
@@ -555,8 +545,8 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 
 void AdcBoard::powerStatus(PowerStatus& powerStatus)
 {
-	powerStatus.va = getVoltage(0x7FFF);
-	powerStatus.vd = getVoltage(0x3FFF);
+	powerStatus.va = getVoltage(VAADDR);
+	powerStatus.vd = getVoltage(VDADDR);
 	powerStatus.ia = getCurrent(0x4FFF);
 	powerStatus.id = getCurrent(0x1FFF);
 	powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
@@ -601,24 +591,9 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 
 void AdcBoard::staticTest()
 {
-	//uncomment this section to send sine wave through dac;
-	//writeReg(0x1004, 0);
-	//if (buff.size() < buffer_cnt)
-	//	buff.resize(buffer_cnt);
-	//bool okay = write(0x1005, &buff[0], 20*1000*4);
-	//writeReg(0x1006, 0);
-	//writeReg(0x1007, 1);
-	//return;
-
 	QString fileName = QString("%1-%2").arg(
 		QDate::currentDate().toString("yyMMdd"),
 		QTime::currentTime().toString("hhmmss"));
-
-
-	//QString fileNameDat = QDir( QApplication::applicationDirPath() ).filePath(fileName+".dat");
-	//QFile fileDat( fileNameDat );
-	//fileDat.open(QIODevice::WriteOnly);
-	//QDataStream outDat(&fileDat);   // we will serialize the data into the file
 
 	static char txtBuffer[20];
 	QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath(fileName+".txt");
@@ -701,7 +676,6 @@ void AdcBoard::staticTest()
 #endif // NOBOARD
 
 	fileTxt.close();
-//	fileDat.close();
 
 	Q_ASSERT(samples.size() >= numpt);
 
@@ -711,9 +685,6 @@ void AdcBoard::staticTest()
 	int indexLeft = 0;
 	int indexRight = 0;
 
-	//inldnl(double* csamples, int cnumbit, int cnumpt, double cT1, double cT2, 
-	//	double cT_ideal_1, double cT_ideal_2, double* cINLar__o, double* cDNLar__o,
-	//	double* cH__o, int& cindexl__o, int& cindexh__o) ;
 	inldnl(&samples[0], m_adcSettings.bitcount, numpt, 0, m_staticSettings.vpp, 
 		0, m_staticSettings.vt, &inl[0], &dnl[0], &histogram[0], indexLeft, indexRight);
 
@@ -725,43 +696,83 @@ void AdcBoard::staticTest()
 
 int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
 {
-	int fine = 600;
-	int coarse = 100;
-	unsigned short reg = 0;
-
+	int fine = 800;
+	int coarse = 60;
 	int regValue;
-
-	for (int i=coarse; i>0; --i)
+	int i;
+	for (int i=0; i<10; ++i)
 	{
-		if (!writeReg(5, i*65535/coarse))
+		if (!writeReg(5, 32768))
 			return false;
 		if (!writeReg(6, dacChannel))  //执行 通道A
 			return false;
-		writeReg(9, adcChannel);  //select 3548, select 7th channel
-		writeReg(9, adcChannel);  //select 3548, select 7th channel
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
-		readReg(0x0009, reg);
-		if ((float(reg>>2)) * 4 / 16384 > v)
-			break;
 	}
-	for (int i=0; i<fine; ++i)
+	for (i=coarse; i>0; --i)
 	{
-		regValue = i*65535/fine;
+		regValue = i*65535/coarse;
 		if (!writeReg(5, regValue))
 			return false;
 		if (!writeReg(6, dacChannel))  //执行 通道A
 			return false;
-		writeReg(9, adcChannel);  //select 3548, select 7th channel
-		writeReg(9, adcChannel);  //select 3548, select 7th channel
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
-		readReg(0x0009, reg);
-		if ((float(reg>>2)) * 4 / 16384 < v)
+		msleep(1);
+		float t = getVoltage(adcChannel);
+		qDebug() << "Coarse: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
+		if (t >= v)
 			break;
-
+	}
+	for (int j=i*fine/coarse; j<fine; ++j)
+	{
+		regValue = j*65535/fine;
+		if (!writeReg(5, regValue))
+			return false;
+		if (!writeReg(6, dacChannel))  //执行 通道A
+			return false;
+		msleep(1);
+		float t = getVoltage(adcChannel);
+		qDebug() << "Fine: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
+		if ( abs(t - v) <= 0.005)
+			break;
 	}
 	return regValue;
+
+
+	//int fine = 600;
+	//int coarse = 100;
+	//unsigned short reg = 0;
+
+	//int regValue;
+
+	//for (int i=coarse; i>0; --i)
+	//{
+	//	if (!writeReg(5, i*65535/coarse))
+	//		return false;
+	//	if (!writeReg(6, dacChannel))  //执行 通道A
+	//		return false;
+	//	writeReg(9, adcChannel);  //select 3548, select 7th channel
+	//	writeReg(9, adcChannel);  //select 3548, select 7th channel
+	//	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
+	//	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
+	//	readReg(0x0009, reg);
+	//	if ((float(reg>>2)) * 4 / 16384 > v)
+	//		break;
+	//}
+	//for (int i=0; i<fine; ++i)
+	//{
+	//	regValue = i*65535/fine;
+	//	if (!writeReg(5, regValue))
+	//		return false;
+	//	if (!writeReg(6, dacChannel))  //执行 通道A
+	//		return false;
+	//	writeReg(9, adcChannel);  //select 3548, select 7th channel
+	//	writeReg(9, adcChannel);  //select 3548, select 7th channel
+	//	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
+	//	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
+	//	readReg(0x0009, reg);
+	//	if ((float(reg>>2)) * 4 / 16384 < v)
+	//		break;
+
+	//}
+	//return regValue;
 
 }
 

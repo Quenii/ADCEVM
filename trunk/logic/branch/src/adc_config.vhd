@@ -116,7 +116,7 @@ architecture behave of adc_config is
       cs_n_o       : out std_logic);
   end component;
 
-    constant C_SCK_RATIO : integer := 64;
+    constant C_SCK_RATIO : integer := 66;
     constant C_REG_WIDTH : integer := 24;
 
     component spi24_v2
@@ -184,7 +184,7 @@ begin  -- behave
             LB_DataR_o => open,
             updated_o  => open,
             ctrl_o     => rst_net,
-            sta_i      => x"0000");
+            sta_i      => rst_net);
 
     jtag_ctr : lb_target_reg
         generic map (

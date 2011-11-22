@@ -14,6 +14,8 @@ class DummyWidget;
 class QObject;
 class QEvent;
 
+#define VDADDR 0x3FFF
+#define VAADDR 0x7FFF
 class AdcBoard : public QObject
 {
 	Q_OBJECT
