@@ -349,12 +349,12 @@
           <widget class="QComboBox" name="cbResetLevel">
            <item>
             <property name="text">
-             <string>高电平</string>
+             <string>低电平</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>低电平</string>
+             <string>高电平</string>
             </property>
            </item>
           </widget>

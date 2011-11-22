@@ -44,9 +44,6 @@ RegAccess::RegAccess(QWidget *parent, Qt::WFlags flags)
 	Q_ASSERT(ok);
 	ok = connect(buttonGroup3, SIGNAL(buttonClicked(int)), this, SLOT(SetGpio(int))); 
 	Q_ASSERT(ok);
-	//connect(buttonGroup1, SIGNAL(clicked(int)), SLOT(SetGpio()));
-	//connect(buttonGroup2, SIGNAL(clicked(int)), SLOT(SetGpio()));
-	//connect(buttonGroup3, SIGNAL(clicked(int)), SLOT(SetGpio()));
 
 	QSpacerItem* verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -83,35 +80,25 @@ void RegAccess::on_pushButtonResetCircuit_clicked()
 {
 	AdcBoard* board = AdcBoard::instance();
 
-	//board->writeReg(0xFFFF, 0xFFFF);  //reset
-	//gkhy::MfcMinus::Win32App::sleep(sbResetTime->value());
-	//
-	//board->writeReg(0xFFFF, 0x0000);  //dereset
-	//gkhy::MfcMinus::Win32App::sleep(200);
+	unsigned short regVal = 0;
+	board->readReg(0x1000, regVal);
 
+	uint resetVal = cbResetLevel->currentIndex();
+	regVal = (regVal & 0xFFFE) | resetVal;
 	uint t = sbResetTime->value();
-	board->writeReg(0x1000, 0x000D);
-	board->writeReg(0x1000, 0x000C);  //jad14p1  reset
+	board->writeReg(0x1000, regVal);
 	gkhy::MfcMinus::Win32App::sleep(t);
 
+	regVal = regVal ^ 0x0001;
 	t = sbResetDelay->value();
-	board->writeReg(0x1000, 0x0001);
+	board->writeReg(0x1000, regVal);
 	gkhy::MfcMinus::Win32App::sleep(t);
-	board->writeReg(0x1000, 0x0003);
-	gkhy::MfcMinus::Win32App::sleep(200);
-	board->writeReg(0x1000, 0x000B);  //release SPI module rst
+
 }
 
 void RegAccess::on_pushButtonOpenScan_clicked()
 {
 	AdcBoard* board = AdcBoard::instance();
-
-	//board->writeReg(0x1000, 0x0007);  //release jtag module rst
-	//gkhy::MfcMinus::Win32App::sleep(1000);
-	//board->writeReg(0x1001, 0x0000);  //start a open jtag op
-	//gkhy::MfcMinus::Win32App::sleep(1000);
-	//board->writeReg(0x1000, 0x000B);  //release SPI module rst
-	//gkhy::MfcMinus::Win32App::sleep(200);
 
 	board->writeReg(0x1000, 0x0001);  //release ADC rst
 	gkhy::MfcMinus::Win32App::sleep(1000);
@@ -153,14 +140,6 @@ void RegAccess::slotRegAccessItemStateChanged(QWidget* widget)
 
 	m_bEnable_SlotRegAccessItemStateChanged = true;
 }
-
-// void RegAccess::on_sbSampleRate_valueChanged()
-// {
-// 
-// 	AdcBoard* board = AdcBoard::instance();
-// 
-// 	board->changeSampleRate( sbSampleRate->value() );
-// }
 
 void RegAccess::on_pushButtonStep_clicked()
 {
