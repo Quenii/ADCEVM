@@ -131,8 +131,10 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	usbDev = new CCyUSBDevice((HANDLE)(widget->winId()));
 
 	QZebraScopeSettings settings;
-	settings.adcSettings(m_adcSettings);
+//	settings.adcSettings(m_adcSettings);
 	settings.signalSettings(m_signalSettings);
+
+	setAdcSettings(m_adcSettings);
 
 	if (!m_timerIdPower)
 	{
