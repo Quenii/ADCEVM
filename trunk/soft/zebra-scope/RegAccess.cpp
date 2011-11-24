@@ -81,6 +81,8 @@ void RegAccess::on_pushButtonResetCircuit_clicked()
 	AdcBoard* board = AdcBoard::instance();
 
 	unsigned short regVal = 0;
+//	board->writeReg(0x1000, 0xffff);
+	board->readReg(0x2000, regVal);
 	board->readReg(0x1000, regVal);
 
 	uint resetVal = cbResetLevel->currentIndex();
