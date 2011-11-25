@@ -79,10 +79,10 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "CETC58"
+            VALUE "CompanyName", "roc"
             VALUE "FileVersion", "1.0.0.2"
             VALUE "InternalName", "mfcplus.dll"
-            VALUE "LegalCopyright", "Copyright  (c) CETC58"
+            VALUE "LegalCopyright", "Copyright  (c) roc"
             VALUE "OriginalFilename", "mfcplus.dll"
             VALUE "ProductName", "MFC Plus"
             VALUE "ProductVersion", "1.0.0.2"
