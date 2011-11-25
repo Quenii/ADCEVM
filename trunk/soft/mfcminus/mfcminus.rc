@@ -69,11 +69,11 @@ BEGIN
     BEGIN
         BLOCK "080404b0"
         BEGIN
-            VALUE "CompanyName", "CETC58"
+            VALUE "CompanyName", "roc"
             VALUE "FileDescription", "mfcminus Dynamic Link Library"
             VALUE "FileVersion", "1,0,0,2"
             VALUE "InternalName", "mfcminus"
-            VALUE "LegalCopyright", "Copyright (C) 2010 CETC58"
+            VALUE "LegalCopyright", "Copyright (C) 2010 roc"
             VALUE "OriginalFilename", "mfcminus.dll"
             VALUE "ProductName", " mfcminus Dynamic Link Library"
             VALUE "ProductVersion", "1,0,0,2"
