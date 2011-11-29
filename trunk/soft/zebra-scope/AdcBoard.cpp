@@ -25,7 +25,7 @@
 
 using namespace gkhy::QPlotLab;
 
-//#define NOBOARD 1
+#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -609,8 +609,8 @@ void AdcBoard::staticTest()
 	if (buff.size() < buffer_cnt)
 		buff.resize(buffer_cnt);
 
-	vector<double> samples;
 	int numpt = m_staticSettings.numpt * 1024 * 1024;
+	vector<double> samples;
 
 #ifndef NOBOARD
 	unsigned short mask = (1<<16) - (1<<(16-m_adcSettings.bitcount));
@@ -665,14 +665,21 @@ void AdcBoard::staticTest()
 		}
 	}
 #else // NOBOARD
-	QFile file("111110-140158.txt");
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-		Q_ASSERT(false);
 
-	QTextStream in(&file);
-	while (!in.atEnd()) {
-		QString line = in.readLine();
-		samples.push_back(line.toDouble());
+	QFile file("111110-140158.txt");
+	
+	for (int i=0; i<m_staticSettings.numpt/8; ++i)
+	{
+		if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+			Q_ASSERT(false);
+
+		QTextStream in(&file);
+		while (!in.atEnd()) {
+			QString line = in.readLine();
+			samples.push_back(line.toDouble());
+		}
+
+		file.close();
 	}
 
 #endif // NOBOARD
