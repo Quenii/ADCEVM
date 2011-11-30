@@ -25,7 +25,7 @@
 
 using namespace gkhy::QPlotLab;
 
-#define NOBOARD 1
+//#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -135,6 +135,7 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	settings.signalSettings(m_signalSettings);
 
 	setAdcSettings(m_adcSettings);
+	setSignalSettings(m_signalSettings);
 
 	if (!m_timerIdPower)
 	{
@@ -367,6 +368,8 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	float vpp = m_adcSettings.vpp;
 	float max = 1 << 15;
 
+#ifndef NOBOARD
+
 	if (usbDev->IsOpen() && (usbDev->DeviceCount())/* && clocked() */)
 	{
 		writeReg(0x2002, 0);
@@ -387,23 +390,25 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	}
 	else
 	{
-#ifdef _DEBUG
 
-		float fs = m_signalSettings.clockFreq;
-		float fc = m_signalSettings.signalFreq;
-		
-
-		int offset = rand();
-		tdReport.samples.resize(buffer_cnt);
-		tdReport.rawSamples.resize(tdReport.samples.size());
-		for (int i = 0; i < tdReport.samples.size(); ++i)
-		{
-			tdReport.samples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max))*vpp/max;
-			tdReport.rawSamples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max));
-		}
-#endif //_DEBUG
 	}
 
+#else
+	float fs = m_signalSettings.clockFreq;
+	float fc = m_signalSettings.signalFreq;
+
+	int offset = rand();
+	tdReport.samples.resize(buffer_cnt);
+	tdReport.rawSamples.resize(tdReport.samples.size());
+	for (int i = 0; i < tdReport.samples.size(); ++i)
+	{
+		tdReport.samples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max))*vpp/max;
+		tdReport.rawSamples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max));
+	}
+
+#endif //NOBOARD
+
+//	tdReport.max = max_element(tdReport.samples.begin(), tdReport.samples.end());
 	float fmin = vpp;
 	float fmax = -vpp;
 	for (int i = 0; i < tdReport.samples.size(); ++i )
@@ -490,7 +495,6 @@ bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 		return false;
 	gkhy::MfcMinus::Win32App::sleep(200);
 
-
 	if (!writeReg(0x1000, 0x000D)) return false;
 	if (!writeReg(0x1000, 0x000C)) return false;  //jad14p1  reset
 	gkhy::MfcMinus::Win32App::sleep(2);
@@ -506,7 +510,27 @@ bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
 	settings.setAdcSettings(m_adcSettings);
 
 	return true;
+}
 
+void AdcBoard::updateXaxis(float fs)
+{
+	TimeDomainReport &tdReport = report.tdReport;
+	FreqDomainReport& fdReport = report.fdReport;
+
+	tdReport.xaxis.resize(buffer_cnt);
+	fdReport.xaxis.resize(buffer_cnt/2);
+
+	for (int i = 0; i < tdReport.xaxis.size(); ++i)
+	{
+		tdReport.xaxis[i] = (float)i * (1e9 / fs);  //ns
+	}
+
+	float k = fs / 2 / (fdReport.xaxis.size()) / 1e6;
+
+	for (int i = 0; i < fdReport.xaxis.size(); ++i)
+	{
+		fdReport.xaxis[i] = (float)i * k;
+	}
 }
 
 bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
@@ -517,24 +541,8 @@ bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
 	//todo: 1, add gpib code to specify the input signal/clock;
 
 	float fs = signalSettings.clockFreq;
-	TimeDomainReport &tdReport = report.tdReport;
-	
-	tdReport.xaxis.resize(buffer_cnt);
 
-	for (int i = 0; i < tdReport.xaxis.size(); ++i)
-	{
-		tdReport.xaxis[i] = (float)i * (1e9 / fs);  //ns
-	}
-
-	FreqDomainReport& fdReport = report.fdReport;
-
-	fdReport.xaxis.resize(buffer_cnt/2);
-	float k = fs / 2 / (fdReport.xaxis.size()) / 1e6;
-
-	for (int i = 0; i < fdReport.xaxis.size(); ++i)
-	{
-		fdReport.xaxis[i] = (float)i * k;
-	}
+	updateXaxis(fs);
 
 	m_signalSettings = signalSettings;
 	// m_signalSettings.writeSettings(m_settings);
