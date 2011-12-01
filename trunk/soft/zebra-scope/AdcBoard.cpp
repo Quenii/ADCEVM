@@ -373,8 +373,8 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	if (usbDev->IsOpen() && (usbDev->DeviceCount())/* && clocked() */)
 	{
 		writeReg(0x2002, 0);
-		if (buff.size() < buffer_cnt)
-			buff.resize(buffer_cnt);
+		if (buff.size() < buffer_cnt*2)
+			buff.resize(buffer_cnt*2);
 		writeReg(0xFFFF, 0x0001);  //reset
 		writeReg(0xFFFF, 0x0000);  //dereset
 		//buff[512] = {0x0032};
@@ -384,7 +384,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		unsigned short* p = &buff[0];
 		bool okay = read(0x1005, &buff[0], buffer_cnt);
 		Q_ASSERT(okay);
-		okay = read(0x1005, &buff[0], buffer_cnt);
+		okay = read(0x1005, &buff[0+buffer_cnt], buffer_cnt);
 		Q_ASSERT(okay);
 		Convert(tdReport, max, vpp);
 	}
@@ -398,7 +398,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	float fc = m_signalSettings.signalFreq;
 
 	int offset = rand();
-	tdReport.samples.resize(buffer_cnt);
+	tdReport.samples.resize(buffer_cnt*2);
 	tdReport.rawSamples.resize(tdReport.samples.size());
 	for (int i = 0; i < tdReport.samples.size(); ++i)
 	{
@@ -423,7 +423,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 	FreqDomainReport& fdReport = report.fdReport;
 
-	fdReport.Spectrum.resize(buffer_cnt/2);
+	fdReport.Spectrum.resize(tdReport.samples.size()/2);
 
 #if defined(MATLAB) 
 	calc_dynam_params(tdReport.samples, m_adcSettings.bitcount, fdReport);
@@ -433,7 +433,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	
 
 #else
-	memcpy( &fdReport.Spectrum[0], &tdReport.samples[0], buffer_cnt/2);
+	memcpy( &fdReport.Spectrum[0], &tdReport.samples[0], buffer_cnt);
 
 #endif // MATLAB
 
@@ -517,8 +517,8 @@ void AdcBoard::updateXaxis(float fs)
 	TimeDomainReport &tdReport = report.tdReport;
 	FreqDomainReport& fdReport = report.fdReport;
 
-	tdReport.xaxis.resize(buffer_cnt);
-	fdReport.xaxis.resize(buffer_cnt/2);
+	tdReport.xaxis.resize(buffer_cnt*2);
+	fdReport.xaxis.resize(buffer_cnt);
 
 	for (int i = 0; i < tdReport.xaxis.size(); ++i)
 	{
