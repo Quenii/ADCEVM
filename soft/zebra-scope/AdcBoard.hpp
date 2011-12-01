@@ -105,7 +105,7 @@ private:
 	std::vector<unsigned short> bulkIOBuff;
 	std::vector<unsigned short> buff;
 
-	const static int buffer_cnt = 64 * 1024;
+	const static int buffer_cnt = 32 * 1024;
 	const float pi;
 
 private:	
