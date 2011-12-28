@@ -39,6 +39,17 @@ void SignalSettingsDialog::loadSettings()
 	signalFreqLineEdit->setText(QString("%L1").arg(m_static.signalFreq / 1e6, 0, 'f', 6));
 	signalPowerLineEdit->setText(QString("%L1").arg(m_static.signalPower, 0, 'f', 1));
 	dualToneTestCheckBox->setCheckState(m_static.dualToneTest ? Qt::Checked : Qt::Unchecked);
+	if (!m_static.dualToneTest)
+	{
+		signalIIFreqLineEdit->setEnabled(false);
+		signalIIPowerLineEdit->setEnabled(false);
+	}
+	else
+	{
+		signalIIFreqLineEdit->setEnabled(true);
+		signalIIPowerLineEdit->setEnabled(true);
+	}
+
 	signalIIFreqLineEdit->setText(QString("%L1").arg(m_static.signalIIFreq / 1e6, 0, 'f', 6));
 	signalIIPowerLineEdit->setText(QString("%L1").arg(m_static.signalIIPower, 0, 'f', 1));
 
@@ -47,7 +58,12 @@ void SignalSettingsDialog::loadSettings()
 
 void SignalSettingsDialog::on_dualToneTestCheckBox_stateChanged( int state )
 {
-
+	if (state == Qt::Checked)
+	{
+		signalIIFreqLineEdit->setEnabled(true);
+		signalIIPowerLineEdit->setEnabled(true);
+	}
+	
 }
 
 //void SignalSettingsDialog::settings(SignalSettings& settings)

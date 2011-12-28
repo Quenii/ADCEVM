@@ -1,4 +1,5 @@
 #include "DacAnalyzerSettings.h"
+#include "AdcBoardTypes.hpp"
 
 #include <QStringList>
 #include <QPoint>
