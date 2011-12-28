@@ -186,10 +186,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\BitOperator.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ControlPanel.cpp"
 				>
 			</File>
@@ -338,10 +334,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\BitOperator.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ControlPanel.h"
 				>
 				<FileConfiguration
@@ -366,6 +358,10 @@
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_ControlPanel.cpp&quot;"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\dacanalyzersettings.h"
+				>
 			</File>
 			<File
 				RelativePath=".\inldnl_c.h"

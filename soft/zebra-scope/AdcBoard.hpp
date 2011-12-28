@@ -73,9 +73,6 @@ signals:
 	void boardReport(const AdcBoardReport& report);
 	void powerMonitorDataUpdated(const PowerStatus& data);
 
-private slots:
-	void devChanged();
-	
 private:
 	AdcBoardReport report;
 	AdcAnalyzerSettings m_analyzer;

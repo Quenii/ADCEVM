@@ -13,10 +13,10 @@ AdcSettingsDialog::AdcSettingsDialog(QWidget *parent)
 		<< QString::fromLocal8Bit("1.8V ADC")
 		<< QString::fromLocal8Bit("2.5V ADC")
 		<< QString::fromLocal8Bit("3.3V ADC");
-	ui.adcTypeComboBox->addItems(m_adcTypeList);
+	adcTypeComboBox->addItems(m_adcTypeList);
 
 	const AdcTypeSettings& val = AdcAnalyzerSettings().adcTypeSettings();
-	ui.adcTypeComboBox->setCurrentIndex(m_adcTypeList.indexOf(val.adcType));
+	adcTypeComboBox->setCurrentIndex(m_adcTypeList.indexOf(val.adcType));
 
 }
 
@@ -34,21 +34,21 @@ void AdcSettingsDialog::loadSettings(const QString& type)
 	// load stored settings.
 	val = settings.storedAdcTypeSettings(type);
 
-	ui.vaDoubleSpinBox->setValue(val.va);
-	ui.vdDoubleSpinBox->setValue(val.vd);
-	ui.bitCountSpinBox->setValue(val.bitcount);
-	ui.codingComboBox->setCurrentIndex(val.coding);
-	ui.vppLineEdit->setText(QString("%1").arg(val.vpp));
+	vaDoubleSpinBox->setValue(val.va);
+	vdDoubleSpinBox->setValue(val.vd);
+	bitCountSpinBox->setValue(val.bitcount);
+	codingComboBox->setCurrentIndex(val.coding);
+	vppLineEdit->setText(QString("%1").arg(val.vpp));
 
-	if (0 == ui.adcTypeComboBox->currentIndex())
+	if (0 == adcTypeComboBox->currentIndex())
 	{
-		ui.vaDoubleSpinBox->setReadOnly(false);
-		ui.vdDoubleSpinBox->setReadOnly(false);
+		vaDoubleSpinBox->setReadOnly(false);
+		vdDoubleSpinBox->setReadOnly(false);
 	}
 	else
 	{
-		ui.vaDoubleSpinBox->setReadOnly(true);
-		ui.vdDoubleSpinBox->setReadOnly(true);
+		vaDoubleSpinBox->setReadOnly(true);
+		vdDoubleSpinBox->setReadOnly(true);
 	}
 
 }
@@ -57,13 +57,13 @@ void AdcSettingsDialog::accept()
 {
 	AdcTypeSettings val;
 
-	val.adcType = ui.adcTypeComboBox->currentText();
+	val.adcType = adcTypeComboBox->currentText();
 	// should remember index;
-	val.bitcount = ui.bitCountSpinBox->text().toInt();
-	val.va = ui.vaDoubleSpinBox->text().toFloat();
-	val.vd = ui.vdDoubleSpinBox->text().toFloat();
-	val.vpp = ui.vppLineEdit->text().toFloat();
-	val.coding = ui.codingComboBox->currentIndex();
+	val.bitcount = bitCountSpinBox->text().toInt();
+	val.va = vaDoubleSpinBox->text().toFloat();
+	val.vd = vdDoubleSpinBox->text().toFloat();
+	val.vpp = vppLineEdit->text().toFloat();
+	val.coding = codingComboBox->currentIndex();
 
 	AdcAnalyzerSettings s;
 
