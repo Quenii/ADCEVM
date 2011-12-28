@@ -194,6 +194,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\dacanalyzersettings.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\inldnl_c.cpp"
 				>
 			</File>
@@ -223,10 +227,6 @@
 			</File>
 			<File
 				RelativePath=".\qzebrascopeserializer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\QZebraScopeSettings.cpp"
 				>
 			</File>
 			<File
@@ -508,10 +508,6 @@
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\QZebraScopeSettings.h"
-				>
 			</File>
 			<File
 				RelativePath=".\RegAccess.hpp"

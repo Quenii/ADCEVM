@@ -5,9 +5,7 @@
 #include "ui_AdcSettingsWidget.h"
 #include "AdcSettingsDialog.h"
 
-using namespace Ui;
-
-class AdcSettingsWidget : public QWidget, public AdcSettingsWidgetClass
+class AdcSettingsWidget : public QWidget
 {
 	Q_OBJECT
 
@@ -15,19 +13,12 @@ public:
 	AdcSettingsWidget(QWidget *parent = 0);
 	~AdcSettingsWidget();
 
+	void reloadSettings(bool initValue = false);
 public slots:
-	void setSettings(const AdcSettings& settings);
-public:
-	void settings(AdcSettings& settings);
-
-signals:
-	void settingsChanged();
-
-private slots:
 	void on_pushButtonChangeSettings_clicked();
 
 private:
-	AdcSettings m_settings;
+	Ui::AdcSettingsWidgetClass ui;
 };
 
 #endif // ADCSETTINGSWIDGET_H

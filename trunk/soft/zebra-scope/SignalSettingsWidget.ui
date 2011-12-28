@@ -103,7 +103,7 @@
            </font>
           </property>
           <property name="text">
-           <string>信号强度</string>
+           <string>信号II频率</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -125,7 +125,7 @@
            </font>
           </property>
           <property name="text">
-           <string>dBm</string>
+           <string>MHz</string>
           </property>
          </widget>
         </item>
@@ -179,12 +179,12 @@
            </font>
           </property>
           <property name="text">
-           <string>Hz</string>
+           <string>MHz</string>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLineEdit" name="signalPowerLineEdit">
+         <widget class="QLineEdit" name="signalIIFreqLineEdit">
           <property name="enabled">
            <bool>true</bool>
           </property>

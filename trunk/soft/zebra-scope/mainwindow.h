@@ -31,13 +31,15 @@ class MainWindow : public QMainWindow
 public:
 	MainWindow(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~MainWindow();
+protected:
+	void closeEvent(QCloseEvent *event);
 
 private:
 	void createMenus();
 
 signals:
-	void settingsLoaded(const AdcSettings& data);
-	void settingsLoaded(const SignalSettings& data);
+	//void settingsLoaded(const AdcSettings& data);
+	//void settingsLoaded(const SignalSettings& data);
 	void adcBoardReportLoaded(const AdcBoardReport& data);
 
 private slots:

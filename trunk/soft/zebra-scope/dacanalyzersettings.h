@@ -1,33 +1,27 @@
 #pragma once
 
-#include "types.h"
+#include "AdcBoardTypes.hpp"
 
 #include <QSettings>
 
-class DacAnalyzerSettings
+class AdcAnalyzerSettings
 {
 public:
-	DacAnalyzerSettings(void);
-	virtual ~DacAnalyzerSettings(void);
+	AdcAnalyzerSettings(void);
+	virtual ~AdcAnalyzerSettings(void);
 
 public:
-	DacTypeSettings dacTypeSettings() const;
-	void setDacTypeSettings(const DacTypeSettings& val);
+	AdcTypeSettings adcTypeSettings() const;
+	void setAdcTypeSettings(const AdcTypeSettings& val);
 	
-	DacTypeSettings storedDacTypeSettings(const QString& dacType) const;
-	void setStoredDacTypeSettings(const DacTypeSettings& val);
+	AdcTypeSettings storedAdcTypeSettings(const QString& adcType) const;
+	void setStoredAdcTypeSettings(const AdcTypeSettings& val);
 	
 	StaticTestSettings staticTestSettings() const;
 	void setStaticTestSettings(const StaticTestSettings& val);
 
-	DynamicTestSettings dynamicTestSettings() const;
-	void setDynamicTestSettings(const DynamicTestSettings& val);
-
-	DualtoneTestSettings dualtoneTestSettings() const;
-	void setDualtoneTestSettings(const DualtoneTestSettings& val);
-
-	InstTestSettings instTestSettings() const;
-	void setInstTestSettings(const InstTestSettings& val);
+	SignalSettings signalSettings() const;
+	void setSignalSettings(const SignalSettings& val);
 
 	RegAccessSettings regAccessSettings() const;
 	void setRegAccessSettings(const RegAccessSettings& val);
@@ -40,9 +34,6 @@ public:
 
 	bool powerMonitorWidgetVisible() const;
 	void setPowerMonitorWidgetVisible(const bool& val);
-
-	void DacAnalyzerSettings::setDacTypeList(const QStringList& val);
-	QStringList DacAnalyzerSettings::DacTypeList() const;
 
 private:
 	QSettings m_s;
