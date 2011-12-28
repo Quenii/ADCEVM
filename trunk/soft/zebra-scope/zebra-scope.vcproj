@@ -194,6 +194,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\inldnl_c.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\libalgo_wrapper.cpp"
 				>
 			</File>
@@ -362,6 +366,10 @@
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_ControlPanel.cpp&quot;"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\inldnl_c.h"
+				>
 			</File>
 			<File
 				RelativePath=".\libalgo.h"

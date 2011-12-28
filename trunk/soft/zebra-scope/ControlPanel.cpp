@@ -201,9 +201,6 @@ void ControlPanel::on_pushButtonStopDynamicTest_clicked()
 
 void ControlPanel::on_pushButtonStartStaticTest_clicked()
 {
-	
-//	ui.pushButtonStartStaticTest->setEnabled(false);
-//	ui.pushButtonStopStaticTest->setEnabled(true);		
 	ui.dynamicTestButtons->setEnabled(false);
 
 	StaticSettingsDialog dlg;
@@ -213,11 +210,9 @@ void ControlPanel::on_pushButtonStartStaticTest_clicked()
 		dlg.settings(m_staticSettings);
 		QZebraScopeSettings settings;
 		settings.setStaticSettings(m_staticSettings);
+		AdcBoard::instance()->staticTest();
 	}
-
-	AdcBoard::instance()->staticTest();
 	ui.dynamicTestButtons->setEnabled(true);
-
 }
 
 void ControlPanel::on_pushButtonStopStaticTest_clicked()
@@ -225,7 +220,4 @@ void ControlPanel::on_pushButtonStopStaticTest_clicked()
 	ui.pushButtonStopStaticTest->setEnabled(false);	
 	ui.pushButtonStartStaticTest->setEnabled(true);
 	ui.dynamicTestButtons->setEnabled(true);
-
 }
-
-

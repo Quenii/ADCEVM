@@ -22,10 +22,11 @@
 #include "QZebraScopeSettings.h"
 #include "./3rdparty/m2c/c/include/m2c.h"
 #include "./include/gkhy/qplotlib/qscope.hpp"
+#include "inldnl_c.h"
 
 using namespace gkhy::QPlotLab;
 
-//#define NOBOARD 1
+#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -136,6 +137,9 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 
 	setAdcSettings(m_adcSettings);
 	setSignalSettings(m_signalSettings);
+
+	float fs = m_signalSettings.clockFreq;
+	updateXaxis(fs);
 
 	if (!m_timerIdPower)
 	{
@@ -560,43 +564,6 @@ void AdcBoard::powerStatus(PowerStatus& powerStatus)
 	powerStatus.ia = getCurrent(0x4FFF);
 	powerStatus.id = getCurrent(0x1FFF);
 	powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
-
-	return;
-
-	unsigned short reg = 0;
-	writeReg(9, 0xA400);  //select 3548, work at default mode
-	writeReg(9, 0xA400);  //select 3548, work at default mode
-
-	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
-	writeReg(9, 0x7FFF);  //select 3548, select 7th channel
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	readReg(0x0009, reg);
-	powerStatus.va = (float(reg>>2)) * 4 / 16384;
-	
-	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
-	writeReg(9, 0x3FFF);  //select 3548, select 7th channel
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	readReg(0x0009, reg);
-	powerStatus.vd = (float(reg>>2)) * 4 / 16384;
-
-	writeReg(9, 0x4FFF);  //select 3548, select 7th channel
-	writeReg(9, 0x4FFF);  //select 3548, select 7th channel
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	readReg(0x0009, reg);
-	powerStatus.ia = (float(reg>>2)) * 500 * 4 / 16384;
-
-	writeReg(9, 0x1FFF);  //select 3548, select 7th channel
-	writeReg(9, 0x1FFF);  //select 3548, select 7th channel
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-	readReg(0x0009, reg);
-	powerStatus.id = (float(reg>>2)) * 500 * 4 / 16384;
-
-	powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
-
 }
 
 void AdcBoard::staticTest()
@@ -699,11 +666,16 @@ void AdcBoard::staticTest()
 	vector<double> inl(1<<m_adcSettings.bitcount);
 	vector<double> dnl(inl.size());
 	vector<double> histogram(inl.size());
+
 	int indexLeft = 0;
 	int indexRight = 0;
 
-	inldnl(&samples[0], m_adcSettings.bitcount, numpt, 0, m_staticSettings.vpp, 
-		0, m_staticSettings.vt, &inl[0], &dnl[0], &histogram[0], indexLeft, indexRight);
+	//inldnl(&samples[0], m_adcSettings.bitcount, numpt, 0, m_staticSettings.vpp, 
+	//	0, m_staticSettings.vt, &inl[0], &dnl[0], &histogram[0], indexLeft, indexRight);
+
+	vector<int> histogram_i(inl.size());
+	inldnl_c(&samples[0], m_adcSettings.bitcount, numpt, 0, m_staticSettings.vpp, 
+		0, m_staticSettings.vt, inl, dnl, histogram_i, indexLeft, indexRight);
 
 	plot(inl, "INTEGRAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
 
@@ -751,45 +723,6 @@ int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
 			break;
 	}
 	return regValue;
-
-
-	//int fine = 600;
-	//int coarse = 100;
-	//unsigned short reg = 0;
-
-	//int regValue;
-
-	//for (int i=coarse; i>0; --i)
-	//{
-	//	if (!writeReg(5, i*65535/coarse))
-	//		return false;
-	//	if (!writeReg(6, dacChannel))  //执行 通道A
-	//		return false;
-	//	writeReg(9, adcChannel);  //select 3548, select 7th channel
-	//	writeReg(9, adcChannel);  //select 3548, select 7th channel
-	//	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
-	//	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
-	//	readReg(0x0009, reg);
-	//	if ((float(reg>>2)) * 4 / 16384 > v)
-	//		break;
-	//}
-	//for (int i=0; i<fine; ++i)
-	//{
-	//	regValue = i*65535/fine;
-	//	if (!writeReg(5, regValue))
-	//		return false;
-	//	if (!writeReg(6, dacChannel))  //执行 通道A
-	//		return false;
-	//	writeReg(9, adcChannel);  //select 3548, select 7th channel
-	//	writeReg(9, adcChannel);  //select 3548, select 7th channel
-	//	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
-	//	writeReg(9, 0xeFFF);  //select 3548, read out 7th channel voltage
-	//	readReg(0x0009, reg);
-	//	if ((float(reg>>2)) * 4 / 16384 < v)
-	//		break;
-
-	//}
-	//return regValue;
 
 }
 

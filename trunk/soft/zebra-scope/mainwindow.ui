@@ -185,12 +185,12 @@
   </widget>
   <action name="actionSaveData">
    <property name="text">
-    <string>保存数据(S)</string>
+    <string>保存动态数据(S)</string>
    </property>
   </action>
   <action name="actionLoadData">
    <property name="text">
-    <string>读入数据(R)</string>
+    <string>读入动态数据(R)</string>
    </property>
   </action>
   <action name="action_3">
