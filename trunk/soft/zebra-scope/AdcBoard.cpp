@@ -80,6 +80,7 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 // 	setSignalSettings(m_signalSettings);
 
 	float fs = m_analyzer.signalSettings().clockFreq;
+	if (fs <= 0) fs = 1e8;
 	updateXaxis(fs);
 
 	if (!m_timerIdPower)

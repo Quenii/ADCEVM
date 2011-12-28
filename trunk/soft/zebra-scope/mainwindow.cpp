@@ -39,22 +39,23 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 	ui.actionSpectrum->setChecked(true);
 
-	bool okay = connect(adcBoard, SIGNAL(devListChanged(const QList<AdcBoardInfo>&)), ui.controlPanel, SLOT(setDevList(const QList<AdcBoardInfo>&)));
-	Q_ASSERT(okay);
+	bool okay = false;
+	//bool okay = connect(adcBoard, SIGNAL(devListChanged(const QList<AdcBoardInfo>&)), ui.controlPanel, SLOT(setDevList(const QList<AdcBoardInfo>&)));
+	//Q_ASSERT(okay);
 
-	okay = connect(ui.controlPanel, SIGNAL(devSelected(int)), adcBoard, SLOT(open(int)));
-	Q_ASSERT(okay);
+	//okay = connect(ui.controlPanel, SIGNAL(devSelected(int)), adcBoard, SLOT(open(int)));
+	//Q_ASSERT(okay);
 
 	okay = connect(adcBoard, SIGNAL(boardReport(const AdcBoardReport&)), this, SLOT(slotShowBoardReport(const AdcBoardReport&)));
 	Q_ASSERT(okay);
 
-	okay = connect(this, SIGNAL(settingsLoaded(const SignalSettings&)), 
-		ui.controlPanel, SIGNAL(changeSettings(const SignalSettings&)));
-	Q_ASSERT(okay);
+	//okay = connect(this, SIGNAL(settingsLoaded(const SignalSettings&)), 
+	//	ui.controlPanel, SIGNAL(changeSettings(const SignalSettings&)));
+	//Q_ASSERT(okay);
 
-	okay = connect(this, SIGNAL(settingsLoaded(const AdcSettings&)), 
-		ui.controlPanel, SIGNAL(changeSettings(const AdcSettings&)));
-	Q_ASSERT(okay);
+	//okay = connect(this, SIGNAL(settingsLoaded(const AdcSettings&)), 
+	//	ui.controlPanel, SIGNAL(changeSettings(const AdcSettings&)));
+	//Q_ASSERT(okay);
 
 	okay = connect(this, SIGNAL(adcBoardReportLoaded(const AdcBoardReport&)), this, SLOT(slotShowBoardReport(const AdcBoardReport&)));
 	Q_ASSERT(okay);
