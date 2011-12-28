@@ -1,4 +1,5 @@
 #include "StaticSettingsDialog.h"
+#include "dacanalyzersettings.h"
 
 StaticSettingsDialog::StaticSettingsDialog(QWidget *parent)
 	: QDialog(parent)
@@ -8,6 +9,7 @@ StaticSettingsDialog::StaticSettingsDialog(QWidget *parent)
 	{
 		comboBoxNumpt->addItem(QString("%1").arg(i+2));
 	}
+	loadSettings();
 }
 
 StaticSettingsDialog::~StaticSettingsDialog()
@@ -17,22 +19,24 @@ StaticSettingsDialog::~StaticSettingsDialog()
 
 
 
-void StaticSettingsDialog::setSettings(const StaticSettings& settings)
+void StaticSettingsDialog::loadSettings()
 {
 //	lineEditNumpt->setText(QString("%1").arg(settings.numpt));
+	settings = m_analyzer.staticTestSettings();
 	comboBoxNumpt->setCurrentIndex(settings.numpt - 2);
 	doubleSpinVpp->setValue(settings.vpp);
 	doubleSpinVT->setValue(settings.vt);
 }
 
-void StaticSettingsDialog::settings(StaticSettings& settings)
+void StaticSettingsDialog::accept()
 {
-	QLocale c(QLocale::C);
-
 //	settings.numpt = lineEditNumpt->text().toInt();
+	
 	settings.numpt = comboBoxNumpt->currentIndex() + 2;
 	settings.vpp = doubleSpinVpp->value();
 	settings.vt = doubleSpinVT->value();
+	m_analyzer.setStaticTestSettings(settings);
+	
 }
 
 

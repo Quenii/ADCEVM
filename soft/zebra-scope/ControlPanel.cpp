@@ -1,7 +1,6 @@
 #include "ControlPanel.h"
 #include "AdcBoard.hpp"
 #include "StaticSettingsDialog.h"
-#include "QZebraScopeSettings.h"
 
 #include <QStandardItemModel>
 #include <QStringList>
@@ -41,12 +40,12 @@ ControlPanel::ControlPanel(QWidget *parent, Qt::WFlags flags)
 	ui.groupBox_DeviceList->hide();
 
 	
-	AdcBoard& board = *(AdcBoard::instance());
-	board.adcSettings(adcSettings);
-	ui.adcSettingsWidget->setSettings(adcSettings);
+	//AdcBoard& board = *(AdcBoard::instance());
+	//board.adcSettings(adcSettings);
+	//ui.adcSettingsWidget->setSettings(adcSettings);
 
-	board.signalSettings(signalSettings);
-	ui.signalSettingsWidget->setSettings(signalSettings);
+	//board.signalSettings(signalSettings);
+	//ui.signalSettingsWidget->setSettings(signalSettings);
 }
 
 ControlPanel::~ControlPanel()
@@ -163,25 +162,25 @@ void ControlPanel::updateReport(const AdcBoardReport &rpt)
 }
 
 
-void ControlPanel::on_adcSettingsWidget_settingsChanged()
-{
-	ui.adcSettingsWidget->settings(adcSettings);
-	AdcBoard& board = *(AdcBoard::instance());
-	if (!board.setAdcSettings(adcSettings))
-	{
-		Q_ASSERT(false);
-	}
-}
-
-void ControlPanel::on_signalSettingsWidget_settingsChanged()
-{
-	ui.signalSettingsWidget->settings(signalSettings);
-	AdcBoard& board = *(AdcBoard::instance());
-	if (!board.setSignalSettings(signalSettings))
-	{
-		Q_ASSERT(false);
-	}
-}
+//void ControlPanel::on_adcSettingsWidget_settingsChanged()
+//{
+//	ui.adcSettingsWidget->settings(adcSettings);
+//	AdcBoard& board = *(AdcBoard::instance());
+//	if (!board.setAdcSettings(adcSettings))
+//	{
+//		Q_ASSERT(false);
+//	}
+//}
+//
+//void ControlPanel::on_signalSettingsWidget_settingsChanged()
+//{
+//	ui.signalSettingsWidget->settings(signalSettings);
+//	AdcBoard& board = *(AdcBoard::instance());
+//	if (!board.setSignalSettings(signalSettings))
+//	{
+//		Q_ASSERT(false);
+//	}
+//}
 
 void ControlPanel::on_pushButtonStartDynamicTest_clicked()
 {	
@@ -204,12 +203,8 @@ void ControlPanel::on_pushButtonStartStaticTest_clicked()
 	ui.dynamicTestButtons->setEnabled(false);
 
 	StaticSettingsDialog dlg;
-	dlg.setSettings(m_staticSettings);
 	if (QDialog::Accepted  == dlg.exec())
 	{
-		dlg.settings(m_staticSettings);
-		QZebraScopeSettings settings;
-		settings.setStaticSettings(m_staticSettings);
 		AdcBoard::instance()->staticTest();
 	}
 	ui.dynamicTestButtons->setEnabled(true);

@@ -25,13 +25,13 @@ public slots:
 
 signals:
 	void devSelected(int usbAddr);
-	void changeSettings(const AdcSettings& data);
-	void changeSettings(const SignalSettings& data);
+	//void changeSettings(const AdcSettings& data);
+	//void changeSettings(const SignalSettings& data);
 
 private slots:	
 	void devItemClicked(const QModelIndex& index);
-	void on_adcSettingsWidget_settingsChanged();
-	void on_signalSettingsWidget_settingsChanged();
+	//void on_adcSettingsWidget_settingsChanged();
+	//void on_signalSettingsWidget_settingsChanged();
 		
 	void on_pushButtonStartDynamicTest_clicked();
 	void on_pushButtonStopDynamicTest_clicked();
@@ -41,9 +41,9 @@ private slots:
 private:
 	Ui::ControlPanelClass ui;
 	QStandardItemModel *devListModel;
-	AdcSettings adcSettings;
-	SignalSettings signalSettings;
-	StaticSettings m_staticSettings;
+	//AdcSettings adcSettings;
+	//SignalSettings signalSettings;
+	//StaticSettings m_staticSettings;
 
  	QStandardItemModel *tdReportModel;
  	QStandardItemModel *rdReportModel;

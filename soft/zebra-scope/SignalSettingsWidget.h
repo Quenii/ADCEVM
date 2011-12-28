@@ -15,18 +15,11 @@ public:
 	SignalSettingsWidget(QWidget *parent = 0);
 	~SignalSettingsWidget();
 
-public:
-	void settings(SignalSettings& settings);
-public slots:
-	void setSettings(const SignalSettings& settings);
-
-signals:
-	void settingsChanged();
-
 private slots:
 	void on_pushButtonChangeSettings_clicked();
 
 private:
+	void reloadSettings();
 	SignalSettings m_settings;
 
 };

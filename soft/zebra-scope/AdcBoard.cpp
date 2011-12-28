@@ -16,10 +16,8 @@
 #include <QThread>
 
 #include "AdcBoard.hpp"
-#include "CyAPI.h"
+#include "dacanalyzersettings.h"
 #include "gkhy/mfcminus/Win32App.hpp"
-#include "QZebraScopeSettings.h"
-#include "QZebraScopeSettings.h"
 #include "./3rdparty/m2c/c/include/m2c.h"
 #include "./include/gkhy/qplotlib/qscope.hpp"
 #include "inldnl_c.h"
@@ -37,8 +35,6 @@ using namespace gkhy::QPlotLab;
 #include "libalgo_wrapper.h"
 #else
 #endif // MATLAB
-
-#pragma comment(lib, "CyAPI.lib")
 
 using namespace std;
 
@@ -69,76 +65,21 @@ static void plot(const std::vector<double>& data, const QString& title, double m
 }
 
 
-DummyWidget::DummyWidget(QWidget* parent /*= 0*/, Qt::WindowFlags f /*= 0*/ ) : QWidget(parent, f) 
-{
-	bPnP_Arrival = false;
-	bPnP_DevNodeChange = false;
-	bPnP_Removal = false;
-	QTimer::singleShot(0, this, SIGNAL(devChanged()));	
-}
-
-bool DummyWidget::winEvent(MSG * message, long * result)
-{	
-	if (message->message == WM_DEVICECHANGE) {
-		// Tracks DBT_DEVICEARRIVAL followed by DBT_DEVNODES_CHANGED
-		if (message->wParam == DBT_DEVICEARRIVAL) {
-			bPnP_Arrival = true;
-			bPnP_DevNodeChange = false;
-		}
-		// Tracks DBT_DEVNODES_CHANGED followed by DBT_DEVICEREMOVECOMPLETE
-		if (message->wParam == DBT_DEVNODES_CHANGED) {
-			bPnP_DevNodeChange = true;
-			bPnP_Removal = false;
-		}
-		if (message->wParam == DBT_DEVICEREMOVECOMPLETE) {
-			bPnP_Removal = true;
-			PDEV_BROADCAST_HDR bcastHdr = (PDEV_BROADCAST_HDR) message->lParam;
-			if (bcastHdr->dbch_devicetype == DBT_DEVTYP_HANDLE) {
-				PDEV_BROADCAST_HANDLE pDev = (PDEV_BROADCAST_HANDLE) message->lParam;
-				/*if (pDev->dbch_handle == USBDevice->DeviceHandle())
-				USBDevice->Close();*/
-			}
-		}
-		// If DBT_DEVNODES_CHANGED followed by DBT_DEVICEREMOVECOMPLETE
-		if (bPnP_Removal && bPnP_DevNodeChange) {
-			//Sleep(10);
-			//DisplayDevices();
-			bPnP_Removal = false;
-			bPnP_DevNodeChange = false;
-			//gkhy::MfcMinus::Win32App::sleep(10);
-			emit devChanged();
-		}
-		// If DBT_DEVICEARRIVAL followed by DBT_DEVNODES_CHANGED
-		if (bPnP_DevNodeChange && bPnP_Arrival) {
-			//DisplayDevices();
-			bPnP_Arrival = false;
-			bPnP_DevNodeChange = false;
-			emit devChanged();
-		}
-	}
-	return false;
-}
-
 AdcBoard* AdcBoard::_inst = 0;
 AdcBoard::AdcBoard(QObject* parent /* = 0 */) 
-: QObject(parent)
-, pi(3.141592653589793f)
+: pi(3.141592653589793f)
 , m_timerIdDyn(0)
 , m_timerIdPower(0)
 {
-	widget = new DummyWidget();
-	bool okay = connect(widget, SIGNAL(devChanged()), this, SLOT(devChanged()));
-	Q_ASSERT(okay);
-	usbDev = new CCyUSBDevice((HANDLE)(widget->winId()));
 
-	QZebraScopeSettings settings;
-//	settings.adcSettings(m_adcSettings);
-	settings.signalSettings(m_signalSettings);
+// 	QZebraScopeSettings settings;
+// //	settings.adcSettings(m_adcSettings);
+// 	settings.signalSettings(m_signalSettings);
 
-	setAdcSettings(m_adcSettings);
-	setSignalSettings(m_signalSettings);
+// 	setAdcSettings(m_adcSettings);
+// 	setSignalSettings(m_signalSettings);
 
-	float fs = m_signalSettings.clockFreq;
+	float fs = m_analyzer.signalSettings().clockFreq;
 	updateXaxis(fs);
 
 	if (!m_timerIdPower)
@@ -149,17 +90,6 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 
 AdcBoard::~AdcBoard()
 {
-	if (usbDev)
-	{
-		delete usbDev;
-		usbDev = 0;
-	}
-
-	if (widget)
-	{
-		delete widget;
-		widget = 0;
-	}
 }
 
 bool AdcBoard::isRunning()
@@ -181,165 +111,6 @@ void AdcBoard::setDynamicOn(bool on /* = true */)
 	}
 }
 
-void AdcBoard::devChanged()
-{
-	QList<AdcBoardInfo> devList;
-	if (!(usbDev->DeviceCount()))
-	{
-		devList.clear();
-	}
-	for (int i = 0; i < usbDev->DeviceCount(); ++i)
-	{
-		if (usbDev->Open(i))
-		{
-			AdcBoardInfo info;
-			info.usbAddr = i;
-			info.devName = QString(usbDev->DeviceName);
-			info.infName = QString(usbDev->FriendlyName);
-			devList.push_back(info);
-		}
-	}
-
-	emit devListChanged(devList);
-}
-
-bool AdcBoard::open(int usbAddr)
-{
-	return usbDev->Open((UCHAR)usbAddr);
-}
-
-bool AdcBoard::read(unsigned short addr, unsigned short *buf, unsigned int len)
-{	
-	if (! usbDev->BulkOutEndPt)
-		return false;
-
-	long b2Read = (len * sizeof(unsigned short) + 511) / 512 * 512;
-	long w2Read = b2Read / 2;
-	if (bulkIOBuff.size() < w2Read) bulkIOBuff.resize(w2Read);
-
-	if (!writeIOCmd(addr, true, w2Read))
-	{
-		return false;
-	}
-
-	long bRead = b2Read;
-	if (!usbDev->BulkInEndPt->XferData((unsigned char*)&bulkIOBuff[0], bRead))
-		return false;
-
-	if (b2Read != bRead)
-	{
-		return false;
-	}
-
-	memcpy(buf, &bulkIOBuff[0], len * sizeof(unsigned short));
-
-	return true;
-}
-
-bool AdcBoard::write(unsigned short addr, unsigned short *buf, unsigned int len)
-{	
-	if (! usbDev->BulkOutEndPt)
-		return false;
-
-	if (bulkIOBuff.size() < len) bulkIOBuff.resize(len);
-	float max = (1 << (m_adcSettings.bitcount - 1));
-
-	float fs = m_signalSettings.clockFreq;
-	float fc = m_signalSettings.signalFreq;
-
-	for (int i=0; i<len/4; ++i)
-	{
-		bulkIOBuff[4*i+0] = 0xbc95;
-		bulkIOBuff[4*i+1] = addr;
-		bulkIOBuff[4*i+2] = 0x00FF;
-		bulkIOBuff[4*i+3] = ((short)((qSin(2*pi*i*fc/fs)+1)*max));
-	}
-	long llen = len * sizeof(unsigned short);
-	if (!usbDev->BulkOutEndPt->XferData((UCHAR*)&bulkIOBuff[0], llen))
-		return false;
-
-	return true;
-}
-
-bool AdcBoard::writeIOCmd(unsigned short addr, bool dirRead, unsigned short data)
-{	
-	if (! usbDev->BulkOutEndPt)
-		return false;
-
-	if (bulkIOBuff.size() < 4) bulkIOBuff.resize(4);
-
-	bulkIOBuff[0] = 0xbc95;
-	bulkIOBuff[1] = addr;
-	bulkIOBuff[2] = dirRead ?  0xFF00 : 0x00FF;
-	bulkIOBuff[3] = data;
-	long llen = 4 * sizeof(unsigned short);
-	if (!usbDev->BulkOutEndPt->XferData((UCHAR*)&bulkIOBuff[0], llen))
-		return false;
-
-	return true;
-}
-
-bool AdcBoard::readReg(unsigned short addr, unsigned short &val)
-{
-	static unsigned short temp[1024];
-
-	if ( !read(addr, temp, 1024) )
-	{
-		return false;
-	}
-	val = temp[0];
-	return true;
-}
-
-bool AdcBoard::writeReg(unsigned short addr, unsigned short val)
-{
-	if (!writeIOCmd(addr, false, val))
-	{
-		return false;
-	}
-
-	return true;
-}
-
-bool AdcBoard::readReg24b(unsigned short addr,unsigned short& val)
-{
-	unsigned short w1 = (addr & 0xFF) << 8;
-	unsigned short w2 = (addr & 0xFF00) >> 8 | 0x80;
-	unsigned short r;
-	if (!writeReg(0x1002, w1))
-		return false;
-
-	gkhy::MfcMinus::Win32App::sleep(100);
-
-	if (!writeReg(0x1003, w2))
-		return false;
-
-	gkhy::MfcMinus::Win32App::sleep(300);
-
-	unsigned short temp[1024];
-
-	memset(temp, 0, sizeof(temp));
-	if ( !read(0x1002, temp, 1024)  )
-	{
-		return false;
-	}
-	val = temp[0];
-
-	return 	true;
-}
-
-bool AdcBoard::writeReg24b(unsigned short addr,unsigned short val)
-{
-	unsigned short w1 = ((addr & 0xFF) << 8) | (val & 0xFF);
-	unsigned short w2 = (addr & 0xFF00) >> 8;
-	return (writeReg(0x1002, w1)  && writeReg(0x1003, w2));
-}
-
-void AdcBoard::changeSampleRate(uint sampleFreq)
-{
-
-}
-
 bool AdcBoard::clocked()
 {
 	static unsigned short watchdog;
@@ -350,9 +121,18 @@ bool AdcBoard::clocked()
 	{
 		return true;
 	}
-	
 	return false;
+}
 
+bool AdcBoard::readPowerMonitorData(PowerStatus& powerStatus)
+{
+	powerStatus.va = getVoltage(0x7FFF);
+	powerStatus.vd = getVoltage(0x3FFF);
+	powerStatus.ia = getCurrent(0x4FFF);
+	powerStatus.id = getCurrent(0x1FFF);
+	powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
+
+	return true;
 }
 
 void AdcBoard::timerEvent(QTimerEvent* event)
@@ -362,17 +142,20 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	if (event->timerId() == m_timerIdPower)
 	{
 		PowerStatus& powerStatus = report.powerStatus;
-		this->powerStatus(powerStatus);
+		readPowerMonitorData(powerStatus);
 		emit powerMonitorDataUpdated(powerStatus);
 		return;
 	}
 
 	TimeDomainReport& tdReport = report.tdReport;
-
-	float vpp = m_adcSettings.vpp;
+	m_adc = m_analyzer.adcTypeSettings();
+	float vpp = m_adc.vpp;
 	float max = 1 << 15;
 
 #ifndef NOBOARD
+
+	vector<unsigned short> buff;
+	buff.resize(buffer_cnt);
 
 	if (usbDev->IsOpen() && (usbDev->DeviceCount())/* && clocked() */)
 	{
@@ -398,8 +181,9 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	}
 
 #else
-	float fs = m_signalSettings.clockFreq;
-	float fc = m_signalSettings.signalFreq;
+	m_signal = m_analyzer.signalSettings();
+	float fs = m_signal.clockFreq;
+	float fc = m_signal.signalFreq;
 
 	int offset = rand();
 	tdReport.samples.resize(buffer_cnt*2);
@@ -430,10 +214,10 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	fdReport.Spectrum.resize(tdReport.samples.size()/2);
 
 #if defined(MATLAB) 
-	calc_dynam_params(tdReport.samples, m_adcSettings.bitcount, fdReport);
+	calc_dynam_params(tdReport.samples, m_adc.bitcount, fdReport);
 
 #elif defined(MATCOM) 
-	calc_dynam_params(tdReport.samples, m_adcSettings.bitcount, fdReport, m_adcSettings.vpp);
+	calc_dynam_params(tdReport.samples, m_adc.bitcount, fdReport, m_adc.vpp);
 	
 
 #else
@@ -443,7 +227,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 	emit boardReport(report);
 }
-void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
+void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp, vector<unsigned short>& buff)
 {
 	if (tdReport.samples.size()<buff.size())
 	{
@@ -456,13 +240,13 @@ void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
 
 	for (int i = 0; i < tdReport.samples.size(); ++i)
 	{
-		int t = 16-m_adcSettings.bitcount;
+		int t = 16-m_adc.bitcount;
 
-		if (m_adcSettings.coding == AdcCodingOffset)
+		if (m_adc.coding == AdcCodingOffset)
 		{
 			buff[i] = buff[i] ^ 0x8000;
 		}
-		else if (m_adcSettings.coding == AdcCodingComplement)
+		else if (m_adc.coding == AdcCodingComplement)
 		{
 		}
 		else
@@ -475,43 +259,21 @@ void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
 	}
 }
 
-bool AdcBoard::setAdcSettings(const AdcSettings& adcSettings)
+bool AdcBoard::setAdcSettings(const AdcTypeSettings& adcSettings)
 {	
 	float vio = adcSettings.vd;
 	unsigned short reg = 0;
 
-	writeReg(9, 0xA400);  //select 3548, work at default mode
-	writeReg(9, 0xA400);  //select 3548, work at default mode
-
 	unsigned short regValue = setVoltage(VDADDR, 0, adcSettings.vd);
 	setVoltage(VAADDR, 2, adcSettings.va);
 
-	if (!writeReg(5, regValue)) //设置VIO = VD, VIO无法监控，故不能采用setVoltage
-		return false;
-	if (!writeReg(6, 0x0004))  //执行 通道E
-		return false;
-
-	if (!writeReg(0xFFFF, 0xFFFF))  //reset
-		return false;
-	gkhy::MfcMinus::Win32App::sleep(10);
-
-	if (!writeReg(0xFFFF, 0x0000))  //dereset
-		return false;
-	gkhy::MfcMinus::Win32App::sleep(200);
-
-	if (!writeReg(0x1000, 0x000D)) return false;
-	if (!writeReg(0x1000, 0x000C)) return false;  //jad14p1  reset
-	gkhy::MfcMinus::Win32App::sleep(2);
-
-	if (!writeReg(0x1000, 0x0001)) return false;
-	gkhy::MfcMinus::Win32App::sleep(100);
-	if (!writeReg(0x1000, 0x0003)) return false;
-	gkhy::MfcMinus::Win32App::sleep(100);
-	if (!writeReg(0x1000, 0x000B)) return false;
-
-	m_adcSettings = adcSettings;
-	QZebraScopeSettings settings;
-	settings.setAdcSettings(m_adcSettings);
+	for (int i=0; i<5; ++i)
+	{
+		if (!writeReg(5, regValue)) //设置VIO = VD, VIO无法监控，故不能采用setVoltage
+			return false;
+		if (!writeReg(6, 0x0004))  //执行 通道E
+			return false;
+	}
 
 	return true;
 }
@@ -537,34 +299,6 @@ void AdcBoard::updateXaxis(float fs)
 	}
 }
 
-bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
-{
-	// change sampling frequency
-	changeSampleRate(signalSettings.clockFreq);
-
-	//todo: 1, add gpib code to specify the input signal/clock;
-
-	float fs = signalSettings.clockFreq;
-
-	updateXaxis(fs);
-
-	m_signalSettings = signalSettings;
-	// m_signalSettings.writeSettings(m_settings);
-
-	QZebraScopeSettings settings;
-	settings.setSignalSettings(m_signalSettings);
-
-	return true;
-}
-
-void AdcBoard::powerStatus(PowerStatus& powerStatus)
-{
-	powerStatus.va = getVoltage(VAADDR);
-	powerStatus.vd = getVoltage(VDADDR);
-	powerStatus.ia = getCurrent(0x4FFF);
-	powerStatus.id = getCurrent(0x1FFF);
-	powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
-}
 
 void AdcBoard::staticTest()
 {
@@ -577,21 +311,21 @@ void AdcBoard::staticTest()
 	QFile fileTxt( fileNameTxt );
 	fileTxt.open(QIODevice::WriteOnly);
 	QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
-
-	QZebraScopeSettings settings;
-	settings.staticSettings(m_staticSettings);
-
+	
+	m_static = m_analyzer.staticTestSettings();
+	
+	vector<unsigned short> buff;
 	if (buff.size() < buffer_cnt)
 		buff.resize(buffer_cnt);
 
-	int numpt = m_staticSettings.numpt * 1024 * 1024;
+	int numpt = m_static.numpt * 1024 * 1024;
 	vector<double> samples;
 
 #ifndef NOBOARD
 	unsigned short mask = (1<<16) - (1<<(16-m_adcSettings.bitcount));
 	const int innerLoop = 32;
 
-	for (int i=0; i<m_staticSettings.numpt*(32/innerLoop); ++i)
+	for (int i=0; i<m_static.numpt*(32/innerLoop); ++i)
 	{
 		writeReg(0xFFFF, 0x0001);  //reset
 		writeReg(0xFFFF, 0x0000);  //dereset
@@ -599,7 +333,7 @@ void AdcBoard::staticTest()
 
 		Sleep(200);	
 
-		float vpp = m_adcSettings.vpp;
+		float vpp = m_adc.vpp;
 		float max = (1 << 15);
 
 		for (int t=0; t<innerLoop; ++t)
@@ -613,7 +347,7 @@ void AdcBoard::staticTest()
 
 			for (int k=0; k<buff.size(); ++k)
 			{
-				if (m_adcSettings.coding == AdcCodingOffset)
+				if (m_adc.coding == AdcCodingOffset)
 				{
 					buff[k] = buff[k] ^ 0x8000;
 				}
@@ -643,7 +377,7 @@ void AdcBoard::staticTest()
 
 	QFile file("111110-140158.txt");
 	
-	for (int i=0; i<m_staticSettings.numpt/8; ++i)
+	for (int i=0; i<m_static.numpt/8; ++i)
 	{
 		if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 			Q_ASSERT(false);
@@ -663,19 +397,19 @@ void AdcBoard::staticTest()
 
 	Q_ASSERT(samples.size() >= numpt);
 
-	vector<double> inl(1<<m_adcSettings.bitcount);
+	vector<double> inl(1<<m_adc.bitcount);
 	vector<double> dnl(inl.size());
 	vector<double> histogram(inl.size());
 
 	int indexLeft = 0;
 	int indexRight = 0;
 
-	//inldnl(&samples[0], m_adcSettings.bitcount, numpt, 0, m_staticSettings.vpp, 
-	//	0, m_staticSettings.vt, &inl[0], &dnl[0], &histogram[0], indexLeft, indexRight);
+	//inldnl(&samples[0], m_adc.bitcount, numpt, 0, m_static.vpp, 
+	//	0, m_static.vt, &inl[0], &dnl[0], &histogram[0], indexLeft, indexRight);
 
 	vector<int> histogram_i(inl.size());
-	inldnl_c(&samples[0], m_adcSettings.bitcount, numpt, 0, m_staticSettings.vpp, 
-		0, m_staticSettings.vt, inl, dnl, histogram_i, indexLeft, indexRight);
+	inldnl_c(&samples[0], m_adc.bitcount, numpt, 0, m_static.vpp, 
+		0, m_static.vt, inl, dnl, histogram_i, indexLeft, indexRight);
 
 	plot(inl, "INTEGRAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
 
@@ -683,100 +417,67 @@ void AdcBoard::staticTest()
 	
 }
 
-int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
-{
-	int fine = 800;
-	int coarse = 60;
-	int regValue;
-	int i;
-	for (int i=0; i<10; ++i)
-	{
-		if (!writeReg(5, 32768))
-			return false;
-		if (!writeReg(6, dacChannel))  //执行 通道A
-			return false;
-	}
-	for (i=coarse; i>0; --i)
-	{
-		regValue = i*65535/coarse;
-		if (!writeReg(5, regValue))
-			return false;
-		if (!writeReg(6, dacChannel))  //执行 通道A
-			return false;
-		msleep(1);
-		float t = getVoltage(adcChannel);
-		qDebug() << "Coarse: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
-		if (t >= v)
-			break;
-	}
-	for (int j=i*fine/coarse; j<fine; ++j)
-	{
-		regValue = j*65535/fine;
-		if (!writeReg(5, regValue))
-			return false;
-		if (!writeReg(6, dacChannel))  //执行 通道A
-			return false;
-		msleep(1);
-		float t = getVoltage(adcChannel);
-		qDebug() << "Fine: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
-		if ( abs(t - v) <= 0.005)
-			break;
-	}
-	return regValue;
 
-}
+//bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
+//{
+//	// change sampling frequency
+//	changeSampleRate(signalSettings.clockFreq);
+//
+//	//todo: 1, add gpib code to specify the input signal/clock;
+//
+//	float fs = signalSettings.clockFreq;
+//
+//	updateXaxis(fs);
+//
+//	m_signalSettings = signalSettings;
+//	// m_signalSettings.writeSettings(m_settings);
+//
+//	QZebraScopeSettings settings;
+//	settings.setSignalSettings(m_signalSettings);
+//
+//	return true;
+//}
 
 
-unsigned short AdcBoard::getAdcData(unsigned short ch)
-{
-	const int cnt = 5;
-	unsigned short regs[cnt] = {0};
-	unsigned short min = 0xffff;
-	unsigned short max = 0;
-	int sum = 0;
-
-	writeReg(9, 0xA400);  //select 3548, work at default mode
-	writeReg(9, 0xA400);  //select 3548, work at default mode
-	do 
-	{
-		writeReg(9, ch);  //select 3548, select 7th channel
-		writeReg(9, ch);  //select 3548, select 7th channel
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-		readReg(0x0009, regs[0]);
-		msleep(30);
-	} while (regs[0] == 0xFFFF);
-
-	for (int i=0; i<cnt; ++i)
-	{
-		writeReg(9, ch);  //select 3548, select 7th channel
-		writeReg(9, ch);  //select 3548, select 7th channel
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-		readReg(0x0009, regs[i]);
-		if (regs[i] >= 0xfff0)
-		{
-			msleep(30);
-			qDebug() << "Bizarre valued!" << endl;
-		}
-		sum += regs[i];
-		min = regs[i] < min ? regs[i] : min;
-		max = regs[i] > max ? regs[i] : max;
-	}
-	sum = sum - min - max;
-	return unsigned short(sum/(cnt-2));
-}
-
-float AdcBoard::getVoltage(unsigned short ch)
-{
-	unsigned short reg = 0;
-	reg = getAdcData(ch);
-	return (float(reg>>2)) * 4 / 16384;
-}
-
-float AdcBoard::getCurrent(unsigned short ch)
-{
-	unsigned short reg = 0;
-	reg = getAdcData(ch);
-	return (float(reg>>2)) * 500 * 4 / 16384;
-}
+//int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
+//{
+//	int fine = 800;
+//	int coarse = 60;
+//	int regValue;
+//	int i;
+//	for (int i=0; i<10; ++i)
+//	{
+//		if (!writeReg(5, 32768))
+//			return false;
+//		if (!writeReg(6, dacChannel))  //执行 通道A
+//			return false;
+//	}
+//	for (i=coarse; i>0; --i)
+//	{
+//		regValue = i*65535/coarse;
+//		if (!writeReg(5, regValue))
+//			return false;
+//		if (!writeReg(6, dacChannel))  //执行 通道A
+//			return false;
+//		msleep(1);
+//		float t = getVoltage(adcChannel);
+//		qDebug() << "Coarse: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
+//		if (t >= v)
+//			break;
+//	}
+//	for (int j=i*fine/coarse; j<fine; ++j)
+//	{
+//		regValue = j*65535/fine;
+//		if (!writeReg(5, regValue))
+//			return false;
+//		if (!writeReg(6, dacChannel))  //执行 通道A
+//			return false;
+//		msleep(1);
+//		float t = getVoltage(adcChannel);
+//		qDebug() << "Fine: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
+//		if ( abs(t - v) <= 0.005)
+//			break;
+//	}
+//	return regValue;
+//
+//}

@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "ui_SignalSettingsDialog.h"
 #include "AdcBoardTypes.hpp"
+#include "dacanalyzersettings.h"
 
 using namespace Ui;
 
@@ -15,9 +16,20 @@ public:
 	SignalSettingsDialog(QWidget *parent = 0);
 	~SignalSettingsDialog();
 
-public:
-	void setSettings(const SignalSettings& settings);
-	void settings(SignalSettings& settings);
+protected:
+	void accept();
+
+private:
+	void loadSettings();
+
+private slots:
+	void on_dualToneTestCheckBox_stateChanged( int state );
+
+private:
+	Ui::SignalSettingsDialogClass ui;
+	AdcAnalyzerSettings m_analyzer;
+	SignalSettings m_static;
+
 };
 
 #endif // SIGNALSETTINGSDIALOG_H

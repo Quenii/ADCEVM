@@ -7,7 +7,9 @@
 #include <vector>
 #include <QSettings>
 
+#include "../BoardApi/Board.h"
 #include "AdcBoardTypes.hpp"
+#include "dacanalyzersettings.h"
 
 class CCyUSBDevice;
 class DummyWidget;
@@ -16,7 +18,7 @@ class QEvent;
 
 #define VDADDR 0x3FFF
 #define VAADDR 0x7FFF
-class AdcBoard : public QObject
+class AdcBoard : public Board
 {
 	Q_OBJECT
 
@@ -42,99 +44,51 @@ private:
 	Q_DISABLE_COPY(AdcBoard);
 
 public:
-	bool readReg(unsigned short addr,unsigned short& val);
-	bool writeReg(unsigned short addr,unsigned short val);
+	bool setAdcSettings(const AdcTypeSettings& adcSettings);
+	//bool setSignalSettings(const SignalSettings& signalSettings);	
 
-	bool readReg24b(unsigned short addr,unsigned short& val);
-	bool writeReg24b(unsigned short addr,unsigned short val);
+	//void adcSettings(AdcSettings& adcSettings) { adcSettings = m_adcSettings; }
+	//void signalSettings(SignalSettings& signalSettings) { signalSettings = m_signalSettings; }	
+	//void powerStatus(PowerStatus& powerStatus);
 
-	void changeSampleRate(uint sampleFreq);	
-
-	bool setAdcSettings(const AdcSettings& adcSettings);
-	bool setSignalSettings(const SignalSettings& signalSettings);	
-
-	void adcSettings(AdcSettings& adcSettings) { adcSettings = m_adcSettings; }
-	void signalSettings(SignalSettings& signalSettings) { signalSettings = m_signalSettings; }	
-	void powerStatus(PowerStatus& powerStatus);
-
-	bool setStaticSettings(const StaticSettings& staticSettings);	
-	void staticSettings(StaticSettings& staticSettings) { staticSettings = m_staticSettings; }	
+	//bool setStaticSettings(const StaticSettings& staticSettings);	
+	//void staticSettings(StaticSettings& staticSettings) { staticSettings = m_staticSettings; }	
 
 
 	void setDynamicOn(bool on = true);
 	bool isRunning();
 	void staticTest();
 	const AdcBoardReport& reportRef() { return report; }
-	int setVoltage(int adcChannel, int dacChannel, float v);
 	bool clocked();
-
-	unsigned short getAdcData(unsigned short ch);
-	float getVoltage(unsigned short ch);
-	float getCurrent(unsigned short ch);
 
 protected:
 	void timerEvent (QTimerEvent * event);
-	// len - number of unsigned-short's
-	bool read(unsigned short addr, unsigned short* buf, unsigned int len);
-	bool write(unsigned short addr, unsigned short *buf, unsigned int len);
-	// len - number of unsigned-short's
-	//bool write(unsigned int addr, const unsigned short* buf, int len);
-	
 
 private:
-	bool writeIOCmd(unsigned short addr, bool dirRead, unsigned short data);
-
-	void Convert(TimeDomainReport&, float, float);
+	void Convert(TimeDomainReport&, float, float, std::vector<unsigned short>&);
 	void updateXaxis(float fs);
+	bool readPowerMonitorData(PowerStatus& powerStatus);
 
 signals:
-	void devListChanged(const QList<AdcBoardInfo>& lst);
 	void boardReport(const AdcBoardReport& report);
 	void powerMonitorDataUpdated(const PowerStatus& data);
 
-public slots:
-	bool open(int usbAddr);
-	
 private slots:
 	void devChanged();
 	
 private:
 	AdcBoardReport report;
-	CCyUSBDevice* usbDev;
-	DummyWidget* widget;
-	std::vector<unsigned short> bulkIOBuff;
-	std::vector<unsigned short> buff;
+	AdcAnalyzerSettings m_analyzer;
+	AdcTypeSettings m_adc;
+	SignalSettings m_signal;
+	StaticTestSettings m_static;
 
-	const static int buffer_cnt = 32 * 1024;
-	const float pi;
-
-private:	
-	AdcSettings m_adcSettings;
-	SignalSettings m_signalSettings;
-	StaticSettings m_staticSettings;
-//	QSettings m_settings;
+	//AdcSettings m_adcSettings;
+	//SignalSettings m_signalSettings;
+	//StaticSettings m_staticSettings;
 	int m_timerIdDyn;
 	int m_timerIdPower;
-
+    float pi;
 };
 
 
-///// 
-class DummyWidget : public QWidget
-{
-	Q_OBJECT
-
-public:
-	DummyWidget(QWidget* parent = 0, Qt::WindowFlags f = 0 );
-
-protected:
-	bool winEvent(MSG * message, long * result);
-
-signals:
-	void devChanged();
-
-private:
-	bool bPnP_Arrival;
-	bool bPnP_DevNodeChange;
-	bool bPnP_Removal;
-};

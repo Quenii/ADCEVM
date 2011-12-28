@@ -3,143 +3,97 @@
 #include <QStringList>
 #include <QPoint>
 
-static const char* dacTypeSettingsKey = "DacTypeSettings";
-static const char* storedDacTypeSettingsKey = "StoredDacTypeSettings";
+static const char* adcTypeSettingsKey = "AdcTypeSettings";
+static const char* storedAdcTypeSettingsKey = "StoredAdcTypeSettings";
 static const char* staticTestSettingsKey = "StaticTestSettings";
-static const char* dynamicTestSettingsKey = "DynamicTestSettings";
-static const char* dualtoneTestSettingsKey = "DualtoneTestSettings";
-static const char* instTestSettingsKey = "InstTestSettings";
+static const char* signalSettingsKey = "SignalSettings";
 static const char* regAccessSettingsKey = "RegAccess";
 
-static const char* clockFreqKey = "ClockFreq";
 static const char* powerMonitorPoskey = "PowerMonitorPos";
 static const char* powerMonitorVisibleKey = "PowerMonitorVisible";
-static const char* dacTypeListKey = "DacTypeList";
 
-DacAnalyzerSettings::DacAnalyzerSettings(void)
+AdcAnalyzerSettings::AdcAnalyzerSettings(void)
 {
 }
 
-DacAnalyzerSettings::~DacAnalyzerSettings(void)
+AdcAnalyzerSettings::~AdcAnalyzerSettings(void)
 {
 }
 
-bool DacAnalyzerSettings::powerMonitorWidgetVisible() const
+bool AdcAnalyzerSettings::powerMonitorWidgetVisible() const
 {
 	return m_s.value(powerMonitorVisibleKey).toBool();
 }
 
-void DacAnalyzerSettings::setPowerMonitorWidgetVisible(const bool& val)
+void AdcAnalyzerSettings::setPowerMonitorWidgetVisible(const bool& val)
 {
 	m_s.setValue(powerMonitorVisibleKey, val);
 
 }
 
-
-QPoint DacAnalyzerSettings::powerMonitorWidgetPos() const
+QPoint AdcAnalyzerSettings::powerMonitorWidgetPos() const
 {
 	return m_s.value(powerMonitorPoskey).toPoint();
 }
 
-void DacAnalyzerSettings::setPowerMonitorWidgetPos(const QPoint& val)
+void AdcAnalyzerSettings::setPowerMonitorWidgetPos(const QPoint& val)
 {
 	m_s.setValue(powerMonitorPoskey, val);
 }
 /////////////////////////////////
-void DacAnalyzerSettings::setDacTypeSettings(const DacTypeSettings& val)
+void AdcAnalyzerSettings::setAdcTypeSettings(const AdcTypeSettings& val)
 {
-	m_s.setValue(dacTypeSettingsKey, val);
+	m_s.setValue(adcTypeSettingsKey, val);
 }
 
-DacTypeSettings DacAnalyzerSettings::dacTypeSettings() const
+AdcTypeSettings AdcAnalyzerSettings::adcTypeSettings() const
 {
-	return m_s.value(dacTypeSettingsKey).value<DacTypeSettings>();
+	return m_s.value(adcTypeSettingsKey).value<AdcTypeSettings>();
 }
 //////////////////////////////
-DacTypeSettings DacAnalyzerSettings::storedDacTypeSettings(const QString& dacType) const
+AdcTypeSettings AdcAnalyzerSettings::storedAdcTypeSettings(const QString& adcType) const
 {
-	QString key = QString("%1/%2").arg(storedDacTypeSettingsKey).arg(dacType);
-	return m_s.value(key).value<DacTypeSettings>();
+	QString key = QString("%1/%2").arg(storedAdcTypeSettingsKey).arg(adcType);
+	return m_s.value(key).value<AdcTypeSettings>();
 }
 
-void DacAnalyzerSettings::setStoredDacTypeSettings(const DacTypeSettings& val)
+void AdcAnalyzerSettings::setStoredAdcTypeSettings(const AdcTypeSettings& val)
 {
-	QString key = QString("%1/%2").arg(storedDacTypeSettingsKey).arg(val.type);
+	QString key = QString("%1/%2").arg(storedAdcTypeSettingsKey).arg(val.adcType);
 	m_s.setValue(key, val);
 }
 
 ////////////////////////////////
-void DacAnalyzerSettings::setStaticTestSettings(const StaticTestSettings& val)
+void AdcAnalyzerSettings::setStaticTestSettings(const StaticTestSettings& val)
 {
 	m_s.setValue(staticTestSettingsKey, val);
 }
 
-StaticTestSettings DacAnalyzerSettings::staticTestSettings() const
+StaticTestSettings AdcAnalyzerSettings::staticTestSettings() const
 {
 	return m_s.value(staticTestSettingsKey).value<StaticTestSettings>();
 }
 
 /////////////////////////////////
-void DacAnalyzerSettings::setDynamicTestSettings(const DynamicTestSettings& val)
+void AdcAnalyzerSettings::setSignalSettings(const SignalSettings& val)
 {
-	m_s.setValue(dynamicTestSettingsKey, val);
+	m_s.setValue(signalSettingsKey, val);
 }
 
-DynamicTestSettings DacAnalyzerSettings::dynamicTestSettings() const
+SignalSettings AdcAnalyzerSettings::signalSettings() const
 {
-	return m_s.value(dynamicTestSettingsKey).value<DynamicTestSettings>();
-}
-
-/////////////////////////////////
-void DacAnalyzerSettings::setDualtoneTestSettings(const DualtoneTestSettings& val)
-{
-	m_s.setValue(dualtoneTestSettingsKey, val);
-}
-
-DualtoneTestSettings DacAnalyzerSettings::dualtoneTestSettings() const
-{
-	return m_s.value(dualtoneTestSettingsKey).value<DualtoneTestSettings>();
-}
-
-//////////////////////////////////
-void DacAnalyzerSettings::setInstTestSettings(const InstTestSettings& val)
-{
-	m_s.setValue(instTestSettingsKey, val);
-}
-
-InstTestSettings DacAnalyzerSettings::instTestSettings() const
-{
-	return m_s.value(instTestSettingsKey).value<InstTestSettings>();
+	return m_s.value(signalSettingsKey).value<SignalSettings>();
 }
 
 ///////////////////////////////////
-void DacAnalyzerSettings::setRegAccessSettings(const RegAccessSettings& val)
+void AdcAnalyzerSettings::setRegAccessSettings(const RegAccessSettings& val)
 {
 	m_s.setValue(regAccessSettingsKey, val);
 }
 
-RegAccessSettings DacAnalyzerSettings::regAccessSettings() const
+RegAccessSettings AdcAnalyzerSettings::regAccessSettings() const
 {
 	return m_s.value(regAccessSettingsKey).value<RegAccessSettings>();
 }
 
 
-void DacAnalyzerSettings::setClockFreq(const float& val)
-{
-	m_s.setValue(clockFreqKey, val);
-}
-
-float DacAnalyzerSettings::clockFreq() const
-{
-	return m_s.value(clockFreqKey, 0).toFloat();
-}
-
-//void DacAnalyzerSettings::setDacTypeList(const QStringList& val)
-//{
-//	m_s.setValue(dacTypeListKey, val);
-//}
-//
-//QStringList DacAnalyzerSettings::DacTypeList() const
-//{
-//	return m_s.value(dacTypeListKey, 0);
-//}

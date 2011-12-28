@@ -5,7 +5,8 @@
 #include "gkhy/qplotlib/LogicWaveWnd.hpp"
 #include "qpowermonitor.h"
 #include "RegAccess.hpp"
-#include "QZebraScopeSettings.h"
+//#include "QZebraScopeSettings.h"
+#include "dacanalyzersettings.h"
 #include "QZebraScopeSerializer.h"
 
 #include <QMdiArea>
@@ -23,17 +24,15 @@
 MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
 {
-	adcBoard = AdcBoard::instance(); //new AdcBoard(this);
+	adcBoard = AdcBoard::instance(); 
 
 	ui.setupUi(this);
 	
-
 	waveWnd = new gkhy::QPlotLab::WaveWnd();
 	ui.dockWidgetWave->setWidget(waveWnd);
 	
 	fftWnd = new gkhy::QPlotLab::FFTWnd();
 	ui.dockWidgetFFT->setWidget(fftWnd);
-
 
 	logicWaveWnd = new gkhy::QPlotLab::LogicWaveWnd();
 	ui.dockWidgetLogicWave->setWidget(logicWaveWnd);
@@ -63,6 +62,10 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	m_powerMonitorWidget = new QPowerMonitor(this);
 	ui.menuWindow->addAction(m_powerMonitorWidget->toggleViewAction());
 
+	AdcAnalyzerSettings s;
+	m_powerMonitorWidget->move(s.powerMonitorWidgetPos());
+	m_powerMonitorWidget->setVisible(s.powerMonitorWidgetVisible());
+	
 	setCentralWidget(0);
 
 	createMenus();
@@ -72,6 +75,14 @@ MainWindow::~MainWindow()
 {
 	if (regAccess)
 		regAccess->deleteLater();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+	AdcAnalyzerSettings s;
+
+	s.setPowerMonitorWidgetPos(m_powerMonitorWidget->pos());
+	s.setPowerMonitorWidgetVisible(m_powerMonitorWidget->isVisible());
 }
 
 void MainWindow::createMenus()
@@ -116,18 +127,18 @@ void MainWindow::on_actionLoadData_triggered(bool checked /*= false*/)
 	{
 		fileName = make_dot_adc_file_name(fileName);
 		QString settingsFileName = getSettingsFileName(fileName);
-		if (QFile::exists(settingsFileName))
-		{
-			QZebraScopeSettings settings(settingsFileName, QZebraScopeSettings::IniFormat, 0);			
-			SignalSettings signalSettings;
-			AdcSettings adcSettings;
+		//if (QFile::exists(settingsFileName))
+		//{
+		//	QZebraScopeSettings settings(settingsFileName, QZebraScopeSettings::IniFormat, 0);			
+		//	SignalSettings signalSettings;
+		//	AdcTypeSettings adcSettings;
 
-			settings.signalSettings(signalSettings);
-			settings.adcSettings(adcSettings);
+		//	settings.signalSettings(signalSettings);
+		//	settings.adcSettings(adcSettings);
 
-			emit settingsLoaded(adcSettings);
-			emit settingsLoaded(signalSettings);		
-		}		
+		//	emit settingsLoaded(adcSettings);
+		//	emit settingsLoaded(signalSettings);		
+		//}		
 
 		QZebraScopeSerializer serializer(fileName);
 		if (serializer.open(QZebraScopeSerializer::ReadOnly))
@@ -152,16 +163,16 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 	{
 		fileName = make_dot_adc_file_name(fileName);
 
-		QZebraScopeSettings settings;
-		SignalSettings signalSettings;
-		AdcSettings adcSettings;
-		settings.signalSettings(signalSettings);
-		settings.adcSettings(adcSettings);
+		//QZebraScopeSettings settings;
+		//SignalSettings signalSettings;
+		//AdcSettings adcSettings;
+		//settings.signalSettings(signalSettings);
+		//settings.adcSettings(adcSettings);
 
-		QString settingsFileName = getSettingsFileName(fileName);
-		QZebraScopeSettings toSave(settingsFileName, QSettings::IniFormat, 0);
-		toSave.setSignalSettings(signalSettings);
-		toSave.setAdcSettings(adcSettings);
+		//QString settingsFileName = getSettingsFileName(fileName);
+		//QZebraScopeSettings toSave(settingsFileName, QSettings::IniFormat, 0);
+		//toSave.setSignalSettings(signalSettings);
+		//toSave.setAdcSettings(adcSettings);
 
 		QZebraScopeSerializer reportFile(fileName);
 		if (reportFile.open(QZebraScopeSerializer::Truncate | QZebraScopeSerializer::WriteOnly))
