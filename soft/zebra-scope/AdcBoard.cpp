@@ -158,7 +158,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	vector<unsigned short> buff;
 	buff.resize(buffer_cnt);
 
-	if (usbDev->IsOpen() && (usbDev->DeviceCount())/* && clocked() */)
+	if (isOpen())
 	{
 		writeReg(0x2002, 0);
 		if (buff.size() < buffer_cnt*2)
@@ -174,7 +174,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		Q_ASSERT(okay);
 		okay = read(0x1005, &buff[0+buffer_cnt], buffer_cnt);
 		Q_ASSERT(okay);
-		Convert(tdReport, max, vpp);
+		Convert(tdReport, max, vpp, buff);
 	}
 	else
 	{
@@ -323,7 +323,7 @@ void AdcBoard::staticTest()
 	vector<double> samples;
 
 #ifndef NOBOARD
-	unsigned short mask = (1<<16) - (1<<(16-m_adcSettings.bitcount));
+	unsigned short mask = (1<<16) - (1<<(16-m_adc.bitcount));
 	const int innerLoop = 32;
 
 	for (int i=0; i<m_static.numpt*(32/innerLoop); ++i)
