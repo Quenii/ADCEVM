@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
 	REGISTER_METATYPE_HELPER(SignalSettings);
 	REGISTER_METATYPE_HELPER(StaticTestSettings);
 	REGISTER_METATYPE_HELPER(RegAccessSettings);
+	REGISTER_METATYPE_HELPER(SpanSettings);
 
 #ifdef MATLAB
 	if (!(mclInitializeApplication(NULL, 0) && libalgoInitialize()))

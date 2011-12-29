@@ -81,6 +81,7 @@ struct AdcBoardReport
 
 struct AdcTypeSettings
 {
+	bool initialized;
 	QString adcType;
 	float va;
 	float vd;
@@ -96,7 +97,7 @@ Q_DECLARE_METATYPE(AdcTypeSettings);
 
 inline QDataStream& operator<<(QDataStream& out, const AdcTypeSettings& val)
 {	
-
+	out << val.initialized;
 	out << val.adcType;
 	out << val.va;
 	out << val.vd;
@@ -111,6 +112,7 @@ inline QDataStream& operator<<(QDataStream& out, const AdcTypeSettings& val)
 
 inline QDataStream& operator>>(QDataStream& in, AdcTypeSettings& val)
 {
+	in >> val.initialized;
 	in >> val.adcType;
 	in >> val.va;
 	in >> val.vd;
@@ -231,6 +233,39 @@ inline QDataStream& operator>>(QDataStream& in, RegAccessSettings& val)
 
 	return in;
 }
+
+struct SpanSettings
+{
+	bool initialized;
+	unsigned int dc;
+	unsigned int signal;
+	unsigned int spur;
+
+	operator QVariant() const {	return QVariant::fromValue(*this); }	
+};
+
+Q_DECLARE_METATYPE(SpanSettings);
+
+inline QDataStream& operator<<(QDataStream& out, const SpanSettings& val)
+{
+	out << val.initialized;
+	out << val.dc;
+	out << val.signal;
+	out << val.spur;
+
+	return out;
+}
+
+inline QDataStream& operator>>(QDataStream& in, SpanSettings& val)
+{
+	in >> val.initialized;
+	in >> val.dc;
+	in >> val.signal;
+	in >> val.spur;
+
+	return in;
+}
+////////////////////////////////////////////////////////
 
 // struct AdcSettings
 // {

@@ -36,9 +36,12 @@ void AdcSettingsWidget::reloadSettings(bool initValue)
 	if (initValue)
 	{
 		AdcAnalyzerSettings settings;
-
-		// load stored settings.
 		val = settings.storedAdcTypeSettings(QString::fromLocal8Bit("1.8V ADC"));
+		if (!val.initialized)
+		{
+			val.va = 1.8f;
+			val.vd = 1.8f;
+		}
 
 		AdcBoard::instance()->setAdcSettings(val);
 	}

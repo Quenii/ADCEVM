@@ -22,6 +22,7 @@ public:
 public slots:
 	void setDevList(const QList<AdcBoardInfo>& lst);
 	void updateReport(const AdcBoardReport& rpt);
+	void spanChanged();
 
 signals:
 	void devSelected(int usbAddr);
@@ -36,10 +37,12 @@ private slots:
 	void on_pushButtonStartDynamicTest_clicked();
 	void on_pushButtonStopDynamicTest_clicked();
 	void on_pushButtonStartStaticTest_clicked();
-	void on_pushButtonStopStaticTest_clicked();
+	void on_pushButtonStatisticTest_clicked();
+
+public:
+	Ui::ControlPanelClass ui;
 
 private:
-	Ui::ControlPanelClass ui;
 	QStandardItemModel *devListModel;
 	//AdcSettings adcSettings;
 	//SignalSettings signalSettings;

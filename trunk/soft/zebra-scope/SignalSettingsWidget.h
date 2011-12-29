@@ -15,7 +15,7 @@ public:
 	SignalSettingsWidget(QWidget *parent = 0);
 	~SignalSettingsWidget();
 
-private slots:
+public slots:
 	void on_pushButtonChangeSettings_clicked();
 
 private:

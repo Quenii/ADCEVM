@@ -9,6 +9,7 @@ static const char* storedAdcTypeSettingsKey = "StoredAdcTypeSettings";
 static const char* staticTestSettingsKey = "StaticTestSettings";
 static const char* signalSettingsKey = "SignalSettings";
 static const char* regAccessSettingsKey = "RegAccess";
+static const char* spanSettingsKey = "SpanSettings";
 
 static const char* powerMonitorPoskey = "PowerMonitorPos";
 static const char* powerMonitorVisibleKey = "PowerMonitorVisible";
@@ -97,4 +98,13 @@ RegAccessSettings AdcAnalyzerSettings::regAccessSettings() const
 	return m_s.value(regAccessSettingsKey).value<RegAccessSettings>();
 }
 
+void AdcAnalyzerSettings::setSpanSettings(const SpanSettings& val)
+{
+	m_s.setValue(spanSettingsKey, val);
+}
+
+SpanSettings AdcAnalyzerSettings::spanSettings() const
+{
+	return m_s.value(spanSettingsKey).value<SpanSettings>();
+}
 
