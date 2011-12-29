@@ -1,9 +1,12 @@
 #include "ControlPanel.h"
 #include "AdcBoard.hpp"
 #include "StaticSettingsDialog.h"
+#include "dacanalyzersettings.h"
+#include "SpanSettingsDialog.h"
 
 #include <QStandardItemModel>
 #include <QStringList>
+#include <QMessageBox>
 
 ControlPanel::ControlPanel(QWidget *parent, Qt::WFlags flags)
 	: QWidget(parent, flags)
@@ -161,31 +164,11 @@ void ControlPanel::updateReport(const AdcBoardReport &rpt)
 
 }
 
-
-//void ControlPanel::on_adcSettingsWidget_settingsChanged()
-//{
-//	ui.adcSettingsWidget->settings(adcSettings);
-//	AdcBoard& board = *(AdcBoard::instance());
-//	if (!board.setAdcSettings(adcSettings))
-//	{
-//		Q_ASSERT(false);
-//	}
-//}
-//
-//void ControlPanel::on_signalSettingsWidget_settingsChanged()
-//{
-//	ui.signalSettingsWidget->settings(signalSettings);
-//	AdcBoard& board = *(AdcBoard::instance());
-//	if (!board.setSignalSettings(signalSettings))
-//	{
-//		Q_ASSERT(false);
-//	}
-//}
-
 void ControlPanel::on_pushButtonStartDynamicTest_clicked()
 {	
 	ui.pushButtonStartDynamicTest->setEnabled(false);
 	ui.pushButtonStopDynamicTest->setEnabled(true);	
+	ui.pushButtonStatisticTest->setEnabled(false);
 	ui.staticTestButtons->setEnabled(false);
 	AdcBoard::instance()->setDynamicOn(true);
 }
@@ -194,6 +177,7 @@ void ControlPanel::on_pushButtonStopDynamicTest_clicked()
 {		
 	ui.pushButtonStopDynamicTest->setEnabled(false);
 	ui.pushButtonStartDynamicTest->setEnabled(true);	
+	ui.pushButtonStatisticTest->setEnabled(true);
 	ui.staticTestButtons->setEnabled(true);
 	AdcBoard::instance()->setDynamicOn(false);
 }
@@ -210,9 +194,26 @@ void ControlPanel::on_pushButtonStartStaticTest_clicked()
 	ui.dynamicTestButtons->setEnabled(true);
 }
 
-void ControlPanel::on_pushButtonStopStaticTest_clicked()
+void ControlPanel::on_pushButtonStatisticTest_clicked()
 {		
-	ui.pushButtonStopStaticTest->setEnabled(false);	
-	ui.pushButtonStartStaticTest->setEnabled(true);
-	ui.dynamicTestButtons->setEnabled(true);
+	//ui.pushButtonStopStaticTest->setEnabled(false);	
+	//ui.pushButtonStartStaticTest->setEnabled(true);
+	//ui.dynamicTestButtons->setEnabled(true);
+	StaticSettingsDialog dlg;
+	if (QDialog::Accepted  == dlg.exec())
+	{
+		QMessageBox notice;
+		notice.setText(QString::fromLocal8Bit("请将信号输入端悬空或接地，然后电击确定开始测试。"));
+		notice.exec();
+//		AdcBoard::instance()->staticTest();
+	}
+}
+
+void ControlPanel::spanChanged()
+{
+	AdcAnalyzerSettings s;
+	SpanSettings span;
+	
+	SpanSettingsDialog dlg;
+	dlg.exec();
 }

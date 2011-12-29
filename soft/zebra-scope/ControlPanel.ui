@@ -219,12 +219,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButtonStopStaticTest">
+          <widget class="QPushButton" name="pushButtonStatisticTest">
            <property name="enabled">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <property name="text">
-            <string>停止</string>
+            <string>噪声统计</string>
            </property>
           </widget>
          </item>

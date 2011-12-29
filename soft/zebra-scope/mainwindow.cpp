@@ -30,43 +30,32 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	
 	waveWnd = new gkhy::QPlotLab::WaveWnd();
 	ui.dockWidgetWave->setWidget(waveWnd);
-	
 	fftWnd = new gkhy::QPlotLab::FFTWnd();
 	ui.dockWidgetFFT->setWidget(fftWnd);
-
 	logicWaveWnd = new gkhy::QPlotLab::LogicWaveWnd();
 	ui.dockWidgetLogicWave->setWidget(logicWaveWnd);
-
-	ui.actionSpectrum->setChecked(true);
 
 	bool okay = false;
 	//bool okay = connect(adcBoard, SIGNAL(devListChanged(const QList<AdcBoardInfo>&)), ui.controlPanel, SLOT(setDevList(const QList<AdcBoardInfo>&)));
 	//Q_ASSERT(okay);
-
 	//okay = connect(ui.controlPanel, SIGNAL(devSelected(int)), adcBoard, SLOT(open(int)));
+	//Q_ASSERT(okay);
+	//okay = connect(this, SIGNAL(settingsLoaded(const SignalSettings&)), 
+	//	ui.controlPanel, SIGNAL(changeSettings(const SignalSettings&)));
+	//Q_ASSERT(okay);
+	//okay = connect(this, SIGNAL(settingsLoaded(const AdcSettings&)), 
+	//	ui.controlPanel, SIGNAL(changeSettings(const AdcSettings&)));
 	//Q_ASSERT(okay);
 
 	okay = connect(adcBoard, SIGNAL(boardReport(const AdcBoardReport&)), this, SLOT(slotShowBoardReport(const AdcBoardReport&)));
 	Q_ASSERT(okay);
 
-	//okay = connect(this, SIGNAL(settingsLoaded(const SignalSettings&)), 
-	//	ui.controlPanel, SIGNAL(changeSettings(const SignalSettings&)));
-	//Q_ASSERT(okay);
-
-	//okay = connect(this, SIGNAL(settingsLoaded(const AdcSettings&)), 
-	//	ui.controlPanel, SIGNAL(changeSettings(const AdcSettings&)));
-	//Q_ASSERT(okay);
-
 	okay = connect(this, SIGNAL(adcBoardReportLoaded(const AdcBoardReport&)), this, SLOT(slotShowBoardReport(const AdcBoardReport&)));
 	Q_ASSERT(okay);
-
-	m_powerMonitorWidget = new QPowerMonitor(this);
-	ui.menuWindow->addAction(m_powerMonitorWidget->toggleViewAction());
-
-	AdcAnalyzerSettings s;
-	m_powerMonitorWidget->move(s.powerMonitorWidgetPos());
-	m_powerMonitorWidget->setVisible(s.powerMonitorWidgetVisible());
 	
+	okay = connect(ui.actionADC, SIGNAL(triggered()), ui.controlPanel->ui.adcSettingsWidget, SLOT(on_pushButtonChangeSettings_clicked()));
+	okay = connect(ui.actionSIGNAL, SIGNAL(triggered()), ui.controlPanel->ui.signalSettingsWidget, SLOT(on_pushButtonChangeSettings_clicked()));
+	okay = connect(ui.actionSPAN, SIGNAL(triggered()), ui.controlPanel, SLOT(spanChanged()));
 	setCentralWidget(0);
 
 	createMenus();
@@ -94,6 +83,14 @@ void MainWindow::createMenus()
 	menuWindow->addAction(ui.dockWidgetWave->toggleViewAction());	
 	menuWindow->addAction(ui.dockWidgetFFT->toggleViewAction());	
 	menuWindow->addAction(ui.dockWidgetLogicWave->toggleViewAction());	
+	ui.dockWidgetLogicWave->setVisible(false);  //logicWave invisible by default
+
+	m_powerMonitorWidget = new QPowerMonitor(this);
+	ui.menuWindow->addAction(m_powerMonitorWidget->toggleViewAction());
+
+	AdcAnalyzerSettings s;
+	m_powerMonitorWidget->move(s.powerMonitorWidgetPos());
+	m_powerMonitorWidget->setVisible(s.powerMonitorWidgetVisible());
 
 	connect(ui.action_AboutAdcAnalyzer, SIGNAL(triggered()), this, SLOT(slotShowAbout()));
 }
@@ -240,32 +237,35 @@ void MainWindow::on_actionSpiCtrl_triggered(bool checked)
 }
 
 
-void MainWindow::on_actionSpectrum_toggled(bool checked)
-{
-	if (checked)
-	{
-		ui.actionLogic->setChecked(!checked);
-		ui.dockWidgetWave->setVisible(checked);
-		ui.dockWidgetFFT->setVisible(checked);
-		ui.dockWidgetLogicWave->setVisible(!checked);
-	}
-};
-
-void MainWindow::on_actionLogic_toggled(bool checked)
-{
-	if (checked)
-	{
-		ui.actionSpectrum->setChecked(!checked);
-		ui.dockWidgetWave->setVisible(checked);
-		ui.dockWidgetFFT->setVisible(!checked);
-		ui.dockWidgetLogicWave->setVisible(checked);
-	}
-};
-
 void MainWindow::on_menuSettings_hovered(QAction * action)
 {
 	bool running = AdcBoard::instance()->isRunning();
 	ui.actionSpiCtrl->setEnabled(!running);
 	ui.actionFftDepth->setEnabled(!running);
 }
+
+//void MainWindow::on_actionADC_triggered(bool checked)
+//{
+//}
+//void MainWindow::on_actionSpectrum_toggled(bool checked)
+//{
+//	if (checked)
+//	{
+//		ui.actionLogic->setChecked(!checked);
+//		ui.dockWidgetWave->setVisible(checked);
+//		ui.dockWidgetFFT->setVisible(checked);
+//		ui.dockWidgetLogicWave->setVisible(!checked);
+//	}
+//};
+//
+//void MainWindow::on_actionLogic_toggled(bool checked)
+//{
+//	if (checked)
+//	{
+//		ui.actionSpectrum->setChecked(!checked);
+//		ui.dockWidgetWave->setVisible(checked);
+//		ui.dockWidgetFFT->setVisible(!checked);
+//		ui.dockWidgetLogicWave->setVisible(checked);
+//	}
+//};
 

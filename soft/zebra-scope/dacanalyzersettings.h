@@ -35,6 +35,11 @@ public:
 	bool powerMonitorWidgetVisible() const;
 	void setPowerMonitorWidgetVisible(const bool& val);
 
+	void setSpanSettings(const SpanSettings& val);
+	SpanSettings spanSettings() const;
+
+
+
 private:
 	QSettings m_s;
 };
