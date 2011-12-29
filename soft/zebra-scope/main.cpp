@@ -11,6 +11,11 @@
 #pragma comment(lib, "mclmcrrt.lib")
 #endif // MATLAB
 
+#define REGISTER_METATYPE_HELPER( type ) \
+	qRegisterMetaType<type>(); \
+	qRegisterMetaType<type>(#type); \
+	qRegisterMetaTypeStreamOperators<type>(#type)
+
 int main(int argc, char *argv[])
 {
 	QtSingleApplication app(argc, argv);
@@ -18,6 +23,11 @@ int main(int argc, char *argv[])
 	QApplication::setOrganizationName("quenii-roc");
 	QApplication::setOrganizationDomain("quenii-roc.com");
 	QApplication::setApplicationName("zebra-scope");
+
+	REGISTER_METATYPE_HELPER(AdcTypeSettings);
+	REGISTER_METATYPE_HELPER(SignalSettings);
+	REGISTER_METATYPE_HELPER(StaticTestSettings);
+	REGISTER_METATYPE_HELPER(RegAccessSettings);
 
 #ifdef MATLAB
 	if (!(mclInitializeApplication(NULL, 0) && libalgoInitialize()))

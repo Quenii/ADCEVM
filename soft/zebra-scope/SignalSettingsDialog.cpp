@@ -18,16 +18,18 @@ void SignalSettingsDialog::accept()
 //	m_static = m_analyzer.staticTestSettings();
 	
 	m_static.freqDetect = signalDetectCheckBox->checkState() == 2 ? true : false;
-	m_static.clockFreq = clockFreqMHzLineEdit->text().toFloat();
+	m_static.clockFreq = clockFreqMHzLineEdit->text().toFloat() * 1e6;
 	m_static.clockPower = clockPowerLineEdit->text().toFloat();
-	m_static.signalFreq = signalFreqLineEdit->text().toFloat();
+	m_static.signalFreq = signalFreqLineEdit->text().toFloat() * 1e6;
 	m_static.signalPower = signalPowerLineEdit->text().toFloat();
 	m_static.dualToneTest = dualToneTestCheckBox->checkState() == 2 ? true : false;
-	m_static.signalIIFreq = signalIIFreqLineEdit->text().toFloat();;
+	m_static.signalIIFreq = signalIIFreqLineEdit->text().toFloat() * 1e6;
 	m_static.signalIIPower = signalIIPowerLineEdit->text().toFloat();
-
 	m_analyzer.setSignalSettings(m_static);
+	loadSettings();
+	QDialog::accept();
 }
+
 
 void SignalSettingsDialog::loadSettings()
 {
@@ -63,6 +65,12 @@ void SignalSettingsDialog::on_dualToneTestCheckBox_stateChanged( int state )
 		signalIIFreqLineEdit->setEnabled(true);
 		signalIIPowerLineEdit->setEnabled(true);
 	}
+	else
+	{
+		signalIIFreqLineEdit->setEnabled(false);
+		signalIIPowerLineEdit->setEnabled(false);
+	}
+
 	
 }
 

@@ -44,28 +44,24 @@ void AdcAnalyzerSettings::setPowerMonitorWidgetPos(const QPoint& val)
 /////////////////////////////////
 void AdcAnalyzerSettings::setAdcTypeSettings(const AdcTypeSettings& val)
 {
-	m_s.setValue(adcTypeSettingsKey, val.saveState());
+	m_s.setValue(adcTypeSettingsKey, val);
 }
 
 AdcTypeSettings AdcAnalyzerSettings::adcTypeSettings() const
 {
-	AdcTypeSettings s;
-	s.restoreState(m_s.value(adcTypeSettingsKey).toByteArray());
-	return s;
+	return m_s.value(adcTypeSettingsKey).value<AdcTypeSettings>();
 }
 //////////////////////////////
-AdcTypeSettings AdcAnalyzerSettings::storedAdcTypeSettings(const QString& adcType) const
-{
-	QString key = QString("%1/%2").arg(storedAdcTypeSettingsKey).arg(adcType);
-	AdcTypeSettings s;
-	s.restoreState(m_s.value(key).toByteArray());
-	return s;
-}
-
 void AdcAnalyzerSettings::setStoredAdcTypeSettings(const AdcTypeSettings& val)
 {
 	QString key = QString("%1/%2").arg(storedAdcTypeSettingsKey).arg(val.adcType);
-	m_s.setValue(key, val.saveState());
+	m_s.setValue(key, val);
+}
+
+AdcTypeSettings AdcAnalyzerSettings::storedAdcTypeSettings(const QString& adcType) const
+{
+	QString key = QString("%1/%2").arg(storedAdcTypeSettingsKey).arg(adcType);
+	return m_s.value(key).value<AdcTypeSettings>();
 }
 
 ////////////////////////////////

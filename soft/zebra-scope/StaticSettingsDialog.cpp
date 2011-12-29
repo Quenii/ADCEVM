@@ -36,6 +36,7 @@ void StaticSettingsDialog::accept()
 	settings.vpp = doubleSpinVpp->value();
 	settings.vt = doubleSpinVT->value();
 	m_analyzer.setStaticTestSettings(settings);
+	QDialog::accept();
 	
 }
 

@@ -89,43 +89,38 @@ struct AdcTypeSettings
 	int coding;
 	float phase;
 
-	QByteArray saveState() const
-	{	
-		QByteArray data; 
-		QDataStream out(&data, QIODevice::WriteOnly);
-
-		out << adcType;
-		out << va;
-		out << vd;
-		out << bitcount;
-		out << vpp;
-		out << coding;
-		out << phase;
-
-		return data;
-	}
-
-	bool restoreState(const QByteArray &data)
-	{
-		QByteArray sd = data;
-		QDataStream in(&sd, QIODevice::ReadOnly);
-		if (in.atEnd())
-			return false;
-
-		in >> adcType;
-		in >> va;
-		in >> vd;
-		in >> bitcount;
-		in >> vpp;
-		in >> coding;
-		in >> phase;
-
-		return true;
-	}
+	operator QVariant() const {	return QVariant::fromValue(*this); }
 };
 
 Q_DECLARE_METATYPE(AdcTypeSettings);
 
+inline QDataStream& operator<<(QDataStream& out, const AdcTypeSettings& val)
+{	
+
+	out << val.adcType;
+	out << val.va;
+	out << val.vd;
+	out << val.bitcount;
+	out << val.vpp;
+	out << val.coding;
+	out << val.phase;
+
+	return out;
+}
+
+
+inline QDataStream& operator>>(QDataStream& in, AdcTypeSettings& val)
+{
+	in >> val.adcType;
+	in >> val.va;
+	in >> val.vd;
+	in >> val.bitcount;
+	in >> val.vpp;
+	in >> val.coding;
+	in >> val.phase;
+
+	return in;
+}
 
 //////////////////////////////////////////////////////
 struct StaticTestSettings
