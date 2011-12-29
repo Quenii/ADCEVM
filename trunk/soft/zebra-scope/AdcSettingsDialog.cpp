@@ -40,16 +40,16 @@ void AdcSettingsDialog::loadSettings(const QString& type)
 	codingComboBox->setCurrentIndex(val.coding);
 	vppLineEdit->setText(QString("%1").arg(val.vpp));
 
-	if (0 == adcTypeComboBox->currentIndex())
-	{
-		vaDoubleSpinBox->setReadOnly(false);
-		vdDoubleSpinBox->setReadOnly(false);
-	}
-	else
-	{
-		vaDoubleSpinBox->setReadOnly(true);
-		vdDoubleSpinBox->setReadOnly(true);
-	}
+	//if (0 == adcTypeComboBox->currentIndex())
+	//{
+	//	vaDoubleSpinBox->setReadOnly(false);
+	//	vdDoubleSpinBox->setReadOnly(false);
+	//}
+	//else
+	//{
+	//	vaDoubleSpinBox->setReadOnly(true);
+	//	vdDoubleSpinBox->setReadOnly(true);
+	//}
 
 }
 
