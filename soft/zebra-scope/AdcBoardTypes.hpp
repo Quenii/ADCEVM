@@ -156,6 +156,7 @@ inline QDataStream& operator>>(QDataStream& in, StaticTestSettings& val)
 ////////////////////////////////////////////////////////
 struct SignalSettings
 {
+	bool initialized;
  	float clockFreq;
     float clockPower;
     bool freqDetect;
@@ -172,6 +173,7 @@ Q_DECLARE_METATYPE(SignalSettings);
 
 inline QDataStream& operator<<(QDataStream& out, const SignalSettings& val)
 {
+	out << val.initialized;
  	out << val.clockFreq;
     out << val.clockPower;
     out << val.freqDetect;
@@ -186,6 +188,7 @@ inline QDataStream& operator<<(QDataStream& out, const SignalSettings& val)
 
 inline QDataStream& operator>>(QDataStream& in, SignalSettings& val)
 {
+	in >> val.initialized;
  	in >> val.clockFreq;
     in >> val.clockPower;
     in >> val.freqDetect;

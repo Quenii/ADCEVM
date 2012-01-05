@@ -19,24 +19,24 @@ double round(double x) {
 //   -1 - Error
 // 
 // 
-int inldnl_c(double* samples, int numbit, int numpt, double T1, double T2, 
+int inldnl_c(int* samples, int numbit, int numpt, double T1, double T2, 
 	   double T_ideal_1, double T_ideal_2, vector<double>& INLar, 
 	   vector<double>& DNLar, vector<int>& H, int& indexl, int& indexh)
 {
   int NCODES = 1 << numbit;
-  double* v1 = samples;
+  int* v1 = samples;
 
   /* v2 = v1 / 2^(16-numbit)+2^(numbit-1); */
-  double a =  1 << (16-numbit);
-  double b = 1 << (numbit-1);
-  double* v2 = v1;
+  int a =  1 << (16-numbit);
+  int b = 1 << (numbit-1);
+  int* v2 = v1;
   for (int i = 0; i < numpt; ++i)
     v2[i] = v1[i] / a + b; 
   
   /* code = round(v2(:,1)-0.4999999); */
-  double* code = v1;
-  for (int i = 0; i < numpt; ++i)
-    code[i] = round(v2[i] - 0.4999999f);
+  int* code = v1;
+  //for (int i = 0; i < numpt; ++i)
+  //  code[i] = round(v2[i] - 0.4999999f);
  
 /* H = zeros(1,NCODES); */
 /* Hc = zeros(1,NCODES-1); */
