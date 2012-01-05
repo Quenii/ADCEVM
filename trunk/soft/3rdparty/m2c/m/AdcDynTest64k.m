@@ -3,7 +3,7 @@
 %%%Pn_dB noise floor
 function [SNR, SFDR, SNR_dBFS, SINAD, THD, HD, ENOB, ENOBFS, Pn_dB, ...
          ADout_dB, Harbin, Fn_disturb, Harbin_disturb, disturb_len, ...
-         ref_dB] =AdcDynTest64k(fclk, numbit, V, TPY, TPX, code, tone_code, fin_input)
+         ref_dB] =AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input)
 % Pn_dB为底噪声，fclk为采样频率，numbit为采样精度，NFFT为FFT的深度，V为峰峰值，TPY和TPX分别为时域图的Y和X轴，code
 % 为1：补码，2：偏移码，3：格雷码。
 %例子：若采样时钟80MHZ，精度16为，峰峰值2v，时域图显示Y轴＋－1V和X轴0－0.01ms，码源为补码
@@ -27,7 +27,7 @@ ADout = V/2*ADout; 							%恢复成时域波形
 [AmpMin t2]=min(ADout);
 Vpp = AmpMax - AmpMin;							%计算出波形的Vpp值
 %****************************************************************
-ADout_w=ADout.*chebwin(NFFT,200);    			%数据加窗，参数200是为了FFT波形在高频处不翘
+ADout_w=ADout.*ADout;%chebwin(NFFT,200);    			%数据加窗，参数200是为了FFT波形在高频处不翘
 ADout_spect=fft(ADout_w,NFFT);				    %做64K FFT
 ADout_dB=20*log10(abs(ADout_spect));			%FFT后转为dB值
 %****************************************************************
@@ -43,7 +43,7 @@ data_ref = zeros(NFFT,1);						%空数组
 for n = 1:NFFT;
     data_ref(n) = V/2*sin((n-1) * (freq_fin) / fclk * 2 * pi) ;		%按主信号频率生成理论波形
 end
-data_ref_w=data_ref.*chebwin(NFFT,200);					%数据加窗
+data_ref_w=data_ref.*ADout;%chebwin(NFFT,200);					%数据加窗
 data_ref_spect=fft(data_ref_w,NFFT);					%64K FFT
 data_ref_dB=20*log10(abs(data_ref_spect));				%转为dB值
 ref_dB=max(data_ref_dB(1:NFFT/2));					%计算参考平移值(理论值是无OFFSET的)

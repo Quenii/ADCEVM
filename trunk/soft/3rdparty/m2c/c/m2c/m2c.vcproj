@@ -205,6 +205,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AdcDynTest64k.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\AlgDynTest.cpp"
 				>
 			</File>

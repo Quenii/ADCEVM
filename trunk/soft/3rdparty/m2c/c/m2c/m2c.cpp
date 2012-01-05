@@ -188,8 +188,9 @@ void inldnl(double* csamples, int cnumbit, int cnumpt, double cT1, double cT2,
 
 void DualToneTest64k(double* cADout, double cfclk, int cnumbit, int cNFFT, double cV, \
 			double cTPY, double cTPX, int ccode, int ctone_code, double cf1, double cf2, \
-			double& cFo1, double& cF1_dBFS, double& cFo2, double& cF2_dBFS, double& cSFDR, double& cSFDR_dBFS, \
-			double& cIMD2_Worst, double& cIMD2_w_dBFS, double& cIMD3_Worst, double& cIMD3_w_dBFS) 
+			double *cADout_dB, double& cFo1, double& cF1_dBFS, double& cFo2, double& cF2_dBFS, \
+			double& cSFDR, double& cSFDR_dBFS, double& cIMD2_Worst, double& cIMD2_w_dBFS, \
+			double& cIMD3_Worst, double& cIMD3_w_dBFS) 
 {
 	SingleLock lock(&cs);
 
@@ -215,9 +216,10 @@ void DualToneTest64k(double* cADout, double cfclk, int cnumbit, int cNFFT, doubl
 	Mm IMD2_w_dBFS;
 	Mm IMD3_Worst;
 	Mm IMD3_w_dBFS;
+	Mm ADout_dB;
 
 	DualToneTest64k(ADout, fclk, numbit, NFFT, V, TPY, TPX, code, tone_code, f1, f2, i_o,
-					 Fo1, F1_dBFS, Fo2, F2_dBFS, SFDR, SFDR_dBFS, IMD2_Worst, IMD2_w_dBFS, IMD3_Worst, IMD3_w_dBFS);
+					 ADout_dB, Fo1, F1_dBFS, Fo2, F2_dBFS, SFDR, SFDR_dBFS, IMD2_Worst, IMD2_w_dBFS, IMD3_Worst, IMD3_w_dBFS);
 
 	cFo1 = Fo1.r(1, 1);
 	cF1_dBFS = F1_dBFS.r(1, 1);
@@ -229,4 +231,19 @@ void DualToneTest64k(double* cADout, double cfclk, int cnumbit, int cNFFT, doubl
 	cIMD2_w_dBFS = IMD2_w_dBFS.r(1, 1);
 	cIMD3_Worst = IMD3_Worst.r(1, 1);
 	cIMD3_w_dBFS = IMD3_w_dBFS.r(1, 1);
+	memcpy(cADout_dB, ADout_dB.addr(), cNFFT * sizeof(*cADout_dB));
+}
+Mm AdcDynTest64k(double* ADout, double fclk, int numbit, double V, double TPY, double TPX, int tone_code, double fin_input, \
+				 double& cSNR, double& cSFDR, double& SNR_dBFS__o, double& SINAD__o, double& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o, Mm& Pn_dB__o, Mm&  \
+				 ADout_dB__o, Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o, Mm& disturb_len__o, Mm& ref_dB__o) 
+{
+Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input,
+
+
+Mm& SNR__o, Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o, Mm& Pn_dB__o, Mm&  ADout_dB__o, Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o, Mm& disturb_len__o, Mm& ref_dB__o
+	
+Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o, Mm& SNR__o, \
+		Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o, Mm& Pn_dB__o, Mm&  \
+		ADout_dB__o, Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o, Mm& disturb_len__o, Mm& ref_dB__o) 
+
 }
