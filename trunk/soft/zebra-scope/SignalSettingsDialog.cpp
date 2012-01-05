@@ -35,25 +35,33 @@ void SignalSettingsDialog::loadSettings()
 {
 	m_static = m_analyzer.signalSettings();
 
-	signalDetectCheckBox->setCheckState(m_static.freqDetect ? Qt::Checked : Qt::Unchecked);
-	clockFreqMHzLineEdit->setText(QString("%L1").arg(m_static.clockFreq / 1e6, 0, 'f', 6));
-	clockPowerLineEdit->setText(QString("%L1").arg(m_static.clockPower, 0, 'f', 1));
-	signalFreqLineEdit->setText(QString("%L1").arg(m_static.signalFreq / 1e6, 0, 'f', 6));
-	signalPowerLineEdit->setText(QString("%L1").arg(m_static.signalPower, 0, 'f', 1));
-	dualToneTestCheckBox->setCheckState(m_static.dualToneTest ? Qt::Checked : Qt::Unchecked);
-	if (!m_static.dualToneTest)
+	if (m_static.initialized)
 	{
-		signalIIFreqLineEdit->setEnabled(false);
-		signalIIPowerLineEdit->setEnabled(false);
+		signalDetectCheckBox->setCheckState(m_static.freqDetect ? Qt::Checked : Qt::Unchecked);
+		clockFreqMHzLineEdit->setText(QString("%L1").arg(m_static.clockFreq / 1e6, 0, 'f', 6));
+		clockPowerLineEdit->setText(QString("%L1").arg(m_static.clockPower, 0, 'f', 1));
+		signalFreqLineEdit->setText(QString("%L1").arg(m_static.signalFreq / 1e6, 0, 'f', 6));
+		signalPowerLineEdit->setText(QString("%L1").arg(m_static.signalPower, 0, 'f', 1));
+		dualToneTestCheckBox->setCheckState(m_static.dualToneTest ? Qt::Checked : Qt::Unchecked);
+		if (!m_static.dualToneTest)
+		{
+			signalIIFreqLineEdit->setEnabled(false);
+			signalIIPowerLineEdit->setEnabled(false);
+		}
+		else
+		{
+			signalIIFreqLineEdit->setEnabled(true);
+			signalIIPowerLineEdit->setEnabled(true);
+		}
+
+		signalIIFreqLineEdit->setText(QString("%L1").arg(m_static.signalIIFreq / 1e6, 0, 'f', 6));
+		signalIIPowerLineEdit->setText(QString("%L1").arg(m_static.signalIIPower, 0, 'f', 1));
 	}
 	else
 	{
-		signalIIFreqLineEdit->setEnabled(true);
-		signalIIPowerLineEdit->setEnabled(true);
+		signalDetectCheckBox->setCheckState(Qt::Checked);
 	}
-
-	signalIIFreqLineEdit->setText(QString("%L1").arg(m_static.signalIIFreq / 1e6, 0, 'f', 6));
-	signalIIPowerLineEdit->setText(QString("%L1").arg(m_static.signalIIPower, 0, 'f', 1));
+	
 
 }
 

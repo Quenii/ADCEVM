@@ -191,8 +191,8 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	tdReport.rawSamples.resize(tdReport.samples.size());
 	for (int i = 0; i < tdReport.samples.size(); ++i)
 	{
-		tdReport.samples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max))*vpp/max;
-		tdReport.rawSamples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max));
+		tdReport.samples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max))*vpp/max/2;
+		tdReport.rawSamples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max/2));
 	}
 
 #endif //NOBOARD
@@ -314,13 +314,14 @@ void AdcBoard::staticTest()
 	QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
 	
 	m_static = m_analyzer.staticTestSettings();
+	m_adc = m_analyzer.adcTypeSettings();
 	
 	vector<unsigned short> buff;
 	if (buff.size() < buffer_cnt)
 		buff.resize(buffer_cnt);
 
 	int numpt = m_static.numpt * 1024 * 1024;
-	vector<double> samples;
+	vector<int> samples;
 
 #ifndef NOBOARD
 	unsigned short mask = (1<<16) - (1<<(16-m_adc.bitcount));
@@ -360,7 +361,7 @@ void AdcBoard::staticTest()
 				{
 					lowerOverCount ++;
 				}
-				samples.push_back(double(short(buff[k])));
+				samples.push_back(int(short(buff[k])));
 				sprintf_s(txtBuffer, "%d\r\n", short(buff[k]));
 				outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
 			}
@@ -386,7 +387,7 @@ void AdcBoard::staticTest()
 		QTextStream in(&file);
 		while (!in.atEnd()) {
 			QString line = in.readLine();
-			samples.push_back(line.toDouble());
+			samples.push_back(line.toInt());
 		}
 
 		file.close();
