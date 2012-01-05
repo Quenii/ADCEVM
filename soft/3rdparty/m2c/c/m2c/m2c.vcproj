@@ -221,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DualToneTest64k.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\gencoswin.cpp"
 				>
 			</File>
