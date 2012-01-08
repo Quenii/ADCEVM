@@ -8,6 +8,7 @@
 #include "myfft_complex.h"
 #include "inldnl.h"
 #include "DualToneTest64k.h"
+#include "AdcDynTest64k.h"
 
 #include <Windows.h>
 
@@ -233,17 +234,57 @@ void DualToneTest64k(double* cADout, double cfclk, int cnumbit, int cNFFT, doubl
 	cIMD3_w_dBFS = IMD3_w_dBFS.r(1, 1);
 	memcpy(cADout_dB, ADout_dB.addr(), cNFFT * sizeof(*cADout_dB));
 }
-Mm AdcDynTest64k(double* ADout, double fclk, int numbit, double V, double TPY, double TPX, int tone_code, double fin_input, \
-				 double& cSNR, double& cSFDR, double& SNR_dBFS__o, double& SINAD__o, double& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o, Mm& Pn_dB__o, Mm&  \
-				 ADout_dB__o, Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o, Mm& disturb_len__o, Mm& ref_dB__o) 
+void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, double cTPY, double cTPX, int ctone_code, double cfin_input, \
+				   double& cSNR, double& cSFDR, double& cSNR_dBFS, double& cSINAD, double& cTHD, double& cENOB, double& cENOBFS, double& cPn_dB, 
+				   double* cADout_dB, double* cHD, double* cHarbin, double* cFn_disturb, double* cHarbin_disturb, int& cdisturb_len, double& cref_dB) 
 {
-Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input,
+  const int len = 64 * 1024;
+  DECLEAR_Mm_MORE(ADout, cADout, len);
+  DECLEAR_Mm_ONE(fclk, cfclk);
+  DECLEAR_Mm_ONE(numbit, cnumbit);
+  DECLEAR_Mm_ONE(V, cV);
+  DECLEAR_Mm_ONE(TPY, cTPY);
+  DECLEAR_Mm_ONE(TPX, cTPX);
+  DECLEAR_Mm_ONE(tone_code, ctone_code);
+  DECLEAR_Mm_ONE(fin_input, cfin_input);
 
 
-Mm& SNR__o, Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o, Mm& Pn_dB__o, Mm&  ADout_dB__o, Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o, Mm& disturb_len__o, Mm& ref_dB__o
+  Mm SNR__o;
+  Mm SFDR__o;
+  Mm SNR_dBFS__o;
+  Mm SINAD__o;
+  Mm THD__o;
+  Mm ENOB__o;
+  Mm ENOBFS__o;
+  Mm Pn_dB__o;
+  Mm disturb_len__o;
+  Mm ref_dB__o;
+  Mm ADout_dB__o;
+  Mm HD__o;
+  Mm Harbin__o;
+  Mm Fn_disturb__o;
+  Mm Harbin_disturb__o;
 	
-Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o, Mm& SNR__o, \
-		Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o, Mm& Pn_dB__o, Mm&  \
-		ADout_dB__o, Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o, Mm& disturb_len__o, Mm& ref_dB__o) 
+  AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, 
+				SFDR__o, SNR_dBFS__o, SINAD__o, THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o,  
+				ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, ref_dB__o); 
+
+  cSNR = SNR__o.r(1,1);
+  cSFDR = SFDR__o.r(1,1);
+  cSNR_dBFS = SNR_dBFS__o.r(1,1);
+  cSINAD = SINAD__o.r(1,1);
+  cTHD = THD__o.r(1,1);
+  cENOB = ENOB__o.r(1,1);
+  cENOBFS = ENOBFS__o.r(1,1);
+  cPn_dB = Pn_dB__o.r(1,1);
+  cdisturb_len = disturb_len__o.r(1,1);
+  cref_dB = ref_dB__o.r(1,1);
+
+  memcpy(cADout_dB, ADout_dB__o.addr(), len*sizeof(*cADout_dB));
+  memcpy(cHD, HD__o.addr(), 10*sizeof(*cHD));
+  memcpy(cHarbin, Harbin__o.addr(), 10*sizeof(*cHarbin));
+  memcpy(cFn_disturb, Fn_disturb__o.addr(), cdisturb_len*sizeof(*cFn_disturb));
+  memcpy(cHarbin_disturb, Harbin_disturb__o.addr(), cdisturb_len*sizeof(*cHarbin_disturb));
+
 
 }
