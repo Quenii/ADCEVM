@@ -69,7 +69,6 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 	static std::vector<double> HD(10);
 	static std::vector<double> Spectrum(input.size());
 
-
 	double A;
 	double AdB;
 	double SINAD;
