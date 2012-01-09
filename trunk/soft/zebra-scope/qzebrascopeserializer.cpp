@@ -68,28 +68,36 @@ void QZebraScopeSerializer::serialize(const FreqDomainReport& data)
 {
 	serialize(data.Spectrum);
 	serialize(data.xaxis);
-	serialize(data.A);
-	serialize(data.AdB);
-	serialize(data.SINAD);
-	serialize(data.SNR);
-	serialize(data.THD);
-	serialize(data.SFDR);
-	serialize(data.ENOB);
-	serialize(data.HD);
+	serialize(data.dualTone);
+	serialize(data.DynamicPara);
+	serialize(data.DualTonePara);
+
+	//serialize(data.A);
+	//serialize(data.AdB);
+	//serialize(data.SINAD);
+	//serialize(data.SNR);
+	//serialize(data.THD);
+	//serialize(data.SFDR);
+	//serialize(data.ENOB);
+	//serialize(data.HD);
 }
 
 bool QZebraScopeSerializer::deserialize(FreqDomainReport& data)
 {
 	if (deserialize(data.Spectrum) &&
 		deserialize(data.xaxis) &&
-		deserialize(data.A) &&
-		deserialize(data.AdB) &&
-		deserialize(data.SINAD) &&
-		deserialize(data.SNR) &&
-		deserialize(data.THD) &&
-		deserialize(data.SFDR) &&
-		deserialize(data.ENOB) &&
-		deserialize(data.HD))
+		deserialize(data.dualTone) &&
+		deserialize(data.DynamicPara) &&
+		deserialize(data.DualTonePara))
+
+		//deserialize(data.A) &&
+		//deserialize(data.AdB) &&
+		//deserialize(data.SINAD) &&
+		//deserialize(data.SNR) &&
+		//deserialize(data.THD) &&
+		//deserialize(data.SFDR) &&
+		//deserialize(data.ENOB) &&
+		//deserialize(data.HD))
 		return true;
 	else 
 		return false;

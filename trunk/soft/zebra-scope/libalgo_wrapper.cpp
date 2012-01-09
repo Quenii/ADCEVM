@@ -60,11 +60,6 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 
 void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainReport& param, float vpp)
 {
-	//mwArray mwSamples(1, samples.size(), mxDOUBLE_CLASS);
-	//mwSamples.SetData(&samples[0], samples.size());
-	//mwArray mwBitCount(1, 1, mxDOUBLE_CLASS);
-	//mwBitCount.SetData(&bitCount, 1);
-
 	static std::vector<double> input(samples.size());
 	static std::vector<double> HD(10);
 	static std::vector<double> Spectrum(input.size());
@@ -82,9 +77,6 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 		input[i] = samples[i];
 	}
 
-	//AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
-	//	double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o,
-	//	double* cHD, double* cy);
 	AdcDynTest(&input[0], input.size(), 80e6, bitCount, input.size(), 2*vpp, 1,
 		SNR, SINAD, SFDR, ENOB, 
 		&HD[0], &Spectrum[0], A, AdB, THD);
@@ -98,22 +90,22 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 		param.Spectrum[i] = Spectrum[i];
 	}
 
-	if (param.HD.size() != HD.size())
-	{
-		param.HD.resize(HD.size());
-	}
-	for (int i = 0; i < HD.size(); ++i)
-	{
-		param.HD[i] = HD[i];
-	}
+	//if (param.HD.size() != HD.size())
+	//{
+	//	param.HD.resize(HD.size());
+	//}
+	//for (int i = 0; i < HD.size(); ++i)
+	//{
+	//	param.HD[i].value = HD[i];
+	//}
 
-	param.ENOB = ENOB;
-	param.SNR = SNR;
-	param.SINAD = SINAD;
-	param.SFDR = SFDR;
-	param.A = A;
-	param.AdB = AdB;
-	param.THD = THD;
+	//param.ENOB.value = ENOB;
+	//param.SNR.value = SNR;
+	//param.SINAD.value = SINAD;
+	//param.SFDR.value = SFDR;
+	//param.A.value = A;
+	//param.AdB.value = AdB;
+	//param.THD.value = THD;
 
 }
 

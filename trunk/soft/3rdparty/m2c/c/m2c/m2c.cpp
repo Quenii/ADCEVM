@@ -286,5 +286,4 @@ void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, double 
   memcpy(cFn_disturb, Fn_disturb__o.addr(), cdisturb_len*sizeof(*cFn_disturb));
   memcpy(cHarbin_disturb, Harbin_disturb__o.addr(), cdisturb_len*sizeof(*cHarbin_disturb));
 
-
 }

@@ -14,6 +14,7 @@
 #include <QDate>
 #include <QMessageBox>
 #include <QThread>
+#include <algorithm>
 
 #include "AdcBoard.hpp"
 #include "dacanalyzersettings.h"
@@ -71,17 +72,10 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 , m_timerIdDyn(0)
 , m_timerIdPower(0)
 {
-
-// 	QZebraScopeSettings settings;
-// //	settings.adcSettings(m_adcSettings);
-// 	settings.signalSettings(m_signalSettings);
-
-// 	setAdcSettings(m_adcSettings);
-// 	setSignalSettings(m_signalSettings);
-
 	float fs = m_analyzer.signalSettings().clockFreq;
 	if (fs <= 0) fs = 1e8;
 	updateXaxis(fs);
+	initTestParas();
 
 	if (!m_timerIdPower)
 	{
@@ -93,6 +87,115 @@ AdcBoard::~AdcBoard()
 {
 }
 
+void AdcBoard::initTestParas()
+{
+	FreqDomainReport &fdRpt = report.fdReport;
+	fdRpt.DynamicPara.clear();
+	fdRpt.DualTonePara.clear();
+	Parameter para;
+
+	para.index = 0;
+	para.name = QString::fromLocal8Bit("信号1频率");
+	para.unit = QString::fromLocal8Bit("MHz");
+	fdRpt.DualTonePara.push_back(para);
+	para.index = 1;
+	para.name = QString::fromLocal8Bit("信号1功率");
+	para.unit = QString::fromLocal8Bit("dBFS");
+	fdRpt.DualTonePara.push_back(para);
+
+	para.index = 2;
+	para.name = QString::fromLocal8Bit("信号2频率");
+	para.unit = QString::fromLocal8Bit("MHz");
+	fdRpt.DualTonePara.push_back(para);
+	para.index = 3;
+	para.name = QString::fromLocal8Bit("信号2功率");
+	para.unit = QString::fromLocal8Bit("dBFS");
+	fdRpt.DualTonePara.push_back(para);
+
+	para.index = 4;
+	para.name = QString::fromLocal8Bit("SFDR");
+	para.unit = QString::fromLocal8Bit("dBc");
+	fdRpt.DualTonePara.push_back(para);
+	para.index = 5;
+	para.name = QString::fromLocal8Bit("SFDR_dBFS");
+	para.unit = QString::fromLocal8Bit("dBFS");
+	fdRpt.DualTonePara.push_back(para);
+
+	para.index = 6;
+	para.name = QString::fromLocal8Bit("IMD2_Worst");
+	para.unit = QString::fromLocal8Bit("dBc");
+	fdRpt.DualTonePara.push_back(para);
+	para.index = 7;
+	para.name = QString::fromLocal8Bit("IMD2_W_dBFS");
+	para.unit = QString::fromLocal8Bit("dBFS");
+	fdRpt.DualTonePara.push_back(para);
+
+	para.index = 8;
+	para.name = QString::fromLocal8Bit("IMD3_Worst");
+	para.unit = QString::fromLocal8Bit("dBc");
+	fdRpt.DualTonePara.push_back(para);
+	para.index = 9;
+	para.name = QString::fromLocal8Bit("IMD3_W_dBFS");
+	para.unit = QString::fromLocal8Bit("dBFS");
+	fdRpt.DualTonePara.push_back(para);
+
+	para.index = 0;
+	para.name = QString::fromLocal8Bit("输入信号频率");
+	para.unit = QString::fromLocal8Bit("MHz");
+	fdRpt.DynamicPara.push_back(para);
+	para.index = 1;
+	para.name = QString::fromLocal8Bit("输入信号功率");
+	para.unit = QString::fromLocal8Bit("dBFS");
+	fdRpt.DynamicPara.push_back(para);
+	para.index = 2;
+	para.name = QString::fromLocal8Bit("输入峰峰值");
+	para.unit = QString::fromLocal8Bit("V");
+	fdRpt.DynamicPara.push_back(para);
+
+	para.index = 3;
+	para.name = QString::fromLocal8Bit("SNR");
+	para.unit = QString::fromLocal8Bit("dBc");
+	fdRpt.DynamicPara.push_back(para);
+	para.index = 4;
+	para.name = QString::fromLocal8Bit("SNR_dBFS");
+	para.unit = QString::fromLocal8Bit("dBFS");
+	fdRpt.DynamicPara.push_back(para);
+	para.index = 5;
+	para.name = QString::fromLocal8Bit("SFDR");
+	para.unit = QString::fromLocal8Bit("dBc");
+	fdRpt.DynamicPara.push_back(para);
+	para.index = 6;
+	para.name = QString::fromLocal8Bit("SFDR_dBFS");
+	para.unit = QString::fromLocal8Bit("dBFS");
+	fdRpt.DynamicPara.push_back(para);
+
+	para.index = 7;
+	para.name = QString::fromLocal8Bit("ENOB");
+	para.unit = QString::fromLocal8Bit("Bit");
+	fdRpt.DynamicPara.push_back(para);
+	para.index = 8;
+	para.name = QString::fromLocal8Bit("ENOB_dBFS");
+	para.unit = QString::fromLocal8Bit("Bit");
+	fdRpt.DynamicPara.push_back(para);
+
+	para.index = 9;
+	para.name = QString::fromLocal8Bit("Pn");
+	para.unit = QString::fromLocal8Bit("dBFS");
+	fdRpt.DynamicPara.push_back(para);
+
+	for (int i = 0; i < 9; ++ i)
+	{
+		para.index = 10 + i;
+		para.name = QString::fromLocal8Bit("HD%1").arg(i+2);
+		para.unit = QString::fromLocal8Bit("dBFS");
+		fdRpt.DynamicPara.push_back(para);
+
+	}
+	
+	reverse(fdRpt.DynamicPara.begin(), fdRpt.DynamicPara.end());
+	reverse(fdRpt.DualTonePara.begin(), fdRpt.DualTonePara.end());
+
+}
 bool AdcBoard::isRunning()
 {
 	return m_timerIdDyn ? true : false;
@@ -211,6 +314,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	tdReport.min = fmin;
 
 	FreqDomainReport& fdReport = report.fdReport;
+	fdReport.dualTone = m_signal.dualToneTest;
 
 	fdReport.Spectrum.resize(tdReport.samples.size()/2);
 
@@ -419,67 +523,3 @@ void AdcBoard::staticTest()
 	
 }
 
-
-//bool AdcBoard::setSignalSettings(const SignalSettings& signalSettings)
-//{
-//	// change sampling frequency
-//	changeSampleRate(signalSettings.clockFreq);
-//
-//	//todo: 1, add gpib code to specify the input signal/clock;
-//
-//	float fs = signalSettings.clockFreq;
-//
-//	updateXaxis(fs);
-//
-//	m_signalSettings = signalSettings;
-//	// m_signalSettings.writeSettings(m_settings);
-//
-//	QZebraScopeSettings settings;
-//	settings.setSignalSettings(m_signalSettings);
-//
-//	return true;
-//}
-
-
-//int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
-//{
-//	int fine = 800;
-//	int coarse = 60;
-//	int regValue;
-//	int i;
-//	for (int i=0; i<10; ++i)
-//	{
-//		if (!writeReg(5, 32768))
-//			return false;
-//		if (!writeReg(6, dacChannel))  //执行 通道A
-//			return false;
-//	}
-//	for (i=coarse; i>0; --i)
-//	{
-//		regValue = i*65535/coarse;
-//		if (!writeReg(5, regValue))
-//			return false;
-//		if (!writeReg(6, dacChannel))  //执行 通道A
-//			return false;
-//		msleep(1);
-//		float t = getVoltage(adcChannel);
-//		qDebug() << "Coarse: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
-//		if (t >= v)
-//			break;
-//	}
-//	for (int j=i*fine/coarse; j<fine; ++j)
-//	{
-//		regValue = j*65535/fine;
-//		if (!writeReg(5, regValue))
-//			return false;
-//		if (!writeReg(6, dacChannel))  //执行 通道A
-//			return false;
-//		msleep(1);
-//		float t = getVoltage(adcChannel);
-//		qDebug() << "Fine: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
-//		if ( abs(t - v) <= 0.005)
-//			break;
-//	}
-//	return regValue;
-//
-//}
