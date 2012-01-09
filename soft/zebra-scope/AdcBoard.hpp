@@ -68,6 +68,7 @@ private:
 	void Convert(TimeDomainReport&, float, float, std::vector<unsigned short>&);
 	void updateXaxis(float fs);
 	bool readPowerMonitorData(PowerStatus& powerStatus);
+	void initTestParas();
 
 signals:
 	void boardReport(const AdcBoardReport& report);

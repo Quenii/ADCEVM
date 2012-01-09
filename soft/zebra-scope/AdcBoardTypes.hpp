@@ -58,18 +58,27 @@ struct TimeDomainReport
 	float max;	
 };
 
+struct Parameter
+{
+	int index;
+	QString name;
+	float value;
+	QString unit;
+};
 struct FreqDomainReport
 {
 	std::vector<float> Spectrum;
 	std::vector<float> xaxis;
-	float A;
-	float AdB;
-	float SINAD;
-	float SNR;
-	float THD;
-	float SFDR;
-	float ENOB;
-	std::vector<float> HD;
+	bool dualTone;
+	//Parameter A;
+	//Parameter AdB;
+	//Parameter SINAD;
+	//Parameter SNR;
+	//Parameter THD;
+	//Parameter SFDR;
+	//Parameter ENOB;
+	std::vector<Parameter> DynamicPara;
+	std::vector<Parameter> DualTonePara;
 };
 
 struct AdcBoardReport
