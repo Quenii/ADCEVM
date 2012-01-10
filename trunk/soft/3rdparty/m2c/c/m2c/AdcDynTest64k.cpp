@@ -1,35 +1,37 @@
-  #include "matlib.h"
-  #pragma hdrstop
+#include "matlib.h"
+#pragma hdrstop
+
+#include "AdcDynTest64k.h"
+#include "chebwin.h"
   
-  #include "AdcDynTest64k.h"
   
-  
-  //%%(Harbin(i)-1)*fclk/65536, ADout_dB(Harbin(i))-ref_dB
-  //%%Fn_disturb(disturb_len - i)*fclk, ADout_dB(Harbin_disturb(disturb_len - i))-ref_dB
-  //%%Pn_dB noise floor
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
-     Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o, Mm& SFDR__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& Pn_dB__o, Mm& ADout_dB__o, \
-     Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o, Mm& disturb_len__o, Mm& ref_dB__o) {
-    begin_scope
-    ADout.setname("ADout"); fclk.setname("fclk"); numbit.setname("numbit"); V.setname("V"); TPY.setname("TPY"); TPX.setname( \
-      "TPX"); tone_code.setname("tone_code"); fin_input.setname("fin_input"); 
-    dMm(freq_fin); dMm(Vin); dMm(Vpp); dMm(SNR); dMm(SFDR); dMm(SINAD); dMm(THD); dMm(HD); dMm(Pn_dB); dMm(ADout_dB) \
-      ; dMm(Harbin); dMm(Fn_disturb); dMm(Harbin_disturb); dMm(disturb_len); dMm(ref_dB); dMm(NFFT); dMm(AmpMax); dMm( \
-      t1); dMm(AmpMin); dMm(t2); dMm(ADout_w); dMm(ADout_spect); dMm(span_dc); dMm(spanh_har); dMm(span_s); dMm(maxdB) \
-      ; dMm(fin); dMm(data_ref); dMm(n); dMm(n_AdcDynTest64k_v0); dMm(data_ref_w); dMm(data_ref_spect); dMm(data_ref_dB) \
-      ; dMm(tone); dMm(har_peak); dMm(har_bin); dMm(fin_x); dMm(spectP); dMm(Ph); dMm(Ph_dB); dMm(har_num); dMm(har_num_AdcDynTest64k_v1) \
-      ; dMm(Pdc); dMm(Ps); dMm(Pd); dMm(Pn); dMm(SNR_dBFS); dMm(ENOB); dMm(ENOBFS); dMm(spectP_temp); dMm(i_); dMm( \
-      i_AdcDynTest64k_v2); dMm(spectP_disturb); dMm(findSpac); dMm(findSpan); dMm(findStart); dMm(i_AdcDynTest64k_v3) \
-      ; dMm(spectP_disturb_peak); dMm(num); dMm(array_flag); dMm(jj); dMm(jj_AdcDynTest64k_v4); dMm(k); dMm(k_AdcDynTest64k_v5) \
-      ; dMm(spectP_disturb_temp); dMm(Harbin_disturb_temp); dMm(Ph_disturb); dMm(Ph_disturb_dB); dMm(i_AdcDynTest64k_v6) \
-      ; dMm(Pd_disturb); dMm(Pd_disturb_dB); dMm(Pdc_dB); dMm(Ps_dB); dMm(Pd_dB); dMm(SFDR_dBFS); 
+//%%(Harbin(i)-1)*fclk/65536, ADout_dB(Harbin(i))-ref_dB
+//%%Fn_disturb(disturb_len - i)*fclk, ADout_dB(Harbin_disturb(disturb_len - i))-ref_dB
+//%%Pn_dB noise floor
+Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+				 Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o, Mm& SFDR__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& Pn_dB__o, Mm& ADout_dB__o, \
+				 Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o, Mm& disturb_len__o, Mm& ref_dB__o) 
+{
+	begin_scope
+		ADout.setname("ADout"); fclk.setname("fclk"); numbit.setname("numbit"); V.setname("V"); TPY.setname("TPY"); TPX.setname( \
+		"TPX"); tone_code.setname("tone_code"); fin_input.setname("fin_input"); 
+	dMm(freq_fin); dMm(Vin); dMm(Vpp); dMm(SNR); dMm(SFDR); dMm(SINAD); dMm(THD); dMm(HD); dMm(Pn_dB); dMm(ADout_dB) \
+		; dMm(Harbin); dMm(Fn_disturb); dMm(Harbin_disturb); dMm(disturb_len); dMm(ref_dB); dMm(NFFT); dMm(AmpMax); dMm( \
+		t1); dMm(AmpMin); dMm(t2); dMm(ADout_w); dMm(ADout_spect); dMm(span_dc); dMm(spanh_har); dMm(span_s); dMm(maxdB) \
+		; dMm(fin); dMm(data_ref); dMm(n); dMm(n_AdcDynTest64k_v0); dMm(data_ref_w); dMm(data_ref_spect); dMm(data_ref_dB) \
+		; dMm(tone); dMm(har_peak); dMm(har_bin); dMm(fin_x); dMm(spectP); dMm(Ph); dMm(Ph_dB); dMm(har_num); dMm(har_num_AdcDynTest64k_v1) \
+		; dMm(Pdc); dMm(Ps); dMm(Pd); dMm(Pn); dMm(SNR_dBFS); dMm(ENOB); dMm(ENOBFS); dMm(spectP_temp); dMm(i_); dMm( \
+		i_AdcDynTest64k_v2); dMm(spectP_disturb); dMm(findSpac); dMm(findSpan); dMm(findStart); dMm(i_AdcDynTest64k_v3) \
+		; dMm(spectP_disturb_peak); dMm(num); dMm(array_flag); dMm(jj); dMm(jj_AdcDynTest64k_v4); dMm(k); dMm(k_AdcDynTest64k_v5) \
+		; dMm(spectP_disturb_temp); dMm(Harbin_disturb_temp); dMm(Ph_disturb); dMm(Ph_disturb_dB); dMm(i_AdcDynTest64k_v6) \
+		; dMm(Pd_disturb); dMm(Pd_disturb_dB); dMm(Pdc_dB); dMm(Ps_dB); dMm(Pd_dB); dMm(SFDR_dBFS); 
     
-    call_stack_begin;
-    // nargin, nargout entry code
-    double old_nargin=nargin_val; if (!nargin_set) nargin_val=8.0;
-    nargin_set=0;
-    double old_nargout=nargout_val; if (!nargout_set) nargout_val=15.0;
-    nargout_set=0;
+	call_stack_begin;
+	// nargin, nargout entry code
+	double old_nargin=nargin_val; if (!nargin_set) nargin_val=8.0;
+	nargin_set=0;
+	double old_nargout=nargout_val; if (!nargout_set) nargout_val=15.0;
+	nargout_set=0;
     
     // translated code
     
@@ -58,7 +60,7 @@
     Vpp = AmpMax-AmpMin;
     //计算出波形的Vpp值
     //****************************************************************
-    ADout_w = times(ADout,ADout);
+    ADout_w = times(ADout, chebwin(NFFT,200));
     //chebwin(NFFT,200);    			%数据加窗，参数200是为了FFT波形在高频处不翘
     ADout_spect = fft(ADout_w,NFFT);
     //做64K FFT
@@ -87,7 +89,7 @@
       data_ref(n) = V/2.0*sin((n-1.0)*(freq_fin)/fclk*2.0*pi);
       //按主信号频率生成理论波形
     }
-    data_ref_w = times(data_ref,ADout);
+    data_ref_w = times(data_ref, chebwin(NFFT,200));
     //chebwin(NFFT,200);					%数据加窗
     data_ref_spect = fft(data_ref_w,NFFT);
     //64K FFT
@@ -96,7 +98,7 @@
     ref_dB = max(data_ref_dB(colon(1.0,1.0,NFFT/2.0)));
     //计算参考平移值(理论值是无OFFSET的)
     //*****************************绘图(频域)**************************
-    display( figure((CL(1.0))) );
+    //display( figure((CL(1.0))) );
     //% Draw horizontal lines;
     //% Set Y-axis 0~-140dB
     // $$$ plot([0:round(NFFT/2)-1].*fclk/NFFT,-20,'-k');

@@ -322,9 +322,13 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	calc_dynam_params(tdReport.samples, m_adc.bitcount, fdReport);
 
 #elif defined(MATCOM) 
-	calc_dynam_params(tdReport.samples, m_adc.bitcount, fdReport, m_adc.vpp);
-	
-
+//	calc_dynam_params(tdReport.samples, m_adc.bitcount, fdReport, m_adc.vpp);
+	if (!m_signal.dualToneTest)
+	{
+		int freq_detect = m_signal.freqDetect ? 1 : 2;
+		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, 
+			m_adc.vpp, 0.01, 1, freq_detect, m_signal.signalFreq);
+	}
 #else
 	memcpy( &fdReport.Spectrum[0], &tdReport.samples[0], buffer_cnt);
 
