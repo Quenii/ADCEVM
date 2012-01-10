@@ -58,47 +58,62 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 
 #include "./3rdparty/m2c/c/include/m2c.h"
 
-void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainReport& param, float vpp)
+void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, FreqDomainReport& param, 
+					   float vpp, double TPX, double TPY, int tone_code, double fin_input)
 {
+	const int disturb_len = 10;
 	static std::vector<double> input(samples.size());
-	static std::vector<double> HD(10);
-	static std::vector<double> Spectrum(input.size());
-
-	double A;
-	double AdB;
-	double SINAD;
-	double SNR;
-	double THD;
-	double SFDR;
-	double ENOB;
+	static std::vector<double> cADout_dB(input.size());
+	static std::vector<double> cHD(disturb_len);
+	static std::vector<double> cHarbin(disturb_len);
+	static std::vector<double> cFn_disturb(disturb_len);
+	static std::vector<double> cHarbin_disturb(disturb_len);
 
 	for (int i = 0; i < samples.size(); ++i)
 	{
 		input[i] = samples[i];
 	}
 
-	AdcDynTest(&input[0], input.size(), 80e6, bitCount, input.size(), 2*vpp, 1,
-		SNR, SINAD, SFDR, ENOB, 
-		&HD[0], &Spectrum[0], A, AdB, THD);
+	double cfreq_fin; 
+	double cVin; 
+	double cVpp; 		
+	double cSNR; 
+	double cSFDR; 
+	double cSINAD; 
+	double cTHD; 
+	double cPn_dB; 
+	int cdisturb_len; 
+	double cref_dB;
 
-	if (param.Spectrum.size() != Spectrum.size())
+	AdcDynTest64k(&input[0], fclk, bitCount, vpp, TPY, TPX, tone_code, fin_input, 
+		cfreq_fin, cVin, cVpp, cSNR, cSFDR, cSINAD, cTHD, cPn_dB, cdisturb_len, cref_dB,
+		&cADout_dB[0], &cHD[0], &cHarbin[0], &cFn_disturb[0], &cHarbin_disturb[0]);
+
+
+	if (param.Spectrum.size() != cADout_dB.size())
 	{
-		param.Spectrum.resize(Spectrum.size());
+		param.Spectrum.resize(cADout_dB.size());
 	}
-	for (int i = 0; i < Spectrum.size(); ++i)
+	for (int i = 0; i < cADout_dB.size(); ++i)
 	{
-		param.Spectrum[i] = Spectrum[i];
+		param.Spectrum[i] = cADout_dB[i];
 	}
+	param.dualTone = false;
+	param.DynamicPara[0].value = cfreq_fin;
+	param.DynamicPara[1].value = cVin;
+	param.DynamicPara[2].value = cVpp;
+	param.DynamicPara[3].value = cSNR;
+	param.DynamicPara[4].value = cSNR - cVin;
+	param.DynamicPara[5].value = cSFDR;
+	param.DynamicPara[6].value = cSFDR - cVin;
+	param.DynamicPara[7].value = (cSINAD - 1.76) / 6.02;
+	param.DynamicPara[8].value = (cSINAD - cVin - 1.76) / 6.02;
+	param.DynamicPara[9].value = cPn_dB;
 
-	//if (param.HD.size() != HD.size())
-	//{
-	//	param.HD.resize(HD.size());
-	//}
-	//for (int i = 0; i < HD.size(); ++i)
-	//{
-	//	param.HD[i].value = HD[i];
-	//}
-
+	for (int i=0; i<disturb_len; ++i)
+	{
+		param.DynamicPara[10+i].value = cHD[i+1];
+	}
 	//param.ENOB.value = ENOB;
 	//param.SNR.value = SNR;
 	//param.SINAD.value = SINAD;

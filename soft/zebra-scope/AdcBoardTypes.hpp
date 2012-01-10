@@ -70,15 +70,14 @@ struct FreqDomainReport
 	std::vector<float> Spectrum;
 	std::vector<float> xaxis;
 	bool dualTone;
-	//Parameter A;
-	//Parameter AdB;
-	//Parameter SINAD;
-	//Parameter SNR;
-	//Parameter THD;
-	//Parameter SFDR;
-	//Parameter ENOB;
 	std::vector<Parameter> DynamicPara;
 	std::vector<Parameter> DualTonePara;
+};
+
+struct Harmonics
+{
+	int marker;
+	float value;
 };
 
 struct AdcBoardReport

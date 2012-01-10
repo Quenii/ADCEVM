@@ -33,14 +33,15 @@ M2C_API void inldnl(double* csamples, int cnumbit, int cnumpt, double cT1, doubl
                     double cT_ideal_1, double cT_ideal_2, double* cINLar__o, double* cDNLar__o,
                     double* cH__o, int& cindexl__o, int& cindexh__o) ;
 
-M2C_API void DualToneTest64k(double* cADout, double cfclk, int cnumbit, int cNFFT, double cV, \
-					 double cTPY, double cTPX, int ccode, int ctone_code, double cf1, double cf2, \
-					 double& cFo1, double& cF1_dBFS, double& cFo2, double& cF2_dBFS, double& cSFDR, double& cSFDR_dBFS, \
+M2C_API void DualToneTest64k(double* cADout, double cfclk, int cnumbit, int cNFFT, double cV, 
+					 double cTPY, double cTPX, int ccode, int ctone_code, double cf1, double cf2, 
+					 double& cFo1, double& cF1_dBFS, double& cFo2, double& cF2_dBFS, double& cSFDR, double& cSFDR_dBFS,
 					 double& cIMD2_Worst, double& cIMD2_w_dBFS, double& cIMD3_Worst, double& cIMD3_w_dBFS) ;
 
-M2C_API void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, double cTPY, double cTPX, int ctone_code, double cfin_input, \
-				   double& cSNR, double& cSFDR, double& cSNR_dBFS, double& cSINAD, double& cTHD, double& cENOB, double& cENOBFS, double& cPn_dB, 
-				   double* cADout_dB, double* cHD, double* cHarbin, double* cFn_disturb, double* cHarbin_disturb, int& cdisturb_len, double& cref_dB) ;
+M2C_API void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, double cTPY, double cTPX, int ctone_code, double cfin_input, 
+						   double& cfreq_fin, double& cVin, double& cVpp, 
+						   double& cSNR, double& cSFDR, double& cSINAD, double& cTHD, double& cPn_dB, int& cdisturb_len, double& cref_dB,
+						   double* cADout_dB, double* cHD, double* cHarbin, double* cFn_disturb, double* cHarbin_disturb);
 
 //M2C_API void FFT(double* data, int data_cnt, double* result, int result_cnt);
 //M2C_API void FFT_complex(double* r_data, double* i_data, int data_cnt, double* result, int result_cnt);

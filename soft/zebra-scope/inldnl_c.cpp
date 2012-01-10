@@ -151,7 +151,7 @@ int noise_c(int *samples, int numpt, int numbit, vector<int>& H, int& index_max,
 	for (int i = 0; i < numpt; ++i)
 		v2[i] = v1[i] / a + b; 
 
-	int* code;
+	int* code = v2;
 	//for (int i = 0; i < numpt; ++i)
 	//  code[i] = round(v2[i] - 0.4999999f);
 
