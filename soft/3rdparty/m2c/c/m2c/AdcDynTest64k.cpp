@@ -2,24 +2,24 @@
   #pragma hdrstop
   
   #include "AdcDynTest64k.h"
-  #include "chebwin.h"
+  
   
   //%%(Harbin(i)-1)*fclk/65536, ADout_dB(Harbin(i))-ref_dB
   //%%Fn_disturb(disturb_len - i)*fclk, ADout_dB(Harbin_disturb(disturb_len - i))-ref_dB
   //%%Pn_dB noise floor
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o, Mm& Pn_dB__o, Mm&  \
-    ADout_dB__o, Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o, Mm& disturb_len__o, Mm& ref_dB__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o, Mm& SFDR__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& Pn_dB__o, Mm& ADout_dB__o, \
+     Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o, Mm& disturb_len__o, Mm& ref_dB__o) {
     begin_scope
     ADout.setname("ADout"); fclk.setname("fclk"); numbit.setname("numbit"); V.setname("V"); TPY.setname("TPY"); TPX.setname( \
       "TPX"); tone_code.setname("tone_code"); fin_input.setname("fin_input"); 
-    dMm(SNR); dMm(SFDR); dMm(SNR_dBFS); dMm(SINAD); dMm(THD); dMm(HD); dMm(ENOB); dMm(ENOBFS); dMm(Pn_dB); dMm(ADout_dB) \
+    dMm(freq_fin); dMm(Vin); dMm(Vpp); dMm(SNR); dMm(SFDR); dMm(SINAD); dMm(THD); dMm(HD); dMm(Pn_dB); dMm(ADout_dB) \
       ; dMm(Harbin); dMm(Fn_disturb); dMm(Harbin_disturb); dMm(disturb_len); dMm(ref_dB); dMm(NFFT); dMm(AmpMax); dMm( \
-      t1); dMm(AmpMin); dMm(t2); dMm(Vpp); dMm(ADout_w); dMm(ADout_spect); dMm(span_dc); dMm(spanh_har); dMm(span_s) \
-      ; dMm(maxdB); dMm(fin); dMm(freq_fin); dMm(data_ref); dMm(n); dMm(n_AdcDynTest64k_v0); dMm(data_ref_w); dMm(data_ref_spect) \
-      ; dMm(data_ref_dB); dMm(tone); dMm(har_peak); dMm(har_bin); dMm(fin_x); dMm(spectP); dMm(Ph); dMm(Ph_dB); dMm( \
-      har_num); dMm(har_num_AdcDynTest64k_v1); dMm(Pdc); dMm(Ps); dMm(Pd); dMm(Pn); dMm(Vin); dMm(spectP_temp); dMm( \
-      i_); dMm(i_AdcDynTest64k_v2); dMm(spectP_disturb); dMm(findSpac); dMm(findSpan); dMm(findStart); dMm(i_AdcDynTest64k_v3) \
+      t1); dMm(AmpMin); dMm(t2); dMm(ADout_w); dMm(ADout_spect); dMm(span_dc); dMm(spanh_har); dMm(span_s); dMm(maxdB) \
+      ; dMm(fin); dMm(data_ref); dMm(n); dMm(n_AdcDynTest64k_v0); dMm(data_ref_w); dMm(data_ref_spect); dMm(data_ref_dB) \
+      ; dMm(tone); dMm(har_peak); dMm(har_bin); dMm(fin_x); dMm(spectP); dMm(Ph); dMm(Ph_dB); dMm(har_num); dMm(har_num_AdcDynTest64k_v1) \
+      ; dMm(Pdc); dMm(Ps); dMm(Pd); dMm(Pn); dMm(SNR_dBFS); dMm(ENOB); dMm(ENOBFS); dMm(spectP_temp); dMm(i_); dMm( \
+      i_AdcDynTest64k_v2); dMm(spectP_disturb); dMm(findSpac); dMm(findSpan); dMm(findStart); dMm(i_AdcDynTest64k_v3) \
       ; dMm(spectP_disturb_peak); dMm(num); dMm(array_flag); dMm(jj); dMm(jj_AdcDynTest64k_v4); dMm(k); dMm(k_AdcDynTest64k_v5) \
       ; dMm(spectP_disturb_temp); dMm(Harbin_disturb_temp); dMm(Ph_disturb); dMm(Ph_disturb_dB); dMm(i_AdcDynTest64k_v6) \
       ; dMm(Pd_disturb); dMm(Pd_disturb_dB); dMm(Pdc_dB); dMm(Ps_dB); dMm(Pd_dB); dMm(SFDR_dBFS); 
@@ -58,7 +58,7 @@
     Vpp = AmpMax-AmpMin;
     //计算出波形的Vpp值
     //****************************************************************
-    ADout_w = times(ADout, chebwin(NFFT,200));
+    ADout_w = times(ADout,ADout);
     //chebwin(NFFT,200);    			%数据加窗，参数200是为了FFT波形在高频处不翘
     ADout_spect = fft(ADout_w,NFFT);
     //做64K FFT
@@ -87,7 +87,7 @@
       data_ref(n) = V/2.0*sin((n-1.0)*(freq_fin)/fclk*2.0*pi);
       //按主信号频率生成理论波形
     }
-    data_ref_w = times(data_ref, chebwin(NFFT,200));
+    data_ref_w = times(data_ref,ADout);
     //chebwin(NFFT,200);					%数据加窗
     data_ref_spect = fft(data_ref_w,NFFT);
     //64K FFT
@@ -351,7 +351,7 @@
     // function exit code
     ADout.setname(NULL); fclk.setname(NULL); numbit.setname(NULL); V.setname(NULL); TPY.setname(NULL); TPX.setname( \
       NULL); tone_code.setname(NULL); fin_input.setname(NULL); 
-    SNR__o=SNR; SFDR__o=SFDR; SNR_dBFS__o=SNR_dBFS; SINAD__o=SINAD; THD__o=THD; HD__o=HD; ENOB__o=ENOB; ENOBFS__o=ENOBFS;  \
+    freq_fin__o=freq_fin; Vin__o=Vin; Vpp__o=Vpp; SNR__o=SNR; SFDR__o=SFDR; SINAD__o=SINAD; THD__o=THD; HD__o=HD;  \
       Pn_dB__o=Pn_dB; ADout_dB__o=ADout_dB; Harbin__o=Harbin; Fn_disturb__o=Fn_disturb; Harbin_disturb__o=Harbin_disturb;  \
       disturb_len__o=disturb_len; ref_dB__o=ref_dB; 
     return x_M;
@@ -363,27 +363,27 @@
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=1.0; nargout_set=1;
-    dMm(SNR__o); dMm(SFDR__o); dMm(SNR_dBFS__o); dMm(SINAD__o); dMm(THD__o); dMm(HD__o); dMm(ENOB__o); dMm(ENOBFS__o) \
+    dMm(freq_fin__o); dMm(Vin__o); dMm(Vpp__o); dMm(SNR__o); dMm(SFDR__o); dMm(SINAD__o); dMm(THD__o); dMm(HD__o) \
       ; dMm(Pn_dB__o); dMm(ADout_dB__o); dMm(Harbin__o); dMm(Fn_disturb__o); dMm(Harbin_disturb__o); dMm(disturb_len__o) \
       ; dMm(ref_dB__o); 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
-    return(SNR__o);
+    return(freq_fin__o);
     end_scope
   }
   
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o) {
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=2.0; nargout_set=1;
-    dMm(SNR_dBFS__o); dMm(SINAD__o); dMm(THD__o); dMm(HD__o); dMm(ENOB__o); dMm(ENOBFS__o); dMm(Pn_dB__o); dMm(ADout_dB__o) \
+    dMm(Vpp__o); dMm(SNR__o); dMm(SFDR__o); dMm(SINAD__o); dMm(THD__o); dMm(HD__o); dMm(Pn_dB__o); dMm(ADout_dB__o) \
       ; dMm(Harbin__o); dMm(Fn_disturb__o); dMm(Harbin_disturb__o); dMm(disturb_len__o); dMm(ref_dB__o); 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
@@ -391,15 +391,15 @@
     end_scope
   }
   
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o, Mm& SNR_dBFS__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o, Mm& Vpp__o) {
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=3.0; nargout_set=1;
-    dMm(SINAD__o); dMm(THD__o); dMm(HD__o); dMm(ENOB__o); dMm(ENOBFS__o); dMm(Pn_dB__o); dMm(ADout_dB__o); dMm(Harbin__o) \
+    dMm(SNR__o); dMm(SFDR__o); dMm(SINAD__o); dMm(THD__o); dMm(HD__o); dMm(Pn_dB__o); dMm(ADout_dB__o); dMm(Harbin__o) \
       ; dMm(Fn_disturb__o); dMm(Harbin_disturb__o); dMm(disturb_len__o); dMm(ref_dB__o); 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
@@ -407,15 +407,15 @@
     end_scope
   }
   
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o) {
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=4.0; nargout_set=1;
-    dMm(THD__o); dMm(HD__o); dMm(ENOB__o); dMm(ENOBFS__o); dMm(Pn_dB__o); dMm(ADout_dB__o); dMm(Harbin__o); dMm(Fn_disturb__o) \
+    dMm(SFDR__o); dMm(SINAD__o); dMm(THD__o); dMm(HD__o); dMm(Pn_dB__o); dMm(ADout_dB__o); dMm(Harbin__o); dMm(Fn_disturb__o) \
       ; dMm(Harbin_disturb__o); dMm(disturb_len__o); dMm(ref_dB__o); 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
@@ -423,15 +423,15 @@
     end_scope
   }
   
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o, Mm& SFDR__o) {
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=5.0; nargout_set=1;
-    dMm(HD__o); dMm(ENOB__o); dMm(ENOBFS__o); dMm(Pn_dB__o); dMm(ADout_dB__o); dMm(Harbin__o); dMm(Fn_disturb__o) \
-      ; dMm(Harbin_disturb__o); dMm(disturb_len__o); dMm(ref_dB__o); 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    dMm(SINAD__o); dMm(THD__o); dMm(HD__o); dMm(Pn_dB__o); dMm(ADout_dB__o); dMm(Harbin__o); dMm(Fn_disturb__o);  \
+      dMm(Harbin_disturb__o); dMm(disturb_len__o); dMm(ref_dB__o); 
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
@@ -439,15 +439,15 @@
     end_scope
   }
   
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o, Mm& SFDR__o, Mm& SINAD__o) {
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=6.0; nargout_set=1;
-    dMm(ENOB__o); dMm(ENOBFS__o); dMm(Pn_dB__o); dMm(ADout_dB__o); dMm(Harbin__o); dMm(Fn_disturb__o); dMm(Harbin_disturb__o) \
+    dMm(THD__o); dMm(HD__o); dMm(Pn_dB__o); dMm(ADout_dB__o); dMm(Harbin__o); dMm(Fn_disturb__o); dMm(Harbin_disturb__o) \
       ; dMm(disturb_len__o); dMm(ref_dB__o); 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
@@ -455,15 +455,15 @@
     end_scope
   }
   
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& ENOB__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o, Mm& SFDR__o, Mm& SINAD__o, Mm& THD__o) {
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=7.0; nargout_set=1;
-    dMm(ENOBFS__o); dMm(Pn_dB__o); dMm(ADout_dB__o); dMm(Harbin__o); dMm(Fn_disturb__o); dMm(Harbin_disturb__o);  \
-      dMm(disturb_len__o); dMm(ref_dB__o); 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    dMm(HD__o); dMm(Pn_dB__o); dMm(ADout_dB__o); dMm(Harbin__o); dMm(Fn_disturb__o); dMm(Harbin_disturb__o); dMm( \
+      disturb_len__o); dMm(ref_dB__o); 
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
@@ -471,15 +471,15 @@
     end_scope
   }
   
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o, Mm& SFDR__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o) {
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=8.0; nargout_set=1;
     dMm(Pn_dB__o); dMm(ADout_dB__o); dMm(Harbin__o); dMm(Fn_disturb__o); dMm(Harbin_disturb__o); dMm(disturb_len__o) \
       ; dMm(ref_dB__o); 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
@@ -487,15 +487,15 @@
     end_scope
   }
   
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o, Mm& Pn_dB__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o, Mm& SFDR__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& Pn_dB__o) {
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=9.0; nargout_set=1;
     dMm(ADout_dB__o); dMm(Harbin__o); dMm(Fn_disturb__o); dMm(Harbin_disturb__o); dMm(disturb_len__o); dMm(ref_dB__o) \
       ; 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
@@ -503,15 +503,15 @@
     end_scope
   }
   
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o, Mm& Pn_dB__o, Mm&  \
-    ADout_dB__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o, Mm& SFDR__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& Pn_dB__o, Mm& ADout_dB__o) \
+     {
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=10.0; nargout_set=1;
     dMm(Harbin__o); dMm(Fn_disturb__o); dMm(Harbin_disturb__o); dMm(disturb_len__o); dMm(ref_dB__o); 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
@@ -519,15 +519,15 @@
     end_scope
   }
   
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o, Mm& Pn_dB__o, Mm&  \
-    ADout_dB__o, Mm& Harbin__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o, Mm& SFDR__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& Pn_dB__o, Mm& ADout_dB__o, \
+     Mm& Harbin__o) {
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=11.0; nargout_set=1;
     dMm(Fn_disturb__o); dMm(Harbin_disturb__o); dMm(disturb_len__o); dMm(ref_dB__o); 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
@@ -535,15 +535,15 @@
     end_scope
   }
   
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o, Mm& Pn_dB__o, Mm&  \
-    ADout_dB__o, Mm& Harbin__o, Mm& Fn_disturb__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o, Mm& SFDR__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& Pn_dB__o, Mm& ADout_dB__o, \
+     Mm& Harbin__o, Mm& Fn_disturb__o) {
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=12.0; nargout_set=1;
     dMm(Harbin_disturb__o); dMm(disturb_len__o); dMm(ref_dB__o); 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
@@ -551,15 +551,15 @@
     end_scope
   }
   
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o, Mm& Pn_dB__o, Mm&  \
-    ADout_dB__o, Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o, Mm& SFDR__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& Pn_dB__o, Mm& ADout_dB__o, \
+     Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o) {
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=13.0; nargout_set=1;
     dMm(disturb_len__o); dMm(ref_dB__o); 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
@@ -567,15 +567,15 @@
     end_scope
   }
   
-  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& SNR__o, \
-     Mm& SFDR__o, Mm& SNR_dBFS__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& ENOB__o, Mm& ENOBFS__o, Mm& Pn_dB__o, Mm&  \
-    ADout_dB__o, Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o, Mm& disturb_len__o) {
+  Mm AdcDynTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm TPY, Mm TPX, Mm tone_code, Mm fin_input, i_o_t, Mm& freq_fin__o, \
+     Mm& Vin__o, Mm& Vpp__o, Mm& SNR__o, Mm& SFDR__o, Mm& SINAD__o, Mm& THD__o, Mm& HD__o, Mm& Pn_dB__o, Mm& ADout_dB__o, \
+     Mm& Harbin__o, Mm& Fn_disturb__o, Mm& Harbin_disturb__o, Mm& disturb_len__o) {
     begin_scope
     double old_nargin=nargin_val; nargin_val=8.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=14.0; nargout_set=1;
     dMm(ref_dB__o); 
-    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, SNR__o, SFDR__o, SNR_dBFS__o, SINAD__o, \
-       THD__o, HD__o, ENOB__o, ENOBFS__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
+    AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, Vin__o, Vpp__o, SNR__o, \
+       SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, \
        ref_dB__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
