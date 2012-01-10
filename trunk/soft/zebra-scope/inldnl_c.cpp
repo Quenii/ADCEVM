@@ -1,5 +1,6 @@
 #include <vector>
 #include <cmath>
+#include <algorithm>
 
 using namespace std;
 
@@ -57,7 +58,7 @@ int inldnl_c(int* samples, int numbit, int numpt, double T1, double T2,
 
 	int *pH = &H[0];
 	for (int i = 0; i < numpt; ++i)
-		H[(int)code[i]] = H[(int)code[i]] + 1; 
+		H[code[i]] = H[code[i]] + 1; 
 
 	//  int indexh = 0;
 	for (int jh = (1 << (numbit-1)) - 1; jh <= NCODES - 1; ++jh)
@@ -134,5 +135,88 @@ int inldnl_c(int* samples, int numbit, int numpt, double T1, double T2,
 	for (int k = indexl; k < indexh-2; ++k) {
 		DNLar[k] = G*(T[k+1]-T[k])/Q-1;
 	}
+
+	return 1;
 }
 
+int noise_c(int *samples, int numpt, int numbit, vector<int>& H, int& index_max, int& indexl, int& indexh)
+{
+	// v1=v1';
+	// v2=v1/2^(16-numbit)+2^(numbit-1);
+	// code=round(v2(:,1)-0.4999999);
+	int* v1 = samples;
+	int a =  1 << (16-numbit);
+	int b = 1 << (numbit-1);
+	int* v2 = v1;
+	for (int i = 0; i < numpt; ++i)
+		v2[i] = v1[i] / a + b; 
+
+	int* code;
+	//for (int i = 0; i < numpt; ++i)
+	//  code[i] = round(v2[i] - 0.4999999f);
+
+	// H=zeros(1,2^numbit);
+	for (int i = 0; i < H.size(); ++i)
+	{
+		H[i] = 0;
+	}
+
+	// for i=1:size(code),
+	//     H(code(i)+1)=H(code(i)+1)+1;
+	// end
+	for (int i = 0; i < numpt; ++i)
+		H[code[i]] = H[code[i]] + 1; 
+
+	// H_max=max(H);
+	int H_max = *max_element(H.begin(), H.end());
+	// for j=1:2^numbit-1,
+	//     if H(j)==H_max,
+	//         index_max=j;
+	//     end
+	// end
+	for (int j=0; j<((1<<numbit)-1); ++j)
+	{
+		if (H[j] == H_max)
+			index_max = j;
+	}
+	//index_max = max_element(H.begin(), H.begin() + ((1<<numbit)-1));
+
+	// for j=1:index_max,
+	//     if H(j)~=0,
+	//         indexl=j;
+	//        break;
+	//     end
+	// end
+	for (int j=0; j<index_max; ++j)
+	{
+		if (H[j] != 0)
+		{
+			indexl = j;
+			break;
+		}
+	}
+
+	// for j=index_max:1:2^numbit-1,
+	//     if H(j)~=0,
+	//         indexh=j;
+	//     end
+	// end
+	for (int j=index_max; j<((1<<numbit)-1); ++j )
+	{
+		if (H[j] != 0)
+		{
+			indexh = j;
+		}
+	}
+
+	// figure;
+	// %hist(code);
+	// bar([indexl-1:indexh+1],H(indexl-1:indexh+1));
+	// axis([index_max-4.5 index_max+4.5 0 H_max]);
+
+	// %LSB=(T2-T1)/2^numbit;
+	// mean_mid=mean(round(v1/2^(16-numbit)-0.4999999))
+	// mean_stdLSB=std(code)
+
+	return 1;
+}
