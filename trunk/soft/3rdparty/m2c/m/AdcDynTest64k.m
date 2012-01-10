@@ -1,9 +1,9 @@
 %%%(Harbin(i)-1)*fclk/65536, ADout_dB(Harbin(i))-ref_dB
 %%%Fn_disturb(disturb_len - i)*fclk, ADout_dB(Harbin_disturb(disturb_len - i))-ref_dB
 %%%Pn_dB noise floor
-function [SNR, SFDR, SNR_dBFS, SINAD, THD, HD, ENOB, ENOBFS, Pn_dB, ...
-         ADout_dB, Harbin, Fn_disturb, Harbin_disturb, disturb_len, ...
-         ref_dB] =AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input)
+function [freq_fin, Vin, Vpp, SNR, SFDR, SINAD, THD, HD, Pn_dB, ...
+          ADout_dB, Harbin, Fn_disturb, Harbin_disturb, disturb_len, ref_dB]...
+    =AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input)
 % Pn_dB为底噪声，fclk为采样频率，numbit为采样精度，NFFT为FFT的深度，V为峰峰值，TPY和TPX分别为时域图的Y和X轴，code
 % 为1：补码，2：偏移码，3：格雷码。
 %例子：若采样时钟80MHZ，精度16为，峰峰值2v，时域图显示Y轴＋－1V和X轴0－0.01ms，码源为补码
@@ -168,7 +168,7 @@ Ps_dB =sum(ADout_dB(fin-span_s:fin+span_s));								%信号功率dB值
 Pd_dB = sum(Ph_dB(2:10));                                                   %2~10谐波功率之和dB值
 Pn_dB = (sum(ADout_dB(1:NFFT/2))-Pdc_dB-Ps_dB-Pd_dB - Pd_disturb_dB)*2/(NFFT-span_dc-spanh_har*5-span_s) - ref_dB	%噪底dB值
 SFDR=10*log10(Ph(1)/max(max(Ph(2:10),max(Ph_disturb(1:disturb_len)))))	 	%SFDR计算
-SFDR_dBFS=SFDR-Vin;                                                          %SFDR dBFS值
+SFDR_dBFS = SFDR - Vin;                                                          %SFDR dBFS值
 %****************************************************************
 %%% Draw markers and numbers on 1~10th harmonic,
 % $$$ hold on; 
