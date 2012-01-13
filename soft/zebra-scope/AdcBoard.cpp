@@ -76,6 +76,7 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	if (fs <= 0) fs = 1e8;
 	updateXaxis(fs);
 	initTestParas();
+	report.fdReport.Spectrum.resize(buffer_cnt);
 
 	if (!m_timerIdPower)
 	{
@@ -191,9 +192,6 @@ void AdcBoard::initTestParas()
 		fdRpt.DynamicPara.push_back(para);
 
 	}
-	
-	reverse(fdRpt.DynamicPara.begin(), fdRpt.DynamicPara.end());
-	reverse(fdRpt.DualTonePara.begin(), fdRpt.DualTonePara.end());
 
 }
 bool AdcBoard::isRunning()
@@ -258,7 +256,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 #ifndef NOBOARD
 
-	vector<unsigned short> buff;
+	static vector<unsigned short> buff;
 	buff.resize(buffer_cnt);
 
 	if (isOpen())
@@ -294,7 +292,8 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	tdReport.rawSamples.resize(tdReport.samples.size());
 	for (int i = 0; i < tdReport.samples.size(); ++i)
 	{
-		tdReport.samples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max))*vpp/max/2;
+		float t = ((int)(qSin(2*pi*i*fc/fs+offset)*max))*vpp/max/2;
+		tdReport.samples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max))*vpp/max/2/20 + (rand()/RAND_MAX-0.5)/(1<<8);
 		tdReport.rawSamples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max/2));
 	}
 
@@ -316,7 +315,10 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	FreqDomainReport& fdReport = report.fdReport;
 	fdReport.dualTone = m_signal.dualToneTest;
 
-	fdReport.Spectrum.resize(tdReport.samples.size()/2);
+	if (fdReport.Spectrum.size() < tdReport.samples.size()/2)
+	{	
+		fdReport.Spectrum.resize(tdReport.samples.size()/2);
+	}
 
 #if defined(MATLAB) 
 	calc_dynam_params(tdReport.samples, m_adc.bitcount, fdReport);

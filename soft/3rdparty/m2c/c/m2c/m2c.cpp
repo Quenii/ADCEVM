@@ -280,10 +280,10 @@ void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, double 
 	cdisturb_len = disturb_len__o.r(1,1);
 	cref_dB = ref_dB__o.r(1,1);
 
-	memcpy(cADout_dB, ADout_dB__o.addr(), len*sizeof(*cADout_dB));
+	memcpy(cADout_dB, ADout_dB__o.addr(), len/2*sizeof(*cADout_dB));
 	memcpy(cHD, HD__o.addr(), 10*sizeof(*cHD));
 	memcpy(cHarbin, Harbin__o.addr(), 10*sizeof(*cHarbin));
-	memcpy(cFn_disturb, Fn_disturb__o.addr(), cdisturb_len*sizeof(*cFn_disturb));
-	memcpy(cHarbin_disturb, Harbin_disturb__o.addr(), cdisturb_len*sizeof(*cHarbin_disturb));
+	memcpy(cFn_disturb, Fn_disturb__o.addr(), 10*sizeof(*cFn_disturb));
+	//memcpy(cHarbin_disturb, Harbin_disturb__o.addr(), cdisturb_len*sizeof(*cHarbin_disturb));
 
 }

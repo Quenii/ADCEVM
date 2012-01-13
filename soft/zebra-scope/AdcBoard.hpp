@@ -60,13 +60,13 @@ public:
 	void staticTest();
 	const AdcBoardReport& reportRef() { return report; }
 	bool clocked();
+	void updateXaxis(float fs);
 
 protected:
 	void timerEvent (QTimerEvent * event);
 
 private:
 	void Convert(TimeDomainReport&, float, float, std::vector<unsigned short>&);
-	void updateXaxis(float fs);
 	bool readPowerMonitorData(PowerStatus& powerStatus);
 	void initTestParas();
 
