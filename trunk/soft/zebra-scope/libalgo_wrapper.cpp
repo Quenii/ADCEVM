@@ -63,7 +63,7 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 {
 	const int disturb_len = 10;
 	static std::vector<double> input(samples.size());
-	static std::vector<double> cADout_dB(input.size());
+	static std::vector<double> cADout_dB(input.size()/2);
 	static std::vector<double> cHD(disturb_len);
 	static std::vector<double> cHarbin(disturb_len);
 	static std::vector<double> cFn_disturb(disturb_len);
@@ -94,12 +94,12 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 	{
 		param.Spectrum.resize(cADout_dB.size());
 	}
-	for (int i = 0; i < cADout_dB.size(); ++i)
+	for (int i = 0; i < param.Spectrum.size(); ++i)
 	{
 		param.Spectrum[i] = cADout_dB[i];
 	}
 	param.dualTone = false;
-	param.DynamicPara[0].value = cfreq_fin;
+	param.DynamicPara[0].value = cfreq_fin / 1e6;
 	param.DynamicPara[1].value = cVin;
 	param.DynamicPara[2].value = cVpp;
 	param.DynamicPara[3].value = cSNR;
@@ -110,18 +110,11 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 	param.DynamicPara[8].value = (cSINAD - cVin - 1.76) / 6.02;
 	param.DynamicPara[9].value = cPn_dB;
 
-	for (int i=0; i<disturb_len; ++i)
+	for (int i=0; i<cHD.size()-1; ++i)
 	{
-		param.DynamicPara[10+i].value = cHD[i+1];
+		param.DynamicPara[10+i].value 
+			= cHD[i+1];
 	}
-	//param.ENOB.value = ENOB;
-	//param.SNR.value = SNR;
-	//param.SINAD.value = SINAD;
-	//param.SFDR.value = SFDR;
-	//param.A.value = A;
-	//param.AdB.value = AdB;
-	//param.THD.value = THD;
-
 }
 
 #endif

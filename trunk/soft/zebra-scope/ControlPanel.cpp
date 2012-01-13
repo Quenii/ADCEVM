@@ -105,95 +105,26 @@ void ControlPanel::updateReport(const AdcBoardReport &rpt)
 			tdReportModel->insertRow(0);
 			tdReportModel->setData(tdReportModel->index(0, 0), fdRpt.DualTonePara[i].name);
 			//tdReportModel->item(0, 0)->setEditable(false);
-			tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.DualTonePara[i].value);
+			tdReportModel->setData(tdReportModel->index(0, 1), QString("%L1").arg(fdRpt.DualTonePara[i].value, 0, 'f', 2));
 			//tdReportModel->item(0, 1)->tdReportModel(false);
 			tdReportModel->setData(tdReportModel->index(0, 2), fdRpt.DualTonePara[i].unit);
 			//tdReportModel->item(0, 2)->tdReportModel(false);
-
 		}
 	}
 	else
 	{
 		int len = fdRpt.DynamicPara.size();
-		for (int i = 0; i < len; ++ i )
+		for (int i = len-1; i >= 0; -- i )
 		{
 			tdReportModel->insertRow(0);
 			tdReportModel->setData(tdReportModel->index(0, 0), fdRpt.DynamicPara[i].name);
 			//tdReportModel->item(0, 0)->setEditable(false);
-			tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.DynamicPara[i].value);
+			tdReportModel->setData(tdReportModel->index(0, 1), QString("%L1").arg(fdRpt.DynamicPara[i].value, 0, 'f', 2));
 			//tdReportModel->item(0, 1)->tdReportModel(false);
 			tdReportModel->setData(tdReportModel->index(0, 2), fdRpt.DynamicPara[i].unit);
 			//tdReportModel->item(0, 2)->tdReportModel(false);
-
 		}
-
 	}
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "Max(V)");
-	////tdReportModel->item(0, 0)->setEditable(false);
-
-	//tdReportModel->setData(tdReportModel->index(0, 1), tdRpt.max);
-	////tdReportModel->item(0, 1)->setEditable(false);
-	//
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "Min(V)");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), tdRpt.min);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//for (int i = fdRpt.HD.size() - 1; i >= 0 ; --i)
-	//{
-	//	tdReportModel->insertRow(0);
-	//	tdReportModel->setData(tdReportModel->index(0, 0), fdRpt.HD[i].name );
-	//	//tdReportModel->item(0, 0)->setEditable(false);
-	//	tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.HD[i].value);
-	//	//tdReportModel->item(0, 1)->tdReportModel(false);
-	//}
-
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "ENOB");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.ENOB.value);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "THD");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.THD.value);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "SINAD");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.SINAD.value);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "SNR");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.SNR.value);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "SFDR");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.SFDR.value);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "Input(dB)");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.AdB.value);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-	//tdReportModel->insertRow(0);
-	//tdReportModel->setData(tdReportModel->index(0, 0), "Input(Vpp)");
-	////tdReportModel->item(0, 0)->setEditable(false);
-	//tdReportModel->setData(tdReportModel->index(0, 1), fdRpt.A.value);
-	////tdReportModel->item(0, 1)->tdReportModel(false);
-
-
 }
 
 void ControlPanel::on_pushButtonStartDynamicTest_clicked()

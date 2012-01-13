@@ -1,5 +1,6 @@
 #include "SignalSettingsWidget.h"
 #include "SignalSettingsDialog.h"
+#include "AdcBoard.hpp"
 
 SignalSettingsWidget::SignalSettingsWidget(QWidget *parent)
 	: QWidget(parent)
@@ -36,5 +37,6 @@ void SignalSettingsWidget::reloadSettings()
 	{
 		signalIIFreqLineEdit->setText(QString("---.------"));
 	}
-
+	
+	AdcBoard::instance()->updateXaxis(settings.clockFreq);
 }

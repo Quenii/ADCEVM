@@ -48,7 +48,7 @@ data_ref_spect=fft(data_ref_w,NFFT);					%64K FFT
 data_ref_dB=20*log10(abs(data_ref_spect));				%×ªÎªdBÖµ
 ref_dB=max(data_ref_dB(1:NFFT/2));					%¼ÆËã²Î¿¼Æ½ÒÆÖµ(ÀíÂÛÖµÊÇÎÞOFFSETµÄ)
 %*****************************»æÍ¼(ÆµÓò)**************************
-figure(1)
+% $$$ figure(1)
 %% Draw horizontal lines;
 %% Set Y-axis 0~-140dB
 % $$$ plot([0:round(NFFT/2)-1].*fclk/NFFT,-20,'-k');
@@ -78,7 +78,7 @@ har_peak=max(ADout_dB(round(tone*NFFT)-span_s:round(tone*NFFT)+span_s)); 					%Ë
 har_bin=find(ADout_dB(round(tone*NFFT)-span_s:round(tone*NFFT)+span_s)==har_peak);          %ÕÒ³ö×î´óÖµÊ±µÄµã
 fin_x = har_bin+round(tone*NFFT)-span_s-1;													%»»Ëã³ÉdBÖµµÄ¾ø¶ÔÎ»ÖÃ
 if tone_code == 2
-    freq_fin = fin_input + floor((fin_x-1)/fclk)*fclk                %Êµ¼Ê×î´óÖµ(ºÍÉèÖÃ»áÓÐÇø±ð)     
+    freq_fin = fin_input + floor((fin_x-1)/fclk)*fclk;                %Êµ¼Ê×î´óÖµ(ºÍÉèÖÃ»áÓÐÇø±ð)     
     fin = fin_x;
 end
 %******************Ö÷ÐÅºÅºÍ2~10´ÎÐ³²¨¹¦ÂÊdBÖµ********************
@@ -111,7 +111,11 @@ THD=10*log10(Pd/Ph(1));                              %THD¼ÆËã
 SNR_dBFS = SNR -Vin;                                 %SNR dBFSÖµ¼ÆËã
 ENOB = (SINAD - 1.76)/6.02;                          %ENOB¼ÆËã
 ENOBFS = (SINAD - Vin - 1.76)/6.02;					%ENOB dBFS¼ÆËã
-HD = [ADout_dB(Harbin(1))-ref_dB,ADout_dB(Harbin(2))-ref_dB,ADout_dB(Harbin(3))-ref_dB,ADout_dB(Harbin(4))-ref_dB,ADout_dB(Harbin(5))-ref_dB,ADout_dB(Harbin(6))-ref_dB,ADout_dB(Harbin(7))-ref_dB,ADout_dB(Harbin(8))-ref_dB,ADout_dB(Harbin(9))-ref_dB,ADout_dB(Harbin(10))-ref_dB]
+HD = [ADout_dB(Harbin(1))-ref_dB, ADout_dB(Harbin(2))-ref_dB, ...
+      ADout_dB(Harbin(3))-ref_dB, ADout_dB(Harbin(4))-ref_dB, ...
+      ADout_dB(Harbin(5))-ref_dB, ADout_dB(Harbin(6))-ref_dB, ...
+      ADout_dB(Harbin(7))-ref_dB, ADout_dB(Harbin(8))-ref_dB, ...
+      ADout_dB(Harbin(9))-ref_dB, ADout_dB(Harbin(10))-ref_dB];
 %*********************³ý2~10Ð³²¨Ö®ÍâµÄÔÓÉ¢ËÑË÷*******************
 %*************************ÔÓÉ¢¹¦ÂÊ¼ÆËã***************************
 %****************ÓÃÓÚ¼ÆËãÔëµ×ºÍSFDR£¬ÆäËû²ÎÊýÎÞÓÃ****************
@@ -166,9 +170,10 @@ Pd_disturb_dB = sum(Ph_disturb_dB(1:disturb_len));
 Pdc_dB=sum(ADout_dB(1:span_dc));											%DC OFFSET¹¦ÂÊdBÖµ
 Ps_dB =sum(ADout_dB(fin-span_s:fin+span_s));								%ÐÅºÅ¹¦ÂÊdBÖµ
 Pd_dB = sum(Ph_dB(2:10));                                                   %2~10Ð³²¨¹¦ÂÊÖ®ºÍdBÖµ
-Pn_dB = (sum(ADout_dB(1:NFFT/2))-Pdc_dB-Ps_dB-Pd_dB - Pd_disturb_dB)*2/(NFFT-span_dc-spanh_har*5-span_s) - ref_dB	%Ôëµ×dBÖµ
-SFDR=10*log10(Ph(1)/max(max(Ph(2:10),max(Ph_disturb(1:disturb_len)))))	 	%SFDR¼ÆËã
-SFDR_dBFS = SFDR - Vin;                                                          %SFDR dBFSÖµ
+Pn_dB = (sum(ADout_dB(1:NFFT/2))-Pdc_dB-Ps_dB-Pd_dB - Pd_disturb_dB)*2/(NFFT-span_dc-spanh_har*5-span_s) - ref_dB;	%Ôëµ×dBÖµ
+SFDR=10*log10(Ph(1)/max(max(Ph(2:10),max(Ph_disturb(1:disturb_len)))));	 	%SFDR¼ÆËã
+SFDR_dBFS = SFDR - Vin;          %SFDR dBFSÖµ
+ADout_dB = ADout_dB - ref_dB;
 %****************************************************************
 %%% Draw markers and numbers on 1~10th harmonic,
 % $$$ hold on; 
