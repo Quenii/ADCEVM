@@ -57,7 +57,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies=" qtmain.lib QtCore4.lib QtGui4.lib QtSolutions_SingleApplication-head.lib"
+				AdditionalDependencies=" qtmain.lib QtCore4.lib QtGui4.lib QtSolutions_SingleApplication-head.lib qwt.lib qwtmathml.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;C:\Program Files\MATLAB\R2008a\extern\lib\win32\microsoft&quot;;&quot;$(QTDIR)\..\qt-solutions\qtsingleapplication\lib&quot;;D:\Matlab\R2008a\extern\lib\win32\microsoft"
 				IgnoreAllDefaultLibraries="false"
@@ -132,7 +132,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies=" qtmaind.lib QtCored4.lib QtGuid4.lib  QtSolutions_SingleApplication-headd.lib"
+				AdditionalDependencies=" qtmaind.lib QtCored4.lib QtGuid4.lib  QtSolutions_SingleApplication-headd.lib  qwtd.lib  qwtmathmld.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;C:\Program Files\MATLAB\R2008a\extern\lib\win32\microsoft&quot;;&quot;$(QTDIR)\..\qt-solutions\qtsingleapplication\lib&quot;;D:\Matlab\R2008a\extern\lib\win32\microsoft"
 				IgnoreDefaultLibraryNames="msvcrtd.lib, libcmt.lib"
@@ -191,6 +191,10 @@
 			</File>
 			<File
 				RelativePath=".\dacanalyzersettings.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\histplot.cpp"
 				>
 			</File>
 			<File
@@ -366,6 +370,32 @@
 			<File
 				RelativePath=".\dacanalyzersettings.h"
 				>
+			</File>
+			<File
+				RelativePath=".\histplot.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot; &quot;-I$(QTDIR)\..\qt-solutions\qtsingleapplication&quot; &quot;-I$(QTDIR)\..\qt-solutions\qtsingleapplication\src&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I.&quot; &quot;-I.\..&quot; &quot;-I.\..\include&quot; &quot;-I.\GeneratedFiles&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-IC:\Program &quot;-ID:\Matlab\R2008a\extern\include&quot; -DNDEBUG -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 Files\MATLAB\R2008a\extern\include&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot; &quot;-I$(QTDIR)\..\qt-solutions\qtsingleapplication&quot; &quot;-I$(QTDIR)\..\qt-solutions\qtsingleapplication\src&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I.&quot; &quot;-I.\..&quot; &quot;-I.\..\include&quot; &quot;-I.\GeneratedFiles&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-IC:\Program &quot;-ID:\Matlab\R2008a\extern\include&quot; -DQT_CORE_LIB -DQT_DLL -DQT_GUI_LIB -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 Files\MATLAB\R2008a\extern\include&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\inldnl_c.h"
@@ -1032,6 +1062,18 @@
 			SourceControlFiles="false"
 			>
 			<File
+				RelativePath=".\generatedfiles\release\moc_AdcBoard.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\generatedfiles\debug\moc_AdcBoard.cpp"
 				>
 				<FileConfiguration
@@ -1051,30 +1093,6 @@
 						Name="VCCLCompilerTool"
 						ObjectFile="$(IntDir)\$(InputName)1.obj"
 						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\generatedfiles\release\moc_AdcBoard.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\generatedfiles\release\moc_ControlPanel.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1102,6 +1120,18 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\generatedfiles\release\moc_ControlPanel.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\GeneratedFiles\Release\moc_mainwindow.cpp"
 				>
 				<FileConfiguration
@@ -1118,6 +1148,18 @@
 				>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\generatedfiles\release\moc_RegAccess.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1149,7 +1191,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\generatedfiles\release\moc_RegAccess.cpp"
+				RelativePath=".\generatedfiles\release\moc_RegAccessItem.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1165,18 +1207,6 @@
 				>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\generatedfiles\release\moc_RegAccessItem.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1271,6 +1301,18 @@
 				</File>
 				<File
 					RelativePath=".\generatedfiles\release\moc_AdcSettingsWidget.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\generatedfiles\release\moc_histplot.cpp"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -1408,6 +1450,29 @@
 				</File>
 				<File
 					RelativePath=".\generatedfiles\debug\moc_AdcSettingsWidget.cpp"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\generatedfiles\debug\moc_histplot.cpp"
 					>
 					<FileConfiguration
 						Name="Release|Win32"

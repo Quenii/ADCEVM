@@ -1,7 +1,8 @@
 #include "mainwindow.h"
+#include "histplot.h"
+
 #include <QMessageBox>
 #include <QtSingleApplication>
-
 
 
 #ifdef MATLAB    //defined in AdcBoardTypes.hpp
@@ -48,6 +49,9 @@ int main(int argc, char *argv[])
 		return !app.sendMessage(" ");
 
 	w.showMaximized();
+
+	HistPlot histPlot;
+	histPlot.showMaximized();
 
 	int ret = app.exec();
 
