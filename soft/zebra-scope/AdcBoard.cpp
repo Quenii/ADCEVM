@@ -61,10 +61,7 @@ static void plot(const std::vector<double>& data, const QString& title, double m
 	scope->plot(&data[0], 16384);
 	scope->show();
 	scope->resize(640, 480);
-//	scope->adjust(min, max);
-
 }
-
 
 AdcBoard* AdcBoard::_inst = 0;
 AdcBoard::AdcBoard(QObject* parent /* = 0 */) 
@@ -257,7 +254,6 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 #ifndef NOBOARD
 
 	static vector<unsigned short> buff;
-	buff.resize(buffer_cnt);
 
 	if (isOpen())
 	{
@@ -266,7 +262,6 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 			buff.resize(buffer_cnt*2);
 		writeReg(0xFFFF, 0x0001);  //reset
 		writeReg(0xFFFF, 0x0000);  //dereset
-		//buff[512] = {0x0032};
 		writeReg(0x1004, 0xFFFF);  //stor 1M
 		Sleep(200);	
 
@@ -282,35 +277,27 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 	}
 
-#else
+#else  //generate sine wave
 	m_signal = m_analyzer.signalSettings();
 	float fs = m_signal.clockFreq;
 	float fc = m_signal.signalFreq;
 
+	if (buff.size() < buffer_cnt*2)
+		buff.resize(buffer_cnt*2);
+
+	int dither = (float)rand() * 8.0f / RAND_MAX;
 	int offset = rand();
-	tdReport.samples.resize(buffer_cnt*2);
-	tdReport.rawSamples.resize(tdReport.samples.size());
-	for (int i = 0; i < tdReport.samples.size(); ++i)
+	for (int i=0; i<buff.size(); ++i)
 	{
-		float t = ((int)(qSin(2*pi*i*fc/fs+offset)*max))*vpp/max/2;
-		tdReport.samples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max))*vpp/max/2/20 + (rand()/RAND_MAX-0.5)/(1<<8);
-		tdReport.rawSamples[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max/2));
+		buff[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max)) >> 2;
 	}
+
+	Convert(tdReport, max, vpp, buff);
 
 #endif //NOBOARD
 
-//	tdReport.max = max_element(tdReport.samples.begin(), tdReport.samples.end());
-	float fmin = vpp;
-	float fmax = -vpp;
-	for (int i = 0; i < tdReport.samples.size(); ++i )
-	{
-		float f = tdReport.samples[i];
-		fmin = min(fmin, f);
-		fmax = max(fmax, f);
-	}
-
-	tdReport.max = fmax;
-	tdReport.min = fmin;
+	tdReport.max = *max_element(tdReport.samples.begin(), tdReport.samples.end());
+	tdReport.min = *min_element(tdReport.samples.begin(), tdReport.samples.end());
 
 	FreqDomainReport& fdReport = report.fdReport;
 	fdReport.dualTone = m_signal.dualToneTest;
@@ -365,7 +352,7 @@ void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp, vector<
 			Q_ASSERT(false);
 		}
 
-		tdReport.samples[i] = short(buff[i]) * vpp / max / (1<<t);
+		tdReport.samples[i] = short(buff[i]) * vpp / max / 2/* / (1<<t)*/;
 		tdReport.rawSamples[i] = buff[i]; /* buff[i] >>t; */
 	}
 }
@@ -403,7 +390,6 @@ void AdcBoard::updateXaxis(float fs)
 	}
 
 	float k = fs / 2 / (fdReport.xaxis.size()) / 1e6;
-
 	for (int i = 0; i < fdReport.xaxis.size(); ++i)
 	{
 		fdReport.xaxis[i] = (float)i * k;

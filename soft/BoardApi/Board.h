@@ -69,7 +69,6 @@ private:
 	CCyUSBDevice* usbDev;
 	DummyWidget* widget;
 	std::vector<unsigned short> bulkIOBuff;
-	std::vector<unsigned short> buff;
 
 };
 
