@@ -187,18 +187,20 @@ void inldnl(double* csamples, int cnumbit, int cnumpt, double cT1, double cT2,
     memcpy(cDNLar__o, DNLar__o.addr(), ((1<<cnumbit)-2)*sizeof(*cH__o));
 }
 
-void DualToneTest64k(double* cADout, double cfclk, int cnumbit, int cNFFT, double cV, \
-			double cTPY, double cTPX, int ccode, int ctone_code, double cf1, double cf2, \
+void DualToneTest64k(double* cADout, double cfclk, int cnumbit, double cV, int ctone_code, double cf1, double cf2, \
 			double *cADout_dB, double& cFo1, double& cF1_dBFS, double& cFo2, double& cF2_dBFS, \
 			double& cSFDR, double& cSFDR_dBFS, double& cIMD2_Worst, double& cIMD2_w_dBFS, \
 			double& cIMD3_Worst, double& cIMD3_w_dBFS) 
 {
 	SingleLock lock(&cs);
-
-	DECLEAR_Mm_MORE(ADout, cADout, cNFFT); 
+	const int len = 64 * 1024;
+	double cTPX = 0.01f;
+	double cTPY = 1.0f;
+	int ccode = 1;
+	DECLEAR_Mm_MORE(ADout, cADout, len); 
 	DECLEAR_Mm_ONE(fclk, cfclk); 
 	DECLEAR_Mm_ONE(numbit, cnumbit); 
-	DECLEAR_Mm_ONE(NFFT, cNFFT); 
+	DECLEAR_Mm_ONE(NFFT, len); 
 	DECLEAR_Mm_ONE(V, cV); 
 	DECLEAR_Mm_ONE(TPY, cTPY); 
 	DECLEAR_Mm_ONE(TPX, cTPX); 
@@ -232,13 +234,15 @@ void DualToneTest64k(double* cADout, double cfclk, int cnumbit, int cNFFT, doubl
 	cIMD2_w_dBFS = IMD2_w_dBFS.r(1, 1);
 	cIMD3_Worst = IMD3_Worst.r(1, 1);
 	cIMD3_w_dBFS = IMD3_w_dBFS.r(1, 1);
-	memcpy(cADout_dB, ADout_dB.addr(), cNFFT * sizeof(*cADout_dB));
+	memcpy(cADout_dB, ADout_dB.addr(), len * sizeof(*cADout_dB));
 }
 void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, double cTPY, double cTPX, int ctone_code, double cfin_input,
 				   double& cfreq_fin, double& cVin, double& cVpp, 
 				   double& cSNR, double& cSFDR, double& cSINAD, double& cTHD, double& cPn_dB, int& cdisturb_len, double& cref_dB,
-				   double* cADout_dB, double* cHD, double* cHarbin, double* cFn_disturb, double* cHarbin_disturb) 
+				   double* cADout_dB, double* cHD, double* cHarbin, double* cHarbin_disturb) 
 {
+	SingleLock lock(&cs);
+
 	const int len = 64 * 1024;
 	DECLEAR_Mm_MORE(ADout, cADout, len);
 	DECLEAR_Mm_ONE(fclk, cfclk);
@@ -283,7 +287,6 @@ void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, double 
 	memcpy(cADout_dB, ADout_dB__o.addr(), len/2*sizeof(*cADout_dB));
 	memcpy(cHD, HD__o.addr(), 10*sizeof(*cHD));
 	memcpy(cHarbin, Harbin__o.addr(), 10*sizeof(*cHarbin));
-	memcpy(cFn_disturb, Fn_disturb__o.addr(), 10*sizeof(*cFn_disturb));
-	//memcpy(cHarbin_disturb, Harbin_disturb__o.addr(), cdisturb_len*sizeof(*cHarbin_disturb));
+	memcpy(cHarbin_disturb, Harbin_disturb__o.addr(), cdisturb_len*sizeof(*cHarbin_disturb));
 
 }
