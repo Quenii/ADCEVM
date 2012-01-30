@@ -184,6 +184,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FFTWndDual.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\FreqScope.cpp"
 				>
 			</File>
@@ -257,6 +261,10 @@
 			</File>
 			<File
 				RelativePath="..\include\gkhy\qplotlib\FFTWnd.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\gkhy\qplotlib\FFTWndDual.hpp"
 				>
 			</File>
 			<File

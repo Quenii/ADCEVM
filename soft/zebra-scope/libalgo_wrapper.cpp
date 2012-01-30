@@ -50,8 +50,6 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 	THD.GetData(&param.THD, 1);
 	SFDR.GetData(&param.SFDR, 1);
 	ENOB.GetData(&param.ENOB, 1);
-
-
 }
 
 #endif // MATLAB
@@ -120,24 +118,26 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 			= cHD[i+1];
 	}
 
-	if (param.markers.size()<21)
+	if (param.markers.size()<22)
 	{
-		param.markers.resize(21);
+		param.markers.resize(22);
 	}
-	param.markers[20] = cPn_dB;
+	param.markers[0] = 0;  //identify dynamic or dualtone;
+	param.markers[21] = cPn_dB; //noise floor
 	for (int i=0; i<10; ++i)
 	{
-		param.markers[i] = cHarbin[i] - 1;
-		param.markers[i+10] = cHarbin_disturb[cdisturb_len-i-1] - 1;
+		param.markers[i+1] = cHarbin[i] - 1;
+		param.markers[i+11] = cHarbin_disturb[cdisturb_len-i-1] - 1;
 	}
 }
 
 void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, FreqDomainReport& param, 
-					   float vpp, int tone_code, double fin1, double fin2)
+					   float vpp, int tone_code, double fin1, double fin2, int dc, int spur, int signal)
 {
 	const int NFFT = 64 * 1024;
 	static std::vector<double> input(NFFT);
 	static std::vector<double> cADout_dB(input.size()/2);
+	static std::vector<double> cmarker(13);
 	for (int i = 0; i < min(samples.size(), input.size()); ++i)
 	{
 		input[i] = samples[i];
@@ -153,8 +153,8 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 	double cIMD3_Worst;
 	double cIMD3_w_dBFS;
 
-	DualToneTest64k(&input[0], fclk, bitCount, vpp, tone_code, fin1, fin2, \
-		&cADout_dB[0], cFo1, cF1_dBFS, cFo2, cF2_dBFS, cSFDR, cSFDR_dBFS, cIMD2_Worst, cIMD2_w_dBFS, \
+	DualToneTest64k(&input[0], fclk, bitCount, vpp, tone_code, fin1, fin2, dc, spur, signal, \
+		&cADout_dB[0], &cmarker[0], cFo1, cF1_dBFS, cFo2, cF2_dBFS, cSFDR, cSFDR_dBFS, cIMD2_Worst, cIMD2_w_dBFS, \
 		cIMD3_Worst, cIMD3_w_dBFS); 
 
 	if (param.Spectrum.size() != cADout_dB.size())
@@ -166,9 +166,9 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 		param.Spectrum[i] = cADout_dB[i];
 	}
 	
-	param.DualTonePara[0].value = cFo1;
+	param.DualTonePara[0].value = cFo1 / 1e6;
 	param.DualTonePara[1].value = cF1_dBFS;
-	param.DualTonePara[2].value = cFo2;
+	param.DualTonePara[2].value = cFo2 / 1e6;
 	param.DualTonePara[3].value = cF2_dBFS;
 	param.DualTonePara[4].value = cSFDR;
 	param.DualTonePara[5].value = cSFDR_dBFS;
@@ -176,6 +176,17 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 	param.DualTonePara[7].value = cIMD2_w_dBFS;
 	param.DualTonePara[8].value = cIMD3_Worst;
 	param.DualTonePara[9].value = cIMD3_w_dBFS;
+
+	if (param.markers.size()<22)
+	{
+		param.markers.resize(22);
+	}
+	param.markers[0] = 1;  //identify dynamic(0) or dualtone;
+	for (int i=0; i<cmarker.size(); ++i)
+	{
+		param.markers[i+1] = cmarker[i] - 1;
+	}
+
 }
 
 #endif

@@ -2,34 +2,34 @@
   #pragma hdrstop
   
   #include "DualToneTest64k.h"
-  #include "chebwin.h"
+#include "chebwin.h"
   
   
-  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm TPY, Mm TPX, Mm code, Mm tone_code, Mm fin1_input, \
-     Mm fin2_input, i_o_t, Mm& ADout_dB__o, Mm& Fin1_freq__o, Mm& Fin1_dBFS__o, Mm& Fin2_freq__o, Mm& Fin2_dBFS__o, \
-     Mm& SFDR__o, Mm& SFDR_dBFS__o, Mm& IMD2_Worst__o, Mm& IMD2_w_dBFS__o, Mm& IMD3_Worst__o, Mm& IMD3_w_dBFS__o) {
+  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm tone_code, Mm fin1_input, Mm fin2_input, Mm span_dc,  \
+    Mm spanh_har, Mm span_s, i_o_t, Mm& ADout_dB__o, Mm& fin1_freq__o, Mm& fin1_dBFS__o, Mm& fin2_freq__o, Mm& fin2_dBFS__o, \
+     Mm& SFDR__o, Mm& SFDR_dBFS__o, Mm& IMD2_worst__o, Mm& IMD2_worst_dBFS__o, Mm& IMD3_worst__o, Mm& IMD3_worst_dBFS__o, \
+     Mm& marker__o) {
     begin_scope
-    ADout.setname("ADout"); fclk.setname("fclk"); numbit.setname("numbit"); NFFT.setname("NFFT"); V.setname("V");  \
-      TPY.setname("TPY"); TPX.setname("TPX"); code.setname("code"); tone_code.setname("tone_code"); fin1_input.setname( \
-      "fin1_input"); fin2_input.setname("fin2_input"); 
-    dMm(ADout_dB); dMm(Fin1_freq); dMm(Fin1_dBFS); dMm(Fin2_freq); dMm(Fin2_dBFS); dMm(SFDR); dMm(SFDR_dBFS); dMm( \
-      IMD2_Worst); dMm(IMD2_w_dBFS); dMm(IMD3_Worst); dMm(IMD3_w_dBFS); dMm(AmpMax); dMm(t1); dMm(AmpMin); dMm(t2);  \
-      dMm(Vpp); dMm(ADout_w); dMm(ADout_spect); dMm(span_dc); dMm(spanh_har); dMm(span_s); dMm(maxdB); dMm(fin); dMm( \
-      freq_fin); dMm(ADout_dB_temp); dMm(second_maxdB); dMm(second_fin); dMm(second_freq_fin); dMm(data_ref); dMm(n) \
-      ; dMm(n_DualToneTest64k_v0); dMm(data_ref_w); dMm(data_ref_spect); dMm(data_ref_dB); dMm(ref_dB); dMm(fin1);  \
-      dMm(fin1_dBFS); dMm(fin1_x); dMm(fin2); dMm(fin2_dBFS); dMm(fin2_x); dMm(freq_input); dMm(tone); dMm(har_peak) \
-      ; dMm(har_bin); dMm(fin1_freq); dMm(fin2_freq); dMm(fin2_plus_fin1_x); dMm(fin2_plus_fin1); dMm(fin2_sub_fin1_x) \
-      ; dMm(fin2_sub_fin1); dMm(two_fin1_x); dMm(two_fin1); dMm(two_fin2_x); dMm(two_fin2); dMm(three_fin1_x); dMm( \
-      three_fin1); dMm(three_fin2_x); dMm(three_fin2); dMm(fin1_plus_2fin2_x); dMm(fin1_plus_2fin2); dMm(fin2_plus_2fin1_x) \
-      ; dMm(fin2_plus_2fin1); dMm(two_fin2_sub_fin1_x); dMm(two_fin2_sub_fin1); dMm(two_fin1_sub_fin2_x); dMm(two_fin1_sub_fin2) \
-      ; dMm(three_maxdB); dMm(three_high_x); dMm(three_high); dMm(IMD2_max); dMm(IMD2_worst); dMm(IMD2_worst_dBFS);  \
-      dMm(IMD3_max1); dMm(IMD3_max2); dMm(IMD3_max); dMm(IMD3_worst); dMm(IMD3_worst_dBFS); 
+    ADout.setname("ADout"); fclk.setname("fclk"); numbit.setname("numbit"); V.setname("V"); tone_code.setname("tone_code") \
+      ; fin1_input.setname("fin1_input"); fin2_input.setname("fin2_input"); span_dc.setname("span_dc"); spanh_har.setname( \
+      "spanh_har"); span_s.setname("span_s"); 
+    dMm(ADout_dB); dMm(fin1_freq); dMm(fin1_dBFS); dMm(fin2_freq); dMm(fin2_dBFS); dMm(SFDR); dMm(SFDR_dBFS); dMm( \
+      IMD2_worst); dMm(IMD2_worst_dBFS); dMm(IMD3_worst); dMm(IMD3_worst_dBFS); dMm(marker); dMm(NFFT); dMm(AmpMax) \
+      ; dMm(t1); dMm(AmpMin); dMm(t2); dMm(Vpp); dMm(ADout_w); dMm(ADout_spect); dMm(maxdB); dMm(fin); dMm(freq_fin) \
+      ; dMm(ADout_dB_temp); dMm(second_maxdB); dMm(second_fin); dMm(second_freq_fin); dMm(data_ref); dMm(n); dMm(n_DualToneTest64k_v0) \
+      ; dMm(data_ref_w); dMm(data_ref_spect); dMm(data_ref_dB); dMm(ref_dB); dMm(fin1); dMm(fin1_x); dMm(fin2); dMm( \
+      fin2_x); dMm(freq_input); dMm(tone); dMm(har_peak); dMm(har_bin); dMm(fin2_plus_fin1_x); dMm(fin2_plus_fin1);  \
+      dMm(fin2_sub_fin1_x); dMm(fin2_sub_fin1); dMm(two_fin1_x); dMm(two_fin1); dMm(two_fin2_x); dMm(two_fin2); dMm( \
+      three_fin1_x); dMm(three_fin1); dMm(three_fin2_x); dMm(three_fin2); dMm(fin1_plus_2fin2_x); dMm(fin1_plus_2fin2) \
+      ; dMm(fin2_plus_2fin1_x); dMm(fin2_plus_2fin1); dMm(two_fin2_sub_fin1_x); dMm(two_fin2_sub_fin1); dMm(two_fin1_sub_fin2_x) \
+      ; dMm(two_fin1_sub_fin2); dMm(three_maxdB); dMm(three_high_x); dMm(three_high); dMm(IMD2_max); dMm(IMD3_max1) \
+      ; dMm(IMD3_max2); dMm(IMD3_max); 
     
     call_stack_begin;
     // nargin, nargout entry code
-    double old_nargin=nargin_val; if (!nargin_set) nargin_val=11.0;
+    double old_nargin=nargin_val; if (!nargin_set) nargin_val=10.0;
     nargin_set=0;
-    double old_nargout=nargout_val; if (!nargout_set) nargout_val=11.0;
+    double old_nargout=nargout_val; if (!nargout_set) nargout_val=12.0;
     nargout_set=0;
     
     // translated code
@@ -55,6 +55,7 @@
     // $$$ fin2_input = 1559e5;				%输入信号2,fin2_input必须大于fin1_input(界面设置时判断)
     //*****************************编码转换***************************
     //****************************************************************
+    NFFT = 65536.0;
     ADout = V/2.0*ADout;
     //恢复成时域波形     
     //****************************************************************
@@ -70,12 +71,9 @@
     ADout_dB = 20.0*log10(abs(ADout_spect));
     //FFT后转为dB值
     //****************************************************************
-    span_dc = 24.0;
-    //DC SPAN(即OFFSET电压)，可设范围11-35，32K=11，64K=24
-    spanh_har = 4.0;
-    //谐波SPAN，可设范围3~6
-    span_s = 19.0;
-    //信号SPAN，可设范围16~23
+    // $$$ span_dc = 24; 											%DC SPAN(即OFFSET电压)，可设范围11-35，32K=11，64K=24
+    // $$$ spanh_har = 4;											%谐波SPAN，可设范围3~6
+    // $$$ span_s = 19;											%信号SPAN，可设范围16~23
     //****************************************************************
     maxdB = max(ADout_dB(colon(span_dc,1.0,NFFT/2.0)));
     //找出除DC SPAN之外的最大dB值
@@ -172,7 +170,7 @@
     fin1_x = har_bin+round(tone*NFFT)-span_s-1.0;
     //换算成dB值的绝对位置
     fin1 = (fin1_x-1.0)*fclk/NFFT;
-    fin1_freq = floor((fin1_x-1.0)/NFFT)*fclk+freq_input; display(fin1_freq);
+    fin1_freq = floor((fin1_x-1.0)/NFFT)*fclk+freq_input;
     
     //****************************************************************fin2
     freq_input = fin2_input;
@@ -403,6 +401,20 @@
     //最差IMD3,单位dBc
     IMD3_worst_dBFS = ref_dB-IMD3_max;
     //最差IMD3,单位dBFS
+    ADout_dB = ADout_dB-ref_dB;
+    marker(1.0) = fin1_x;
+    marker(2.0) = two_fin1_x;
+    marker(3.0) = three_fin1_x;
+    marker(4.0) = fin2_x;
+    marker(5.0) = two_fin2_x;
+    marker(6.0) = three_fin2_x;
+    marker(7.0) = three_high_x;
+    marker(8.0) = fin2_plus_fin1_x;
+    marker(9.0) = fin2_sub_fin1_x;
+    marker(10.0) = fin1_plus_2fin2_x;
+    marker(11.0) = fin2_plus_2fin1_x;
+    marker(12.0) = two_fin2_sub_fin1_x;
+    marker(13.0) = two_fin1_sub_fin2_x;
     // $$$ %**************************以下为绘图****************************
     // $$$ plot(fin1,ADout_dB(fin1_x)-ref_dB,'gd');                                                        %fin1绿色
     // $$$ plot(fin2,ADout_dB(fin2_x)-ref_dB,'rd');                                                        %fin2红色
@@ -436,172 +448,190 @@
     nargin_val=old_nargin; nargout_val=old_nargout;
     
     // function exit code
-    ADout.setname(NULL); fclk.setname(NULL); numbit.setname(NULL); NFFT.setname(NULL); V.setname(NULL); TPY.setname( \
-      NULL); TPX.setname(NULL); code.setname(NULL); tone_code.setname(NULL); fin1_input.setname(NULL); fin2_input.setname( \
-      NULL); 
-    ADout_dB__o=ADout_dB; Fin1_freq__o=Fin1_freq; Fin1_dBFS__o=Fin1_dBFS; Fin2_freq__o=Fin2_freq; Fin2_dBFS__o=Fin2_dBFS;  \
-      SFDR__o=SFDR; SFDR_dBFS__o=SFDR_dBFS; IMD2_Worst__o=IMD2_Worst; IMD2_w_dBFS__o=IMD2_w_dBFS; IMD3_Worst__o=IMD3_Worst;  \
-      IMD3_w_dBFS__o=IMD3_w_dBFS; 
+    ADout.setname(NULL); fclk.setname(NULL); numbit.setname(NULL); V.setname(NULL); tone_code.setname(NULL); fin1_input.setname( \
+      NULL); fin2_input.setname(NULL); span_dc.setname(NULL); spanh_har.setname(NULL); span_s.setname(NULL); 
+    ADout_dB__o=ADout_dB; fin1_freq__o=fin1_freq; fin1_dBFS__o=fin1_dBFS; fin2_freq__o=fin2_freq; fin2_dBFS__o=fin2_dBFS;  \
+      SFDR__o=SFDR; SFDR_dBFS__o=SFDR_dBFS; IMD2_worst__o=IMD2_worst; IMD2_worst_dBFS__o=IMD2_worst_dBFS; IMD3_worst__o=IMD3_worst;  \
+      IMD3_worst_dBFS__o=IMD3_worst_dBFS; marker__o=marker; 
     return x_M;
     end_scope
   }
   
   
-  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm TPY, Mm TPX, Mm code, Mm tone_code, Mm fin1_input, \
-     Mm fin2_input) {
+  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm tone_code, Mm fin1_input, Mm fin2_input, Mm span_dc,  \
+    Mm spanh_har, Mm span_s) {
     begin_scope
-    double old_nargin=nargin_val; nargin_val=11.0; nargin_set=1;
+    double old_nargin=nargin_val; nargin_val=10.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=1.0; nargout_set=1;
-    dMm(ADout_dB__o); dMm(Fin1_freq__o); dMm(Fin1_dBFS__o); dMm(Fin2_freq__o); dMm(Fin2_dBFS__o); dMm(SFDR__o); dMm( \
-      SFDR_dBFS__o); dMm(IMD2_Worst__o); dMm(IMD2_w_dBFS__o); dMm(IMD3_Worst__o); dMm(IMD3_w_dBFS__o); 
-    DualToneTest64k(ADout, fclk, numbit, NFFT, V, TPY, TPX, code, tone_code, fin1_input, fin2_input, i_o, ADout_dB__o, \
-       Fin1_freq__o, Fin1_dBFS__o, Fin2_freq__o, Fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_Worst__o, IMD2_w_dBFS__o, \
-       IMD3_Worst__o, IMD3_w_dBFS__o);
+    dMm(ADout_dB__o); dMm(fin1_freq__o); dMm(fin1_dBFS__o); dMm(fin2_freq__o); dMm(fin2_dBFS__o); dMm(SFDR__o); dMm( \
+      SFDR_dBFS__o); dMm(IMD2_worst__o); dMm(IMD2_worst_dBFS__o); dMm(IMD3_worst__o); dMm(IMD3_worst_dBFS__o); dMm( \
+      marker__o); 
+    DualToneTest64k(ADout, fclk, numbit, V, tone_code, fin1_input, fin2_input, span_dc, spanh_har, span_s, i_o, ADout_dB__o, \
+       fin1_freq__o, fin1_dBFS__o, fin2_freq__o, fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_worst__o, IMD2_worst_dBFS__o, \
+       IMD3_worst__o, IMD3_worst_dBFS__o, marker__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return(ADout_dB__o);
     end_scope
   }
   
-  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm TPY, Mm TPX, Mm code, Mm tone_code, Mm fin1_input, \
-     Mm fin2_input, i_o_t, Mm& ADout_dB__o, Mm& Fin1_freq__o) {
+  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm tone_code, Mm fin1_input, Mm fin2_input, Mm span_dc,  \
+    Mm spanh_har, Mm span_s, i_o_t, Mm& ADout_dB__o, Mm& fin1_freq__o) {
     begin_scope
-    double old_nargin=nargin_val; nargin_val=11.0; nargin_set=1;
+    double old_nargin=nargin_val; nargin_val=10.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=2.0; nargout_set=1;
-    dMm(Fin1_dBFS__o); dMm(Fin2_freq__o); dMm(Fin2_dBFS__o); dMm(SFDR__o); dMm(SFDR_dBFS__o); dMm(IMD2_Worst__o);  \
-      dMm(IMD2_w_dBFS__o); dMm(IMD3_Worst__o); dMm(IMD3_w_dBFS__o); 
-    DualToneTest64k(ADout, fclk, numbit, NFFT, V, TPY, TPX, code, tone_code, fin1_input, fin2_input, i_o, ADout_dB__o, \
-       Fin1_freq__o, Fin1_dBFS__o, Fin2_freq__o, Fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_Worst__o, IMD2_w_dBFS__o, \
-       IMD3_Worst__o, IMD3_w_dBFS__o);
+    dMm(fin1_dBFS__o); dMm(fin2_freq__o); dMm(fin2_dBFS__o); dMm(SFDR__o); dMm(SFDR_dBFS__o); dMm(IMD2_worst__o);  \
+      dMm(IMD2_worst_dBFS__o); dMm(IMD3_worst__o); dMm(IMD3_worst_dBFS__o); dMm(marker__o); 
+    DualToneTest64k(ADout, fclk, numbit, V, tone_code, fin1_input, fin2_input, span_dc, spanh_har, span_s, i_o, ADout_dB__o, \
+       fin1_freq__o, fin1_dBFS__o, fin2_freq__o, fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_worst__o, IMD2_worst_dBFS__o, \
+       IMD3_worst__o, IMD3_worst_dBFS__o, marker__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
     end_scope
   }
   
-  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm TPY, Mm TPX, Mm code, Mm tone_code, Mm fin1_input, \
-     Mm fin2_input, i_o_t, Mm& ADout_dB__o, Mm& Fin1_freq__o, Mm& Fin1_dBFS__o) {
+  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm tone_code, Mm fin1_input, Mm fin2_input, Mm span_dc,  \
+    Mm spanh_har, Mm span_s, i_o_t, Mm& ADout_dB__o, Mm& fin1_freq__o, Mm& fin1_dBFS__o) {
     begin_scope
-    double old_nargin=nargin_val; nargin_val=11.0; nargin_set=1;
+    double old_nargin=nargin_val; nargin_val=10.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=3.0; nargout_set=1;
-    dMm(Fin2_freq__o); dMm(Fin2_dBFS__o); dMm(SFDR__o); dMm(SFDR_dBFS__o); dMm(IMD2_Worst__o); dMm(IMD2_w_dBFS__o) \
-      ; dMm(IMD3_Worst__o); dMm(IMD3_w_dBFS__o); 
-    DualToneTest64k(ADout, fclk, numbit, NFFT, V, TPY, TPX, code, tone_code, fin1_input, fin2_input, i_o, ADout_dB__o, \
-       Fin1_freq__o, Fin1_dBFS__o, Fin2_freq__o, Fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_Worst__o, IMD2_w_dBFS__o, \
-       IMD3_Worst__o, IMD3_w_dBFS__o);
+    dMm(fin2_freq__o); dMm(fin2_dBFS__o); dMm(SFDR__o); dMm(SFDR_dBFS__o); dMm(IMD2_worst__o); dMm(IMD2_worst_dBFS__o) \
+      ; dMm(IMD3_worst__o); dMm(IMD3_worst_dBFS__o); dMm(marker__o); 
+    DualToneTest64k(ADout, fclk, numbit, V, tone_code, fin1_input, fin2_input, span_dc, spanh_har, span_s, i_o, ADout_dB__o, \
+       fin1_freq__o, fin1_dBFS__o, fin2_freq__o, fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_worst__o, IMD2_worst_dBFS__o, \
+       IMD3_worst__o, IMD3_worst_dBFS__o, marker__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
     end_scope
   }
   
-  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm TPY, Mm TPX, Mm code, Mm tone_code, Mm fin1_input, \
-     Mm fin2_input, i_o_t, Mm& ADout_dB__o, Mm& Fin1_freq__o, Mm& Fin1_dBFS__o, Mm& Fin2_freq__o) {
+  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm tone_code, Mm fin1_input, Mm fin2_input, Mm span_dc,  \
+    Mm spanh_har, Mm span_s, i_o_t, Mm& ADout_dB__o, Mm& fin1_freq__o, Mm& fin1_dBFS__o, Mm& fin2_freq__o) {
     begin_scope
-    double old_nargin=nargin_val; nargin_val=11.0; nargin_set=1;
+    double old_nargin=nargin_val; nargin_val=10.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=4.0; nargout_set=1;
-    dMm(Fin2_dBFS__o); dMm(SFDR__o); dMm(SFDR_dBFS__o); dMm(IMD2_Worst__o); dMm(IMD2_w_dBFS__o); dMm(IMD3_Worst__o) \
-      ; dMm(IMD3_w_dBFS__o); 
-    DualToneTest64k(ADout, fclk, numbit, NFFT, V, TPY, TPX, code, tone_code, fin1_input, fin2_input, i_o, ADout_dB__o, \
-       Fin1_freq__o, Fin1_dBFS__o, Fin2_freq__o, Fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_Worst__o, IMD2_w_dBFS__o, \
-       IMD3_Worst__o, IMD3_w_dBFS__o);
+    dMm(fin2_dBFS__o); dMm(SFDR__o); dMm(SFDR_dBFS__o); dMm(IMD2_worst__o); dMm(IMD2_worst_dBFS__o); dMm(IMD3_worst__o) \
+      ; dMm(IMD3_worst_dBFS__o); dMm(marker__o); 
+    DualToneTest64k(ADout, fclk, numbit, V, tone_code, fin1_input, fin2_input, span_dc, spanh_har, span_s, i_o, ADout_dB__o, \
+       fin1_freq__o, fin1_dBFS__o, fin2_freq__o, fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_worst__o, IMD2_worst_dBFS__o, \
+       IMD3_worst__o, IMD3_worst_dBFS__o, marker__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
     end_scope
   }
   
-  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm TPY, Mm TPX, Mm code, Mm tone_code, Mm fin1_input, \
-     Mm fin2_input, i_o_t, Mm& ADout_dB__o, Mm& Fin1_freq__o, Mm& Fin1_dBFS__o, Mm& Fin2_freq__o, Mm& Fin2_dBFS__o) \
+  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm tone_code, Mm fin1_input, Mm fin2_input, Mm span_dc,  \
+    Mm spanh_har, Mm span_s, i_o_t, Mm& ADout_dB__o, Mm& fin1_freq__o, Mm& fin1_dBFS__o, Mm& fin2_freq__o, Mm& fin2_dBFS__o) \
      {
     begin_scope
-    double old_nargin=nargin_val; nargin_val=11.0; nargin_set=1;
+    double old_nargin=nargin_val; nargin_val=10.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=5.0; nargout_set=1;
-    dMm(SFDR__o); dMm(SFDR_dBFS__o); dMm(IMD2_Worst__o); dMm(IMD2_w_dBFS__o); dMm(IMD3_Worst__o); dMm(IMD3_w_dBFS__o) \
-      ; 
-    DualToneTest64k(ADout, fclk, numbit, NFFT, V, TPY, TPX, code, tone_code, fin1_input, fin2_input, i_o, ADout_dB__o, \
-       Fin1_freq__o, Fin1_dBFS__o, Fin2_freq__o, Fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_Worst__o, IMD2_w_dBFS__o, \
-       IMD3_Worst__o, IMD3_w_dBFS__o);
+    dMm(SFDR__o); dMm(SFDR_dBFS__o); dMm(IMD2_worst__o); dMm(IMD2_worst_dBFS__o); dMm(IMD3_worst__o); dMm(IMD3_worst_dBFS__o) \
+      ; dMm(marker__o); 
+    DualToneTest64k(ADout, fclk, numbit, V, tone_code, fin1_input, fin2_input, span_dc, spanh_har, span_s, i_o, ADout_dB__o, \
+       fin1_freq__o, fin1_dBFS__o, fin2_freq__o, fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_worst__o, IMD2_worst_dBFS__o, \
+       IMD3_worst__o, IMD3_worst_dBFS__o, marker__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
     end_scope
   }
   
-  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm TPY, Mm TPX, Mm code, Mm tone_code, Mm fin1_input, \
-     Mm fin2_input, i_o_t, Mm& ADout_dB__o, Mm& Fin1_freq__o, Mm& Fin1_dBFS__o, Mm& Fin2_freq__o, Mm& Fin2_dBFS__o, \
+  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm tone_code, Mm fin1_input, Mm fin2_input, Mm span_dc,  \
+    Mm spanh_har, Mm span_s, i_o_t, Mm& ADout_dB__o, Mm& fin1_freq__o, Mm& fin1_dBFS__o, Mm& fin2_freq__o, Mm& fin2_dBFS__o, \
      Mm& SFDR__o) {
     begin_scope
-    double old_nargin=nargin_val; nargin_val=11.0; nargin_set=1;
+    double old_nargin=nargin_val; nargin_val=10.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=6.0; nargout_set=1;
-    dMm(SFDR_dBFS__o); dMm(IMD2_Worst__o); dMm(IMD2_w_dBFS__o); dMm(IMD3_Worst__o); dMm(IMD3_w_dBFS__o); 
-    DualToneTest64k(ADout, fclk, numbit, NFFT, V, TPY, TPX, code, tone_code, fin1_input, fin2_input, i_o, ADout_dB__o, \
-       Fin1_freq__o, Fin1_dBFS__o, Fin2_freq__o, Fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_Worst__o, IMD2_w_dBFS__o, \
-       IMD3_Worst__o, IMD3_w_dBFS__o);
+    dMm(SFDR_dBFS__o); dMm(IMD2_worst__o); dMm(IMD2_worst_dBFS__o); dMm(IMD3_worst__o); dMm(IMD3_worst_dBFS__o);  \
+      dMm(marker__o); 
+    DualToneTest64k(ADout, fclk, numbit, V, tone_code, fin1_input, fin2_input, span_dc, spanh_har, span_s, i_o, ADout_dB__o, \
+       fin1_freq__o, fin1_dBFS__o, fin2_freq__o, fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_worst__o, IMD2_worst_dBFS__o, \
+       IMD3_worst__o, IMD3_worst_dBFS__o, marker__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
     end_scope
   }
   
-  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm TPY, Mm TPX, Mm code, Mm tone_code, Mm fin1_input, \
-     Mm fin2_input, i_o_t, Mm& ADout_dB__o, Mm& Fin1_freq__o, Mm& Fin1_dBFS__o, Mm& Fin2_freq__o, Mm& Fin2_dBFS__o, \
+  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm tone_code, Mm fin1_input, Mm fin2_input, Mm span_dc,  \
+    Mm spanh_har, Mm span_s, i_o_t, Mm& ADout_dB__o, Mm& fin1_freq__o, Mm& fin1_dBFS__o, Mm& fin2_freq__o, Mm& fin2_dBFS__o, \
      Mm& SFDR__o, Mm& SFDR_dBFS__o) {
     begin_scope
-    double old_nargin=nargin_val; nargin_val=11.0; nargin_set=1;
+    double old_nargin=nargin_val; nargin_val=10.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=7.0; nargout_set=1;
-    dMm(IMD2_Worst__o); dMm(IMD2_w_dBFS__o); dMm(IMD3_Worst__o); dMm(IMD3_w_dBFS__o); 
-    DualToneTest64k(ADout, fclk, numbit, NFFT, V, TPY, TPX, code, tone_code, fin1_input, fin2_input, i_o, ADout_dB__o, \
-       Fin1_freq__o, Fin1_dBFS__o, Fin2_freq__o, Fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_Worst__o, IMD2_w_dBFS__o, \
-       IMD3_Worst__o, IMD3_w_dBFS__o);
+    dMm(IMD2_worst__o); dMm(IMD2_worst_dBFS__o); dMm(IMD3_worst__o); dMm(IMD3_worst_dBFS__o); dMm(marker__o); 
+    DualToneTest64k(ADout, fclk, numbit, V, tone_code, fin1_input, fin2_input, span_dc, spanh_har, span_s, i_o, ADout_dB__o, \
+       fin1_freq__o, fin1_dBFS__o, fin2_freq__o, fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_worst__o, IMD2_worst_dBFS__o, \
+       IMD3_worst__o, IMD3_worst_dBFS__o, marker__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
     end_scope
   }
   
-  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm TPY, Mm TPX, Mm code, Mm tone_code, Mm fin1_input, \
-     Mm fin2_input, i_o_t, Mm& ADout_dB__o, Mm& Fin1_freq__o, Mm& Fin1_dBFS__o, Mm& Fin2_freq__o, Mm& Fin2_dBFS__o, \
-     Mm& SFDR__o, Mm& SFDR_dBFS__o, Mm& IMD2_Worst__o) {
+  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm tone_code, Mm fin1_input, Mm fin2_input, Mm span_dc,  \
+    Mm spanh_har, Mm span_s, i_o_t, Mm& ADout_dB__o, Mm& fin1_freq__o, Mm& fin1_dBFS__o, Mm& fin2_freq__o, Mm& fin2_dBFS__o, \
+     Mm& SFDR__o, Mm& SFDR_dBFS__o, Mm& IMD2_worst__o) {
     begin_scope
-    double old_nargin=nargin_val; nargin_val=11.0; nargin_set=1;
+    double old_nargin=nargin_val; nargin_val=10.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=8.0; nargout_set=1;
-    dMm(IMD2_w_dBFS__o); dMm(IMD3_Worst__o); dMm(IMD3_w_dBFS__o); 
-    DualToneTest64k(ADout, fclk, numbit, NFFT, V, TPY, TPX, code, tone_code, fin1_input, fin2_input, i_o, ADout_dB__o, \
-       Fin1_freq__o, Fin1_dBFS__o, Fin2_freq__o, Fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_Worst__o, IMD2_w_dBFS__o, \
-       IMD3_Worst__o, IMD3_w_dBFS__o);
+    dMm(IMD2_worst_dBFS__o); dMm(IMD3_worst__o); dMm(IMD3_worst_dBFS__o); dMm(marker__o); 
+    DualToneTest64k(ADout, fclk, numbit, V, tone_code, fin1_input, fin2_input, span_dc, spanh_har, span_s, i_o, ADout_dB__o, \
+       fin1_freq__o, fin1_dBFS__o, fin2_freq__o, fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_worst__o, IMD2_worst_dBFS__o, \
+       IMD3_worst__o, IMD3_worst_dBFS__o, marker__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
     end_scope
   }
   
-  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm TPY, Mm TPX, Mm code, Mm tone_code, Mm fin1_input, \
-     Mm fin2_input, i_o_t, Mm& ADout_dB__o, Mm& Fin1_freq__o, Mm& Fin1_dBFS__o, Mm& Fin2_freq__o, Mm& Fin2_dBFS__o, \
-     Mm& SFDR__o, Mm& SFDR_dBFS__o, Mm& IMD2_Worst__o, Mm& IMD2_w_dBFS__o) {
+  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm tone_code, Mm fin1_input, Mm fin2_input, Mm span_dc,  \
+    Mm spanh_har, Mm span_s, i_o_t, Mm& ADout_dB__o, Mm& fin1_freq__o, Mm& fin1_dBFS__o, Mm& fin2_freq__o, Mm& fin2_dBFS__o, \
+     Mm& SFDR__o, Mm& SFDR_dBFS__o, Mm& IMD2_worst__o, Mm& IMD2_worst_dBFS__o) {
     begin_scope
-    double old_nargin=nargin_val; nargin_val=11.0; nargin_set=1;
+    double old_nargin=nargin_val; nargin_val=10.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=9.0; nargout_set=1;
-    dMm(IMD3_Worst__o); dMm(IMD3_w_dBFS__o); 
-    DualToneTest64k(ADout, fclk, numbit, NFFT, V, TPY, TPX, code, tone_code, fin1_input, fin2_input, i_o, ADout_dB__o, \
-       Fin1_freq__o, Fin1_dBFS__o, Fin2_freq__o, Fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_Worst__o, IMD2_w_dBFS__o, \
-       IMD3_Worst__o, IMD3_w_dBFS__o);
+    dMm(IMD3_worst__o); dMm(IMD3_worst_dBFS__o); dMm(marker__o); 
+    DualToneTest64k(ADout, fclk, numbit, V, tone_code, fin1_input, fin2_input, span_dc, spanh_har, span_s, i_o, ADout_dB__o, \
+       fin1_freq__o, fin1_dBFS__o, fin2_freq__o, fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_worst__o, IMD2_worst_dBFS__o, \
+       IMD3_worst__o, IMD3_worst_dBFS__o, marker__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
     end_scope
   }
   
-  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm TPY, Mm TPX, Mm code, Mm tone_code, Mm fin1_input, \
-     Mm fin2_input, i_o_t, Mm& ADout_dB__o, Mm& Fin1_freq__o, Mm& Fin1_dBFS__o, Mm& Fin2_freq__o, Mm& Fin2_dBFS__o, \
-     Mm& SFDR__o, Mm& SFDR_dBFS__o, Mm& IMD2_Worst__o, Mm& IMD2_w_dBFS__o, Mm& IMD3_Worst__o) {
+  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm tone_code, Mm fin1_input, Mm fin2_input, Mm span_dc,  \
+    Mm spanh_har, Mm span_s, i_o_t, Mm& ADout_dB__o, Mm& fin1_freq__o, Mm& fin1_dBFS__o, Mm& fin2_freq__o, Mm& fin2_dBFS__o, \
+     Mm& SFDR__o, Mm& SFDR_dBFS__o, Mm& IMD2_worst__o, Mm& IMD2_worst_dBFS__o, Mm& IMD3_worst__o) {
     begin_scope
-    double old_nargin=nargin_val; nargin_val=11.0; nargin_set=1;
+    double old_nargin=nargin_val; nargin_val=10.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=10.0; nargout_set=1;
-    dMm(IMD3_w_dBFS__o); 
-    DualToneTest64k(ADout, fclk, numbit, NFFT, V, TPY, TPX, code, tone_code, fin1_input, fin2_input, i_o, ADout_dB__o, \
-       Fin1_freq__o, Fin1_dBFS__o, Fin2_freq__o, Fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_Worst__o, IMD2_w_dBFS__o, \
-       IMD3_Worst__o, IMD3_w_dBFS__o);
+    dMm(IMD3_worst_dBFS__o); dMm(marker__o); 
+    DualToneTest64k(ADout, fclk, numbit, V, tone_code, fin1_input, fin2_input, span_dc, spanh_har, span_s, i_o, ADout_dB__o, \
+       fin1_freq__o, fin1_dBFS__o, fin2_freq__o, fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_worst__o, IMD2_worst_dBFS__o, \
+       IMD3_worst__o, IMD3_worst_dBFS__o, marker__o);
+    nargout_val=old_nargout;
+    nargin_val=old_nargin;
+    return x_M;
+    end_scope
+  }
+  
+  Mm DualToneTest64k(Mm ADout, Mm fclk, Mm numbit, Mm V, Mm tone_code, Mm fin1_input, Mm fin2_input, Mm span_dc,  \
+    Mm spanh_har, Mm span_s, i_o_t, Mm& ADout_dB__o, Mm& fin1_freq__o, Mm& fin1_dBFS__o, Mm& fin2_freq__o, Mm& fin2_dBFS__o, \
+     Mm& SFDR__o, Mm& SFDR_dBFS__o, Mm& IMD2_worst__o, Mm& IMD2_worst_dBFS__o, Mm& IMD3_worst__o, Mm& IMD3_worst_dBFS__o) \
+     {
+    begin_scope
+    double old_nargin=nargin_val; nargin_val=10.0; nargin_set=1;
+    double old_nargout=nargout_val; nargout_val=11.0; nargout_set=1;
+    dMm(marker__o); 
+    DualToneTest64k(ADout, fclk, numbit, V, tone_code, fin1_input, fin2_input, span_dc, spanh_har, span_s, i_o, ADout_dB__o, \
+       fin1_freq__o, fin1_dBFS__o, fin2_freq__o, fin2_dBFS__o, SFDR__o, SFDR_dBFS__o, IMD2_worst__o, IMD2_worst_dBFS__o, \
+       IMD3_worst__o, IMD3_worst_dBFS__o, marker__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;

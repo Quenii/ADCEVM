@@ -290,6 +290,10 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	for (int i=0; i<buff.size(); ++i)
 	{
 		buff[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max)) >> 2;
+		if (m_signal.dualToneTest)
+		{
+			buff[i] += ((int)(qSin(2*pi*i*m_signal.signalIIFreq/fs+offset)*max)) >> 2;
+		}
 	}
 
 	Convert(tdReport, max, vpp, buff);
@@ -320,8 +324,10 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	}
 	else
 	{
+		SpanSettings settings = m_analyzer.spanSettings();
 		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, 
-			m_adc.vpp, freq_detect, m_signal.signalFreq, m_signal.signalIIFreq);
+			m_adc.vpp, freq_detect, m_signal.signalFreq, m_signal.signalIIFreq, 
+			settings.dc, settings.spur, settings.signal);
 	}
 #else
 	memcpy( &fdReport.Spectrum[0], &tdReport.samples[0], buffer_cnt);

@@ -100,7 +100,7 @@ void ControlPanel::updateReport(const AdcBoardReport &rpt)
 	if (fdRpt.dualTone)
 	{
 		int len = fdRpt.DualTonePara.size();
-		for (int i = 0; i < len; ++ i )
+		for (int i = len-1; i >= 0; -- i )
 		{
 			tdReportModel->insertRow(0);
 			tdReportModel->setData(tdReportModel->index(0, 0), fdRpt.DualTonePara[i].name);
