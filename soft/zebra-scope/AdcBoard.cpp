@@ -22,6 +22,7 @@
 #include "./3rdparty/m2c/c/include/m2c.h"
 #include "./include/gkhy/qplotlib/qscope.hpp"
 #include "inldnl_c.h"
+#include "histplot.h"
 
 using namespace gkhy::QPlotLab;
 
@@ -509,6 +510,7 @@ void AdcBoard::staticTest()
 	vector<double> inl(1<<m_adc.bitcount);
 	vector<double> dnl(inl.size());
 	vector<double> histogram(inl.size());
+	vector<int> histogram_i(inl.size());
 
 	int indexLeft = 0;
 	int indexRight = 0;
@@ -516,13 +518,22 @@ void AdcBoard::staticTest()
 	//inldnl(&samples[0], m_adc.bitcount, numpt, 0, m_static.vpp, 
 	//	0, m_static.vt, &inl[0], &dnl[0], &histogram[0], indexLeft, indexRight);
 
-	vector<int> histogram_i(inl.size());
 	inldnl_c(&samples[0], m_adc.bitcount, numpt, 0, m_static.vpp, 
 		0, m_static.vt, inl, dnl, histogram_i, indexLeft, indexRight);
+
+	for (int i=0; i<histogram_i.size(); ++i)
+	{
+		histogram[i] = histogram_i[i];
+	}
 
 	plot(inl, "INTEGRAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
 
 	plot(dnl, "DIFFERENTIAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
+
+	HistPlot histPlot;
+	histPlot.setValueHist(histogram);
+	histPlot.showMaximized();
+
 	
 }
 
