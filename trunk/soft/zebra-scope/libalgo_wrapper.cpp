@@ -1,4 +1,6 @@
 #include "AdcBoardTypes.hpp"
+#include <algorithm>
+using namespace std;
 
 #ifdef MATLAB 
 
@@ -61,12 +63,13 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, FreqDomainReport& param, 
 					   float vpp, double TPX, double TPY, int tone_code, double fin_input)
 {
-	const int disturb_len = 10;
+	const int hd_len = 10;
+	const int disturb_len = 19;
+	const int NFFT = 64 * 1024;
 	static std::vector<double> input(samples.size());
 	static std::vector<double> cADout_dB(input.size()/2);
-	static std::vector<double> cHD(disturb_len);
+	static std::vector<double> cHD(hd_len);
 	static std::vector<double> cHarbin(disturb_len);
-	static std::vector<double> cFn_disturb(disturb_len);
 	static std::vector<double> cHarbin_disturb(disturb_len);
 
 	for (int i = 0; i < samples.size(); ++i)
@@ -87,9 +90,10 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 
 	AdcDynTest64k(&input[0], fclk, bitCount, vpp, TPY, TPX, tone_code, fin_input, 
 		cfreq_fin, cVin, cVpp, cSNR, cSFDR, cSINAD, cTHD, cPn_dB, cdisturb_len, cref_dB,
-		&cADout_dB[0], &cHD[0], &cHarbin[0], &cFn_disturb[0], &cHarbin_disturb[0]);
+		&cADout_dB[0], &cHD[0], &cHarbin[0], &cHarbin_disturb[0]);
 
-
+	double * harbin = &cHarbin[0];
+	double * harbin_dstb = &cHarbin_disturb[0];
 	if (param.Spectrum.size() != cADout_dB.size())
 	{
 		param.Spectrum.resize(cADout_dB.size());
@@ -115,6 +119,63 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 		param.DynamicPara[10+i].value 
 			= cHD[i+1];
 	}
+
+	if (param.markers.size()<21)
+	{
+		param.markers.resize(21);
+	}
+	param.markers[20] = cPn_dB;
+	for (int i=0; i<10; ++i)
+	{
+		param.markers[i] = cHarbin[i] - 1;
+		param.markers[i+10] = cHarbin_disturb[cdisturb_len-i-1] - 1;
+	}
+}
+
+void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, FreqDomainReport& param, 
+					   float vpp, int tone_code, double fin1, double fin2)
+{
+	const int NFFT = 64 * 1024;
+	static std::vector<double> input(NFFT);
+	static std::vector<double> cADout_dB(input.size()/2);
+	for (int i = 0; i < min(samples.size(), input.size()); ++i)
+	{
+		input[i] = samples[i];
+	}
+	double cFo1;
+	double cF1_dBFS;
+	double cFo2;
+	double cF2_dBFS;
+	double cSFDR;
+	double cSFDR_dBFS;
+	double cIMD2_Worst;
+	double cIMD2_w_dBFS;
+	double cIMD3_Worst;
+	double cIMD3_w_dBFS;
+
+	DualToneTest64k(&input[0], fclk, bitCount, vpp, tone_code, fin1, fin2, \
+		&cADout_dB[0], cFo1, cF1_dBFS, cFo2, cF2_dBFS, cSFDR, cSFDR_dBFS, cIMD2_Worst, cIMD2_w_dBFS, \
+		cIMD3_Worst, cIMD3_w_dBFS); 
+
+	if (param.Spectrum.size() != cADout_dB.size())
+	{
+		param.Spectrum.resize(cADout_dB.size());
+	}
+	for (int i = 0; i < param.Spectrum.size(); ++i)
+	{
+		param.Spectrum[i] = cADout_dB[i];
+	}
+	
+	param.DualTonePara[0].value = cFo1;
+	param.DualTonePara[1].value = cF1_dBFS;
+	param.DualTonePara[2].value = cFo2;
+	param.DualTonePara[3].value = cF2_dBFS;
+	param.DualTonePara[4].value = cSFDR;
+	param.DualTonePara[5].value = cSFDR_dBFS;
+	param.DualTonePara[6].value = cIMD2_Worst;
+	param.DualTonePara[7].value = cIMD2_w_dBFS;
+	param.DualTonePara[8].value = cIMD3_Worst;
+	param.DualTonePara[9].value = cIMD3_w_dBFS;
 }
 
 #endif

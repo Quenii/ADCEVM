@@ -9,13 +9,14 @@ namespace gkhy
 	{
 		class QPLOTLAB_EXPORT FFTWnd : public gkhy::QPlotLab::QScope
 		{
+
 		public:
 			FFTWnd(QWidget* parent = 0, Qt::WindowFlags f = 0); 
 			virtual ~FFTWnd();
 
 		public:
 			//void update(const std::vector<float> & data);
-			void update(const std::vector<float> & xdata, const std::vector<float> & ydata);
+			void update(const std::vector<float> &, const std::vector<float> &, const std::vector<int> &);
 		};
 	}
 }

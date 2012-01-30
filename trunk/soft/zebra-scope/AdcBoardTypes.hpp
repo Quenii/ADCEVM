@@ -65,6 +65,7 @@ struct Parameter
 	float value;
 	QString unit;
 };
+
 struct FreqDomainReport
 {
 	std::vector<float> Spectrum;
@@ -72,6 +73,7 @@ struct FreqDomainReport
 	bool dualTone;
 	std::vector<Parameter> DynamicPara;
 	std::vector<Parameter> DualTonePara;
+	std::vector<int> markers;
 };
 
 struct Harmonics

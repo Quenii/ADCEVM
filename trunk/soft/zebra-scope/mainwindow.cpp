@@ -220,7 +220,7 @@ void MainWindow::slotShowAbout()
 void MainWindow::slotShowBoardReport(const AdcBoardReport& report)
 {
 	waveWnd->update(report.tdReport.xaxis, report.tdReport.samples);
-	fftWnd->update(report.fdReport.xaxis, report.fdReport.Spectrum);
+	fftWnd->update(report.fdReport.xaxis, report.fdReport.Spectrum, report.fdReport.markers);
 	logicWaveWnd->update(report.tdReport.rawSamples);
 	ui.controlPanel->updateReport(report);
 }
