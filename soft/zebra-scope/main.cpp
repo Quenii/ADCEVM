@@ -50,9 +50,6 @@ int main(int argc, char *argv[])
 
 	w.showMaximized();
 
-	HistPlot histPlot;
-	histPlot.showMaximized();
-
 	int ret = app.exec();
 
 #ifdef MATLAB
