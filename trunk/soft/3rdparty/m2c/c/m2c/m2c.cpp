@@ -188,23 +188,21 @@ void inldnl(double* csamples, int cnumbit, int cnumpt, double cT1, double cT2,
 }
 
 void DualToneTest64k(double* cADout, double cfclk, int cnumbit, double cV, int ctone_code, double cf1, double cf2, \
-			double *cADout_dB, double& cFo1, double& cF1_dBFS, double& cFo2, double& cF2_dBFS, \
+			int cspan_dc, int cspan_s, int cspan_har, \
+			double* cADout_dB, double* cmarker, double& cFo1, double& cF1_dBFS, double& cFo2, double& cF2_dBFS, \
 			double& cSFDR, double& cSFDR_dBFS, double& cIMD2_Worst, double& cIMD2_w_dBFS, \
 			double& cIMD3_Worst, double& cIMD3_w_dBFS) 
 {
 	SingleLock lock(&cs);
 	const int len = 64 * 1024;
-	double cTPX = 0.01f;
-	double cTPY = 1.0f;
-	int ccode = 1;
 	DECLEAR_Mm_MORE(ADout, cADout, len); 
 	DECLEAR_Mm_ONE(fclk, cfclk); 
 	DECLEAR_Mm_ONE(numbit, cnumbit); 
 	DECLEAR_Mm_ONE(NFFT, len); 
 	DECLEAR_Mm_ONE(V, cV); 
-	DECLEAR_Mm_ONE(TPY, cTPY); 
-	DECLEAR_Mm_ONE(TPX, cTPX); 
-	DECLEAR_Mm_ONE(code, ccode); 
+	DECLEAR_Mm_ONE(span_dc, cspan_dc); 
+	DECLEAR_Mm_ONE(span_har, cspan_har); 
+	DECLEAR_Mm_ONE(span_s, cspan_s); 
 	DECLEAR_Mm_ONE(tone_code, ctone_code); 
 	DECLEAR_Mm_ONE(f1, cf1); 
 	DECLEAR_Mm_ONE(f2, cf2);  
@@ -220,9 +218,9 @@ void DualToneTest64k(double* cADout, double cfclk, int cnumbit, double cV, int c
 	Mm IMD3_Worst;
 	Mm IMD3_w_dBFS;
 	Mm ADout_dB;
-
-	DualToneTest64k(ADout, fclk, numbit, NFFT, V, TPY, TPX, code, tone_code, f1, f2, i_o,
-					 ADout_dB, Fo1, F1_dBFS, Fo2, F2_dBFS, SFDR, SFDR_dBFS, IMD2_Worst, IMD2_w_dBFS, IMD3_Worst, IMD3_w_dBFS);
+	Mm marker;
+	DualToneTest64k(ADout, fclk, numbit, V, tone_code, f1, f2, span_dc, span_har, span_s, i_o,
+					 ADout_dB, Fo1, F1_dBFS, Fo2, F2_dBFS, SFDR, SFDR_dBFS, IMD2_Worst, IMD2_w_dBFS, IMD3_Worst, IMD3_w_dBFS, marker);
 
 	cFo1 = Fo1.r(1, 1);
 	cF1_dBFS = F1_dBFS.r(1, 1);
@@ -234,7 +232,8 @@ void DualToneTest64k(double* cADout, double cfclk, int cnumbit, double cV, int c
 	cIMD2_w_dBFS = IMD2_w_dBFS.r(1, 1);
 	cIMD3_Worst = IMD3_Worst.r(1, 1);
 	cIMD3_w_dBFS = IMD3_w_dBFS.r(1, 1);
-	memcpy(cADout_dB, ADout_dB.addr(), len * sizeof(*cADout_dB));
+	memcpy(cADout_dB, ADout_dB.addr(), len/2 * sizeof(*cADout_dB));
+	memcpy(cmarker, marker.addr(), 13 * sizeof(*cmarker));
 }
 void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, double cTPY, double cTPX, int ctone_code, double cfin_input,
 				   double& cfreq_fin, double& cVin, double& cVpp, 

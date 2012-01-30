@@ -1,8 +1,8 @@
 
-function [ADout_dB, Fin1_freq, Fin1_dBFS, Fin2_freq, Fin2_dBFS, SFDR, SFDR_dBFS, ...
-          IMD2_Worst, IMD2_w_dBFS, IMD3_Worst, IMD3_w_dBFS] = ...
-    DualToneTest64k(ADout, fclk, numbit, NFFT, V, TPY, TPX, code, ...
-                    tone_code, fin1_input, fin2_input)
+function [ADout_dB, fin1_freq, fin1_dBFS, fin2_freq, fin2_dBFS, SFDR, SFDR_dBFS, ...
+          IMD2_worst, IMD2_worst_dBFS, IMD3_worst, IMD3_worst_dBFS, marker] = ...
+    DualToneTest64k(ADout, fclk, numbit, V, tone_code, fin1_input, ...
+                    fin2_input, span_dc, spanh_har, span_s)
 % Pn_dBÎªµ×ÔëÉù£¬fclkÎª²ÉÑùÆµÂÊ£¬numbitÎª²ÉÑù¾«¶È£¬NFFTÎªFFTµÄÉî
 % ¶È£¬VÎª·å·åÖµ£¬ TPYºÍTPX·Ö±ðÎªÊ±ÓòÍ¼µÄYºÍXÖá£¬code
 % Îª1£º²¹Âë£¬2£ºÆ«ÒÆÂë£¬3£º¸ñÀ×Âë¡£
@@ -24,6 +24,7 @@ function [ADout_dB, Fin1_freq, Fin1_dBFS, Fin2_freq, Fin2_dBFS, SFDR, SFDR_dBFS,
 % $$$ fin2_input = 1559e5;				%ÊäÈëÐÅºÅ2,fin2_input±ØÐë´óÓÚfin1_input(½çÃæÉèÖÃÊ±ÅÐ¶Ï)
 %*****************************±àÂë×ª»»***************************
 %****************************************************************
+NFFT = 65536;
 ADout = V/2*ADout; 										%»Ö¸´³ÉÊ±Óò²¨ÐÎ     
 %****************************************************************
 [AmpMax t1]=max(ADout);
@@ -34,9 +35,9 @@ ADout_w=ADout.*ADout; %chebwin(NFFT,200);    					%Êý¾Ý¼Ó´°£¬²ÎÊý200ÊÇÎªÁËFFT²¨Ð
 ADout_spect=fft(ADout_w,NFFT);						    %×ö64K FFT
 ADout_dB=20*log10(abs(ADout_spect));					%FFTºó×ªÎªdBÖµ
 %****************************************************************
-span_dc = 24; 											%DC SPAN(¼´OFFSETµçÑ¹)£¬¿ÉÉè·¶Î§11-35£¬32K=11£¬64K=24
-spanh_har = 4;											%Ð³²¨SPAN£¬¿ÉÉè·¶Î§3~6
-span_s = 19;											%ÐÅºÅSPAN£¬¿ÉÉè·¶Î§16~23
+% $$$ span_dc = 24; 											%DC SPAN(¼´OFFSETµçÑ¹)£¬¿ÉÉè·¶Î§11-35£¬32K=11£¬64K=24
+% $$$ spanh_har = 4;											%Ð³²¨SPAN£¬¿ÉÉè·¶Î§3~6
+% $$$ span_s = 19;											%ÐÅºÅSPAN£¬¿ÉÉè·¶Î§16~23
 %****************************************************************
 maxdB=max(ADout_dB(span_dc:NFFT/2));					%ÕÒ³ö³ýDC SPANÖ®ÍâµÄ×î´ódBÖµ
 fin=find(ADout_dB(1:NFFT/2)==maxdB);					%ÕÒ³öµÈÓÚ×î´ódBÖµÊ±µÄµã
@@ -66,7 +67,7 @@ if 	(freq_fin > second_freq_fin)
   	fin2_dBFS = ADout_dB(fin)-ref_dB;
   	fin2_x = fin;
 else
-		fin1 = freq_fin;
+	fin1 = freq_fin;
   	fin1_dBFS = ADout_dB(fin)-ref_dB;	
   	fin1_x = fin; 		
   	fin2 = second_freq_fin;
@@ -111,7 +112,7 @@ har_bin=find(ADout_dB(round(tone*NFFT)-span_s:round(tone*NFFT)+span_s)==har_peak
 %****************************************************************
 fin1_x = har_bin+round(tone*NFFT)-span_s-1;											%»»Ëã³ÉdBÖµµÄ¾ø¶ÔÎ»ÖÃ
 fin1 = (fin1_x-1)*fclk/NFFT;
-fin1_freq = floor((fin1_x-1)/NFFT)*fclk+freq_input
+fin1_freq = floor((fin1_x-1)/NFFT)*fclk+freq_input;
 
 %****************************************************************fin2
 freq_input = fin2_input;
@@ -287,6 +288,20 @@ IMD3_max2 = max(IMD3_max1,ADout_dB(two_fin2_sub_fin1_x));
 IMD3_max = max(IMD3_max2,ADout_dB(two_fin1_sub_fin2_x));
 IMD3_worst = maxdB - IMD3_max;                                                                   %×î²îIMD3,µ¥Î»dBc
 IMD3_worst_dBFS = ref_dB - IMD3_max;                                                             %×î²îIMD3,µ¥Î»dBFS
+ADout_dB = ADout_dB - ref_dB;
+marker(1) = fin1_x;
+marker(2) = two_fin1_x;
+marker(3) = three_fin1_x;
+marker(4) = fin2_x;
+marker(5) = two_fin2_x;
+marker(6) = three_fin2_x;
+marker(7) = three_high_x;
+marker(8) = fin2_plus_fin1_x;
+marker(9) = fin2_sub_fin1_x;
+marker(10) = fin1_plus_2fin2_x;
+marker(11) = fin2_plus_2fin1_x;
+marker(12) = two_fin2_sub_fin1_x;
+marker(13) = two_fin1_sub_fin2_x;
 % $$$ %**************************ÒÔÏÂÎª»æÍ¼****************************
 % $$$ plot(fin1,ADout_dB(fin1_x)-ref_dB,'gd');                                                        %fin1ÂÌÉ«
 % $$$ plot(fin2,ADout_dB(fin2_x)-ref_dB,'rd');                                                        %fin2ºìÉ«
