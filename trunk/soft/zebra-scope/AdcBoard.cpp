@@ -485,27 +485,27 @@ void AdcBoard::staticTest()
 	}
 #else // NOBOARD
 
-	QFile file("111110-140158.txt");
-	
-	for (int i=0; i<m_static.numpt/8; ++i)
-	{
-		if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-			Q_ASSERT(false);
+	//QFile file("111110-140158.txt");
+	//
+	//for (int i=0; i<m_static.numpt/8; ++i)
+	//{
+	//	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	//		Q_ASSERT(false);
 
-		QTextStream in(&file);
-		while (!in.atEnd()) {
-			QString line = in.readLine();
-			samples.push_back(line.toInt());
-		}
+	//	QTextStream in(&file);
+	//	while (!in.atEnd()) {
+	//		QString line = in.readLine();
+	//		samples.push_back(line.toInt());
+	//	}
 
-		file.close();
-	}
+	//	file.close();
+	//}
 
 #endif // NOBOARD
 
 	fileTxt.close();
 
-	Q_ASSERT(samples.size() >= numpt);
+	//Q_ASSERT(samples.size() >= numpt);
 
 	vector<double> inl(1<<m_adc.bitcount);
 	vector<double> dnl(inl.size());
@@ -518,8 +518,8 @@ void AdcBoard::staticTest()
 	//inldnl(&samples[0], m_adc.bitcount, numpt, 0, m_static.vpp, 
 	//	0, m_static.vt, &inl[0], &dnl[0], &histogram[0], indexLeft, indexRight);
 
-	inldnl_c(&samples[0], m_adc.bitcount, numpt, 0, m_static.vpp, 
-		0, m_static.vt, inl, dnl, histogram_i, indexLeft, indexRight);
+	//inldnl_c(&samples[0], m_adc.bitcount, numpt, 0, m_static.vpp, 
+	//	0, m_static.vt, inl, dnl, histogram_i, indexLeft, indexRight);
 
 	for (int i=0; i<histogram_i.size(); ++i)
 	{
