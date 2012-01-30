@@ -3,6 +3,8 @@
 #define QWT_DLL // This is needed due to a bug/imperfectness of QWT.
 
 #include <qwt_plot.h>
+#include <vector>
+using namespace std;
 
 class HistPlot: public QwtPlot
 {
@@ -10,7 +12,7 @@ class HistPlot: public QwtPlot
 
 public:
 	HistPlot(QWidget * = NULL);
-
+	void setValueHist(vector<double> histogram);
 private:
 	void populate();
 

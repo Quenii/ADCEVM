@@ -17,18 +17,18 @@ FFTWnd::FFTWnd(QWidget *parent /*= 0*/, Qt::WindowFlags f /*= 0*/) : QScope(pare
 	scope.YAxis.AutoScaling.Enabled = FALSE;
 
 	scope.MarkerGroups.Add(4);
-	scope.MarkerGroups[0].Name = _T("Signal/fin1");
+	scope.MarkerGroups[0].Name = _T("Signal / Fin1");
 	scope.MarkerGroups[0].Shape = msDiamond;
 	scope.MarkerGroups[0].Pen.Color = RGB(0, 192, 192);
 	scope.MarkerGroups[0].Brush.Color = RGB(0, 192, 192);
 
-	scope.MarkerGroups[1].Name = _T("HD2~10/fin2");
+	scope.MarkerGroups[1].Name = _T("HD2~10 / Fin2");
 	scope.MarkerGroups[1].Shape = msTriangleDown;
 	scope.MarkerGroups[1].Pen.Color = RGB(0, 100, 100);
 	scope.MarkerGroups[1].Brush.Color = RGB(0, 100, 100);
 	scope.MarkerGroups[1].Labels.Text = _T("%Y");
 
-	scope.MarkerGroups[2].Name = _T("HD11~20/IMD2");
+	scope.MarkerGroups[2].Name = _T("HD11~20 / IMD2");
 	scope.MarkerGroups[2].Shape = msStar;
 	scope.MarkerGroups[2].Pen.Color = RGB(128, 0, 128);
 	scope.MarkerGroups[2].Brush.Color = RGB(128, 0, 128);

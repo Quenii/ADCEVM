@@ -9,6 +9,7 @@
 #include <qwt_series_data.h>
 #include "histplot.h"
 
+
 class Histogram: public QwtPlotHistogram
 {
 public:
@@ -58,33 +59,28 @@ void Histogram::setValues(uint numValues, const double *values)
 HistPlot::HistPlot(QWidget *parent):
 QwtPlot(parent)
 {
-	setTitle("Watching TV during a weekend");
-
 	setCanvasBackground(QColor(Qt::gray));
 	plotLayout()->setAlignCanvasToScales(true);
 
-	setAxisTitle(QwtPlot::yLeft, "Number of People");
-	setAxisTitle(QwtPlot::xBottom, "Number of Hours");
+	//QwtLegend *legend = new QwtLegend;
+	//legend->setItemMode(QwtLegend::CheckableItem);
+	//insertLegend(legend, QwtPlot::RightLegend);
 
-	QwtLegend *legend = new QwtLegend;
-	legend->setItemMode(QwtLegend::CheckableItem);
-	insertLegend(legend, QwtPlot::RightLegend);
+	//populate();
 
-	populate();
+	//connect(this, SIGNAL(legendChecked(QwtPlotItem *, bool)),
+	//	SLOT(showItem(QwtPlotItem *, bool)));
 
-	connect(this, SIGNAL(legendChecked(QwtPlotItem *, bool)),
-		SLOT(showItem(QwtPlotItem *, bool)));
-
-	replot(); // creating the legend items
+	//replot(); // creating the legend items
 
 	QwtPlotItemList items = itemList(QwtPlotItem::Rtti_PlotHistogram);
 	for ( int i = 0; i < items.size(); i++ )
 	{
 		if ( i == 0 )
 		{
-			QwtLegendItem *legendItem = (QwtLegendItem *)legend->find(items[i]);
-			if ( legendItem )
-				legendItem->setChecked(true);
+			//QwtLegendItem *legendItem = (QwtLegendItem *)legend->find(items[i]);
+			//if ( legendItem )
+			//	legendItem->setChecked(true);
 			items[i]->setVisible(true);
 		}
 		else
@@ -96,6 +92,10 @@ QwtPlot(parent)
 
 void HistPlot::populate()
 {
+	setTitle("Watching TV during a weekend");
+	setAxisTitle(QwtPlot::yLeft, "Number of People");
+	setAxisTitle(QwtPlot::xBottom, "Number of Hours");
+
 	QwtPlotGrid *grid = new QwtPlotGrid;
 	grid->enableX(false);
 	grid->enableY(true);
@@ -123,3 +123,22 @@ void HistPlot::showItem(QwtPlotItem *item, bool on)
 	item->setVisible(on);
 }
 
+void HistPlot::setValueHist(vector<double> histogram)
+{
+	setTitle("Histogram");
+	setAxisTitle(QwtPlot::yLeft, "Count");
+	setAxisTitle(QwtPlot::xBottom, "Value");
+
+	QwtPlotGrid *grid = new QwtPlotGrid;
+	grid->enableX(false);
+	grid->enableY(true);
+	grid->enableXMin(false);
+	grid->enableYMin(false);
+	grid->setMajPen(QPen(Qt::black, 0, Qt::DotLine));
+	grid->attach(this);
+
+	Histogram *histogramJune = new Histogram("Summer", Qt::red);
+	histogramJune->setValues(
+		histogram.size(), &histogram[0]);
+	histogramJune->attach(this);
+}
