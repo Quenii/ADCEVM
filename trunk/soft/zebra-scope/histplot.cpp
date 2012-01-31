@@ -123,7 +123,7 @@ void HistPlot::showItem(QwtPlotItem *item, bool on)
 	item->setVisible(on);
 }
 
-void HistPlot::setValueHist(vector<double> histogram)
+void HistPlot::setValueHist(const vector<double>& histogram)
 {
 	setTitle("Histogram");
 	setAxisTitle(QwtPlot::yLeft, "Count");

@@ -12,7 +12,7 @@ class HistPlot: public QwtPlot
 
 public:
 	HistPlot(QWidget * = NULL);
-	void setValueHist(vector<double> histogram);
+	void setValueHist(const vector<double>& histogram);
 private:
 	void populate();
 
