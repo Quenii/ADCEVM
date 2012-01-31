@@ -3,7 +3,7 @@
 
 #include <QMessageBox>
 #include <QtSingleApplication>
-
+#include <QThread>
 
 #ifdef MATLAB    //defined in AdcBoardTypes.hpp
 #include "libalgo.h"
@@ -49,7 +49,9 @@ int main(int argc, char *argv[])
 		return !app.sendMessage(" ");
 
 	w.showMaximized();
+	
 
+	qDebug() << "Main thread Id: " << QThread::currentThreadId();
 	int ret = app.exec();
 
 #ifdef MATLAB

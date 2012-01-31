@@ -59,9 +59,13 @@ static void plot(const std::vector<double>& data, const QString& title, double m
 {
 	QScope* scope = new QScope(0);
 	scope->setWindowTitle(title);
-	scope->plot(&data[0], 16384);
+	scope->plot(&data[0], min(16384, data.size()));
 	scope->show();
 	scope->resize(640, 480);
+
+	/*bool ok = QObject::connect(qApp, SIGNAL(aboutToQuit()), scope, SLOT(deleteLater()));
+	Q_ASSERT(ok);
+	*/
 }
 
 AdcBoard* AdcBoard::_inst = 0;
@@ -526,14 +530,17 @@ void AdcBoard::staticTest()
 		histogram[i] = histogram_i[i];
 	}
 
-	plot(inl, "INTEGRAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
+	qDebug() << "Adc board thread Id: " << QThread::currentThreadId ();
 
+	plot(inl, "INTEGRAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
 	plot(dnl, "DIFFERENTIAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
 
-	HistPlot histPlot;
-	histPlot.setValueHist(histogram);
-	histPlot.showMaximized();
-
 	
+	HistPlot* histPlot = new HistPlot(0); /*
+	bool ok = QObject::connect(qApp, SIGNAL(aboutToQuit()), histPlot, SLOT(deleteLater()));
+	Q_ASSERT(ok);
+*/
+	histPlot->setValueHist(histogram);
+	histPlot->showMaximized();	
 }
 
