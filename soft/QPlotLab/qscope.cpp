@@ -63,6 +63,12 @@ void QScope::plot(const double* data, int len)
 {
 	if(len > 0)
 	{
+		if (m_scope->Channels.Count <= 1)
+		{
+			//Q_ASSERT(false);
+			m_scope->Channels.Add(1);
+		}
+		
 		m_scope->Channels[0].Data.SetYData(data, len);
 	}
 	//	rawScope().Channels[0].Data.SetYData(data, len); 	
