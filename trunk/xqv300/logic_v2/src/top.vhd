@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-06-20
+-- Last update: 2011-07-03
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -89,7 +89,9 @@ entity top is
     b6_io : in std_logic_vector(20 downto 0);
     b7_io : in std_logic_vector(19 downto 0);
 
-    gck_o : out std_logic_vector(3 downto 0)
+    gck_o : out std_logic_vector(3 downto 0);
+
+    xilinx_m : out std_logic_vector(2 downto 0)
 
     );
 
@@ -101,7 +103,7 @@ architecture behave of top is
   constant ADDR_CTL_REG    : std_logic_vector(15 downto 0) := x"1004";
   constant ADDR_FIFO       : std_logic_vector(15 downto 0) := x"1005";
   constant ADDR_GPIO       : std_logic_vector(15 downto 0) := x"2000";
-  constant ADDR_WD         : std_logic_vector(15 downto 0) := x"2001";
+  constant ADDR_MN         : std_logic_vector(15 downto 0) := x"2001";
   constant ADDR_SW         : std_logic_vector(15 downto 0) := x"2002";
   constant ADDR_DAC        : std_logic_vector(15 downto 0) := x"2003";
   constant C_SCK_RATIO_DAC : integer                       := 8;
@@ -130,11 +132,11 @@ architecture behave of top is
   signal updated_gpio  : std_logic;
   signal sta_gpio      : std_logic_vector(15 downto 0);
 
-  signal LB_Ready_wd : std_logic;
-  signal LB_DataR_wd : std_logic_vector(15 downto 0);
-  signal ctrl_wd     : std_logic_vector(15 downto 0);
-  signal updated_wd  : std_logic;
-  signal sta_wd      : std_logic_vector(15 downto 0);
+  signal LB_Ready_mn : std_logic;
+  signal LB_DataR_mn : std_logic_vector(15 downto 0);
+  signal ctrl_mn     : std_logic_vector(15 downto 0);
+  signal updated_mn  : std_logic;
+  signal sta_mn      : std_logic_vector(15 downto 0);
 
   signal LB_Ready_tmp03 : std_logic;
   signal LB_DataR_tmp03 : std_logic_vector(15 downto 0);
@@ -364,10 +366,10 @@ begin  -- behave
   u_slwr_n_o     <= not fifo_wr_o;
   u_sloe_n_o     <= fifo_adr_o(1);
 
-  LB_Ready_i <= LB_Ready_dac or LB_Ready_rst or LB_Ready_gpio or LB_Ready_wd
+  LB_Ready_i <= LB_Ready_dac or LB_Ready_rst or LB_Ready_gpio or LB_Ready_mn
                 or LB_Ready_adcp or LB_Ready_adcio0 or LB_Ready_adcio1
                 or LB_Ready_tmp03 or LB_Ready_io or LB_Ready_iosel;
-  LB_DataR_i <= LB_DataR_dac or LB_DataR_rst or LB_DataR_gpio or LB_DataR_wd
+  LB_DataR_i <= LB_DataR_dac or LB_DataR_rst or LB_DataR_gpio or LB_DataR_mn
                 or LB_DataR_adcp or LB_DataR_adcio0 or LB_DataR_adcio1
                 or LB_DataR_tmp03 or LB_DataR_io or LB_DataR_iosel;
 
@@ -599,19 +601,21 @@ begin  -- behave
 
   lb_target_reg_2 : lb_target_reg
     generic map (
-      ADDR => ADDR_WD)
+      ADDR => ADDR_MN)
     port map (
       LB_Clk_i   => LB_Clk_i,
       LB_Reset_i => sys_rst,
       LB_Addr_i  => LB_Addr_o,
       LB_Write_i => LB_Write_o,
       LB_Read_i  => LB_Read_o,
-      LB_Ready_o => LB_Ready_wd,
+      LB_Ready_o => LB_Ready_mn,
       LB_DataW_i => LB_DataW_o,
-      LB_DataR_o => LB_DataR_wd,
-      updated_o  => updated_wd,
-      ctrl_o     => ctrl_wd,
-      sta_i      => sta_wd);
+      LB_DataR_o => LB_DataR_mn,
+      updated_o  => updated_mn,
+      ctrl_o     => ctrl_mn,
+      sta_i      => sta_mn);
+
+  xilinx_m <= ctrl_mn(2 downto 0);
 
   TMP03 : lb_target_sensor
     generic map (

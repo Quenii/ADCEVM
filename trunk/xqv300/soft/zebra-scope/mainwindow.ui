@@ -67,10 +67,8 @@
     <property name="title">
      <string>测试类型(&amp;T)</string>
     </property>
-    <addaction name="actionSpectrum"/>
     <addaction name="actionLogic"/>
     <addaction name="action_Thermal"/>
-    <addaction name="action_Dynamic"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -223,7 +221,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>I/O测试(&amp;I)</string>
+    <string>I/O测试图(&amp;I)</string>
    </property>
   </action>
   <action name="action_7">
@@ -241,7 +239,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>表面温度动态测试(&amp;T)</string>
+    <string>功耗曲线(&amp;T)</string>
    </property>
   </action>
   <action name="action_Dynamic">

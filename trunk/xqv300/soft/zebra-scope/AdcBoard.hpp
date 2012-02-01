@@ -60,10 +60,15 @@ public:
 	bool isRunning();
 	void staticTest();
 	const AdcBoardReport& reportRef() { return report; }
-	int setVoltage(int adcChannel, int dacChannel, float v);
+//	int setVoltage(int adcChannel, int dacChannel, float v);
 	bool clocked();
 
 	void changeBank(int bank);
+
+	unsigned short getAdcData(unsigned short ch);
+	float getVoltage(unsigned short ch);
+	float getCurrent(unsigned short ch);
+	int setVoltage(int adcChannel, int dacChannel, float v);
 
 protected:
 	void timerEvent (QTimerEvent * event);

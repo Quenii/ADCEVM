@@ -52,6 +52,8 @@ private slots:
 	void on_pushButtonDynPower_clicked();
 	void on_comboBoxBank_activated(int);
 
+	void on_pushButtonConfigTest_clicked();
+
 private:
 	Ui::ControlPanelClass ui;
 	QStandardItemModel *devListModel;
