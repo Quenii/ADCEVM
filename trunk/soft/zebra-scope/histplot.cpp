@@ -59,7 +59,7 @@ void Histogram::setValues(uint numValues, const double *values)
 HistPlot::HistPlot(QWidget *parent):
 QwtPlot(parent)
 {
-	setCanvasBackground(QColor(Qt::gray));
+	setCanvasBackground(QColor(Qt::black));
 	plotLayout()->setAlignCanvasToScales(true);
 
 	//QwtLegend *legend = new QwtLegend;
@@ -101,7 +101,7 @@ void HistPlot::populate()
 	grid->enableY(true);
 	grid->enableXMin(false);
 	grid->enableYMin(false);
-	grid->setMajPen(QPen(Qt::black, 0, Qt::DotLine));
+	grid->setMajPen(QPen(Qt::black, 0, Qt::SolidLine));
 	grid->attach(this);
 
 	const double juneValues[] = { 7, 19, 24, 32, 10, 5, 3 };
@@ -134,7 +134,7 @@ void HistPlot::setValueHist(const vector<double>& histogram)
 	grid->enableY(true);
 	grid->enableXMin(false);
 	grid->enableYMin(false);
-	grid->setMajPen(QPen(Qt::black, 0, Qt::DotLine));
+	grid->setMajPen(QPen(Qt::darkGreen, 0, Qt::SolidLine));
 	grid->attach(this);
 
 	Histogram *histogramJune = new Histogram("Summer", Qt::red);

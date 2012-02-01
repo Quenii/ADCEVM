@@ -536,11 +536,9 @@ void AdcBoard::staticTest()
 	plot(dnl, "DIFFERENTIAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
 
 	
-	HistPlot* histPlot = new HistPlot(0); /*
-	bool ok = QObject::connect(qApp, SIGNAL(aboutToQuit()), histPlot, SLOT(deleteLater()));
-	Q_ASSERT(ok);
-*/
+	HistPlot* histPlot = new HistPlot(0); 
+	histPlot->resize(640, 480);
 	histPlot->setValueHist(histogram);
-	histPlot->showMaximized();	
+	histPlot->show();	
 }
 
