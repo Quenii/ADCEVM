@@ -97,32 +97,25 @@ void ControlPanel::updateReport(const AdcBoardReport &rpt)
 	const FreqDomainReport& fdRpt = rpt.fdReport;
 
 	tdReportModel->removeRows(0, tdReportModel->rowCount());
+	int len = fdRpt.dualTone ? fdRpt.DualTonePara.size() : fdRpt.DynamicPara.size();
 	if (fdRpt.dualTone)
 	{
-		int len = fdRpt.DualTonePara.size();
 		for (int i = len-1; i >= 0; -- i )
 		{
 			tdReportModel->insertRow(0);
 			tdReportModel->setData(tdReportModel->index(0, 0), fdRpt.DualTonePara[i].name);
-			//tdReportModel->item(0, 0)->setEditable(false);
 			tdReportModel->setData(tdReportModel->index(0, 1), QString("%L1").arg(fdRpt.DualTonePara[i].value, 0, 'f', 2));
-			//tdReportModel->item(0, 1)->tdReportModel(false);
 			tdReportModel->setData(tdReportModel->index(0, 2), fdRpt.DualTonePara[i].unit);
-			//tdReportModel->item(0, 2)->tdReportModel(false);
 		}
 	}
 	else
 	{
-		int len = fdRpt.DynamicPara.size();
 		for (int i = len-1; i >= 0; -- i )
 		{
 			tdReportModel->insertRow(0);
 			tdReportModel->setData(tdReportModel->index(0, 0), fdRpt.DynamicPara[i].name);
-			//tdReportModel->item(0, 0)->setEditable(false);
 			tdReportModel->setData(tdReportModel->index(0, 1), QString("%L1").arg(fdRpt.DynamicPara[i].value, 0, 'f', 2));
-			//tdReportModel->item(0, 1)->tdReportModel(false);
 			tdReportModel->setData(tdReportModel->index(0, 2), fdRpt.DynamicPara[i].unit);
-			//tdReportModel->item(0, 2)->tdReportModel(false);
 		}
 	}
 }
@@ -152,6 +145,11 @@ void ControlPanel::on_pushButtonStartStaticTest_clicked()
 	StaticSettingsDialog dlg;
 	if (QDialog::Accepted  == dlg.exec())
 	{
+		AdcAnalyzerSettings s;
+		StaticTestSettings sts = s.staticTestSettings();
+		sts.noise = false;
+		s.setStaticTestSettings(sts);
+
 		AdcBoard::instance()->staticTest();
 	}
 	ui.dynamicTestButtons->setEnabled(true);
@@ -159,16 +157,20 @@ void ControlPanel::on_pushButtonStartStaticTest_clicked()
 
 void ControlPanel::on_pushButtonStatisticTest_clicked()
 {		
-	//ui.pushButtonStopStaticTest->setEnabled(false);	
-	//ui.pushButtonStartStaticTest->setEnabled(true);
-	//ui.dynamicTestButtons->setEnabled(true);
 	StaticSettingsDialog dlg;
+
 	if (QDialog::Accepted  == dlg.exec())
 	{
 		QMessageBox notice;
-		notice.setText(QString::fromLocal8Bit("请将信号输入端悬空或接地，然后电击确定开始测试。"));
+		notice.setText(QString::fromLocal8Bit("请将信号输入端悬空或接地，然后点击确定开始测试。"));
 		notice.exec();
-//		AdcBoard::instance()->staticTest();
+
+		AdcAnalyzerSettings s;
+		StaticTestSettings sts = s.staticTestSettings();
+		sts.noise = true;
+		s.setStaticTestSettings(sts);
+
+		AdcBoard::instance()->staticTest();
 	}
 }
 

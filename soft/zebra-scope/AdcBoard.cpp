@@ -26,7 +26,7 @@
 
 using namespace gkhy::QPlotLab;
 
-#define NOBOARD 1
+//#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -320,7 +320,6 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	calc_dynam_params(tdReport.samples, m_adc.bitcount, fdReport);
 
 #elif defined(MATCOM) 
-//	calc_dynam_params(tdReport.samples, m_adc.bitcount, fdReport, m_adc.vpp);
 	int freq_detect = m_signal.freqDetect ? 1 : 2;
 	if (!m_signal.dualToneTest)
 	{
@@ -489,27 +488,35 @@ void AdcBoard::staticTest()
 	}
 #else // NOBOARD
 
-	//QFile file("111110-140158.txt");
-	//
-	//for (int i=0; i<m_static.numpt/8; ++i)
-	//{
-	//	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-	//		Q_ASSERT(false);
+	QString fileNameSim;
+	if (m_static.noise)
+	{
+		fileNameSim = ("noise.txt");
+	}
+	else
+	{
+		fileNameSim = ("111110-140158.txt");
+	}
+	
+	QFile file(fileNameSim);
+	for (int i=0; i<m_static.numpt/8; ++i)
+	{
+		if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+			Q_ASSERT(false);
 
-	//	QTextStream in(&file);
-	//	while (!in.atEnd()) {
-	//		QString line = in.readLine();
-	//		samples.push_back(line.toInt());
-	//	}
-
-	//	file.close();
-	//}
+		QTextStream in(&file);
+		while (!in.atEnd()) {
+			QString line = in.readLine();
+			samples.push_back(line.toInt());
+		}
+		file.close();
+	}
 
 #endif // NOBOARD
 
 	fileTxt.close();
 
-	//Q_ASSERT(samples.size() >= numpt);
+	Q_ASSERT(samples.size() >= numpt);
 
 	vector<double> inl(1<<m_adc.bitcount);
 	vector<double> dnl(inl.size());
@@ -518,27 +525,36 @@ void AdcBoard::staticTest()
 
 	int indexLeft = 0;
 	int indexRight = 0;
+	int indexMax = 0;
 
-	//inldnl(&samples[0], m_adc.bitcount, numpt, 0, m_static.vpp, 
-	//	0, m_static.vt, &inl[0], &dnl[0], &histogram[0], indexLeft, indexRight);
-
-	//inldnl_c(&samples[0], m_adc.bitcount, numpt, 0, m_static.vpp, 
-	//	0, m_static.vt, inl, dnl, histogram_i, indexLeft, indexRight);
-
-	for (int i=0; i<histogram_i.size(); ++i)
+	if (m_static.noise)
 	{
-		histogram[i] = histogram_i[i];
+		noise_c(&samples[0], numpt, m_adc.bitcount, histogram_i, indexMax, indexLeft, indexRight);
+		size_t histSize = indexRight-indexLeft+1;
+		histogram.resize(histSize);
+
+		for (int i=0; i<histSize; ++i)
+		{
+			histogram[i] = histogram_i[i+indexLeft];
+		}
+	}
+	else
+	{
+		inldnl_c(&samples[0], m_adc.bitcount, numpt, 0, m_static.vpp, 
+			0, m_static.vt, inl, dnl, histogram_i, indexLeft, indexRight);
+		for (int i=0; i<histogram_i.size(); ++i)
+		{
+			histogram[i] = histogram_i[i];
+		}
+		plot(inl, "INTEGRAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
+		plot(dnl, "DIFFERENTIAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
 	}
 
-	qDebug() << "Adc board thread Id: " << QThread::currentThreadId ();
-
-	plot(inl, "INTEGRAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
-	plot(dnl, "DIFFERENTIAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
-
-	
 	HistPlot* histPlot = new HistPlot(0); 
 	histPlot->resize(640, 480);
 	histPlot->setValueHist(histogram);
 	histPlot->show();	
+	qDebug() << "Adc board thread Id: " << QThread::currentThreadId ();
+
 }
 

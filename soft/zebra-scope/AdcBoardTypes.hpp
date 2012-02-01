@@ -137,6 +137,7 @@ inline QDataStream& operator>>(QDataStream& in, AdcTypeSettings& val)
 //////////////////////////////////////////////////////
 struct StaticTestSettings
 {
+	bool noise;
 	unsigned int numpt;
 	float vpp;
 	float vt;
@@ -148,6 +149,7 @@ Q_DECLARE_METATYPE(StaticTestSettings);
 
 inline QDataStream& operator<<(QDataStream& out, const StaticTestSettings& val)
 {
+	out << val.noise;
 	out << val.numpt;
 	out << val.vpp;
 	out << val.vt;
@@ -157,6 +159,7 @@ inline QDataStream& operator<<(QDataStream& out, const StaticTestSettings& val)
 
 inline QDataStream& operator>>(QDataStream& in, StaticTestSettings& val)
 {
+	in >> val.noise;
 	in >> val.numpt;
 	in >> val.vpp;
 	in >> val.vt;
