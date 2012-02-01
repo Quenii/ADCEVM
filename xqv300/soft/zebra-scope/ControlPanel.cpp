@@ -361,3 +361,12 @@ void ControlPanel::on_comboBoxBank_activated(int bank)
 	board.changeBank(bank);
 
 }
+
+void ControlPanel::on_pushButtonConfigTest_clicked()
+{
+	AdcBoard& board = *(AdcBoard::instance());
+
+	board.writeReg(0x2001, 0);
+
+
+}

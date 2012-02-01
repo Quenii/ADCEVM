@@ -13,6 +13,7 @@
 #include <QProcess>
 #include <QByteArray>
 #include <QTime>
+#include <QThread>
 
 #include "AdcBoard.hpp"
 #include "CyAPI.h"
@@ -48,6 +49,20 @@ using namespace std;
 #define DACCH1 0x3
 
 #define TMP03 0x200B
+
+class QThreadL : public QThread
+{
+public:
+	static void msleep (unsigned long msecs)
+	{
+		QThread::msleep(msecs);
+	}
+};
+
+static void msleep (unsigned long msecs)
+{
+	QThreadL::msleep(msecs);
+}
 
 DummyWidget::DummyWidget(QWidget* parent /*= 0*/, Qt::WindowFlags f /*= 0*/ ) : QWidget(parent, f) 
 {
@@ -124,7 +139,7 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	//setSignalSettings(m_signalSettings);
 	if (!m_timerIdPower)
 	{
-		m_timerIdPower = startTimer(100);
+		m_timerIdPower = startTimer(500);
 	}
 }
 
@@ -580,6 +595,7 @@ void AdcBoard::staticTest()
 
 }
 
+#if 0
 int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
 {
 	int fine = 600;
@@ -621,8 +637,106 @@ int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
 	return reg;
 
 }
+#endif
 
 void AdcBoard::changeBank(int bank)
 {
 	m_bank = bank;
+}
+
+unsigned short AdcBoard::getAdcData(unsigned short ch)
+{
+	const int cnt = 5;
+	unsigned short regs[cnt] = {0};
+	unsigned short min = 0xffff;
+	unsigned short max = 0;
+	int sum = 0;
+
+	writeReg(9, 0xA400);  //select 3548, work at default mode
+	writeReg(9, 0xA400);  //select 3548, work at default mode
+	do 
+	{
+		writeReg(9, ch);  //select 3548, select 7th channel
+		writeReg(9, ch);  //select 3548, select 7th channel
+		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+		readReg(0x0009, regs[0]);
+		msleep(30);
+	} while (regs[0] == 0xFFFF);
+
+	for (int i=0; i<cnt; ++i)
+	{
+		writeReg(9, ch);  //select 3548, select 7th channel
+		writeReg(9, ch);  //select 3548, select 7th channel
+		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+		readReg(0x0009, regs[i]);
+		if (regs[i] >= 0xfff0)
+		{
+			msleep(30);
+			qDebug() << "Bizarre valued!" << endl;
+		}
+		sum += regs[i];
+		min = regs[i] < min ? regs[i] : min;
+		max = regs[i] > max ? regs[i] : max;
+	}
+	sum = sum - min - max;
+	return unsigned short(sum/(cnt-2));
+}
+
+float AdcBoard::getVoltage(unsigned short ch)
+{
+	unsigned short reg = 0;
+	reg = getAdcData(ch);
+	return (float(reg>>2)) * 4 / 16384;
+}
+
+float AdcBoard::getCurrent(unsigned short ch)
+{
+	unsigned short reg = 0;
+	reg = getAdcData(ch);
+	return (float(reg>>2)) * 500 * 4 / 16384;
+}
+
+int AdcBoard::setVoltage(int adcChannel, int dacChannel, float v)
+{
+	int fine = 800;
+	int coarse = 60;
+	int regValue;
+	int i;
+	for (int i=0; i<10; ++i)
+	{
+		if (!writeReg(5, 32768))
+			return false;
+		if (!writeReg(6, dacChannel))  //执行 通道A
+			return false;
+	}
+	for (i=coarse; i>0; --i)
+	{
+		regValue = i*65535/coarse;
+		if (!writeReg(5, regValue))
+			return false;
+		if (!writeReg(6, dacChannel))  //执行 通道A
+			return false;
+		msleep(1);
+		float t = getVoltage(adcChannel);
+		qDebug() << "Coarse: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
+		if (t >= v)
+			break;
+	}
+	for (int j=i*fine/coarse; j<fine; ++j)
+	{
+		regValue = j*65535/fine;
+		if (!writeReg(5, regValue))
+			return false;
+		if (!writeReg(6, dacChannel))  //执行 通道A
+			return false;
+		msleep(1);
+		float t = getVoltage(adcChannel);
+		qDebug() << "Fine: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
+		if ( abs(t - v) <= 0.005)
+			break;
+	}
+	return regValue;
+
 }

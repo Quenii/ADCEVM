@@ -23,6 +23,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
+Library UNISIM;
+use UNISIM.vcomponents.all;
+
 entity top is
   
   port (
@@ -49,12 +52,18 @@ architecture impl of top is
   signal b5 : std_logic_vector(18 downto 0);
   signal b6 : std_logic_vector(20 downto 0);
   signal b7 : std_logic_vector(19 downto 0);
+  signal clk_bufg : std_logic;
 
 begin  -- impl
 
-  process (clk_i)
+	BUFG_inst : BUFG
+	port map (
+		O => clk_bufg, -- Clock buffer output
+		I => clk_i -- Clock buffer input
+	);
+  process (clk_bufg)
   begin  -- process
-    if rising_edge(clk_i) then
+    if rising_edge(clk_bufg) then
       b0(18 downto 10) <= b0(18 downto 10) + 1;
       b0(9 downto 0)   <= b0(9 downto 0) + 1;
       b1(17 downto 10) <= b1(17 downto 10) + 1;

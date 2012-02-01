@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 	dynamicPowerWnd = new gkhy::QPlotLab::DynamicPowerWnd();
 
-	ui.actionLogic->setChecked(true);
+	ui.action_Thermal->setChecked(true);
 
 	bool okay = connect(adcBoard, SIGNAL(devListChanged(const QList<AdcBoardInfo>&)), ui.controlPanel, SLOT(setDevList(const QList<AdcBoardInfo>&)));
 	Q_ASSERT(okay);
@@ -268,6 +268,10 @@ void MainWindow::on_actionLogic_toggled(bool checked)
 		ui.dockWidgetWave->setVisible(!checked);
 		ui.dockWidgetFFT->setVisible(!checked);
 		ui.dockWidgetLogicWave->setVisible(checked);
+
+		ui.actionLogic->setChecked(checked);
+		ui.action_Thermal->setChecked(!checked);
+		
 	}
 };
 
@@ -279,6 +283,10 @@ void MainWindow::on_action_Thermal_toggled(bool checked)
 		ui.dockWidgetWave->setVisible(checked);
 		ui.dockWidgetFFT->setVisible(!checked);
 		ui.dockWidgetLogicWave->setVisible(!checked);
+
+		ui.actionLogic->setChecked(!checked);
+		ui.action_Thermal->setChecked(checked);
+
 	}
 }
 void MainWindow::on_menuSettings_hovered(QAction * action)
