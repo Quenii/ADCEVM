@@ -98,20 +98,20 @@ void AdcBoard::initTestParas()
 	Parameter para;
 
 	para.index = 0;
-	para.name = QString::fromLocal8Bit("信号1频率");
+	para.name = QString::fromLocal8Bit("Fin1_Freq");
 	para.unit = QString::fromLocal8Bit("MHz");
 	fdRpt.DualTonePara.push_back(para);
 	para.index = 1;
-	para.name = QString::fromLocal8Bit("信号1功率");
+	para.name = QString::fromLocal8Bit("Fin1_Input(dB)");
 	para.unit = QString::fromLocal8Bit("dBFS");
 	fdRpt.DualTonePara.push_back(para);
 
 	para.index = 2;
-	para.name = QString::fromLocal8Bit("信号2频率");
+	para.name = QString::fromLocal8Bit("Fin2_Freq");
 	para.unit = QString::fromLocal8Bit("MHz");
 	fdRpt.DualTonePara.push_back(para);
 	para.index = 3;
-	para.name = QString::fromLocal8Bit("信号2功率");
+	para.name = QString::fromLocal8Bit("Fin2_Input(dB)");
 	para.unit = QString::fromLocal8Bit("dBFS");
 	fdRpt.DualTonePara.push_back(para);
 
@@ -143,15 +143,15 @@ void AdcBoard::initTestParas()
 	fdRpt.DualTonePara.push_back(para);
 
 	para.index = 0;
-	para.name = QString::fromLocal8Bit("输入信号频率");
+	para.name = QString::fromLocal8Bit("Freq");
 	para.unit = QString::fromLocal8Bit("MHz");
 	fdRpt.DynamicPara.push_back(para);
 	para.index = 1;
-	para.name = QString::fromLocal8Bit("输入信号功率");
+	para.name = QString::fromLocal8Bit("Input(dB)");
 	para.unit = QString::fromLocal8Bit("dBFS");
 	fdRpt.DynamicPara.push_back(para);
 	para.index = 2;
-	para.name = QString::fromLocal8Bit("输入峰峰值");
+	para.name = QString::fromLocal8Bit("Input(Vpp)");
 	para.unit = QString::fromLocal8Bit("V");
 	fdRpt.DynamicPara.push_back(para);
 
