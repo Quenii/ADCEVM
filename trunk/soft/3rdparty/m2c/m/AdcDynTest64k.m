@@ -3,7 +3,8 @@
 %%%Pn_dB noise floor
 function [freq_fin, Vin, Vpp, SNR, SFDR, SINAD, THD, HD, Pn_dB, ...
           ADout_dB, Harbin, Fn_disturb, Harbin_disturb, disturb_len, ref_dB]...
-    =AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input)
+    =AdcDynTest64k(ADout, fclk, numbit, V, tone_code, fin_input, ...
+                   span_dc, spanh_har, span_s)
 % Pn_dB为底噪声，fclk为采样频率，numbit为采样精度，NFFT为FFT的深度，V为峰峰值，TPY和TPX分别为时域图的Y和X轴，code
 % 为1：补码，2：偏移码，3：格雷码。
 %例子：若采样时钟80MHZ，精度16为，峰峰值2v，时域图显示Y轴＋－1V和X轴0－0.01ms，码源为补码
@@ -21,6 +22,8 @@ function [freq_fin, Vin, Vpp, SNR, SFDR, SINAD, THD, HD, Pn_dB, ...
 % $$$ fin_input = 1351e5;	%输入信号
 %****************************************************************
 NFFT = 65536;
+TPY = 1;
+TPX = 0.01;
 ADout = V/2*ADout; 							%恢复成时域波形     
 %****************************************************************
 [AmpMax t1]=max(ADout);
@@ -31,9 +34,9 @@ ADout_w=ADout.*ADout;%chebwin(NFFT,200);    			%数据加窗，参数200是为了FFT波形在
 ADout_spect=fft(ADout_w,NFFT);				    %做64K FFT
 ADout_dB=20*log10(abs(ADout_spect));			%FFT后转为dB值
 %****************************************************************
-span_dc = 24; 								%DC SPAN(即OFFSET电压)，可设范围11-35，32K=11，64K=24
-spanh_har = 4;								%谐波SPAN，可设范围3~6
-span_s = 19;								%信号SPAN，可设范围16~23
+% $$$ span_dc = 24; 								%DC SPAN(即OFFSET电压)，可设范围11-35，32K=11，64K=24
+% $$$ spanh_har = 4;								%谐波SPAN，可设范围3~6
+% $$$ span_s = 19;								%信号SPAN，可设范围16~23
 %****************************************************************
 maxdB=max(ADout_dB(span_dc:NFFT/2));			%找出除DC SPAN之外的最大dB值
 fin=find(ADout_dB(1:NFFT/2)==maxdB);			%找出等于最大dB值时的点
