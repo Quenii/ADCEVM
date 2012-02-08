@@ -58,6 +58,5 @@ int main(int argc, char *argv[])
 	libalgoTerminate();
 	mclTerminateApplication();
 #endif // MATLAB
-
 	return ret;
 }

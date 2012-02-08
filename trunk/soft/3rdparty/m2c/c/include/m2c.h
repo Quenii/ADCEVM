@@ -39,8 +39,8 @@ M2C_API void DualToneTest64k(double* cADout, double cfclk, int cnumbit, double c
 							 double& cSFDR, double& cSFDR_dBFS, double& cIMD2_Worst, double& cIMD2_w_dBFS, 
 							 double& cIMD3_Worst, double& cIMD3_w_dBFS) ;
 
-M2C_API void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, double cTPY, double cTPX, int ctone_code, double cfin_input, 
-						   double& cfreq_fin, double& cVin, double& cVpp, 
+M2C_API void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, int ctone_code, double cfin_input, 
+						   int cspan_dc, int cspan_har, int cspan_s, double& cfreq_fin, double& cVin, double& cVpp, 
 						   double& cSNR, double& cSFDR, double& cSINAD, double& cTHD, double& cPn_dB, int& cdisturb_len, double& cref_dB,
 						   double* cADout_dB, double* cHD, double* cHarbin, double* cHarbin_disturb);
 

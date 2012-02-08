@@ -24,7 +24,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		break;
 
 	case DLL_PROCESS_DETACH:
-		exitM();
+//		exitM();
 		break;
 	}
 	return TRUE;

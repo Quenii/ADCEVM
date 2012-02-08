@@ -74,6 +74,7 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 , m_timerIdDyn(0)
 , m_timerIdPower(0)
 {
+	open();
 	float fs = m_analyzer.signalSettings().clockFreq;
 	if (fs <= 0) fs = 1e8;
 	updateXaxis(fs);
@@ -242,6 +243,15 @@ bool AdcBoard::readPowerMonitorData(PowerStatus& powerStatus)
 void AdcBoard::timerEvent(QTimerEvent* event)
 {
 	//setAdcSettings(m_adcSettings);
+	if (!isOpen())
+	{
+		open();
+	}
+	if (!isOpen())
+	{
+		return ;
+	}
+
 	clocked();
 	if (event->timerId() == m_timerIdPower)
 	{
@@ -253,18 +263,16 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 	TimeDomainReport& tdReport = report.tdReport;
 	m_adc = m_analyzer.adcTypeSettings();
+	m_signal = m_analyzer.signalSettings();
 	float vpp = m_adc.vpp;
 	float max = 1 << 15;
+	if (buff.size() < buffer_cnt*2)
+		buff.resize(buffer_cnt*2);
 
 #ifndef NOBOARD
-
-	static vector<unsigned short> buff;
-
 	if (isOpen())
 	{
 		writeReg(0x2002, 0);
-		if (buff.size() < buffer_cnt*2)
-			buff.resize(buffer_cnt*2);
 		writeReg(0xFFFF, 0x0001);  //reset
 		writeReg(0xFFFF, 0x0000);  //dereset
 		writeReg(0x1004, 0xFFFF);  //stor 1M
@@ -275,21 +283,10 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		Q_ASSERT(okay);
 		okay = read(0x1005, &buff[0+buffer_cnt], buffer_cnt);
 		Q_ASSERT(okay);
-		Convert(tdReport, max, vpp, buff);
 	}
-	else
-	{
-
-	}
-
 #else  //generate sine wave
-	m_signal = m_analyzer.signalSettings();
 	float fs = m_signal.clockFreq;
 	float fc = m_signal.signalFreq;
-
-	if (buff.size() < buffer_cnt*2)
-		buff.resize(buffer_cnt*2);
-
 	int dither = (float)rand() * 8.0f / RAND_MAX;
 	int offset = rand();
 	for (int i=0; i<buff.size(); ++i)
@@ -300,10 +297,8 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 			buff[i] += ((int)(qSin(2*pi*i*m_signal.signalIIFreq/fs+offset)*max)) >> 2;
 		}
 	}
-
-	Convert(tdReport, max, vpp, buff);
-
 #endif //NOBOARD
+	Convert(tdReport, max, vpp, buff);
 
 	tdReport.max = *max_element(tdReport.samples.begin(), tdReport.samples.end());
 	tdReport.min = *min_element(tdReport.samples.begin(), tdReport.samples.end());
@@ -321,14 +316,15 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 #elif defined(MATCOM) 
 	int freq_detect = m_signal.freqDetect ? 1 : 2;
+	SpanSettings settings = m_analyzer.spanSettings();
+
 	if (!m_signal.dualToneTest)
 	{
 		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, 
-			m_adc.vpp, 0.01, 1, freq_detect, m_signal.signalFreq);
+			m_adc.vpp, freq_detect, m_signal.signalFreq, settings.dc, settings.spur, settings.signal);
 	}
 	else
 	{
-		SpanSettings settings = m_analyzer.spanSettings();
 		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, 
 			m_adc.vpp, freq_detect, m_signal.signalFreq, m_signal.signalIIFreq, 
 			settings.dc, settings.spur, settings.signal);

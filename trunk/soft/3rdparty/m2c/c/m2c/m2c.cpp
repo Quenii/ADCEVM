@@ -109,6 +109,7 @@ void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, doub
 	DECLEAR_Mm_ONE(NFFT, cNFFT);
 	DECLEAR_Mm_ONE(V, cV);
 	DECLEAR_Mm_ONE(code, ccode);
+
 	Mm SNR__o; 
 	Mm SINAD__o;
 	Mm SFDR__o; 
@@ -235,8 +236,8 @@ void DualToneTest64k(double* cADout, double cfclk, int cnumbit, double cV, int c
 	memcpy(cADout_dB, ADout_dB.addr(), len/2 * sizeof(*cADout_dB));
 	memcpy(cmarker, marker.addr(), 13 * sizeof(*cmarker));
 }
-void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, double cTPY, double cTPX, int ctone_code, double cfin_input,
-				   double& cfreq_fin, double& cVin, double& cVpp, 
+void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, int ctone_code, double cfin_input,
+				   int cspan_dc, int cspan_har, int cspan_s, double& cfreq_fin, double& cVin, double& cVpp, 
 				   double& cSNR, double& cSFDR, double& cSINAD, double& cTHD, double& cPn_dB, int& cdisturb_len, double& cref_dB,
 				   double* cADout_dB, double* cHD, double* cHarbin, double* cHarbin_disturb) 
 {
@@ -247,10 +248,11 @@ void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, double 
 	DECLEAR_Mm_ONE(fclk, cfclk);
 	DECLEAR_Mm_ONE(numbit, cnumbit);
 	DECLEAR_Mm_ONE(V, cV);
-	DECLEAR_Mm_ONE(TPY, cTPY);
-	DECLEAR_Mm_ONE(TPX, cTPX);
 	DECLEAR_Mm_ONE(tone_code, ctone_code);
 	DECLEAR_Mm_ONE(fin_input, cfin_input);
+	DECLEAR_Mm_ONE(span_dc, cspan_dc);
+	DECLEAR_Mm_ONE(span_har, cspan_har);
+	DECLEAR_Mm_ONE(span_s, cspan_s);
 
 	Mm freq_fin__o;
 	Mm Vin__o;
@@ -268,7 +270,7 @@ void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, double 
 	Mm Fn_disturb__o;
 	Mm Harbin_disturb__o;
 
-	AdcDynTest64k(ADout, fclk, numbit, V, TPY, TPX, tone_code, fin_input, i_o, freq_fin__o, 
+	AdcDynTest64k(ADout, fclk, numbit, V, tone_code, fin_input, span_dc, span_har, span_s, i_o, freq_fin__o, 
 		Vin__o, Vpp__o, SNR__o, SFDR__o, SINAD__o, THD__o, HD__o, Pn_dB__o, ADout_dB__o, 
 		Harbin__o, Fn_disturb__o, Harbin_disturb__o, disturb_len__o, ref_dB__o);
 

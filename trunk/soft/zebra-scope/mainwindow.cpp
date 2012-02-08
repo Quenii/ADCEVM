@@ -73,6 +73,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 	s.setPowerMonitorWidgetPos(m_powerMonitorWidget->pos());
 	s.setPowerMonitorWidgetVisible(m_powerMonitorWidget->isVisible());
+
+	exit(0);
+
 }
 
 void MainWindow::createMenus()
@@ -214,7 +217,7 @@ void MainWindow::slotShowControlPanel()
 void MainWindow::slotShowAbout()
 {
 	QMessageBox::about(this, tr("About CETC58 ADC Analyzer"),
-		tr("<br><b>ADC Analyzer</b> is designed to work with the USB-ADC evaluation board.<br><br><div align=center>Copyright (c) CETC58, 2010</div><br> "));
+		tr("<br><b>ADC Analyzer</b> is designed to work with the USB-ADC evaluation board.<br><br><div align=center>Copyright (c) CETC58, 2012</div><br> "));
 }
 
 void MainWindow::slotShowBoardReport(const AdcBoardReport& report)
