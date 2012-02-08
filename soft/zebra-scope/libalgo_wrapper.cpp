@@ -59,7 +59,7 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 #include "./3rdparty/m2c/c/include/m2c.h"
 
 void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, FreqDomainReport& param, 
-					   float vpp, double TPX, double TPY, int tone_code, double fin_input)
+					   float vpp, int tone_code, double fin_input, int dc, int spur, int signal)
 {
 	const int hd_len = 10;
 	const int disturb_len = 19;
@@ -86,7 +86,7 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 	int cdisturb_len; 
 	double cref_dB;
 
-	AdcDynTest64k(&input[0], fclk, bitCount, vpp, TPY, TPX, tone_code, fin_input, 
+	AdcDynTest64k(&input[0], fclk, bitCount, vpp, tone_code, fin_input, dc, spur, signal, 
 		cfreq_fin, cVin, cVpp, cSNR, cSFDR, cSINAD, cTHD, cPn_dB, cdisturb_len, cref_dB,
 		&cADout_dB[0], &cHD[0], &cHarbin[0], &cHarbin_disturb[0]);
 
