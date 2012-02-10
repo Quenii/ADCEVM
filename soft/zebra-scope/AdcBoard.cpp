@@ -472,13 +472,16 @@ void AdcBoard::staticTest()
 				sprintf_s(txtBuffer, "%d\r\n", short(buff[k]));
 				outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
 			}
-			if (lowerOverCount < 5 || upperOverCount < 5)
+			if (m_static.noise)
 			{
-				QMessageBox::warning(NULL, QString::fromLocal8Bit("静态测试"), 
-					QString::fromLocal8Bit("信号幅值太低，请适当增加信号源输出功率！"), 
-					QMessageBox::Ok, QMessageBox::Ok);
+				if (lowerOverCount < 5 || upperOverCount < 5)
+				{
+					QMessageBox::warning(NULL, QString::fromLocal8Bit("静态测试"), 
+						QString::fromLocal8Bit("信号幅值太低，请适当增加信号源输出功率！"), 
+						QMessageBox::Ok, QMessageBox::Ok);
 
-				return;
+					return;
+				}
 			}
 		}
 	}
