@@ -55,11 +55,12 @@ void FFTWnd::update(const std::vector<float> & xdata, const std::vector<float> &
 
 			for (int i=1; i<10; ++i)
 			{
-				CString label(QString("HD[%1]").arg(i+1).toLocal8Bit());
-				scope.MarkerGroups[i].Name = label;
+				CString name(QString("HD[%1]").arg(i+1).toLocal8Bit());
+				scope.MarkerGroups[i].Name = name;
 				scope.MarkerGroups[i].Shape = msTriangleDown;
 				scope.MarkerGroups[i].Pen.Color = RGB(0, 100, 100);
 				scope.MarkerGroups[i].Brush.Color = RGB(0, 100, 100);
+				CString label(QString("%1").arg(i+1).toLocal8Bit());
 				scope.MarkerGroups[i].Labels.Text = label;
 			}
 

@@ -16,14 +16,14 @@
     dMm(ADout_dB); dMm(fin1_freq); dMm(fin1_dBFS); dMm(fin2_freq); dMm(fin2_dBFS); dMm(SFDR); dMm(SFDR_dBFS); dMm( \
       IMD2_worst); dMm(IMD2_worst_dBFS); dMm(IMD3_worst); dMm(IMD3_worst_dBFS); dMm(marker); dMm(NFFT); dMm(AmpMax) \
       ; dMm(t1); dMm(AmpMin); dMm(t2); dMm(Vpp); dMm(ADout_w); dMm(ADout_spect); dMm(maxdB); dMm(fin); dMm(freq_fin) \
-      ; dMm(ADout_dB_temp); dMm(second_maxdB); dMm(second_fin); dMm(second_freq_fin); dMm(data_ref); dMm(n); dMm(n_DualToneTest64k_v0) \
-      ; dMm(data_ref_w); dMm(data_ref_spect); dMm(data_ref_dB); dMm(ref_dB); dMm(fin1); dMm(fin1_x); dMm(fin2); dMm( \
-      fin2_x); dMm(freq_input); dMm(tone); dMm(har_peak); dMm(har_bin); dMm(fin2_plus_fin1_x); dMm(fin2_plus_fin1);  \
-      dMm(fin2_sub_fin1_x); dMm(fin2_sub_fin1); dMm(two_fin1_x); dMm(two_fin1); dMm(two_fin2_x); dMm(two_fin2); dMm( \
-      three_fin1_x); dMm(three_fin1); dMm(three_fin2_x); dMm(three_fin2); dMm(fin1_plus_2fin2_x); dMm(fin1_plus_2fin2) \
-      ; dMm(fin2_plus_2fin1_x); dMm(fin2_plus_2fin1); dMm(two_fin2_sub_fin1_x); dMm(two_fin2_sub_fin1); dMm(two_fin1_sub_fin2_x) \
-      ; dMm(two_fin1_sub_fin2); dMm(three_maxdB); dMm(three_high_x); dMm(three_high); dMm(IMD2_max); dMm(IMD3_max1) \
-      ; dMm(IMD3_max2); dMm(IMD3_max); 
+      ; dMm(ADout_dB_temp); dMm(left_bound); dMm(second_maxdB); dMm(second_fin); dMm(second_freq_fin); dMm(data_ref) \
+      ; dMm(n); dMm(n_DualToneTest64k_v0); dMm(data_ref_w); dMm(data_ref_spect); dMm(data_ref_dB); dMm(ref_dB); dMm( \
+      fin1); dMm(fin1_x); dMm(fin2); dMm(fin2_x); dMm(freq_input); dMm(tone); dMm(har_peak); dMm(har_bin); dMm(fin2_plus_fin1_x) \
+      ; dMm(fin2_plus_fin1); dMm(fin2_sub_fin1_x); dMm(fin2_sub_fin1); dMm(two_fin1_x); dMm(two_fin1); dMm(two_fin2_x) \
+      ; dMm(two_fin2); dMm(three_fin1_x); dMm(three_fin1); dMm(three_fin2_x); dMm(three_fin2); dMm(fin1_plus_2fin2_x) \
+      ; dMm(fin1_plus_2fin2); dMm(fin2_plus_2fin1_x); dMm(fin2_plus_2fin1); dMm(two_fin2_sub_fin1_x); dMm(two_fin2_sub_fin1) \
+      ; dMm(two_fin1_sub_fin2_x); dMm(two_fin1_sub_fin2); dMm(three_maxdB); dMm(three_high_x); dMm(three_high); dMm( \
+      IMD2_max); dMm(IMD3_max1); dMm(IMD3_max2); dMm(IMD3_max); 
     
     call_stack_begin;
     // nargin, nargout entry code
@@ -84,7 +84,8 @@
     //****************************************************************
     ADout_dB_temp = ADout_dB;
     ADout_dB_temp(colon(1.0,1.0,span_dc)) = 0.0;
-    ADout_dB_temp(colon(fin-span_s,1.0,fin+span_s)) = 0.0;
+    left_bound = max(1.0,fin-span_s);
+    ADout_dB_temp(colon(left_bound,1.0,fin+span_s)) = 0.0;
     second_maxdB = max(ADout_dB_temp(colon(1.0,1.0,NFFT/2.0)));
     second_fin = find(ADout_dB_temp(colon(1.0,1.0,NFFT/2.0))==second_maxdB);
     //找出等于次高值的点
@@ -162,9 +163,11 @@
       //等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
       tone = 1.0-tone;
     }
-    har_peak = max(ADout_dB(colon(round(tone*NFFT)-span_s,1.0,round(tone*NFFT)+span_s)));
+    left_bound = max(1.0,round(tone*NFFT)-span_s);
+    
+    har_peak = max(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+span_s)));
     //搜索信号附近最大值
-    har_bin = find(ADout_dB(colon(round(tone*NFFT)-span_s,1.0,round(tone*NFFT)+span_s))==har_peak);
+    har_bin = find(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+span_s))==har_peak);
     //找出最大值时的点
     //****************************************************************
     fin1_x = har_bin+round(tone*NFFT)-span_s-1.0;
@@ -180,12 +183,14 @@
       //等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
       tone = 1.0-tone;
     }
-    har_peak = max(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har)));
+    left_bound = max(1.0,round(tone*NFFT)-spanh_har);
+    
+    har_peak = max(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har)));
     //搜索信号附近最大值
-    har_bin = find(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har))==har_peak);
+    har_bin = find(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har))==har_peak);
     //找出最大值时的点
     //****************************************************************
-    fin2_x = har_bin+round(tone*NFFT)-spanh_har-1.0;
+    fin2_x = har_bin+left_bound-1.0;
     //换算成dB值的绝对位置
     fin2 = (fin2_x-1.0)*fclk/NFFT;
     fin2_freq = floor((fin2_x-1.0)/NFFT)*fclk+freq_input;
@@ -198,12 +203,14 @@
       //等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
       tone = 1.0-tone;
     }
-    har_peak = max(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har)));
+    left_bound = max(1.0,round(tone*NFFT)-spanh_har);
+    
+    har_peak = max(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har)));
     //搜索信号附近最大值
-    har_bin = find(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har))==har_peak);
+    har_bin = find(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har))==har_peak);
     //找出最大值时的点
     //****************************************************************
-    fin2_plus_fin1_x = har_bin+round(tone*NFFT)-spanh_har-1.0;
+    fin2_plus_fin1_x = har_bin+left_bound-1.0;
     //换算成dB值的绝对位置
     fin2_plus_fin1 = (fin2_plus_fin1_x-1.0)*fclk/NFFT;
     
@@ -215,12 +222,14 @@
       //等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
       tone = 1.0-tone;
     }
-    har_peak = max(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har)));
+    left_bound = max(1.0,round(tone*NFFT)-spanh_har);
+    
+    har_peak = max(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har)));
     //搜索信号附近最大值
-    har_bin = find(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har))==har_peak);
+    har_bin = find(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har))==har_peak);
     //找出最大值时的点
     //****************************************************************
-    fin2_sub_fin1_x = har_bin+round(tone*NFFT)-spanh_har-1.0;
+    fin2_sub_fin1_x = har_bin+left_bound-1.0;
     //换算成dB值的绝对位置
     fin2_sub_fin1 = (fin2_sub_fin1_x-1.0)*fclk/NFFT;
     
@@ -232,12 +241,14 @@
       //等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
       tone = 1.0-tone;
     }
-    har_peak = max(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har)));
+    left_bound = max(1.0,round(tone*NFFT)-spanh_har);
+    
+    har_peak = max(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har)));
     //搜索信号附近最大值
-    har_bin = find(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har))==har_peak);
+    har_bin = find(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har))==har_peak);
     //找出最大值时的点
     //****************************************************************
-    two_fin1_x = har_bin+round(tone*NFFT)-spanh_har-1.0;
+    two_fin1_x = har_bin+left_bound-1.0;
     //换算成dB值的绝对位置
     two_fin1 = (two_fin1_x-1.0)*fclk/NFFT;
     
@@ -249,12 +260,14 @@
       //等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
       tone = 1.0-tone;
     }
-    har_peak = max(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har)));
+    left_bound = max(1.0,round(tone*NFFT)-spanh_har);
+    
+    har_peak = max(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har)));
     //搜索信号附近最大值
-    har_bin = find(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har))==har_peak);
+    har_bin = find(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har))==har_peak);
     //找出最大值时的点
     //****************************************************************
-    two_fin2_x = har_bin+round(tone*NFFT)-spanh_har-1.0;
+    two_fin2_x = har_bin+left_bound-1.0;
     //换算成dB值的绝对位置
     two_fin2 = (two_fin2_x-1.0)*fclk/NFFT;
     
@@ -266,12 +279,14 @@
       //等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
       tone = 1.0-tone;
     }
-    har_peak = max(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har)));
+    left_bound = max(1.0,round(tone*NFFT)-spanh_har);
+    
+    har_peak = max(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har)));
     //搜索信号附近最大值
-    har_bin = find(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har))==har_peak);
+    har_bin = find(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har))==har_peak);
     //找出最大值时的点
     //****************************************************************
-    three_fin1_x = har_bin+round(tone*NFFT)-spanh_har-1.0;
+    three_fin1_x = har_bin+left_bound-1.0;
     //换算成dB值的绝对位置
     three_fin1 = (three_fin1_x-1.0)*fclk/NFFT;
     
@@ -283,12 +298,12 @@
       //等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
       tone = 1.0-tone;
     }
-    har_peak = max(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har)));
+    har_peak = max(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har)));
     //搜索信号附近最大值
-    har_bin = find(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har))==har_peak);
+    har_bin = find(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har))==har_peak);
     //找出最大值时的点
     //****************************************************************
-    three_fin2_x = har_bin+round(tone*NFFT)-spanh_har-1.0;
+    three_fin2_x = har_bin+left_bound-1.0;
     //换算成dB值的绝对位置
     three_fin2 = (three_fin2_x-1.0)*fclk/NFFT;
     
@@ -300,12 +315,14 @@
       //等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
       tone = 1.0-tone;
     }
-    har_peak = max(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har)));
+    left_bound = max(1.0,round(tone*NFFT)-spanh_har);
+    
+    har_peak = max(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har)));
     //搜索信号附近最大值
-    har_bin = find(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har))==har_peak);
+    har_bin = find(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har))==har_peak);
     //找出最大值时的点
     //****************************************************************
-    fin1_plus_2fin2_x = har_bin+round(tone*NFFT)-spanh_har-1.0;
+    fin1_plus_2fin2_x = har_bin+left_bound-1.0;
     //换算成dB值的绝对位置
     fin1_plus_2fin2 = (fin1_plus_2fin2_x-1.0)*fclk/NFFT;
     
@@ -317,12 +334,14 @@
       //等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
       tone = 1.0-tone;
     }
-    har_peak = max(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har)));
+    left_bound = max(1.0,round(tone*NFFT)-spanh_har);
+    
+    har_peak = max(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har)));
     //搜索信号附近最大值
-    har_bin = find(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har))==har_peak);
+    har_bin = find(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har))==har_peak);
     //找出最大值时的点
     //****************************************************************
-    fin2_plus_2fin1_x = har_bin+round(tone*NFFT)-spanh_har-1.0;
+    fin2_plus_2fin1_x = har_bin+left_bound-1.0;
     //换算成dB值的绝对位置
     fin2_plus_2fin1 = (fin2_plus_2fin1_x-1.0)*fclk/NFFT;
     
@@ -335,11 +354,13 @@
         //等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
         tone = 1.0-tone;
       }
-      har_peak = max(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har)));
+      left_bound = max(1.0,round(tone*NFFT)-spanh_har);
+      
+      har_peak = max(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har)));
       //搜索信号附近最大值
-      har_bin = find(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har))==har_peak);
+      har_bin = find(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har))==har_peak);
       //找出最大值时的点
-      two_fin2_sub_fin1_x = har_bin+round(tone*NFFT)-spanh_har-1.0;
+      two_fin2_sub_fin1_x = har_bin+left_bound-1.0;
       //换算成dB值的绝对位置
     } else {
       
@@ -357,11 +378,13 @@
         //等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
         tone = 1.0-tone;
       }
-      har_peak = max(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har)));
+      left_bound = max(1.0,round(tone*NFFT)-spanh_har);
+      
+      har_peak = max(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har)));
       //搜索信号附近最大值
-      har_bin = find(ADout_dB(colon(round(tone*NFFT)-spanh_har,1.0,round(tone*NFFT)+spanh_har))==har_peak);
+      har_bin = find(ADout_dB(colon(left_bound,1.0,round(tone*NFFT)+spanh_har))==har_peak);
       //找出最大值时的点
-      two_fin1_sub_fin2_x = har_bin+round(tone*NFFT)-spanh_har-1.0;
+      two_fin1_sub_fin2_x = har_bin+left_bound-1.0;
       //换算成dB值的绝对位置
     } else {
       
@@ -372,7 +395,8 @@
     
     
     //****************************************************************
-    ADout_dB_temp(colon(second_fin-span_s,1.0,second_fin+span_s)) = 0.0;
+    left_bound = max(1.0,second_fin-span_s);
+    ADout_dB_temp(colon(left_bound,1.0,second_fin+span_s)) = 0.0;
     three_maxdB = max(ADout_dB_temp(colon(1.0,1.0,NFFT/2.0)));
     three_high_x = find(ADout_dB_temp(colon(1.0,1.0,NFFT/2.0))==three_maxdB);
     //找出等于第3高值的点
@@ -394,9 +418,9 @@
     IMD2_worst_dBFS = ref_dB-IMD2_max;
     //最差IMD2,单位dBFS
     //****************************************************************
-    IMD3_max1 = max(ADout_dB(fin1_plus_2fin2_x),ADout_dB(fin2_plus_2fin1_x));
-    IMD3_max2 = max(IMD3_max1,ADout_dB(two_fin2_sub_fin1_x));
-    IMD3_max = max(IMD3_max2,ADout_dB(two_fin1_sub_fin2_x));
+    IMD3_max1 = max(ADout_dB(max(1.0,fin1_plus_2fin2_x)),ADout_dB(max(1.0,fin2_plus_2fin1_x)));
+    IMD3_max2 = max(IMD3_max1,ADout_dB(max(1.0,two_fin2_sub_fin1_x)));
+    IMD3_max = max(IMD3_max2,ADout_dB(max(1.0,two_fin1_sub_fin2_x)));
     IMD3_worst = maxdB-IMD3_max;
     //最差IMD3,单位dBc
     IMD3_worst_dBFS = ref_dB-IMD3_max;

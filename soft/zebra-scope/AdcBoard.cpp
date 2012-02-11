@@ -26,7 +26,7 @@
 
 using namespace gkhy::QPlotLab;
 
-//#define NOBOARD 1
+#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -207,6 +207,8 @@ void AdcBoard::setDynamicOn(bool on /* = true */)
 	if (on && !m_timerIdDyn)
 	{
 		m_timerIdDyn = startTimer(500);
+		m_adc = m_analyzer.adcTypeSettings();
+		m_signal = m_analyzer.signalSettings();
 	}
 
 	if (!on && m_timerIdDyn)
@@ -243,16 +245,23 @@ bool AdcBoard::readPowerMonitorData(PowerStatus& powerStatus)
 void AdcBoard::timerEvent(QTimerEvent* event)
 {
 	//setAdcSettings(m_adcSettings);
+#ifndef NOBOARD
 	if (!isOpen())
 	{
 		open();
 	}
 	if (!isOpen())
 	{
+		QMessageBox::warning(NULL, QString::fromLocal8Bit("动态测试"), 
+			QString::fromLocal8Bit("连接设备失败，请检查硬件配置！"), 
+			QMessageBox::Ok, QMessageBox::Ok);
+		setDynamicOn(false);
 		return ;
 	}
-
 	clocked();
+
+#endif
+
 	if (event->timerId() == m_timerIdPower)
 	{
 		PowerStatus& powerStatus = report.powerStatus;
@@ -262,8 +271,6 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	}
 
 	TimeDomainReport& tdReport = report.tdReport;
-	m_adc = m_analyzer.adcTypeSettings();
-	m_signal = m_analyzer.signalSettings();
 	float vpp = m_adc.vpp;
 	float max = 1 << 15;
 	if (buff.size() < buffer_cnt*2)
@@ -299,6 +306,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	}
 #endif //NOBOARD
 	Convert(tdReport, max, vpp, buff);
+	tdReport.samples[0] = tdReport.samples[1];
 
 	tdReport.max = *max_element(tdReport.samples.begin(), tdReport.samples.end());
 	tdReport.min = *min_element(tdReport.samples.begin(), tdReport.samples.end());
@@ -328,6 +336,19 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, 
 			m_adc.vpp, freq_detect, m_signal.signalFreq, m_signal.signalIIFreq, 
 			settings.dc, settings.spur, settings.signal);
+
+		if (fdReport.DualTonePara[1].value < -40 
+			|| fdReport.DualTonePara[3].value < -40
+			|| abs(fdReport.DualTonePara[1].value - fdReport.DualTonePara[3].value) > 30
+			|| abs(fdReport.DualTonePara[0].value - fdReport.DualTonePara[2].value) > 3
+			|| abs(fdReport.DualTonePara[0].value - fdReport.DualTonePara[2].value) < 0.1)
+		{
+			QMessageBox::warning(NULL, QString::fromLocal8Bit("双音测试"), 
+				QString::fromLocal8Bit("信号幅度不满足双音测试需求，请确认：1、信号1和信号2幅度必须大于-40dBFS；2、2个信号绝对值之差小于30dB。\n系统将切入单音测试模式!"), 
+				QMessageBox::Ok, QMessageBox::Ok);
+
+			m_signal.dualToneTest = false;
+		}
 	}
 #else
 	memcpy( &fdReport.Spectrum[0], &tdReport.samples[0], buffer_cnt);
@@ -410,15 +431,15 @@ void AdcBoard::updateXaxis(float fs)
 
 void AdcBoard::staticTest()
 {
-	QString fileName = QString("%1-%2").arg(
-		QDate::currentDate().toString("yyMMdd"),
-		QTime::currentTime().toString("hhmmss"));
+	//QString fileName = QString("%1-%2").arg(
+	//	QDate::currentDate().toString("yyMMdd"),
+	//	QTime::currentTime().toString("hhmmss"));
 
-	static char txtBuffer[20];
-	QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath(fileName+".txt");
-	QFile fileTxt( fileNameTxt );
-	fileTxt.open(QIODevice::WriteOnly);
-	QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
+	//static char txtBuffer[20];
+	//QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath(fileName+".txt");
+	//QFile fileTxt( fileNameTxt );
+	//fileTxt.open(QIODevice::WriteOnly);
+	//QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
 	
 	m_static = m_analyzer.staticTestSettings();
 	m_adc = m_analyzer.adcTypeSettings();
@@ -469,10 +490,10 @@ void AdcBoard::staticTest()
 					lowerOverCount ++;
 				}
 				samples.push_back(int(short(buff[k])));
-				sprintf_s(txtBuffer, "%d\r\n", short(buff[k]));
-				outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
+				//sprintf_s(txtBuffer, "%d\r\n", short(buff[k]));
+				//outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
 			}
-			if (m_static.noise)
+			if (!m_static.noise)
 			{
 				if (lowerOverCount < 5 || upperOverCount < 5)
 				{
@@ -513,7 +534,7 @@ void AdcBoard::staticTest()
 
 #endif // NOBOARD
 
-	fileTxt.close();
+	//fileTxt.close();
 
 	Q_ASSERT(samples.size() >= numpt);
 
@@ -545,11 +566,14 @@ void AdcBoard::staticTest()
 		{
 			histogram[i] = histogram_i[i];
 		}
+		inl[0] = 0;
+		dnl[0] = 0;
 		plot(inl, "INTEGRAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
 		plot(dnl, "DIFFERENTIAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
 	}
 
 	HistPlot* histPlot = new HistPlot(0); 
+	histPlot->setWindowTitle(QString::fromLocal8Bit("测试结果"));
 	histPlot->resize(640, 480);
 	histPlot->setValueHist(histogram);
 	histPlot->show();	
