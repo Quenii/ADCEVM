@@ -47,7 +47,7 @@
       <x>10</x>
       <y>26</y>
       <width>241</width>
-      <height>73</height>
+      <height>74</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_5">
@@ -114,7 +114,7 @@
           </font>
          </property>
          <property name="text">
-          <string>时钟功率</string>
+          <string>时钟幅度</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -186,7 +186,7 @@
         </font>
        </property>
        <property name="text">
-        <string>信号频率</string>
+        <string>信号1频率</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -231,7 +231,7 @@
         </font>
        </property>
        <property name="text">
-        <string>信号功率</string>
+        <string>信号1幅度</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -288,7 +288,7 @@
       <x>10</x>
       <y>20</y>
       <width>241</width>
-      <height>73</height>
+      <height>74</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_4">
@@ -310,7 +310,7 @@
           </font>
          </property>
          <property name="text">
-          <string>信号II频率</string>
+          <string>信号2频率</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -355,7 +355,7 @@
           </font>
          </property>
          <property name="text">
-          <string>信号II功率</string>
+          <string>信号2幅度</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

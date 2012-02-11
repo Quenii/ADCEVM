@@ -25,6 +25,7 @@ void SignalSettingsDialog::accept()
 	m_static.dualToneTest = dualToneTestCheckBox->checkState() == 2 ? true : false;
 	m_static.signalIIFreq = signalIIFreqLineEdit->text().toFloat() * 1e6;
 	m_static.signalIIPower = signalIIPowerLineEdit->text().toFloat();
+	m_static.initialized = true;
 	m_analyzer.setSignalSettings(m_static);
 	loadSettings();
 	QDialog::accept();

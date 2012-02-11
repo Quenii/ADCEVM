@@ -45,7 +45,8 @@ freq_fin = (fin*fclk/NFFT);								%计算主信号频率
 %****************************************************************
 ADout_dB_temp = ADout_dB;
 ADout_dB_temp(1:span_dc) = 0;
-ADout_dB_temp(fin-span_s:fin+span_s) = 0;
+left_bound = max(1, fin-span_s);
+ADout_dB_temp(left_bound : fin+span_s) = 0;
 second_maxdB=max(ADout_dB_temp(1:NFFT/2));
 second_fin=find(ADout_dB_temp(1:NFFT/2)==second_maxdB);			%找出等于次高值的点
 second_freq_fin = (second_fin*fclk/NFFT);						%计算次高信号的频率
@@ -107,8 +108,9 @@ tone = rem(freq_input/fclk,1);
     if tone>0.5 												%等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
         tone=1-tone;
     end
-har_peak=max(ADout_dB(round(tone*NFFT)-span_s:round(tone*NFFT)+span_s)); 			%搜索信号附近最大值
-har_bin=find(ADout_dB(round(tone*NFFT)-span_s:round(tone*NFFT)+span_s)==har_peak);	%找出最大值时的点
+left_bound = max(1, round(tone*NFFT)-span_s);     
+har_peak=max(ADout_dB(left_bound : round(tone*NFFT)+span_s)); 			%搜索信号附近最大值
+har_bin=find(ADout_dB(left_bound : round(tone*NFFT)+span_s)==har_peak);	%找出最大值时的点
 %****************************************************************
 fin1_x = har_bin+round(tone*NFFT)-span_s-1;											%换算成dB值的绝对位置
 fin1 = (fin1_x-1)*fclk/NFFT;
@@ -121,10 +123,11 @@ tone = rem(freq_input/fclk,1);
     if tone>0.5 													%等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
         tone=1-tone;
     end
-har_peak=max(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)); 			%搜索信号附近最大值
-har_bin=find(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
+left_bound = max(1, round(tone*NFFT)-spanh_har);    
+har_peak=max(ADout_dB(left_bound : round(tone*NFFT)+spanh_har)); 			%搜索信号附近最大值
+har_bin=find(ADout_dB(left_bound : round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
 %****************************************************************
-fin2_x=har_bin+round(tone*NFFT)-spanh_har-1;												%换算成dB值的绝对位置
+fin2_x=har_bin+left_bound -1;												%换算成dB值的绝对位置
 fin2 = (fin2_x-1)*fclk/NFFT;
 fin2_freq = floor((fin2_x-1)/NFFT)*fclk+freq_input;
 
@@ -135,10 +138,11 @@ tone = rem(freq_input/fclk,1);
     if tone>0.5 												%等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
         tone=1-tone;
     end
-har_peak=max(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
-har_bin=find(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
+left_bound = max(1, round(tone*NFFT)-spanh_har);    
+har_peak=max(ADout_dB(left_bound : round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
+har_bin=find(ADout_dB(left_bound : round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
 %****************************************************************
-fin2_plus_fin1_x=har_bin+round(tone*NFFT)-spanh_har-1;										%换算成dB值的绝对位置
+fin2_plus_fin1_x=har_bin+left_bound -1;										%换算成dB值的绝对位置
 fin2_plus_fin1 = (fin2_plus_fin1_x-1)*fclk/NFFT;
 
 %****************************************************************fin2-fin1
@@ -148,10 +152,11 @@ tone = rem(freq_input/fclk,1);
     if tone>0.5 																			%等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
         tone=1-tone;
     end
-har_peak=max(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
-har_bin=find(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
+left_bound = max(1, round(tone*NFFT)-spanh_har);    
+har_peak=max(ADout_dB(left_bound : round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
+har_bin=find(ADout_dB(left_bound : round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
 %****************************************************************
-fin2_sub_fin1_x=har_bin+round(tone*NFFT)-spanh_har-1;										%换算成dB值的绝对位置
+fin2_sub_fin1_x=har_bin+left_bound -1;										%换算成dB值的绝对位置
 fin2_sub_fin1 = (fin2_sub_fin1_x-1)*fclk/NFFT;
 
 %****************************************************************2*fin1
@@ -161,10 +166,11 @@ tone = rem(freq_input/fclk,1);
     if tone>0.5 																			%等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
         tone=1-tone;
     end
-har_peak=max(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
-har_bin=find(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
+left_bound = max(1, round(tone*NFFT)-spanh_har);    
+har_peak=max(ADout_dB(left_bound : round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
+har_bin=find(ADout_dB(left_bound : round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
 %****************************************************************
-two_fin1_x=har_bin+round(tone*NFFT)-spanh_har-1;											%换算成dB值的绝对位置
+two_fin1_x=har_bin+left_bound -1;											%换算成dB值的绝对位置
 two_fin1 = (two_fin1_x-1)*fclk/NFFT;
 
 %****************************************************************2*fin2
@@ -174,10 +180,11 @@ tone = rem(freq_input/fclk,1);
     if tone>0.5 																			%等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
         tone=1-tone;
     end
-har_peak=max(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
-har_bin=find(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
+left_bound = max(1, round(tone*NFFT)-spanh_har);    
+har_peak=max(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
+har_bin=find(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
 %****************************************************************
-two_fin2_x=har_bin+round(tone*NFFT)-spanh_har-1;											%换算成dB值的绝对位置
+two_fin2_x=har_bin+left_bound -1;											%换算成dB值的绝对位置
 two_fin2 = (two_fin2_x-1)*fclk/NFFT;
 
 %****************************************************************3*fin1
@@ -187,10 +194,11 @@ tone = rem(freq_input/fclk,1);
     if tone>0.5 																			%等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
         tone=1-tone;
     end
-har_peak=max(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
-har_bin=find(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
+left_bound = max(1, round(tone*NFFT)-spanh_har);    
+har_peak=max(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
+har_bin=find(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
 %****************************************************************
-three_fin1_x=har_bin+round(tone*NFFT)-spanh_har-1;											%换算成dB值的绝对位置
+three_fin1_x=har_bin+left_bound -1;											%换算成dB值的绝对位置
 three_fin1 = (three_fin1_x-1)*fclk/NFFT;
 
 %****************************************************************3*fin2
@@ -200,10 +208,10 @@ tone = rem(freq_input/fclk,1);
     if tone>0.5 																			%等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
            tone=1-tone;
     end
-har_peak=max(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
-har_bin=find(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
+har_peak=max(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
+har_bin=find(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
 %****************************************************************
-three_fin2_x=har_bin+round(tone*NFFT)-spanh_har-1;											%换算成dB值的绝对位置
+three_fin2_x=har_bin+left_bound -1;											%换算成dB值的绝对位置
 three_fin2 = (three_fin2_x-1)*fclk/NFFT;
 
 %****************************************************************fin1+2*fin1
@@ -213,10 +221,11 @@ tone = rem(freq_input/fclk,1);
     if tone>0.5 																			%等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
         tone=1-tone;
     end
-har_peak=max(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
-har_bin=find(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
+left_bound = max(1, round(tone*NFFT)-spanh_har);    
+har_peak=max(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
+har_bin=find(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
 %****************************************************************
-fin1_plus_2fin2_x=har_bin+round(tone*NFFT)-spanh_har-1;										%换算成dB值的绝对位置
+fin1_plus_2fin2_x=har_bin+left_bound -1;										%换算成dB值的绝对位置
 fin1_plus_2fin2 = (fin1_plus_2fin2_x-1)*fclk/NFFT;
 
 %****************************************************************fin2+2*fin1
@@ -226,10 +235,11 @@ tone = rem(freq_input/fclk,1);
     if tone>0.5 																			%等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
         tone=1-tone;
     end
-har_peak=max(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
-har_bin=find(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
+left_bound = max(1, round(tone*NFFT)-spanh_har);    
+har_peak=max(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
+har_bin=find(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
 %****************************************************************
-fin2_plus_2fin1_x=har_bin+round(tone*NFFT)-spanh_har-1;										%换算成dB值的绝对位置
+fin2_plus_2fin1_x=har_bin+left_bound -1;										%换算成dB值的绝对位置
 fin2_plus_2fin1 = (fin2_plus_2fin1_x-1)*fclk/NFFT;
 
 %****************************************************************2fin2-fin1
@@ -240,9 +250,10 @@ if freq_input > 0
     if tone>0.5 																				%等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
         tone=1-tone;
     end
-    har_peak=max(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
-    har_bin=find(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
-    two_fin2_sub_fin1_x=har_bin+round(tone*NFFT)-spanh_har-1;									%换算成dB值的绝对位置
+    left_bound = max(1, round(tone*NFFT)-spanh_har);    
+    har_peak=max(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
+    har_bin=find(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
+    two_fin2_sub_fin1_x=har_bin+left_bound -1;									%换算成dB值的绝对位置
 else
     two_fin2_sub_fin1_x = 0;
 end
@@ -257,9 +268,10 @@ if freq_input > 0
     if tone>0.5 																				%等于0.5时输入频率为Fs/2，判断输入信号1是否大于Fs/2
         tone=1-tone;
     end
-	har_peak=max(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
-	har_bin=find(ADout_dB(round(tone*NFFT)-spanh_har:round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
-	two_fin1_sub_fin2_x=har_bin+round(tone*NFFT)-spanh_har-1;									%换算成dB值的绝对位置
+    left_bound = max(1, round(tone*NFFT)-spanh_har);    
+	har_peak=max(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)); 				%搜索信号附近最大值
+	har_bin=find(ADout_dB(left_bound :round(tone*NFFT)+spanh_har)==har_peak);	%找出最大值时的点
+	two_fin1_sub_fin2_x=har_bin+left_bound -1;									%换算成dB值的绝对位置
 else
     two_fin1_sub_fin2_x = 0;
 end
@@ -268,7 +280,8 @@ two_fin1_sub_fin2 = (two_fin1_sub_fin2_x-1)*fclk/NFFT;
 
 
 %****************************************************************
-ADout_dB_temp(second_fin-span_s:second_fin+span_s) = 0;
+left_bound = max(1, second_fin-span_s);
+ADout_dB_temp(left_bound : second_fin+span_s) = 0;
 three_maxdB=max(ADout_dB_temp(1:NFFT/2));
 three_high_x=find(ADout_dB_temp(1:NFFT/2)==three_maxdB);                                        %找出等于第3高值的点
 three_high = (three_high_x-1)*fclk/NFFT;
@@ -283,9 +296,10 @@ IMD2_max = max(ADout_dB(fin2_plus_fin1_x),ADout_dB(fin2_sub_fin1_x));
 IMD2_worst = maxdB - IMD2_max;                                                                   %最差IMD2,单位dBc
 IMD2_worst_dBFS = ref_dB - IMD2_max;                                                             %最差IMD2,单位dBFS
 %****************************************************************
-IMD3_max1 = max(ADout_dB(fin1_plus_2fin2_x),ADout_dB(fin2_plus_2fin1_x));
-IMD3_max2 = max(IMD3_max1,ADout_dB(two_fin2_sub_fin1_x));
-IMD3_max = max(IMD3_max2,ADout_dB(two_fin1_sub_fin2_x));
+IMD3_max1 = max(ADout_dB(max(1, fin1_plus_2fin2_x)),ADout_dB(max(1, ...
+                                                  fin2_plus_2fin1_x)));
+IMD3_max2 = max(IMD3_max1,ADout_dB(max(1, two_fin2_sub_fin1_x)));
+IMD3_max = max(IMD3_max2,ADout_dB(max(1, two_fin1_sub_fin2_x)));
 IMD3_worst = maxdB - IMD3_max;                                                                   %最差IMD3,单位dBc
 IMD3_worst_dBFS = ref_dB - IMD3_max;                                                             %最差IMD3,单位dBFS
 ADout_dB = ADout_dB - ref_dB;

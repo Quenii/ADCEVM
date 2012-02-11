@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
 	QApplication::setOrganizationName("quenii-roc");
 	QApplication::setOrganizationDomain("quenii-roc.com");
-	QApplication::setApplicationName("zebra-scope");
+	QApplication::setApplicationName("ADC-Analyzer");
 
 	REGISTER_METATYPE_HELPER(SignalSettings);
 	REGISTER_METATYPE_HELPER(StaticTestSettings);

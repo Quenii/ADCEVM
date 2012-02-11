@@ -74,8 +74,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 	s.setPowerMonitorWidgetPos(m_powerMonitorWidget->pos());
 	s.setPowerMonitorWidgetVisible(m_powerMonitorWidget->isVisible());
 
-	exit(0);
-
 }
 
 void MainWindow::createMenus()
@@ -93,7 +91,7 @@ void MainWindow::createMenus()
 
 	AdcAnalyzerSettings s;
 	m_powerMonitorWidget->move(s.powerMonitorWidgetPos());
-	m_powerMonitorWidget->setVisible(s.powerMonitorWidgetVisible());
+	m_powerMonitorWidget->setVisible(true);
 
 	connect(ui.action_AboutAdcAnalyzer, SIGNAL(triggered()), this, SLOT(slotShowAbout()));
 }

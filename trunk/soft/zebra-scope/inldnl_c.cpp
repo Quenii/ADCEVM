@@ -96,9 +96,12 @@ int inldnl_c(int* samples, int numbit, int numpt, double T1, double T2,
 
 	double S = numpt;
 	double pi = 3.1415926535898f;
-	double Q = (Tnom[NCODES-2]-Tnom[0])/(NCODES-2);
-	double A = (T2-T1) / ( cos(pi*double(Hc[0])/S) + cos(pi*(1-(double(Hc[NCODES-2])/S))) );
-	double C = (T2*cos(pi*double(Hc[0])/S)+T1*cos(pi*(1-(double(Hc[NCODES-2])/S))))/(cos(pi*double(Hc[0])/S)+cos(pi*(1-(double(Hc[NCODES-2])/S))));
+	double Q = (Tnom[NCODES-2]-Tnom[0])/(NCODES-3);
+	double Al = cos(pi*double(Hc[0])/S); double Ar = cos(pi*(1-(double(Hc[NCODES-2])/S)));
+	double A = (T2-T1) / ( Al + Ar );
+	double Cul = T2*cos(pi*double(Hc[0])/S); double Cur = T1*cos(pi*(1-(double(Hc[NCODES-2])/S)));
+	double Cll = cos(pi*double(Hc[0])/S); double Clr = cos(pi*(1-(double(Hc[NCODES-2])/S)));
+	double C = ( Cul + Cur ) / ( Cll + Clr );
 
 	for (int k = 0; k < NCODES-1; ++k) {
 		T[k] = C-A*cos(pi*double(Hc[k])/S);
@@ -109,13 +112,14 @@ int inldnl_c(int* samples, int numbit, int numpt, double T1, double T2,
 	double sT2 = 0;
 
 	for (int k = 0; k < NCODES-1; ++k) {
-		sTk = sTk + k*T[k];
+		sTk = sTk + (k+1)*T[k];
 		sT = sT + T[k];
-		sT2 = sT2 + T[k] * T[k];
+		sT2 = sT2 + T[k] * T[k];            
 	}
 
-	double G = Q*(NCODES-1)*(sTk-double(1 << (numbit-1))*sT)/(double(NCODES-1)*sT2-sT*sT);
-	double Vos = Tnom[0]+Q*(double(1 << (numbit-1))-1)-G*sT/double(NCODES-1);
+	double G = Q * (NCODES-1) * (sTk - (1 << (numbit-1)) * sT) / ((NCODES-1)*sT2-sT*sT);
+	double Vosb = Q*(double(1 << (numbit-1))-1); double Vosc = G*sT/double(NCODES-1);
+	double Vos = Tnom[0] + Vosb - Vosc;
 
 	for (int i = 0; i < INLar.size(); ++i)
 	{
@@ -123,7 +127,7 @@ int inldnl_c(int* samples, int numbit, int numpt, double T1, double T2,
 	}
 
 	for (int k = indexl; k < (indexh-1); ++k) {
-		double  e_k = Tnom[k] - G * T[k]-Vos;
+		double  e_k = Tnom[k] - G * T[k] - Vos;
 		INLar[k] = e_k / Q;
 	}
 
