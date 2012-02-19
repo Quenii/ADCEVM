@@ -26,7 +26,7 @@
 
 using namespace gkhy::QPlotLab;
 
-//#define NOBOARD 1
+#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -69,9 +69,10 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 : pi(3.141592653589793f)
 , m_timerIdDyn(0)
 , m_timerIdPower(0)
+
 {
 	open();
-	float fs = m_analyzer.signalSettings().clockFreq;
+   	float fs = m_analyzer.signalSettings().clockFreq;
 	if (fs <= 0) fs = 1e8;
 	updateXaxis(fs);
 	initTestParas();
@@ -81,6 +82,9 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	{
 		m_timerIdPower = startTimer(2000);
 	}
+ 
+	m_signal = m_analyzer.signalSettings();
+
 }
 
 AdcBoard::~AdcBoard()
