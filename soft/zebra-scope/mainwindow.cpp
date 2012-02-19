@@ -139,6 +139,19 @@ void MainWindow::on_actionLoadData_triggered(bool checked /*= false*/)
 		//	emit settingsLoaded(signalSettings);		
 		//}		
 
+		if (QFile::exists(settingsFileName))
+		{
+			//AdcAnalyzerSettings settings(settingsFileName, AdcAnalyzerSettings::IniFormat, 0);			
+			//SignalSettings signalSettings;
+			//AdcTypeSettings adcSettings;
+
+			//settings.signalSettings(signalSettings);
+			//settings.adcSettings(adcSettings);
+
+			//emit settingsLoaded(adcSettings);
+			//emit settingsLoaded(signalSettings);		
+		}		
+
 		QZebraScopeSerializer serializer(fileName);
 		if (serializer.open(QZebraScopeSerializer::ReadOnly))
 		{

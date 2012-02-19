@@ -13,7 +13,7 @@ class StaticSettingsDialog : public QDialog, public StaticSettingsDialogClass
 	Q_OBJECT
 
 public:
-	StaticSettingsDialog(QWidget *parent = 0);
+	StaticSettingsDialog(bool noise=false, QWidget *parent = 0);
 	~StaticSettingsDialog();
 protected:
 	void accept();

@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <vector>
 #include <QSettings>
+#include <vector>
 
 #include "../BoardApi/Board.h"
 #include "AdcBoardTypes.hpp"
@@ -15,6 +16,8 @@ class CCyUSBDevice;
 class DummyWidget;
 class QObject;
 class QEvent;
+
+using namespace std;
 
 #define VDADDR 0x3FFF
 #define VAADDR 0x7FFF
@@ -69,6 +72,8 @@ private:
 	void Convert(TimeDomainReport&, float, float, std::vector<unsigned short>&);
 	bool readPowerMonitorData(PowerStatus& powerStatus);
 	void initTestParas();
+	void storeInBoard(uint len=0xFFFF);
+	bool getStaticTestData(vector<int>& samples, int numpt, bool savedData = false, bool saveToFile = true);
 
 signals:
 	void boardReport(const AdcBoardReport& report);
@@ -81,9 +86,6 @@ private:
 	SignalSettings m_signal;
 	StaticTestSettings m_static;
 
-	//AdcSettings m_adcSettings;
-	//SignalSettings m_signalSettings;
-	//StaticSettings m_staticSettings;
 	int m_timerIdDyn;
 	int m_timerIdPower;
     float pi;

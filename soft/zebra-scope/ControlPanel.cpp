@@ -157,14 +157,14 @@ void ControlPanel::on_pushButtonStartStaticTest_clicked()
 
 void ControlPanel::on_pushButtonStatisticTest_clicked()
 {		
-	StaticSettingsDialog dlg;
+	StaticSettingsDialog dlg(true);
 
 	if (QDialog::Accepted  == dlg.exec())
 	{
-		QMessageBox notice;
-		notice.setWindowTitle(QString::fromLocal8Bit("ADC-Analyzer"));
-		notice.setText(QString::fromLocal8Bit("请将信号输入端悬空或接地，然后点击确定开始测试。"));
-		notice.exec();
+		//QMessageBox notice;
+		//notice.setWindowTitle(QString::fromLocal8Bit("ADC-Analyzer"));
+		//notice.setText();
+		//notice.exec();
 
 		AdcAnalyzerSettings s;
 		StaticTestSettings sts = s.staticTestSettings();

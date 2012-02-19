@@ -16,7 +16,7 @@ public:
 	Histogram(const QString &, const QColor &);
 
 	void setColor(const QColor &);
-	void setValues(uint numValues, const double *);
+	void setValues(uint numValues, const double *, int origin = 0);
 };
 
 Histogram::Histogram(const QString &title, const QColor &symbolColor):
@@ -42,12 +42,12 @@ void Histogram::setColor(const QColor &symbolColor)
 	setSymbol(symbol);
 }
 
-void Histogram::setValues(uint numValues, const double *values)
+void Histogram::setValues(uint numValues, const double *values, int origin)
 {
 	QVector<QwtIntervalSample> samples(numValues);
 	for ( uint i = 0; i < numValues; i++ )
 	{
-		QwtInterval interval(double(i), i + 1.0);
+		QwtInterval interval(i+origin-0.5, i+origin+0.5);
 		interval.setBorderFlags(QwtInterval::ExcludeMaximum);
 
 		samples[i] = QwtIntervalSample(values[i], interval);
@@ -123,7 +123,7 @@ void HistPlot::showItem(QwtPlotItem *item, bool on)
 	item->setVisible(on);
 }
 
-void HistPlot::setValueHist(const vector<double>& histogram)
+void HistPlot::setValueHist(const vector<double>& histogram, int origin)
 {
 	setTitle("Histogram");
 	setAxisTitle(QwtPlot::yLeft, "Count");
@@ -139,6 +139,6 @@ void HistPlot::setValueHist(const vector<double>& histogram)
 
 	Histogram *histogramJune = new Histogram("Summer", Qt::red);
 	histogramJune->setValues(
-		histogram.size(), &histogram[0]);
+		histogram.size(), &histogram[0], origin);
 	histogramJune->attach(this);
 }
