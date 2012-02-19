@@ -41,8 +41,8 @@ private:
 	void createMenus();
 
 signals:
-	//void settingsLoaded(const AdcSettings& data);
-	//void settingsLoaded(const SignalSettings& data);
+	void settingsLoaded(const AdcTypeSettings& data);
+	void settingsLoaded(const SignalSettings& data);
 	void adcBoardReportLoaded(const AdcBoardReport& data);
 
 private slots:

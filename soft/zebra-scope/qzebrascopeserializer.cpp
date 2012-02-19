@@ -54,14 +54,26 @@ void QZebraScopeSerializer::serialize(const TimeDomainReport& data)
 
 bool QZebraScopeSerializer::deserialize(TimeDomainReport& data)
 {
-	if (deserialize(data.samples) && 
-		deserialize(data.xaxis) &&
-		deserialize(data.rawSamples) &&
-		deserialize(data.min) &&
-		deserialize(data.max))
-		return true;
-	else
+	if (!deserialize(data.samples))
 		return false;
+	if (!deserialize(data.xaxis))
+		return false;
+	if (!deserialize(data.rawSamples))
+		return false;
+	if (!deserialize(data.min))
+		return false;
+	if (!deserialize(data.max))
+		return false;
+
+	return true;
+	//if (deserialize(data.samples) && 
+	//	deserialize(data.xaxis) &&
+	//	deserialize(data.rawSamples) &&
+	//	deserialize(data.min) &&
+	//	deserialize(data.max))
+	//	return true;
+	//else
+	//	return false;
 }
 
 void QZebraScopeSerializer::serialize(const FreqDomainReport& data)
@@ -71,6 +83,7 @@ void QZebraScopeSerializer::serialize(const FreqDomainReport& data)
 	serialize(data.dualTone);
 	serialize(data.DynamicPara);
 	serialize(data.DualTonePara);
+	serialize(data.markers);
 
 	//serialize(data.A);
 	//serialize(data.AdB);
@@ -88,7 +101,8 @@ bool QZebraScopeSerializer::deserialize(FreqDomainReport& data)
 		deserialize(data.xaxis) &&
 		deserialize(data.dualTone) &&
 		deserialize(data.DynamicPara) &&
-		deserialize(data.DualTonePara))
+		deserialize(data.DualTonePara) &&
+		deserialize(data.markers))
 
 		//deserialize(data.A) &&
 		//deserialize(data.AdB) &&

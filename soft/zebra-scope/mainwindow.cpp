@@ -141,15 +141,12 @@ void MainWindow::on_actionLoadData_triggered(bool checked /*= false*/)
 
 		if (QFile::exists(settingsFileName))
 		{
-			//AdcAnalyzerSettings settings(settingsFileName, AdcAnalyzerSettings::IniFormat, 0);			
-			//SignalSettings signalSettings;
-			//AdcTypeSettings adcSettings;
+			AdcAnalyzerSettings settings(settingsFileName, AdcAnalyzerSettings::IniFormat, 0);			
+			SignalSettings signalSettings = settings.signalSettings();
+			AdcTypeSettings adcSettings = settings.adcTypeSettings();
 
-			//settings.signalSettings(signalSettings);
-			//settings.adcSettings(adcSettings);
-
-			//emit settingsLoaded(adcSettings);
-			//emit settingsLoaded(signalSettings);		
+			emit settingsLoaded(adcSettings);
+			emit settingsLoaded(signalSettings);		
 		}		
 
 		QZebraScopeSerializer serializer(fileName);
@@ -175,16 +172,14 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 	{
 		fileName = make_dot_adc_file_name(fileName);
 
-		//QZebraScopeSettings settings;
-		//SignalSettings signalSettings;
-		//AdcSettings adcSettings;
-		//settings.signalSettings(signalSettings);
-		//settings.adcSettings(adcSettings);
+		AdcAnalyzerSettings settings;
+		SignalSettings signalSettings = settings.signalSettings();
+		AdcTypeSettings adcSettings = settings.adcTypeSettings();
 
-		//QString settingsFileName = getSettingsFileName(fileName);
-		//QZebraScopeSettings toSave(settingsFileName, QSettings::IniFormat, 0);
-		//toSave.setSignalSettings(signalSettings);
-		//toSave.setAdcSettings(adcSettings);
+		QString settingsFileName = getSettingsFileName(fileName);
+		AdcAnalyzerSettings toSave(settingsFileName, QSettings::IniFormat, 0);
+		toSave.setSignalSettings(signalSettings);
+		toSave.setAdcTypeSettings(adcSettings);
 
 		QZebraScopeSerializer reportFile(fileName);
 		if (reportFile.open(QZebraScopeSerializer::Truncate | QZebraScopeSerializer::WriteOnly))
