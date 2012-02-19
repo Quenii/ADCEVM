@@ -196,16 +196,17 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 		QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
 
 		const AdcBoardReport &report = AdcBoard::instance()->reportRef();
-//		const float* p = &report.tdReport.samples[0];
-		const unsigned short* p = &report.tdReport.rawSamples[0];
-
-		for (int k=0; k<report.tdReport.samples.size(); ++k)
+		if (report.tdReport.rawSamples.size())
 		{
-//			sprintf(txtBuffer, "%f\r\n", p[k]);
-			sprintf_s(txtBuffer, "%d\r\n", short(p[k]));
-			QString a = QString(txtBuffer);
-			int m = a.size();
-			outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
+			const unsigned short* p = &report.tdReport.rawSamples[0];
+
+			for (int k=0; k<report.tdReport.samples.size(); ++k)
+			{
+				sprintf_s(txtBuffer, "%d\r\n", short(p[k]));
+				QString a = QString(txtBuffer);
+				int m = a.size();
+				outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
+			}
 		}
 	}
 }

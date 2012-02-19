@@ -4,10 +4,11 @@
 
 #include <QSettings>
 
-class AdcAnalyzerSettings
+class AdcAnalyzerSettings : public QSettings
 {
 public:
-	AdcAnalyzerSettings(void);
+	AdcAnalyzerSettings(const QString & fileName, Format format, QObject * parent = 0 );
+	AdcAnalyzerSettings(QObject * parent = 0 );
 	virtual ~AdcAnalyzerSettings(void);
 
 public:
@@ -38,8 +39,6 @@ public:
 	void setSpanSettings(const SpanSettings& val);
 	SpanSettings spanSettings() const;
 
-
-
 private:
-	QSettings m_s;
+	// QSettings m_s;
 };
