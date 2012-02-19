@@ -26,7 +26,7 @@
 
 using namespace gkhy::QPlotLab;
 
-#define NOBOARD 1
+//#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -62,10 +62,6 @@ static void plot(const std::vector<double>& data, const QString& title, double m
 	scope->plot(&data[0], min(16384, data.size()));
 	scope->show();
 	scope->resize(640, 480);
-
-	/*bool ok = QObject::connect(qApp, SIGNAL(aboutToQuit()), scope, SLOT(deleteLater()));
-	Q_ASSERT(ok);
-	*/
 }
 
 AdcBoard* AdcBoard::_inst = 0;
@@ -242,9 +238,17 @@ bool AdcBoard::readPowerMonitorData(PowerStatus& powerStatus)
 	return true;
 }
 
+void AdcBoard::storeInBoard(uint len)
+{
+	writeReg(0x2002, 0);
+	writeReg(0xFFFF, 0x0001);  //reset
+	writeReg(0xFFFF, 0x0000);  //dereset
+	writeReg(0x1004, len);  //stor 1M
+	Sleep(200);	
+
+}
 void AdcBoard::timerEvent(QTimerEvent* event)
 {
-	//setAdcSettings(m_adcSettings);
 #ifndef NOBOARD
 	if (!isOpen())
 	{
@@ -271,6 +275,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	}
 
 	TimeDomainReport& tdReport = report.tdReport;
+	m_adc = m_analyzer.adcTypeSettings();
 	float vpp = m_adc.vpp;
 	float max = 1 << 15;
 	if (buff.size() < buffer_cnt*2)
@@ -279,11 +284,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 #ifndef NOBOARD
 	if (isOpen())
 	{
-		writeReg(0x2002, 0);
-		writeReg(0xFFFF, 0x0001);  //reset
-		writeReg(0xFFFF, 0x0000);  //dereset
-		writeReg(0x1004, 0xFFFF);  //stor 1M
-		Sleep(200);	
+		storeInBoard(0xFFFF);
 
 		unsigned short* p = &buff[0];
 		bool okay = read(0x1005, &buff[0], buffer_cnt);
@@ -376,13 +377,6 @@ void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp, vector<
 		{
 			buff[i] = buff[i] ^ 0x8000;
 		}
-		else if (m_adc.coding == AdcCodingComplement)
-		{
-		}
-		else
-		{
-			Q_ASSERT(false);
-		}
 
 		tdReport.samples[i] = short(buff[i]) * vpp / max / 2/* / (1<<t)*/;
 		tdReport.rawSamples[i] = buff[i]; /* buff[i] >>t; */
@@ -404,7 +398,6 @@ bool AdcBoard::setAdcSettings(const AdcTypeSettings& adcSettings)
 		if (!writeReg(6, 0x0004))  //执行 通道E
 			return false;
 	}
-
 	return true;
 }
 
@@ -428,44 +421,36 @@ void AdcBoard::updateXaxis(float fs)
 	}
 }
 
-
-void AdcBoard::staticTest()
+bool AdcBoard::getStaticTestData(vector<int>& samples, int numpt, bool savedData, bool saveToFile)
 {
-	//QString fileName = QString("%1-%2").arg(
-	//	QDate::currentDate().toString("yyMMdd"),
-	//	QTime::currentTime().toString("hhmmss"));
-
-	//static char txtBuffer[20];
-	//QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath(fileName+".txt");
-	//QFile fileTxt( fileNameTxt );
-	//fileTxt.open(QIODevice::WriteOnly);
-	//QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
-	
-	m_static = m_analyzer.staticTestSettings();
-	m_adc = m_analyzer.adcTypeSettings();
-	
-	vector<unsigned short> buff;
+	if (savedData)
+	{
+		return true;
+	}
 	if (buff.size() < buffer_cnt)
 		buff.resize(buffer_cnt);
 
-	int numpt = m_static.numpt * 1024 * 1024;
-	vector<int> samples;
+	QString fileName = QString("%1-%2").arg(
+		QDate::currentDate().toString("yyMMdd"),
+		QTime::currentTime().toString("hhmmss"));
+	if (m_static.noise)
+		fileName += QString(QString::fromLocal8Bit("-Noise"));
+	else
+		fileName += QString(QString::fromLocal8Bit("-Static"));
 
-#ifndef NOBOARD
+
+	static char txtBuffer[20];
+	QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath(fileName+".txt");
+	QFile fileTxt( fileNameTxt );
+	fileTxt.open(QIODevice::WriteOnly);
+	QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
+
 	unsigned short mask = (1<<16) - (1<<(16-m_adc.bitcount));
 	const int innerLoop = 32;
 
 	for (int i=0; i<m_static.numpt*(32/innerLoop); ++i)
 	{
-		writeReg(0xFFFF, 0x0001);  //reset
-		writeReg(0xFFFF, 0x0000);  //dereset
-		writeReg(0x1004, 0xFFFF);  //fill the fifo
-
-		Sleep(200);	
-
-		float vpp = m_adc.vpp;
-		float max = (1 << 15);
-
+		storeInBoard(0xFFFF);
 		for (int t=0; t<innerLoop; ++t)
 		{
 			bool okay = false;
@@ -478,20 +463,21 @@ void AdcBoard::staticTest()
 			for (int k=0; k<buff.size(); ++k)
 			{
 				if (m_adc.coding == AdcCodingOffset)
-				{
 					buff[k] = buff[k] ^ 0x8000;
-				}
-				if (((buff[k] ^ 0x8000) & mask) == mask)
+
+				if (!m_static.noise)
 				{
-					upperOverCount ++;
-				}
-				if ((buff[k] ^ 0x8000) == 0)
-				{
-					lowerOverCount ++;
+					if (((buff[k] ^ 0x8000) & mask) == mask)
+						upperOverCount ++;
+					if ((buff[k] ^ 0x8000) == 0)
+						lowerOverCount ++;
 				}
 				samples.push_back(int(short(buff[k])));
-				//sprintf_s(txtBuffer, "%d\r\n", short(buff[k]));
-				//outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
+				if (saveToFile)
+				{
+					sprintf_s(txtBuffer, "%d\r\n", short(buff[k]));
+					outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
+				}
 			}
 			if (!m_static.noise)
 			{
@@ -501,11 +487,26 @@ void AdcBoard::staticTest()
 						QString::fromLocal8Bit("信号幅值太低，请适当增加信号源输出功率！"), 
 						QMessageBox::Ok, QMessageBox::Ok);
 
-					return;
+					return false;
 				}
 			}
 		}
 	}
+	fileTxt.close();
+	return true;
+
+}
+void AdcBoard::staticTest()
+{
+	m_static = m_analyzer.staticTestSettings();
+	m_adc = m_analyzer.adcTypeSettings();
+
+	int numpt = m_static.numpt * 1024 * 1024;
+	vector<int> samples;
+
+#ifndef NOBOARD
+	if(!getStaticTestData(samples, numpt))
+		return;
 #else // NOBOARD
 
 	QString fileNameSim;
@@ -534,8 +535,6 @@ void AdcBoard::staticTest()
 
 #endif // NOBOARD
 
-	//fileTxt.close();
-
 	Q_ASSERT(samples.size() >= numpt);
 
 	vector<double> inl(1<<m_adc.bitcount);
@@ -546,17 +545,19 @@ void AdcBoard::staticTest()
 	int indexLeft = 0;
 	int indexRight = 0;
 	int indexMax = 0;
+	HistPlot* histPlot = new HistPlot(0); 
 
 	if (m_static.noise)
 	{
 		noise_c(&samples[0], numpt, m_adc.bitcount, histogram_i, indexMax, indexLeft, indexRight);
-		size_t histSize = indexRight-indexLeft+1;
-		histogram.resize(histSize);
-
-		for (int i=0; i<histSize; ++i)
+		histogram.resize(20);
+		for (int i = 0; i < 20; ++i)
 		{
-			histogram[i] = histogram_i[i+indexLeft];
+			histogram[i] = histogram_i[i+indexMax-10];
 		}
+		histPlot->setWindowTitle(QString::fromLocal8Bit("噪声统计测试结果"));
+		histPlot->setValueHist(histogram, indexLeft-4);
+
 	}
 	else
 	{
@@ -570,14 +571,12 @@ void AdcBoard::staticTest()
 		dnl[0] = 0;
 		plot(inl, "INTEGRAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
 		plot(dnl, "DIFFERENTIAL NONLINEARITY vs. DIGITAL OUTPUT CODE",0 ,0);
+		histPlot->setWindowTitle(QString::fromLocal8Bit("静态测试结果"));
+		histPlot->setValueHist(histogram, 0);
 	}
 
-	HistPlot* histPlot = new HistPlot(0); 
-	histPlot->setWindowTitle(QString::fromLocal8Bit("测试结果"));
 	histPlot->resize(640, 480);
-	histPlot->setValueHist(histogram);
 	histPlot->show();	
 	qDebug() << "Adc board thread Id: " << QThread::currentThreadId ();
-
 }
 
