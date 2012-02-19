@@ -14,7 +14,13 @@ static const char* spanSettingsKey = "SpanSettings";
 static const char* powerMonitorPoskey = "PowerMonitorPos";
 static const char* powerMonitorVisibleKey = "PowerMonitorVisible";
 
-AdcAnalyzerSettings::AdcAnalyzerSettings(void)
+AdcAnalyzerSettings::AdcAnalyzerSettings(QObject * parent /* = 0  */) 
+: QSettings(parent)
+{
+}
+
+AdcAnalyzerSettings::AdcAnalyzerSettings(const QString & fileName, Format format, QObject * parent /* = 0  */)
+: QSettings(fileName, format, parent)
 {
 }
 
@@ -24,87 +30,87 @@ AdcAnalyzerSettings::~AdcAnalyzerSettings(void)
 
 bool AdcAnalyzerSettings::powerMonitorWidgetVisible() const
 {
-	return m_s.value(powerMonitorVisibleKey).toBool();
+	return value(powerMonitorVisibleKey).toBool();
 }
 
 void AdcAnalyzerSettings::setPowerMonitorWidgetVisible(const bool& val)
 {
-	m_s.setValue(powerMonitorVisibleKey, val);
+	setValue(powerMonitorVisibleKey, val);
 
 }
 
 QPoint AdcAnalyzerSettings::powerMonitorWidgetPos() const
 {
-	return m_s.value(powerMonitorPoskey).toPoint();
+	return value(powerMonitorPoskey).toPoint();
 }
 
 void AdcAnalyzerSettings::setPowerMonitorWidgetPos(const QPoint& val)
 {
-	m_s.setValue(powerMonitorPoskey, val);
+	setValue(powerMonitorPoskey, val);
 }
 /////////////////////////////////
 void AdcAnalyzerSettings::setAdcTypeSettings(const AdcTypeSettings& val)
 {
-	m_s.setValue(adcTypeSettingsKey, val);
+	setValue(adcTypeSettingsKey, val);
 }
 
 AdcTypeSettings AdcAnalyzerSettings::adcTypeSettings() const
 {
-	return m_s.value(adcTypeSettingsKey).value<AdcTypeSettings>();
+	return value(adcTypeSettingsKey).value<AdcTypeSettings>();
 }
 //////////////////////////////
 void AdcAnalyzerSettings::setStoredAdcTypeSettings(const AdcTypeSettings& val)
 {
 	QString key = QString("%1/%2").arg(storedAdcTypeSettingsKey).arg(val.adcType);
-	m_s.setValue(key, val);
+	setValue(key, val);
 }
 
 AdcTypeSettings AdcAnalyzerSettings::storedAdcTypeSettings(const QString& adcType) const
 {
 	QString key = QString("%1/%2").arg(storedAdcTypeSettingsKey).arg(adcType);
-	return m_s.value(key).value<AdcTypeSettings>();
+	return value(key).value<AdcTypeSettings>();
 }
 
 ////////////////////////////////
 void AdcAnalyzerSettings::setStaticTestSettings(const StaticTestSettings& val)
 {
-	m_s.setValue(staticTestSettingsKey, val);
+	setValue(staticTestSettingsKey, val);
 }
 
 StaticTestSettings AdcAnalyzerSettings::staticTestSettings() const
 {
-	return m_s.value(staticTestSettingsKey).value<StaticTestSettings>();
+	return value(staticTestSettingsKey).value<StaticTestSettings>();
 }
 
 /////////////////////////////////
 void AdcAnalyzerSettings::setSignalSettings(const SignalSettings& val)
 {
-	m_s.setValue(signalSettingsKey, val);
+	setValue(signalSettingsKey, val);
 }
 
 SignalSettings AdcAnalyzerSettings::signalSettings() const
 {
-	return m_s.value(signalSettingsKey).value<SignalSettings>();
+	return value(signalSettingsKey).value<SignalSettings>();
 }
 
 ///////////////////////////////////
 void AdcAnalyzerSettings::setRegAccessSettings(const RegAccessSettings& val)
 {
-	m_s.setValue(regAccessSettingsKey, val);
+	setValue(regAccessSettingsKey, val);
 }
 
 RegAccessSettings AdcAnalyzerSettings::regAccessSettings() const
 {
-	return m_s.value(regAccessSettingsKey).value<RegAccessSettings>();
+	return value(regAccessSettingsKey).value<RegAccessSettings>();
 }
 
 void AdcAnalyzerSettings::setSpanSettings(const SpanSettings& val)
 {
-	m_s.setValue(spanSettingsKey, val);
+	setValue(spanSettingsKey, val);
 }
 
 SpanSettings AdcAnalyzerSettings::spanSettings() const
 {
-	return m_s.value(spanSettingsKey).value<SpanSettings>();
+	return value(spanSettingsKey).value<SpanSettings>();
 }
 
