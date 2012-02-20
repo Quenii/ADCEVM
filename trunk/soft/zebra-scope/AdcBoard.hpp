@@ -57,20 +57,21 @@ public:
 	//bool setStaticSettings(const StaticSettings& staticSettings);	
 	//void staticSettings(StaticSettings& staticSettings) { staticSettings = m_staticSettings; }	
 
-
 	void setDynamicOn(bool on = true);
 	bool isRunning();
 	void staticTest();
+	void dynTest(TimeDomainReport& tdReport);
 	const AdcBoardReport& reportRef() { return report; }
 	bool clocked();
 	void updateXaxis(float fs);
+	bool getDynTestData(QString& fileNameSim);
 
 protected:
 	void timerEvent (QTimerEvent * event);
 
 private:
-	void Convert(TimeDomainReport&, float, float, std::vector<unsigned short>&);
-	bool readPowerMonitorData(PowerStatus& powerStatus);
+	void Convert(TimeDomainReport&, float, float);
+	bool updatePowerStatus(QTimerEvent* event);
 	void initTestParas();
 	void storeInBoard(uint len=0xFFFF);
 	bool getStaticTestData(vector<int>& samples, int numpt, bool savedData = false, bool saveToFile = true);
@@ -89,7 +90,7 @@ private:
 	int m_timerIdDyn;
 	int m_timerIdPower;
     float pi;
-	std::vector<unsigned short> buff;
+//	std::vector<unsigned short> buff;
 
 };
 
