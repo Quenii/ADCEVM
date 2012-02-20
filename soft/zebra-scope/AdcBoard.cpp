@@ -85,6 +85,7 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
  
 	m_signal = m_analyzer.signalSettings();
 	m_adc = m_analyzer.adcTypeSettings();
+	m_span = m_analyzer.spanSettings();
 
 }
 
@@ -210,6 +211,7 @@ void AdcBoard::setDynamicOn(bool on /* = true */)
 		m_timerIdDyn = startTimer(500);
 		m_adc = m_analyzer.adcTypeSettings();
 		m_signal = m_analyzer.signalSettings();
+		m_span = m_analyzer.spanSettings();
 	}
 
 	if (!on && m_timerIdDyn)
@@ -280,6 +282,7 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 			AdcAnalyzerSettings settings(settingsFileName, AdcAnalyzerSettings::IniFormat, 0);			
 			m_signal = settings.signalSettings();
 			m_adc = settings.adcTypeSettings();
+			m_span = settings.spanSettings();
 		}
 		else
 		{
@@ -289,10 +292,8 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 		}
 
 		QFile file(fileNameSim);
-
 		if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 			Q_ASSERT(false);
-
 		QTextStream in(&file);
 		while ((!in.atEnd()) && (buff.size()<buffer_cnt*2) ) {
 			QString line = in.readLine();
@@ -364,18 +365,17 @@ void AdcBoard::dynTest(TimeDomainReport& tdReport)
 
 #elif defined(MATCOM) 
 	int freq_detect = m_signal.freqDetect ? 1 : 2;
-	SpanSettings settings = m_analyzer.spanSettings();
 
 	if (!m_signal.dualToneTest)
 	{
 		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, 
-			m_adc.vpp, freq_detect, m_signal.signalFreq, settings.dc, settings.spur, settings.signal);
+			m_adc.vpp, freq_detect, m_signal.signalFreq, m_span.dc, m_span.spur, m_span.signal);
 	}
 	else
 	{
 		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, 
 			m_adc.vpp, freq_detect, m_signal.signalFreq, m_signal.signalIIFreq, 
-			settings.dc, settings.spur, settings.signal);
+			m_span.dc, m_span.spur, m_span.signal);
 
 		if (fdReport.DualTonePara[1].value < -40 
 			|| fdReport.DualTonePara[3].value < -40
@@ -489,13 +489,8 @@ void AdcBoard::updateXaxis(float fs)
 	}
 }
 
-bool AdcBoard::getStaticTestData(vector<int>& samples, int numpt, bool savedData, bool saveToFile)
+bool AdcBoard::getStaticTestData(vector<int>& samples, bool saveToFile)
 {
-	if (savedData)
-	{
-		return true;
-	}
-
 	std::vector<unsigned short> buff(buffer_cnt);
 
 	QString fileName = QString("%1-%2").arg(
@@ -505,7 +500,6 @@ bool AdcBoard::getStaticTestData(vector<int>& samples, int numpt, bool savedData
 		fileName += QString(QString::fromLocal8Bit("-Noise"));
 	else
 		fileName += QString(QString::fromLocal8Bit("-Static"));
-
 
 	static char txtBuffer[20];
 	QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath(fileName+".txt");
@@ -561,6 +555,12 @@ bool AdcBoard::getStaticTestData(vector<int>& samples, int numpt, bool savedData
 		}
 	}
 	fileTxt.close();
+
+	QString iniFile = getSettingsFileName(fileNameTxt);
+	AdcAnalyzerSettings toSave(iniFile, QSettings::IniFormat, 0);
+	toSave.setAdcTypeSettings(m_adc);
+	toSave.setStaticTestSettings(m_static);
+
 	return true;
 
 }
@@ -569,11 +569,11 @@ void AdcBoard::staticTest()
 	m_static = m_analyzer.staticTestSettings();
 	m_adc = m_analyzer.adcTypeSettings();
 
-	int numpt = m_static.numpt * 1024 * 1024;
 	vector<int> samples;
 
 #ifndef NOBOARD
-	if(!getStaticTestData(samples, numpt))
+	QString strNull;
+	if(!getStaticTestData(samples, numpt, strNull))
 		return;
 #else // NOBOARD
 
@@ -603,6 +603,14 @@ void AdcBoard::staticTest()
 
 #endif // NOBOARD
 
+	staticTestAlgo(samples);
+
+	qDebug() << "Adc board thread Id: " << QThread::currentThreadId ();
+}
+
+void AdcBoard::staticTestAlgo(vector<int> samples)
+{
+	int numpt = m_static.numpt * 1024 * 1024;
 	Q_ASSERT(samples.size() >= numpt);
 
 	vector<double> inl(1<<m_adc.bitcount);
@@ -645,6 +653,44 @@ void AdcBoard::staticTest()
 
 	histPlot->resize(640, 480);
 	histPlot->show();	
-	qDebug() << "Adc board thread Id: " << QThread::currentThreadId ();
 }
 
+bool AdcBoard::loadStaticData(QString& fileNameSim)
+{
+	if (!fileNameSim.isEmpty())
+	{
+		QString settingsFileName = getSettingsFileName(fileNameSim);
+		if (QFile::exists(settingsFileName))
+		{
+			AdcAnalyzerSettings settings(settingsFileName, AdcAnalyzerSettings::IniFormat, 0);			
+			m_adc = settings.adcTypeSettings();
+			m_static = settings.staticTestSettings();
+		}
+		else
+		{
+			QMessageBox::warning(NULL, QString::fromLocal8Bit("载入静态数据"), 
+				QString::fromLocal8Bit("配置文件不存在, 将使用当前设置解析数据"), 
+				QMessageBox::Ok, QMessageBox::Ok);\
+			m_adc = m_analyzer.adcTypeSettings();
+			m_static = m_analyzer.staticTestSettings();
+		}
+		
+		vector<int> samples;
+		QFile file(fileNameSim);
+
+		if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+			Q_ASSERT(false);
+
+		QTextStream in(&file);
+		while (!in.atEnd() && (samples.size()<m_static.numpt*1024*1024)) 
+		{
+			QString line = in.readLine();
+			samples.push_back(line.toInt());
+		}
+		file.close();
+
+		staticTestAlgo(samples);
+		return true;
+	}
+	return false;
+}

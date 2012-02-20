@@ -53,6 +53,7 @@
     </property>
     <addaction name="actionLoadData"/>
     <addaction name="actionSaveData"/>
+    <addaction name="actionLoadStaticData"/>
     <addaction name="separator"/>
     <addaction name="action_3"/>
    </widget>
@@ -255,6 +256,11 @@
   <action name="actionSPAN">
    <property name="text">
     <string>SPAN</string>
+   </property>
+  </action>
+  <action name="actionLoadStaticData">
+   <property name="text">
+    <string>读入静态数据</string>
    </property>
   </action>
  </widget>

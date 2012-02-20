@@ -128,6 +128,16 @@ void MainWindow::on_actionLoadData_triggered(bool checked /*= false*/)
 	}
 }
 
+void MainWindow::on_actionLoadStaticData_triggered(bool checked /*= false*/)
+{
+	QString fileName = QFileDialog::getOpenFileName(
+		this, tr("Open File..."), "", tr("ADC Samples (*.txt)"));
+	if (!fileName.isEmpty())
+	{
+		AdcBoard::instance()->loadStaticData(fileName);
+	}
+}
+
 void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 {
 	QString fileName = QFileDialog::getSaveFileName(this, tr("Save as..."),
@@ -138,13 +148,12 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 	if (!fileName.isEmpty())
 	{
 		AdcAnalyzerSettings settings;
-		SignalSettings signalSettings = settings.signalSettings();
-		AdcTypeSettings adcSettings = settings.adcTypeSettings();
 
 		QString settingsFileName = getSettingsFileName(fileName);
 		AdcAnalyzerSettings toSave(settingsFileName, QSettings::IniFormat, 0);
-		toSave.setSignalSettings(signalSettings);
-		toSave.setAdcTypeSettings(adcSettings);
+		toSave.setSignalSettings(settings.signalSettings());
+		toSave.setAdcTypeSettings(settings.adcTypeSettings());
+		toSave.setSpanSettings(settings.spanSettings());
 
 		QString txtFileName = getTextFileName(fileName);
 		QFile fileTxt( txtFileName );

@@ -64,7 +64,8 @@ public:
 	const AdcBoardReport& reportRef() { return report; }
 	bool clocked();
 	void updateXaxis(float fs);
-	bool getDynTestData(QString& fileNameSim);
+	bool getDynTestData(QString& );
+	bool loadStaticData(QString& );
 
 protected:
 	void timerEvent (QTimerEvent * event);
@@ -74,7 +75,8 @@ private:
 	bool updatePowerStatus(QTimerEvent* event);
 	void initTestParas();
 	void storeInBoard(uint len=0xFFFF);
-	bool getStaticTestData(vector<int>& samples, int numpt, bool savedData = false, bool saveToFile = true);
+	bool getStaticTestData(vector<int>& samples, bool saveToFile = true);
+	void staticTestAlgo(vector<int> samples);
 
 signals:
 	void boardReport(const AdcBoardReport& report);
@@ -86,6 +88,7 @@ private:
 	AdcTypeSettings m_adc;
 	SignalSettings m_signal;
 	StaticTestSettings m_static;
+	SpanSettings m_span;
 
 	int m_timerIdDyn;
 	int m_timerIdPower;
