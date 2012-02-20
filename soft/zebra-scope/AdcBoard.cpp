@@ -84,6 +84,7 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	}
  
 	m_signal = m_analyzer.signalSettings();
+	m_adc = m_analyzer.adcTypeSettings();
 
 }
 
@@ -231,17 +232,6 @@ bool AdcBoard::clocked()
 	return false;
 }
 
-bool AdcBoard::readPowerMonitorData(PowerStatus& powerStatus)
-{
-	powerStatus.va = getVoltage(0x7FFF);
-	powerStatus.vd = getVoltage(0x3FFF);
-	powerStatus.ia = getCurrent(0x4FFF);
-	powerStatus.id = getCurrent(0x1FFF);
-	powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
-
-	return true;
-}
-
 void AdcBoard::storeInBoard(uint len)
 {
 	writeReg(0x2002, 0);
@@ -249,39 +239,73 @@ void AdcBoard::storeInBoard(uint len)
 	writeReg(0xFFFF, 0x0000);  //dereset
 	writeReg(0x1004, len);  //stor 1M
 	Sleep(200);	
-
 }
-void AdcBoard::timerEvent(QTimerEvent* event)
+
+bool AdcBoard::updatePowerStatus(QTimerEvent* event)
 {
-#ifndef NOBOARD
-	if (!isOpen())
-	{
-		open();
-	}
-	if (!isOpen())
-	{
-		QMessageBox::warning(NULL, QString::fromLocal8Bit("动态测试"), 
-			QString::fromLocal8Bit("连接设备失败，请检查硬件配置！"), 
-			QMessageBox::Ok, QMessageBox::Ok);
-		setDynamicOn(false);
-		return ;
-	}
-	clocked();
-
-#endif
-
 	if (event->timerId() == m_timerIdPower)
 	{
 		PowerStatus& powerStatus = report.powerStatus;
-		readPowerMonitorData(powerStatus);
+		powerStatus.va = getVoltage(0x7FFF);
+		powerStatus.vd = getVoltage(0x3FFF);
+		powerStatus.ia = getCurrent(0x4FFF);
+		powerStatus.id = getCurrent(0x1FFF);
+		powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
 		emit powerMonitorDataUpdated(powerStatus);
-		return;
+		return true;
+	}
+	return false;
+
+}
+
+static QString getSettingsFileName(QString adcDataFileName)
+{
+	QFileInfo fi(adcDataFileName);
+	QString settingsFileName = QDir(fi.dir()).absoluteFilePath(fi.completeBaseName() + ".ini");
+	return settingsFileName;
+}
+
+bool AdcBoard::getDynTestData(QString& fileNameSim)
+{
+	std::vector<unsigned short>& buff = report.tdReport.rawSamples;
+
+	if (!fileNameSim.isEmpty())
+	{
+		buff.resize(0);
+
+		QString settingsFileName = getSettingsFileName(fileNameSim);
+
+		if (QFile::exists(settingsFileName))
+		{
+			AdcAnalyzerSettings settings(settingsFileName, AdcAnalyzerSettings::IniFormat, 0);			
+			m_signal = settings.signalSettings();
+			m_adc = settings.adcTypeSettings();
+		}
+		else
+		{
+			QMessageBox::warning(NULL, QString::fromLocal8Bit("载入动态数据"), 
+				QString::fromLocal8Bit("配置文件不存在, 将使用当前设置解析数据"), 
+				QMessageBox::Ok, QMessageBox::Ok);
+		}
+
+		QFile file(fileNameSim);
+
+		if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+			Q_ASSERT(false);
+
+		QTextStream in(&file);
+		while ((!in.atEnd()) && (buff.size()<buffer_cnt*2) ) {
+			QString line = in.readLine();
+			buff.push_back(line.toShort());
+		}
+		file.close();
+
+		TimeDomainReport& tdReport = report.tdReport;
+		dynTest(tdReport);
+
+		return true;
 	}
 
-	TimeDomainReport& tdReport = report.tdReport;
-	m_adc = m_analyzer.adcTypeSettings();
-	float vpp = m_adc.vpp;
-	float max = 1 << 15;
 	if (buff.size() < buffer_cnt*2)
 		buff.resize(buffer_cnt*2);
 
@@ -295,11 +319,14 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		Q_ASSERT(okay);
 		okay = read(0x1005, &buff[0+buffer_cnt], buffer_cnt);
 		Q_ASSERT(okay);
+		return true;
 	}
 #else  //generate sine wave
 	m_signal = m_analyzer.signalSettings();
+	float max = 1 << 15;
 	float fs = m_signal.clockFreq;
 	float fc = m_signal.signalFreq;
+	float fc2 = m_signal.signalIIFreq;
 	int dither = (float)rand() * 8.0f / RAND_MAX;
 	int offset = rand();
 	for (int i=0; i<buff.size(); ++i)
@@ -307,12 +334,19 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		buff[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max)) >> 2;
 		if (m_signal.dualToneTest)
 		{
-			buff[i] += ((int)(qSin(2*pi*i*m_signal.signalIIFreq/fs+offset)*max)) >> 2;
+			buff[i] += ((int)(qSin(2*pi*i*fc2/fs+offset)*max)) >> 2;
 		}
 	}
 #endif //NOBOARD
-	Convert(tdReport, max, vpp, buff);
-	tdReport.samples[0] = tdReport.samples[1];
+	return true;
+}
+
+void AdcBoard::dynTest(TimeDomainReport& tdReport)
+{
+	float vpp = m_adc.vpp;
+	float max = 1 << 15;
+
+	Convert(tdReport, max, vpp);
 
 	tdReport.max = *max_element(tdReport.samples.begin(), tdReport.samples.end());
 	tdReport.min = *min_element(tdReport.samples.begin(), tdReport.samples.end());
@@ -362,16 +396,46 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 #endif // MATLAB
 
 	emit boardReport(report);
+
 }
-void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp, vector<unsigned short>& buff)
+void AdcBoard::timerEvent(QTimerEvent* event)
 {
+#ifndef NOBOARD
+	if (!isOpen())
+	{
+		open();
+	}
+	if (!isOpen())
+	{
+		QMessageBox::warning(NULL, QString::fromLocal8Bit("动态测试"), 
+			QString::fromLocal8Bit("连接设备失败，请检查硬件配置！"), 
+			QMessageBox::Ok, QMessageBox::Ok);
+		setDynamicOn(false);
+		return ;
+	}
+	clocked();
+
+	if (updatePowerStatus(event))
+		return;	
+#endif
+
+	if (event->timerId() == m_timerIdDyn)
+	{
+		QString strNull;
+		getDynTestData(strNull);
+
+		TimeDomainReport& tdReport = report.tdReport;
+		dynTest(tdReport);
+	}
+}
+void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
+{
+	std::vector<unsigned short>& buff = report.tdReport.rawSamples;
+	buff[0] = buff[1];  //滤波，去掉第一个采样点可能产生的噪声
+
 	if (tdReport.samples.size()<buff.size())
 	{
 		tdReport.samples.resize(buff.size());
-	}
-	if (tdReport.rawSamples.size() < buff.size())
-	{
-		tdReport.rawSamples.resize(buff.size());
 	}
 
 	for (int i = 0; i < buff.size(); ++i)
@@ -384,7 +448,6 @@ void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp, vector<
 		}
 
 		tdReport.samples[i] = short(buff[i]) * vpp / max / 2/* / (1<<t)*/;
-		tdReport.rawSamples[i] = buff[i]; /* buff[i] >>t; */
 	}
 }
 
@@ -432,8 +495,8 @@ bool AdcBoard::getStaticTestData(vector<int>& samples, int numpt, bool savedData
 	{
 		return true;
 	}
-	if (buff.size() < buffer_cnt)
-		buff.resize(buffer_cnt);
+
+	std::vector<unsigned short> buff(buffer_cnt);
 
 	QString fileName = QString("%1-%2").arg(
 		QDate::currentDate().toString("yyMMdd"),

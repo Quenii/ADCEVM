@@ -121,57 +121,22 @@ static QString getTextFileName(QString adcDataFileName)
 void MainWindow::on_actionLoadData_triggered(bool checked /*= false*/)
 {
 	QString fileName = QFileDialog::getOpenFileName(
-		this, tr("Open File..."), "", tr("ADC Samples (*.adc)"));
+		this, tr("Open File..."), "", tr("ADC Samples (*.txt)"));
 	if (!fileName.isEmpty())
 	{
-		fileName = make_dot_adc_file_name(fileName);
-		QString settingsFileName = getSettingsFileName(fileName);
-		//if (QFile::exists(settingsFileName))
-		//{
-		//	QZebraScopeSettings settings(settingsFileName, QZebraScopeSettings::IniFormat, 0);			
-		//	SignalSettings signalSettings;
-		//	AdcTypeSettings adcSettings;
-
-		//	settings.signalSettings(signalSettings);
-		//	settings.adcSettings(adcSettings);
-
-		//	emit settingsLoaded(adcSettings);
-		//	emit settingsLoaded(signalSettings);		
-		//}		
-
-		if (QFile::exists(settingsFileName))
-		{
-			AdcAnalyzerSettings settings(settingsFileName, AdcAnalyzerSettings::IniFormat, 0);			
-			SignalSettings signalSettings = settings.signalSettings();
-			AdcTypeSettings adcSettings = settings.adcTypeSettings();
-
-			emit settingsLoaded(adcSettings);
-			emit settingsLoaded(signalSettings);		
-		}		
-
-		QZebraScopeSerializer serializer(fileName);
-		if (serializer.open(QZebraScopeSerializer::ReadOnly))
-		{
-			AdcBoardReport report;
-			if (serializer.deserialize(report))
-			{
-				emit adcBoardReportLoaded(report);
-			}
-		}
+		AdcBoard::instance()->getDynTestData(fileName);
 	}
 }
 
 void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 {
 	QString fileName = QFileDialog::getSaveFileName(this, tr("Save as..."),
-		QString(), tr("ADC Samples (*.adc)"));
+		QString(), tr("ADC Samples (*.txt)"));
 
 	static char txtBuffer[10];
 
 	if (!fileName.isEmpty())
 	{
-		fileName = make_dot_adc_file_name(fileName);
-
 		AdcAnalyzerSettings settings;
 		SignalSettings signalSettings = settings.signalSettings();
 		AdcTypeSettings adcSettings = settings.adcTypeSettings();
@@ -180,10 +145,6 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 		AdcAnalyzerSettings toSave(settingsFileName, QSettings::IniFormat, 0);
 		toSave.setSignalSettings(signalSettings);
 		toSave.setAdcTypeSettings(adcSettings);
-
-		QZebraScopeSerializer reportFile(fileName);
-		if (reportFile.open(QZebraScopeSerializer::Truncate | QZebraScopeSerializer::WriteOnly))
-			reportFile.serialize(AdcBoard::instance()->reportRef());
 
 		QString txtFileName = getTextFileName(fileName);
 		QFile fileTxt( txtFileName );
