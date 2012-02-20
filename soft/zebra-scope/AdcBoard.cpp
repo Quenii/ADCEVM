@@ -445,10 +445,12 @@ void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
 
 		if (m_adc.coding == AdcCodingOffset)
 		{
-			buff[i] = buff[i] ^ 0x8000;
+			tdReport.samples[i] = short(buff[i] ^ 0x8000) * vpp / max / 2;
 		}
-
-		tdReport.samples[i] = short(buff[i]) * vpp / max / 2/* / (1<<t)*/;
+		else
+		{
+			tdReport.samples[i] = short(buff[i]) * vpp / max / 2;
+		}
 	}
 }
 
@@ -634,6 +636,10 @@ void AdcBoard::staticTestAlgo(vector<int> samples)
 		}
 		histPlot->setWindowTitle(QString::fromLocal8Bit("噪声统计测试结果"));
 		histPlot->setValueHist(histogram, indexLeft-4);
+
+		QMessageBox::information(NULL, QString::fromLocal8Bit("噪声统计测试结果"), 
+			QString::fromLocal8Bit("编码方式：Offset，即0V ~ 8191"), 
+			QMessageBox::Ok, QMessageBox::Ok);
 
 	}
 	else
