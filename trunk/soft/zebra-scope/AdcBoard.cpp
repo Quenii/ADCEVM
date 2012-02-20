@@ -297,6 +297,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		Q_ASSERT(okay);
 	}
 #else  //generate sine wave
+	m_signal = m_analyzer.signalSettings();
 	float fs = m_signal.clockFreq;
 	float fc = m_signal.signalFreq;
 	int dither = (float)rand() * 8.0f / RAND_MAX;
@@ -368,12 +369,12 @@ void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp, vector<
 	{
 		tdReport.samples.resize(buff.size());
 	}
-	if (tdReport.rawSamples.size() != buff.size())
+	if (tdReport.rawSamples.size() < buff.size())
 	{
 		tdReport.rawSamples.resize(buff.size());
 	}
 
-	for (int i = 0; i < tdReport.samples.size(); ++i)
+	for (int i = 0; i < buff.size(); ++i)
 	{
 		int t = 16-m_adc.bitcount;
 
