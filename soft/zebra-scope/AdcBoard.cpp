@@ -26,7 +26,7 @@
 
 using namespace gkhy::QPlotLab;
 
-#define NOBOARD 1
+//#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -573,7 +573,7 @@ void AdcBoard::staticTest()
 
 #ifndef NOBOARD
 	QString strNull;
-	if(!getStaticTestData(samples, numpt, strNull))
+	if(!getStaticTestData(samples))
 		return;
 #else // NOBOARD
 
