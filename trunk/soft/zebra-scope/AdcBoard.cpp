@@ -86,6 +86,7 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	m_signal = m_analyzer.signalSettings();
 	m_adc = m_analyzer.adcTypeSettings();
 	m_span = m_analyzer.spanSettings();
+	m_static = m_analyzer.staticTestSettings();
 
 }
 
