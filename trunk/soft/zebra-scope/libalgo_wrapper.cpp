@@ -111,10 +111,12 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 	param.DynamicPara[7].value = (cSINAD - 1.76) / 6.02;
 	param.DynamicPara[8].value = (cSINAD - cVin - 1.76) / 6.02;
 	param.DynamicPara[9].value = cPn_dB;
+	param.DynamicPara[10].value = cSINAD;
+	param.DynamicPara[11].value = cTHD;
 
 	for (int i=0; i<cHD.size()-1; ++i)
 	{
-		param.DynamicPara[10+i].value 
+		param.DynamicPara[12+i].value 
 			= cHD[i+1];
 	}
 
