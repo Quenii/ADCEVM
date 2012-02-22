@@ -14,6 +14,7 @@
 #include <QDate>
 #include <QMessageBox>
 #include <QThread>
+#include <QLabel>
 #include <algorithm>
 
 #include "AdcBoard.hpp"
@@ -190,9 +191,19 @@ void AdcBoard::initTestParas()
 	para.unit = QString::fromLocal8Bit("dBFS");
 	fdRpt.DynamicPara.push_back(para);
 
+	para.index = 10;
+	para.name = QString::fromLocal8Bit("SINAD");
+	para.unit = QString::fromLocal8Bit("dB");
+	fdRpt.DynamicPara.push_back(para);
+
+	para.index = 11;
+	para.name = QString::fromLocal8Bit("THD");
+	para.unit = QString::fromLocal8Bit("dB");
+	fdRpt.DynamicPara.push_back(para);
+
 	for (int i = 0; i < 9; ++ i)
 	{
-		para.index = 10 + i;
+		para.index = 12 + i;
 		para.name = QString::fromLocal8Bit("HD%1").arg(i+2);
 		para.unit = QString::fromLocal8Bit("dBFS");
 		fdRpt.DynamicPara.push_back(para);
@@ -630,16 +641,28 @@ void AdcBoard::staticTestAlgo(vector<int> samples)
 	{
 		noise_c(&samples[0], numpt, m_adc.bitcount, histogram_i, indexMax, indexLeft, indexRight);
 		histogram.resize(20);
+		QString result(QString::fromLocal8Bit("    码值：统计数量    "));
 		for (int i = 0; i < 20; ++i)
 		{
 			histogram[i] = histogram_i[i+indexMax-10];
+			if (i==10)
+				result += QString::fromLocal8Bit("<br>**%1 : %2").arg(i+indexMax-10).arg(histogram[i]);
+			else
+				result += QString::fromLocal8Bit("<br>  %1 : %2").arg(i+indexMax-10).arg(histogram[i]);
 		}
 		histPlot->setWindowTitle(QString::fromLocal8Bit("噪声统计测试结果"));
 		histPlot->setValueHist(histogram, indexLeft-4);
 
-		QMessageBox::information(NULL, QString::fromLocal8Bit("噪声统计测试结果"), 
-			QString::fromLocal8Bit("编码方式：Offset，即0V ~ 8191"), 
-			QMessageBox::Ok, QMessageBox::Ok);
+		QLabel *label = new QLabel();
+		label->setFrameStyle(QFrame::Panel);
+		label->setText(result);
+		label->setAlignment(Qt::AlignBottom | Qt::AlignCenter);
+		label->setWindowTitle(QString::fromLocal8Bit("噪声统计测试数据"));
+		label->resize(400, 320);
+		label->setVisible(true);
+
+		//QMessageBox::information(NULL, QString::fromLocal8Bit("噪声统计测试数据"), 
+		//	result, QMessageBox::Ok, QMessageBox::Ok);
 
 	}
 	else

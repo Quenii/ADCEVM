@@ -69,12 +69,12 @@ BEGIN
     BEGIN
         BLOCK "080404b0"
         BEGIN
-            VALUE "FileDescription", "zebra-sc Application"
+            VALUE "FileDescription", "ADC-Analyzer"
             VALUE "FileVersion", "2, 0, 0, 2"
-            VALUE "InternalName", "zebra-sc"
+            VALUE "InternalName", "ADC-Analyzer"
             VALUE "LegalCopyright", "Copyright (C) 2010"
-            VALUE "OriginalFilename", "zebra-sc.exe"
-            VALUE "ProductName", " zebra-sc Application"
+            VALUE "OriginalFilename", "ADC-Analyzer.exe"
+            VALUE "ProductName", "ADC-Analyzer"
             VALUE "ProductVersion", "2, 0, 0, 2"
         END
     END
