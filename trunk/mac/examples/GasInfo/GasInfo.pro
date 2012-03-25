@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network webkit
 contains(QT_VERSION, ^5\\..*\\..*): QT += widgets
 
 TARGET = GasInfo
@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     QMyTabWidget.cpp \
     QGasInfo.cpp \
     QLogTabWidget.cpp \
-    QMapTabWidget.cpp
+    QMapTabWidget.cpp \
+    qmapwidget.cpp \
+    googlemapview.cpp
 
 HEADERS  += \
             hled.h \
@@ -31,13 +33,25 @@ HEADERS  += \
     QMyTabWidget.h \
     QGasInfo.h \
     QLogTabWidget.h \
-    QMapTabWidget.h
+    QMapTabWidget.h \
+    qmapwidget.h \
+    googlemapview.h
 
 FORMS    += dialog.ui \
     DeviceDialog.ui \
     StatitonInfo.ui \
     logTab.ui \
-    mapTab.ui
+    mapTab.ui \
+    qmapwidget.ui
 
 RESOURCES += \
-    res.qrc
+#    res.qrc
+
+
+
+
+
+
+
+
+
