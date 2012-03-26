@@ -22,7 +22,11 @@ SOURCES += main.cpp\
     QLogTabWidget.cpp \
     QMapTabWidget.cpp \
     qmapwidget.cpp \
-    googlemapview.cpp
+    googlemapview.cpp \
+    mainwindow.cpp \
+    devicelistwidget.cpp \
+    overviewwidget.cpp \
+    commwidget.cpp
 
 HEADERS  += \
             hled.h \
@@ -35,17 +39,41 @@ HEADERS  += \
     QLogTabWidget.h \
     QMapTabWidget.h \
     qmapwidget.h \
-    googlemapview.h
+    googlemapview.h \
+    mainwindow.h \
+    devicelistwidget.h \
+    overviewwidget.h \
+    commwidget.h
 
 FORMS    += dialog.ui \
     DeviceDialog.ui \
     StatitonInfo.ui \
     logTab.ui \
     mapTab.ui \
-    qmapwidget.ui
+    qmapwidget.ui \
+    mainwindow.ui \
+    devicelistwidget.ui \
+    overviewwidget.ui \
+    commwidget.ui
 
 RESOURCES += \
 #    res.qrc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,5 +1,7 @@
 #include "qmapwidget.h"
+#include "googlemapview.h"
 #include "ui_qmapwidget.h"
+
 
 QMapWidget::QMapWidget(QWidget *parent) :
     QWidget(parent),

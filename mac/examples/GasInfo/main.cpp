@@ -1,7 +1,8 @@
 #include <QApplication>
 #include "maindialog.h"
 #include "SerialTypes.hpp"
-#include "qmapwidget.h"
+
+#include "mainwindow.h"
 
 #define REGISTER_METATYPE_HELPER( type ) \
     qRegisterMetaType<type>(); \
@@ -17,10 +18,8 @@ int main(int argc, char *argv[])
     MainDialog w;
     w.show();
 
-    QMapWidget map;
-    map.show();
-
-
+    MainWindow mainWindow;
+    mainWindow.showMaximized();
 
     return a.exec();
 }
