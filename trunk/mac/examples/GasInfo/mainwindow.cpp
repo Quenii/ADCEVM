@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->topDockWidget->setTitleBarWidget(new QWidget);
+   // ui->topDockWidget->setTitleBarWidget(new QWidget);
 
     QMdiSubWindow *subWindow1 = new QMdiSubWindow;
     subWindow1->setWidget(new OverviewWidget);

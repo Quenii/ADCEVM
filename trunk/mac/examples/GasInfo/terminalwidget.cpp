@@ -16,7 +16,5 @@ TerminalWidget::~TerminalWidget()
 void TerminalWidget::setModel(CentralModel *model)
 {
     ui->listView->setModel(model);
-    ui->treeView->setModel(model);
-    ui->columnView->setModel(model);
     ui->tableView->setModel(model);
 }
