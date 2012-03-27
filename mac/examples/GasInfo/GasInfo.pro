@@ -26,7 +26,9 @@ SOURCES += main.cpp\
     devicelistwidget.cpp \
     overviewwidget.cpp \
     commwidget.cpp \
-    ggooglemapview.cpp
+    ggooglemapview.cpp \
+    terminalwidget.cpp \
+    centralmodel.cpp
 
 HEADERS  += \
             hled.h \
@@ -43,7 +45,9 @@ HEADERS  += \
     devicelistwidget.h \
     overviewwidget.h \
     commwidget.h \
-    qgooglemapview.h
+    qgooglemapview.h \
+    terminalwidget.h \
+    centralmodel.h
 
 FORMS    += dialog.ui \
     DeviceDialog.ui \
@@ -54,7 +58,8 @@ FORMS    += dialog.ui \
     mainwindow.ui \
     devicelistwidget.ui \
     overviewwidget.ui \
-    commwidget.ui
+    commwidget.ui \
+    terminalwidget.ui
 
 RESOURCES += \
 #    res.qrc

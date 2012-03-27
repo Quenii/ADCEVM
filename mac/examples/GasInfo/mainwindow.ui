@@ -26,7 +26,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -61,7 +61,7 @@
    </attribute>
    <widget class="CommWidget" name="commWidget"/>
   </widget>
-  <widget class="QDockWidget" name="sideDockWidget_2">
+  <widget class="QDockWidget" name="sideDockWidget">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
      <horstretch>0</horstretch>

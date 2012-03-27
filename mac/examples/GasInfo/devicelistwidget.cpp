@@ -12,3 +12,8 @@ DeviceListWidget::~DeviceListWidget()
 {
     delete ui;
 }
+
+void DeviceListWidget::setModel(CentralModel *model)
+{
+    ui->listView->setModel(model);
+}

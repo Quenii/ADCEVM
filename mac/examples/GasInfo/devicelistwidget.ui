@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>206</width>
+    <width>274</width>
     <height>396</height>
    </rect>
   </property>
@@ -35,7 +35,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="listWidget"/>
+    <widget class="QListView" name="listView"/>
    </item>
   </layout>
  </widget>

@@ -1,7 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "overviewwidget.h"
-#include "qmapwidget.h"
+#include "terminalwidget.h"
+#include "centralmodel.h"
 
 #include <QMdiSubWindow>
 
@@ -19,11 +20,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mdiArea->addSubWindow(subWindow1);
 
     subWindow1 = new QMdiSubWindow;
-    subWindow1->setWidget(new QMapWidget);
+    TerminalWidget* terminalWidget = new TerminalWidget;
+    subWindow1->setWidget(terminalWidget);
     subWindow1->setAttribute(Qt::WA_DeleteOnClose);
     ui->mdiArea->addSubWindow(subWindow1);
 
-}
+    CentralModel* centralModel = new CentralModel(this);
+    terminalWidget->setModel(centralModel);
+    ui->deviceListWidget->setModel(centralModel);
+
+ }
 
 MainWindow::~MainWindow()
 {
