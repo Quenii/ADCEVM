@@ -15,5 +15,5 @@ DeviceListWidget::~DeviceListWidget()
 
 void DeviceListWidget::setModel(CentralModel *model)
 {
-    ui->listView->setModel(model);
+    ui->view->setModel(model);
 }
