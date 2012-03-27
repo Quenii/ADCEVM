@@ -1,5 +1,5 @@
 #include "qmapwidget.h"
-#include "googlemapview.h"
+#include "qgooglemapview.h"
 #include "ui_qmapwidget.h"
 
 
