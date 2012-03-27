@@ -1,4 +1,4 @@
-#include "googlemapview.h"
+#include "qgooglemapview.h"
 
 #include <QtDebug>
 #include <QWebFrame>
