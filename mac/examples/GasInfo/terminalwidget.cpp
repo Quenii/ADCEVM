@@ -16,5 +16,13 @@ TerminalWidget::~TerminalWidget()
 void TerminalWidget::setModel(CentralModel *model)
 {
     ui->listView->setModel(model);
-    ui->tableView->setModel(model);
-}
+
+    if (model->hasChildren())
+    {
+        ui->tableView->setModel(model);
+        ui->tableView->setRootIndex(model->index(0, 0));
+
+        ui->tableView->hideColumn(0);
+        ui->tableView->hideColumn(1);
+     }
+ }

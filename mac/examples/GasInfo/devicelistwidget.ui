@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>289</width>
+    <width>309</width>
     <height>556</height>
    </rect>
   </property>
@@ -155,7 +155,17 @@
     </widget>
    </item>
    <item>
-    <widget class="QTreeView" name="view"/>
+    <widget class="QTableView" name="view">
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="dragDropOverwriteMode">
+      <bool>false</bool>
+     </property>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+    </widget>
    </item>
   </layout>
  </widget>
