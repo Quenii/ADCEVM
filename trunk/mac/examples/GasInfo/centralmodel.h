@@ -1,7 +1,13 @@
 #ifndef CENTRALMODEL_H
 #define CENTRALMODEL_H
 
+#include "SerialTypes.hpp"
+
 #include <QStandardItemModel>
+#include <QStandardItem>
+#include <QModelIndex>
+
+
 
 class CentralModel : public QStandardItemModel
 {
@@ -9,6 +15,11 @@ class CentralModel : public QStandardItemModel
 public:
     explicit CentralModel(QObject *parent = 0);
     
+public:
+    QModelIndex terminal(int id, bool createNew = true);
+    void removeTerminal(int id);
+    void addData(const GasInfoItem& item);
+
 signals:
     
 public slots:
