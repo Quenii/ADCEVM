@@ -33,11 +33,14 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionSave"/>
+    <addaction name="actionLoad"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
      <string>About</string>
     </property>
+    <addaction name="actionAbout_GasInfo"/>
    </widget>
    <widget class="QMenu" name="menuWindows">
     <property name="title">
@@ -81,6 +84,21 @@
     <bool>false</bool>
    </attribute>
   </widget>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionLoad">
+   <property name="text">
+    <string>Load</string>
+   </property>
+  </action>
+  <action name="actionAbout_GasInfo">
+   <property name="text">
+    <string>About GasInfo</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
