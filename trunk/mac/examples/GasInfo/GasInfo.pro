@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     commwidget.cpp \
     ggooglemapview.cpp \
     terminalwidget.cpp \
-    centralmodel.cpp
+    centralmodel.cpp \
+    gasinfosettings.cpp
 
 HEADERS  += \
             hled.h \
@@ -47,7 +48,8 @@ HEADERS  += \
     commwidget.h \
     qgooglemapview.h \
     terminalwidget.h \
-    centralmodel.h
+    centralmodel.h \
+    gasinfosettings.h
 
 FORMS    += dialog.ui \
     DeviceDialog.ui \
