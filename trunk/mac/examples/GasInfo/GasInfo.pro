@@ -10,6 +10,9 @@ contains(QT_VERSION, ^5\\..*\\..*): QT += widgets
 TARGET = GasInfo
 TEMPLATE = app
 
+CONFIG += mobility
+MOBILITY = location
+
 include(../../src/qextserialport.pri)
 
 SOURCES += main.cpp\
@@ -21,15 +24,15 @@ SOURCES += main.cpp\
     QGasInfo.cpp \
     QLogTabWidget.cpp \
     QMapTabWidget.cpp \
-    qmapwidget.cpp \
     mainwindow.cpp \
     devicelistwidget.cpp \
     overviewwidget.cpp \
     commwidget.cpp \
-    ggooglemapview.cpp \
     terminalwidget.cpp \
     centralmodel.cpp \
-    gasinfosettings.cpp
+    gasinfosettings.cpp \
+    slippymap.cpp \
+    lightmaps.cpp
 
 HEADERS  += \
             hled.h \
@@ -40,23 +43,21 @@ HEADERS  += \
     QMyTabWidget.h \
     QGasInfo.h \
     QLogTabWidget.h \
-    QMapTabWidget.h \
-    qmapwidget.h \
     mainwindow.h \
     devicelistwidget.h \
     overviewwidget.h \
     commwidget.h \
-    qgooglemapview.h \
     terminalwidget.h \
     centralmodel.h \
-    gasinfosettings.h
+    gasinfosettings.h \
+    slippymap.h \
+    lightmaps.h
 
 FORMS    += dialog.ui \
     DeviceDialog.ui \
     StatitonInfo.ui \
     logTab.ui \
     mapTab.ui \
-    qmapwidget.ui \
     mainwindow.ui \
     devicelistwidget.ui \
     overviewwidget.ui \

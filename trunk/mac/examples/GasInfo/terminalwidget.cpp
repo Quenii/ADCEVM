@@ -1,6 +1,9 @@
 #include "terminalwidget.h"
 #include "ui_terminalwidget.h"
 
+#include "qgeocoordinate.h"
+
+
 TerminalWidget::TerminalWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TerminalWidget)

@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     terminalWidget->setModel(centralModel);
     ui->deviceListWidget->setModel(centralModel);
 
+
     readSettings();
 }
 
