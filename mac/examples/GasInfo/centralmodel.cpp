@@ -26,17 +26,25 @@ CentralModel::CentralModel(QObject *parent) :
         info.so2 = 30;
         addData(info);
     }
-
-    removeTerminal(0);
-
 }
 
-int CentralModel::terminalId(const QModelIndex& idx)
+//int CentralModel::terminalId(const QModelIndex& idx)
+//{
+//    QStandardItem* item0 = item(idx.row(), 0);
+
+//    return item0->data(Qt::UserRole).toInt();
+//}
+
+int CentralModel::terminalId(int row)
 {
-    QStandardItem* item0 = item(idx.row(), 0);
 
-    return item0->data(Qt::UserRole).toInt();
+    QStandardItem* item0 = item(row, 0);
+    if (item0)
+        return item0->data(Qt::UserRole).toInt();
+    else
+        return 0;
 }
+
 
 QModelIndex CentralModel::terminal(int id, bool createNew)
 {

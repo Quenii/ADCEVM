@@ -17,10 +17,12 @@ public:
     
 public:
     // could be -1 if failed.
-    int terminalId(const QModelIndex& idx);
+    int terminalId(int row);
 
     QModelIndex terminal(int id, bool createNew = true);
+
     void removeTerminal(int id);
+
     void addData(const GasInfoItem& item);
 
 signals:

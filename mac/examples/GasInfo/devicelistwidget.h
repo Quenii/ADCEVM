@@ -20,8 +20,19 @@ public:
 public:
     void setModel(CentralModel *model);
 
+private:
+    QList<int> selectedTerminals();
+
 signals:
-    void doubleClicked(const QModelIndex& index);
+    void openCloseTerminals(const QList<int>& idList, bool open);
+    void deleteTerminals(const QList<int>& idList);
+
+private slots:
+    void terminalTableViewCustomContextMenu(const QPoint& pos);
+    void terminalTableViewDoubleClicked(const QModelIndex& index);
+
+    void openCloseSelectedTerminals(bool open);
+    void deleteSelectedTerminals();
 
 private:
     Ui::DeviceListWidget *ui;
