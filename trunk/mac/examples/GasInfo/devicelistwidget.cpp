@@ -1,7 +1,12 @@
 #include "devicelistwidget.h"
 #include "ui_devicelistwidget.h"
+#include "centralmodel.h"
 
 #include <QHeaderView>
+#include <QSet>
+#include <QMenu>
+#include <QtDebug>
+
 
 DeviceListWidget::DeviceListWidget(QWidget *parent) :
     QWidget(parent),
@@ -10,11 +15,20 @@ DeviceListWidget::DeviceListWidget(QWidget *parent) :
     ui->setupUi(this);
 
     ui->terminalTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->terminalTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->terminalTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    bool ok = connect(ui->terminalTableView, SIGNAL(doubleClicked(const QModelIndex&)),
-                      this, SIGNAL(doubleClicked(const QModelIndex&)));
-    Q_ASSERT(ok);
+    ui->terminalTableView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    void terminalTableViewCustomContextMenu(const QPoint& pos);
+    void terminalTableViewDoubleClicked(const QModelIndex& index);
+
+    bool ok = connect(ui->terminalTableView, SIGNAL(customContextMenuRequested(const QPoint&)),
+                      this, SLOT(terminalTableViewCustomContextMenu(const QPoint&)));
+   // Q_ASSERT(ok);
+
+    ok = connect(ui->terminalTableView, SIGNAL(doubleClicked(const QModelIndex&)),
+                 this, SLOT(terminalTableViewDoubleClicked(const QModelIndex&)));
+    //Q_ASSERT(ok);
 }
 
 DeviceListWidget::~DeviceListWidget()
@@ -27,4 +41,65 @@ void DeviceListWidget::setModel(CentralModel *model)
     ui->terminalTableView->setModel(model);
     for (int i = 2; i < model->columnCount(); ++i)
         ui->terminalTableView->hideColumn(i);
+}
+
+void DeviceListWidget::terminalTableViewDoubleClicked(const QModelIndex &index)
+{
+    openCloseSelectedTerminals(true);
+}
+
+void DeviceListWidget::terminalTableViewCustomContextMenu(const QPoint& pos)
+{
+    QMenu menu;
+    QAction* openAction = new QAction("Open", &menu);
+    QAction* closeAction = new QAction("Close", &menu);
+    QAction* deleteAction = new QAction("Delete", &menu);
+    menu.addAction(openAction);
+    menu.addAction(closeAction);
+    menu.addAction(deleteAction);
+
+    QAction* selectedItem = menu.exec(ui->terminalTableView->mapToGlobal(pos));
+    if (selectedItem == openAction)
+        openCloseSelectedTerminals(true);
+    else if (selectedItem == closeAction)
+        openCloseSelectedTerminals(false);
+    else if(selectedItem == deleteAction)
+        deleteSelectedTerminals();;
+}
+
+QList<int> DeviceListWidget::selectedTerminals()
+{
+    CentralModel* centralModel = dynamic_cast<CentralModel*>(ui->terminalTableView->model());
+    if (!centralModel)
+        return QList<int>();
+
+    QItemSelectionModel * selectionModel = ui->terminalTableView->selectionModel();
+    if (!selectionModel || !selectionModel->hasSelection())
+        return QList<int>();
+
+
+    QModelIndexList lst = ui->terminalTableView->selectionModel()->selectedRows();
+    QSet<int> idSet;
+    foreach(QModelIndex index, lst)
+    {
+        int id = centralModel->terminalId(index.row());
+        if (id != -1 && !idSet.contains(id))
+            idSet.insert(id);
+    }
+
+    return idSet.toList();
+}
+
+void DeviceListWidget::openCloseSelectedTerminals(bool open)
+{
+    QList<int> lst = selectedTerminals();
+    if (lst.count())
+        emit openCloseTerminals(lst, open);
+}
+
+void DeviceListWidget::deleteSelectedTerminals()
+{
+    QList<int> lst = selectedTerminals();
+    if (lst.count())
+      emit deleteTerminals(lst);
 }

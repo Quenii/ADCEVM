@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QModelIndexList>
 
 
 namespace Ui {
@@ -11,6 +12,7 @@ namespace Ui {
 
 class QModelIndex;
 class CentralModel;
+class QMdiSubWindow;
 
 class MainWindow : public QMainWindow
 {
@@ -28,10 +30,11 @@ protected:
 private:
     void saveSettings();
     void readSettings();
+    QMdiSubWindow* terminalSubwindow(int terminalId);
 
-private slots:
-    void openTerminalWidget(const QModelIndex& idx);
-
+private slots:  
+    void openCloseTerminals(const QList<int>& idList, bool open);
+    void deleteTerminals(const QList<int>& idList);
 
 private:
     Ui::MainWindow *ui;
