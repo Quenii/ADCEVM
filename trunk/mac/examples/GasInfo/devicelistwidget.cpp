@@ -118,8 +118,8 @@ void DeviceListWidget::exportTerminalData()
     QList<int> columns;
     for (int i = 2; i < centralModel->columnCount(); ++i)
     {
-        if (! ui->terminalTableView->isColumnHidden(i))
-            columns.append(i);
+       // if (! ui->terminalTableView->isColumnHidden(i))
+       columns.append(i);
     }
 
     QList<int> lst = selectedTerminals();
@@ -146,7 +146,7 @@ void DeviceListWidget::exportTerminalData()
             foreach(int id, lst)
             {
                 QString fileName = QDir(dirName).filePath(QString("Terminal %1.csv").arg(id));
-                centralModel->exportTerminal(fileName, lst.at(id), columns);
+                centralModel->exportTerminal(fileName, id, columns);
 
             }
     }

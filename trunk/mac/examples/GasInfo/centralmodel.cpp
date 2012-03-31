@@ -83,19 +83,6 @@ void CentralModel::addData(const GasInfoItem& item)
     QModelIndex idx = terminal(item.ch, true);
     QStandardItem* itm = itemFromIndex(idx);
 
-    //    QStandardItem* child = new QStandardItem(1, 4);
-    //    child->setChild(0, 0, new QStandardItem(QString("%1").arg(QDateTime::currentDateTime().toString())));
-    //    child->setChild(0, 1, new QStandardItem(QString("%1").arg(item.fel)));
-    //    child->setChild(0, 2, new QStandardItem(QString("%1").arg(item.h2s)));
-    //    child->setChild(0, 3, new QStandardItem(QString("%1").arg(item.so2)));
-
-    //    itm->insertRow(0, child);
-
-    //    child->setChild(0, 0, new QStandardItem(QString("%1").arg(QDateTime::currentDateTime().toString())));
-    //    child->setChild(0, 1, new QStandardItem(QString("%1").arg(item.fel)));
-    //    child->setChild(0, 2, new QStandardItem(QString("%1").arg(item.h2s)));
-    //    child->setChild(0, 3, new QStandardItem(QString("%1").arg(item.so2)));
-
     QList<QStandardItem*> lst;
     lst << 0
         << 0 // new QStandardItem
@@ -220,20 +207,28 @@ bool CentralModel::exportTerminal(QString filePath, int terminalId, const QList<
         QStandardItem* itm = horizontalHeaderItem(col);
         str += (itm ? itm->text() : " ");
         str += ";";
+
     }
     out << str;
 
     // export data
-    for (int i = 0; i < rowCount(); ++i)
+
+    QStandardItem* root = itemFromIndex(index);
+    if (root->hasChildren())
     {
-        QString str;
-        for (int j = 0; j < columnCount(); ++j)
+        for (int row = 0; row < root->rowCount(); ++row)
         {
-            QStandardItem* itm = item(i, j);
-            str += (itm ? itm->text() : " ");
-            str += ";";
+            QString str;
+            foreach (int col, columns)
+            {
+                QStandardItem* itm = root->child(row, col);
+                str += (itm ? itm->text() : " ");
+                str += ";";
+            }
+            out << str;
+
+            qDebug() << row << ": " << str;
         }
-        out << str;
     }
 
     return true;
