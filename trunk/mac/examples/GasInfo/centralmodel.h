@@ -25,6 +25,11 @@ public:
 
     void addData(const GasInfoItem& item);
 
+    bool save(QString filePath);
+    bool load(QString filePath);
+
+    bool exportTerminal(QString filePath, int terminalId, const QList<int>& columns);
+
 signals:
     
 public slots:
