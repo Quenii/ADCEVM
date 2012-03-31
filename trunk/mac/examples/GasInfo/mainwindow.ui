@@ -31,25 +31,35 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>&amp;File</string>
     </property>
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
+    <addaction name="separator"/>
+    <addaction name="actionOption"/>
+    <addaction name="separator"/>
+    <addaction name="actionE_xit"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
-     <string>About</string>
+     <string>&amp;About</string>
     </property>
     <addaction name="actionAbout_GasInfo"/>
    </widget>
    <widget class="QMenu" name="menuWindows">
     <property name="title">
-     <string>Windows</string>
+     <string>&amp;Windows</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_Edit">
+    <property name="title">
+     <string>&amp;Edit</string>
     </property>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuWindows"/>
    <addaction name="menuAbout"/>
+   <addaction name="menu_Edit"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="sideDockWidget">
@@ -86,17 +96,27 @@
   </widget>
   <action name="actionSave">
    <property name="text">
-    <string>Save</string>
+    <string>Save &amp;As</string>
    </property>
   </action>
   <action name="actionLoad">
    <property name="text">
-    <string>Load</string>
+    <string>&amp;Load</string>
    </property>
   </action>
   <action name="actionAbout_GasInfo">
    <property name="text">
     <string>About GasInfo</string>
+   </property>
+  </action>
+  <action name="actionOption">
+   <property name="text">
+    <string>&amp;Option</string>
+   </property>
+  </action>
+  <action name="actionE_xit">
+   <property name="text">
+    <string>E&amp;xit</string>
    </property>
   </action>
  </widget>

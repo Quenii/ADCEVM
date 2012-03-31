@@ -9,6 +9,7 @@
 CentralModel::CentralModel(QObject *parent) :
     QStandardItemModel(parent)
 {
+
     setHorizontalHeaderItem( 0, new QStandardItem( "Terminal" ));
     setHorizontalHeaderItem( 1, new QStandardItem( "Status"));
     setHorizontalHeaderItem( 2, new QStandardItem( "Date & Time"));
@@ -30,6 +31,12 @@ CentralModel::CentralModel(QObject *parent) :
 
 }
 
+int CentralModel::terminalId(const QModelIndex& idx)
+{
+    QStandardItem* item0 = item(idx.row(), 0);
+
+    return item0->data(Qt::UserRole).toInt();
+}
 
 QModelIndex CentralModel::terminal(int id, bool createNew)
 {
@@ -82,8 +89,8 @@ void CentralModel::addData(const GasInfoItem& item)
     //    child->setChild(0, 3, new QStandardItem(QString("%1").arg(item.so2)));
 
     QList<QStandardItem*> lst;
-    lst << new QStandardItem
-        << new QStandardItem
+    lst << 0
+        << 0 // new QStandardItem
         << new QStandardItem(QString("%1").arg(QDateTime::currentDateTime().toString()))
         << new QStandardItem(QString("%1").arg(item.fel))
         << new QStandardItem(QString("%1").arg(item.h2s))

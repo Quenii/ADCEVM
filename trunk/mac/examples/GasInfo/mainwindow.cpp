@@ -18,23 +18,17 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // ui->topDockWidget->setTitleBarWidget(new QWidget);
-
     QMdiSubWindow *subWindow1 = new QMdiSubWindow;
     subWindow1->setWidget(new OverviewWidget);
     subWindow1->setAttribute(Qt::WA_DeleteOnClose);
     ui->mdiArea->addSubWindow(subWindow1);
 
-    subWindow1 = new QMdiSubWindow;
-    TerminalWidget* terminalWidget = new TerminalWidget;
-    subWindow1->setWidget(terminalWidget);
-    subWindow1->setAttribute(Qt::WA_DeleteOnClose);
-    ui->mdiArea->addSubWindow(subWindow1);
+    m_centralModel = new CentralModel(this);
 
-    CentralModel* centralModel = new CentralModel(this);
-    terminalWidget->setModel(centralModel);
-    ui->deviceListWidget->setModel(centralModel);
+    ui->deviceListWidget->setModel(m_centralModel);
 
+    connect(ui->deviceListWidget, SIGNAL(doubleClicked(const QModelIndex&)),
+            this, SLOT(openTerminalWidget(const QModelIndex&)));
 
     readSettings();
 }
@@ -42,6 +36,29 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::openTerminalWidget(const QModelIndex& idx)
+{
+    int termId =  m_centralModel->terminalId(idx);
+
+    QString title = QString("Terminal %1").arg(termId);
+    for (int i = 0; i < ui->mdiArea->subWindowList().count(); ++i)
+    {
+        if (title == ui->mdiArea->subWindowList().at(i)->windowTitle())
+        {
+            return ;
+        }
+    }
+
+    QMdiSubWindow* subWindow1 = new QMdiSubWindow();
+    TerminalWidget* terminalWidget = new TerminalWidget;
+    subWindow1->setWidget(terminalWidget);
+    subWindow1->setWindowTitle(title);
+    subWindow1->setAttribute(Qt::WA_DeleteOnClose);
+    ui->mdiArea->addSubWindow(subWindow1);
+    terminalWidget->setModel(m_centralModel);
+    subWindow1->show();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

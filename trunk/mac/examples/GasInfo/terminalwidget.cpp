@@ -9,6 +9,10 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
     ui(new Ui::TerminalWidget)
 {
     ui->setupUi(this);
+
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+
 }
 
 TerminalWidget::~TerminalWidget()
@@ -29,3 +33,4 @@ void TerminalWidget::setModel(CentralModel *model)
         ui->tableView->hideColumn(1);
      }
  }
+
