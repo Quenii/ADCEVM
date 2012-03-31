@@ -165,4 +165,22 @@ void MainWindow::readSettings()
     }
 }
 
+void MainWindow::on_actionSave_triggered(bool checked)
+{
+    //m_centralModel->save
+}
+
+void MainWindow::on_actionLoad_triggered(bool checked)
+{
+}
+
+void MainWindow::on_actionExport_triggered(bool checked)
+{
+}
+
+void MainWindow::on_actionExit_triggered(bool checked)
+{
+    qApp->quit();
+}
+
 

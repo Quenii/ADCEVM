@@ -107,3 +107,135 @@ void CentralModel::addData(const GasInfoItem& item)
     itm->insertRow(0, lst);
 }
 
+
+bool CentralModel::save(QString filePath)
+{
+    QFile file(filePath);
+    bool ok = file.open(QIODevice::WriteOnly | QIODevice::Truncate );
+    if (!ok)
+        return false;
+
+    QDataStream out(&file);   // we will serialize the data into the file
+    out << int(rowCount())
+        << int(columnCount());
+
+    for (int i = 0; i < columnCount(); ++i)
+    {
+        QStandardItem* itm = horizontalHeaderItem(i);
+        if (itm)
+        {
+            out << int(1);
+            horizontalHeaderItem(i)->write(out);
+        }
+        else
+            out << int(0);
+    }
+
+    for (int i = 0; i < rowCount(); ++i)
+    {
+        for (int j = 0; j < columnCount(); ++j)
+        {
+            QStandardItem* itm = item(i, j);
+            if (itm)
+            {
+                out << int(1);
+                itm->write(out);
+            }
+            else
+            {
+                out << int(0);
+            }
+        }
+    }
+
+    return true;
+}
+
+bool CentralModel::load(QString filePath)
+{
+    QFile file(filePath);
+    bool ok = file.open(QIODevice::ReadOnly);
+    if (!ok)
+        return false;
+
+    QDataStream in(&file);    // read the data serialized from the file
+
+    clear();
+
+    int row = 0;
+    int col = 0;
+    in >> row
+       >> col;
+
+    setRowCount(row);
+    setColumnCount(col);
+
+    for (int i = 0; i < columnCount(); ++i)
+    {
+        int exist = 0;
+        in >> exist;
+        if (exist)
+        {
+            QStandardItem* itm = new QStandardItem();
+            itm->read(in);
+            setHorizontalHeaderItem(i, itm);
+        }
+    }
+
+    for (int i = 0; i < rowCount(); ++i)
+    {
+        for (int j = 0; j < columnCount(); ++j)
+        {
+            int exist = 0;
+            in >> exist;
+            if (exist)
+            {
+                QStandardItem* itm = new QStandardItem();
+                itm->read(in);
+                setItem(i,j, itm);
+            }
+        }
+    }
+
+    return true;
+}
+
+bool CentralModel::exportTerminal(QString filePath, int terminalId, const QList<int>& columns)
+{
+    QFile file(filePath);
+    bool ok = file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text );
+    if (!ok)
+        return false;
+
+    QDataStream out(&file);   // we will serialize the data into the file
+
+    QModelIndex index = terminal(terminalId, false);
+    if (!index.isValid())
+        return false;
+
+    // export header
+    foreach (int col, columns)
+    {
+        QStandardItem* itm = horizontalHeaderItem(col);
+        if (itm)
+            out << itm->text();
+        else
+            out << "";
+    }
+
+    // export data
+    for (int i = 0; i < rowCount(); ++i)
+    {
+        for (int j = 0; j < columnCount(); ++j)
+        {
+            QStandardItem* itm = item(i, j);
+            if (itm)
+                out << itm->text();
+            else
+                out << "";
+        }
+    }
+
+    return true;
+}
+
