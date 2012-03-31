@@ -20,6 +20,9 @@ public:
 public:
     void setModel(CentralModel *model);
 
+signals:
+    void doubleClicked(const QModelIndex& index);
+
 private:
     Ui::DeviceListWidget *ui;
 };
