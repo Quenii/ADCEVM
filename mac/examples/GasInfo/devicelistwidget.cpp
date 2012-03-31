@@ -6,6 +6,7 @@
 #include <QSet>
 #include <QMenu>
 #include <QtDebug>
+#include <QFileDialog>
 
 
 DeviceListWidget::DeviceListWidget(QWidget *parent) :
@@ -24,7 +25,7 @@ DeviceListWidget::DeviceListWidget(QWidget *parent) :
 
     bool ok = connect(ui->terminalTableView, SIGNAL(customContextMenuRequested(const QPoint&)),
                       this, SLOT(terminalTableViewCustomContextMenu(const QPoint&)));
-   // Q_ASSERT(ok);
+    // Q_ASSERT(ok);
 
     ok = connect(ui->terminalTableView, SIGNAL(doubleClicked(const QModelIndex&)),
                  this, SLOT(terminalTableViewDoubleClicked(const QModelIndex&)));
@@ -53,9 +54,11 @@ void DeviceListWidget::terminalTableViewCustomContextMenu(const QPoint& pos)
     QMenu menu;
     QAction* openAction = new QAction("Open", &menu);
     QAction* closeAction = new QAction("Close", &menu);
+    QAction* exportAction = new QAction("Export", &menu);
     QAction* deleteAction = new QAction("Delete", &menu);
     menu.addAction(openAction);
     menu.addAction(closeAction);
+    menu.addAction(exportAction);
     menu.addAction(deleteAction);
 
     QAction* selectedItem = menu.exec(ui->terminalTableView->mapToGlobal(pos));
@@ -63,6 +66,8 @@ void DeviceListWidget::terminalTableViewCustomContextMenu(const QPoint& pos)
         openCloseSelectedTerminals(true);
     else if (selectedItem == closeAction)
         openCloseSelectedTerminals(false);
+    else if (selectedItem == exportAction)
+        exportTerminalData();
     else if(selectedItem == deleteAction)
         deleteSelectedTerminals();;
 }
@@ -101,5 +106,48 @@ void DeviceListWidget::deleteSelectedTerminals()
 {
     QList<int> lst = selectedTerminals();
     if (lst.count())
-      emit deleteTerminals(lst);
+        emit deleteTerminals(lst);
+}
+
+void DeviceListWidget::exportTerminalData()
+{
+    CentralModel* centralModel = dynamic_cast<CentralModel*>(ui->terminalTableView->model());
+    if (!centralModel)
+        return;
+
+    QList<int> columns;
+    for (int i = 2; i < centralModel->columnCount(); ++i)
+    {
+        if (! ui->terminalTableView->isColumnHidden(i))
+            columns.append(i);
+    }
+
+    QList<int> lst = selectedTerminals();
+    if (lst.count() == 1)
+    {
+        QString fileName = QFileDialog::getSaveFileName(
+                    this,
+                    tr("Export Terminal Data"),
+                    "",
+                    tr("Excel File (*.csv)"));
+        if (!fileName.isEmpty())
+            centralModel->exportTerminal(fileName, lst.at(0), columns);
+    }
+    else if (lst.count() > 1)
+    {
+        QString dirName = QFileDialog::getExistingDirectory(
+                    this,
+                    tr("Export Terminal Data"),
+                    "" /*,
+                    ~ QFileDialog::ShowDirsOnly
+                    */);
+
+        if (!dirName.isEmpty())
+            foreach(int id, lst)
+            {
+                QString fileName = QDir(dirName).filePath(QString("Terminal %1.csv").arg(id));
+                centralModel->exportTerminal(fileName, lst.at(id), columns);
+
+            }
+    }
 }

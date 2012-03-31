@@ -214,26 +214,26 @@ bool CentralModel::exportTerminal(QString filePath, int terminalId, const QList<
         return false;
 
     // export header
+    QString str;
     foreach (int col, columns)
     {
         QStandardItem* itm = horizontalHeaderItem(col);
-        if (itm)
-            out << itm->text();
-        else
-            out << "";
+        str += (itm ? itm->text() : " ");
+        str += ";";
     }
+    out << str;
 
     // export data
     for (int i = 0; i < rowCount(); ++i)
     {
+        QString str;
         for (int j = 0; j < columnCount(); ++j)
         {
             QStandardItem* itm = item(i, j);
-            if (itm)
-                out << itm->text();
-            else
-                out << "";
+            str += (itm ? itm->text() : " ");
+            str += ";";
         }
+        out << str;
     }
 
     return true;
