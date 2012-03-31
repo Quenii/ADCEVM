@@ -7,7 +7,7 @@
 
 #include <QMdiSubWindow>
 #include <QtDebug>
-
+#include <QFileDialog>
 
 static const char* mainWindowGeometryKey = "mainWindow/geometry";
 static const char* mainWindowStateKey = "mainWindow/state";
@@ -167,16 +167,30 @@ void MainWindow::readSettings()
 
 void MainWindow::on_actionSave_triggered(bool checked)
 {
-    //m_centralModel->save
+
+}
+
+void MainWindow::on_actionSaveAs_triggered(bool checked)
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+         tr("Save Data As"), "", tr("GasInfo Files (*.gas)"));
 }
 
 void MainWindow::on_actionLoad_triggered(bool checked)
 {
+   QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Load Data"), "", tr("GasInfo File (*.gas)"));
 }
 
-void MainWindow::on_actionExport_triggered(bool checked)
-{
-}
+//void MainWindow::on_actionExport_triggered(bool checked)
+//{
+//    QString fileName = QFileDialog::getSaveFileName(this,
+//         tr("Export Terminal Data"), "", tr("Excel File (*.csv)"));
+
+//    if (!fileName.isEmpty())
+//        m_centralModel->exportTerminal()
+
+//}
 
 void MainWindow::on_actionExit_triggered(bool checked)
 {

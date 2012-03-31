@@ -22,7 +22,7 @@ public:
 
 private:
     QList<int> selectedTerminals();
-
+    void exportTerminalData();
 signals:
     void openCloseTerminals(const QList<int>& idList, bool open);
     void deleteTerminals(const QList<int>& idList);
@@ -33,6 +33,7 @@ private slots:
 
     void openCloseSelectedTerminals(bool open);
     void deleteSelectedTerminals();
+
 
 private:
     Ui::DeviceListWidget *ui;
