@@ -9,6 +9,8 @@ namespace Ui {
 class TerminalWidget;
 }
 
+class QSortFilterProxyModel;
+
 class TerminalWidget : public QWidget
 {
     Q_OBJECT
@@ -25,6 +27,7 @@ private slots:
 
 private:
     Ui::TerminalWidget *ui;
+    QSortFilterProxyModel* m_proxyModel;
 };
 
 #endif // TERMINALWIDGET_H

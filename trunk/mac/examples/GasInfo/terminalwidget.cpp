@@ -4,6 +4,7 @@
 
 #include <QStandardItem>
 #include <QtDebug>
+#include <QSortFilterProxyModel>
 
 
 TerminalWidget::TerminalWidget(QWidget *parent) :
@@ -16,6 +17,8 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
 
     ui->tableView->setSortingEnabled(true);
+
+    ui->tableView->setColumnWidth(3, 200);
 
     bool ok = connect(
                 ui->tableView->horizontalHeader(),
@@ -37,9 +40,13 @@ void TerminalWidget::setModel(CentralModel *model)
 
     if (model->hasChildren())
     {
-        ui->tableView->setModel(model);
-        ui->tableView->setRootIndex(model->index(0, 0));
+        m_proxyModel = new QSortFilterProxyModel(this);
+        m_proxyModel->setDynamicSortFilter(true);
+        m_proxyModel->setSourceModel(model);
+        m_proxyModel->setSortRole(Qt::UserRole);
 
+        ui->tableView->setModel(m_proxyModel);
+        ui->tableView->setRootIndex(m_proxyModel->index(0, 0));
         ui->tableView->hideColumn(0);
         ui->tableView->hideColumn(1);
     }
