@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "overviewwidget.h"
 #include "terminalwidget.h"
 #include "centralmodel.h"
 #include "gasinfosettings.h"
@@ -49,11 +48,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    QMdiSubWindow *subWindow1 = new QMdiSubWindow;
-    subWindow1->setWidget(new OverviewWidget);
-    subWindow1->setAttribute(Qt::WA_DeleteOnClose);
-    ui->mdiArea->addSubWindow(subWindow1);
 
     m_centralModel = new CentralModel(this);
 

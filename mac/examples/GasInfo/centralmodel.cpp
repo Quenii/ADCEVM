@@ -163,6 +163,8 @@ void CentralModel::addData(const GasInfoItem& item)
 
 bool CentralModel::save(QString filePath)
 {
+
+
     QFile file(filePath);
     bool ok = file.open(QIODevice::WriteOnly | QIODevice::Truncate );
     if (!ok)

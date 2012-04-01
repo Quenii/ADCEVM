@@ -1,7 +1,9 @@
 #include "terminalwidget.h"
 #include "ui_terminalwidget.h"
-
 #include "qgeocoordinate.h"
+
+#include <QStandardItem>
+#include <QtDebug>
 
 
 TerminalWidget::TerminalWidget(QWidget *parent) :
@@ -13,6 +15,15 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
 
+    ui->tableView->setSortingEnabled(true);
+
+    bool ok = connect(
+                ui->tableView->horizontalHeader(),
+                SIGNAL(sortIndicatorChanged(int,Qt::SortOrder)),
+                this,
+                SLOT(tableView_sortIndicatorChanged(int,Qt::SortOrder)));
+
+    Q_ASSERT(ok);
 }
 
 TerminalWidget::~TerminalWidget()
@@ -22,7 +33,7 @@ TerminalWidget::~TerminalWidget()
 
 void TerminalWidget::setModel(CentralModel *model)
 {
-    ui->listView->setModel(model);
+    // ui->listView->setModel(model);
 
     if (model->hasChildren())
     {
@@ -31,6 +42,23 @@ void TerminalWidget::setModel(CentralModel *model)
 
         ui->tableView->hideColumn(0);
         ui->tableView->hideColumn(1);
-     }
- }
+    }
+}
+
+void TerminalWidget::tableView_sortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
+{
+    CentralModel* centralModel = dynamic_cast<CentralModel*>(ui->tableView->model());
+    if (!centralModel)
+        return ;
+
+    QModelIndex rootIndex = ui->tableView->rootIndex();
+    if (!rootIndex.isValid())
+        return ;
+
+    QStandardItem* rootItem = centralModel->itemFromIndex(rootIndex);
+    if (!rootItem)
+        return ;
+
+    rootItem->sortChildren(logicalIndex, order);
+}
 
