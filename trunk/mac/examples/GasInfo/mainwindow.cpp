@@ -23,23 +23,23 @@ public:
 protected:
     void closeEvent(QCloseEvent *event)
     {
-        GasInfoSettings settings;
-        settings.setWindowSize(windowTitle(), size());
-        settings.setWindowPos(windowTitle(), pos());
+//        GasInfoSettings settings;
+//        settings.setWindowSize(windowTitle(), size());
+//        settings.setWindowPos(windowTitle(), pos());
     }
 
     void showEvent(QShowEvent* showEvent)
     {
-        GasInfoSettings settings;
+//        GasInfoSettings settings;
 
-        QSize size = settings.windowSize(windowTitle());
-        if (size.width() <= 100)
-            size.setWidth(100);
-        if (size.height() <= 100)
-            size.setHeight(100);
+//        QSize size = settings.windowSize(windowTitle());
+//        if (size.width() <= 100)
+//            size.setWidth(100);
+//        if (size.height() <= 100)
+//            size.setHeight(100);
 
-        resize(size);
-        move(settings.windowPos(windowTitle()));
+//        resize(size);
+//        move(settings.windowPos(windowTitle()));
     }
 };
 
@@ -103,6 +103,14 @@ void MainWindow::openCloseTerminals(const QList<int> &idList, bool open)
             subWindow1->setAttribute(Qt::WA_DeleteOnClose);
             ui->mdiArea->addSubWindow(subWindow1);
             terminalWidget->setModel(m_centralModel);
+
+            QAction* action = new QAction(QString("Terminal &%1").arg(terminalId), subWindow1);
+
+            ui->menuWindows->addAction(action);
+
+            bool ok = connect(action, SIGNAL(triggered(bool)), subWindow1, SLOT(raise()));
+            Q_ASSERT(ok);
+
             subWindow1->show();
         }
         else
@@ -126,7 +134,6 @@ void MainWindow::deleteTerminals(const QList<int> &idList)
         m_centralModel->removeTerminal(terminalId);
     }
 }
-
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
@@ -158,24 +165,13 @@ void MainWindow::on_actionSave_triggered(bool checked)
 {
     GasInfoSettings settings;
 
-    QString fileName = QDateTime::currentDateTime().toString();
+    QString timeStr = QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss");
+    QString fileName = timeStr + ".gas";
     QString filePath = QDir(settings.dataFolder()).filePath(fileName);
 
     // default folder
     if (!fileName.isEmpty())
         m_centralModel->save(filePath);
-}
-
-void MainWindow::on_actionSaveAs_triggered(bool checked)
-{
-    QString fileName = QFileDialog::getSaveFileName(
-                this,
-                tr("Save Data As"),
-                "",
-                tr("GasInfo Files (*.gas)"));
-
-    if (!fileName.isEmpty())
-        m_centralModel->save(fileName);
 }
 
 void MainWindow::on_actionLoad_triggered(bool checked)
@@ -186,24 +182,15 @@ void MainWindow::on_actionLoad_triggered(bool checked)
                 tr("Load Data"),
                 settings.dataFolder(),
                 tr("GasInfo File (*.gas)"));
-}
 
+    m_centralModel->load(fileName);
+}
 
 void MainWindow::on_actionOption_triggered(bool checked)
 {
     OptionDialog dlg;
     dlg.exec();
 }
-
-//void MainWindow::on_actionExport_triggered(bool checked)
-//{
-//    QString fileName = QFileDialog::getSaveFileName(this,
-//         tr("Export Terminal Data"), "", tr("Excel File (*.csv)"));
-
-//    if (!fileName.isEmpty())
-//        m_centralModel->exportTerminal()
-
-//}
 
 void MainWindow::on_actionExit_triggered(bool checked)
 {

@@ -4,6 +4,8 @@
 #include <QStandardItem>
 #include <QList>
 #include <QtDebug>
+#include <QDir>
+#include <QFileInfo>
 
 static void writeItem(const QStandardItem* item, QDataStream& out)
 {
@@ -72,6 +74,13 @@ static QStandardItem* readItem(QDataStream& in)
     return item;
 }
 
+static void makeDir(QString filePath)
+{
+    QDir dir = QFileInfo(filePath).dir();
+    if (!dir.exists())
+        QDir().mkpath(dir.path());
+}
+
 CentralModel::CentralModel(QObject *parent) :
     QStandardItemModel(parent)
 {
@@ -79,9 +88,9 @@ CentralModel::CentralModel(QObject *parent) :
     setHorizontalHeaderItem( 0, new QStandardItem( "Terminal" ));
     setHorizontalHeaderItem( 1, new QStandardItem( "Status"));
     setHorizontalHeaderItem( 2, new QStandardItem( "Date & Time"));
-    setHorizontalHeaderItem( 3, new QStandardItem( "FEL"));
-    setHorizontalHeaderItem( 4, new QStandardItem( "H2S"));
-    setHorizontalHeaderItem( 5, new QStandardItem( "SO2"));
+    setHorizontalHeaderItem( 3, new QStandardItem( "FEL/ppm"));
+    setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
+    setHorizontalHeaderItem( 5, new QStandardItem( "SO2/%"));
 
     for (int i = 0; i < 10; ++i)
     {
@@ -180,7 +189,7 @@ void CentralModel::addData(const GasInfoItem& item)
 
 bool CentralModel::save(QString filePath)
 {
-
+    makeDir(filePath);
 
     QFile file(filePath);
     bool ok = file.open(QIODevice::WriteOnly | QIODevice::Truncate );
@@ -194,13 +203,11 @@ bool CentralModel::save(QString filePath)
     for (int i = 0; i < columnCount(); ++i)
     {
         QStandardItem* itm = horizontalHeaderItem(i);
+        out << int(itm != 0);
         if (itm)
         {
-            out << int(1);
             horizontalHeaderItem(i)->write(out);
         }
-        else
-            out << int(0);
     }
 
     for (int i = 0; i < rowCount(); ++i)
@@ -262,6 +269,8 @@ bool CentralModel::load(QString filePath)
 
 bool CentralModel::exportTerminal(QString filePath, int terminalId, const QList<int>& columns)
 {
+    makeDir(filePath);
+
     QFile file(filePath);
     bool ok = file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text );
     if (!ok)

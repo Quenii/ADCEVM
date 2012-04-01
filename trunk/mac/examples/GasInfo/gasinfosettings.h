@@ -12,7 +12,6 @@ public:
     explicit GasInfoSettings(QObject *parent = 0);
 
 public:
-
     QByteArray mainWindowGeometry() const;
     void setMainWindowGeometry(const QByteArray& data);
 
@@ -30,6 +29,16 @@ public:
         
     QString  dataFolder() const;
     void setdataFolder(const QString& dir);
+
+    // in seconds
+    uint archivePeriod() const;
+    void setArchivePeriod(uint seconds);
+
+    uint activeInterval() const;
+    void setActiveInternal(uint seconds);
+
+    ApplicationModes applicationMode() const;
+    void setApplicationMode(ApplicationModes mode);
 
 signals:
     

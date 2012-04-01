@@ -28,8 +28,8 @@ signals:
     void deleteTerminals(const QList<int>& idList);
 
 private slots:
-    void on_terminalTableView_customContextMenu(const QPoint& pos);
-    void on_terminalTableView_doubleClicked(const QModelIndex& index);
+    void terminalTableView_customContextMenu(const QPoint& pos);
+    void terminalTableView_doubleClicked(const QModelIndex& index);
 
     void openCloseSelectedTerminals(bool open);
     void deleteSelectedTerminals();
