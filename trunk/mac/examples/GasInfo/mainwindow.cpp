@@ -4,6 +4,7 @@
 #include "terminalwidget.h"
 #include "centralmodel.h"
 #include "gasinfosettings.h"
+#include "optiondialog.h"
 
 #include <QMdiSubWindow>
 #include <QtDebug>
@@ -14,6 +15,34 @@ static QString terminalTitle(int terminalId)
 {
     return QString("Terminal %1").arg(terminalId);
 }
+
+class MdiSubWindow : public QMdiSubWindow
+{
+public:
+    MdiSubWindow(QWidget* parent = 0) : QMdiSubWindow(parent) {}
+
+protected:
+    void closeEvent(QCloseEvent *event)
+    {
+        GasInfoSettings settings;
+        settings.setWindowSize(windowTitle(), size());
+        settings.setWindowPos(windowTitle(), pos());
+    }
+
+    void showEvent(QShowEvent* showEvent)
+    {
+        GasInfoSettings settings;
+
+        QSize size = settings.windowSize(windowTitle());
+        if (size.width() <= 100)
+            size.setWidth(100);
+        if (size.height() <= 100)
+            size.setHeight(100);
+
+        resize(size);
+        move(settings.windowPos(windowTitle()));
+    }
+};
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -73,7 +102,7 @@ void MainWindow::openCloseTerminals(const QList<int> &idList, bool open)
                 subWindow->raise();
                 continue;
             }
-            QMdiSubWindow* subWindow1 = new QMdiSubWindow();
+            MdiSubWindow* subWindow1 = new MdiSubWindow();
             TerminalWidget* terminalWidget = new TerminalWidget;
             subWindow1->setWidget(terminalWidget);
             subWindow1->setWindowTitle(terminalTitle(terminalId));
@@ -118,16 +147,6 @@ void MainWindow::saveSettings()
     GasInfoSettings settings;
     settings.setMainWindowGeometry(saveGeometry());
     settings.setMainWindowState(saveState());
-
-    // mdi area
-    QList<QMdiSubWindow*> mdiList = ui->mdiArea->subWindowList();
-    for (int i = 0; i < mdiList.count(); ++i)
-    {
-        QMdiSubWindow* window = mdiList.at(i);
-
-        settings.setValue(window->windowTitle(), window->size());
-        settings.setValue(window->windowTitle(), window->pos());
-    }
 }
 
 void MainWindow::readSettings()
@@ -138,21 +157,7 @@ void MainWindow::readSettings()
     restoreGeometry(settings.mainWindowGeometry());
     restoreState(settings.mainWindowState());
 
-    // mdi area
-    QList<QMdiSubWindow*> mdiList = ui->mdiArea->subWindowList();
-    for (int i = 0; i < mdiList.count(); ++i)
-    {
-        QMdiSubWindow* window = mdiList.at(i);
 
-        QSize size = settings.windowSize(window->windowTitle());
-        if (size.width() <= 100)
-            size.setWidth(100);
-        if (size.height() <= 100)
-            size.setHeight(100);
-
-        window->resize(size);
-        window->move(settings.windowPos(window->windowTitle()));
-    }
 }
 
 void MainWindow::on_actionSave_triggered(bool checked)
@@ -169,8 +174,11 @@ void MainWindow::on_actionSave_triggered(bool checked)
 
 void MainWindow::on_actionSaveAs_triggered(bool checked)
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
-         tr("Save Data As"), "", tr("GasInfo Files (*.gas)"));
+    QString fileName = QFileDialog::getSaveFileName(
+                this,
+                tr("Save Data As"),
+                "",
+                tr("GasInfo Files (*.gas)"));
 
     if (!fileName.isEmpty())
         m_centralModel->save(fileName);
@@ -178,9 +186,19 @@ void MainWindow::on_actionSaveAs_triggered(bool checked)
 
 void MainWindow::on_actionLoad_triggered(bool checked)
 {
-   GasInfoSettings settings;
-   QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Load Data"), settings.dataFolder(), tr("GasInfo File (*.gas)"));
+    GasInfoSettings settings;
+    QString fileName = QFileDialog::getOpenFileName(
+                this,
+                tr("Load Data"),
+                settings.dataFolder(),
+                tr("GasInfo File (*.gas)"));
+}
+
+
+void MainWindow::on_actionOption_triggered(bool checked)
+{
+    OptionDialog dlg;
+    dlg.exec();
 }
 
 //void MainWindow::on_actionExport_triggered(bool checked)
