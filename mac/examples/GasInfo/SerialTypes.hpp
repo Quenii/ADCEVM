@@ -9,6 +9,12 @@
 #include <QVariant>
 #include "qextserialport.h"
 
+enum ApplicationModes
+{
+    Receive,
+    Review
+};
+
 struct GpsInfo
 {
     bool valid;

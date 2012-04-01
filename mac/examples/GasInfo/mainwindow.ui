@@ -34,13 +34,12 @@
      <string>&amp;File</string>
     </property>
     <addaction name="actionSave"/>
-    <addaction name="actionSaveAs"/>
     <addaction name="actionLoad"/>
     <addaction name="actionExport"/>
     <addaction name="separator"/>
     <addaction name="actionOption"/>
     <addaction name="separator"/>
-    <addaction name="actionE_xit"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -53,15 +52,9 @@
      <string>&amp;Windows</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menu_Edit">
-    <property name="title">
-     <string>&amp;Edit</string>
-    </property>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuWindows"/>
    <addaction name="menuAbout"/>
-   <addaction name="menu_Edit"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="sideDockWidget">
@@ -103,6 +96,9 @@
    <property name="allowedAreas">
     <set>Qt::RightDockWidgetArea</set>
    </property>
+   <property name="windowTitle">
+    <string>Map</string>
+   </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
@@ -128,7 +124,7 @@
     <string>&amp;Options</string>
    </property>
   </action>
-  <action name="actionE_xit">
+  <action name="actionExit">
    <property name="text">
     <string>E&amp;xit</string>
    </property>

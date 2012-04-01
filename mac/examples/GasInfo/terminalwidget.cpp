@@ -18,7 +18,7 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
 
     ui->tableView->setSortingEnabled(true);
 
-    ui->tableView->setColumnWidth(3, 200);
+   // ui->tableView->setColumnWidth(2, 200);
 
     bool ok = connect(
                 ui->tableView->horizontalHeader(),
