@@ -39,6 +39,8 @@ private slots:
     void on_actionSave_triggered(bool checked = false);
     void on_actionSaveAs_triggered(bool checked = false);
     void on_actionLoad_triggered(bool checked = false);
+    void on_actionOption_triggered(bool checked = false);
+
     //void on_actionExport_triggered(bool checked = false);
     void on_actionExit_triggered(bool checked = false);
 

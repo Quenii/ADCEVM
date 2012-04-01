@@ -102,7 +102,6 @@ void MainDialog::reloadSettings()
     settings.Parity = (ParityType)portInfo.Parity;
     settings.StopBits = (StopBitsType)portInfo.StopBits;
     settings.Timeout_Millisec = (long)portInfo.Timeout_Millisec;
-
 }
 
 void MainDialog::on_pushButtonOpenclicked()

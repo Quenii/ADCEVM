@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     centralmodel.cpp \
     gasinfosettings.cpp \
     slippymap.cpp \
-    lightmaps.cpp
+    lightmaps.cpp \
+    optiondialog.cpp
 
 HEADERS  += \
             hled.h \
@@ -49,7 +50,8 @@ HEADERS  += \
     centralmodel.h \
     gasinfosettings.h \
     slippymap.h \
-    lightmaps.h
+    lightmaps.h \
+    optiondialog.h
 
 FORMS    += dialog.ui \
     DeviceDialog.ui \
@@ -60,7 +62,8 @@ FORMS    += dialog.ui \
     devicelistwidget.ui \
     overviewwidget.ui \
     commwidget.ui \
-    terminalwidget.ui
+    terminalwidget.ui \
+    optiondialog.ui
 
 RESOURCES += \
 #    res.qrc
