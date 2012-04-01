@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "gasinfosettings.h"
+
 #include <QMainWindow>
 #include <QCloseEvent>
 #include <QModelIndexList>
@@ -31,6 +33,11 @@ private:
     void saveSettings();
     void readSettings();
     QMdiSubWindow* terminalSubwindow(int terminalId);
+
+public slots:
+    void applicationModelChanged();
+    void addData(const GasInfoItem& item);
+
 
 private slots:  
     void openCloseTerminals(const QList<int>& idList, bool open);

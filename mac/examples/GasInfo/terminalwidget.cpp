@@ -69,3 +69,4 @@ void TerminalWidget::tableView_sortIndicatorChanged(int logicalIndex, Qt::SortOr
     rootItem->sortChildren(logicalIndex, order);
 }
 
+

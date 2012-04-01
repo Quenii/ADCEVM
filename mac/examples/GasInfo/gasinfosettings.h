@@ -12,6 +12,10 @@ public:
     explicit GasInfoSettings(QObject *parent = 0);
 
 public:
+    static ApplicationModes applicationMode();
+    static void setApplicationMode(ApplicationModes mode);
+
+public:
     QByteArray mainWindowGeometry() const;
     void setMainWindowGeometry(const QByteArray& data);
 
@@ -37,8 +41,6 @@ public:
     uint activeInterval() const;
     void setActiveInternal(uint seconds);
 
-    ApplicationModes applicationMode() const;
-    void setApplicationMode(ApplicationModes mode);
 
 signals:
     

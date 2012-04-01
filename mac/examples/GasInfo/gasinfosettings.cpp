@@ -21,6 +21,16 @@ GasInfoSettings::GasInfoSettings(QObject *parent) :
 
 }
 
+ApplicationModes GasInfoSettings::applicationMode()
+{
+    return g_applicationMode;
+}
+
+void GasInfoSettings::setApplicationMode(ApplicationModes mode)
+{
+    g_applicationMode = mode;
+}
+
 QByteArray GasInfoSettings::mainWindowGeometry() const
 {
     return value(mainWindowGeometryKey).toByteArray();
@@ -100,15 +110,7 @@ void GasInfoSettings::setArchivePeriod(uint seconds)
     setValue(archivePeriodKey, seconds);
 }
 
-ApplicationModes GasInfoSettings::applicationMode() const
-{
-    return g_applicationMode;
-}
 
-void GasInfoSettings::setApplicationMode(ApplicationModes mode)
-{
-    g_applicationMode = mode;
-}
 
 uint GasInfoSettings::activeInterval() const
 {

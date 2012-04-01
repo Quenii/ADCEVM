@@ -60,6 +60,10 @@ MainWindow::MainWindow(QWidget *parent) :
                  this, SLOT(deleteTerminals(QList<int>)));
     Q_ASSERT(ok);
 
+    ok = connect(ui->deviceListWidget, SIGNAL(applicationModeChanged()),
+                 this, SLOT(applicationModelChanged()));
+    Q_ASSERT(ok);
+
     readSettings();
 }
 
@@ -172,6 +176,8 @@ void MainWindow::on_actionSave_triggered(bool checked)
     // default folder
     if (!fileName.isEmpty())
         m_centralModel->save(filePath);
+
+    m_centralModel->clear();
 }
 
 void MainWindow::on_actionLoad_triggered(bool checked)
@@ -197,4 +203,23 @@ void MainWindow::on_actionExit_triggered(bool checked)
     qApp->quit();
 }
 
+void MainWindow::applicationModelChanged()
+{
+    ApplicationModes appMode = GasInfoSettings::applicationMode();
+    ui->actionLoad->setEnabled(appMode == Review);
+
+    if (appMode == Review)
+    {
+        on_actionSave_triggered();
+    }
+}
+
+
+void MainWindow::addData(const GasInfoItem& item)
+{
+    if (GasInfoSettings::applicationMode() == Receive)
+    {
+        m_centralModel->addData(item);
+    }
+}
 
