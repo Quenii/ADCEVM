@@ -87,10 +87,14 @@ CentralModel::CentralModel(QObject *parent) :
     {
         GasInfoItem info;
         info.ch = i;
-        info.fel = 10;
-        info.h2s = 20;
-        info.so2 = 30;
-        addData(info);
+
+        for (int j = 0; j < 10; ++j)
+        {
+            info.fel = j;
+            info.h2s = 10 - j;
+            info.so2 = i;
+            addData(info);
+         }
     }
 }
 
@@ -149,13 +153,26 @@ void CentralModel::addData(const GasInfoItem& item)
     QModelIndex idx = terminal(item.ch, true);
     QStandardItem* itm = itemFromIndex(idx);
 
+    QDateTime now = QDateTime::currentDateTime();
+    QStandardItem* item3 = new QStandardItem(QString("%1").arg(now.toString()));
+    item3->setData(now, Qt::UserRole);
+
+    QStandardItem* item4 = new QStandardItem(QString("%1").arg(item.fel));
+    item4->setData(item.fel, Qt::UserRole);
+
+    QStandardItem* item5 = new QStandardItem(QString("%1").arg(item.h2s));
+    item5->setData(item.h2s, Qt::UserRole);
+
+    QStandardItem* item6 = new QStandardItem(QString("%1").arg(item.so2));
+    item6->setData(item.so2, Qt::UserRole);
+
     QList<QStandardItem*> lst;
     lst << 0
         << 0 // new QStandardItem
-        << new QStandardItem(QString("%1").arg(QDateTime::currentDateTime().toString()))
-        << new QStandardItem(QString("%1").arg(item.fel))
-        << new QStandardItem(QString("%1").arg(item.h2s))
-        << new QStandardItem(QString("%1").arg(item.so2));
+        << item3
+        << item4
+        << item5
+        << item6;
 
     itm->insertRow(0, lst);
 }
