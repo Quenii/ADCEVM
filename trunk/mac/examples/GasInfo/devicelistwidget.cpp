@@ -1,13 +1,14 @@
 #include "devicelistwidget.h"
 #include "ui_devicelistwidget.h"
 #include "centralmodel.h"
+#include "gasinfosettings.h"
 
 #include <QHeaderView>
 #include <QSet>
 #include <QMenu>
 #include <QtDebug>
 #include <QFileDialog>
-
+#include <QTimer>
 
 DeviceListWidget::DeviceListWidget(QWidget *parent) :
     QWidget(parent),
@@ -27,6 +28,8 @@ DeviceListWidget::DeviceListWidget(QWidget *parent) :
     ok = connect(ui->terminalTableView, SIGNAL(doubleClicked(const QModelIndex&)),
                  this, SLOT(terminalTableView_doubleClicked(const QModelIndex&)));
     Q_ASSERT(ok);
+
+    QTimer::singleShot(0, ui->receiveModePushButton, SLOT(toggle()));
 }
 
 DeviceListWidget::~DeviceListWidget()
@@ -146,5 +149,23 @@ void DeviceListWidget::exportTerminalData()
                 centralModel->exportTerminal(fileName, id, columns);
 
             }
+    }
+}
+
+void DeviceListWidget::on_receiveModePushButton_toggled(bool checked)
+{
+    if (checked)
+    {
+        GasInfoSettings::setApplicationMode(Receive);
+        emit applicationModeChanged();
+    }
+}
+
+void DeviceListWidget::on_reviewModePushButton_toggled(bool checked)
+{
+    if (checked)
+    {
+        GasInfoSettings::setApplicationMode(Review);
+        emit applicationModeChanged();
     }
 }

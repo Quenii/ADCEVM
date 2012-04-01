@@ -26,6 +26,7 @@ private:
 signals:
     void openCloseTerminals(const QList<int>& idList, bool open);
     void deleteTerminals(const QList<int>& idList);
+    void applicationModeChanged();
 
 private slots:
     void terminalTableView_customContextMenu(const QPoint& pos);
@@ -33,6 +34,9 @@ private slots:
 
     void openCloseSelectedTerminals(bool open);
     void deleteSelectedTerminals();
+
+    void on_receiveModePushButton_toggled(bool checked);
+    void on_reviewModePushButton_toggled(bool checked);
 
 
 
