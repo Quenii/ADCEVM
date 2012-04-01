@@ -1,10 +1,76 @@
 #include "centralmodel.h"
 
-
 #include <QDateTime>
 #include <QStandardItem>
 #include <QList>
 #include <QtDebug>
+
+static void writeItem(const QStandardItem* item, QDataStream& out)
+{
+    out << int(item != 0);
+
+    if (item)
+    {
+        item->write(out);
+
+        out << int(item->hasChildren());
+
+        if (item->hasChildren())
+        {
+            out << int(item->rowCount()) << int(item->columnCount());
+            for (int row = 0; row < item->rowCount(); ++row)
+                for (int col = 0; col < item->columnCount(); ++col)
+                {
+                    QStandardItem* child = item->child(row, col);
+                    out << int(child != 0);
+                    if(child)
+                    {
+                        child->write(out);
+                    }
+                }
+        }
+    }
+}
+
+static QStandardItem* readItem(QDataStream& in)
+{
+    int itemExist = 0;
+    in >> itemExist;
+
+    if (!itemExist)
+        return 0;
+
+    QStandardItem* item = new QStandardItem();
+    item->read(in);
+
+    int hasChildren = 0;
+    in >> hasChildren;
+
+    if (hasChildren)
+    {
+        int rowCount = 0;
+        int colCount = 0;
+        in >> rowCount >> colCount;
+        Q_ASSERT(rowCount);
+        Q_ASSERT(colCount);
+        item->setRowCount(rowCount);
+        item->setColumnCount(colCount);
+
+        for (int row = 0; row < rowCount; ++row)
+            for (int col = 0; col < colCount; ++col)
+            {
+                int childExist = 0;
+                in >> childExist;
+                if(childExist)
+                {
+                    QStandardItem* child = new QStandardItem();
+                    child->read(in);
+                    item->setChild(row, col, child);
+                }
+            }
+    }
+    return item;
+}
 
 CentralModel::CentralModel(QObject *parent) :
     QStandardItemModel(parent)
@@ -122,16 +188,7 @@ bool CentralModel::save(QString filePath)
     {
         for (int j = 0; j < columnCount(); ++j)
         {
-            QStandardItem* itm = item(i, j);
-            if (itm)
-            {
-                out << int(1);
-                itm->write(out);
-            }
-            else
-            {
-                out << int(0);
-            }
+            writeItem(item(i, j), out);
         }
     }
 
@@ -173,13 +230,10 @@ bool CentralModel::load(QString filePath)
     {
         for (int j = 0; j < columnCount(); ++j)
         {
-            int exist = 0;
-            in >> exist;
-            if (exist)
+            QStandardItem* item = readItem(in);
+            if (item)
             {
-                QStandardItem* itm = new QStandardItem();
-                itm->read(in);
-                setItem(i,j, itm);
+                setItem(i,j, item);
             }
         }
     }

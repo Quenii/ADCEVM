@@ -1,10 +1,11 @@
 #include "qdevicedialog.h"
 #include "qextserialport.h"
 #include "qextserialenumerator.h"
+#include "gasinfosettings.h"
+
 
 #include <QtCore/QList>
 
-#include "serialsettings.h"
 
 QDeviceDialog::QDeviceDialog(QWidget *parent)
     : QDialog(parent)
@@ -86,7 +87,8 @@ void QDeviceDialog::accept()
     info.Timeout_Millisec = ui.timeoutBox->value();
     info.mode = /*(QextSerialPort::QueryMode)*/ui.queryModeBox->itemData(ui.baudRateBox->currentIndex()).toInt();
 
-    SerialSettings settings(settingFileName, QSettings::IniFormat, 0);
+    GasInfoSettings settings;
+  //  SerialSettings settings(settingFileName, QSettings::IniFormat, 0);
     settings.setSerialPortInfo(info);
     QDialog::accept();
 }
