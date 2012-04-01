@@ -23,13 +23,13 @@ DeviceListWidget::DeviceListWidget(QWidget *parent) :
     void terminalTableViewCustomContextMenu(const QPoint& pos);
     void terminalTableViewDoubleClicked(const QModelIndex& index);
 
-    bool ok = connect(ui->terminalTableView, SIGNAL(customContextMenuRequested(const QPoint&)),
-                      this, SLOT(terminalTableViewCustomContextMenu(const QPoint&)));
-    // Q_ASSERT(ok);
+//    bool ok = connect(ui->terminalTableView, SIGNAL(customContextMenuRequested(const QPoint&)),
+//                      this, SLOT(terminalTableViewCustomContextMenu(const QPoint&)));
+//    // Q_ASSERT(ok);
 
-    ok = connect(ui->terminalTableView, SIGNAL(doubleClicked(const QModelIndex&)),
-                 this, SLOT(terminalTableViewDoubleClicked(const QModelIndex&)));
-    //Q_ASSERT(ok);
+//    ok = connect(ui->terminalTableView, SIGNAL(doubleClicked(const QModelIndex&)),
+//                 this, SLOT(terminalTableViewDoubleClicked(const QModelIndex&)));
+//    //Q_ASSERT(ok);
 }
 
 DeviceListWidget::~DeviceListWidget()
@@ -44,12 +44,12 @@ void DeviceListWidget::setModel(CentralModel *model)
         ui->terminalTableView->hideColumn(i);
 }
 
-void DeviceListWidget::terminalTableViewDoubleClicked(const QModelIndex &index)
+void DeviceListWidget::on_terminalTableView_doubleClicked(const QModelIndex &index)
 {
     openCloseSelectedTerminals(true);
 }
 
-void DeviceListWidget::terminalTableViewCustomContextMenu(const QPoint& pos)
+void DeviceListWidget::on_terminalTableView_customContextMenu(const QPoint &pos)
 {
     QMenu menu;
     QAction* openAction = new QAction("Open", &menu);

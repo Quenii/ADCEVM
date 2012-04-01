@@ -25,7 +25,6 @@ SOURCES += main.cpp\
     QMapTabWidget.cpp \
     mainwindow.cpp \
     devicelistwidget.cpp \
-    overviewwidget.cpp \
     commwidget.cpp \
     terminalwidget.cpp \
     centralmodel.cpp \
@@ -44,7 +43,6 @@ HEADERS  += \
     QLogTabWidget.h \
     mainwindow.h \
     devicelistwidget.h \
-    overviewwidget.h \
     commwidget.h \
     terminalwidget.h \
     centralmodel.h \
@@ -60,7 +58,6 @@ FORMS    += dialog.ui \
     mapTab.ui \
     mainwindow.ui \
     devicelistwidget.ui \
-    overviewwidget.ui \
     commwidget.ui \
     terminalwidget.ui \
     optiondialog.ui
