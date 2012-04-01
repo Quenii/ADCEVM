@@ -17,7 +17,6 @@ include(../../src/qextserialport.pri)
 
 SOURCES += main.cpp\
         hled.cpp \
-    serialsettings.cpp \
     qdevicedialog.cpp \
     maindialog.cpp \
     QMyTabWidget.cpp \
@@ -37,7 +36,6 @@ SOURCES += main.cpp\
 HEADERS  += \
             hled.h \
     SerialTypes.hpp \
-    serialsettings.h \
     qdevicedialog.h \
     maindialog.h \
     QMyTabWidget.h \

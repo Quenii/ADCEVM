@@ -8,9 +8,7 @@
 #include <QMdiSubWindow>
 #include <QtDebug>
 #include <QFileDialog>
-
-static const char* mainWindowGeometryKey = "mainWindow/geometry";
-static const char* mainWindowStateKey = "mainWindow/state";
+#include <QDateTime>
 
 static QString terminalTitle(int terminalId)
 {
@@ -118,8 +116,8 @@ void MainWindow::saveSettings()
 {
     // main window
     GasInfoSettings settings;
-    settings.setValue(mainWindowGeometryKey, saveGeometry());
-    settings.setValue(mainWindowStateKey, saveState());
+    settings.setMainWindowGeometry(saveGeometry());
+    settings.setMainWindowState(saveState());
 
     // mdi area
     QList<QMdiSubWindow*> mdiList = ui->mdiArea->subWindowList();
@@ -127,13 +125,8 @@ void MainWindow::saveSettings()
     {
         QMdiSubWindow* window = mdiList.at(i);
 
-        QString sizeKey = QString("%1/%2/%3").arg("mdi", window->windowTitle(), "size");
-        QString posKey = QString("%1/%2/%3").arg("mdi", window->windowTitle(), "pos");
-
-        settings.setValue(sizeKey, window->size());
-        settings.setValue(posKey, window->pos());
-
-        qDebug() << window->geometry();
+        settings.setValue(window->windowTitle(), window->size());
+        settings.setValue(window->windowTitle(), window->pos());
     }
 }
 
@@ -142,8 +135,8 @@ void MainWindow::readSettings()
     GasInfoSettings settings;
 
     // main window
-    restoreGeometry(settings.value(mainWindowGeometryKey).toByteArray());
-    restoreState(settings.value(mainWindowStateKey).toByteArray());
+    restoreGeometry(settings.mainWindowGeometry());
+    restoreState(settings.mainWindowState());
 
     // mdi area
     QList<QMdiSubWindow*> mdiList = ui->mdiArea->subWindowList();
@@ -151,35 +144,43 @@ void MainWindow::readSettings()
     {
         QMdiSubWindow* window = mdiList.at(i);
 
-        QString sizeKey = QString("%1/%2/%3").arg("mdi", window->windowTitle(), "size");
-        QString posKey = QString("%1/%2/%3").arg("mdi", window->windowTitle(), "pos");
-
-        QSize size = settings.value(sizeKey, QSize(100, 100)).toSize();
+        QSize size = settings.windowSize(window->windowTitle());
         if (size.width() <= 100)
             size.setWidth(100);
         if (size.height() <= 100)
             size.setHeight(100);
 
         window->resize(size);
-        window->move(settings.value(posKey, QPoint(0, 0)).toPoint());
+        window->move(settings.windowPos(window->windowTitle()));
     }
 }
 
 void MainWindow::on_actionSave_triggered(bool checked)
 {
+    GasInfoSettings settings;
 
+    QString fileName = QDateTime::currentDateTime().toString();
+    QString filePath = QDir(settings.dataFolder()).filePath(fileName);
+
+    // default folder
+    if (!fileName.isEmpty())
+        m_centralModel->save(filePath);
 }
 
 void MainWindow::on_actionSaveAs_triggered(bool checked)
 {
     QString fileName = QFileDialog::getSaveFileName(this,
          tr("Save Data As"), "", tr("GasInfo Files (*.gas)"));
+
+    if (!fileName.isEmpty())
+        m_centralModel->save(fileName);
 }
 
 void MainWindow::on_actionLoad_triggered(bool checked)
 {
+   GasInfoSettings settings;
    QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Load Data"), "", tr("GasInfo File (*.gas)"));
+        tr("Load Data"), settings.dataFolder(), tr("GasInfo File (*.gas)"));
 }
 
 //void MainWindow::on_actionExport_triggered(bool checked)

@@ -13,7 +13,8 @@
 #include "QGasInfo.h"
 
 #include "qdevicedialog.h"
-#include "serialsettings.h"
+//#include "serialsettings.h"
+#include "gasinfosettings.h"
 
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 
@@ -89,7 +90,8 @@ MainDialog::~MainDialog()
 
 void MainDialog::reloadSettings()
 {
-    const SerialSettings s(settingsFileName, SerialSettings::IniFormat, 0);            
+    //const SerialSettings s(settingsFileName, SerialSettings::IniFormat, 0);
+    GasInfoSettings s;
     portInfo = s.serialPortInfo();
 
     ui->lineEditDevice->setText(portInfo.name);
