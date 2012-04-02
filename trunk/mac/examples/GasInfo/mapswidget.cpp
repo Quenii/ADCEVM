@@ -486,10 +486,14 @@ void MapsWidget::resizeEvent(QResizeEvent *event)
         d->view->centerOn(d->map);
 
         d->statusBarItem->setRect(0, height()-2, width()-2, 20);
-        d->zoomButtonItem->setRect((width()-2)-(width()-2)/10.0,
+     /*   d->zoomButtonItem->setRect((width()-2)-(width()-2)/10.0,
                                    (height()-2)/2.0 - (height()-2)/6.0,
                                    (width()-2)/10.0,
                                    (height()-2)/3.0);
+        */
+        QRect rect = QRect(width(), height() / 2, 40, 100);
+        rect.translate(-rect.width(), rect.height() / 2);
+        d->zoomButtonItem->setRect(rect.left(), rect.top(), rect.width(), rect.height());
     }
 }
 
