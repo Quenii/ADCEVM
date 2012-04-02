@@ -33,6 +33,7 @@ private:
     void saveSettings();
     void readSettings();
     QMdiSubWindow* terminalSubwindow(int terminalId);
+    void initMap();
 
 public slots:
     void applicationModelChanged();

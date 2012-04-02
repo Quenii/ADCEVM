@@ -4,11 +4,16 @@
 #include "centralmodel.h"
 #include "gasinfosettings.h"
 #include "optiondialog.h"
+#include "QGeoServiceProvider.h"
+#include "marker.h"
+
 
 #include <QMdiSubWindow>
 #include <QtDebug>
 #include <QFileDialog>
 #include <QDateTime>
+#include <QMessageBox>
+
 
 static QString terminalTitle(int terminalId)
 {
@@ -63,6 +68,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ok = connect(ui->deviceListWidget, SIGNAL(applicationModeChanged()),
                  this, SLOT(applicationModelChanged()));
     Q_ASSERT(ok);
+
+    initMap();
 
     readSettings();
 }
@@ -214,12 +221,86 @@ void MainWindow::applicationModelChanged()
     }
 }
 
-
 void MainWindow::addData(const GasInfoItem& item)
 {
     if (GasInfoSettings::applicationMode() == Receive)
     {
         m_centralModel->addData(item);
     }
+}
+
+void MainWindow::initMap()
+{
+    QGeoServiceProvider* serviceProvider = 0;
+    MapsWidget* mapsWidget =  ui->mapsWidget;
+    MarkerManager* markerManager = 0;
+
+    QList<QString> providers = QGeoServiceProvider::availableServiceProviders();
+    if (providers.size() < 1) {
+        QMessageBox::information(this, tr("Maps"),
+                                 tr("No service providers are available"));
+        // QCoreApplication::quit();
+        return;
+    }
+
+    foreach (QString provider, providers) {
+        serviceProvider = new QGeoServiceProvider(provider);
+        if (serviceProvider->mappingManager() &&
+                serviceProvider->searchManager() &&
+                serviceProvider->routingManager())
+            break;
+    }
+
+    if (serviceProvider->error() != QGeoServiceProvider::NoError) {
+        QMessageBox::information(this, tr("Maps"),
+                                 tr("Error loading geoservice plugin"));
+        // QCoreApplication::quit();
+        return;
+    }
+
+    if (!serviceProvider->mappingManager() ||
+            !serviceProvider->searchManager() ||
+            !serviceProvider->routingManager()) {
+        QMessageBox::information(this, tr("Maps"),
+                                 tr("No geoservice found with mapping/search/routing"));
+        // QCoreApplication::quit();
+        return;
+    }
+
+    // start initialising things (maps, searching, routing)
+
+    mapsWidget->initialize(serviceProvider->mappingManager());
+
+    if (markerManager)
+        delete markerManager;
+    markerManager = new MarkerManager(serviceProvider->searchManager());
+    mapsWidget->setMarkerManager(markerManager);
+
+    connect(markerManager, SIGNAL(searchError(QGeoSearchReply::Error,QString)),
+            this, SLOT(showErrorMessage(QGeoSearchReply::Error,QString)));
+    connect(mapsWidget, SIGNAL(markerClicked(Marker*)),
+            this, SLOT(showMarkerDialog(Marker*)));
+    connect(mapsWidget, SIGNAL(mapPanned()),
+            this, SLOT(disableTracking()));
+
+    /* if (positionSource)
+        delete positionSource;
+
+    // set up position feeds (eg GPS)
+
+    positionSource = QGeoPositionInfoSource::createDefaultSource(this);
+
+    if (!positionSource) {
+        mapsWidget->statusBar()->showText("Could not open GPS", 5000);
+        mapsWidget->setMyLocation(QGeoCoordinate(-27.5796, 153.1));
+        //mapsWidget->setMyLocation(QGeoCoordinate(21.1813, -86.8455));
+    } else {
+        positionSource->setUpdateInterval(1000);
+        connect(positionSource, SIGNAL(positionUpdated(QGeoPositionInfo)),
+                this, SLOT(updateMyPosition(QGeoPositionInfo)));
+        positionSource->startUpdates();
+        mapsWidget->statusBar()->showText("Opening GPS...");
+    }
+    */
 }
 

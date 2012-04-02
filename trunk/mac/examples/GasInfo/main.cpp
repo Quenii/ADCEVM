@@ -1,5 +1,6 @@
 #include <QApplication>
 #include "maindialog.h"
+
 #include "SerialTypes.hpp"
 
 #include "mainwindow.h"
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
 
     MainDialog w;
     w.show();
+
 
     MainWindow mainWindow;
     mainWindow.showMaximized();
