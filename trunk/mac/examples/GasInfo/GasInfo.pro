@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     gasinfosettings.cpp \
     optiondialog.cpp \
     mapswidget.cpp \
-    marker.cpp
+    marker.cpp \
+    locationmanager.cpp
 
 HEADERS  += \
             hled.h \
@@ -49,7 +50,8 @@ HEADERS  += \
     gasinfosettings.h \
     optiondialog.h \
     marker.h \
-    mapswidget.h
+    mapswidget.h \
+    locationmanager.h
 
 FORMS    += dialog.ui \
     DeviceDialog.ui \
