@@ -102,7 +102,7 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="LightMaps" name="mapsWidget"/>
+   <widget class="MapsWidget" name="mapsWidget"/>
   </widget>
   <action name="actionSaveAs">
    <property name="text">
@@ -148,9 +148,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>LightMaps</class>
+   <class>MapsWidget</class>
    <extends>QWidget</extends>
-   <header>lightmaps.h</header>
+   <header>mapswidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

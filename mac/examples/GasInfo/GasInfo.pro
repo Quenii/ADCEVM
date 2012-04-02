@@ -29,9 +29,9 @@ SOURCES += main.cpp\
     terminalwidget.cpp \
     centralmodel.cpp \
     gasinfosettings.cpp \
-    slippymap.cpp \
-    lightmaps.cpp \
-    optiondialog.cpp
+    optiondialog.cpp \
+    mapswidget.cpp \
+    marker.cpp
 
 HEADERS  += \
             hled.h \
@@ -47,9 +47,9 @@ HEADERS  += \
     terminalwidget.h \
     centralmodel.h \
     gasinfosettings.h \
-    slippymap.h \
-    lightmaps.h \
-    optiondialog.h
+    optiondialog.h \
+    marker.h \
+    mapswidget.h
 
 FORMS    += dialog.ui \
     DeviceDialog.ui \
