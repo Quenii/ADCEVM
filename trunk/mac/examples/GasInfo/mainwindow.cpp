@@ -6,7 +6,7 @@
 #include "optiondialog.h"
 #include "QGeoServiceProvider.h"
 #include "marker.h"
-
+#include "gasinfosettings.h"
 
 #include <QMdiSubWindow>
 #include <QtDebug>
@@ -278,14 +278,14 @@ void MainWindow::initMap()
     markerManager = new MarkerManager(serviceProvider->searchManager());
     mapsWidget->setMarkerManager(markerManager);
 
-    connect(markerManager, SIGNAL(searchError(QGeoSearchReply::Error,QString)),
+    /*connect(markerManager, SIGNAL(searchError(QGeoSearchReply::Error,QString)),
             this, SLOT(showErrorMessage(QGeoSearchReply::Error,QString)));
     connect(mapsWidget, SIGNAL(markerClicked(Marker*)),
             this, SLOT(showMarkerDialog(Marker*)));
-    connect(mapsWidget, SIGNAL(mapPanned()),
+     connect(mapsWidget, SIGNAL(mapPanned()),
             this, SLOT(disableTracking()));
 
-    /* if (positionSource)
+    if (positionSource)
         delete positionSource;
 
     // set up position feeds (eg GPS)
@@ -309,7 +309,11 @@ void MainWindow::initMap()
 
 void MainWindow::timerEvent(QTimerEvent *event)
 {
+    if (GasInfoSettings::applicationMode() != Receive)
+        return ;
+
     QDateTime now = QDateTime::currentDateTime();
+    int activeInterval = GasInfoSettings().activeInterval();
 
     for (int row = 0; row < m_centralModel->rowCount(); ++row)
     {
@@ -319,11 +323,19 @@ void MainWindow::timerEvent(QTimerEvent *event)
             QStandardItem* timeItem = termIdItem->child(0, 2);
             QDateTime lastTick = timeItem->data(Qt::UserRole).toDateTime();
 
-            if (lastTick.secsTo(now) > GasInfoSettings::activeInterval())
-            {
-                 QStandardItem* statusItem = m_centralModel->item(row, 1);
+            QStandardItem* statusItem = m_centralModel->item(row, 1);
 
+            if (statusItem && lastTick.secsTo(now) > activeInterval)
+            {                
+                statusItem->setText("Inactive");
+                statusItem->setBackground(QBrush(Qt::yellow));
             }
+            else
+            {
+                statusItem->setText("Active");
+                statusItem->setForeground(QBrush(Qt::white));
+            }
+
         }
     }
 }

@@ -30,7 +30,9 @@ OptionDialog::OptionDialog(QWidget *parent) :
     ui->minutesSpinBox->setValue(time.minute());
 
 
-    ui->activeIntervalMinutesSpinBox->setValue(settings.activeInterval() / 60);
+    int interval = settings.activeInterval();
+    ui->activeIntervalMinutesSpinBox->setValue(interval / 60);
+    ui->activeIntervalSecondsSpinBox-setValue(interval % 60);
 
     bool ok = connect(this, SIGNAL(accepted()), this, SLOT(on_accepted()));
     Q_ASSERT(ok);
@@ -56,7 +58,11 @@ void OptionDialog::on_accepted()
 
     settings.setArchivePeriod(totalMinutes * 60);
 
-    settings.setActiveInternal(ui->activeIntervalMinutesSpinBox->value() * 60);
+    int activeMinutes = ui->activeIntervalMinutesSpinBox->value();
+    int activeSeconds = ui->activeIntervalSecondsSpinBox->value();
+    int activeTotalSeconds = activeMinutes * 60 + activeSeconds;
+    activeTotalSeconds = qMax(activeTotalSeconds, 1);
+    settings.setActiveInternal(activeTotalSeconds);
 }
 
 void OptionDialog::on_broswePushButton_clicked()
