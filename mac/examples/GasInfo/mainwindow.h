@@ -56,6 +56,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     CentralModel* m_centralModel;
+    QDateTime m_receiveSessionStartTime;
+    QDateTime m_lastReceiveTime;
 };
 
 #endif // MAINWINDOW_H

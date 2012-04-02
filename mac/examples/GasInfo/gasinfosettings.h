@@ -4,6 +4,7 @@
 #include "SerialTypes.hpp"
 
 #include <QSettings>
+#include <QDateTime>
 
 class GasInfoSettings : public QSettings
 {

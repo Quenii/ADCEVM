@@ -109,6 +109,7 @@ void MainWindow::openCloseTerminals(const QList<int> &idList, bool open)
                 subWindow->raise();
                 continue;
             }
+
             MdiSubWindow* subWindow1 = new MdiSubWindow();
             TerminalWidget* terminalWidget = new TerminalWidget;
             subWindow1->setWidget(terminalWidget);
@@ -185,8 +186,6 @@ void MainWindow::on_actionSave_triggered(bool checked)
     // default folder
     if (!fileName.isEmpty())
         m_centralModel->save(filePath);
-
-    m_centralModel->clear();
 }
 
 void MainWindow::on_actionLoad_triggered(bool checked)
@@ -199,6 +198,7 @@ void MainWindow::on_actionLoad_triggered(bool checked)
                 tr("GasInfo File (*.gas)"));
 
     m_centralModel->load(fileName);
+    ui->deviceListWidget->setModel(m_centralModel);
 }
 
 void MainWindow::on_actionOption_triggered(bool checked)
@@ -221,6 +221,17 @@ void MainWindow::applicationModelChanged()
     {
         on_actionSave_triggered();
     }
+    else if (appMode == Receive)
+    {
+        m_receiveSessionStartTime = QDateTime::currentDateTime();
+ }
+    else
+    {
+        Q_ASSERT(false);
+    }
+
+    // clear when application mode has been changed
+    m_centralModel->clear();
 }
 
 void MainWindow::addData(const GasInfoItem& item)
@@ -228,6 +239,8 @@ void MainWindow::addData(const GasInfoItem& item)
     if (GasInfoSettings::applicationMode() == Receive)
     {
         m_centralModel->addData(item);
+
+        m_lastReceiveTime = QDateTime::currentDateTime();
     }
 }
 
@@ -309,33 +322,40 @@ void MainWindow::initMap()
 
 void MainWindow::timerEvent(QTimerEvent *event)
 {
-    if (GasInfoSettings::applicationMode() != Receive)
-        return ;
-
-    QDateTime now = QDateTime::currentDateTime();
-    int activeInterval = GasInfoSettings().activeInterval();
-
-    for (int row = 0; row < m_centralModel->rowCount(); ++row)
+    if (GasInfoSettings::applicationMode() == Receive)
     {
-        QStandardItem* termIdItem = m_centralModel->item(row, 0);
-        if (termIdItem && termIdItem->hasChildren())
+        GasInfoSettings settings;
+
+        QDateTime now = QDateTime::currentDateTime();
+        int activeInterval =settings.activeInterval();
+
+        for (int row = 0; row < m_centralModel->rowCount(); ++row)
         {
-            QStandardItem* timeItem = termIdItem->child(0, 2);
-            QDateTime lastTick = timeItem->data(Qt::UserRole).toDateTime();
-
-            QStandardItem* statusItem = m_centralModel->item(row, 1);
-
-            if (statusItem && lastTick.secsTo(now) > activeInterval)
-            {                
-                statusItem->setText("Inactive");
-                statusItem->setBackground(QBrush(Qt::yellow));
-            }
-            else
+            QStandardItem* termIdItem = m_centralModel->item(row, 0);
+            if (termIdItem && termIdItem->hasChildren())
             {
-                statusItem->setText("Active");
-                statusItem->setForeground(QBrush(Qt::white));
-            }
+                QStandardItem* timeItem = termIdItem->child(0, 2);
+                QDateTime lastTick = timeItem->data(Qt::UserRole).toDateTime();
 
+                QStandardItem* statusItem = m_centralModel->item(row, 1);
+
+                if (statusItem && lastTick.secsTo(now) > activeInterval)
+                {
+                    statusItem->setText("Inactive");
+                    statusItem->setBackground(QBrush(Qt::darkYellow));
+                }
+                else
+                {
+                    statusItem->setText("Active");
+                    statusItem->setForeground(QBrush(Qt::white));
+                }
+            }
+        }
+
+        if (m_receiveSessionStartTime.secsTo(m_lastReceiveTime) >= int(settings.archivePeriod()))
+        {
+            on_actionSave_triggered(false);
+            m_centralModel->clear();
         }
     }
 }
