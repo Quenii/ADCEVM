@@ -45,9 +45,11 @@ struct GasInfoItem
     float so2;
     float fel;
 
-    QString latitude;
-    QString longitude;
-    QString distance;
+   QString latitude; // why?
+    QString longitude; // why?
+    QString distance; // why?
+
+    GpsInfo gpsInfo;
 };
 
 struct SerialPortInfo

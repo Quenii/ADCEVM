@@ -238,7 +238,10 @@ void MainWindow::addData(const GasInfoItem& item)
 {
     if (GasInfoSettings::applicationMode() == Receive)
     {
+        // update date
         m_centralModel->addData(item);
+
+        // update GPS
 
         m_lastReceiveTime = QDateTime::currentDateTime();
     }
