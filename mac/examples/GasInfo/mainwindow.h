@@ -15,6 +15,8 @@ namespace Ui {
 class QModelIndex;
 class CentralModel;
 class QMdiSubWindow;
+class QTimerEvent;
+
 
 class MainWindow : public QMainWindow
 {
@@ -29,6 +31,8 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *event);
+    void timerEvent(QTimerEvent *event);
+
 private:
     void saveSettings();
     void readSettings();

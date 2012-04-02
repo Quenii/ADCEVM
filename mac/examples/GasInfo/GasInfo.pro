@@ -63,7 +63,7 @@ FORMS    += dialog.ui \
     optiondialog.ui
 
 RESOURCES += \
-#    res.qrc
+     gasinfo.qrc
 
 
 

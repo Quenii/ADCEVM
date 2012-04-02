@@ -28,23 +28,23 @@ public:
 protected:
     void closeEvent(QCloseEvent *event)
     {
-//        GasInfoSettings settings;
-//        settings.setWindowSize(windowTitle(), size());
-//        settings.setWindowPos(windowTitle(), pos());
+        //        GasInfoSettings settings;
+        //        settings.setWindowSize(windowTitle(), size());
+        //        settings.setWindowPos(windowTitle(), pos());
     }
 
     void showEvent(QShowEvent* showEvent)
     {
-//        GasInfoSettings settings;
+        //        GasInfoSettings settings;
 
-//        QSize size = settings.windowSize(windowTitle());
-//        if (size.width() <= 100)
-//            size.setWidth(100);
-//        if (size.height() <= 100)
-//            size.setHeight(100);
+        //        QSize size = settings.windowSize(windowTitle());
+        //        if (size.width() <= 100)
+        //            size.setWidth(100);
+        //        if (size.height() <= 100)
+        //            size.setHeight(100);
 
-//        resize(size);
-//        move(settings.windowPos(windowTitle()));
+        //        resize(size);
+        //        move(settings.windowPos(windowTitle()));
     }
 };
 
@@ -70,6 +70,8 @@ MainWindow::MainWindow(QWidget *parent) :
     Q_ASSERT(ok);
 
     initMap();
+
+    startTimer(1000); // one tick per second
 
     readSettings();
 }
@@ -305,3 +307,23 @@ void MainWindow::initMap()
     ui->mapsWidget->setMyLocation(QGeoCoordinate(39.903924, 116.391432));
 }
 
+void MainWindow::timerEvent(QTimerEvent *event)
+{
+    QDateTime now = QDateTime::currentDateTime();
+
+    for (int row = 0; row < m_centralModel->rowCount(); ++row)
+    {
+        QStandardItem* termIdItem = m_centralModel->item(row, 0);
+        if (termIdItem && termIdItem->hasChildren())
+        {
+            QStandardItem* timeItem = termIdItem->child(0, 2);
+            QDateTime lastTick = timeItem->data(Qt::UserRole).toDateTime();
+
+            if (lastTick.secsTo(now) > GasInfoSettings::activeInterval())
+            {
+                 QStandardItem* statusItem = m_centralModel->item(row, 1);
+
+            }
+        }
+    }
+}
