@@ -302,5 +302,6 @@ void MainWindow::initMap()
         mapsWidget->statusBar()->showText("Opening GPS...");
     }
     */
+    ui->mapsWidget->setMyLocation(QGeoCoordinate(39.903924, 116.391432));
 }
 
