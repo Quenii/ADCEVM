@@ -32,7 +32,7 @@ OptionDialog::OptionDialog(QWidget *parent) :
 
     int interval = settings.activeInterval();
     ui->activeIntervalMinutesSpinBox->setValue(interval / 60);
-    ui->activeIntervalSecondsSpinBox-setValue(interval % 60);
+    ui->activeIntervalSecondsSpinBox->setValue(interval % 60);
 
     bool ok = connect(this, SIGNAL(accepted()), this, SLOT(on_accepted()));
     Q_ASSERT(ok);

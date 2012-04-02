@@ -162,7 +162,7 @@
           <item>
            <widget class="QSpinBox" name="activeIntervalMinutesSpinBox">
             <property name="minimum">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="maximum">
              <number>59</number>
@@ -177,9 +177,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="activeIntervalSecondsSpinBox_2">
+           <widget class="QSpinBox" name="activeIntervalSecondsSpinBox">
             <property name="minimum">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="maximum">
              <number>59</number>
