@@ -155,7 +155,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>开试运行</string>
+           <string>开始运行</string>
           </property>
          </widget>
         </item>
