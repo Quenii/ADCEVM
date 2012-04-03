@@ -3,9 +3,56 @@
 
 #include "qgraphicsgeomap.h"
 #include "Marker.h"
+#include "QGeoMapTextObject.h"
+#include "QGeoMapGroupObject.h"
 
 #include <QObject>
 #include <QHash>
+
+
+class DeviceTextMarker : public QGeoMapGroupObject
+{
+public:
+    explicit DeviceTextMarker(int id)
+        : QGeoMapGroupObject()
+        , m_text(new QGeoMapTextObject())
+        , m_marker(new Marker((id == 0) ? Marker::MyLocationMarker : Marker::SearchMarker))
+        , m_id(id)
+    {
+        if (m_id == 0)
+            m_text->setText("Host");
+        else
+            m_text->setText(QString("Terminal %1").arg(m_id));
+
+        addChildObject(m_text);
+        addChildObject(m_marker);
+    }
+
+public:
+    void setCoordinate(const QGeoCoordinate& location)
+    {
+        m_text->setCoordinate(location);
+        m_text->setAlignment(Qt::AlignCenter);
+        m_text->setOffset(QPoint(m_text->boundingBox().width() / 2, m_text->boundingBox().height() + 20));
+
+        m_marker->setCoordinate(location);
+    }
+
+    void setText(const QString& str)
+    {
+
+    }
+
+    QGeoCoordinate coordinate()
+    {
+        return m_marker->coordinate();
+    }
+
+private:
+    int m_id;
+    QGeoMapTextObject* m_text;
+    Marker* m_marker;
+};
 
 
 class LocationManager : public QObject
@@ -24,7 +71,7 @@ public slots:
 
 private:
     QGraphicsGeoMap* m_map;
-    QHash<int, Marker*> m_markers;
+    QHash<int, DeviceTextMarker*> m_markers;
 };
 
 #endif // LOCATIONMANAGER_H

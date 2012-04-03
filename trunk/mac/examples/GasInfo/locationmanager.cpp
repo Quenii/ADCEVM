@@ -2,6 +2,8 @@
 
 // QGraphicsTextItem
 
+#include <QtDebug>
+
 LocationManager::LocationManager(QObject *parent, QGraphicsGeoMap* map)
     : QObject(parent)
     , m_map(map)
@@ -11,19 +13,25 @@ LocationManager::LocationManager(QObject *parent, QGraphicsGeoMap* map)
 
 void LocationManager::addLocation(int id, QGeoCoordinate location)
 {
-    Marker* marker = 0;
+    if (!location.isValid())
+    {
+        qDebug() << "In LocationManager::addLocation(...): invalid QGeoCoordinate is passed in.";
+        return ;
+    }
+
+    DeviceTextMarker* marker = 0;
     if (m_markers.contains(id))
     {
-
         marker = m_markers[id];
+        if (marker->coordinate() == location) // no need to update
+            return ;
     }
     else
     {
-        marker = new Marker((id == 0) ? Marker::MyLocationMarker : Marker::SearchMarker);
-        QString name = (id == 0) ? "Host" : QString("Terminal %1").arg(id);
-
+        marker = new DeviceTextMarker(id);
+        /*QString name = (id == 0) ? "Host" : QString("Terminal %1").arg(id);
         marker->setName(name);
-
+*/
         m_map->addMapObject(marker);
         m_markers.insert(id, marker);
     }
