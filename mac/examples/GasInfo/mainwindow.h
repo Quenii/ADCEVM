@@ -46,8 +46,6 @@ public slots:
     void applicationModelChanged();
     void addData(const GasInfoItem& item);
 
-
-
 private slots:  
     void openCloseTerminals(const QList<int>& idList, bool open);
     void deleteTerminals(const QList<int>& idList);

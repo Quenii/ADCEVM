@@ -57,7 +57,7 @@ MainDialog::MainDialog(QWidget *parent) :
 
     if (!QFile::exists(settingsFileName))
     {
-        QDeviceDialog dlg(settingsFileName);
+        QDeviceDialog dlg;//(/*settingsFileName*/);
         dlg.exec();
     }
     reloadSettings();
@@ -138,7 +138,7 @@ void MainDialog::on_pushButtonChangeSettingsclicked()
         timer->stop();
     }
 
-    QDeviceDialog dlg(settingsFileName);
+    QDeviceDialog dlg;//(/*settingsFileName*/);
     dlg.exec();
     reloadSettings();
 }

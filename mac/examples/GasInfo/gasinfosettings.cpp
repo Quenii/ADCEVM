@@ -15,6 +15,7 @@ static const char* defaultHostLocationKey = "option/defaulHostLocation";
 
 
 static const char* serialPortInfoKey = "communication/serialPortInfo";
+static const char* gpsPortInfoKey = "communication/gpsPortInfo";
 
 static ApplicationModes g_applicationMode = Receive;
 
@@ -89,6 +90,16 @@ void GasInfoSettings::setSerialPortInfo(const SerialPortInfo& val)
 
 }
 
+SerialPortInfo GasInfoSettings::gpsPortInfo() const
+{
+    return value(gpsPortInfoKey).value<SerialPortInfo>();
+}
+
+void GasInfoSettings::setGpsPortInfo(const SerialPortInfo& val)
+{
+    setValue(gpsPortInfoKey, val);
+
+}
 QString GasInfoSettings::dataFolder() const
 {
     QString appDir = qApp->applicationDirPath();
