@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     optiondialog.cpp \
     mapswidget.cpp \
     marker.cpp \
-    locationmanager.cpp
+    locationmanager.cpp \
+    qtermdatahandler.cpp
 
 HEADERS  += \
             hled.h \
@@ -51,7 +52,8 @@ HEADERS  += \
     optiondialog.h \
     marker.h \
     mapswidget.h \
-    locationmanager.h
+    locationmanager.h \
+    qtermdatahandler.h
 
 FORMS    += dialog.ui \
     DeviceDialog.ui \
