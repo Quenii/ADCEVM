@@ -345,32 +345,6 @@ void MainWindow::timerEvent(QTimerEvent *event)
     {
         GasInfoSettings settings;
 
-        QDateTime now = QDateTime::currentDateTime();
-        int activeInterval =settings.activeInterval();
-
-        for (int row = 0; row < m_centralModel->rowCount(); ++row)
-        {
-            QStandardItem* termIdItem = m_centralModel->item(row, 0);
-            if (termIdItem && termIdItem->hasChildren())
-            {
-                QStandardItem* timeItem = termIdItem->child(0, 2);
-                QDateTime lastTick = timeItem->data(Qt::UserRole).toDateTime();
-
-                QStandardItem* statusItem = m_centralModel->item(row, 1);
-
-                if (statusItem && lastTick.secsTo(now) > activeInterval)
-                {
-                    statusItem->setText("Inactive");
-                    statusItem->setBackground(QBrush(Qt::darkYellow));
-                }
-                else
-                {
-                    statusItem->setText("Active");
-                    statusItem->setForeground(QBrush(Qt::white));
-                }
-            }
-        }
-
         if (m_receiveSessionStartTime.secsTo(m_lastReceiveTime) >= int(settings.archivePeriod()))
         {
             on_actionSave_triggered(false);
