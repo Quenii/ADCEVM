@@ -1,5 +1,9 @@
 #pragma once
 
+#include "qextserialport.h"
+#include "qgeocoordinate.h"
+
+
 #include <QString>
 #include <queue>
 #include <QMetaType>
@@ -7,7 +11,8 @@
 #include <QFile>
 #include <QDataStream>
 #include <QVariant>
-#include "qextserialport.h"
+
+using namespace QtMobility;
 
 enum ApplicationModes
 {
@@ -45,11 +50,11 @@ struct GasInfoItem
     float so2;
     float fel;
 
-   QString latitude; // why?
+    QString latitude; // why?
     QString longitude; // why?
     QString distance; // why?
 
-    GpsInfo gpsInfo;
+    QGeoCoordinate location;
 };
 
 struct SerialPortInfo
@@ -91,7 +96,7 @@ inline QDataStream& operator>>(QDataStream& in, SerialPortInfo& val)
     in >> val.FlowControl;
     in >> val.Parity;
     in >> val.StopBits;
-        in >> val.Timeout_Millisec;
+    in >> val.Timeout_Millisec;
     in >> val.mode;
 
     return in;

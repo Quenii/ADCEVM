@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "gasinfosettings.h"
+#include "locationmanager.h"
 
 #include <QMainWindow>
 #include <QCloseEvent>
@@ -39,9 +40,12 @@ private:
     QMdiSubWindow* terminalSubwindow(int terminalId);
     void initMap();
 
+    void clearAllData();
+
 public slots:
     void applicationModelChanged();
     void addData(const GasInfoItem& item);
+
 
 
 private slots:  
@@ -58,6 +62,7 @@ private:
     CentralModel* m_centralModel;
     QDateTime m_receiveSessionStartTime;
     QDateTime m_lastReceiveTime;
+    LocationManager* m_locationManager;
 };
 
 #endif // MAINWINDOW_H

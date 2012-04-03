@@ -34,6 +34,15 @@ OptionDialog::OptionDialog(QWidget *parent) :
     ui->activeIntervalMinutesSpinBox->setValue(interval / 60);
     ui->activeIntervalSecondsSpinBox->setValue(interval % 60);
 
+    QGeoCoordinate hostLocation = settings.defaultHostLocation();
+
+    QString hostLatitudeStr = QString::number(hostLocation.latitude(),'f');
+    QString hostLongitudeStr = QString::number(hostLocation.longitude(), 'f');
+
+    ui->defaultHostLatitudeLineEdit->setText(hostLatitudeStr);
+    ui->defaultHostLongitudeLineEdit->setText(hostLongitudeStr);
+
+
     bool ok = connect(this, SIGNAL(accepted()), this, SLOT(on_accepted()));
     Q_ASSERT(ok);
 }
@@ -63,6 +72,16 @@ void OptionDialog::on_accepted()
     int activeTotalSeconds = activeMinutes * 60 + activeSeconds;
     activeTotalSeconds = qMax(activeTotalSeconds, 1);
     settings.setActiveInternal(activeTotalSeconds);
+
+
+    QString hostLatitudeStr = ui->defaultHostLatitudeLineEdit->text();
+    QString hostLongitudeStr = ui->defaultHostLongitudeLineEdit->text();
+
+    double hostLatitude = hostLatitudeStr.toDouble();
+    double hostLongitude = hostLongitudeStr.toDouble();
+
+    settings.setDefaultHostLocation(QGeoCoordinate(hostLatitude, hostLongitude));
+
 }
 
 void OptionDialog::on_broswePushButton_clicked()

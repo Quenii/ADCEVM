@@ -454,7 +454,7 @@ void MapsWidget::initialize(QGeoMappingManager *manager)
 
     resizeEvent(0);
 
-    d->map->setCenter(QGeoCoordinate(-27.5796, 153.1));
+    d->map->setCenter(QGeoCoordinate(0, 0));
     d->map->setZoomLevel(15);
 }
 

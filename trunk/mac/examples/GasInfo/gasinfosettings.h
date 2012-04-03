@@ -42,6 +42,9 @@ public:
     uint activeInterval() const;
     void setActiveInternal(uint seconds);
 
+    QGeoCoordinate defaultHostLocation() const;
+    void setDefaultHostLocation(const QGeoCoordinate& location);
+
 
 signals:
     
