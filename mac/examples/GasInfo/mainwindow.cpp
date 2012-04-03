@@ -51,22 +51,32 @@ protected:
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , m_locationManager(0)
     , m_centralModel(0)
+    , m_locationManager(0)
 {
     ui->setupUi(this);
 
     initMap();
 
+
+    bool ok = false;
+
     m_locationManager = new LocationManager(this, ui->mapsWidget->map());
 
     m_centralModel = new CentralModel(this);
-
     ui->deviceListWidget->setModel(m_centralModel);
 
-    bool ok = connect(ui->deviceListWidget, SIGNAL(openCloseTerminals(const QList<int>&, bool)),
+    ok = connect(m_centralModel, SIGNAL(archivePeriodReached()),
+                 this, SLOT(archiveCentralModel()));
+    Q_ASSERT(ok);
+
+    ok = connect(ui->deviceListWidget, SIGNAL(optionsApplied()), this, SLOT(optionsApplied()));
+    Q_ASSERT(ok);
+
+    ok = connect(ui->deviceListWidget, SIGNAL(openCloseTerminals(const QList<int>&, bool)),
                       this, SLOT(openCloseTerminals(const QList<int>&, bool)));
     Q_ASSERT(ok);
+
     ok = connect(ui->deviceListWidget, SIGNAL(deleteTerminals(QList<int>)),
                  this, SLOT(deleteTerminals(QList<int>)));
     Q_ASSERT(ok);
@@ -75,7 +85,6 @@ MainWindow::MainWindow(QWidget *parent)
                  this, SLOT(applicationModelChanged()));
     Q_ASSERT(ok);
 
-    startTimer(1000); // one tick per second
 
     readSettings();
 }
@@ -85,13 +94,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::clearAllData()
-{
-    if (m_centralModel)
-        m_centralModel->clear();
-    if (m_locationManager)
-        m_locationManager->clearLocations();
-}
+
 
 QMdiSubWindow* MainWindow::terminalSubwindow(int terminalId)
 {
@@ -187,15 +190,7 @@ void MainWindow::readSettings()
 
 void MainWindow::on_actionSave_triggered(bool checked)
 {
-    GasInfoSettings settings;
-
-    QString timeStr = QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss");
-    QString fileName = timeStr + ".gas";
-    QString filePath = QDir(settings.dataFolder()).filePath(fileName);
-
-    // default folder
-    if (!fileName.isEmpty())
-        m_centralModel->save(filePath);
+    archiveCentralModel();
 }
 
 void MainWindow::on_actionLoad_triggered(bool checked)
@@ -229,18 +224,25 @@ void MainWindow::applicationModelChanged()
 
     if (appMode == Review)
     {
-        on_actionSave_triggered();
+        archiveCentralModel();
     }
     else if (appMode == Receive)
     {
-        m_receiveSessionStartTime = QDateTime::currentDateTime();
+        m_centralModel->endReceiveSession(false);
+        m_centralModel->beginReceiveSession();
     }
     else
     {
         Q_ASSERT(false);
     }
 
+
     clearAllData();
+    if (appMode == Receive)
+    {
+        m_locationManager->addLocation(0, GasInfoSettings().defaultHostLocation());
+    }
+
 }
 
 void MainWindow::addData(const GasInfoItem& item)
@@ -257,9 +259,15 @@ void MainWindow::addData(const GasInfoItem& item)
 
         if (item.ch == 0 && item.location.isValid())
             GasInfoSettings().setDefaultHostLocation(item.location);
-
-        m_lastReceiveTime = QDateTime::currentDateTime();
     }
+}
+
+void MainWindow::clearAllData()
+{
+    if (m_centralModel)
+        m_centralModel->clear();
+    if (m_locationManager)
+        m_locationManager->clearLocations();
 }
 
 void MainWindow::initMap()
@@ -309,54 +317,26 @@ void MainWindow::initMap()
     markerManager = new MarkerManager(serviceProvider->searchManager());
     mapsWidget->setMarkerManager(markerManager);
 
-    /*connect(markerManager, SIGNAL(searchError(QGeoSearchReply::Error,QString)),
-            this, SLOT(showErrorMessage(QGeoSearchReply::Error,QString)));
-    connect(mapsWidget, SIGNAL(markerClicked(Marker*)),
-            this, SLOT(showMarkerDialog(Marker*)));
-     connect(mapsWidget, SIGNAL(mapPanned()),
-            this, SLOT(disableTracking()));
-
-    if (positionSource)
-        delete positionSource;
-
-    // set up position feeds (eg GPS)
-
-    positionSource = QGeoPositionInfoSource::createDefaultSource(this);
-
-    if (!positionSource) {
-        mapsWidget->statusBar()->showText("Could not open GPS", 5000);
-        mapsWidget->setMyLocation(QGeoCoordinate(-27.5796, 153.1));
-        //mapsWidget->setMyLocation(QGeoCoordinate(21.1813, -86.8455));
-    } else {
-        positionSource->setUpdateInterval(1000);
-        connect(positionSource, SIGNAL(positionUpdated(QGeoPositionInfo)),
-                this, SLOT(updateMyPosition(QGeoPositionInfo)));
-        positionSource->startUpdates();
-        mapsWidget->statusBar()->showText("Opening GPS...");
-    }
-    */
-
-   // ui->mapsWidget->setMyLocation(QGeoCoordinate(39.903924, 116.391432));
 }
 
-void MainWindow::timerEvent(QTimerEvent *event)
+void MainWindow::archiveCentralModel()
 {
-    if (GasInfoSettings::applicationMode() == Receive)
-    {
-        GasInfoSettings settings;
+    GasInfoSettings settings;
 
-        if (m_receiveSessionStartTime.secsTo(m_lastReceiveTime) >= int(settings.archivePeriod()))
-        {
-            on_actionSave_triggered(false);
-            clearAllData();
-        }
+    QString timeStr = QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss");
+    QString fileName = timeStr + ".gas";
+    QString filePath = QDir(settings.dataFolder()).filePath(fileName);
 
-        qDebug("tick");
+    // default folder
+    if (!fileName.isEmpty())
+       m_centralModel->endReceiveSession(true, filePath);
 
-        static QGeoCoordinate loc(39.903924, 116.391432);
-        static int id = 0;
-        m_locationManager->addLocation(id, loc);
-        id ++;
-        loc.setLongitude(loc.longitude() + 0.0005);
-    }
+    clearAllData();
+    m_centralModel->beginReceiveSession();
+}
+
+void MainWindow::optionsApplied()
+{
+    GasInfoSettings settings;
+    m_locationManager->addLocation(0, settings.defaultHostLocation());
 }
