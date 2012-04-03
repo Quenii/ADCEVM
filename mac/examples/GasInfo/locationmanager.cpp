@@ -41,6 +41,8 @@ void LocationManager::addLocation(int id, QGeoCoordinate location)
     {
         m_map->setCenter(location);
     }
+
+    qDebug() << " marker->setCoordinate(location); id: " << id << " location: " << location ;
 }
 
 void LocationManager::clearLocations()

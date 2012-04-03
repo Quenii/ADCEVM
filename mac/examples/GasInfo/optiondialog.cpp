@@ -12,9 +12,25 @@ OptionDialog::OptionDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OptionDialog)
 {
-    GasInfoSettings settings;
-
     ui->setupUi(this);
+    giveOptions();
+}
+
+
+
+OptionDialog::~OptionDialog()
+{
+    delete ui;
+}
+
+void OptionDialog::opeitonsAccepted()
+{
+    takeOptions();
+}
+
+void OptionDialog::giveOptions()
+{
+    GasInfoSettings settings;
 
     ui->dataFolderLineEdit->setText(settings.dataFolder());
 
@@ -43,16 +59,11 @@ OptionDialog::OptionDialog(QWidget *parent) :
     ui->defaultHostLongitudeLineEdit->setText(hostLongitudeStr);
 
 
-    bool ok = connect(this, SIGNAL(accepted()), this, SLOT(on_accepted()));
+    bool ok = connect(this, SIGNAL(accepted()), this, SLOT(opeitonsAccepted()));
     Q_ASSERT(ok);
 }
 
-OptionDialog::~OptionDialog()
-{
-    delete ui;
-}
-
-void OptionDialog::on_accepted()
+void OptionDialog::takeOptions()
 {
     GasInfoSettings settings;
 
@@ -100,6 +111,8 @@ void OptionDialog::on_buttonBox_clicked(QAbstractButton * button)
 {
     if (ui->buttonBox->standardButton(button) == QDialogButtonBox::Apply)
     {
+        takeOptions();
+
         emit optionsApplied();
     }
 }
