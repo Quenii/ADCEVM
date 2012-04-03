@@ -189,6 +189,8 @@ void DeviceListWidget::on_pushButtonStart_clicked()
         term->stop();
         ui->ledComm->turnOff();
         ui->ledGps->turnOff();
+        ui->pushButtonConfig->setEnabled(true);
+        ui->pushButtonStart->setText(QString::fromLocal8Bit("开始运行"));
     }
     else
     {
@@ -200,6 +202,8 @@ void DeviceListWidget::on_pushButtonStart_clicked()
         {
             ui->ledComm->turnOn();
             ui->ledGps->turnOn();
+            ui->pushButtonConfig->setEnabled(false);
+            ui->pushButtonStart->setText(QString::fromLocal8Bit("停止"));
         }
     }
 //
