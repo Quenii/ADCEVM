@@ -32,7 +32,6 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *event);
-    void timerEvent(QTimerEvent *event);
 
 private:
     void saveSettings();

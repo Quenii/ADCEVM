@@ -17,14 +17,17 @@ public:
     explicit OptionDialog(QWidget *parent = 0);
     ~OptionDialog();
 
+private:
+    void takeOptions();
+    void giveOptions();
+
 signals:
     void optionsApplied();
 
 private slots:
-    void on_accepted();
+    void opeitonsAccepted();
     void on_broswePushButton_clicked();
     void on_buttonBox_clicked(QAbstractButton * button);
-
 
 private:
     Ui::OptionDialog *ui;

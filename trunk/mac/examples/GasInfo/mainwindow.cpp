@@ -70,8 +70,6 @@ MainWindow::MainWindow(QWidget *parent)
                  this, SLOT(archiveCentralModel()));
     Q_ASSERT(ok);
 
-    ok = connect(ui->deviceListWidget, SIGNAL(optionsApplied()), this, SLOT(optionsApplied()));
-    Q_ASSERT(ok);
 
     ok = connect(ui->deviceListWidget, SIGNAL(openCloseTerminals(const QList<int>&, bool)),
                       this, SLOT(openCloseTerminals(const QList<int>&, bool)));
@@ -209,6 +207,9 @@ void MainWindow::on_actionLoad_triggered(bool checked)
 void MainWindow::on_actionOption_triggered(bool checked)
 {
     OptionDialog dlg;
+    bool ok = connect(&dlg, SIGNAL(optionsApplied()), this, SLOT(optionsApplied()));
+    Q_ASSERT(ok);
+
     dlg.exec();
 }
 
