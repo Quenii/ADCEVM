@@ -2,6 +2,7 @@
 #include "ui_devicelistwidget.h"
 #include "centralmodel.h"
 #include "gasinfosettings.h"
+#include "qdevicedialog.h"
 
 #include <QHeaderView>
 #include <QSet>
@@ -30,6 +31,9 @@ DeviceListWidget::DeviceListWidget(QWidget *parent) :
     Q_ASSERT(ok);
 
     QTimer::singleShot(0, ui->receiveModePushButton, SLOT(toggle()));
+
+    ui->ledComm->turnOff();
+    ui->ledGps->turnOff();
 }
 
 DeviceListWidget::~DeviceListWidget()
@@ -168,4 +172,16 @@ void DeviceListWidget::on_reviewModePushButton_toggled(bool checked)
         GasInfoSettings::setApplicationMode(Review);
         emit applicationModeChanged();
     }
+}
+
+void DeviceListWidget::on_pushButtonConfig_clicked()
+{
+    QDeviceDialog dlg;
+    dlg.exec();
+}
+
+void DeviceListWidget::on_pushButtonStart_clicked()
+{
+
+//void MainWindow::addData(const GasInfoItem& item);
 }
