@@ -3,8 +3,13 @@
 
 #include <QObject>
 
+#define TERMIDMAX   64
+#define MSGLEN      24
+
 class GasInfoItem;
 class QextSerialPort;
+class QTimer;
+class QByteArray;
 
 class QTermDataHandler : public QObject
 {
@@ -14,11 +19,16 @@ public:
     void stop();
     bool isRunning()    {   return m_bRunning;  }
 
+    double nmeaDegreesToDecimal(double);
+    void ValidateMsg(QByteArray);
+    void parseMsg(QByteArray msg);
+
     static QTermDataHandler * instance();
     Q_DISABLE_COPY(QTermDataHandler)
 signals:
     //void MainWindow::addData(const GasInfoItem& item);
     void newData(GasInfoItem& item);
+    void newMsg(QByteArray& msg);
 
 public slots:
 
@@ -31,6 +41,10 @@ private:
 
     QextSerialPort *gps;
     QextSerialPort *term;
+
+    QTimer *timer;
+
+    QByteArray buffer;
 
 };
 
