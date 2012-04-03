@@ -13,6 +13,9 @@ static const char* archivePeriodKey = "option/archivePeriod";
 static const char* activeIntervalKey = "option/activeInterval";
 static const char* defaultHostLocationKey = "option/defaulHostLocation";
 
+static const char* h2sAlarmThresKey = "option/h2sAlarmThres";
+static const char* so2AlarmThresKey = "option/so2AlarmThres";
+static const char* felAlarmThresKey = "option/felAlarmThres";
 
 static const char* serialPortInfoKey = "communication/serialPortInfo";
 static const char* gpsPortInfoKey = "communication/gpsPortInfo";
@@ -23,6 +26,85 @@ GasInfoSettings::GasInfoSettings(QObject *parent) :
     QSettings(parent)
 {
 
+}
+
+
+void GasInfoSettings::setValue(const QString & key, const QVariant & value)
+{
+    Hash& h = reg();
+    if (h.contains(key))
+    {
+        h[key] = value;
+    }
+
+    QSettings::setValue(key, value);
+}
+
+double GasInfoSettings::h2sAlarmThres() const
+{
+    return value(h2sAlarmThresKey).toDouble();
+}
+
+double GasInfoSettings::h2sAlarmThresF()
+{
+    Hash h = reg();
+    if (!h.contains(h2sAlarmThresKey))
+    {
+        GasInfoSettings settings;
+        h[h2sAlarmThresKey] = settings.h2sAlarmThres();
+    }
+
+    return  h[h2sAlarmThresKey].toDouble();
+}
+
+void GasInfoSettings::setH2sAlarmThres(double val)
+{
+    setValue(h2sAlarmThresKey, val);
+}
+
+
+double GasInfoSettings::so2AlarmThresF()
+{
+    Hash h = reg();
+    if (!h.contains(so2AlarmThresKey))
+    {
+        GasInfoSettings settings;
+        h[so2AlarmThresKey] = settings.so2AlarmThres();
+    }
+
+    return  h[so2AlarmThresKey].toDouble();
+}
+
+double GasInfoSettings::so2AlarmThres()
+{
+    return value(so2AlarmThresKey).toDouble();
+}
+
+void GasInfoSettings::setSo2AlarmThres(double val)
+{
+    setValue(so2AlarmThresKey, val);
+}
+
+double GasInfoSettings::felAlarmThresF()
+{
+    Hash h = reg();
+    if (!h.contains(felAlarmThresKey))
+    {
+        GasInfoSettings settings;
+        h[felAlarmThresKey] = settings.felAlarmThres();
+    }
+
+    return  h[felAlarmThresKey].toDouble();
+}
+
+double GasInfoSettings::felAlarmThres()
+{
+    return value(felAlarmThresKey).toDouble();
+}
+
+void GasInfoSettings::setFelAlarmThres(double val)
+{
+    setValue(felAlarmThresKey, val);
 }
 
 QGeoCoordinate GasInfoSettings::defaultHostLocation() const
@@ -48,8 +130,30 @@ void GasInfoSettings::setDefaultHostLocation(const QGeoCoordinate& location)
     setValue(defaultHostLocationKey, ba);
 }
 
+int GasInfoSettings::activeIntervalF()
+{
+    Hash h = reg();
+    if (!h.contains(activeIntervalKey))
+    {
+        GasInfoSettings settings;
+        h[activeIntervalKey] = settings.activeInterval();
+    }
 
-ApplicationModes GasInfoSettings::applicationMode()
+    return  h[activeIntervalKey].toInt();
+}
+
+int GasInfoSettings::activeInterval()
+{
+    return value(activeIntervalKey).toInt();
+}
+
+void GasInfoSettings::setActiveInternal(int seconds)
+{
+    setValue(activeIntervalKey, seconds);
+}
+
+
+ApplicationModes GasInfoSettings::applicationModeF()
 {
     return g_applicationMode;
 }
@@ -58,6 +162,29 @@ void GasInfoSettings::setApplicationMode(ApplicationModes mode)
 {
     g_applicationMode = mode;
 }
+
+uint GasInfoSettings::archivePeriodF()
+{
+    Hash& h = reg();
+    if (!h.contains(archivePeriodKey))
+    {
+        h[archivePeriodKey] = GasInfoSettings().archivePeriod();
+    }
+
+    return h[archivePeriodKey].toInt();
+}
+
+uint GasInfoSettings::archivePeriod()
+{
+    return value(archivePeriodKey, 24 * 60).toInt();
+}
+
+
+void GasInfoSettings::setArchivePeriod(uint seconds)
+{
+    setValue(archivePeriodKey, seconds);
+}
+
 
 QByteArray GasInfoSettings::mainWindowGeometry() const
 {
@@ -138,25 +265,5 @@ QSize GasInfoSettings::windowSize(const QString& windowTitle) const
     return value(sizeKey, QSize(200, 200)).toSize();
 }
 
-uint GasInfoSettings::archivePeriod() const
-{
-    return value(archivePeriodKey, 24 * 60).toInt();
-}
-
-void GasInfoSettings::setArchivePeriod(uint seconds)
-{
-    setValue(archivePeriodKey, seconds);
-}
 
 
-
-uint GasInfoSettings::activeInterval() const
-{
-    return value(activeIntervalKey, 1 * 60).toInt();
-
-}
-
-void GasInfoSettings::setActiveInternal(uint seconds)
-{
-    setValue(activeIntervalKey, seconds);
-}
