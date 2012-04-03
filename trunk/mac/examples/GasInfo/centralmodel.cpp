@@ -353,10 +353,7 @@ bool CentralModel::exportTerminal(QString filePath, int terminalId, const QList<
 
 void CentralModel::updateTerminalStatus()
 {
-    GasInfoSettings settings;
     QDateTime now = QDateTime::currentDateTime();
-    int activeInterval =settings.activeInterval();
-
     for (int row = 0; row < rowCount(); ++row)
     {
         QStandardItem* termIdItem = item(row, 0);
@@ -367,7 +364,7 @@ void CentralModel::updateTerminalStatus()
 
             QStandardItem* statusItem = item(row, 1);
 
-            if (statusItem && lastTick.secsTo(now) > activeInterval)
+            if (statusItem && lastTick.secsTo(now) > GasInfoSettings::activeIntervalF())
             {
                 statusItem->setText("Inactive");
                 statusItem->setBackground(QBrush(Qt::darkYellow));
@@ -383,16 +380,14 @@ void CentralModel::updateTerminalStatus()
 
 void CentralModel::timerEvent(QTimerEvent *event)
 {
-    GasInfoSettings settings;
-
-    if (GasInfoSettings::applicationMode() == Receive)
+    if (GasInfoSettings::applicationModeF() == Receive)
     {
         updateTerminalStatus();
 
         int elapsed = m_receiveSessionData->startTime.secsTo(
                     m_receiveSessionData->lastHit);
 
-        if (elapsed >= int(settings.archivePeriod()))
+        if (elapsed >= int(GasInfoSettings::archivePeriodF()))
         {
             emit archivePeriodReached();
         }

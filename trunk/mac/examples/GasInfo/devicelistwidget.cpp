@@ -143,9 +143,7 @@ void DeviceListWidget::exportTerminalData()
         QString dirName = QFileDialog::getExistingDirectory(
                     this,
                     tr("Export Terminal Data"),
-                    "" /*,
-                    ~ QFileDialog::ShowDirsOnly
-                    */);
+                    "");
 
         if (!dirName.isEmpty())
             foreach(int id, lst)

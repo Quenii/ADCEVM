@@ -11,7 +11,7 @@ LocationManager::LocationManager(QObject *parent, QGraphicsGeoMap* map)
 
 }
 
-void LocationManager::addLocation(int id, QGeoCoordinate location)
+void LocationManager::addLocation(int id, QGeoCoordinate location, bool bAlarm)
 {
     if (!location.isValid())
     {
@@ -22,27 +22,20 @@ void LocationManager::addLocation(int id, QGeoCoordinate location)
     DeviceTextMarker* marker = 0;
     if (m_markers.contains(id))
     {
-        marker = m_markers[id];
-        if (marker->coordinate() == location) // no need to update
-            return ;
+        marker = m_markers[id];      
     }
     else
     {
-        marker = new DeviceTextMarker(id);
-        /*QString name = (id == 0) ? "Host" : QString("Terminal %1").arg(id);
-        marker->setName(name);
-*/
+        marker = new DeviceTextMarker(id);      
         m_map->addMapObject(marker);
         m_markers.insert(id, marker);
     }
 
-    marker->setCoordinate(location);
+    marker->setCoordinate(location, bAlarm);
     if (id == 0)
     {
         m_map->setCenter(location);
     }
-
-    qDebug() << " marker->setCoordinate(location); id: " << id << " location: " << location ;
 }
 
 void LocationManager::clearLocations()

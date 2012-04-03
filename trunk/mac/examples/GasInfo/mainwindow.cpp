@@ -85,6 +85,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     readSettings();
+
+//    m_locationManager->addLocation(0, QGeoCoordinate(0, 0, 0));
+//    m_locationManager->addLocation(1, QGeoCoordinate(0, .001, 0));
+//    m_locationManager->addLocation(2, QGeoCoordinate(0, .002, 0), true);
 }
 
 MainWindow::~MainWindow()
@@ -220,7 +224,7 @@ void MainWindow::on_actionExit_triggered(bool checked)
 
 void MainWindow::applicationModelChanged()
 {
-    ApplicationModes appMode = GasInfoSettings::applicationMode();
+    ApplicationModes appMode = GasInfoSettings::applicationModeF();
     ui->actionLoad->setEnabled(appMode == Review);
 
     if (appMode == Review)
@@ -248,16 +252,25 @@ void MainWindow::applicationModelChanged()
 
 void MainWindow::addData(const GasInfoItem& item)
 {
-    if (GasInfoSettings::applicationMode() == Receive)
+    if (GasInfoSettings::applicationModeF() == Receive)
     {
         // update date
         if (m_centralModel)
             m_centralModel->addData(item);
 
+        bool bAlarm = false;
+        if (item.h2s >= GasInfoSettings::h2sAlarmThresF()
+                || item.so2 >= GasInfoSettings::so2AlarmThresF()
+                || item.fel >= GasInfoSettings::felAlarmThresF())
+        {
+            bAlarm = true;
+        }
+
         // update GPS
         if (m_locationManager)
-            m_locationManager->addLocation(item.ch, item.location);
+            m_locationManager->addLocation(item.ch, item.location, bAlarm);
 
+        // set host location to settings.
         if (item.ch == 0 && item.location.isValid())
             GasInfoSettings().setDefaultHostLocation(item.location);
     }

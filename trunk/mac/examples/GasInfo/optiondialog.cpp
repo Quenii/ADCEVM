@@ -58,6 +58,10 @@ void OptionDialog::giveOptions()
     ui->defaultHostLatitudeLineEdit->setText(hostLatitudeStr);
     ui->defaultHostLongitudeLineEdit->setText(hostLongitudeStr);
 
+    ui->h2sThresSpinBox->setValue(GasInfoSettings::h2sAlarmThresF());
+    ui->so2ThresSpinBox->setValue(GasInfoSettings::so2AlarmThresF());
+    ui->felThresSpinBox->setValue(GasInfoSettings::felAlarmThresF());
+
 
     bool ok = connect(this, SIGNAL(accepted()), this, SLOT(opeitonsAccepted()));
     Q_ASSERT(ok);
@@ -93,7 +97,10 @@ void OptionDialog::takeOptions()
 
     settings.setDefaultHostLocation(QGeoCoordinate(hostLatitude, hostLongitude));
 
-}
+    settings.setH2sAlarmThres(ui->h2sThresSpinBox->value());
+    settings.setSo2AlarmThres(ui->so2ThresSpinBox->value());
+    settings.setFelAlarmThres(ui->felThresSpinBox->value());
+  }
 
 void OptionDialog::on_broswePushButton_clicked()
 {
