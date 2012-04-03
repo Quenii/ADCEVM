@@ -4,13 +4,16 @@
 #include <QDir>
 #include <QPoint>
 #include <QSize>
-
+#include <QtDebug>
 
 static const char* mainWindowGeometryKey = "mainWindow/geometry";
 static const char* mainWindowStateKey = "mainWindow/state";
 static const char* dataFolderKey = "option/dataFolder";
 static const char* archivePeriodKey = "option/archivePeriod";
 static const char* activeIntervalKey = "option/activeInterval";
+static const char* defaultHostLocationKey = "option/defaulHostLocation";
+
+
 static const char* serialPortInfoKey = "communication/serialPortInfo";
 
 static ApplicationModes g_applicationMode = Receive;
@@ -20,6 +23,30 @@ GasInfoSettings::GasInfoSettings(QObject *parent) :
 {
 
 }
+
+QGeoCoordinate GasInfoSettings::defaultHostLocation() const
+{
+    QByteArray ba = value(defaultHostLocationKey).toByteArray();
+    QDataStream in(&ba, QIODevice::ReadOnly);
+    QGeoCoordinate location;
+
+    in >> location;
+
+    if (!location.isValid())
+        return QGeoCoordinate(39.903924, 116.391432, 0);
+    else
+        return location;
+}
+
+void GasInfoSettings::setDefaultHostLocation(const QGeoCoordinate& location)
+{
+    QByteArray ba;
+    QDataStream out(&ba, QIODevice::WriteOnly);
+    out << location;
+
+    setValue(defaultHostLocationKey, ba);
+}
+
 
 ApplicationModes GasInfoSettings::applicationMode()
 {

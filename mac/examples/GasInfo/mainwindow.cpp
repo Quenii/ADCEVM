@@ -48,11 +48,17 @@ protected:
     }
 };
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+    , m_locationManager(0)
+    , m_centralModel(0)
 {
     ui->setupUi(this);
+
+    initMap();
+
+    m_locationManager = new LocationManager(this, ui->mapsWidget->map());
 
     m_centralModel = new CentralModel(this);
 
@@ -69,8 +75,6 @@ MainWindow::MainWindow(QWidget *parent) :
                  this, SLOT(applicationModelChanged()));
     Q_ASSERT(ok);
 
-    initMap();
-
     startTimer(1000); // one tick per second
 
     readSettings();
@@ -79,6 +83,14 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::clearAllData()
+{
+    if (m_centralModel)
+        m_centralModel->clear();
+    if (m_locationManager)
+        m_locationManager->clearLocations();
 }
 
 QMdiSubWindow* MainWindow::terminalSubwindow(int terminalId)
@@ -171,8 +183,6 @@ void MainWindow::readSettings()
     // main window
     restoreGeometry(settings.mainWindowGeometry());
     restoreState(settings.mainWindowState());
-
-
 }
 
 void MainWindow::on_actionSave_triggered(bool checked)
@@ -224,14 +234,13 @@ void MainWindow::applicationModelChanged()
     else if (appMode == Receive)
     {
         m_receiveSessionStartTime = QDateTime::currentDateTime();
- }
+    }
     else
     {
         Q_ASSERT(false);
     }
 
-    // clear when application mode has been changed
-    m_centralModel->clear();
+    clearAllData();
 }
 
 void MainWindow::addData(const GasInfoItem& item)
@@ -239,9 +248,12 @@ void MainWindow::addData(const GasInfoItem& item)
     if (GasInfoSettings::applicationMode() == Receive)
     {
         // update date
-        m_centralModel->addData(item);
+        if (m_centralModel)
+            m_centralModel->addData(item);
 
         // update GPS
+        if (m_locationManager)
+            m_locationManager->addLocation(item.ch, item.location);
 
         m_lastReceiveTime = QDateTime::currentDateTime();
     }
@@ -320,7 +332,8 @@ void MainWindow::initMap()
         mapsWidget->statusBar()->showText("Opening GPS...");
     }
     */
-    ui->mapsWidget->setMyLocation(QGeoCoordinate(39.903924, 116.391432));
+
+   // ui->mapsWidget->setMyLocation(QGeoCoordinate(39.903924, 116.391432));
 }
 
 void MainWindow::timerEvent(QTimerEvent *event)
@@ -358,7 +371,15 @@ void MainWindow::timerEvent(QTimerEvent *event)
         if (m_receiveSessionStartTime.secsTo(m_lastReceiveTime) >= int(settings.archivePeriod()))
         {
             on_actionSave_triggered(false);
-            m_centralModel->clear();
+            clearAllData();
         }
+
+//          qDebug("tick");
+
+//         static QGeoCoordinate loc(39.903924, 116.391432);
+//        static int id = 0;
+//        m_locationManager->addLocation(id, loc);
+//        id ++;
+//        loc.setLongitude(loc.longitude() + 0.00005);
     }
 }
