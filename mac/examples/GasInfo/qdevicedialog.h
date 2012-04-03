@@ -4,9 +4,9 @@
 #include <QDialog>
 #include "ui_devicedialog.h"
 
-using namespace Ui;
+//using namespace Ui;
 
-class QDeviceDialog : public QDialog, public QDeviceDialogClass
+class QDeviceDialog : public QDialog, public Ui::QDeviceDialogClass
 {
 	Q_OBJECT
 

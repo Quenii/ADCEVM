@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("quenii.com");
     QCoreApplication::setApplicationName("GasInfo");
 
-    MainDialog w;
-    w.show();
+//    MainDialog w;
+//    w.show();
 
 
     MainWindow mainWindow;

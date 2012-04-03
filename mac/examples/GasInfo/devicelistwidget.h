@@ -38,7 +38,8 @@ private slots:
     void on_receiveModePushButton_toggled(bool checked);
     void on_reviewModePushButton_toggled(bool checked);
 
-
+    void on_pushButtonConfig_clicked();
+    void on_pushButtonStart_clicked();
 
 private:
     Ui::DeviceListWidget *ui;

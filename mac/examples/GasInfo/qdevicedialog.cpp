@@ -107,7 +107,6 @@ void QDeviceDialog::accept()
   //  SerialSettings settings(settingFileName, QSettings::IniFormat, 0);
     settings.setSerialPortInfo(info);
 
-
     info.name = ui.portBoxGps->currentText();
     info.BaudRate = /*(BaudRateType)*/ui.baudRateBoxGps->itemData(ui.baudRateBoxGps->currentIndex()).toInt();
     info.DataBits = /*(DataBitsType)*/ui.dataBitsBoxGps->itemData(ui.baudRateBoxGps->currentIndex()).toInt();
