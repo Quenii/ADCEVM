@@ -1,5 +1,4 @@
 #include <QApplication>
-#include "maindialog.h"
 
 #include "SerialTypes.hpp"
 
