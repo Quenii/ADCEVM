@@ -86,7 +86,7 @@ void QDeviceDialog::initDevice()
     ui.queryModeBoxGps->addItem(QString::fromLocal8Bit("查询"), QextSerialPort::Polling);
     ui.queryModeBoxGps->addItem(QString::fromLocal8Bit("中断"), QextSerialPort::EventDriven);
 
-    setWindowTitle(QLatin1String("Zigbee Settings"));
+    setWindowTitle(QString::fromLocal8Bit("通信端口设置"));
 
 }
 
@@ -96,12 +96,12 @@ void QDeviceDialog::accept()
 
     info.name = ui.portBox->currentText();
     info.BaudRate = /*(BaudRateType)*/ui.baudRateBox->itemData(ui.baudRateBox->currentIndex()).toInt();
-    info.DataBits = /*(DataBitsType)*/ui.dataBitsBox->itemData(ui.baudRateBox->currentIndex()).toInt();
+    info.DataBits = /*(DataBitsType)*/ui.dataBitsBox->itemData(ui.dataBitsBox->currentIndex()).toInt();
     info.FlowControl = FLOW_OFF;
-    info.Parity = /*(ParityType)*/ui.parityBox->itemData(ui.baudRateBox->currentIndex()).toInt();
-    info.StopBits = /*(StopBitsType)*/ui.stopBitsBox->itemData(ui.baudRateBox->currentIndex()).toInt();
+    info.Parity = /*(ParityType)*/ui.parityBox->itemData(ui.parityBox->currentIndex()).toInt();
+    info.StopBits = /*(StopBitsType)*/ui.stopBitsBox->itemData(ui.stopBitsBox->currentIndex()).toInt();
     info.Timeout_Millisec = ui.timeoutBox->value();
-    info.mode = /*(QextSerialPort::QueryMode)*/ui.queryModeBox->itemData(ui.baudRateBox->currentIndex()).toInt();
+    info.mode = /*(QextSerialPort::QueryMode)*/ui.queryModeBox->itemData(ui.queryModeBox->currentIndex()).toInt();
 
     GasInfoSettings settings;
   //  SerialSettings settings(settingFileName, QSettings::IniFormat, 0);
@@ -109,12 +109,12 @@ void QDeviceDialog::accept()
 
     info.name = ui.portBoxGps->currentText();
     info.BaudRate = /*(BaudRateType)*/ui.baudRateBoxGps->itemData(ui.baudRateBoxGps->currentIndex()).toInt();
-    info.DataBits = /*(DataBitsType)*/ui.dataBitsBoxGps->itemData(ui.baudRateBoxGps->currentIndex()).toInt();
+    info.DataBits = /*(DataBitsType)*/ui.dataBitsBoxGps->itemData(ui.dataBitsBoxGps->currentIndex()).toInt();
     info.FlowControl = FLOW_OFF;
-    info.Parity = /*(ParityType)*/ui.parityBoxGps->itemData(ui.baudRateBoxGps->currentIndex()).toInt();
-    info.StopBits = /*(StopBitsType)*/ui.stopBitsBoxGps->itemData(ui.baudRateBoxGps->currentIndex()).toInt();
+    info.Parity = /*(ParityType)*/ui.parityBoxGps->itemData(ui.parityBoxGps->currentIndex()).toInt();
+    info.StopBits = /*(StopBitsType)*/ui.stopBitsBoxGps->itemData(ui.stopBitsBoxGps->currentIndex()).toInt();
     info.Timeout_Millisec = ui.timeoutBoxGps->value();
-    info.mode = /*(QextSerialPort::QueryMode)*/ui.queryModeBoxGps->itemData(ui.baudRateBoxGps->currentIndex()).toInt();
+    info.mode = /*(QextSerialPort::QueryMode)*/ui.queryModeBoxGps->itemData(ui.queryModeBoxGps->currentIndex()).toInt();
 
     settings.setGpsPortInfo(info);
     QDialog::accept();
