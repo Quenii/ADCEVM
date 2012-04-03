@@ -31,6 +31,9 @@ public:
 
     SerialPortInfo serialPortInfo() const;
     void setSerialPortInfo(const SerialPortInfo& val);
+
+    SerialPortInfo gpsPortInfo() const;
+    void setGpsPortInfo(const SerialPortInfo& val);
         
     QString  dataFolder() const;
     void setdataFolder(const QString& dir);
