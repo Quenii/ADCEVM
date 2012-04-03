@@ -58,7 +58,7 @@ bool QTermDataHandler::start()
 
 void QTermDataHandler::stop()
 {
-
+    m_bRunning = false;
 }
 
 void QTermDataHandler::timerEvent(QTimerEvent *event)
