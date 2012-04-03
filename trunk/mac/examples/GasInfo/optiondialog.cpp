@@ -95,3 +95,11 @@ void OptionDialog::on_broswePushButton_clicked()
     if (!fileName.isEmpty())
         ui->dataFolderLineEdit->setText(fileName);
 }
+
+void OptionDialog::on_buttonBox_clicked(QAbstractButton * button)
+{
+    if (ui->buttonBox->standardButton(button) == QDialogButtonBox::Apply)
+    {
+        emit optionsApplied();
+    }
+}

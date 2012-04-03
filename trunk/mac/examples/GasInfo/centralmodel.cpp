@@ -8,6 +8,19 @@
 #include <QDir>
 #include <QFileInfo>
 
+class ReceiveSessionData : public QObject
+{
+public:
+    ReceiveSessionData(QObject* parent) : QObject(parent)
+    {
+        started = false;
+    }
+
+    bool started;
+    QDateTime startTime;
+    QDateTime lastHit;
+};
+
 static void writeItem(const QStandardItem* item, QDataStream& out)
 {
     out << int(item != 0);
@@ -83,11 +96,9 @@ static void makeDir(QString filePath)
 }
 
 CentralModel::CentralModel(QObject *parent) :
-    QStandardItemModel(parent)
+    QStandardItemModel(parent),
+    m_receiveSessionData(new ReceiveSessionData(parent))
 {
-
-    startTimer(1000); // per second
-
     setHorizontalHeaderItem( 0, new QStandardItem( "Terminal" ));
     setHorizontalHeaderItem( 1, new QStandardItem( "Status"));
     setHorizontalHeaderItem( 2, new QStandardItem( "Date & Time"));
@@ -106,21 +117,35 @@ CentralModel::CentralModel(QObject *parent) :
             info.h2s = 10 - j;
             info.so2 = i;
             addData(info);
-         }
+        }
     }
-
 }
 
-//int CentralModel::terminalId(const QModelIndex& idx)
-//{
-//    QStandardItem* item0 = item(idx.row(), 0);
+void CentralModel::beginReceiveSession()
+{
+    m_timerId = startTimer(1000); // per second
+    m_receiveSessionData->started = true;
+    m_receiveSessionData->startTime = QDateTime::currentDateTime();
+    m_receiveSessionData->lastHit = QDateTime::currentDateTime();
+    clear();
+}
 
-//    return item0->data(Qt::UserRole).toInt();
-//}
+void CentralModel::endReceiveSession(bool bSave, const QString& filePath)
+{
+    if (bSave)
+        save(filePath);
+
+    m_receiveSessionData->started = false;
+
+    if (m_timerId)
+    {
+        killTimer(m_timerId);
+        m_timerId = 0;
+    }
+}
 
 int CentralModel::terminalId(int row)
 {
-
     QStandardItem* item0 = item(row, 0);
     if (item0)
         return item0->data(Qt::UserRole).toInt();
@@ -163,6 +188,12 @@ void CentralModel::removeTerminal(int id)
 
 void CentralModel::addData(const GasInfoItem& item)
 {
+    if (! m_receiveSessionData->started)
+        return;
+
+    m_receiveSessionData->lastHit = QDateTime::currentDateTime();
+
+
     QModelIndex idx = terminal(item.ch, true);
     QStandardItem* itm = itemFromIndex(idx);
 
@@ -352,8 +383,18 @@ void CentralModel::updateTerminalStatus()
 
 void CentralModel::timerEvent(QTimerEvent *event)
 {
+    GasInfoSettings settings;
+
     if (GasInfoSettings::applicationMode() == Receive)
     {
         updateTerminalStatus();
+
+        int elapsed = m_receiveSessionData->startTime.secsTo(
+                    m_receiveSessionData->lastHit);
+
+        if (elapsed >= int(settings.archivePeriod()))
+        {
+            emit archivePeriodReached();
+        }
     }
 }

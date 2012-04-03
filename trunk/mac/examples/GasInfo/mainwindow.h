@@ -45,6 +45,7 @@ private:
 public slots:
     void applicationModelChanged();
     void addData(const GasInfoItem& item);
+    void archiveCentralModel();
 
 private slots:  
     void openCloseTerminals(const QList<int>& idList, bool open);
@@ -55,11 +56,11 @@ private slots:
     void on_actionOption_triggered(bool checked = false);
     void on_actionExit_triggered(bool checked = false);
 
+    void optionsApplied();
+
 private:
     Ui::MainWindow *ui;
     CentralModel* m_centralModel;
-    QDateTime m_receiveSessionStartTime;
-    QDateTime m_lastReceiveTime;
     LocationManager* m_locationManager;
 };
 

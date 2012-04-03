@@ -15,9 +15,10 @@ class DeviceTextMarker : public QGeoMapGroupObject
 public:
     explicit DeviceTextMarker(int id)
         : QGeoMapGroupObject()
+        , m_id(id)
         , m_text(new QGeoMapTextObject())
         , m_marker(new Marker((id == 0) ? Marker::MyLocationMarker : Marker::SearchMarker))
-        , m_id(id)
+
     {
         if (m_id == 0)
             m_text->setText("Host");
