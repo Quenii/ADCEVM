@@ -341,8 +341,3 @@ void MainWindow::optionsApplied()
     GasInfoSettings settings;
     m_locationManager->addLocation(0, settings.defaultHostLocation());
 }
-
-void MainWindow::timerEvent(QTimerEvent *event)
-{
-
-}
