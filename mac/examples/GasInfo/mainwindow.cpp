@@ -255,6 +255,9 @@ void MainWindow::addData(const GasInfoItem& item)
         if (m_locationManager)
             m_locationManager->addLocation(item.ch, item.location);
 
+        if (item.ch == 0 && item.location.isValid())
+            GasInfoSettings().setDefaultHostLocation(item.location);
+
         m_lastReceiveTime = QDateTime::currentDateTime();
     }
 }
@@ -374,12 +377,12 @@ void MainWindow::timerEvent(QTimerEvent *event)
             clearAllData();
         }
 
-//          qDebug("tick");
+        qDebug("tick");
 
-//         static QGeoCoordinate loc(39.903924, 116.391432);
-//        static int id = 0;
-//        m_locationManager->addLocation(id, loc);
-//        id ++;
-//        loc.setLongitude(loc.longitude() + 0.00005);
+        static QGeoCoordinate loc(39.903924, 116.391432);
+        static int id = 0;
+        m_locationManager->addLocation(id, loc);
+        id ++;
+        loc.setLongitude(loc.longitude() + 0.0005);
     }
 }
