@@ -7,7 +7,7 @@
 #include <QStandardItem>
 #include <QModelIndex>
 
-
+class QTimerEvent;
 
 class CentralModel : public QStandardItemModel
 {
@@ -30,10 +30,11 @@ public:
 
     bool exportTerminal(QString filePath, int terminalId, const QList<int>& columns);
 
-signals:
-    
-public slots:
-    
+protected:
+    void timerEvent(QTimerEvent *event);
+
+private:
+    void updateTerminalStatus();
 };
 
 #endif // CENTRALMODEL_H

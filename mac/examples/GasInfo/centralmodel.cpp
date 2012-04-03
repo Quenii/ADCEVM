@@ -1,4 +1,5 @@
 #include "centralmodel.h"
+#include "gasinfosettings.h"
 
 #include <QDateTime>
 #include <QStandardItem>
@@ -85,6 +86,8 @@ CentralModel::CentralModel(QObject *parent) :
     QStandardItemModel(parent)
 {
 
+    startTimer(1000); // per second
+
     setHorizontalHeaderItem( 0, new QStandardItem( "Terminal" ));
     setHorizontalHeaderItem( 1, new QStandardItem( "Status"));
     setHorizontalHeaderItem( 2, new QStandardItem( "Date & Time"));
@@ -105,6 +108,7 @@ CentralModel::CentralModel(QObject *parent) :
             addData(info);
          }
     }
+
 }
 
 //int CentralModel::terminalId(const QModelIndex& idx)
@@ -316,3 +320,40 @@ bool CentralModel::exportTerminal(QString filePath, int terminalId, const QList<
     return true;
 }
 
+void CentralModel::updateTerminalStatus()
+{
+    GasInfoSettings settings;
+    QDateTime now = QDateTime::currentDateTime();
+    int activeInterval =settings.activeInterval();
+
+    for (int row = 0; row < rowCount(); ++row)
+    {
+        QStandardItem* termIdItem = item(row, 0);
+        if (termIdItem && termIdItem->hasChildren())
+        {
+            QStandardItem* timeItem = termIdItem->child(0, 2);
+            QDateTime lastTick = timeItem->data(Qt::UserRole).toDateTime();
+
+            QStandardItem* statusItem = item(row, 1);
+
+            if (statusItem && lastTick.secsTo(now) > activeInterval)
+            {
+                statusItem->setText("Inactive");
+                statusItem->setBackground(QBrush(Qt::darkYellow));
+            }
+            else
+            {
+                statusItem->setText("Active");
+                statusItem->setBackground(QBrush(Qt::white));
+            }
+        }
+    }
+}
+
+void CentralModel::timerEvent(QTimerEvent *event)
+{
+    if (GasInfoSettings::applicationMode() == Receive)
+    {
+        updateTerminalStatus();
+    }
+}
