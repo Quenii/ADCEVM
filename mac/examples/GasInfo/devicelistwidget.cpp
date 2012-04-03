@@ -3,6 +3,7 @@
 #include "centralmodel.h"
 #include "gasinfosettings.h"
 #include "qdevicedialog.h"
+#include "qtermdatahandler.h"
 
 #include <QHeaderView>
 #include <QSet>
@@ -182,6 +183,24 @@ void DeviceListWidget::on_pushButtonConfig_clicked()
 
 void DeviceListWidget::on_pushButtonStart_clicked()
 {
-
-//void MainWindow::addData(const GasInfoItem& item);
+    QTermDataHandler *term = QTermDataHandler::instance();
+    if (term->isRunning())
+    {
+        term->stop();
+        ui->ledComm->turnOff();
+        ui->ledGps->turnOff();
+    }
+    else
+    {
+        if (!term->start())
+        {
+            //Error message here;
+        }
+        else
+        {
+            ui->ledComm->turnOn();
+            ui->ledGps->turnOn();
+        }
+    }
+//
 }

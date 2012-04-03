@@ -9,6 +9,8 @@ namespace Ui {
     class DeviceListWidget;
 }
 
+class QTermDataHandler;
+
 class DeviceListWidget : public QWidget
 {
     Q_OBJECT
@@ -43,6 +45,8 @@ private slots:
 
 private:
     Ui::DeviceListWidget *ui;
+
+    //QTermDataHandler *term;
 };
 
 #endif // DEVICELISTWIDGET_H
