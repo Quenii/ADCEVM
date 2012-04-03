@@ -18,11 +18,7 @@ include(../../src/qextserialport.pri)
 SOURCES += main.cpp\
         hled.cpp \
     qdevicedialog.cpp \
-    maindialog.cpp \
-    QMyTabWidget.cpp \
     QGasInfo.cpp \
-    QLogTabWidget.cpp \
-    QMapTabWidget.cpp \
     mainwindow.cpp \
     devicelistwidget.cpp \
     commwidget.cpp \
@@ -39,10 +35,7 @@ HEADERS  += \
             hled.h \
     SerialTypes.hpp \
     qdevicedialog.h \
-    maindialog.h \
-    QMyTabWidget.h \
     QGasInfo.h \
-    QLogTabWidget.h \
     mainwindow.h \
     devicelistwidget.h \
     commwidget.h \
