@@ -224,6 +224,10 @@ void CentralModel::addData(const GasInfoItem& item)
 
 bool CentralModel::save(QString filePath)
 {
+    // nothing to save.
+    if (rowCount() <= 0)
+        return false;
+
     makeDir(filePath);
 
     QFile file(filePath);
@@ -317,6 +321,8 @@ bool CentralModel::exportTerminal(QString filePath, int terminalId, const QList<
     if (!index.isValid())
         return false;
 
+    out << QString("Terminal %1 \n").arg(terminalId);
+
     // export header
     QString str;
     foreach (int col, columns)
@@ -324,9 +330,8 @@ bool CentralModel::exportTerminal(QString filePath, int terminalId, const QList<
         QStandardItem* itm = horizontalHeaderItem(col);
         str += (itm ? itm->text() : " ");
         str += ";";
-
     }
-    out << str;
+    out << str + " \n";
 
     // export data
 
@@ -342,10 +347,10 @@ bool CentralModel::exportTerminal(QString filePath, int terminalId, const QList<
                 str += (itm ? itm->text() : " ");
                 str += ";";
             }
-            out << str;
+            out << str + " \n";
 
             qDebug() << row << ": " << str;
-        }
+        }        
     }
 
     return true;

@@ -21,7 +21,6 @@ SOURCES += main.cpp\
     QGasInfo.cpp \
     mainwindow.cpp \
     devicelistwidget.cpp \
-    commwidget.cpp \
     terminalwidget.cpp \
     centralmodel.cpp \
     gasinfosettings.cpp \
@@ -38,7 +37,6 @@ HEADERS  += \
     QGasInfo.h \
     mainwindow.h \
     devicelistwidget.h \
-    commwidget.h \
     terminalwidget.h \
     centralmodel.h \
     gasinfosettings.h \
@@ -55,7 +53,6 @@ FORMS    += dialog.ui \
     mapTab.ui \
     mainwindow.ui \
     devicelistwidget.ui \
-    commwidget.ui \
     terminalwidget.ui \
     optiondialog.ui
 
@@ -63,7 +60,7 @@ RESOURCES += \
      gasinfo.qrc
 
 
-
+ TRANSLATIONS = gasinfo_zh.ts
 
 
 
