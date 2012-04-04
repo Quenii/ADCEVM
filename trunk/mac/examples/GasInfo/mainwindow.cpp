@@ -77,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     ok = connect(ui->deviceListWidget, SIGNAL(openCloseTerminals(const QList<int>&, bool)),
-                      this, SLOT(openCloseTerminals(const QList<int>&, bool)));
+                 this, SLOT(openCloseTerminals(const QList<int>&, bool)));
     Q_ASSERT(ok);
 
     ok = connect(ui->deviceListWidget, SIGNAL(deleteTerminals(QList<int>)),
@@ -91,9 +91,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     readSettings();
 
-//    m_locationManager->addLocation(0, QGeoCoordinate(0, 0, 0));
-//    m_locationManager->addLocation(1, QGeoCoordinate(0, .001, 0));
-//    m_locationManager->addLocation(2, QGeoCoordinate(0, .002, 0), true);
+    //    m_locationManager->addLocation(0, QGeoCoordinate(0, 0, 0));
+    //    m_locationManager->addLocation(1, QGeoCoordinate(0, .001, 0));
+    //    m_locationManager->addLocation(2, QGeoCoordinate(0, .002, 0), true);
 }
 
 MainWindow::~MainWindow()
@@ -205,7 +205,7 @@ void MainWindow::on_actionLoad_triggered(bool checked)
     GasInfoSettings settings;
     QString fileName = QFileDialog::getOpenFileName(
                 this,
-				QString::fromLocal8Bit("载入数据"),
+                QString::fromLocal8Bit("载入数据"),
                 settings.dataFolder(),
                 tr("GasInfo File (*.gas)"));
 
@@ -257,28 +257,34 @@ void MainWindow::applicationModelChanged()
 
 void MainWindow::addData(const GasInfoItem& item)
 {
-    if (GasInfoSettings::applicationModeF() == Receive)
+    if (GasInfoSettings::applicationModeF() != Receive)
+        return ;
+
+    // update date
+    if (item.ch > 0 && m_centralModel)
+        m_centralModel->addData(item);
+
+    bool bAlarm = false;
+    if (item.h2s >= GasInfoSettings::h2sAlarmThresF()
+            || item.so2 >= GasInfoSettings::so2AlarmThresF()
+            || item.fel >= GasInfoSettings::felAlarmThresF())
     {
-        // update date
-        if (item.ch > 0 && m_centralModel)
-            m_centralModel->addData(item);
-
-        bool bAlarm = false;
-        if (item.h2s >= GasInfoSettings::h2sAlarmThresF()
-                || item.so2 >= GasInfoSettings::so2AlarmThresF()
-                || item.fel >= GasInfoSettings::felAlarmThresF())
-        {
-            bAlarm = true;
-        }
-
-        // update GPS
-        if (m_locationManager)
-            m_locationManager->addLocation(item.ch, item.location, bAlarm);
-
-        // set host location to settings.
-        if (item.ch == 0 && item.location.isValid())
-            GasInfoSettings().setDefaultHostLocation(item.location);
+        bAlarm = true;
     }
+
+    if (bAlarm && (!GasInfoSettings::terminalAlarmWindowOpenF(item.ch)))
+    {
+
+    }
+
+    // update GPS
+    if (m_locationManager)
+        m_locationManager->addLocation(item.ch, item.location, bAlarm);
+
+    // set host location to settings.
+    if (item.ch == 0 && item.location.isValid())
+        GasInfoSettings().setDefaultHostLocation(item.location);
+
 }
 
 void MainWindow::clearAllData()
@@ -348,7 +354,7 @@ void MainWindow::archiveCentralModel()
 
     // default folder
     if (!fileName.isEmpty())
-       m_centralModel->endReceiveSession(true, filePath);
+        m_centralModel->endReceiveSession(true, filePath);
 
     clearAllData();
     m_centralModel->beginReceiveSession();
