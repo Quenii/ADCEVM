@@ -87,7 +87,7 @@ void QTermDataHandler::update(/*QTimerEvent *event*/)
     CNT ++;
 
     if (term->isOpen())
-        term->write(QString("Get%1").arg(ID).toLatin1());
+        term->write(QByteArray("Get") + (char)ID);
 
     if (term->bytesAvailable()) {
         ValidateMsg( term->readAll() );
@@ -116,6 +116,7 @@ void QTermDataHandler::update(/*QTimerEvent *event*/)
                 GasInfoItem item;
                 item.ch = 0;
                 item.location = QGeoCoordinate(lat, lng);
+                bool b = item.location.isValid();
                 emit newData(item);
                 break;
             }
@@ -164,25 +165,29 @@ void QTermDataHandler::parseMsg(QByteArray msg)
     else
         return;
 
-    QGasInfo h2s(0.05703125f);
-    QGasInfo so2(0.07564296520423600605143721633888f);
-    QGasInfo fel(0.038124285169653069004956157072055f, 0x05c0);
+    memcpy(&item.h2s, msg.data()+12, 4);
+    memcpy(&item.so2, msg.data()+16, 4);
+    memcpy(&item.fel, msg.data()+20, 4);
+    float flat, flng; double lat, lng;
+    memcpy(&flat, msg.data()+4, 4);
+    memcpy(&flng, msg.data()+8, 4);
+    lat = flat; lng = flng;
 
-    item.h2s = h2s.Deduce(buffer[20]*256 + buffer[21]);
-    item.so2 = so2.Deduce(buffer[18]*256 + buffer[19]);
-    item.fel = fel.Deduce(buffer[22]*256 + buffer[23]);
+//    QGasInfo h2s(0.05703125f);
+//    QGasInfo so2(0.07564296520423600605143721633888f);
+//    QGasInfo fel(0.038124285169653069004956157072055f, 0x05c0);
 
-    double lat, lng;
-    lat = buffer[3] * 1e3 + buffer[4] * 1e2 + buffer[5] *1e1 + buffer[6]
-            + buffer[7] * 0.1 + buffer[8] * 0.01 + buffer[9] * 0.001;
+//    item.h2s = h2s.Deduce(buffer[20]*256 + buffer[21]);
+//    item.so2 = so2.Deduce(buffer[18]*256 + buffer[19]);
+//    item.fel = fel.Deduce(buffer[22]*256 + buffer[23]);
 
-    lng = buffer[10] * 1e4 + buffer[11] * 1e3 + buffer[12] * 1e2 + buffer[13] *1e1 + buffer[14]
-            + buffer[15] * 0.1 + buffer[16] * 0.01 + buffer[17] * 0.001;
+//    double lat = buffer[3] * 1.0e3 + buffer[4] * 1.0e2 + buffer[5] *1.0e1 + buffer[6]
+//            + buffer[7] * 1.0e-1 + buffer[8] * 1.0e-2 + buffer[9] * 1.0e-3;
 
-    lat = nmeaDegreesToDecimal(lat); lng = nmeaDegreesToDecimal(lng);
+//    double lng = buffer[10] * 1.0e4 + buffer[11] * 1.0e3 + buffer[12] * 1.0e2 + buffer[13] *1.0e1 + buffer[14]
+//            + buffer[15] * 1.0e-1 + buffer[16] * 1.0e-2 + buffer[17] * 1.0e-3;
+   lat = nmeaDegreesToDecimal(lat); lng = nmeaDegreesToDecimal(lng);
 
     item.location = QGeoCoordinate(lat, lng);
     emit newData(item);
-
-
 }

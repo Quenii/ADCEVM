@@ -7,6 +7,7 @@
 #include "QGeoServiceProvider.h"
 #include "marker.h"
 #include "gasinfosettings.h"
+#include "qtermdatahandler.h"
 
 #include <QMdiSubWindow>
 #include <QtDebug>
@@ -58,8 +59,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     initMap();
 
-
     bool ok = false;
+
+    QTermDataHandler * inst = QTermDataHandler::instance();
+    ok = connect(inst, SIGNAL(newData(GasInfoItem&)), this, SLOT(addData(GasInfoItem)));
+    Q_ASSERT(ok);
 
     m_locationManager = new LocationManager(this, ui->mapsWidget->map());
 
