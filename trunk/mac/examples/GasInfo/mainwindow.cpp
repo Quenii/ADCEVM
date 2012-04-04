@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
     bool ok = false;
 
     QTermDataHandler * inst = QTermDataHandler::instance();
-    ok = connect(inst, SIGNAL(newData(GasInfoItem&)), this, SLOT(addData(GasInfoItem)));
+    ok = connect(inst, SIGNAL(newData(const GasInfoItem&)), this, SLOT(addData(const GasInfoItem&)));
     Q_ASSERT(ok);
 
     m_locationManager = new LocationManager(this, ui->mapsWidget->map());
