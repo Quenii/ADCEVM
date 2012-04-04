@@ -73,6 +73,8 @@ void GasInfoSettings::setTerminalAlermWindowOpen(int id, bool bOpen)
     QString key = terminalAlarmWindowOpenKey(id);
     Hash h = reg();
     h[key] = bOpen;
+
+    // qDebug() << h;
 }
 
 double GasInfoSettings::h2sAlarmThres() const

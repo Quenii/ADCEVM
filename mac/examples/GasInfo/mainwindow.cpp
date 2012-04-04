@@ -8,6 +8,7 @@
 #include "marker.h"
 #include "gasinfosettings.h"
 #include "qtermdatahandler.h"
+#include "terminalalarmwidget.h"
 
 
 #include <QMdiSubWindow>
@@ -94,6 +95,10 @@ MainWindow::MainWindow(QWidget *parent)
     //    m_locationManager->addLocation(0, QGeoCoordinate(0, 0, 0));
     //    m_locationManager->addLocation(1, QGeoCoordinate(0, .001, 0));
     //    m_locationManager->addLocation(2, QGeoCoordinate(0, .002, 0), true);
+
+    TerminalAlarmWidget* w = new TerminalAlarmWidget(tr("Terminal Alarm"), "text", 1, 0 );
+    w->show();
+
 }
 
 MainWindow::~MainWindow()
@@ -274,7 +279,8 @@ void MainWindow::addData(const GasInfoItem& item)
 
     if (bAlarm && (!GasInfoSettings::terminalAlarmWindowOpenF(item.ch)))
     {
-
+        TerminalAlarmWidget* w = new TerminalAlarmWidget(tr("Terminal Alarm"), "text", 1, 0 );
+        w->show();
     }
 
     // update GPS

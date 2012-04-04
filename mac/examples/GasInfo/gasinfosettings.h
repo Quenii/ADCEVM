@@ -31,6 +31,8 @@ public:
     static bool terminalAlarmWindowOpenF(int id);
     static void setTerminalAlermWindowOpen(int id, bool bOpen);
 
+    // the returned period is in seconds.
+    static int terminalAlarmMuteTimeF() { return 3 * 60; } // 3 minutes
 
     static double h2sAlarmThresF();
     double h2sAlarmThres() const;

@@ -1,8 +1,9 @@
-#include <QApplication>
-
+#include "mainwindow.h"
 #include "SerialTypes.hpp"
 
-#include "mainwindow.h"
+#include <QTranslator>
+#include <QApplication>
+
 
 #define REGISTER_METATYPE_HELPER( type ) \
     qRegisterMetaType<type>(); \
@@ -13,6 +14,11 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    QTranslator translator;
+    translator.load("gasinfo_zh");
+
+    a.installTranslator(&translator);
+
     REGISTER_METATYPE_HELPER(SerialPortInfo);
 
     QCoreApplication::setOrganizationName("quenii");
@@ -21,7 +27,6 @@ int main(int argc, char *argv[])
 
 //    MainDialog w;
 //    w.show();
-
 
     MainWindow mainWindow;
     mainWindow.showMaximized();
