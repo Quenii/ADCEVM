@@ -106,7 +106,7 @@ void OptionDialog::on_broswePushButton_clicked()
 {
     QString fileName = QFileDialog::getExistingDirectory(
                 this,
-                tr("Select Data Folder"),
+                QString::fromLocal8Bit("请选择保存路径"),
                 ui->dataFolderLineEdit->text()
                 );
 

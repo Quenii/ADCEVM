@@ -22,9 +22,9 @@ public:
 
     {
         if (m_id == 0)
-            m_text->setText("Host");
+            m_text->setText(QString::fromLocal8Bit("主站"));
         else
-            m_text->setText(QString("Terminal %1").arg(m_id));
+            m_text->setText(QString::fromLocal8Bit("%1号终端").arg(m_id));
 
         addChildObject(m_text);
         addChildObject(m_marker);
