@@ -8,6 +8,7 @@
 
 static const char* mainWindowGeometryKey = "mainWindow/geometry";
 static const char* mainWindowStateKey = "mainWindow/state";
+
 static const char* dataFolderKey = "option/dataFolder";
 static const char* archivePeriodKey = "option/archivePeriod";
 static const char* activeIntervalKey = "option/activeInterval";
@@ -20,7 +21,19 @@ static const char* felAlarmThresKey = "option/felAlarmThres";
 static const char* serialPortInfoKey = "communication/serialPortInfo";
 static const char* gpsPortInfoKey = "communication/gpsPortInfo";
 
+
+static QString terminalAlarmWindowOpenKey(int id)
+{
+   return QString("state/Terminal %1/alarmWindowOpen").arg(id);
+}
+
+///////////////////////////////////////////////////////////////////////////
+
+
 static ApplicationModes g_applicationMode = Receive;
+
+///////////////////////////////////////////////////////////////////////////
+
 
 GasInfoSettings::GasInfoSettings(QObject *parent) :
     QSettings(parent)
@@ -38,6 +51,28 @@ void GasInfoSettings::setValue(const QString & key, const QVariant & value)
     }
 
     QSettings::setValue(key, value);
+}
+
+
+
+bool GasInfoSettings::terminalAlarmWindowOpenF(int id)
+{
+    QString key = terminalAlarmWindowOpenKey(id);
+
+    Hash h = reg();
+    if (!h.contains(key))
+    {
+        h[key] = false;
+    }
+
+    return  h[key].toBool();
+}
+
+void GasInfoSettings::setTerminalAlermWindowOpen(int id, bool bOpen)
+{
+    QString key = terminalAlarmWindowOpenKey(id);
+    Hash h = reg();
+    h[key] = bOpen;
 }
 
 double GasInfoSettings::h2sAlarmThres() const

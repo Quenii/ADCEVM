@@ -116,7 +116,7 @@ void QTermDataHandler::update(/*QTimerEvent *event*/)
                 GasInfoItem item;
                 item.ch = 0;
                 item.location = QGeoCoordinate(lat, lng);
-                bool b = item.location.isValid();
+               // bool b = item.location.isValid();
                 emit newData(item);
                 break;
             }

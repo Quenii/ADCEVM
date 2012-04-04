@@ -28,6 +28,10 @@ public:
     static ApplicationModes applicationModeF();
     static void setApplicationMode(ApplicationModes mode);
 
+    static bool terminalAlarmWindowOpenF(int id);
+    static void setTerminalAlermWindowOpen(int id, bool bOpen);
+
+
     static double h2sAlarmThresF();
     double h2sAlarmThres() const;
     void setH2sAlarmThres(double val);
@@ -45,10 +49,10 @@ public:
     uint archivePeriod();
     void setArchivePeriod(uint seconds);
 
-
     static int activeIntervalF();
     int activeInterval();
     void setActiveInternal(int seconds);
+
 
 public:
 

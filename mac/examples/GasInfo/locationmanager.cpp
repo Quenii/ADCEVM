@@ -35,7 +35,15 @@ void LocationManager::addLocation(int id, QGeoCoordinate location, bool bAlarm)
     if (id == 0)
     {
         m_map->setCenter(location);
+    }    
+
+    QGeoBoundingBox box;
+    foreach(QGeoMapObject* obj, m_map->mapObjects())
+    {
+        box = box.united(obj->boundingBox());
     }
+
+    m_map->fitInViewport(box, false);
 }
 
 void LocationManager::clearLocations()
