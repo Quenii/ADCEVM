@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>601</width>
-    <height>289</height>
+    <height>373</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>Terminal Relative</string>
+      <string>终端设置</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -95,7 +95,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Default Host Location:</string>
+           <string>默认主战坐标</string>
           </property>
          </widget>
         </item>
@@ -105,7 +105,7 @@
         <item>
          <widget class="QLabel" name="label_12">
           <property name="text">
-           <string>(laititude/+-degree)</string>
+           <string>(纬度/+-degree)</string>
           </property>
          </widget>
         </item>
@@ -128,7 +128,7 @@
         <item>
          <widget class="QLabel" name="label_13">
           <property name="text">
-           <string>(longitude/+-degree)</string>
+           <string>(经度/+-degree)</string>
           </property>
          </widget>
         </item>
@@ -153,7 +153,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Data Reception</string>
+      <string>数据接收</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -167,7 +167,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Data Folder:</string>
+           <string>保存路径</string>
           </property>
          </widget>
         </item>
@@ -189,7 +189,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>&amp;Browse...</string>
+             <string>浏览(&amp;B)...</string>
             </property>
            </widget>
           </item>
@@ -204,7 +204,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Auto Save Period:</string>
+           <string>自动保存间隔</string>
           </property>
          </widget>
         </item>
@@ -220,7 +220,7 @@
           <item>
            <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>day</string>
+             <string>天</string>
             </property>
            </widget>
           </item>
@@ -234,7 +234,7 @@
           <item>
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>hours</string>
+             <string>小时</string>
             </property>
            </widget>
           </item>
@@ -248,7 +248,7 @@
           <item>
            <widget class="QLabel" name="label_5">
             <property name="text">
-             <string>minutes</string>
+             <string>分钟</string>
             </property>
            </widget>
           </item>
@@ -275,7 +275,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
-      <string>Alarming Thresholds of Gas</string>
+      <string>各气体报警阈值</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item>
