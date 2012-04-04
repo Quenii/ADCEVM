@@ -32,8 +32,8 @@ signals:
 
 public slots:
 
-protected:
-    void timerEvent(QTimerEvent *);
+//protected:
+    void update(/*QTimerEvent **/);
     
 private:
     QTermDataHandler(QObject *parent = 0);

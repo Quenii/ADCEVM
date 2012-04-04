@@ -60,7 +60,10 @@ bool QTermDataHandler::start()
         //!!please input current location;
     }
 
-    timer = new QTimer();
+    timer = new QTimer(this);
+    bool ok = connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    Q_ASSERT(ok);
+
     timer->start(100);
     m_bRunning = true;
     return true;
@@ -72,11 +75,12 @@ void QTermDataHandler::stop()
         gps->close();
     term->close();
 
+    timer->stop();
     delete timer;
     m_bRunning = false;
 }
 
-void QTermDataHandler::timerEvent(QTimerEvent *event)
+void QTermDataHandler::update(/*QTimerEvent *event*/)
 {
     static int ID, CNT;
     ID ++;
@@ -167,6 +171,18 @@ void QTermDataHandler::parseMsg(QByteArray msg)
     item.h2s = h2s.Deduce(buffer[20]*256 + buffer[21]);
     item.so2 = so2.Deduce(buffer[18]*256 + buffer[19]);
     item.fel = fel.Deduce(buffer[22]*256 + buffer[23]);
+
+    double lat, lng;
+    lat = buffer[3] * 1e3 + buffer[4] * 1e2 + buffer[5] *1e1 + buffer[6]
+            + buffer[7] * 0.1 + buffer[8] * 0.01 + buffer[9] * 0.001;
+
+    lng = buffer[10] * 1e4 + buffer[11] * 1e3 + buffer[12] * 1e2 + buffer[13] *1e1 + buffer[14]
+            + buffer[15] * 0.1 + buffer[16] * 0.01 + buffer[17] * 0.001;
+
+    lat = nmeaDegreesToDecimal(lat); lng = nmeaDegreesToDecimal(lng);
+
+    item.location = QGeoCoordinate(lat, lng);
+    emit newData(item);
 
 
 }
