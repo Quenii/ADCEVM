@@ -18,7 +18,7 @@
 
 static QString terminalTitle(int terminalId)
 {
-    return QString("Terminal %1").arg(terminalId);
+	return QString::fromLocal8Bit("Terminal %1").arg(terminalId);
 }
 
 class MdiSubWindow : public QMdiSubWindow
@@ -139,7 +139,7 @@ void MainWindow::openCloseTerminals(const QList<int> &idList, bool open)
             ui->mdiArea->addSubWindow(subWindow1);
             terminalWidget->setModel(m_centralModel);
 
-            QAction* action = new QAction(QString("Terminal &%1").arg(terminalId), subWindow1);
+			QAction* action = new QAction(QString::fromLocal8Bit("Terminal &%1").arg(terminalId), subWindow1);
 
             ui->menuWindows->addAction(action);
 
@@ -204,7 +204,7 @@ void MainWindow::on_actionLoad_triggered(bool checked)
     GasInfoSettings settings;
     QString fileName = QFileDialog::getOpenFileName(
                 this,
-                tr("Load Data"),
+				QString::fromLocal8Bit("载入数据"),
                 settings.dataFolder(),
                 tr("GasInfo File (*.gas)"));
 
@@ -296,7 +296,7 @@ void MainWindow::initMap()
 
     QList<QString> providers = QGeoServiceProvider::availableServiceProviders();
     if (providers.size() < 1) {
-        QMessageBox::information(this, tr("Maps"),
+        QMessageBox::information(this, QString::fromLocal8Bit("地图"),
                                  tr("No service providers are available"));
         // QCoreApplication::quit();
         return;
@@ -311,7 +311,7 @@ void MainWindow::initMap()
     }
 
     if (serviceProvider->error() != QGeoServiceProvider::NoError) {
-        QMessageBox::information(this, tr("Maps"),
+        QMessageBox::information(this, QString::fromLocal8Bit("地图"),
                                  tr("Error loading geoservice plugin"));
         // QCoreApplication::quit();
         return;
@@ -320,7 +320,7 @@ void MainWindow::initMap()
     if (!serviceProvider->mappingManager() ||
             !serviceProvider->searchManager() ||
             !serviceProvider->routingManager()) {
-        QMessageBox::information(this, tr("Maps"),
+        QMessageBox::information(this, QString::fromLocal8Bit("地图"),
                                  tr("No geoservice found with mapping/search/routing"));
         // QCoreApplication::quit();
         return;
