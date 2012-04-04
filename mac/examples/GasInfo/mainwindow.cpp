@@ -259,7 +259,7 @@ void MainWindow::addData(const GasInfoItem& item)
     if (GasInfoSettings::applicationModeF() == Receive)
     {
         // update date
-        if (m_centralModel)
+        if (item.ch > 0 && m_centralModel)
             m_centralModel->addData(item);
 
         bool bAlarm = false;
