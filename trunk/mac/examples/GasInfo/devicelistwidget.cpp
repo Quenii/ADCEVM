@@ -57,10 +57,10 @@ void DeviceListWidget::terminalTableView_doubleClicked(const QModelIndex &index)
 void DeviceListWidget::terminalTableView_customContextMenu(const QPoint &pos)
 {
     QMenu menu;
-    QAction* openAction = new QAction("Open", &menu);
-    QAction* closeAction = new QAction("Close", &menu);
-    QAction* exportAction = new QAction("Export", &menu);
-    QAction* deleteAction = new QAction("Delete", &menu);
+    QAction* openAction = new QAction(QString::fromLocal8Bit("打开"), &menu);
+    QAction* closeAction = new QAction(QString::fromLocal8Bit("关闭"), &menu);
+    QAction* exportAction = new QAction(QString::fromLocal8Bit("导出"), &menu);
+    QAction* deleteAction = new QAction(QString::fromLocal8Bit("删除"), &menu);
     menu.addAction(openAction);
     menu.addAction(closeAction);
     menu.addAction(exportAction);
@@ -132,7 +132,7 @@ void DeviceListWidget::exportTerminalData()
     {
         QString fileName = QFileDialog::getSaveFileName(
                     this,
-                    tr("Export Terminal Data"),
+                    QString::fromLocal8Bit("导出终端数据"),
                     "",
                     tr("Excel File (*.csv)"));
         if (!fileName.isEmpty())
@@ -142,7 +142,7 @@ void DeviceListWidget::exportTerminalData()
     {
         QString dirName = QFileDialog::getExistingDirectory(
                     this,
-                    tr("Export Terminal Data"),
+                    QString::fromLocal8Bit("导出终端数据"),
                     "");
 
         if (!dirName.isEmpty())
