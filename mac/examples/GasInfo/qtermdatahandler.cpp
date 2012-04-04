@@ -5,7 +5,7 @@
 #include "QGasInfo.h"
 
 #include <QTimer>
-#include <QNmeaPositionInfoSource>
+//#include <QNmeaPositionInfoSource>
 #include <QByteArray>
 
 #include <math.h>

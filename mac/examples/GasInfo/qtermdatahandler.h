@@ -27,7 +27,7 @@ public:
     Q_DISABLE_COPY(QTermDataHandler)
 signals:
     //void MainWindow::addData(const GasInfoItem& item);
-    void newData(GasInfoItem& item);
+    void newData(const GasInfoItem& item);
     void newMsg(QByteArray& msg);
 
 public slots:
