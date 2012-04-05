@@ -11,6 +11,11 @@ LocationManager::LocationManager(QObject *parent, QGraphicsGeoMap* map)
 
 }
 
+QList<DeviceTextMarker*>LocationManager::markers() const
+{
+    return m_markers.values();
+}
+
 void LocationManager::addLocation(int id, QGeoCoordinate location, bool bAlarm)
 {
     if (!location.isValid())
@@ -38,7 +43,7 @@ void LocationManager::addLocation(int id, QGeoCoordinate location, bool bAlarm)
     }    
 
     QGeoBoundingBox box;
-    foreach(QGeoMapObject* obj, m_map->mapObjects())
+    foreach(QGeoMapObject* obj, markers())
     {
         box = box.united(obj->boundingBox());
     }
