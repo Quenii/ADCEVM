@@ -3,6 +3,7 @@
 
 #include <QTranslator>
 #include <QApplication>
+#include <QMacStyle>
 
 
 #define REGISTER_METATYPE_HELPER( type ) \
@@ -12,21 +13,21 @@
 
 int main(int argc, char *argv[])
 {
+    QApplication::setStyle("cleanlooks");
+
     QApplication a(argc, argv);
 
-    QTranslator translator;
-    translator.load("gasinfo_zh");
-
-    a.installTranslator(&translator);
-
     REGISTER_METATYPE_HELPER(SerialPortInfo);
+
 
     QCoreApplication::setOrganizationName("quenii");
     QCoreApplication::setOrganizationDomain("quenii.com");
     QCoreApplication::setApplicationName("GasInfo");
 
-//    MainDialog w;
-//    w.show();
+    QTranslator translator;
+    translator.load("gasinfo_zh");
+    a.installTranslator(&translator);
+
 
     MainWindow mainWindow;
     mainWindow.showMaximized();

@@ -92,12 +92,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     readSettings();
 
+    // code just for debug ....
     //    m_locationManager->addLocation(0, QGeoCoordinate(0, 0, 0));
     //    m_locationManager->addLocation(1, QGeoCoordinate(0, .001, 0));
     //    m_locationManager->addLocation(2, QGeoCoordinate(0, .002, 0), true);
 
-//    TerminalAlarmWidget* w = new TerminalAlarmWidget(tr("Terminal Alarm"), "text", 1, 0 );
-//    w->show();
+    //    TerminalAlarmWidget* w = new TerminalAlarmWidget(tr("Terminal Alarm"), "text", 1, 0 );
+    //    w->show();
+    //  startTimer(1000);
 
 }
 
@@ -271,16 +273,16 @@ void MainWindow::addData(const GasInfoItem& item)
 
     bool bAlarm = false;
     if ( item.ch > 0 &&
-            (item.h2s >= GasInfoSettings::h2sAlarmThresF()
-            || item.so2 >= GasInfoSettings::so2AlarmThresF()
-            || item.fel >= GasInfoSettings::felAlarmThresF()))
+         (item.h2s >= GasInfoSettings::h2sAlarmThresF()
+          || item.so2 >= GasInfoSettings::so2AlarmThresF()
+          || item.fel >= GasInfoSettings::felAlarmThresF()))
     {
         bAlarm = true;
     }
-//haha
+    //haha
 
-//    bool bb = false;
-//    bb = GasInfoSettings::terminalAlarmWindowOpenF(item.ch);
+    //    bool bb = false;
+    //    bb = GasInfoSettings::terminalAlarmWindowOpenF(item.ch);
     if (bAlarm && (!GasInfoSettings::terminalAlarmWindowOpenF(item.ch)))
     {
         TerminalAlarmWidget* w = new TerminalAlarmWidget(QString::fromLocal8Bit("报警"), "text", item.ch, 0 );
@@ -374,4 +376,15 @@ void MainWindow::optionsApplied()
 {
     GasInfoSettings settings;
     m_locationManager->addLocation(0, settings.defaultHostLocation());
+}
+
+void MainWindow::timerEvent(QTimerEvent *)
+{
+//    static QGeoCoordinate location(40, 116);
+//    static int id = 0;
+
+//    m_locationManager->addLocation(id, location);
+
+//    id ++;
+//    location.setLatitude(location.latitude() + 0.02);
 }
