@@ -74,9 +74,9 @@ class LocationManager : public QObject
     Q_OBJECT
 public:
     explicit LocationManager(QObject *parent, QGraphicsGeoMap* map);
-    
-signals:
 
+public:
+    QList<DeviceTextMarker*> markers() const;
     
 public slots:
     // id: 0 for Host, >0 for terminals.
