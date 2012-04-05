@@ -38,10 +38,10 @@
         <item>
          <widget class="QSpinBox" name="maxTermCountSpinBox">
           <property name="minimum">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="maximum">
-           <number>59</number>
+           <number>255</number>
           </property>
          </widget>
         </item>
@@ -87,10 +87,10 @@
         <item>
          <widget class="QSpinBox" name="scanIntervalMsecSpinBox">
           <property name="minimum">
-           <number>0</number>
+           <number>20</number>
           </property>
           <property name="maximum">
-           <number>59</number>
+           <number>2000</number>
           </property>
          </widget>
         </item>
