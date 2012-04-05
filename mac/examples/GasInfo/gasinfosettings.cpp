@@ -67,7 +67,7 @@ bool GasInfoSettings::terminalAlarmWindowOpenF(int id)
         h[key] = false;
     }
 
-    qDebug() << QString("h[%1] = %2;").arg(key,h[key] );
+    qDebug() << QString("h[%1] = %2;").arg(key, h[key].toBool() );
 
     return  h[key].toBool();
 }
