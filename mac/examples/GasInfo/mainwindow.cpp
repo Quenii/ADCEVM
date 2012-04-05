@@ -278,6 +278,9 @@ void MainWindow::addData(const GasInfoItem& item)
         bAlarm = true;
     }
 //haha
+
+//    bool bb = false;
+//    bb = GasInfoSettings::terminalAlarmWindowOpenF(item.ch);
     if (bAlarm && (!GasInfoSettings::terminalAlarmWindowOpenF(item.ch)))
     {
         TerminalAlarmWidget* w = new TerminalAlarmWidget(QString::fromLocal8Bit("报警"), "text", item.ch, 0 );

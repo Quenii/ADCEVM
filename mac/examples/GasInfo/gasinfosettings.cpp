@@ -62,12 +62,14 @@ bool GasInfoSettings::terminalAlarmWindowOpenF(int id)
     QString key = terminalAlarmWindowOpenKey(id);
 
     Hash h = reg();
+    qDebug() << QString("pre: h[%1] = %2;").arg(key).arg(h[key].toBool()) ;
+
     if (!h.contains(key))
     {
         h[key] = false;
     }
 
-    qDebug() << QString("h[%1] = %2;").arg(key).arg(h[key].toBool()) ;
+    qDebug() << QString("post: h[%1] = %2;").arg(key).arg(h[key].toBool()) ;
 
     return  h[key].toBool();
 }
