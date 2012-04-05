@@ -270,16 +270,17 @@ void MainWindow::addData(const GasInfoItem& item)
         m_centralModel->addData(item);
 
     bool bAlarm = false;
-    if (item.h2s >= GasInfoSettings::h2sAlarmThresF()
+    if ( item.ch > 0 &&
+            (item.h2s >= GasInfoSettings::h2sAlarmThresF()
             || item.so2 >= GasInfoSettings::so2AlarmThresF()
-            || item.fel >= GasInfoSettings::felAlarmThresF())
+            || item.fel >= GasInfoSettings::felAlarmThresF()))
     {
         bAlarm = true;
     }
 //haha
     if (bAlarm && (!GasInfoSettings::terminalAlarmWindowOpenF(item.ch)))
     {
-        TerminalAlarmWidget* w = new TerminalAlarmWidget(tr("Terminal Alarm"), "text", 1, 0 );
+        TerminalAlarmWidget* w = new TerminalAlarmWidget(QString::fromLocal8Bit("报警"), "text", item.ch, 0 );
         w->show();
     }
 
