@@ -96,8 +96,8 @@ MainWindow::MainWindow(QWidget *parent)
     //    m_locationManager->addLocation(1, QGeoCoordinate(0, .001, 0));
     //    m_locationManager->addLocation(2, QGeoCoordinate(0, .002, 0), true);
 
-    TerminalAlarmWidget* w = new TerminalAlarmWidget(tr("Terminal Alarm"), "text", 1, 0 );
-    w->show();
+//    TerminalAlarmWidget* w = new TerminalAlarmWidget(tr("Terminal Alarm"), "text", 1, 0 );
+//    w->show();
 
 }
 
