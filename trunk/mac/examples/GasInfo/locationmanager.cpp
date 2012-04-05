@@ -43,7 +43,11 @@ void LocationManager::addLocation(int id, QGeoCoordinate location, bool bAlarm)
         m_map->setCenter(location);
     }
 
+    autoFit(true);
+}
 
+void LocationManager::autoFit(bool keepCenter)
+{
     QGeoBoundingBox box;
     foreach(QGeoMapObject* obj, markers())
     {
@@ -55,7 +59,7 @@ void LocationManager::addLocation(int id, QGeoCoordinate location, bool bAlarm)
 
     m_map->ensureVisible(m_map->boundingRect());
 
-    m_map->fitInViewport(box, true); // true to maintain the center of the map.
+    m_map->fitInViewport(box, keepCenter); // true to maintain the center of the map.
 }
 
 void LocationManager::clearLocations()

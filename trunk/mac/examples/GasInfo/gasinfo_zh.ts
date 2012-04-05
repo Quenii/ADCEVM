@@ -201,22 +201,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="210"/>
+        <location filename="mainwindow.cpp" line="217"/>
         <source>GasInfo File (*.gas)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="307"/>
+        <location filename="mainwindow.cpp" line="319"/>
         <source>No service providers are available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="322"/>
+        <location filename="mainwindow.cpp" line="334"/>
         <source>Error loading geoservice plugin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="331"/>
+        <location filename="mainwindow.cpp" line="343"/>
         <source>No geoservice found with mapping/search/routing</source>
         <translation type="unfinished"></translation>
     </message>
@@ -241,99 +241,119 @@
         <source>终端设置</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="optiondialog.ui" line="34"/>
-        <source>Max Active Interval:</source>
+        <source>最大终端数量</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="optiondialog.ui" line="51"/>
-        <source>minutes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="optiondialog.ui" line="68"/>
-        <source>seconds</source>
+        <source>(1~N)</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="optiondialog.ui" line="98"/>
-        <source>默认主战坐标</source>
+        <location filename="optiondialog.ui" line="83"/>
+        <source>扫描间隔</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="optiondialog.ui" line="108"/>
+        <location filename="optiondialog.ui" line="100"/>
+        <source>毫秒</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="optiondialog.ui" line="130"/>
+        <source>最大响应间隔</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="optiondialog.ui" line="147"/>
+        <source>分</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="optiondialog.ui" line="164"/>
+        <source>秒</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="optiondialog.ui" line="194"/>
+        <source>默认主站坐标</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="optiondialog.ui" line="204"/>
         <source>(纬度/+-degree)</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="optiondialog.ui" line="131"/>
+        <location filename="optiondialog.ui" line="227"/>
         <source>(经度/+-degree)</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="optiondialog.ui" line="156"/>
+        <location filename="optiondialog.ui" line="252"/>
         <source>数据接收</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="optiondialog.ui" line="170"/>
+        <location filename="optiondialog.ui" line="266"/>
         <source>保存路径</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="optiondialog.ui" line="192"/>
+        <location filename="optiondialog.ui" line="288"/>
         <source>浏览(&amp;B)...</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="optiondialog.ui" line="207"/>
+        <location filename="optiondialog.ui" line="303"/>
         <source>自动保存间隔</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="optiondialog.ui" line="223"/>
+        <location filename="optiondialog.ui" line="319"/>
         <source>天</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="optiondialog.ui" line="237"/>
+        <location filename="optiondialog.ui" line="333"/>
         <source>小时</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="optiondialog.ui" line="251"/>
+        <location filename="optiondialog.ui" line="347"/>
         <source>分钟</source>
         <translation type="unfinished"></translation>
     </message>
     <message utf8="true">
-        <location filename="optiondialog.ui" line="278"/>
+        <location filename="optiondialog.ui" line="374"/>
         <source>各气体报警阈值</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="optiondialog.ui" line="284"/>
+        <location filename="optiondialog.ui" line="380"/>
         <source>H2S:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="optiondialog.ui" line="298"/>
-        <location filename="optiondialog.ui" line="332"/>
+        <location filename="optiondialog.ui" line="394"/>
+        <location filename="optiondialog.ui" line="428"/>
         <source>ppm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="optiondialog.ui" line="318"/>
+        <location filename="optiondialog.ui" line="414"/>
         <source>SO2:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="optiondialog.ui" line="352"/>
+        <location filename="optiondialog.ui" line="448"/>
         <source>FEL:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="optiondialog.ui" line="366"/>
+        <location filename="optiondialog.ui" line="462"/>
         <source>%</source>
         <translation type="unfinished"></translation>
     </message>
@@ -470,6 +490,24 @@
     <message>
         <location filename="StatitonInfo.ui" line="192"/>
         <source>Distance</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TerminalAlarmWidget</name>
+    <message>
+        <location filename="terminalalarmwidget.ui" line="14"/>
+        <source>Terminal Alerm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="terminalalarmwidget.ui" line="71"/>
+        <source>忽略</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="terminalalarmwidget.ui" line="78"/>
+        <source>报警</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

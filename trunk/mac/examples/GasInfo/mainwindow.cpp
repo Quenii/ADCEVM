@@ -380,11 +380,12 @@ void MainWindow::optionsApplied()
 
 void MainWindow::timerEvent(QTimerEvent *)
 {
-//    static QGeoCoordinate location(40, 116);
-//    static int id = 0;
+  /* static QGeoCoordinate location(40, 116);
+   static int id = 0;
 
-//    m_locationManager->addLocation(id, location);
+    m_locationManager->addLocation(id, location);
 
-//    id ++;
-//    location.setLatitude(location.latitude() + 0.02);
+   id ++;
+    location.setLatitude(location.latitude() + 0.02);
+    */
 }
