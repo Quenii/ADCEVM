@@ -3,7 +3,6 @@
 
 #include <QObject>
 
-#define TERMIDMAX   64
 #define MSGLEN      24
 
 class GasInfoItem;
@@ -43,8 +42,9 @@ private:
     QextSerialPort *term;
 
     QTimer *timer;
-
     QByteArray buffer;
+
+    uint maxID;
 
 };
 

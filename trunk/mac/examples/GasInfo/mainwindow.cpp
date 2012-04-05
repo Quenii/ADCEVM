@@ -276,7 +276,7 @@ void MainWindow::addData(const GasInfoItem& item)
     {
         bAlarm = true;
     }
-
+//haha
     if (bAlarm && (!GasInfoSettings::terminalAlarmWindowOpenF(item.ch)))
     {
         TerminalAlarmWidget* w = new TerminalAlarmWidget(tr("Terminal Alarm"), "text", 1, 0 );
