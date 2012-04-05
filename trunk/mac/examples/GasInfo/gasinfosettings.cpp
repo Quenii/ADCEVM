@@ -26,7 +26,7 @@ static const char* gpsPortInfoKey = "communication/gpsPortInfo";
 
 static QString terminalAlarmWindowOpenKey(int id)
 {
-   return QString("state/Terminal %1/alarmWindowOpen").arg(id);
+    return QString("state/Terminal %1/alarmWindowOpen").arg(id);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -46,10 +46,10 @@ GasInfoSettings::GasInfoSettings(QObject *parent) :
 
 void GasInfoSettings::setValue(const QString & key, const QVariant & value)
 {
-    Hash& h = reg();
-    if (h.contains(key))
+    Hash* h = reg();
+    if (h->contains(key))
     {
-        h[key] = value;
+        (*h)[key] = value;
     }
 
     QSettings::setValue(key, value);
@@ -61,26 +61,21 @@ bool GasInfoSettings::terminalAlarmWindowOpenF(int id)
 {
     QString key = terminalAlarmWindowOpenKey(id);
 
-    Hash h = reg();
-    qDebug() << QString("pre: h[%1] = %2;").arg(key).arg(h[key].toBool()) ;
+    Hash* h = reg();
 
-    if (!h.contains(key))
+    if (!h->contains(key))
     {
-        h[key] = false;
+        (*h)[key] = false;
     }
 
-    qDebug() << QString("post: h[%1] = %2;").arg(key).arg(h[key].toBool()) ;
-
-    return  h[key].toBool();
+     return   (*h)[key].toBool();
 }
 
 void GasInfoSettings::setTerminalAlermWindowOpen(int id, bool bOpen)
 {
     QString key = terminalAlarmWindowOpenKey(id);
-    Hash h = reg();
-    h[key] = bOpen;
-
-    qDebug() << h;
+    Hash* h = reg();
+    (*h)[key] = bOpen;
 }
 
 double GasInfoSettings::h2sAlarmThres() const
@@ -90,14 +85,14 @@ double GasInfoSettings::h2sAlarmThres() const
 
 double GasInfoSettings::h2sAlarmThresF()
 {
-    Hash h = reg();
-    if (!h.contains(h2sAlarmThresKey))
+    Hash* h = reg();
+    if (!h->contains(h2sAlarmThresKey))
     {
         GasInfoSettings settings;
-        h[h2sAlarmThresKey] = settings.h2sAlarmThres();
+        (*h)[h2sAlarmThresKey] = settings.h2sAlarmThres();
     }
 
-    return  h[h2sAlarmThresKey].toDouble();
+    return  (*h)[h2sAlarmThresKey].toDouble();
 }
 
 void GasInfoSettings::setH2sAlarmThres(double val)
@@ -108,14 +103,14 @@ void GasInfoSettings::setH2sAlarmThres(double val)
 
 double GasInfoSettings::so2AlarmThresF()
 {
-    Hash h = reg();
-    if (!h.contains(so2AlarmThresKey))
+    Hash* h = reg();
+    if (!h->contains(so2AlarmThresKey))
     {
         GasInfoSettings settings;
-        h[so2AlarmThresKey] = settings.so2AlarmThres();
+        (*h)[so2AlarmThresKey] = settings.so2AlarmThres();
     }
 
-    return  h[so2AlarmThresKey].toDouble();
+    return  (*h)[so2AlarmThresKey].toDouble();
 }
 
 double GasInfoSettings::so2AlarmThres()
@@ -130,14 +125,14 @@ void GasInfoSettings::setSo2AlarmThres(double val)
 
 double GasInfoSettings::felAlarmThresF()
 {
-    Hash h = reg();
-    if (!h.contains(felAlarmThresKey))
+    Hash* h = reg();
+    if (!h->contains(felAlarmThresKey))
     {
         GasInfoSettings settings;
-        h[felAlarmThresKey] = settings.felAlarmThres();
+        (*h)[felAlarmThresKey] = settings.felAlarmThres();
     }
 
-    return  h[felAlarmThresKey].toDouble();
+    return  (*h)[felAlarmThresKey].toDouble();
 }
 
 double GasInfoSettings::felAlarmThres()
@@ -175,14 +170,14 @@ void GasInfoSettings::setDefaultHostLocation(const QGeoCoordinate& location)
 
 int GasInfoSettings::activeIntervalF()
 {
-    Hash h = reg();
-    if (!h.contains(activeIntervalKey))
+    Hash* h = reg();
+    if (!h->contains(activeIntervalKey))
     {
         GasInfoSettings settings;
-        h[activeIntervalKey] = settings.activeInterval();
+        (*h)[activeIntervalKey] = settings.activeInterval();
     }
 
-    return  h[activeIntervalKey].toInt();
+    return  (*h)[activeIntervalKey].toInt();
 }
 
 int GasInfoSettings::activeInterval()
@@ -208,13 +203,13 @@ void GasInfoSettings::setApplicationMode(ApplicationModes mode)
 
 uint GasInfoSettings::archivePeriodF()
 {
-    Hash& h = reg();
-    if (!h.contains(archivePeriodKey))
+    Hash* h = reg();
+    if (!h->contains(archivePeriodKey))
     {
-        h[archivePeriodKey] = GasInfoSettings().archivePeriod();
+        (*h)[archivePeriodKey] = GasInfoSettings().archivePeriod();
     }
 
-    return h[archivePeriodKey].toInt();
+    return (*h)[archivePeriodKey].toInt();
 }
 
 uint GasInfoSettings::archivePeriod()

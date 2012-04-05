@@ -91,7 +91,7 @@ signals:
 public slots:
 
 private:
-    static Hash& reg(){ static Hash g_d; return g_d; }
+    static Hash* reg(){ static Hash g_d; return &g_d; }
 };
 
 #endif // GASINFOSETTINGS_H
