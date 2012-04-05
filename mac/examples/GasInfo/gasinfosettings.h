@@ -55,6 +55,10 @@ public:
     int activeInterval();
     void setActiveInternal(int seconds);
 
+    uint scanInterval();
+    void setScanInterval(uint mseconds);
+    uint maxTermCount();
+    void setMaxTermCount(uint n);
 
 public:
 

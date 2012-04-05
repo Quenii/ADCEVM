@@ -68,14 +68,14 @@
      <item>
       <widget class="QPushButton" name="pushButtonYes">
        <property name="text">
-        <string>Yes</string>
+        <string>忽略</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButtonNo">
        <property name="text">
-        <string>No</string>
+        <string>报警</string>
        </property>
       </widget>
      </item>

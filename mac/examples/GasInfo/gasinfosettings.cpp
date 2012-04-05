@@ -9,6 +9,8 @@
 static const char* mainWindowGeometryKey = "mainWindow/geometry";
 static const char* mainWindowStateKey = "mainWindow/state";
 
+static const char* scanIntervalKey = "option/scanInterval";
+static const char* maxTermCountKey = "option/maxTermCount";
 static const char* dataFolderKey = "option/dataFolder";
 static const char* archivePeriodKey = "option/archivePeriod";
 static const char* activeIntervalKey = "option/activeInterval";
@@ -302,5 +304,22 @@ QSize GasInfoSettings::windowSize(const QString& windowTitle) const
     return value(sizeKey, QSize(200, 200)).toSize();
 }
 
+uint GasInfoSettings::scanInterval()
+{
+    return value(scanIntervalKey, 100).toUInt();
+}
 
+void GasInfoSettings::setScanInterval(uint mseconds)
+{
+    setValue(scanIntervalKey, mseconds);
+}
 
+uint GasInfoSettings::maxTermCount()
+{
+    return value(maxTermCountKey, 64).toUInt();
+}
+
+void GasInfoSettings::setMaxTermCount(uint n)
+{
+    setValue(maxTermCountKey, n);
+}

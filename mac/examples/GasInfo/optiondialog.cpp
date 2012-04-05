@@ -45,6 +45,8 @@ void OptionDialog::giveOptions()
     ui->hoursSpinBox->setValue(time.hour());
     ui->minutesSpinBox->setValue(time.minute());
 
+    ui->maxTermCountSpinBox->setValue(settings.maxTermCount());
+    ui->scanIntervalMsecSpinBox->setValue(settings.scanInterval());
 
     int interval = settings.activeInterval();
     ui->activeIntervalMinutesSpinBox->setValue(interval / 60);
@@ -72,6 +74,9 @@ void OptionDialog::takeOptions()
     GasInfoSettings settings;
 
     settings.setdataFolder(ui->dataFolderLineEdit->text());
+
+    settings.setScanInterval(ui->scanIntervalMsecSpinBox->value());
+    settings.setMaxTermCount(ui->maxTermCountSpinBox->value());
 
     int days = ui->daySpinBox->value();
     int hours = ui->hoursSpinBox->value();

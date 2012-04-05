@@ -50,9 +50,9 @@ struct GasInfoItem
     float so2;
     float fel;
 
-    QString latitude; // why?
-    QString longitude; // why?
-    QString distance; // why?
+//    QString latitude; // why?
+//    QString longitude; // why?
+//    QString distance; // why?
 
     QGeoCoordinate location;
 };
