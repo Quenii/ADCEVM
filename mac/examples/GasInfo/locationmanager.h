@@ -78,6 +78,8 @@ public:
 public:
     QList<DeviceTextMarker*> markers() const;
     
+    void autoFit(bool keepCenter);
+
 public slots:
     // id: 0 for Host, >0 for terminals.
     void addLocation(int id, QGeoCoordinate location, bool bAlarm = false);
