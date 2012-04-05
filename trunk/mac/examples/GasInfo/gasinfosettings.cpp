@@ -67,6 +67,8 @@ bool GasInfoSettings::terminalAlarmWindowOpenF(int id)
         h[key] = false;
     }
 
+    qDebug() << QString("h[%1] = %2;").arg(key,h[key] );
+
     return  h[key].toBool();
 }
 
@@ -76,7 +78,7 @@ void GasInfoSettings::setTerminalAlermWindowOpen(int id, bool bOpen)
     Hash h = reg();
     h[key] = bOpen;
 
-    // qDebug() << h;
+    qDebug() << h;
 }
 
 double GasInfoSettings::h2sAlarmThres() const
