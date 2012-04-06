@@ -288,7 +288,7 @@ void MainWindow::addData(const GasInfoItem& item)
 
     // update GPS
     if (m_locationManager)
-        m_locationManager->addLocation(item, bAlarm);
+        m_locationManager->addLocation(item, ui->mapsWidget, bAlarm);
 
     // set host location to settings.
     if (item.ch == 0 && item.location.isValid())

@@ -18,6 +18,7 @@ TerminalAlarmWidget::TerminalAlarmWidget(const QString& title, const QString& ms
     ui->setupUi(this);
 
     setWindowTitle(title);
+    setText(msg);
     setAttribute(Qt::WA_DeleteOnClose, false);
 
     GasInfoSettings::setTerminalAlermWindowOpen(m_id, true);

@@ -1,5 +1,5 @@
 #include "locationmanager.h"
-
+#include "mapswidget.h"
 // QGraphicsTextItem
 
 #include <QtDebug>
@@ -17,7 +17,7 @@ QList<DeviceTextMarker*>LocationManager::markers() const
     return m_markers.values();
 }
 
-void LocationManager::addLocation(const GasInfoItem &item, bool bAlarm)
+void LocationManager::addLocation(const GasInfoItem &item, const MapsWidget *widget, bool bAlarm)
 {
     QGeoCoordinate location = item.location;
     int id = item.ch;
@@ -36,6 +36,10 @@ void LocationManager::addLocation(const GasInfoItem &item, bool bAlarm)
     else
     {
         marker = new DeviceTextMarker(id);
+
+        connect(widget, SIGNAL(markerClicked(Marker*)),
+            this, SLOT(showMarkerDialog(Marker*)));
+
         m_map->addMapObject(marker);
         m_markers.insert(id, marker);
     }
@@ -60,10 +64,6 @@ void LocationManager::addLocation(QGeoCoordinate location)
     else
     {
         marker = new DeviceTextMarker(id);
-
-//        connect(mapsWidget, SIGNAL(markerClicked(Marker*)),
-//                this, SLOT(showMarkerDialog(Marker*)));
-
         m_map->addMapObject(marker);
         m_markers.insert(id, marker);
     }
@@ -97,4 +97,12 @@ void LocationManager::clearLocations()
 {
     m_map->clearMapObjects();
     m_markers.clear();
+}
+
+
+void LocationManager::showMarkerDialog(Marker* marker)
+{
+    qDebug() << "showMarkerDialog() called";
+
+    //((DeviceTextMarker *)marker)->m_item;
 }
