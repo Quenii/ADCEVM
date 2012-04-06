@@ -13,7 +13,7 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication::setStyle("cleanlooks");
+    QApplication::setStyle("macintosh");
 
     QApplication a(argc, argv);
 

@@ -257,7 +257,7 @@ void MainWindow::applicationModelChanged()
     clearAllData();
     if (appMode == Receive)
     {
-        m_locationManager->addLocation(0, GasInfoSettings().defaultHostLocation());
+        m_locationManager->addLocation(GasInfoSettings().defaultHostLocation());
     }
 
 }
@@ -279,10 +279,7 @@ void MainWindow::addData(const GasInfoItem& item)
     {
         bAlarm = true;
     }
-    //haha
 
-    //    bool bb = false;
-    //    bb = GasInfoSettings::terminalAlarmWindowOpenF(item.ch);
     if (bAlarm && (!GasInfoSettings::terminalAlarmWindowOpenF(item.ch)))
     {
         TerminalAlarmWidget* w = new TerminalAlarmWidget(QString::fromLocal8Bit("报警"), "text", item.ch, 0 );
@@ -291,7 +288,7 @@ void MainWindow::addData(const GasInfoItem& item)
 
     // update GPS
     if (m_locationManager)
-        m_locationManager->addLocation(item.ch, item.location, bAlarm);
+        m_locationManager->addLocation(item, bAlarm);
 
     // set host location to settings.
     if (item.ch == 0 && item.location.isValid())
@@ -375,7 +372,7 @@ void MainWindow::archiveCentralModel()
 void MainWindow::optionsApplied()
 {
     GasInfoSettings settings;
-    m_locationManager->addLocation(0, settings.defaultHostLocation());
+    m_locationManager->addLocation(settings.defaultHostLocation());
 }
 
 void MainWindow::timerEvent(QTimerEvent *)

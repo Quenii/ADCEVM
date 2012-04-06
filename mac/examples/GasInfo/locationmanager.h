@@ -5,6 +5,7 @@
 #include "Marker.h"
 #include "QGeoMapTextObject.h"
 #include "QGeoMapGroupObject.h"
+#include "SerialTypes.hpp"
 
 #include <QObject>
 #include <QHash>
@@ -51,6 +52,12 @@ public:
 
     }
 
+    void setMarkerProperties(const GasInfoItem& item, bool bAlarm = false)
+    {
+        setCoordinate(item.location, bAlarm);
+        m_item = item;
+    }
+
     void setText(const QString& str)
     {
 
@@ -63,6 +70,7 @@ public:
 
 private:
     int m_id;
+    GasInfoItem m_item;
     bool m_bAlarm;
     QGeoMapTextObject* m_text;
     Marker* m_marker;
@@ -82,7 +90,8 @@ public:
 
 public slots:
     // id: 0 for Host, >0 for terminals.
-    void addLocation(int id, QGeoCoordinate location, bool bAlarm = false);
+    void addLocation(QGeoCoordinate location);
+    void addLocation(const GasInfoItem &item, bool bAlarm = false);
     void clearLocations();
 
 private:

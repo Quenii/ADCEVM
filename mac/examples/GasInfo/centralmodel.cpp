@@ -99,26 +99,36 @@ CentralModel::CentralModel(QObject *parent) :
     QStandardItemModel(parent),
     m_receiveSessionData(new ReceiveSessionData(parent))
 {
-    setHorizontalHeaderItem( 0, new QStandardItem( QString::fromLocal8Bit("终端") ));
-    setHorizontalHeaderItem( 1, new QStandardItem( QString::fromLocal8Bit("状态") ));
-    setHorizontalHeaderItem( 2, new QStandardItem( QString::fromLocal8Bit("日期/时间") ));
+    setHorizontalHeaderItem( 0, new QStandardItem( "Terminal" ));
+    setHorizontalHeaderItem( 1, new QStandardItem( "Status" ));
+    setHorizontalHeaderItem( 2, new QStandardItem( "Date/Time" ));
     setHorizontalHeaderItem( 3, new QStandardItem( "FEL/ppm"));
     setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
     setHorizontalHeaderItem( 5, new QStandardItem( "SO2/%"));
 
-    for (int i = 0; i < 10; ++i)
-    {
-        GasInfoItem info;
-        info.ch = i;
+//    setHeaderData(0, Qt::Horizontal, tr("ID"));
+//    setHeaderData(1, Qt::Horizontal, tr("First name"));
+//    setHeaderData(2, Qt::Horizontal, tr("Last name"));
+//    setHeaderData(3, Qt::Horizontal, tr("Last name"));
+//    setHeaderData(4, Qt::Horizontal, tr("Last name"));
+//    setHeaderData(5, Qt::Horizontal, tr("Last name"));
 
-        for (int j = 0; j < 10; ++j)
-        {
-            info.fel = j;
-            info.h2s = 10 - j;
-            info.so2 = i;
-            addData(info);
-        }
-    }
+//    QStringList list;
+//    list << "pp" << "zz" << "tt" << "cc";
+//    setHorizontalHeaderLabels(list);
+//    for (int i = 0; i < 10; ++i)
+//    {
+//        GasInfoItem info;
+//        info.ch = i;
+
+//        for (int j = 0; j < 10; ++j)
+//        {
+//            info.fel = j;
+//            info.h2s = 10 - j;
+//            info.so2 = i;
+//            addData(info);
+//        }
+//    }
 }
 
 void CentralModel::beginReceiveSession()
@@ -190,10 +200,14 @@ void CentralModel::addData(const GasInfoItem& item)
 {
     if (! m_receiveSessionData->started)
         return;
+    setHorizontalHeaderItem( 0, new QStandardItem( "Terminal" ));
+    setHorizontalHeaderItem( 1, new QStandardItem( "Status" ));
+    setHorizontalHeaderItem( 2, new QStandardItem( "Date/Time" ));
+    setHorizontalHeaderItem( 3, new QStandardItem( "FEL/ppm"));
+    setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
+    setHorizontalHeaderItem( 5, new QStandardItem( "SO2/%"));
 
     m_receiveSessionData->lastHit = QDateTime::currentDateTime();
-
-
     QModelIndex idx = terminal(item.ch, true);
     QStandardItem* itm = itemFromIndex(idx);
 
