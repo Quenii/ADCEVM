@@ -126,7 +126,12 @@ void QTermDataHandler::update(/*QTimerEvent *event*/)
     }
 
     if (ID == maxID)
+    {
         ID = 0;
+        GasInfoItem item;
+        item.ch = 7;
+        emit newData(item);
+    }
 }
 
 double QTermDataHandler::nmeaDegreesToDecimal(double nmeaDegrees)
