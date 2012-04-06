@@ -200,9 +200,9 @@ void CentralModel::addData(const GasInfoItem& item)
 {
     if (! m_receiveSessionData->started)
         return;
-    setHorizontalHeaderItem( 0, new QStandardItem( "Terminal" ));
-    setHorizontalHeaderItem( 1, new QStandardItem( "Status" ));
-    setHorizontalHeaderItem( 2, new QStandardItem( "Date/Time" ));
+    setHorizontalHeaderItem( 0, new QStandardItem( QString::fromLocal8Bit("终端") ));
+    setHorizontalHeaderItem( 1, new QStandardItem( QString::fromLocal8Bit("状态") ));
+    setHorizontalHeaderItem( 2, new QStandardItem( QString::fromLocal8Bit("日期/时间") ));
     setHorizontalHeaderItem( 3, new QStandardItem( "FEL/ppm"));
     setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
     setHorizontalHeaderItem( 5, new QStandardItem( "SO2/%"));

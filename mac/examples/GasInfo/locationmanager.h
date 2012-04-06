@@ -76,6 +76,7 @@ private:
     Marker* m_marker;
 };
 
+class MapsWidget;
 
 class LocationManager : public QObject
 {
@@ -91,8 +92,9 @@ public:
 public slots:
     // id: 0 for Host, >0 for terminals.
     void addLocation(QGeoCoordinate location);
-    void addLocation(const GasInfoItem &item, bool bAlarm = false);
+    void addLocation(const GasInfoItem &item, const MapsWidget *widget, bool bAlarm = false);
     void clearLocations();
+    void showMarkerDialog(Marker* marker);
 
 private:
     QGraphicsGeoMap* m_map;
