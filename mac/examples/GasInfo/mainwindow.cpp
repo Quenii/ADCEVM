@@ -20,7 +20,7 @@
 
 static QString terminalTitle(int terminalId)
 {
-    return QString::fromLocal8Bit("%1 号终端").arg(terminalId);
+    return QString::fromLocal8Bit("%1 ???").arg(terminalId);
 }
 
 class MdiSubWindow : public QMdiSubWindow
@@ -147,7 +147,7 @@ void MainWindow::openCloseTerminals(const QList<int> &idList, bool open)
             ui->mdiArea->addSubWindow(subWindow1);
             terminalWidget->setModel(m_centralModel);
 
-            QAction* action = new QAction(QString::fromLocal8Bit("&%1号终端").arg(terminalId), subWindow1);
+            QAction* action = new QAction(QString::fromLocal8Bit("&%1 ???").arg(terminalId), subWindow1);
 
             ui->menuWindows->addAction(action);
 
