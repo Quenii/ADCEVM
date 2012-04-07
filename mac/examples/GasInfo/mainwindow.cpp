@@ -20,7 +20,7 @@
 
 static QString terminalTitle(int terminalId)
 {
-    return QString::fromLocal8Bit("%1 ???").arg(terminalId);
+    return QString::fromLocal8Bit("%1 号终端").arg(terminalId);
 }
 
 class MdiSubWindow : public QMdiSubWindow
