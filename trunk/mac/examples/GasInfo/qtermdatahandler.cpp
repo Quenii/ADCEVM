@@ -130,6 +130,10 @@ void QTermDataHandler::update(/*QTimerEvent *event*/)
         item.fel = ID*1;
         item.h2s = ID*2;
         item.so2 = ID*3;
+        if (ID == 3)
+        {
+            item.location = QGeoCoordinate(40, 116.3);
+        }
         emit(newData(item));
     }
     if (term->isOpen())
