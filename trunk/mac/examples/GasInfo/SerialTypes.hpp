@@ -1,9 +1,9 @@
 #pragma once
 
 #include "qextserialport.h"
-#include "qgeocoordinate.h"
+//#include "qgeocoordinate.h"
 
-
+#include <qgeocoordinate.h>
 #include <QString>
 #include <queue>
 #include <QMetaType>
