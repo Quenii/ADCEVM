@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
-SUBDIRS = qespta enumerator \
+SUBDIRS = \
     uartassistant GasInfo
-win32:SUBDIRS += event
+win32:SUBDIRS +=
 
