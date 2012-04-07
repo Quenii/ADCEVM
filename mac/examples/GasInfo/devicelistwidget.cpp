@@ -33,6 +33,13 @@ DeviceListWidget::DeviceListWidget(QWidget *parent) :
 
     QTimer::singleShot(0, ui->receiveModePushButton, SLOT(toggle()));
 
+    GasInfoSettings s;
+    QStringList term;
+    for (int i=0; i<=s.maxTermCount(); ++i)
+    {
+        term << QString("%1").arg(i);
+    }
+    ui->comboBoxChannel->insertItems(0, term);
     ui->ledComm->turnOff();
     ui->ledGps->turnOff();
 }
@@ -205,4 +212,17 @@ void DeviceListWidget::on_pushButtonStart_clicked()
         }
     }
 //
+}
+
+void DeviceListWidget::on_alarmOnPushButton_clicked()
+{
+    QTermDataHandler *term = QTermDataHandler::instance();
+
+    term->sendAlarm(ui->comboBoxChannel->currentIndex());
+}
+
+void DeviceListWidget::on_alarmOffPushButton_clicked()
+{
+    QTermDataHandler *term = QTermDataHandler::instance();
+    term->sendAlarm(ui->comboBoxChannel->currentIndex(), false);
 }

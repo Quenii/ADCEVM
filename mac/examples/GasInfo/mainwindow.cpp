@@ -268,21 +268,34 @@ void MainWindow::addData(const GasInfoItem& item)
         return ;
 
     // update date
-    if (item.ch > 0 && m_centralModel)
+    if (item.ch < 127 && m_centralModel)
         m_centralModel->addData(item);
 
     bool bAlarm = false;
-    if ( item.ch > 0 &&
-         (item.h2s >= GasInfoSettings::h2sAlarmThresF()
-          || item.so2 >= GasInfoSettings::so2AlarmThresF()
-          || item.fel >= GasInfoSettings::felAlarmThresF()))
-    {
-        bAlarm = true;
-    }
 
+    QString warning;
+    if (item.ch < 127)
+    {
+        if ( item.h2s >= GasInfoSettings::h2sAlarmThresF()
+              || item.so2 >= GasInfoSettings::so2AlarmThresF()
+              || item.fel >= GasInfoSettings::felAlarmThresF())
+        {
+            bAlarm = true;
+            warning += QString::fromLocal8Bit("%1号终端:<br><br>").arg(item.ch);
+        }
+        if (item.h2s >= GasInfoSettings::h2sAlarmThresF())
+            warning += QString::fromLocal8Bit("H2S含量异常!<br>");
+
+        if (item.so2 >= GasInfoSettings::so2AlarmThresF())
+            warning += QString::fromLocal8Bit("SO2含量异常!<br>");
+
+        if (item.fel >= GasInfoSettings::felAlarmThresF())
+            warning += QString::fromLocal8Bit("可燃气体含量异常!<br>");
+
+    }
     if (bAlarm && (!GasInfoSettings::terminalAlarmWindowOpenF(item.ch)))
     {
-        TerminalAlarmWidget* w = new TerminalAlarmWidget(QString::fromLocal8Bit("报警"), "text", item.ch, 0 );
+        TerminalAlarmWidget* w = new TerminalAlarmWidget(QString::fromLocal8Bit("报警"), warning, item.ch, 0 );
         w->show();
     }
 
@@ -291,7 +304,7 @@ void MainWindow::addData(const GasInfoItem& item)
         m_locationManager->addLocation(item, ui->mapsWidget, bAlarm);
 
     // set host location to settings.
-    if (item.ch == 0 && item.location.isValid())
+    if (item.ch == 127 && item.location.isValid())
         GasInfoSettings().setDefaultHostLocation(item.location);
 
 }

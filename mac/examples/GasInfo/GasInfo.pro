@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     marker.cpp \
     locationmanager.cpp \
     qtermdatahandler.cpp \
-    terminalalarmwidget.cpp
+    terminalalarmwidget.cpp \
+    markerdialog.cpp
 
 HEADERS  += \
             hled.h \
@@ -46,7 +47,8 @@ HEADERS  += \
     mapswidget.h \
     locationmanager.h \
     qtermdatahandler.h \
-    terminalalarmwidget.h
+    terminalalarmwidget.h \
+    markerdialog.h
 
 FORMS    += dialog.ui \
     DeviceDialog.ui \
@@ -57,7 +59,8 @@ FORMS    += dialog.ui \
     devicelistwidget.ui \
     terminalwidget.ui \
     optiondialog.ui \
-    terminalalarmwidget.ui
+    terminalalarmwidget.ui \
+    markerdialog.ui
 
 RESOURCES += \
      gasinfo.qrc

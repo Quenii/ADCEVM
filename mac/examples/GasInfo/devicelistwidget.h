@@ -43,6 +43,9 @@ private slots:
     void on_pushButtonConfig_clicked();
     void on_pushButtonStart_clicked();
 
+    void on_alarmOnPushButton_clicked();
+    void on_alarmOffPushButton_clicked();
+
 private:
     Ui::DeviceListWidget *ui;
 

@@ -64,8 +64,13 @@ bool QTermDataHandler::start()
     bool ok = connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     Q_ASSERT(ok);
 
+    timerGps = new QTimer(this);
+    ok = connect(timerGps, SIGNAL(timeout()), this, SLOT(updateGps()));
+    Q_ASSERT(ok);
+
     maxID = s.maxTermCount();
     timer->start(s.scanInterval());
+    timerGps->start(950);
     m_bRunning = true;
     return true;
 }
@@ -80,21 +85,9 @@ void QTermDataHandler::stop()
     delete timer;
     m_bRunning = false;
 }
-
-void QTermDataHandler::update(/*QTimerEvent *event*/)
+void QTermDataHandler::updateGps()
 {
-    static uint ID, CNT;
-    ID ++;
-    CNT ++;
-
-    if (term->isOpen())
-        term->write(QByteArray("Get") + (char)ID);
-
-    if (term->bytesAvailable()) {
-        ValidateMsg( term->readAll() );
-    }
-
-    if (CNT == 10 && gps->bytesAvailable())
+    if (gps->bytesAvailable())
     {
         QByteArray baGps = gps->readAll();
         int j = 0;
@@ -115,22 +108,37 @@ void QTermDataHandler::update(/*QTimerEvent *event*/)
                 double lng = nmeaDegreesToDecimal( QString(baList.at(5)).toDouble() );
 
                 GasInfoItem item;
-                item.ch = 0;
+                item.ch = 127;
                 item.location = QGeoCoordinate(lat, lng);
                // bool b = item.location.isValid();
                 emit newData(item);
                 break;
             }
         }
-        CNT = 0;
+    }
+}
+
+void QTermDataHandler::update(/*QTimerEvent *event*/)
+{
+    static uint ID, CNT;
+    CNT ++;
+
+    if (term->isOpen())
+    {
+        term->write(QByteArray("Get") + (char)ID);
+        ID ++;
+    }
+
+    if (term->bytesAvailable()) {
+        ValidateMsg( term->readAll() );
     }
 
     if (ID == maxID)
     {
         ID = 0;
-        GasInfoItem item;
-        item.ch = 7;
-        emit newData(item);
+//        GasInfoItem item;
+//        item.ch = 7;
+//        emit newData(item);
     }
 }
 
@@ -166,7 +174,7 @@ void QTermDataHandler::parseMsg(QByteArray msg)
     //2     3456 789    abcde f
     //n     hhmm.mmm    hhhmm.mmm
     GasInfoItem item;
-    if (msg.at(2) <= maxID && msg.at(2) > 0)
+    if (msg.at(2) <= maxID && msg.at(2) >= 0)
         item.ch = msg.at(2);
     else
         return;
@@ -183,4 +191,13 @@ void QTermDataHandler::parseMsg(QByteArray msg)
 
     item.location = QGeoCoordinate(lat, lng);
     emit newData(item);
+}
+
+void QTermDataHandler::sendAlarm(int ch, bool on)
+{
+    if (term->isOpen())
+        if (on)
+            term->write(QByteArray("WNG") + (char)ch);
+        else
+            term->write(QByteArray("OFF") + (char)ch);
 }

@@ -99,12 +99,15 @@ CentralModel::CentralModel(QObject *parent) :
     QStandardItemModel(parent),
     m_receiveSessionData(new ReceiveSessionData(parent))
 {
-    setHorizontalHeaderItem( 0, new QStandardItem( "Terminal" ));
-    setHorizontalHeaderItem( 1, new QStandardItem( "Status" ));
-    setHorizontalHeaderItem( 2, new QStandardItem( "Date/Time" ));
-    setHorizontalHeaderItem( 3, new QStandardItem( "FEL/ppm"));
+//    setHorizontalHeaderItem( 0, new QStandardItem( "Terminal" ));
+//    setHorizontalHeaderItem( 1, new QStandardItem( "Status" ));
+//    setHorizontalHeaderItem( 2, new QStandardItem( "Date/Time" ));
+    setHorizontalHeaderItem( 0, new QStandardItem( QString::fromLocal8Bit("终端") ));
+    setHorizontalHeaderItem( 1, new QStandardItem( QString::fromLocal8Bit("状态") ));
+    setHorizontalHeaderItem( 2, new QStandardItem( QString::fromLocal8Bit("日期/时间") ));
+    setHorizontalHeaderItem( 3, new QStandardItem( "FEL/%"));
     setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
-    setHorizontalHeaderItem( 5, new QStandardItem( "SO2/%"));
+    setHorizontalHeaderItem( 5, new QStandardItem( "SO2/ppm"));
 
 //    setHeaderData(0, Qt::Horizontal, tr("ID"));
 //    setHeaderData(1, Qt::Horizontal, tr("First name"));
@@ -200,12 +203,12 @@ void CentralModel::addData(const GasInfoItem& item)
 {
     if (! m_receiveSessionData->started)
         return;
-    setHorizontalHeaderItem( 0, new QStandardItem( QString::fromLocal8Bit("终端") ));
-    setHorizontalHeaderItem( 1, new QStandardItem( QString::fromLocal8Bit("状态") ));
-    setHorizontalHeaderItem( 2, new QStandardItem( QString::fromLocal8Bit("日期/时间") ));
-    setHorizontalHeaderItem( 3, new QStandardItem( "FEL/ppm"));
-    setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
-    setHorizontalHeaderItem( 5, new QStandardItem( "SO2/%"));
+//    setHorizontalHeaderItem( 0, new QStandardItem( QString::fromLocal8Bit("终端") ));
+//    setHorizontalHeaderItem( 1, new QStandardItem( QString::fromLocal8Bit("状态") ));
+//    setHorizontalHeaderItem( 2, new QStandardItem( QString::fromLocal8Bit("日期/时间") ));
+//    setHorizontalHeaderItem( 3, new QStandardItem( "FEL/%"));
+//    setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
+//    setHorizontalHeaderItem( 5, new QStandardItem( "SO2/ppm"));
 
     m_receiveSessionData->lastHit = QDateTime::currentDateTime();
     QModelIndex idx = terminal(item.ch, true);
@@ -217,12 +220,24 @@ void CentralModel::addData(const GasInfoItem& item)
 
     QStandardItem* item4 = new QStandardItem(QString("%1").arg(item.fel));
     item4->setData(item.fel, Qt::UserRole);
+    if (item.fel > GasInfoSettings::felAlarmThresF())
+        item4->setBackground(QBrush(Qt::red));
+    else
+        item4->setBackground(QBrush(Qt::white));
 
     QStandardItem* item5 = new QStandardItem(QString("%1").arg(item.h2s));
     item5->setData(item.h2s, Qt::UserRole);
+    if (item.h2s > GasInfoSettings::h2sAlarmThresF())
+        item5->setBackground(QBrush(Qt::red));
+    else
+        item5->setBackground(QBrush(Qt::white));
 
     QStandardItem* item6 = new QStandardItem(QString("%1").arg(item.so2));
     item6->setData(item.so2, Qt::UserRole);
+    if (item.so2 > GasInfoSettings::so2AlarmThresF())
+        item6->setBackground(QBrush(Qt::red));
+    else
+        item6->setBackground(QBrush(Qt::white));
 
     QList<QStandardItem*> lst;
     lst << 0
@@ -391,7 +406,7 @@ void CentralModel::updateTerminalStatus()
             else
             {
                 statusItem->setText(QString::fromLocal8Bit("在线"));
-                statusItem->setBackground(QBrush(Qt::white));
+                statusItem->setBackground(QBrush(Qt::green));
             }
         }
     }
