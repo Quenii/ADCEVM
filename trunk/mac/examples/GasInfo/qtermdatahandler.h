@@ -22,6 +22,8 @@ public:
     void ValidateMsg(QByteArray);
     void parseMsg(QByteArray msg);
 
+    void sendAlarm(int ch, bool on = true);
+
     static QTermDataHandler * instance();
     Q_DISABLE_COPY(QTermDataHandler)
 signals:
@@ -33,7 +35,7 @@ public slots:
 
 //protected:
     void update(/*QTimerEvent **/);
-    
+    void updateGps();
 private:
     QTermDataHandler(QObject *parent = 0);
     bool m_bRunning;
@@ -41,7 +43,7 @@ private:
     QextSerialPort *gps;
     QextSerialPort *term;
 
-    QTimer *timer;
+    QTimer *timer, *timerGps;
     QByteArray buffer;
 
     uint maxID;

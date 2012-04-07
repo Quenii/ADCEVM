@@ -13,6 +13,7 @@ TerminalWidget::TerminalWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
 

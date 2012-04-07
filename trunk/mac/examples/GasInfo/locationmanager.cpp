@@ -1,6 +1,7 @@
 #include "locationmanager.h"
 #include "mapswidget.h"
 // QGraphicsTextItem
+#include "markerdialog.h"
 
 #include <QtDebug>
 #include <QMacStyle>
@@ -55,7 +56,7 @@ void LocationManager::addLocation(QGeoCoordinate location)
         qDebug() << "In LocationManager::addLocation(...): invalid QGeoCoordinate is passed in.";
         return ;
     }
-    int id = 0;
+    int id = 127;
     DeviceTextMarker* marker = 0;
     if (m_markers.contains(id))
     {
@@ -69,7 +70,7 @@ void LocationManager::addLocation(QGeoCoordinate location)
     }
 
     marker->setCoordinate(location);
-    if (id == 0)
+    if (id == 127)
     {
         m_map->setCenter(location);
     }
@@ -103,6 +104,11 @@ void LocationManager::clearLocations()
 void LocationManager::showMarkerDialog(Marker* marker)
 {
     qDebug() << "showMarkerDialog() called";
+
+//    MarkerDialogWidget* w =
+//            new MarkerDialogWidget(QString::fromLocal8Bit("报警"),
+//                                    ((DeviceTextMarker *)marker)->markerInfo(), 0, 0 );
+//    w->show();
 
     //((DeviceTextMarker *)marker)->m_item;
 }

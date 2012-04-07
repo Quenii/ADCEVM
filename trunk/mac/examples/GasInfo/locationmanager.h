@@ -19,10 +19,10 @@ public:
         , m_id(id)
         , m_bAlarm(false)
         , m_text(new QGeoMapTextObject())
-        , m_marker(new Marker((id == 0) ? Marker::MyLocationMarker : Marker::SearchMarker))
+        , m_marker(new Marker((id == 127) ? Marker::MyLocationMarker : Marker::SearchMarker))
 
     {
-        if (m_id == 0)
+        if (m_id == 127)
             m_text->setText(QString::fromLocal8Bit("主站"));
         else
             m_text->setText(QString::fromLocal8Bit("%1号终端").arg(m_id));
@@ -44,7 +44,7 @@ public:
         }
 
 
-        if (m_id != 0 && m_bAlarm != bAlarm)
+        if (m_id != 127 && m_bAlarm != bAlarm)
         {
             m_bAlarm = bAlarm;
             m_marker->setMarkerType(bAlarm? Marker::WaypointMarker : Marker::SearchMarker);
@@ -66,6 +66,18 @@ public:
     QGeoCoordinate coordinate()
     {
         return m_marker->coordinate();
+    }
+
+    QString markerInfo()
+    {
+        QString ret;
+        ret += QString::fromLocal8Bit("%1号终端: <br><br>").arg(m_item.ch);
+        ret += QString::fromLocal8Bit("纬度: %1<br>").arg(m_item.location.latitude());
+        ret += QString::fromLocal8Bit("经度: %1<br><br>").arg(m_item.location.longitude());
+        ret += QString::fromLocal8Bit("H2S: %1 ppm<br>").arg(m_item.h2s);
+        ret += QString::fromLocal8Bit("SO2: %1 ppm<br>").arg(m_item.so2);
+        ret += QString::fromLocal8Bit("可燃气体: %1 %").arg(m_item.fel);
+        return ret;
     }
 
 private:
@@ -90,7 +102,7 @@ public:
     void autoFit(bool keepCenter);
 
 public slots:
-    // id: 0 for Host, >0 for terminals.
+    // id: 127 for Host, <127 for terminals.
     void addLocation(QGeoCoordinate location);
     void addLocation(const GasInfoItem &item, const MapsWidget *widget, bool bAlarm = false);
     void clearLocations();

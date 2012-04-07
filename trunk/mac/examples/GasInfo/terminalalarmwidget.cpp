@@ -1,6 +1,7 @@
 #include "terminalalarmwidget.h"
 #include "ui_terminalalarmwidget.h"
 #include "gasinfosettings.h"
+#include "qtermdatahandler.h"
 
 #include <QTimer>
 #include <QTime>
@@ -52,5 +53,9 @@ void TerminalAlarmWidget::on_pushButtonYes_clicked()
 
 void TerminalAlarmWidget::on_pushButtonNo_clicked()
 {
+    QTermDataHandler* inst = QTermDataHandler::instance();
+
+    inst->sendAlarm(m_id);
+    qDebug() << QString("Sending an Alarm message through QTermDataHandler::sendAlarm, Term %1").arg(m_id);
     deleteLater();
 }
