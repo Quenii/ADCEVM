@@ -10,6 +10,8 @@
 
 #include <math.h>
 
+#define REALDATA 0
+
 QTermDataHandler::QTermDataHandler(QObject *parent) :
     QObject(parent)
   , m_bRunning(false)
@@ -47,14 +49,14 @@ bool QTermDataHandler::start()
     term = new QextSerialPort(termPortInfo.name, termSettings, QextSerialPort::Polling);
     gps = new QextSerialPort(gpsPortInfo.name, gpsSettings, QextSerialPort::Polling);
 
-    if (!term->open(QIODevice::ReadWrite))
+    if ((!term->open(QIODevice::ReadWrite)) && REALDATA)
     {
         delete term;
         delete gps;
         return false;
     }
 
-    if (!gps->open(QIODevice::ReadOnly))
+    if ((!gps->open(QIODevice::ReadOnly)) && REALDATA)
     {
         delete gps;
         //!!please input current location;
@@ -120,14 +122,21 @@ void QTermDataHandler::updateGps()
 
 void QTermDataHandler::update(/*QTimerEvent *event*/)
 {
-    static uint ID, CNT;
-    CNT ++;
-
+    static uint ID;
+    if(!REALDATA)
+    {
+        GasInfoItem item;
+        item.ch = ID;
+        item.fel = ID*1;
+        item.h2s = ID*2;
+        item.so2 = ID*3;
+        emit(newData(item));
+    }
     if (term->isOpen())
     {
         term->write(QByteArray("Get") + (char)ID);
-        ID ++;
     }
+    ID ++;
 
     if (term->bytesAvailable()) {
         ValidateMsg( term->readAll() );
@@ -136,9 +145,6 @@ void QTermDataHandler::update(/*QTimerEvent *event*/)
     if (ID == maxID)
     {
         ID = 0;
-//        GasInfoItem item;
-//        item.ch = 7;
-//        emit newData(item);
     }
 }
 
