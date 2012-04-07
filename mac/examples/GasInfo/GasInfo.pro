@@ -7,6 +7,8 @@
 QT       += core gui network webkit
 contains(QT_VERSION, ^5\\..*\\..*): QT += widgets
 
+INCLUDEPATH += $QTDIR/include/QtLocation
+
 TARGET = GasInfo
 TEMPLATE = app
 
