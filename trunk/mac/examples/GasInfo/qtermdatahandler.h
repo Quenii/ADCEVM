@@ -13,6 +13,8 @@ class QByteArray;
 class QTermDataHandler : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QTermDataHandler)
+
 public:
     bool start();
     void stop();
@@ -25,11 +27,11 @@ public:
     void sendAlarm(int ch, bool on = true);
 
     static QTermDataHandler * instance();
-    Q_DISABLE_COPY(QTermDataHandler)
+
+
 signals:
-    //void MainWindow::addData(const GasInfoItem& item);
-    void newData(const GasInfoItem& item);
     void newMsg(QByteArray& msg);
+    void newData(const GasInfoItem& item);
 
 public slots:
 

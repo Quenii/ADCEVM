@@ -23,9 +23,9 @@ public:
 
     {
         if (m_id == 127)
-            m_text->setText(QString::fromLocal8Bit("主站"));
+            m_text->setText(QString::fromLocal8Bit("??"));
         else
-            m_text->setText(QString::fromLocal8Bit("%1号终端").arg(m_id));
+            m_text->setText(QString::fromLocal8Bit("%1???").arg(m_id));
 
         addChildObject(m_text);
         addChildObject(m_marker);
