@@ -55,7 +55,13 @@ public:
     void setMarkerProperties(const GasInfoItem& item, bool bAlarm = false)
     {
         setCoordinate(item.location, bAlarm);
-        m_item = item;
+        m_markerInfo.clear();
+        m_markerInfo += QString::fromLocal8Bit("%1号终端: <br><br>").arg(m_item.ch);
+        m_markerInfo += QString::fromLocal8Bit("纬度: %1<br>").arg(m_item.location.latitude());
+        m_markerInfo += QString::fromLocal8Bit("经度: %1<br><br>").arg(m_item.location.longitude());
+        m_markerInfo += QString::fromLocal8Bit("H2S: %1 ppm<br>").arg(m_item.h2s);
+        m_markerInfo += QString::fromLocal8Bit("SO2: %1 ppm<br>").arg(m_item.so2);
+        m_markerInfo += QString::fromLocal8Bit("可燃气体: %1 %").arg(m_item.fel);
     }
 
     void setText(const QString& str)
@@ -68,20 +74,14 @@ public:
         return m_marker->coordinate();
     }
 
-    QString markerInfo()
+    QString& markerInfo()
     {
-        QString ret;
-        ret += QString::fromLocal8Bit("%1号终端: <br><br>").arg(m_item.ch);
-        ret += QString::fromLocal8Bit("纬度: %1<br>").arg(m_item.location.latitude());
-        ret += QString::fromLocal8Bit("经度: %1<br><br>").arg(m_item.location.longitude());
-        ret += QString::fromLocal8Bit("H2S: %1 ppm<br>").arg(m_item.h2s);
-        ret += QString::fromLocal8Bit("SO2: %1 ppm<br>").arg(m_item.so2);
-        ret += QString::fromLocal8Bit("可燃气体: %1 %").arg(m_item.fel);
-        return ret;
+        return m_markerInfo;
     }
 
 private:
     int m_id;
+    QString m_markerInfo;
     GasInfoItem m_item;
     bool m_bAlarm;
     QGeoMapTextObject* m_text;

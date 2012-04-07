@@ -102,10 +102,10 @@ void LocationManager::showMarkerDialog(Marker* marker)
 {
     qDebug() << "showMarkerDialog() called";
 
-//    MarkerDialogWidget* w =
-//            new MarkerDialogWidget(QString::fromLocal8Bit("报警"),
-//                                    ((DeviceTextMarker *)marker)->markerInfo(), 0, 0 );
-//    w->show();
+    MarkerDialogWidget* w =
+            new MarkerDialogWidget( QString::fromLocal8Bit("报警"),
+                                    dynamic_cast<DeviceTextMarker *>(marker)->markerInfo(), 0, 0 );
+    w->show();
 
     //((DeviceTextMarker *)marker)->m_item;
 }
