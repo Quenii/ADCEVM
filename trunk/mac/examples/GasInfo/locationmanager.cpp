@@ -70,10 +70,7 @@ void LocationManager::addLocation(QGeoCoordinate location)
     }
 
     marker->setCoordinate(location);
-    if (id == 127)
-    {
-        m_map->setCenter(location);
-    }
+    m_map->setCenter(location);
 
     autoFit(true);
 }
