@@ -35,7 +35,7 @@ TerminalWidget::~TerminalWidget()
     delete ui;
 }
 
-void TerminalWidget::setModel(CentralModel *model)
+void TerminalWidget::setModel(CentralModel *model, int row)
 {
     // ui->listView->setModel(model);
 
@@ -47,7 +47,7 @@ void TerminalWidget::setModel(CentralModel *model)
         m_proxyModel->setSortRole(Qt::UserRole);
 
         ui->tableView->setModel(m_proxyModel);
-        ui->tableView->setRootIndex(m_proxyModel->index(0, 0));
+        ui->tableView->setRootIndex(m_proxyModel->index(row, 0));
         ui->tableView->hideColumn(0);
         ui->tableView->hideColumn(1);
     }

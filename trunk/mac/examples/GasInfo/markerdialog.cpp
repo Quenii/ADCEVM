@@ -11,7 +11,7 @@
 #include <QObject>
 
 
-MarkerDialogWidget::MarkerDialogWidget(const QString& title, const QString& msg, int id, QWidget *parent):
+MarkerDialogWidget::MarkerDialogWidget(const QString& title, const QString msg, int id, QWidget *parent):
     QWidget(parent),
     ui(new Ui::MarkerDialogWidget),
     m_id(id)
@@ -31,7 +31,7 @@ MarkerDialogWidget::~MarkerDialogWidget()
     delete ui;
 }
 
-void MarkerDialogWidget::setText(const QString &text)
+void MarkerDialogWidget::setText(const QString text)
 {
     ui->label->setText(text);
 }

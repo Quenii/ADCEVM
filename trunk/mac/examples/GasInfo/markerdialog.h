@@ -15,11 +15,11 @@ class MarkerDialogWidget : public QWidget
     Q_OBJECT
     
 public:
-    explicit MarkerDialogWidget(const QString& title, const QString& msg, int id, QWidget *parent);
+    explicit MarkerDialogWidget(const QString& title, const QString msg, int id, QWidget *parent);
     ~MarkerDialogWidget();
 
 public:
-    void setText(const QString& text);
+    void setText(const QString text);
 
 private slots:
     void on_pushButtonYes_clicked();
