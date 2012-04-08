@@ -23,10 +23,10 @@ public:
     void setModel(CentralModel *model);
 
 private:
-    QList<int> selectedTerminals();
+    QMap<int, int> selectedTerminals();
     void exportTerminalData();
 signals:
-    void openCloseTerminals(const QList<int>& idList, bool open);
+    void openCloseTerminals(const QMap<int, int>& idList, bool open);
     void deleteTerminals(const QList<int>& idList);
     void applicationModeChanged();
 

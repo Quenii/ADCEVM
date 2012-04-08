@@ -84,39 +84,45 @@ void DeviceListWidget::terminalTableView_customContextMenu(const QPoint &pos)
         deleteSelectedTerminals();;
 }
 
-QList<int> DeviceListWidget::selectedTerminals()
+QMap<int, int> DeviceListWidget::selectedTerminals()
 {
     CentralModel* centralModel = dynamic_cast<CentralModel*>(ui->terminalTableView->model());
     if (!centralModel)
-        return QList<int>();
+        return QMap<int, int>();
 
     QItemSelectionModel * selectionModel = ui->terminalTableView->selectionModel();
     if (!selectionModel || !selectionModel->hasSelection())
-        return QList<int>();
+        return QMap<int, int>();
 
 
     QModelIndexList lst = ui->terminalTableView->selectionModel()->selectedRows();
     QSet<int> idSet;
+    QMap<int, int> idMap;   //(key=id, value=row)
     foreach(QModelIndex index, lst)
     {
         int id = centralModel->terminalId(index.row());
         if (id != -1 && !idSet.contains(id))
+        {
             idSet.insert(id);
+            idMap[id] = index.row();
+        }
     }
 
-    return idSet.toList();
+    //return idSet.toList();
+    return idMap;
 }
 
 void DeviceListWidget::openCloseSelectedTerminals(bool open)
 {
-    QList<int> lst = selectedTerminals();
-    if (lst.count())
-        emit openCloseTerminals(lst, open);
+    QList<int> lst = selectedTerminals().keys();
+    QMap<int, int> map = selectedTerminals();
+    if (map.count())
+        emit openCloseTerminals(map, open);
 }
 
 void DeviceListWidget::deleteSelectedTerminals()
 {
-    QList<int> lst = selectedTerminals();
+    QList<int> lst = selectedTerminals().keys();
     if (lst.count())
         emit deleteTerminals(lst);
 }
@@ -134,7 +140,7 @@ void DeviceListWidget::exportTerminalData()
        columns.append(i);
     }
 
-    QList<int> lst = selectedTerminals();
+    QList<int> lst = selectedTerminals().keys();
     if (lst.count() == 1)
     {
         QString fileName = QFileDialog::getSaveFileName(

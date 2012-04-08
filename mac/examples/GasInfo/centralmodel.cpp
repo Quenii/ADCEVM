@@ -203,16 +203,17 @@ void CentralModel::addData(const GasInfoItem& item)
 {
     if (! m_receiveSessionData->started)
         return;
-//    setHorizontalHeaderItem( 0, new QStandardItem( QString::fromLocal8Bit("终端") ));
-//    setHorizontalHeaderItem( 1, new QStandardItem( QString::fromLocal8Bit("状态") ));
-//    setHorizontalHeaderItem( 2, new QStandardItem( QString::fromLocal8Bit("日期/时间") ));
-//    setHorizontalHeaderItem( 3, new QStandardItem( "FEL/%"));
-//    setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
-//    setHorizontalHeaderItem( 5, new QStandardItem( "SO2/ppm"));
+    setHorizontalHeaderItem( 0, new QStandardItem( QString::fromLocal8Bit("终端") ));
+    setHorizontalHeaderItem( 1, new QStandardItem( QString::fromLocal8Bit("状态") ));
+    setHorizontalHeaderItem( 2, new QStandardItem( QString::fromLocal8Bit("日期/时间") ));
+    setHorizontalHeaderItem( 3, new QStandardItem( "FEL/%"));
+    setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
+    setHorizontalHeaderItem( 5, new QStandardItem( "SO2/ppm"));
 
     m_receiveSessionData->lastHit = QDateTime::currentDateTime();
     QModelIndex idx = terminal(item.ch, true);
     QStandardItem* itm = itemFromIndex(idx);
+    qDebug() << QString("QModelIndex idx:%1 = terminal(item.ch:%2, true);").arg(idx.internalId()).arg(item.ch);
 
     QDateTime now = QDateTime::currentDateTime();
     QStandardItem* item3 = new QStandardItem(QString("%1").arg(now.toString()));
@@ -248,6 +249,8 @@ void CentralModel::addData(const GasInfoItem& item)
         << item6;
 
     itm->insertRow(0, lst);
+
+    hideColumn(3);
 }
 
 

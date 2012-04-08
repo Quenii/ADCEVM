@@ -74,7 +74,7 @@ public:
         return m_marker->coordinate();
     }
 
-    QString& markerInfo()
+    QString markerInfo()
     {
         return m_markerInfo;
     }

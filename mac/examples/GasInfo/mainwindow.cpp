@@ -16,7 +16,7 @@
 #include <QFileDialog>
 #include <QDateTime>
 #include <QMessageBox>
-
+#include <QTreeView>
 
 static QString terminalTitle(int terminalId)
 {
@@ -76,9 +76,8 @@ MainWindow::MainWindow(QWidget *parent)
                  this, SLOT(archiveCentralModel()));
     Q_ASSERT(ok);
 
-
-    ok = connect(ui->deviceListWidget, SIGNAL(openCloseTerminals(const QList<int>&, bool)),
-                 this, SLOT(openCloseTerminals(const QList<int>&, bool)));
+    ok = connect(ui->deviceListWidget, SIGNAL(openCloseTerminals(const QMap<int, int>&, bool)),
+                 this, SLOT(openCloseTerminals(const QMap<int, int>&, bool)));
     Q_ASSERT(ok);
 
     ok = connect(ui->deviceListWidget, SIGNAL(deleteTerminals(QList<int>)),
@@ -88,7 +87,6 @@ MainWindow::MainWindow(QWidget *parent)
     ok = connect(ui->deviceListWidget, SIGNAL(applicationModeChanged()),
                  this, SLOT(applicationModelChanged()));
     Q_ASSERT(ok);
-
 
     readSettings();
 
@@ -125,9 +123,9 @@ QMdiSubWindow* MainWindow::terminalSubwindow(int terminalId)
     return 0;
 }
 
-void MainWindow::openCloseTerminals(const QList<int> &idList, bool open)
+void MainWindow::openCloseTerminals(const QMap<int, int> &idList, bool open)
 {
-    foreach (int terminalId, idList)
+    foreach (int terminalId, idList.keys())
     {
         QMdiSubWindow* subWindow = terminalSubwindow(terminalId);
         if (open)
@@ -136,6 +134,7 @@ void MainWindow::openCloseTerminals(const QList<int> &idList, bool open)
             {
                 subWindow->show();
                 subWindow->raise();
+                qDebug() << QString("TerminalWidget of %1 exists, show it.").arg(terminalId);
                 continue;
             }
 
@@ -145,7 +144,8 @@ void MainWindow::openCloseTerminals(const QList<int> &idList, bool open)
             subWindow1->setWindowTitle(terminalTitle(terminalId));
             subWindow1->setAttribute(Qt::WA_DeleteOnClose);
             ui->mdiArea->addSubWindow(subWindow1);
-            terminalWidget->setModel(m_centralModel);
+            terminalWidget->setModel(m_centralModel, idList[terminalId]);
+ //           terminalWidget->setRootIndex(m_centralModel->index(terminalId, 0));
 
             QAction* action = new QAction(QString::fromLocal8Bit("&%1号终端").arg(terminalId), subWindow1);
 
@@ -155,6 +155,7 @@ void MainWindow::openCloseTerminals(const QList<int> &idList, bool open)
             Q_ASSERT(ok);
 
             subWindow1->show();
+            qDebug() << QString("TerminalWidget of %1 does not exist, create and show it.").arg(terminalId);
         }
         else
         {
@@ -269,8 +270,10 @@ void MainWindow::addData(const GasInfoItem& item)
 
     // update date
     if (item.ch < 127 && m_centralModel)
+    {
         m_centralModel->addData(item);
-
+        qDebug() << QString("m_centralModel->addData(item); item.ch = %1").arg(item.ch);
+    }
     bool bAlarm = false;
 
     QString warning;

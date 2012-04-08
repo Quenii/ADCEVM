@@ -48,7 +48,7 @@ public slots:
     void archiveCentralModel();
 
 private slots:  
-    void openCloseTerminals(const QList<int>& idList, bool open);
+    void openCloseTerminals(const QMap<int, int> &idList, bool open);
     void deleteTerminals(const QList<int>& idList);
 
     void on_actionSave_triggered(bool checked = false);
