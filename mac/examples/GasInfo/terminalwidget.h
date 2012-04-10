@@ -20,7 +20,7 @@ public:
     ~TerminalWidget();
 
 public:
-    void setModel(CentralModel* model, int row);
+    void setModel(CentralModel* model, int id, int row);
 
 private slots:
     void tableView_sortIndicatorChanged(int logicalIndex, Qt::SortOrder order);

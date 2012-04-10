@@ -19,10 +19,10 @@ public:
         , m_id(id)
         , m_bAlarm(false)
         , m_text(new QGeoMapTextObject())
-        , m_marker(new Marker((id == 127) ? Marker::MyLocationMarker : Marker::SearchMarker))
+        , m_marker(new Marker((id == HOSTID) ? Marker::MyLocationMarker : Marker::SearchMarker))
 
     {
-        if (m_id == 127)
+        if (m_id == HOSTID)
             m_text->setText(QString::fromLocal8Bit("主站"));
         else
             m_text->setText(QString::fromLocal8Bit("%1 号终端").arg(m_id));
@@ -44,7 +44,7 @@ public:
         }
 
 
-        if (m_id != 127 && m_bAlarm != bAlarm)
+        if (m_id < LIFEBASE && m_bAlarm != bAlarm)
         {
             m_bAlarm = bAlarm;
             m_marker->setMarkerType(bAlarm? Marker::WaypointMarker : Marker::SearchMarker);

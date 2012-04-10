@@ -56,7 +56,7 @@ void LocationManager::addLocation(QGeoCoordinate location)
         qDebug() << "In LocationManager::addLocation(...): invalid QGeoCoordinate is passed in.";
         return ;
     }
-    int id = 127;
+    int id = HOSTID;
     DeviceTextMarker* marker = 0;
     if (m_markers.contains(id))
     {
