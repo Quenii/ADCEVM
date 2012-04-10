@@ -8,15 +8,6 @@
 
 
 
-namespace gkhy
-{
-	namespace QPlotLab
-	{
-		class WaveWnd;
-		class LogicWaveWnd;
-		class FFTWnd;
-	}
-}
 class QSplitter;
 class ControlPanel;
 class QTimerEvent;
@@ -53,20 +44,14 @@ private slots:
 	void on_actionLoadStaticData_triggered(bool checked = false);
 
 
-	//void on_actionSpectrum_toggled(bool checked = false);
-	//void on_actionLogic_toggled(bool checked = false);
-	
- 	void slotShowWaveWnd();
- 	void slotShowFFtWnd();
+ 	//void slotShowWaveWnd();
+ 	//void slotShowFFtWnd();
  	void slotShowControlPanel();
 	void slotShowAbout();
 	void slotShowBoardReport(const AdcBoardReport& report);
 
 private:
 	Ui::MainWindowClass ui;
-	gkhy::QPlotLab::WaveWnd* waveWnd;
-	gkhy::QPlotLab::FFTWnd* fftWnd;
-	gkhy::QPlotLab::LogicWaveWnd* logicWaveWnd;
 	QPointer<RegAccess> regAccess;
 	AdcBoard* adcBoard;
 	QPowerMonitor* m_powerMonitorWidget;
