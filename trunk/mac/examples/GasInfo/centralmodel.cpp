@@ -250,7 +250,7 @@ void CentralModel::addData(const GasInfoItem& item)
 
     itm->insertRow(0, lst);
 
-    hideColumn(3);
+//    hideColumn(3);
 }
 
 

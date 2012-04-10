@@ -10,7 +10,7 @@
 
 #include <math.h>
 
-#define REALDATA 0
+#define REALDATA 1
 
 QTermDataHandler::QTermDataHandler(QObject *parent) :
     QObject(parent)
