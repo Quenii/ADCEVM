@@ -146,12 +146,29 @@ int CentralModel::terminalId(int row)
 
 QModelIndex CentralModel::terminal(int id, bool createNew)
 {
+    for (int i = 0; i < rowCount(); ++i)
+    {
+        if (item(i, 0)->data(Qt::UserRole).toInt() == id)
+        {
+           // qDebug() << "** terminal(): id = " << id << "  matchs: " << item(i, 0)->data(Qt::UserRole) << "**";
+
+            return index(i, 0);
+        }
+    }
+
+   /*
     if (rowCount() > 0)
     {
         QModelIndexList indexes = match(index(0, 0), Qt::UserRole, id);
         if (indexes.count() > 0)
+        {
+            qDebug() << "** terminal(): id = " << id << "  matchs: " << indexes.at(0).data(Qt::UserRole) << "**";
+
             return indexes.at(0);
+
+        }
     }
+    */
 
     if (createNew)
     {
@@ -164,6 +181,8 @@ QModelIndex CentralModel::terminal(int id, bool createNew)
         setData(idx, id, Qt::UserRole);
         return idx;
     }
+
+
 
     return QModelIndex();
 }
