@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ScopesWindowClass</class>
+ <widget class="QMainWindow" name="ScopesWindowClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>662</width>
+    <height>596</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>CETC58 ADC Analyzer Ver2.0</string>
+  </property>
+  <property name="dockNestingEnabled">
+   <bool>false</bool>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>1</width>
+     <height>1</height>
+    </size>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
+   </layout>
+  </widget>
+  <widget class="QDockWidget" name="dockWidgetWave">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Time-domain</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_4"/>
+  </widget>
+  <widget class="QDockWidget" name="dockWidgetFFT">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Freq-domain</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_5"/>
+  </widget>
+  <widget class="QDockWidget" name="dockWidgetLogicWave">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Logic Wave</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_2"/>
+  </widget>
+  <action name="actionSaveData">
+   <property name="text">
+    <string>保存动态数据(S)</string>
+   </property>
+  </action>
+  <action name="actionLoadData">
+   <property name="text">
+    <string>读入动态数据(R)</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>退出(X)</string>
+   </property>
+  </action>
+  <action name="actionSpiCtrl">
+   <property name="text">
+    <string>SPI控制(C)</string>
+   </property>
+  </action>
+  <action name="actionFftDepth">
+   <property name="text">
+    <string>FFT深度(D)</string>
+   </property>
+  </action>
+  <action name="actionSpectrum">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>频谱分析(&amp;F)</string>
+   </property>
+  </action>
+  <action name="actionLogic">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>逻辑分析(&amp;L)</string>
+   </property>
+  </action>
+  <action name="action_7">
+   <property name="text">
+    <string>帮助主题(&amp;T)</string>
+   </property>
+  </action>
+  <action name="action_AboutAdcAnalyzer">
+   <property name="text">
+    <string>关于ADC Analyzer（&amp;A）</string>
+   </property>
+  </action>
+  <action name="actionPowerStatus">
+   <property name="text">
+    <string>电源状态</string>
+   </property>
+  </action>
+  <action name="actionADC">
+   <property name="text">
+    <string>ADC类型</string>
+   </property>
+  </action>
+  <action name="actionSIGNAL">
+   <property name="text">
+    <string>时钟和信号</string>
+   </property>
+  </action>
+  <action name="actionSPAN">
+   <property name="text">
+    <string>SPAN</string>
+   </property>
+  </action>
+  <action name="actionLoadStaticData">
+   <property name="text">
+    <string>读入静态数据</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="mainwindow.qrc"/>
+ </resources>
+ <connections/>
+</ui>
