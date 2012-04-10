@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include "ui_ScopesWindow.h"
 
@@ -26,5 +25,3 @@ private:
 	gkhy::QPlotLab::FFTWnd* fftWnd;
 	gkhy::QPlotLab::LogicWaveWnd* logicWaveWnd;
 };
-
-#endif // MAINWINDOW_H

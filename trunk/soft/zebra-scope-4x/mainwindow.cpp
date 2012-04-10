@@ -1,16 +1,12 @@
 #include "mainwindow.h"
 #include "ControlPanel.h"
-#include "gkhy/qplotlib/WaveWnd.hpp"
-#include "gkhy/qplotlib/FFTWnd.hpp"
-#include "gkhy/qplotlib/LogicWaveWnd.hpp"
 #include "qpowermonitor.h"
 #include "RegAccess.hpp"
-//#include "QZebraScopeSettings.h"
 #include "dacanalyzersettings.h"
 #include "QZebraScopeSerializer.h"
+#include "ScopesWindow.h"
 
 #include <QMdiArea>
-#include <QSplitter>
 #include <QMdiSubWindow>
 #include <QMenuBar>
 #include <QMenu>
@@ -21,32 +17,32 @@
 #include <QFileDialog>
 #include <QFileInfo>
 
+
+
 MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
 {
-	adcBoard = AdcBoard::instance(); 
+	
 
 	ui.setupUi(this);
+
+	QMdiArea* mdiArea = new QMdiArea;
+	setCentralWidget(mdiArea);
+	QMdiSubWindow* subWindow = new QMdiSubWindow();
+	subWindow->setWidget(new ScopesWindow);
+	mdiArea->addSubWindow(subWindow);
 	
-	waveWnd = new gkhy::QPlotLab::WaveWnd();
+	/* waveWnd = new gkhy::QPlotLab::WaveWnd();
 	ui.dockWidgetWave->setWidget(waveWnd);
 	fftWnd = new gkhy::QPlotLab::FFTWnd();
 	ui.dockWidgetFFT->setWidget(fftWnd);
 	logicWaveWnd = new gkhy::QPlotLab::LogicWaveWnd();
 	ui.dockWidgetLogicWave->setWidget(logicWaveWnd);
+*/
+
+	adcBoard = AdcBoard::instance(); 
 
 	bool okay = false;
-	//bool okay = connect(adcBoard, SIGNAL(devListChanged(const QList<AdcBoardInfo>&)), ui.controlPanel, SLOT(setDevList(const QList<AdcBoardInfo>&)));
-	//Q_ASSERT(okay);
-	//okay = connect(ui.controlPanel, SIGNAL(devSelected(int)), adcBoard, SLOT(open(int)));
-	//Q_ASSERT(okay);
-	//okay = connect(this, SIGNAL(settingsLoaded(const SignalSettings&)), 
-	//	ui.controlPanel, SIGNAL(changeSettings(const SignalSettings&)));
-	//Q_ASSERT(okay);
-	//okay = connect(this, SIGNAL(settingsLoaded(const AdcSettings&)), 
-	//	ui.controlPanel, SIGNAL(changeSettings(const AdcSettings&)));
-	//Q_ASSERT(okay);
-
 	okay = connect(adcBoard, SIGNAL(boardReport(const AdcBoardReport&)), this, SLOT(slotShowBoardReport(const AdcBoardReport&)));
 	Q_ASSERT(okay);
 
@@ -56,7 +52,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	okay = connect(ui.actionADC, SIGNAL(triggered()), ui.controlPanel->ui.adcSettingsWidget, SLOT(on_pushButtonChangeSettings_clicked()));
 	okay = connect(ui.actionSIGNAL, SIGNAL(triggered()), ui.controlPanel->ui.signalSettingsWidget, SLOT(on_pushButtonChangeSettings_clicked()));
 	okay = connect(ui.actionSPAN, SIGNAL(triggered()), ui.controlPanel, SLOT(spanChanged()));
-	setCentralWidget(0);
+	
+	
 
 	createMenus();
 }
@@ -80,12 +77,12 @@ void MainWindow::createMenus()
 {
 	QMenu* menuWindow = ui.menuWindow; 
 
-	menuWindow->addAction(ui.dockWidgetControlPanel->toggleViewAction());		
+	/*menuWindow->addAction(ui.dockWidgetControlPanel->toggleViewAction());		
 	menuWindow->addAction(ui.dockWidgetWave->toggleViewAction());	
 	menuWindow->addAction(ui.dockWidgetFFT->toggleViewAction());	
 	menuWindow->addAction(ui.dockWidgetLogicWave->toggleViewAction());	
 	ui.dockWidgetLogicWave->setVisible(false);  //logicWave invisible by default
-
+*/
 	m_powerMonitorWidget = new QPowerMonitor(this);
 	ui.menuWindow->addAction(m_powerMonitorWidget->toggleViewAction());
 
@@ -176,16 +173,16 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 	}
 }
 
-void MainWindow::slotShowWaveWnd()
-{
-	waveWnd->show();
-}
-
-void MainWindow::slotShowFFtWnd()
-{
-	fftWnd->show();
-}
-
+//void MainWindow::slotShowWaveWnd()
+//{
+//	waveWnd->show();
+//}
+//
+//void MainWindow::slotShowFFtWnd()
+//{
+//	fftWnd->show();
+//}
+//
 void MainWindow::slotShowControlPanel()
 {
 	ui.controlPanel->show();
@@ -199,9 +196,9 @@ void MainWindow::slotShowAbout()
 
 void MainWindow::slotShowBoardReport(const AdcBoardReport& report)
 {
-	waveWnd->update(report.tdReport.xaxis, report.tdReport.samples);
+	/*waveWnd->update(report.tdReport.xaxis, report.tdReport.samples);
 	fftWnd->update(report.fdReport.xaxis, report.fdReport.Spectrum, report.fdReport.markers);
-	logicWaveWnd->update(report.tdReport.rawSamples);
+	logicWaveWnd->update(report.tdReport.rawSamples);*/
 	ui.controlPanel->updateReport(report);
 }
 
