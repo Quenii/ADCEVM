@@ -133,6 +133,11 @@ void QTermDataHandler::update(/*QTimerEvent *event*/)
         if (ID == 3)
         {
             item.location = QGeoCoordinate(40, 116.3);
+//            GasInfoItem life;
+//            life.ch = 91;
+//            life.fel = life.ch + 1;
+//            life.location = QGeoCoordinate(40.1, 116.3);
+//            emit(newData(life));
         }
         emit(newData(item));
     }

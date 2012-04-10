@@ -123,9 +123,9 @@ QMdiSubWindow* MainWindow::terminalSubwindow(int terminalId)
     return 0;
 }
 
-void MainWindow::openCloseTerminals(const QMap<int, int> &idList, bool open)
+void MainWindow::openCloseTerminals(const QMap<int, int> &idMap, bool open)
 {
-    foreach (int terminalId, idList.keys())
+    foreach (int terminalId, idMap.keys())
     {
         QMdiSubWindow* subWindow = terminalSubwindow(terminalId);
         if (open)
@@ -144,7 +144,7 @@ void MainWindow::openCloseTerminals(const QMap<int, int> &idList, bool open)
             subWindow1->setWindowTitle(terminalTitle(terminalId));
             subWindow1->setAttribute(Qt::WA_DeleteOnClose);
             ui->mdiArea->addSubWindow(subWindow1);
-            terminalWidget->setModel(m_centralModel, idList[terminalId]);
+            terminalWidget->setModel(m_centralModel, terminalId, idMap[terminalId]);
  //           terminalWidget->setRootIndex(m_centralModel->index(terminalId, 0));
 
             QAction* action = new QAction(QString::fromLocal8Bit("&%1号终端").arg(terminalId), subWindow1);
@@ -269,7 +269,7 @@ void MainWindow::addData(const GasInfoItem& item)
         return ;
 
     // update date
-    if (item.ch < 127 && m_centralModel)
+    if (item.ch < HOSTID && m_centralModel)
     {
         m_centralModel->addData(item);
         qDebug() << QString("m_centralModel->addData(item); item.ch = %1").arg(item.ch);
@@ -277,7 +277,7 @@ void MainWindow::addData(const GasInfoItem& item)
     bool bAlarm = false;
 
     QString warning;
-    if (item.ch < 127)
+    if (item.ch < LIFEBASE)
     {
         if ( item.h2s >= GasInfoSettings::h2sAlarmThresF()
               || item.so2 >= GasInfoSettings::so2AlarmThresF()
@@ -307,7 +307,7 @@ void MainWindow::addData(const GasInfoItem& item)
         m_locationManager->addLocation(item, ui->mapsWidget, bAlarm);
 
     // set host location to settings.
-    if (item.ch == 127 && item.location.isValid())
+    if (item.ch == HOSTID && item.location.isValid())
         GasInfoSettings().setDefaultHostLocation(item.location);
 
 }

@@ -14,6 +14,8 @@
 
 using namespace QtMobility;
 
+#define HOSTID 127
+#define LIFEBASE   64
 enum ApplicationModes
 {
     Receive,

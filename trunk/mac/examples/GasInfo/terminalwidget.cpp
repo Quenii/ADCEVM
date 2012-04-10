@@ -35,7 +35,7 @@ TerminalWidget::~TerminalWidget()
     delete ui;
 }
 
-void TerminalWidget::setModel(CentralModel *model, int row)
+void TerminalWidget::setModel(CentralModel *model, int id, int row)
 {
     // ui->listView->setModel(model);
 
@@ -50,6 +50,18 @@ void TerminalWidget::setModel(CentralModel *model, int row)
         ui->tableView->setRootIndex(m_proxyModel->index(row, 0));
         ui->tableView->hideColumn(0);
         ui->tableView->hideColumn(1);
+        if(id < LIFEBASE)
+        {
+            ui->tableView->hideColumn(6);
+            ui->tableView->hideColumn(7);
+            ui->tableView->hideColumn(8);
+        }
+        else
+        {
+            ui->tableView->hideColumn(3);
+            ui->tableView->hideColumn(4);
+            ui->tableView->hideColumn(5);
+        }
     }
 }
 
