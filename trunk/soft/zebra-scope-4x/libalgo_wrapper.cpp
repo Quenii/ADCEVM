@@ -56,7 +56,7 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 
 #ifdef MATCOM
 
-#include "./3rdparty/m2c/c/include/m2c.h"
+#include "../3rdparty/m2c/c/include/m2c.h"
 
 void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, FreqDomainReport& param, 
 					   float vpp, int tone_code, double fin_input, int dc, int spur, int signal)
