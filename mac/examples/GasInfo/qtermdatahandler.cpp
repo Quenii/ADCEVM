@@ -10,7 +10,7 @@
 
 #include <math.h>
 
-#define REALDATA 0
+#define REALDATA 1
 
 QTermDataHandler::QTermDataHandler(QObject *parent) :
     QObject(parent)
@@ -133,11 +133,11 @@ void QTermDataHandler::update(/*QTimerEvent *event*/)
         if (ID == 3)
         {
             item.location = QGeoCoordinate(40, 116.3);
-//            GasInfoItem life;
-//            life.ch = 91;
-//            life.fel = life.ch + 1;
-//            life.location = QGeoCoordinate(40.1, 116.3);
-//            emit(newData(life));
+            GasInfoItem life;
+            life.ch = 91;
+            life.fel = life.ch + 1;
+            life.location = QGeoCoordinate(40.1, 116.3);
+            emit(newData(life));
         }
         emit(newData(item));
     }

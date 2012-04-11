@@ -205,9 +205,9 @@ void CentralModel::addData(const GasInfoItem& item)
     setHorizontalHeaderItem( 3, new QStandardItem( "FEL/%"));
     setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
     setHorizontalHeaderItem( 5, new QStandardItem( "SO2/ppm"));
-    setHorizontalHeaderItem( 6, new QStandardItem( QString::fromLocal8Bit("脉搏")));
-    setHorizontalHeaderItem( 7, new QStandardItem( QString::fromLocal8Bit("血压")));
-    setHorizontalHeaderItem( 8, new QStandardItem( QString::fromLocal8Bit("呼吸")));
+    setHorizontalHeaderItem( 6, new QStandardItem( QString::fromLocal8Bit("指尖脉搏")));
+    setHorizontalHeaderItem( 7, new QStandardItem( QString::fromLocal8Bit("手腕脉搏")));
+    setHorizontalHeaderItem( 8, new QStandardItem( QString::fromLocal8Bit("呼吸次数")));
 
     m_receiveSessionData->lastHit = QDateTime::currentDateTime();
     QModelIndex idx = terminal(item.ch, true);
