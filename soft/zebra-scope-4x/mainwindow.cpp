@@ -77,8 +77,8 @@ void MainWindow::createMenus()
 {
 	QMenu* menuWindow = ui.menuWindow; 
 
-	/*menuWindow->addAction(ui.dockWidgetControlPanel->toggleViewAction());		
-	menuWindow->addAction(ui.dockWidgetWave->toggleViewAction());	
+	menuWindow->addAction(ui.dockWidgetControlPanel->toggleViewAction());		
+/*	menuWindow->addAction(ui.dockWidgetWave->toggleViewAction());	
 	menuWindow->addAction(ui.dockWidgetFFT->toggleViewAction());	
 	menuWindow->addAction(ui.dockWidgetLogicWave->toggleViewAction());	
 	ui.dockWidgetLogicWave->setVisible(false);  //logicWave invisible by default
