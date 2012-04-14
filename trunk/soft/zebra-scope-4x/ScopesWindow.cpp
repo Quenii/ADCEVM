@@ -1,7 +1,5 @@
 #include "ScopesWindow.h"
-#include "gkhy/qplotlib/WaveWnd.hpp"
-#include "gkhy/qplotlib/FFTWnd.hpp"
-#include "gkhy/qplotlib/LogicWaveWnd.hpp"
+
 
 ScopesWindow::ScopesWindow(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)

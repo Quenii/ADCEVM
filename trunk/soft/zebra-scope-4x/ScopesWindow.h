@@ -1,16 +1,10 @@
 #pragma once
 
 #include "ui_ScopesWindow.h"
+#include "gkhy/qplotlib/WaveWnd.hpp"
+#include "gkhy/qplotlib/FFTWnd.hpp"
+#include "gkhy/qplotlib/LogicWaveWnd.hpp"
 
-namespace gkhy
-{
-	namespace QPlotLab
-	{
-		class WaveWnd;
-		class LogicWaveWnd;
-		class FFTWnd;
-	}
-}
 
 class ScopesWindow : public QMainWindow
 {
@@ -19,9 +13,11 @@ public:
 	ScopesWindow(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~ScopesWindow();
 
-private:
-	Ui::ScopesWindowClass ui;
+public:
 	gkhy::QPlotLab::WaveWnd* waveWnd;
 	gkhy::QPlotLab::FFTWnd* fftWnd;
 	gkhy::QPlotLab::LogicWaveWnd* logicWaveWnd;
+
+private:
+	Ui::ScopesWindowClass ui;
 };

@@ -5,6 +5,7 @@
 #include "dacanalyzersettings.h"
 #include "QZebraScopeSerializer.h"
 #include "ScopesWindow.h"
+#include "qmdisubwindowex.h"
 
 #include <QMdiArea>
 #include <QMdiSubWindow>
@@ -18,27 +19,25 @@
 #include <QFileInfo>
 
 
-
 MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
 {
 	
-
 	ui.setupUi(this);
 
 	QMdiArea* mdiArea = new QMdiArea;
 	setCentralWidget(mdiArea);
-	QMdiSubWindow* subWindow = new QMdiSubWindow();
-	subWindow->setWidget(new ScopesWindow);
-	mdiArea->addSubWindow(subWindow);
-	
-	/* waveWnd = new gkhy::QPlotLab::WaveWnd();
-	ui.dockWidgetWave->setWidget(waveWnd);
-	fftWnd = new gkhy::QPlotLab::FFTWnd();
-	ui.dockWidgetFFT->setWidget(fftWnd);
-	logicWaveWnd = new gkhy::QPlotLab::LogicWaveWnd();
-	ui.dockWidgetLogicWave->setWidget(logicWaveWnd);
-*/
+
+	for (int i = 0; i < 4; ++i)
+	{		
+		QMdiSubWindowEx* subWindow = new QMdiSubWindowEx();
+		subWindow->setAttribute(Qt::WA_DeleteOnClose, false);
+		subWindow->setWidget(new ScopesWindow);
+		subWindow->setWindowTitle(QString("Scope Window %1").arg(i));
+		mdiArea->addSubWindow(subWindow);
+		ui.menuWindow->addAction(subWindow->toggleViewAction());
+		m_mdiSubWindows.push_back(subWindow);
+	}
 
 	adcBoard = AdcBoard::instance(); 
 
@@ -52,10 +51,11 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	okay = connect(ui.actionADC, SIGNAL(triggered()), ui.controlPanel->ui.adcSettingsWidget, SLOT(on_pushButtonChangeSettings_clicked()));
 	okay = connect(ui.actionSIGNAL, SIGNAL(triggered()), ui.controlPanel->ui.signalSettingsWidget, SLOT(on_pushButtonChangeSettings_clicked()));
 	okay = connect(ui.actionSPAN, SIGNAL(triggered()), ui.controlPanel, SLOT(spanChanged()));
-	
-	
+		
 
 	createMenus();
+
+	readSettings();
 }
 
 MainWindow::~MainWindow()
@@ -70,7 +70,41 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 	s.setPowerMonitorWidgetPos(m_powerMonitorWidget->pos());
 	s.setPowerMonitorWidgetVisible(m_powerMonitorWidget->isVisible());
+	foreach(QMdiSubWindowEx* w, m_mdiSubWindows)
+	{
+		s.beginGroup(w->windowTitle());
+		s.setValue("windowState", int(w->windowState()));
+		s.setValue("geometry", w->saveGeometry());
+		s.setValue("size", w->size());
+		s.setValue("visible", w->isVisible());
+		
+	    s.endGroup();
+	}
 
+	QMainWindow::closeEvent(event);
+} 
+
+void MainWindow::readSettings()
+{
+	AdcAnalyzerSettings s;
+
+	m_powerMonitorWidget->move(s.powerMonitorWidgetPos());
+	m_powerMonitorWidget->setVisible(s.powerMonitorWidgetVisible());
+
+	foreach(QMdiSubWindowEx* w, m_mdiSubWindows)
+	{
+		s.beginGroup(w->windowTitle());
+			
+		w->setWindowState(Qt::WindowStates(s.value("windowState").toInt()));
+		w->restoreGeometry(s.value("geometry").toByteArray());	
+		QSize size = s.value("size").toSize();
+	    size.setWidth(qMax(size.width(), 10));
+		size.setHeight(qMax(size.height(), 10));
+		w->resize(size);
+		w->setVisible(s.value("visible").toBool());
+		
+		s.endGroup();
+	}
 }
 
 void MainWindow::createMenus()
@@ -78,17 +112,9 @@ void MainWindow::createMenus()
 	QMenu* menuWindow = ui.menuWindow; 
 
 	menuWindow->addAction(ui.dockWidgetControlPanel->toggleViewAction());		
-/*	menuWindow->addAction(ui.dockWidgetWave->toggleViewAction());	
-	menuWindow->addAction(ui.dockWidgetFFT->toggleViewAction());	
-	menuWindow->addAction(ui.dockWidgetLogicWave->toggleViewAction());	
-	ui.dockWidgetLogicWave->setVisible(false);  //logicWave invisible by default
-*/
+
 	m_powerMonitorWidget = new QPowerMonitor(this);
 	ui.menuWindow->addAction(m_powerMonitorWidget->toggleViewAction());
-
-	AdcAnalyzerSettings s;
-	m_powerMonitorWidget->move(s.powerMonitorWidgetPos());
-	m_powerMonitorWidget->setVisible(true);
 
 	connect(ui.action_AboutAdcAnalyzer, SIGNAL(triggered()), this, SLOT(slotShowAbout()));
 }
@@ -173,16 +199,7 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 	}
 }
 
-//void MainWindow::slotShowWaveWnd()
-//{
-//	waveWnd->show();
-//}
-//
-//void MainWindow::slotShowFFtWnd()
-//{
-//	fftWnd->show();
-//}
-//
+
 void MainWindow::slotShowControlPanel()
 {
 	ui.controlPanel->show();
@@ -196,9 +213,17 @@ void MainWindow::slotShowAbout()
 
 void MainWindow::slotShowBoardReport(const AdcBoardReport& report)
 {
-	/*waveWnd->update(report.tdReport.xaxis, report.tdReport.samples);
-	fftWnd->update(report.fdReport.xaxis, report.fdReport.Spectrum, report.fdReport.markers);
-	logicWaveWnd->update(report.tdReport.rawSamples);*/
+	foreach(QMdiSubWindowEx* mdi, m_mdiSubWindows)
+	{
+		ScopesWindow* w = dynamic_cast<ScopesWindow* >(mdi->window());
+		if (w)
+		{
+			w->waveWnd->update(report.tdReport.xaxis, report.tdReport.samples);
+			w->fftWnd->update(report.fdReport.xaxis, report.fdReport.Spectrum, report.fdReport.markers);
+			w->logicWaveWnd->update(report.tdReport.rawSamples);
+		}
+	}
+
 	ui.controlPanel->updateReport(report);
 }
 

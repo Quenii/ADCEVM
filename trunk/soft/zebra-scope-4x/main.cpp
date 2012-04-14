@@ -21,9 +21,9 @@ int main(int argc, char *argv[])
 {
 	QtSingleApplication app(argc, argv);
 
-	QApplication::setOrganizationName("quenii-roc");
-	QApplication::setOrganizationDomain("quenii-roc.com");
-	QApplication::setApplicationName("ADC-Analyzer");
+	QApplication::setOrganizationName("quenii");
+	QApplication::setOrganizationDomain("quenii.com");
+	QApplication::setApplicationName("ADC-Analyzer-4x");
 
 	REGISTER_METATYPE_HELPER(SignalSettings);
 	REGISTER_METATYPE_HELPER(StaticTestSettings);

@@ -13,6 +13,7 @@ static const char* spanSettingsKey = "SpanSettings";
 
 static const char* powerMonitorPoskey = "PowerMonitorPos";
 static const char* powerMonitorVisibleKey = "PowerMonitorVisible";
+static const char* mdiSubWindowGroupKey = "MdiSubWindow";
 
 AdcAnalyzerSettings::AdcAnalyzerSettings(QObject * parent /* = 0  */) 
 : QSettings(parent)
@@ -114,3 +115,12 @@ SpanSettings AdcAnalyzerSettings::spanSettings() const
 	return value(spanSettingsKey).value<SpanSettings>();
 }
 
+//void AdcAnalyzerSettings::setMdiSubWindowStatus(const QString& title, const QByteArray& ba)
+//{
+//	setValue(QString("%1/%2").arg(mdiSubWindowGroupKey).arg(title), ba);
+//}
+//
+//QByteArray AdcAnalyzerSettings::mdiSubWindowStatus(const QString& title) const
+//{
+//	return value(QString("%1/%2").arg(mdiSubWindowGroupKey).arg(title)).toByteArray();
+//}
