@@ -42,6 +42,7 @@ ControlPanel::ControlPanel(QWidget *parent, Qt::WFlags flags)
 	ui.treeViewTdReport->setModel(tdReportModel);
 
 	ui.groupBox_DeviceList->hide();
+	ui.groupBoxChSel->hide();
 
 	
 	//AdcBoard& board = *(AdcBoard::instance());

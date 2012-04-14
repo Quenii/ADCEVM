@@ -3,8 +3,11 @@
 
 #include "ui_mainwindow.h"
 #include <QtGui/QMainWindow>
-#include <QPointer>
 #include "AdcBoardTypes.hpp"
+
+
+#include <QPointer>
+#include <QList>
 
 
 
@@ -14,6 +17,7 @@ class QTimerEvent;
 class AdcBoard;
 class RegAccess;
 class QPowerMonitor;
+class QMdiSubWindowEx;
 
 class MainWindow : public QMainWindow
 {
@@ -25,11 +29,14 @@ public:
 public:
 	MainWindow(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~MainWindow();
+
 protected:
 	void closeEvent(QCloseEvent *event);
 
+
 private:
 	void createMenus();
+	void readSettings();
 
 signals:
 	void settingsLoaded(const AdcTypeSettings& data);
@@ -55,6 +62,8 @@ private:
 	QPointer<RegAccess> regAccess;
 	AdcBoard* adcBoard;
 	QPowerMonitor* m_powerMonitorWidget;
+	
+	QList<QMdiSubWindowEx*> m_mdiSubWindows;
 
 };
 
