@@ -13,6 +13,14 @@
 
 #ifdef __cplusplus
 
+
+class M2C_API LibInitializer
+{
+public:
+	LibInitializer();
+	~LibInitializer();
+};
+
 extern "C" {
 
 #endif

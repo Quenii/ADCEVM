@@ -17,6 +17,7 @@
 
 using namespace std;
 
+
 class QThreadL : public QThread
 {
 public:

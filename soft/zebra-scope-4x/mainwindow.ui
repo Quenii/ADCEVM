@@ -50,7 +50,7 @@
     <addaction name="actionSaveData"/>
     <addaction name="actionLoadStaticData"/>
     <addaction name="separator"/>
-    <addaction name="action_3"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -135,7 +135,7 @@
     <string>读入动态数据(R)</string>
    </property>
   </action>
-  <action name="action_3">
+  <action name="actionQuit">
    <property name="text">
     <string>退出(X)</string>
    </property>
