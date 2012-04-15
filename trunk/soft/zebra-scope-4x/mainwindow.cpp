@@ -111,12 +111,15 @@ void MainWindow::createMenus()
 {
 	QMenu* menuWindow = ui.menuWindow; 
 
+	connect(ui.actionQuit, SIGNAL(triggered()), qApp, SLOT(quit()));
+
 	menuWindow->addAction(ui.dockWidgetControlPanel->toggleViewAction());		
 
 	m_powerMonitorWidget = new QPowerMonitor(this);
 	ui.menuWindow->addAction(m_powerMonitorWidget->toggleViewAction());
 
 	connect(ui.action_AboutAdcAnalyzer, SIGNAL(triggered()), this, SLOT(slotShowAbout()));
+
 }
 
 static QString getSettingsFileName(QString adcDataFileName)

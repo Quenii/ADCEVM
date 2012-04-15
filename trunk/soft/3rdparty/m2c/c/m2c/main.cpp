@@ -14,7 +14,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
-		initM(MATCOM_VERSION);
+		// initM(MATCOM_VERSION);
 		break;
 
 	case DLL_THREAD_ATTACH:
@@ -24,7 +24,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		break;
 
 	case DLL_PROCESS_DETACH:
-//		exitM();
+		// exitM();
 		break;
 	}
 	return TRUE;

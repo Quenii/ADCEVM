@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "histplot.h"
+#include "./3rdparty/m2c/c/include/m2c.h"
 
 #include <QMessageBox>
 #include <QtSingleApplication>
@@ -19,6 +20,8 @@
 
 int main(int argc, char *argv[])
 {
+	LibInitializer init;
+
 	QtSingleApplication app(argc, argv);
 
 	QApplication::setOrganizationName("quenii");
@@ -58,5 +61,6 @@ int main(int argc, char *argv[])
 	libalgoTerminate();
 	mclTerminateApplication();
 #endif // MATLAB
+	
 	return ret;
 }
