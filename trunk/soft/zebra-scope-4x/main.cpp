@@ -5,6 +5,9 @@
 #include <QMessageBox>
 #include <QtSingleApplication>
 #include <QThread>
+#include <QProcess>
+
+
 
 #ifdef MATLAB    //defined in AdcBoardTypes.hpp
 #include "libalgo.h"

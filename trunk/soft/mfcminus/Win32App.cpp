@@ -2,6 +2,7 @@
 #include "gkhy/mfcminus/Win32App.hpp"
 #include <assert.h>
 #include <shlwapi.h>
+#include <WinBase.h>
 
 #pragma comment(lib, "shlwapi.lib")
 
@@ -46,6 +47,20 @@ Win32App::~Win32App()
 		
 		delete []m_argv;
 	}
+}
+
+void Win32App::exitProcess(int retCode)
+{
+	std::string path = filePath();
+	
+	char fname[MAX_PATH];
+	char ext[MAX_PATH];
+	_splitpath(path.c_str(), 0, 0, fname, ext);
+	
+	std::string name = std::string(fname) + std::string(ext);
+	std::string cmd = std::string("taskkill /F /T /IM ") + name; 
+
+	::system(cmd.c_str());
 }
 
 const std::vector< std::string >& Win32App::args()
