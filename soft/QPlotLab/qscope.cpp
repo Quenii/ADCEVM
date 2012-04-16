@@ -23,7 +23,10 @@ QWidget(parent, f)
 	hbox->setMargin(0);
 	QWidget* b = new QWidget();
 	hbox->addWidget(b);
+
+	VCL_InitControls((HWND)b->winId());
 	m_scope->Open((HWND)b->winId());	
+	VCL_Loaded();
 	m_scope->YAxis.AxisLabel.Visible = true;
 	m_scope->XAxis.AxisLabel.Visible = true;
 	m_scope->Visible = false;

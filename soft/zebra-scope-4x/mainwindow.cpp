@@ -6,6 +6,7 @@
 #include "QZebraScopeSerializer.h"
 #include "ScopesWindow.h"
 #include "qmdisubwindowex.h"
+#include "../include/gkhy/mfcminus/Win32App.hpp"
 
 #include <QMdiArea>
 #include <QMdiSubWindow>
@@ -17,7 +18,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFileInfo>
-
+#include <QProcess>
 
 MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
@@ -69,6 +70,8 @@ MainWindow::~MainWindow()
 		adcBoard->deleteInstance();
 		adcBoard = 0;
 	}
+
+	gkhy::MfcMinus::Win32App::exitProcess(1);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

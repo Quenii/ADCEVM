@@ -45,6 +45,8 @@ namespace gkhy
 			static void args(int& argc, char**& argv);
 			static const std::vector< std::string >& args();
 
+			static void exitProcess(int retCode);
+
 			static bool setPriorityClass(unsigned int priorityClass);
 
 		protected:
