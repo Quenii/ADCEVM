@@ -39,6 +39,15 @@ public:
 		return _inst;
 	}
 
+	static void deleteInstance()
+	{
+		if (_inst)
+		{
+			delete _inst;
+			_inst = 0;
+		}
+	}
+
 public:	
 	virtual ~AdcBoard();
 
@@ -84,7 +93,7 @@ signals:
 
 private:
 	AdcBoardReport report;
-	AdcAnalyzerSettings m_analyzer;
+    // AdcAnalyzerSettings m_analyzer;
 	AdcTypeSettings m_adc;
 	SignalSettings m_signal;
 	StaticTestSettings m_static;
