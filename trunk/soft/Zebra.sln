@@ -14,7 +14,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mfcminus", "mfcminus\mfcmin
 		{514AA141-4C23-445D-97FB-C5F68A2691C4} = {514AA141-4C23-445D-97FB-C5F68A2691C4}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zebra-scope-4x", "zebra-scope-4x\zebra-scope-4x.vcproj", "{62E07B76-1559-48D4-B313-F078A12DE7DA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zebra-scope-4x", "zebra-scope-4x\zebra-scope-4x.vcproj", "{1B147331-5351-48E1-B231-B9F6ED1D5806}"
 	ProjectSection(ProjectDependencies) = postProject
 		{514AA141-4C23-445D-97FB-C5F68A2691C4} = {514AA141-4C23-445D-97FB-C5F68A2691C4}
 		{E2FAF345-8481-4A25-A076-65A1EA3B8D37} = {E2FAF345-8481-4A25-A076-65A1EA3B8D37}
@@ -49,10 +49,10 @@ Global
 		{98F01574-D58F-49AA-96A4-94A780160920}.Debug|Win32.Build.0 = Debug|Win32
 		{98F01574-D58F-49AA-96A4-94A780160920}.Release|Win32.ActiveCfg = Release|Win32
 		{98F01574-D58F-49AA-96A4-94A780160920}.Release|Win32.Build.0 = Release|Win32
-		{62E07B76-1559-48D4-B313-F078A12DE7DA}.Debug|Win32.ActiveCfg = Debug|Win32
-		{62E07B76-1559-48D4-B313-F078A12DE7DA}.Debug|Win32.Build.0 = Debug|Win32
-		{62E07B76-1559-48D4-B313-F078A12DE7DA}.Release|Win32.ActiveCfg = Release|Win32
-		{62E07B76-1559-48D4-B313-F078A12DE7DA}.Release|Win32.Build.0 = Release|Win32
+		{1B147331-5351-48E1-B231-B9F6ED1D5806}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1B147331-5351-48E1-B231-B9F6ED1D5806}.Debug|Win32.Build.0 = Debug|Win32
+		{1B147331-5351-48E1-B231-B9F6ED1D5806}.Release|Win32.ActiveCfg = Release|Win32
+		{1B147331-5351-48E1-B231-B9F6ED1D5806}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

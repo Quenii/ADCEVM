@@ -57,7 +57,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="VCLLoaderMS.lib QtCore4.lib QtGui4.lib"
+				AdditionalDependencies="VCLLoaderMS.lib QtCore4.lib QtGui4.lib Qwt.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				AdditionalLibraryDirectories="../lib/plotlab;$(QTDIR)\lib"
 				GenerateDebugInformation="false"
@@ -131,7 +131,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="VCLLoaderMS.lib QtCored4.lib QtGuid4.lib"
+				AdditionalDependencies="VCLLoaderMS.lib QtCored4.lib QtGuid4.lib qwtd.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				AdditionalLibraryDirectories="../lib/plotlab;$(QTDIR)\lib"
 				GenerateDebugInformation="true"

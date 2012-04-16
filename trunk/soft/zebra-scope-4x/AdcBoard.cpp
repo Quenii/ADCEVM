@@ -20,8 +20,8 @@
 #include "AdcBoard.hpp"
 #include "dacanalyzersettings.h"
 #include "gkhy/mfcminus/Win32App.hpp"
-#include "./3rdparty/m2c/c/include/m2c.h"
-#include "./include/gkhy/qplotlib/qscope.hpp"
+#include "../3rdparty/m2c/c/include/m2c.h"
+#include "gkhy/qplotlib/qscope.hpp"
 #include "inldnl_c.h"
 #include "histplot.h"
 
@@ -72,6 +72,8 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 , m_timerIdPower(0)
 
 {
+	AdcAnalyzerSettings m_analyzer;
+
 	open();
    	float fs = m_analyzer.signalSettings().clockFreq;
 	if (fs <= 0) fs = 1e8;
@@ -218,6 +220,8 @@ bool AdcBoard::isRunning()
 
 void AdcBoard::setDynamicOn(bool on /* = true */)
 {
+	AdcAnalyzerSettings m_analyzer;
+
 	if (on && !m_timerIdDyn)
 	{
 		m_timerIdDyn = startTimer(500);
@@ -281,6 +285,9 @@ static QString getSettingsFileName(QString adcDataFileName)
 
 bool AdcBoard::getDynTestData(QString& fileNameSim)
 {
+
+	AdcAnalyzerSettings m_analyzer;
+
 	std::vector<unsigned short>& buff = report.tdReport.rawSamples;
 
 	if (!fileNameSim.isEmpty())
@@ -580,6 +587,8 @@ bool AdcBoard::getStaticTestData(vector<int>& samples, bool saveToFile)
 }
 void AdcBoard::staticTest()
 {
+
+	AdcAnalyzerSettings m_analyzer;
 	m_static = m_analyzer.staticTestSettings();
 	m_adc = m_analyzer.adcTypeSettings();
 
@@ -687,6 +696,9 @@ void AdcBoard::staticTestAlgo(vector<int> samples)
 
 bool AdcBoard::loadStaticData(QString& fileNameSim)
 {
+
+	AdcAnalyzerSettings m_analyzer;
+
 	if (!fileNameSim.isEmpty())
 	{
 		QString settingsFileName = getSettingsFileName(fileNameSim);

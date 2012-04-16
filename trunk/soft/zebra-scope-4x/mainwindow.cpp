@@ -21,6 +21,7 @@
 
 MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
+	, adcBoard(0)
 {
 	
 	ui.setupUi(this);
@@ -62,6 +63,12 @@ MainWindow::~MainWindow()
 {
 	if (regAccess)
 		regAccess->deleteLater();
+	
+	if (adcBoard)
+	{
+		adcBoard->deleteInstance();
+		adcBoard = 0;
+	}
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -98,8 +105,8 @@ void MainWindow::readSettings()
 		w->setWindowState(Qt::WindowStates(s.value("windowState").toInt()));
 		w->restoreGeometry(s.value("geometry").toByteArray());	
 		QSize size = s.value("size").toSize();
-	    size.setWidth(qMax(size.width(), 10));
-		size.setHeight(qMax(size.height(), 10));
+	    size.setWidth(qMax(size.width(), 100));
+		size.setHeight(qMax(size.height(), 100));
 		w->resize(size);
 		w->setVisible(s.value("visible").toBool());
 		

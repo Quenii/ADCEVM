@@ -16,13 +16,11 @@
 LibInitializer::LibInitializer()
 {
 	initM(MATCOM_VERSION);
-//	OutputDebugStringA("Init m2c.dll");
 }
 
 LibInitializer::~LibInitializer()
 {
 	exitM();
-//	OutputDebugStringA("Exit m2c.dll");
 }
 
 class CriticalSection
