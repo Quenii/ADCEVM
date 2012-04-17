@@ -35,7 +35,7 @@ DeviceListWidget::DeviceListWidget(QWidget *parent) :
 
     GasInfoSettings s;
     QStringList term;
-    for (int i=0; i<=s.maxTermCount(); ++i)
+    for (int i=0; i<s.maxTermCount(); ++i)
     {
         term << QString("%1").arg(i);
     }

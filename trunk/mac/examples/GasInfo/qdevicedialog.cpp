@@ -57,7 +57,7 @@ void QDeviceDialog::initDevice()
     ui.stopBitsBox->addItem(QLatin1String("1"), STOP_1);
     ui.stopBitsBox->addItem(QLatin1String("2"), STOP_2);
 
-    ui.queryModeBox->addItem(tr("Pooling"), QextSerialPort::Polling);
+    ui.queryModeBox->addItem(tr("Polling"), QextSerialPort::Polling);
     ui.queryModeBox->addItem(tr("Event"), QextSerialPort::EventDriven);
 
     ui.baudRateBoxGps->addItem(QLatin1String("1200"), BAUD1200);

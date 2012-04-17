@@ -68,8 +68,9 @@ RESOURCES += \
      gasinfo.qrc
 
 
- TRANSLATIONS = gasinfo_zh_CN.ts
+TRANSLATIONS = gasinfo_zh_CN.ts
 
+CODECFORTR = UTF-8
 
 
 
