@@ -104,9 +104,9 @@ CentralModel::CentralModel(QObject *parent) :
 //    setHorizontalHeaderItem( 0, new QStandardItem( tr("终端") ));
 //    setHorizontalHeaderItem( 1, new QStandardItem( tr("状态") ));
 //    setHorizontalHeaderItem( 2, new QStandardItem( tr("日期 / 时间") ));
-//    setHorizontalHeaderItem( 3, new QStandardItem( "FEL/%"));
-//    setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
-//    setHorizontalHeaderItem( 5, new QStandardItem( "SO2/ppm"));
+//    setHorizontalHeaderItem( 3, new QStandardItem( tr("FEL/%") ));
+//    setHorizontalHeaderItem( 4, new QStandardItem( tr("H2S/ppm") ));
+//    setHorizontalHeaderItem( 5, new QStandardItem( tr("SO2/ppm") ));
 
 }
 
@@ -198,15 +198,15 @@ void CentralModel::addData(const GasInfoItem& item)
 {
     if (! m_receiveSessionData->started)
         return;
-    setHorizontalHeaderItem( 0, new QStandardItem( tr("终端") ));
-    setHorizontalHeaderItem( 1, new QStandardItem( tr("状态") ));
-    setHorizontalHeaderItem( 2, new QStandardItem( tr("日期/时间") ));
-    setHorizontalHeaderItem( 3, new QStandardItem( "FEL/%"));
-    setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
-    setHorizontalHeaderItem( 5, new QStandardItem( "SO2/ppm"));
-    setHorizontalHeaderItem( 6, new QStandardItem( tr("指尖脉搏")));
-    setHorizontalHeaderItem( 7, new QStandardItem( tr("手腕脉搏")));
-    setHorizontalHeaderItem( 8, new QStandardItem( tr("呼吸次数")));
+    setHorizontalHeaderItem( 0, new QStandardItem( tr("Terminal") ));
+    setHorizontalHeaderItem( 1, new QStandardItem( tr("Status") ));
+    setHorizontalHeaderItem( 2, new QStandardItem( tr("Date/Time") ));
+    setHorizontalHeaderItem( 3, new QStandardItem( tr("FEL/%") ));
+    setHorizontalHeaderItem( 4, new QStandardItem( tr("H2S/ppm") ));
+    setHorizontalHeaderItem( 5, new QStandardItem( tr("SO2/ppm") ));
+    setHorizontalHeaderItem( 6, new QStandardItem( tr("Finger Pulse")));
+    setHorizontalHeaderItem( 7, new QStandardItem( tr("Wrist")));
+    setHorizontalHeaderItem( 8, new QStandardItem( tr("Breathing")));
 
     m_receiveSessionData->lastHit = QDateTime::currentDateTime();
     QModelIndex idx = terminal(item.ch, true);
@@ -416,12 +416,12 @@ void CentralModel::updateTerminalStatus()
 
             if (statusItem && lastTick.secsTo(now) > GasInfoSettings::activeIntervalF())
             {
-                statusItem->setText(tr("离线"));
+                statusItem->setText(tr("Offline"));
                 statusItem->setBackground(QBrush(Qt::darkYellow));
             }
             else
             {
-                statusItem->setText(tr("在线"));
+                statusItem->setText(tr("Online"));
                 statusItem->setBackground(QBrush(Qt::green));
             }
         }

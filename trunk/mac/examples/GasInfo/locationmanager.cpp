@@ -103,7 +103,7 @@ void LocationManager::showMarkerDialog(Marker* marker)
     qDebug() << "showMarkerDialog() called";
 
 //    MarkerDialogWidget* w =
-//            new MarkerDialogWidget( tr("报警"),
+//            new MarkerDialogWidget( tr("Alarm"),
 //                                    dynamic_cast<DeviceTextMarker *>(marker)->markerInfo(), 0, 0 );
 //    w->show();
 

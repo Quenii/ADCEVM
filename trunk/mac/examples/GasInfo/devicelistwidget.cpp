@@ -64,10 +64,10 @@ void DeviceListWidget::terminalTableView_doubleClicked(const QModelIndex &index)
 void DeviceListWidget::terminalTableView_customContextMenu(const QPoint &pos)
 {
     QMenu menu;
-    QAction* openAction = new QAction(tr("打开"), &menu);
-    QAction* closeAction = new QAction(tr("关闭"), &menu);
-    QAction* exportAction = new QAction(tr("导出"), &menu);
-    QAction* deleteAction = new QAction(tr("删除"), &menu);
+    QAction* openAction = new QAction(tr("Open"), &menu);
+    QAction* closeAction = new QAction(tr("Close"), &menu);
+    QAction* exportAction = new QAction(tr("Export"), &menu);
+    QAction* deleteAction = new QAction(tr("Delete"), &menu);
     menu.addAction(openAction);
     menu.addAction(closeAction);
     menu.addAction(exportAction);
@@ -155,7 +155,7 @@ void DeviceListWidget::exportTerminalData()
     {
         QString fileName = QFileDialog::getSaveFileName(
                     this,
-                    tr("导出终端数据"),
+                    tr("Export Terminal Data"),
                     "",
                     tr("Excel File (*.csv)"));
         if (!fileName.isEmpty())
@@ -165,7 +165,7 @@ void DeviceListWidget::exportTerminalData()
     {
         QString dirName = QFileDialog::getExistingDirectory(
                     this,
-                    tr("导出终端数据"),
+                    tr("Export Terminal Data"),
                     "");
 
         if (!dirName.isEmpty())
@@ -211,7 +211,7 @@ void DeviceListWidget::on_pushButtonStart_clicked()
         ui->ledComm->turnOff();
         ui->ledGps->turnOff();
         ui->pushButtonConfig->setEnabled(true);
-        ui->pushButtonStart->setText(tr("开始运行"));
+        ui->pushButtonStart->setText(tr("Start"));
     }
     else
     {
@@ -224,7 +224,7 @@ void DeviceListWidget::on_pushButtonStart_clicked()
             ui->ledComm->turnOn();
             ui->ledGps->turnOn();
             ui->pushButtonConfig->setEnabled(false);
-            ui->pushButtonStart->setText(tr("停止"));
+            ui->pushButtonStart->setText(tr("Stop"));
         }
     }
 //

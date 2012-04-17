@@ -24,15 +24,13 @@ int main(int argc, char *argv[])
 
     REGISTER_METATYPE_HELPER(SerialPortInfo);
 
-
     QCoreApplication::setOrganizationName("quenii");
     QCoreApplication::setOrganizationDomain("quenii.com");
     QCoreApplication::setApplicationName("GasInfo");
 
     QTranslator translator;
-    translator.load("gasinfo_zh");
+    translator.load("gasinfo_zh_CN");
     a.installTranslator(&translator);
-
 
     MainWindow mainWindow;
     mainWindow.showMaximized();
