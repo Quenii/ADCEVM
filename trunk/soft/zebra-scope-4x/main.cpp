@@ -56,8 +56,6 @@ int main(int argc, char *argv[])
 
 	w.showMaximized();
 	
-
-	qDebug() << "Main thread Id: " << QThread::currentThreadId();
 	int ret = app.exec();
 
 #ifdef MATLAB
