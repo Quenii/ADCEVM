@@ -26,7 +26,8 @@ QWidget(parent, f)
 
 	VCL_InitControls((HWND)b->winId());
 	m_scope->Open((HWND)b->winId());	
-	VCL_Loaded();
+	VCL_Loaded();
+
 	m_scope->YAxis.AxisLabel.Visible = true;
 	m_scope->XAxis.AxisLabel.Visible = true;
 	m_scope->Visible = false;

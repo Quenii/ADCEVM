@@ -5,6 +5,7 @@
 #include <WinBase.h>
 
 #pragma comment(lib, "shlwapi.lib")
+#pragma warning(disable : 4996)
 
 using namespace std;
 using namespace gkhy::MfcMinus;
@@ -58,9 +59,10 @@ void Win32App::exitProcess(int retCode)
 	_splitpath(path.c_str(), 0, 0, fname, ext);
 	
 	std::string name = std::string(fname) + std::string(ext);
-	std::string cmd = std::string("taskkill /F /T /IM ") + name; 
+	std::string cmd = std::string("taskkill /F /IM ") + name; 
 
-	::system(cmd.c_str());
+	// ::system(cmd.c_str());
+	WinExec(cmd.c_str(), SW_HIDE); 
 }
 
 const std::vector< std::string >& Win32App::args()
