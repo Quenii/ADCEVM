@@ -10,7 +10,7 @@
 #include "qtermdatahandler.h"
 #include "terminalalarmwidget.h"
 
-
+#include <QString>
 #include <QMdiSubWindow>
 #include <QtDebug>
 #include <QFileDialog>
@@ -20,7 +20,7 @@
 
 static QString terminalTitle(int terminalId)
 {
-    return QString::fromLocal8Bit("%1 号终端").arg(terminalId);
+    return QObject::tr("%1 号终端").arg(terminalId);
 }
 
 class MdiSubWindow : public QMdiSubWindow
@@ -147,7 +147,7 @@ void MainWindow::openCloseTerminals(const QMap<int, int> &idMap, bool open)
             terminalWidget->setModel(m_centralModel, terminalId, idMap[terminalId]);
  //           terminalWidget->setRootIndex(m_centralModel->index(terminalId, 0));
 
-            QAction* action = new QAction(QString::fromLocal8Bit("&%1号终端").arg(terminalId), subWindow1);
+            QAction* action = new QAction(tr("&%1号终端").arg(terminalId), subWindow1);
 
             ui->menuWindows->addAction(action);
 
@@ -213,7 +213,7 @@ void MainWindow::on_actionLoad_triggered(bool checked)
     GasInfoSettings settings;
     QString fileName = QFileDialog::getOpenFileName(
                 this,
-                QString::fromLocal8Bit("载入数据"),
+                tr("载入数据"),
                 settings.dataFolder(),
                 tr("GasInfo File (*.gas)"));
 
@@ -284,21 +284,21 @@ void MainWindow::addData(const GasInfoItem& item)
               || item.fel >= GasInfoSettings::felAlarmThresF())
         {
             bAlarm = true;
-            warning += QString::fromLocal8Bit("%1号终端:<br><br>").arg(item.ch);
+            warning += tr("%1号终端:<br><br>").arg(item.ch);
         }
         if (item.h2s >= GasInfoSettings::h2sAlarmThresF())
-            warning += QString::fromLocal8Bit("H2S含量异常!<br>");
+            warning += tr("H2S含量异常!<br>");
 
         if (item.so2 >= GasInfoSettings::so2AlarmThresF())
-            warning += QString::fromLocal8Bit("SO2含量异常!<br>");
+            warning += tr("SO2含量异常!<br>");
 
         if (item.fel >= GasInfoSettings::felAlarmThresF())
-            warning += QString::fromLocal8Bit("可燃气体含量异常!<br>");
+            warning += tr("可燃气体含量异常!<br>");
 
     }
     if (bAlarm && (!GasInfoSettings::terminalAlarmWindowOpenF(item.ch)))
     {
-        TerminalAlarmWidget* w = new TerminalAlarmWidget(QString::fromLocal8Bit("报警"), warning, item.ch, 0 );
+        TerminalAlarmWidget* w = new TerminalAlarmWidget(tr("报警"), warning, item.ch, 0 );
         w->show();
     }
 
@@ -328,7 +328,7 @@ void MainWindow::initMap()
 
     QList<QString> providers = QGeoServiceProvider::availableServiceProviders();
     if (providers.size() < 1) {
-        QMessageBox::information(this, QString::fromLocal8Bit("地图"),
+        QMessageBox::information(this, tr("地图"),
                                  tr("No service providers are available"));
         // QCoreApplication::quit();
         return;
@@ -343,7 +343,7 @@ void MainWindow::initMap()
     }
 
     if (serviceProvider->error() != QGeoServiceProvider::NoError) {
-        QMessageBox::information(this, QString::fromLocal8Bit("地图"),
+        QMessageBox::information(this, tr("地图"),
                                  tr("Error loading geoservice plugin"));
         // QCoreApplication::quit();
         return;
@@ -352,7 +352,7 @@ void MainWindow::initMap()
     if (!serviceProvider->mappingManager() ||
             !serviceProvider->searchManager() ||
             !serviceProvider->routingManager()) {
-        QMessageBox::information(this, QString::fromLocal8Bit("地图"),
+        QMessageBox::information(this, tr("地图"),
                                  tr("No geoservice found with mapping/search/routing"));
         // QCoreApplication::quit();
         return;
