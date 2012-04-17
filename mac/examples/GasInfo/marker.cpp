@@ -231,7 +231,7 @@ void MarkerManager::search(QString query, qreal radius)
     d->forwardReplies.insert(reply);
 
     if (d->status) {
-        d->status->setText(tr("搜索..."));
+        d->status->setText(tr("Searching..."));
         d->status->show();
     }
 

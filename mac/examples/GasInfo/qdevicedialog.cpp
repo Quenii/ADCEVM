@@ -57,8 +57,8 @@ void QDeviceDialog::initDevice()
     ui.stopBitsBox->addItem(QLatin1String("1"), STOP_1);
     ui.stopBitsBox->addItem(QLatin1String("2"), STOP_2);
 
-    ui.queryModeBox->addItem(tr("查询"), QextSerialPort::Polling);
-    ui.queryModeBox->addItem(tr("中断"), QextSerialPort::EventDriven);
+    ui.queryModeBox->addItem(tr("Pooling"), QextSerialPort::Polling);
+    ui.queryModeBox->addItem(tr("Event"), QextSerialPort::EventDriven);
 
     ui.baudRateBoxGps->addItem(QLatin1String("1200"), BAUD1200);
     ui.baudRateBoxGps->addItem(QLatin1String("2400"), BAUD2400);
@@ -83,10 +83,10 @@ void QDeviceDialog::initDevice()
     ui.stopBitsBoxGps->addItem(QLatin1String("1"), STOP_1);
     ui.stopBitsBoxGps->addItem(QLatin1String("2"), STOP_2);
 
-    ui.queryModeBoxGps->addItem(tr("查询"), QextSerialPort::Polling);
-    ui.queryModeBoxGps->addItem(tr("中断"), QextSerialPort::EventDriven);
+    ui.queryModeBoxGps->addItem(tr("Polling"), QextSerialPort::Polling);
+    ui.queryModeBoxGps->addItem(tr("Event"), QextSerialPort::EventDriven);
 
-    setWindowTitle(tr("通信端口设置"));
+    setWindowTitle(tr("Device Settings"));
 
 }
 

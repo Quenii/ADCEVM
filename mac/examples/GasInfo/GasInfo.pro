@@ -68,7 +68,7 @@ RESOURCES += \
      gasinfo.qrc
 
 
- TRANSLATIONS = gasinfo_zh.ts
+ TRANSLATIONS = gasinfo_zh_CN.ts
 
 
 

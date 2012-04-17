@@ -5,8 +5,8 @@
     <name>CentralModel</name>
     <message>
         <location filename="centralmodel.cpp" line="201"/>
-        <source>Terminal</source>
-        <translation type="unfinished"></translation>
+        <source>终端</source>
+        <translation type="finished"></translation>
     </message>
     <message>
         <location filename="centralmodel.cpp" line="202"/>
