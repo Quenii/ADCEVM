@@ -23,7 +23,7 @@
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
-      <string>运行模式</string>
+      <string>Running Mode</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_5">
       <item row="0" column="0">
@@ -31,7 +31,7 @@
         <item row="0" column="0">
          <widget class="QPushButton" name="receiveModePushButton">
           <property name="text">
-           <string>实时模式</string>
+           <string>Realtime Mode</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -60,7 +60,7 @@
         <item row="0" column="2">
          <widget class="QPushButton" name="reviewModePushButton">
           <property name="text">
-           <string>回放模式</string>
+           <string>Replay Mode</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -78,7 +78,7 @@
    <item row="1" column="0">
     <widget class="QGroupBox" name="groupBox_4">
      <property name="title">
-      <string>报警 </string>
+      <string>Alarm</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_6">
       <item row="0" column="0">
@@ -86,7 +86,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>终端</string>
+           <string>Terminal</string>
           </property>
          </widget>
         </item>
@@ -100,7 +100,7 @@
         <item row="0" column="2">
          <widget class="QPushButton" name="alarmOnPushButton">
           <property name="text">
-           <string>开</string>
+           <string>On</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -113,7 +113,7 @@
         <item row="0" column="3">
          <widget class="QPushButton" name="alarmOffPushButton">
           <property name="text">
-           <string>关</string>
+           <string>Off</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -143,7 +143,7 @@
       </size>
      </property>
      <property name="title">
-      <string>通信设置</string>
+      <string>Communications</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_7">
       <item row="0" column="0">
@@ -151,7 +151,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>通信端口状态</string>
+           <string>Comm Status</string>
           </property>
          </widget>
         </item>
@@ -180,7 +180,7 @@
         <item row="0" column="2">
          <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>GPS状态</string>
+           <string>GPS Status</string>
           </property>
          </widget>
         </item>
@@ -209,7 +209,7 @@
         <item row="1" column="0" colspan="2">
          <widget class="QPushButton" name="pushButtonConfig">
           <property name="text">
-           <string>设置 </string>
+           <string>Settings</string>
           </property>
          </widget>
         </item>
@@ -222,7 +222,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>开始运行</string>
+           <string>Start</string>
           </property>
          </widget>
         </item>
@@ -234,7 +234,7 @@
    <item row="3" column="0">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>终端列表</string>
+      <string>Terminal List</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_8">
       <item row="0" column="0">

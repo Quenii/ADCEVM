@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("GasInfo");
 
     QTranslator translator;
-    translator.load("gasinfo_zh_CN");
+    translator.load("gasinfo_zh_CN.qm");
     a.installTranslator(&translator);
 
     MainWindow mainWindow;
