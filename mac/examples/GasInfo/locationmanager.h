@@ -23,9 +23,9 @@ public:
 
     {
         if (m_id == HOSTID)
-            m_text->setText(QString::fromLocal8Bit("主站"));
+            m_text->setText(tr("主站"));
         else
-            m_text->setText(QString::fromLocal8Bit("%1 号终端").arg(m_id));
+            m_text->setText(tr("%1 号终端").arg(m_id));
 
         addChildObject(m_text);
         addChildObject(m_marker);
@@ -56,12 +56,12 @@ public:
     {
         setCoordinate(item.location, bAlarm);
         m_markerInfo.clear();
-        m_markerInfo += QString::fromLocal8Bit("%1号终端: <br><br>").arg(m_item.ch);
-        m_markerInfo += QString::fromLocal8Bit("纬度: %1<br>").arg(m_item.location.latitude());
-        m_markerInfo += QString::fromLocal8Bit("经度: %1<br><br>").arg(m_item.location.longitude());
-        m_markerInfo += QString::fromLocal8Bit("H2S: %1 ppm<br>").arg(m_item.h2s);
-        m_markerInfo += QString::fromLocal8Bit("SO2: %1 ppm<br>").arg(m_item.so2);
-        m_markerInfo += QString::fromLocal8Bit("可燃气体: %1 %").arg(m_item.fel);
+        m_markerInfo += tr("%1号终端: <br><br>").arg(m_item.ch);
+        m_markerInfo += tr("纬度: %1<br>").arg(m_item.location.latitude());
+        m_markerInfo += tr("经度: %1<br><br>").arg(m_item.location.longitude());
+        m_markerInfo += tr("H2S: %1 ppm<br>").arg(m_item.h2s);
+        m_markerInfo += tr("SO2: %1 ppm<br>").arg(m_item.so2);
+        m_markerInfo += tr("可燃气体: %1 %").arg(m_item.fel);
     }
 
     void setText(const QString& str)

@@ -4,7 +4,7 @@
 #include <QTranslator>
 #include <QApplication>
 #include <QMacStyle>
-
+#include <QTextCodec>
 
 #define REGISTER_METATYPE_HELPER( type ) \
     qRegisterMetaType<type>(); \
@@ -16,6 +16,11 @@ int main(int argc, char *argv[])
     QApplication::setStyle("macintosh");
 
     QApplication a(argc, argv);
+
+    QTextCodec *codec = QTextCodec::codecForName("UTF8");
+    QTextCodec::setCodecForTr(codec);
+    QTextCodec::setCodecForLocale(codec);
+    QTextCodec::setCodecForCStrings(codec);
 
     REGISTER_METATYPE_HELPER(SerialPortInfo);
 

@@ -98,8 +98,8 @@ void QextSerialEnumeratorPrivate::platformSpecificDestruct()
 #else
     #define QStringToTCHAR(x)     x.local8Bit().constData()
     #define PQStringToTCHAR(x)    x->local8Bit().constData()
-    #define TCHARToQString(x)     QString::fromLocal8Bit((char*)(x))
-    #define TCHARToQStringN(x,y)  QString::fromLocal8Bit((char*)(x),(y))
+    #define TCHARToQString(x)     tr((char*)(x))
+    #define TCHARToQStringN(x,y)  tr((char*)(x),(y))
 #endif /*UNICODE*/
 
 /*!

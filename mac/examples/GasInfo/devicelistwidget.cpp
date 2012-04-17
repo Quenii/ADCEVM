@@ -64,10 +64,10 @@ void DeviceListWidget::terminalTableView_doubleClicked(const QModelIndex &index)
 void DeviceListWidget::terminalTableView_customContextMenu(const QPoint &pos)
 {
     QMenu menu;
-    QAction* openAction = new QAction(QString::fromLocal8Bit("打开"), &menu);
-    QAction* closeAction = new QAction(QString::fromLocal8Bit("关闭"), &menu);
-    QAction* exportAction = new QAction(QString::fromLocal8Bit("导出"), &menu);
-    QAction* deleteAction = new QAction(QString::fromLocal8Bit("删除"), &menu);
+    QAction* openAction = new QAction(tr("打开"), &menu);
+    QAction* closeAction = new QAction(tr("关闭"), &menu);
+    QAction* exportAction = new QAction(tr("导出"), &menu);
+    QAction* deleteAction = new QAction(tr("删除"), &menu);
     menu.addAction(openAction);
     menu.addAction(closeAction);
     menu.addAction(exportAction);
@@ -132,20 +132,30 @@ void DeviceListWidget::exportTerminalData()
     CentralModel* centralModel = dynamic_cast<CentralModel*>(ui->terminalTableView->model());
     if (!centralModel)
         return;
+    QList<int> lst = selectedTerminals().keys();
 
     QList<int> columns;
-    for (int i = 2; i < centralModel->columnCount(); ++i)
+    if (lst.at(0) < LIFEBASE)
     {
-       // if (! ui->terminalTableView->isColumnHidden(i))
-       columns.append(i);
+        for (int i = 2; i < centralModel->columnCount()-3; ++i)
+        {
+           columns.append(i);
+        }
+    }
+    else
+    {
+        columns.append(2);
+        for (int i = 6; i < centralModel->columnCount(); ++i)
+        {
+           columns.append(i);
+        }
     }
 
-    QList<int> lst = selectedTerminals().keys();
     if (lst.count() == 1)
     {
         QString fileName = QFileDialog::getSaveFileName(
                     this,
-                    QString::fromLocal8Bit("导出终端数据"),
+                    tr("导出终端数据"),
                     "",
                     tr("Excel File (*.csv)"));
         if (!fileName.isEmpty())
@@ -155,7 +165,7 @@ void DeviceListWidget::exportTerminalData()
     {
         QString dirName = QFileDialog::getExistingDirectory(
                     this,
-                    QString::fromLocal8Bit("导出终端数据"),
+                    tr("导出终端数据"),
                     "");
 
         if (!dirName.isEmpty())
@@ -201,7 +211,7 @@ void DeviceListWidget::on_pushButtonStart_clicked()
         ui->ledComm->turnOff();
         ui->ledGps->turnOff();
         ui->pushButtonConfig->setEnabled(true);
-        ui->pushButtonStart->setText(QString::fromLocal8Bit("开始运行"));
+        ui->pushButtonStart->setText(tr("开始运行"));
     }
     else
     {
@@ -214,7 +224,7 @@ void DeviceListWidget::on_pushButtonStart_clicked()
             ui->ledComm->turnOn();
             ui->ledGps->turnOn();
             ui->pushButtonConfig->setEnabled(false);
-            ui->pushButtonStart->setText(QString::fromLocal8Bit("停止"));
+            ui->pushButtonStart->setText(tr("停止"));
         }
     }
 //

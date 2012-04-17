@@ -1,6 +1,7 @@
 #include "centralmodel.h"
 #include "gasinfosettings.h"
 
+#include <QTextCodec>
 #include <QDateTime>
 #include <QStandardItem>
 #include <QList>
@@ -99,12 +100,10 @@ CentralModel::CentralModel(QObject *parent) :
     QStandardItemModel(parent),
     m_receiveSessionData(new ReceiveSessionData(parent))
 {
-//    setHorizontalHeaderItem( 0, new QStandardItem( "Terminal" ));
-//    setHorizontalHeaderItem( 1, new QStandardItem( "Status" ));
-//    setHorizontalHeaderItem( 2, new QStandardItem( "Date/Time" ));
-//    setHorizontalHeaderItem( 0, new QStandardItem( QString::fromLocal8Bit("终端") ));
-//    setHorizontalHeaderItem( 1, new QStandardItem( QString::fromLocal8Bit("状态") ));
-//    setHorizontalHeaderItem( 2, new QStandardItem( QString::fromLocal8Bit("日期 / 时间") ));
+
+//    setHorizontalHeaderItem( 0, new QStandardItem( tr("终端") ));
+//    setHorizontalHeaderItem( 1, new QStandardItem( tr("状态") ));
+//    setHorizontalHeaderItem( 2, new QStandardItem( tr("日期 / 时间") ));
 //    setHorizontalHeaderItem( 3, new QStandardItem( "FEL/%"));
 //    setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
 //    setHorizontalHeaderItem( 5, new QStandardItem( "SO2/ppm"));
@@ -199,15 +198,15 @@ void CentralModel::addData(const GasInfoItem& item)
 {
     if (! m_receiveSessionData->started)
         return;
-    setHorizontalHeaderItem( 0, new QStandardItem( QString::fromLocal8Bit("终端") ));
-    setHorizontalHeaderItem( 1, new QStandardItem( QString::fromLocal8Bit("状态") ));
-    setHorizontalHeaderItem( 2, new QStandardItem( QString::fromLocal8Bit("日期/时间") ));
+    setHorizontalHeaderItem( 0, new QStandardItem( tr("终端") ));
+    setHorizontalHeaderItem( 1, new QStandardItem( tr("状态") ));
+    setHorizontalHeaderItem( 2, new QStandardItem( tr("日期/时间") ));
     setHorizontalHeaderItem( 3, new QStandardItem( "FEL/%"));
     setHorizontalHeaderItem( 4, new QStandardItem( "H2S/ppm"));
     setHorizontalHeaderItem( 5, new QStandardItem( "SO2/ppm"));
-    setHorizontalHeaderItem( 6, new QStandardItem( QString::fromLocal8Bit("指尖脉搏")));
-    setHorizontalHeaderItem( 7, new QStandardItem( QString::fromLocal8Bit("手腕脉搏")));
-    setHorizontalHeaderItem( 8, new QStandardItem( QString::fromLocal8Bit("呼吸次数")));
+    setHorizontalHeaderItem( 6, new QStandardItem( tr("指尖脉搏")));
+    setHorizontalHeaderItem( 7, new QStandardItem( tr("手腕脉搏")));
+    setHorizontalHeaderItem( 8, new QStandardItem( tr("呼吸次数")));
 
     m_receiveSessionData->lastHit = QDateTime::currentDateTime();
     QModelIndex idx = terminal(item.ch, true);
@@ -357,7 +356,8 @@ bool CentralModel::exportTerminal(QString filePath, int terminalId, const QList<
     if (!ok)
         return false;
 
-    QDataStream out(&file);   // we will serialize the data into the file
+    QTextStream out(&file);   // we will serialize the data into the file
+    out.setCodec( QTextCodec::codecForName("UTF8") );
 
     QModelIndex index = terminal(terminalId, false);
     if (!index.isValid())
@@ -367,11 +367,13 @@ bool CentralModel::exportTerminal(QString filePath, int terminalId, const QList<
 
     // export header
     QString str;
+
     foreach (int col, columns)
     {
         QStandardItem* itm = horizontalHeaderItem(col);
+        str += "\"";
         str += (itm ? itm->text() : " ");
-        str += ";";
+        str += "\",";
     }
     out << str + " \n";
 
@@ -386,8 +388,9 @@ bool CentralModel::exportTerminal(QString filePath, int terminalId, const QList<
             foreach (int col, columns)
             {
                 QStandardItem* itm = root->child(row, col);
+                str += "\"";
                 str += (itm ? itm->text() : " ");
-                str += ";";
+                str += "\",";
             }
             out << str + " \n";
 
@@ -413,12 +416,12 @@ void CentralModel::updateTerminalStatus()
 
             if (statusItem && lastTick.secsTo(now) > GasInfoSettings::activeIntervalF())
             {
-                statusItem->setText(QString::fromLocal8Bit("离线"));
+                statusItem->setText(tr("离线"));
                 statusItem->setBackground(QBrush(Qt::darkYellow));
             }
             else
             {
-                statusItem->setText(QString::fromLocal8Bit("在线"));
+                statusItem->setText(tr("在线"));
                 statusItem->setBackground(QBrush(Qt::green));
             }
         }
