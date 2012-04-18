@@ -52,11 +52,8 @@ HEADERS  += \
     terminalalarmwidget.h \
     markerdialog.h
 
-FORMS    += dialog.ui \
+FORMS    += \
     DeviceDialog.ui \
-    StatitonInfo.ui \
-    logTab.ui \
-    mapTab.ui \
     mainwindow.ui \
     devicelistwidget.ui \
     terminalwidget.ui \

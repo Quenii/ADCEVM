@@ -217,69 +217,8 @@
 <context>
     <name>Dialog</name>
     <message>
-        <location filename="dialog.ui" line="20"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.ui" line="38"/>
-        <source>Zigbee Setting</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.ui" line="51"/>
-        <source>Change Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.ui" line="58"/>
-        <location filename="dialog.ui" line="156"/>
-        <source>Current Port:  </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.ui" line="71"/>
-        <location filename="dialog.ui" line="169"/>
         <source>Start</source>
-        <translation type="unfinished">开始运行</translation>
-    </message>
-    <message>
-        <location filename="dialog.ui" line="115"/>
-        <source>Station Info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.ui" line="122"/>
-        <source>Tab 1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.ui" line="127"/>
-        <source>Tab 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.ui" line="150"/>
-        <source>Gps Setting</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>LogTab</name>
-    <message>
-        <location filename="logTab.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="logTab.ui" line="26"/>
-        <source>Zigbee Log</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="logTab.ui" line="49"/>
-        <source>Gps Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">开始运行</translation>
     </message>
 </context>
 <context>
@@ -415,14 +354,6 @@
     <message>
         <location filename="mainwindow.cpp" line="356"/>
         <source>No geoservice found with mapping/search/routing</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MapTab</name>
-    <message>
-        <location filename="mapTab.ui" line="20"/>
-        <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -683,70 +614,8 @@
 <context>
     <name>StationInfo</name>
     <message>
-        <location filename="StatitonInfo.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatitonInfo.ui" line="26"/>
-        <source>Gas Status</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatitonInfo.ui" line="41"/>
-        <source>Current</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatitonInfo.ui" line="48"/>
-        <source>Peak</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatitonInfo.ui" line="55"/>
-        <source>H2S</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatitonInfo.ui" line="76"/>
-        <location filename="StatitonInfo.ui" line="104"/>
-        <source>ppm</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatitonInfo.ui" line="83"/>
         <source>SO2</source>
-        <translation type="unfinished">二氧化硫: {2?}</translation>
-    </message>
-    <message>
-        <location filename="StatitonInfo.ui" line="111"/>
-        <source>FEL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatitonInfo.ui" line="132"/>
-        <source>%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatitonInfo.ui" line="149"/>
-        <source>Station Location</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatitonInfo.ui" line="164"/>
-        <source>Latitude</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatitonInfo.ui" line="178"/>
-        <source>Longitude</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="StatitonInfo.ui" line="192"/>
-        <source>Distance</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">二氧化硫: {2?}</translation>
     </message>
 </context>
 <context>
