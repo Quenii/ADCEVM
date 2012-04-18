@@ -366,6 +366,10 @@
 			RelativePath=".\ReadMe.txt"
 			>
 		</File>
+		<File
+			RelativePath="..\zebra-scope\zebra-scope.vcproj"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
