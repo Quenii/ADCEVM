@@ -8,6 +8,7 @@
 //#include "QZebraScopeSettings.h"
 #include "dacanalyzersettings.h"
 #include "QZebraScopeSerializer.h"
+#include "gkhy/mfcminus/Win32App.hpp"
 
 #include <QMdiArea>
 #include <QSplitter>
@@ -65,6 +66,8 @@ MainWindow::~MainWindow()
 {
 	if (regAccess)
 		regAccess->deleteLater();
+
+	gkhy::MfcMinus::Win32App::exitProcess(1);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
