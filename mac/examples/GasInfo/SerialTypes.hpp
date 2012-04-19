@@ -1,7 +1,6 @@
 #pragma once
 
 #include "qextserialport.h"
-//#include "qgeocoordinate.h"
 
 #include <qgeocoordinate.h>
 #include <QString>
@@ -22,28 +21,6 @@ enum ApplicationModes
     Review
 };
 
-struct GpsInfo
-{
-    bool valid;
-    float latitude;
-    float longitude;
-    float deltaX;
-    float deltaY;
-};
-
-struct GasInfo
-{
-    std::queue<float> h2s;
-    std::queue<float> so2;
-    std::queue<float> fel;
-
-    float h2s_peak;
-    float so2_peak;
-    float fel_peak;
-
-    QString latitude;
-    QString longitude;
-};
 struct GasInfoItem
 {
     int ch;
@@ -51,6 +28,9 @@ struct GasInfoItem
     float h2s;
     float so2;
     float fel;
+
+    float o2;
+    float co;
 
     QGeoCoordinate location;
 };
