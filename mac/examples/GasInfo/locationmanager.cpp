@@ -102,10 +102,28 @@ void LocationManager::showMarkerDialog(Marker* marker)
 {
     qDebug() << "showMarkerDialog() called";
 
-//    MarkerDialogWidget* w =
-//            new MarkerDialogWidget( tr("Alarm"),
-//                                    dynamic_cast<DeviceTextMarker *>(marker)->markerInfo(), 0, 0 );
-//    w->show();
+    QString str;
+    QGeoCoordinate loc = marker->coordinate();
+    str += tr("Latitude: %1<br>").arg(coordinateFloatToQString(loc.latitude()));
+    str += tr("Longitude: %1<br><br>").arg(coordinateFloatToQString(loc.longitude()));
 
-    //((DeviceTextMarker *)marker)->m_item;
+    MarkerDialogWidget *w =
+            new MarkerDialogWidget( tr("Terminal Location"),
+                                    str, 0, 0 );
+    w->show();
+}
+
+QString LocationManager::coordinateFloatToQString(float f)
+{
+    QString str;
+    int t = f;
+    str += tr("%1°").arg(t);
+    f = (f-t)*60.0;
+    t = f;
+    str += tr("%1'").arg(t);
+    f = (f-t)*60.0;
+    t = f;
+    str += tr("%1\"").arg(t);
+    return str;
+
 }

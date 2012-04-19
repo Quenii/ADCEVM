@@ -98,8 +98,8 @@ public:
 
 public:
     QList<DeviceTextMarker*> markers() const;
-    
     void autoFit(bool keepCenter);
+    QString coordinateFloatToQString(float f);
 
 public slots:
     // id: 127 for Host, <127 for terminals.
