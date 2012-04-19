@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GasOnline", "GasOnLine.vcproj", "{AB78C1FA-6414-4720-B3F7-C77B6D409E4A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|smdk2440a (ARMV4I) = Debug|smdk2440a (ARMV4I)
+		Release|smdk2440a (ARMV4I) = Release|smdk2440a (ARMV4I)
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB78C1FA-6414-4720-B3F7-C77B6D409E4A}.Debug|smdk2440a (ARMV4I).ActiveCfg = Debug|smdk2440a (ARMV4I)
+		{AB78C1FA-6414-4720-B3F7-C77B6D409E4A}.Debug|smdk2440a (ARMV4I).Build.0 = Debug|smdk2440a (ARMV4I)
+		{AB78C1FA-6414-4720-B3F7-C77B6D409E4A}.Debug|smdk2440a (ARMV4I).Deploy.0 = Debug|smdk2440a (ARMV4I)
+		{AB78C1FA-6414-4720-B3F7-C77B6D409E4A}.Release|smdk2440a (ARMV4I).ActiveCfg = Release|smdk2440a (ARMV4I)
+		{AB78C1FA-6414-4720-B3F7-C77B6D409E4A}.Release|smdk2440a (ARMV4I).Build.0 = Release|smdk2440a (ARMV4I)
+		{AB78C1FA-6414-4720-B3F7-C77B6D409E4A}.Release|smdk2440a (ARMV4I).Deploy.0 = Release|smdk2440a (ARMV4I)
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
