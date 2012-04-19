@@ -362,7 +362,7 @@
     <message>
         <location filename="markerdialog.ui" line="14"/>
         <source>Terminal Alerm</source>
-        <translation type="unfinished">终端报警</translation>
+        <translation>终端报警</translation>
     </message>
     <message>
         <location filename="markerdialog.ui" line="71"/>
