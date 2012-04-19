@@ -222,6 +222,41 @@
     </message>
 </context>
 <context>
+    <name>LocationManager</name>
+    <message>
+        <location filename="locationmanager.cpp" line="107"/>
+        <source>Latitude: %1&lt;br&gt;</source>
+        <translation>纬度: %1&lt;br&gt;</translation>
+    </message>
+    <message>
+        <location filename="locationmanager.cpp" line="108"/>
+        <source>Longitude: %1&lt;br&gt;&lt;br&gt;</source>
+        <translation>经度: %1&lt;br&gt;&lt;br&gt;</translation>
+    </message>
+    <message>
+        <location filename="locationmanager.cpp" line="111"/>
+        <source>Terminal Location</source>
+        <translation>终端坐标信息</translation>
+    </message>
+    <message>
+        <location filename="locationmanager.cpp" line="120"/>
+        <source>%1° </source>
+        <oldsource>%1°</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="locationmanager.cpp" line="123"/>
+        <source>%1&apos; </source>
+        <oldsource>%1&apos;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="locationmanager.cpp" line="126"/>
+        <source>%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="14"/>
