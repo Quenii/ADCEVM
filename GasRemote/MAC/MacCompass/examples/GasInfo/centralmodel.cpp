@@ -204,9 +204,12 @@ void CentralModel::addData(const GasInfoItem& item)
     setHorizontalHeaderItem( 3, new QStandardItem( tr("FEL/%") ));
     setHorizontalHeaderItem( 4, new QStandardItem( tr("H2S/ppm") ));
     setHorizontalHeaderItem( 5, new QStandardItem( tr("SO2/ppm") ));
-    setHorizontalHeaderItem( 6, new QStandardItem( tr("Finger Pulse")));
-    setHorizontalHeaderItem( 7, new QStandardItem( tr("Wrist")));
-    setHorizontalHeaderItem( 8, new QStandardItem( tr("Breathing")));
+    setHorizontalHeaderItem( 6, new QStandardItem( tr("O2/ppm") ));
+    setHorizontalHeaderItem( 7, new QStandardItem( tr("CO/ppm") ));
+
+    setHorizontalHeaderItem( 8, new QStandardItem( tr("Finger Pulse")));
+    setHorizontalHeaderItem( 9, new QStandardItem( tr("Wrist")));
+    setHorizontalHeaderItem( 10, new QStandardItem( tr("Breathing")));
 
     m_receiveSessionData->lastHit = QDateTime::currentDateTime();
     QModelIndex idx = terminal(item.ch, true);
@@ -214,50 +217,66 @@ void CentralModel::addData(const GasInfoItem& item)
     qDebug() << QString("QModelIndex idx:%1 = terminal(item.ch:%2, true);").arg(idx.internalId()).arg(item.ch);
 
     QDateTime now = QDateTime::currentDateTime();
-    QStandardItem* item3 = new QStandardItem(QString("%1").arg(now.toString()));
-    item3->setData(now, Qt::UserRole);
+    QStandardItem* itemDate = new QStandardItem(QString("%1").arg(now.toString()));
+    itemDate->setData(now, Qt::UserRole);
 
-    QStandardItem* item4 = new QStandardItem(QString("%1").arg(item.fel));
-    QStandardItem* item5 = new QStandardItem(QString("%1").arg(item.h2s));
-    QStandardItem* item6 = new QStandardItem(QString("%1").arg(item.so2));
-    item4->setData(item.fel, Qt::UserRole);
-    item5->setData(item.h2s, Qt::UserRole);
-    item6->setData(item.so2, Qt::UserRole);
-    QStandardItem* item7 = new QStandardItem(QString("%1").arg(item.fel));
-    QStandardItem* item8 = new QStandardItem(QString("%1").arg(item.h2s));
-    QStandardItem* item9 = new QStandardItem(QString("%1").arg(item.so2));
-    item7->setData(item.fel, Qt::UserRole);
-    item8->setData(item.h2s, Qt::UserRole);
-    item9->setData(item.so2, Qt::UserRole);
+    QStandardItem* itemFel = new QStandardItem(QString("%1").arg(item.fel));
+    QStandardItem* itemH2s = new QStandardItem(QString("%1").arg(item.h2s));
+    QStandardItem* itemSo2 = new QStandardItem(QString("%1").arg(item.so2));
+    QStandardItem* itemO2 = new QStandardItem(QString("%1").arg(item.o2));
+    QStandardItem* itemCo = new QStandardItem(QString("%1").arg(item.co));
+    itemFel->setData(item.fel, Qt::UserRole);
+    itemH2s->setData(item.h2s, Qt::UserRole);
+    itemSo2->setData(item.so2, Qt::UserRole);
+    itemO2->setData(item.o2, Qt::UserRole);
+    itemCo->setData(item.co, Qt::UserRole);
+    QStandardItem* item8 = new QStandardItem(QString("%1").arg(item.fel));
+    QStandardItem* item9 = new QStandardItem(QString("%1").arg(item.h2s));
+    QStandardItem* item10 = new QStandardItem(QString("%1").arg(item.so2));
+    item8->setData(item.fel, Qt::UserRole);
+    item9->setData(item.h2s, Qt::UserRole);
+    item10->setData(item.so2, Qt::UserRole);
 
     if (item.ch < LIFEBASE)
     {
         if (item.fel > GasInfoSettings::felAlarmThresF())
-            item4->setBackground(QBrush(Qt::red));
+            itemFel->setBackground(QBrush(Qt::red));
         else
-            item4->setBackground(QBrush(Qt::white));
+            itemFel->setBackground(QBrush(Qt::white));
 
         if (item.h2s > GasInfoSettings::h2sAlarmThresF())
-            item5->setBackground(QBrush(Qt::red));
+            itemH2s->setBackground(QBrush(Qt::red));
         else
-            item5->setBackground(QBrush(Qt::white));
+            itemH2s->setBackground(QBrush(Qt::white));
 
         if (item.so2 > GasInfoSettings::so2AlarmThresF())
-            item6->setBackground(QBrush(Qt::red));
+            itemSo2->setBackground(QBrush(Qt::red));
         else
-            item6->setBackground(QBrush(Qt::white));
+            itemSo2->setBackground(QBrush(Qt::white));
+
+        if (item.o2 > GasInfoSettings::o2AlarmThresF())
+            itemO2->setBackground(QBrush(Qt::red));
+        else
+            itemO2->setBackground(QBrush(Qt::white));
+
+        if (item.co > GasInfoSettings::coAlarmThresF())
+            itemCo->setBackground(QBrush(Qt::red));
+        else
+            itemCo->setBackground(QBrush(Qt::white));
     }
 
     QList<QStandardItem*> lst;
     lst << 0
         << 0 // new QStandardItem
-        << item3
-        << item4
-        << item5
-        << item6
-        << item7
+        << itemDate
+        << itemFel
+        << itemH2s
+        << itemSo2
+        << itemO2
+        << itemCo
         << item8
-        << item9;
+        << item9
+        << item10;
 
     itm->insertRow(0, lst);
 }
