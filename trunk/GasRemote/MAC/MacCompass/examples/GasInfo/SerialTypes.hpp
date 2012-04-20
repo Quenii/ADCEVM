@@ -32,6 +32,10 @@ struct GasInfoItem
     float o2;
     float co;
 
+    float fingerPulse;
+    float wristPulse;
+    float breathing;
+
     QGeoCoordinate location;
 };
 

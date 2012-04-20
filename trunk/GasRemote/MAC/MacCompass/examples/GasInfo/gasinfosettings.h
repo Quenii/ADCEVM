@@ -46,6 +46,13 @@ public:
     double felAlarmThres();
     void setFelAlarmThres(double val);
 
+    static double o2AlarmThresF();
+    double o2AlarmThres();
+    void setO2AlarmThres(double val);
+
+    static double coAlarmThresF();
+    double coAlarmThres();
+    void setCoAlarmThres(double val);
     // in seconds
     static uint archivePeriodF();
     uint archivePeriod();

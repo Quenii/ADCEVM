@@ -281,7 +281,9 @@ void MainWindow::addData(const GasInfoItem& item)
     {
         if ( item.h2s >= GasInfoSettings::h2sAlarmThresF()
               || item.so2 >= GasInfoSettings::so2AlarmThresF()
-              || item.fel >= GasInfoSettings::felAlarmThresF())
+              || item.fel >= GasInfoSettings::felAlarmThresF()
+              || item.o2 >= GasInfoSettings::o2AlarmThresF()
+              || item.co >= GasInfoSettings::coAlarmThresF())
         {
             bAlarm = true;
             warning += tr("Terminal %1:<br><br>").arg(item.ch);
@@ -294,6 +296,12 @@ void MainWindow::addData(const GasInfoItem& item)
 
         if (item.fel >= GasInfoSettings::felAlarmThresF())
             warning += tr("Abnormal FEL!<br>");
+
+        if (item.o2 >= GasInfoSettings::o2AlarmThresF())
+            warning += tr("Abnormal O2!<br>");
+
+        if (item.co >= GasInfoSettings::coAlarmThresF())
+            warning += tr("Abnormal CO!<br>");
 
     }
     if (bAlarm && (!GasInfoSettings::terminalAlarmWindowOpenF(item.ch)))
