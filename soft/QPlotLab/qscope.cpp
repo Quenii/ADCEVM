@@ -14,10 +14,13 @@ QWidget(parent, f)
 {
 	m_scope = new CTSLScope;
 
-	//m_scope->Open(winId());
+	// m_scope->Open(winId());
 	// oops....the attempt directly render m_scope on QScope fails, 
 	// instead, we create a "delegation" window to render m_scope.
 	// the reason is not yet found.
+	// 
+	// Now the reason is known: because winId can be changing at runtime.
+	// 
 	QHBoxLayout* hbox = new QHBoxLayout(this);
 	hbox->setSpacing(0);
 	hbox->setMargin(0);
