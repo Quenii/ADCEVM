@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     locationmanager.cpp \
     qtermdatahandler.cpp \
     terminalalarmwidget.cpp \
-    markerdialog.cpp
+    markerdialog.cpp \
+    compass.cpp
 
 HEADERS  += \
             hled.h \
@@ -50,7 +51,8 @@ HEADERS  += \
     locationmanager.h \
     qtermdatahandler.h \
     terminalalarmwidget.h \
-    markerdialog.h
+    markerdialog.h \
+    compass.h
 
 FORMS    += \
     DeviceDialog.ui \
