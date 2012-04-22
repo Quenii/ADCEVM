@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "gkhy/qplotlib/EyeScope.hpp"
-#include "plotlab/CSLScope.h"
+#include "CSLScope.h"
 #include <QVBoxLayout>
 
 using namespace std;

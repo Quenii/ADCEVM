@@ -20,10 +20,7 @@ namespace gkhy
 
 		protected:
 			CTSLScope& rawScope()	{ return *m_scope; }
-			void resizeEvent(QResizeEvent * event);
-			void showEvent(QShowEvent * event);
-			void hideEvent(QHideEvent * event);
-
+			
 		private:
 			CTSLScope* m_scope;
 		};

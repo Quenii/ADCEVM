@@ -57,9 +57,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="VCLLoaderMS.lib QtCore4.lib QtGui4.lib Qwt.lib"
+				AdditionalDependencies="VCLLoaderMS.lib QtCore4.lib QtGui4.lib Qwt.lib QtSolutions_MFCMigrationFramework-head.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
-				AdditionalLibraryDirectories="../lib/plotlab;$(QTDIR)\lib"
+				AdditionalLibraryDirectories="../lib/plotlab;$(QTDIR)/lib"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 			/>
@@ -315,6 +315,18 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			SourceControlFiles="false"
 			>
+			<Filter
+				Name="Release"
+				Filter="cpp;moc"
+				SourceControlFiles="false"
+				>
+			</Filter>
+			<Filter
+				Name="Debug"
+				Filter="cpp;moc"
+				SourceControlFiles="false"
+				>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\QPlotLab.rc"
