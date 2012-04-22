@@ -7,63 +7,132 @@
 
 #pragma comment(lib, "VCLLoaderMS.lib")
 
+#include <QtGui>
+#include <qwinhost.h>
+#include <windows.h>
+
+class QCTSLScope : public QWinHost
+{
+	//Q_OBJECT
+public:
+	QCTSLScope(QWidget *parent = 0, Qt::WFlags f = 0)
+		: QWinHost(parent, f), m_scope(0)
+	{
+		setFocusPolicy(Qt::StrongFocus);
+
+		// force createWindow to be called thus m_scope to be created.
+		ensurePolished();
+	}
+
+	~QCTSLScope()
+	{
+		if (m_scope)
+		{
+			delete m_scope;
+			m_scope = 0;
+		}
+	}
+
+	// this function can only be called after the construction of QCTSLScope;
+	CTSLScope& scope() { return *m_scope; }
+
+	HWND createWindow(HWND parent, HINSTANCE instance)
+	{
+		static ATOM windowClass = 0;
+		if (!windowClass) {
+			WNDCLASSEX wcex;
+			wcex.cbSize		= sizeof(WNDCLASSEX);
+			wcex.style		= CS_HREDRAW | CS_VREDRAW;
+			wcex.lpfnWndProc	= (WNDPROC)WndProc;
+			wcex.cbClsExtra	= 0;
+			wcex.cbWndExtra	= 0;
+			wcex.hInstance	= instance;
+			wcex.hIcon		= NULL;
+			wcex.hCursor	= LoadCursor(NULL, IDC_ARROW);
+			wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
+			wcex.lpszMenuName	= NULL;
+			wcex.lpszClassName	= L"QCTSLScopeClass";
+			wcex.hIconSm	= NULL;
+
+			windowClass = RegisterClassEx(&wcex);
+		}
+
+		HWND hwnd = CreateWindow((TCHAR*)windowClass, 0, WS_CHILD|WS_CLIPSIBLINGS|WS_TABSTOP, 
+			CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, parent, NULL, instance, NULL);
+
+		m_scope = new CTSLScope;
+		VCL_InitControls(hwnd);
+		m_scope->Open(hwnd);	
+		VCL_Loaded();
+
+		//m_scope->Visible = false;
+
+		return hwnd;
+	}
+
+protected:
+	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+	{
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+
+	void resizeEvent(QResizeEvent * event)
+	{
+		QWinHost::resizeEvent(event);
+
+		if (m_scope)
+		{
+			QSize size = event->size();
+			m_scope->Left = 0;
+			m_scope->Top = 0;
+			m_scope->Width = size.width();
+			m_scope->Height = size.height();
+		}
+	}
+
+	void showEvent (QShowEvent * event) 
+	{
+		QWinHost::showEvent(event);
+
+		if (m_scope)
+			m_scope->Visible = true;
+	}
+
+	void hideEvent(QHideEvent *event)
+	{
+		if (m_scope)
+			m_scope->Visible = false;
+
+		QWinHost::hideEvent(event);
+	}
+
+private:
+	CTSLScope* m_scope;
+};
+
+
+//#include "qscope.moc"
+
 using namespace gkhy::QPlotLab;
 
 QScope::QScope(QWidget* parent /* = 0 */, Qt::WindowFlags f /* = 0 */) :
 QWidget(parent, f)
 {
-	m_scope = new CTSLScope;
+	QCTSLScope * b = new QCTSLScope(this);	
+	m_scope = &(b->scope());
 
-	// m_scope->Open(winId());
-	// oops....the attempt directly render m_scope on QScope fails, 
-	// instead, we create a "delegation" window to render m_scope.
-	// the reason is not yet found.
-	// 
-	// Now the reason is known: because winId can be changing at runtime.
-	// 
 	QHBoxLayout* hbox = new QHBoxLayout(this);
 	hbox->setSpacing(0);
 	hbox->setMargin(0);
-	QWidget* b = new QWidget();
 	hbox->addWidget(b);
-
-	VCL_InitControls((HWND)b->winId());
-	m_scope->Open((HWND)b->winId());	
-	VCL_Loaded();
 
 	m_scope->YAxis.AxisLabel.Visible = true;
 	m_scope->XAxis.AxisLabel.Visible = true;
-	m_scope->Visible = false;
-
 }
 
 QScope::~QScope()
 {
-	delete m_scope;
-
-}
-
-void QScope::resizeEvent(QResizeEvent * event)
-{
-	QSize size = event->size();
-	m_scope->Left = 0;
-	m_scope->Top = 0;
-	m_scope->Width = size.width();
-	m_scope->Height = size.height();
-
-	QWidget::resizeEvent(event);
-}
-
-void QScope::showEvent (QShowEvent * event) 
-{
-	QWidget::showEvent(event);
-	m_scope->Visible = true;
-}
-
-void QScope::hideEvent(QHideEvent *event)
-{
-	m_scope->Visible = false;
-	QWidget::hideEvent(event);
+	
 }
 
 void QScope::plot(const double* data, int len)
@@ -75,7 +144,7 @@ void QScope::plot(const double* data, int len)
 			//Q_ASSERT(false);
 			m_scope->Channels.Add(1);
 		}
-		
+
 		m_scope->Channels[0].Data.SetYData(data, len);
 	}
 	//	rawScope().Channels[0].Data.SetYData(data, len); 	
