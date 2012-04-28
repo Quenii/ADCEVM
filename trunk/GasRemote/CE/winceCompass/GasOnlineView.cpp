@@ -225,25 +225,6 @@ void CGasOnlineView::OnInitialUpdate()
 		TRACE(L"主机通信失败");
 	}
 
-	//	//新建串口通讯对象
-	//m_pSerialPort3 = new CCESeries();
-	//m_pSerialPort3->m_OnSeriesRead = OnPort3Read; //
-
-	////打开串口--与GPS通信用
-	//if (m_pSerialPort3->OpenPort(this,
-	//	3,
-	//	9600,
-	//	NOPARITY,
-	//	8,
-	//	ONESTOPBIT))
-	//{
-	//	TRACE(L"GPS打开成功");
-	//}
-	//else
-	//{
-	//	TRACE(L"GPS打开失败");
-	//}
-
 	SetWdtTimeOut(10);
 	EnableWdt();
 	//DisableWdt();
@@ -474,18 +455,6 @@ void CGasOnlineView::OnBnClickedButtonExit()
 			m_pSerialPort2 = NULL;
 		}
 
-		//if (m_pSerialPort3 != NULL)
-		//{
-		//	m_pSerialPort3->ClosePort();
-
-		//	delete m_pSerialPort3;
-		//	m_pSerialPort3 = NULL;
-		//}
-
-		/*HWND hTaskBar;
-		hTaskBar = ::FindWindow(TEXT("HHTaskBar"), NULL); 
-		::ShowWindow(hTaskBar,SW_SHOWNORMAL);*/
-
 		DisableWdt();
 
 		CMainFrame* pMainFrm = (CMainFrame*)AfxGetApp()->GetMainWnd();
@@ -529,9 +498,7 @@ void CGasOnlineView::DisplayCommData()
 void CGasOnlineView::OnPaint()
 {
 	CPaintDC dc(this); // device context for painting
-	// TODO: Add your message handler code here
-	// Do not call CFormView::OnPaint() for painting messages
-	//画背景
+
 	CRect rect;
 	GetClientRect(&rect);
 	CDC dcMem; 
@@ -555,10 +522,7 @@ void CALLBACK CGasOnlineView::OnPort2Read(void * pOwner,BYTE* buf,DWORD bufLen)
 
 	//发送异步消息，表示收到串口数据，消息处理完，应释放内存
 	pThis->PostMessage(WM_RECV_SERIALPORT2_DATA, WPARAM(pRecvBuf), bufLen);
-
 }
-
-
 
 // 串口接收主站数据处理函数
 LONG CGasOnlineView::OnRecvSerialPort2Data(WPARAM wParam,LPARAM lParam)
@@ -580,8 +544,6 @@ LONG CGasOnlineView::OnRecvSerialPort2Data(WPARAM wParam,LPARAM lParam)
 	{
 		if (pBuf[i] == 'G' && pBuf[i+1] == 'e' && pBuf[i+2] == 't' && pBuf[i+3] == usID)
 		{
-			//strtmp.Format(_T("Length is %d, %c%c%c%x"), dwBufLen, pBuf[i], pBuf[i+1], pBuf[i+2], pBuf[i+3]);
-			//MessageBox(strtmp);
 			BYTE sendBuf[MSGLEN];
 			memset(sendBuf, 0, MSGLEN*sizeof(BYTE));
 			float lat, lng;
