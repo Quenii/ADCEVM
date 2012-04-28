@@ -85,6 +85,7 @@ void QDeviceDialog::initDevice()
 
     ui.queryModeBoxGps->addItem(tr("Polling"), QextSerialPort::Polling);
     ui.queryModeBoxGps->addItem(tr("Event"), QextSerialPort::EventDriven);
+    ui.portBoxGps->setEnabled(false);
 
     setWindowTitle(tr("Device Settings"));
 

@@ -3,19 +3,26 @@
 #include "qtermdatahandler.h"
 #include "SerialTypes.hpp"
 #include "QGasInfo.h"
+#include "compass.h"
 
 #include <QTimer>
 //#include <QNmeaPositionInfoSource>
 #include <QByteArray>
+#include <QDebug>
 
 #include <math.h>
 
-#define REALDATA 0
-
+#define REALDATA 1
+uint addr[] =
+{
+    0x040014,
+    0x040014
+};
 QTermDataHandler::QTermDataHandler(QObject *parent) :
     QObject(parent)
   , m_bRunning(false)
 {
+
 }
 QTermDataHandler * QTermDataHandler::instance()
 {
@@ -37,92 +44,61 @@ bool QTermDataHandler::start()
     termSettings.StopBits = (StopBitsType)termPortInfo.StopBits;
     termSettings.Timeout_Millisec = (long)termPortInfo.Timeout_Millisec;
 
-    PortSettings gpsSettings;
-    gpsSettings.BaudRate = (BaudRateType)gpsPortInfo.BaudRate;
-    gpsSettings.DataBits = (DataBitsType)gpsPortInfo.DataBits;
-    gpsSettings.FlowControl = (FlowType)gpsPortInfo.FlowControl;
-    gpsSettings.Parity = (ParityType)gpsPortInfo.Parity;
-    gpsSettings.StopBits = (StopBitsType)gpsPortInfo.StopBits;
-    gpsSettings.Timeout_Millisec = (long)gpsPortInfo.Timeout_Millisec;
-
-//    PortSettings gpsSettings = {BAUD9600, DATA_8, PAR_NONE, STOP_1, FLOW_OFF, 10};
     term = new QextSerialPort(termPortInfo.name, termSettings, QextSerialPort::Polling);
-    gps = new QextSerialPort(gpsPortInfo.name, gpsSettings, QextSerialPort::Polling);
 
     if ((!term->open(QIODevice::ReadWrite)) && REALDATA)
     {
         delete term;
-        delete gps;
         return false;
     }
 
-    if ((!gps->open(QIODevice::ReadOnly)) && REALDATA)
-    {
-        delete gps;
-        //!!please input current location;
-    }
+    compass = Compass::instance(term);
+
+//    uint hostID = 0;
+//    compass->getID(hostID);
+//    compass->getRFPower();
+
+//    QGeoCoordinate loc;
+//    compass->getLocation(loc);
+
+//    QByteArray dst;// = 0x03D1AE;
+//    dst[0] = 0x03; dst[1] = 0xD1; dst[2] = 0xAE;
+//    QByteArray msg = "Help me! Compass 1!";
+//    compass->sendMessage(dst, msg);
+
+//    term->close();
+//    delete term;
+//    return false;
 
     timer = new QTimer(this);
-    bool ok = connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    bool ok = connect(timer, SIGNAL(timeout()), this, SLOT(query()));
     Q_ASSERT(ok);
 
-    timerGps = new QTimer(this);
-    ok = connect(timerGps, SIGNAL(timeout()), this, SLOT(updateGps()));
+    timerReceiver = new QTimer(this);
+    ok = connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     Q_ASSERT(ok);
 
     maxID = s.maxTermCount();
-    timer->start(s.scanInterval());
-    timerGps->start(950);
+    uint t = s.scanInterval();
+    timer->start(t * 1000); //in seconds
+    timerReceiver->start(t / 2 * 1000);
+
     m_bRunning = true;
     return true;
 }
 
 void QTermDataHandler::stop()
 {
-    if (gps->isOpen())
-        gps->close();
     term->close();
 
     timer->stop();
     delete timer;
     m_bRunning = false;
 }
-void QTermDataHandler::updateGps()
+void QTermDataHandler::query()
 {
-    if (gps->bytesAvailable())
-    {
-        QByteArray baGps = gps->readAll();
-        int j = 0;
-        while(true)
-        {
-            if ((j = baGps.indexOf("$GPRMC", j)) != -1) {
-                baGps = baGps.right(baGps.size() - j);
-            }else{
-                baGps.clear();
-                break;
-            }
+    static uint ID = 0;
 
-            QList<QByteArray> baList = baGps.split(',');
-
-            if (baList.size() >= 6 && baList.at(2).at(0) == 'A')
-            {
-                double lat = nmeaDegreesToDecimal( QString(baList.at(3)).toDouble() );
-                double lng = nmeaDegreesToDecimal( QString(baList.at(5)).toDouble() );
-
-                GasInfoItem item;
-                item.ch = 127;
-                item.location = QGeoCoordinate(lat, lng);
-               // bool b = item.location.isValid();
-                emit newData(item);
-                break;
-            }
-        }
-    }
-}
-
-void QTermDataHandler::update(/*QTimerEvent *event*/)
-{
-    static uint ID;
     if(!REALDATA)
     {
         GasInfoItem item;
@@ -143,20 +119,59 @@ void QTermDataHandler::update(/*QTimerEvent *event*/)
         }
         emit(newData(item));
     }
-    if (term->isOpen())
+
+    if (term->isOpen() && ID < maxID)
     {
-        term->write(QByteArray("Get") + (char)ID);
+        QByteArray msg = "Get" + (char)ID;
+        compass->sendMessage(addr[ID], msg);
     }
+
     ID ++;
-
-    if (term->bytesAvailable()) {
-        ValidateMsg( term->readAll() );
-    }
-
     if (ID == maxID)
     {
         ID = 0;
+        compass->getLocation();
     }
+}
+
+void QTermDataHandler::update(/*QTimerEvent *event*/)
+{
+    QByteArray msg;
+    if (compass->getMessage(msg, QByteArray("$DWXX")))
+    {
+        double lat = 0.0, lng = 0.0;
+        lng = msg[18] + double(msg[19])/60.0 + double(msg[20])/3600.0;
+        lat = msg[22] + double(msg[23])/60.0 + double(msg[24])/3600.0;
+        qDebug() << QString("Got location message, lat: %1, lng: %2").arg(lat).arg(lng);
+        QGeoCoordinate loc(lat, lng);
+        GasInfoItem item;
+        item.location = loc;
+        item.ch = HOSTID;
+        emit(newData(item));
+    }
+
+    if (compass->getMessage(msg, QByteArray("$TXXX")))
+    {
+        parseMsg(msg.mid(18));
+        qDebug() << msg.mid(18);
+    }
+
+    int power = compass->getRFPower();
+    if (power == 1)
+    {
+        emit(compassOK(true));
+    }
+    else if (power == 0)
+    {
+        emit(compassOK(false));
+    }
+
+    if (compass->getMessage(msg, QByteArray("$FKXX")))
+    {
+        //simply dump the FKXX
+        ;
+    }
+
 }
 
 double QTermDataHandler::nmeaDegreesToDecimal(double nmeaDegrees)
@@ -190,6 +205,9 @@ void QTermDataHandler::parseMsg(QByteArray msg)
 {   //ch    lat         lng
     //2     3456 789    abcde f
     //n     hhmm.mmm    hhhmm.mmm
+    if (msg.size() < 32)
+        return;
+
     GasInfoItem item;
     if (msg.at(2) <= maxID && msg.at(2) >= 0)
         item.ch = msg.at(2);
@@ -215,8 +233,17 @@ void QTermDataHandler::parseMsg(QByteArray msg)
 void QTermDataHandler::sendAlarm(int ch, bool on)
 {
     if (term->isOpen())
+    {
+        QByteArray msg;
         if (on)
-            term->write(QByteArray("WNG") + (char)ch);
-        else
-            term->write(QByteArray("OFF") + (char)ch);
+        {
+            //term->write(QByteArray("WNG") + (char)ch);
+            msg = "WNG";
+        }else
+        {
+            //term->write(QByteArray("OFF") + (char)ch);
+            msg = "OFF";
+        }
+        compass->sendMessage(addr[ch], msg);
+    }
 }

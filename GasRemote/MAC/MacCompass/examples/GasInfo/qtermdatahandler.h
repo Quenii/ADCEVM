@@ -2,6 +2,7 @@
 #define QTERMDATAHANDLER_H
 
 #include <QObject>
+#include "compass.h"
 
 #define MSGLEN      24
 
@@ -32,12 +33,12 @@ public:
 signals:
     void newMsg(QByteArray& msg);
     void newData(const GasInfoItem& item);
-
+    void compassOK(bool ok);
 public slots:
 
 //protected:
     void update(/*QTimerEvent **/);
-    void updateGps();
+    void query();
 private:
     QTermDataHandler(QObject *parent = 0);
     bool m_bRunning;
@@ -45,8 +46,9 @@ private:
     QextSerialPort *gps;
     QextSerialPort *term;
 
-    QTimer *timer, *timerGps;
+    QTimer *timer, *timerReceiver;
     QByteArray buffer;
+    Compass* compass;
 
     uint maxID;
 
