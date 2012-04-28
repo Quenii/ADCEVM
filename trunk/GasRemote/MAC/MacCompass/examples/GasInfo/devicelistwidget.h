@@ -45,7 +45,8 @@ private slots:
 
     void on_alarmOnPushButton_clicked();
     void on_alarmOffPushButton_clicked();
-
+public slots:
+    void compassPowerOK(bool);
 private:
     Ui::DeviceListWidget *ui;
 

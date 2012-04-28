@@ -46,7 +46,7 @@ void OptionDialog::giveOptions()
     ui->minutesSpinBox->setValue(time.minute());
 
     ui->maxTermCountSpinBox->setValue(settings.maxTermCount());
-    ui->scanIntervalMsecSpinBox->setValue(settings.scanInterval());
+    ui->scanIntervalSecSpinBox->setValue(settings.scanInterval());
 
     int interval = settings.activeInterval();
     ui->activeIntervalMinutesSpinBox->setValue(interval / 60);
@@ -76,7 +76,7 @@ void OptionDialog::takeOptions()
 
     settings.setdataFolder(ui->dataFolderLineEdit->text());
 
-    settings.setScanInterval(ui->scanIntervalMsecSpinBox->value());
+    settings.setScanInterval(ui->scanIntervalSecSpinBox->value());
     settings.setMaxTermCount(ui->maxTermCountSpinBox->value());
 
     int days = ui->daySpinBox->value();

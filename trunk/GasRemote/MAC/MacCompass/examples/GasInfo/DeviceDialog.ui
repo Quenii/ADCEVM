@@ -23,7 +23,7 @@
    <item row="0" column="1">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Comm Port Settings</string>
+      <string>Compass Port Settings</string>
      </property>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">

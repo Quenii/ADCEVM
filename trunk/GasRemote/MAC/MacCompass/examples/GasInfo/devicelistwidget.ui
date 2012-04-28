@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>367</width>
+    <width>369</width>
     <height>556</height>
    </rect>
   </property>
@@ -151,7 +151,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Comm Status</string>
+           <string>Running Status</string>
           </property>
          </widget>
         </item>
@@ -178,14 +178,14 @@
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="labelGpsStatus">
           <property name="text">
-           <string>GPS Status</string>
+           <string>Compass Power</string>
           </property>
          </widget>
         </item>
         <item row="0" column="3">
-         <widget class="HLed" name="ledGps" native="true">
+         <widget class="HLed" name="ledCompass" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>

@@ -352,12 +352,12 @@ QSize GasInfoSettings::windowSize(const QString& windowTitle) const
 
 uint GasInfoSettings::scanInterval()
 {
-    return value(scanIntervalKey, 100).toUInt();
+    return value(scanIntervalKey, 60).toUInt();
 }
 
-void GasInfoSettings::setScanInterval(uint mseconds)
+void GasInfoSettings::setScanInterval(uint seconds)
 {
-    setValue(scanIntervalKey, mseconds);
+    setValue(scanIntervalKey, seconds);
 }
 
 uint GasInfoSettings::maxTermCount()

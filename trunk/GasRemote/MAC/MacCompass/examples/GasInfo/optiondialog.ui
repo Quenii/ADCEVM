@@ -85,7 +85,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="scanIntervalMsecSpinBox">
+         <widget class="QSpinBox" name="scanIntervalSecSpinBox">
           <property name="minimum">
            <number>20</number>
           </property>
@@ -97,7 +97,7 @@
         <item>
          <widget class="QLabel" name="label_18">
           <property name="text">
-           <string>ms</string>
+           <string>s</string>
           </property>
          </widget>
         </item>

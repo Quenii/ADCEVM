@@ -41,7 +41,8 @@ DeviceListWidget::DeviceListWidget(QWidget *parent) :
     }
     ui->comboBoxChannel->insertItems(0, term);
     ui->ledComm->turnOff();
-    ui->ledGps->turnOff();
+    ui->ledCompass->turnOff();
+
 }
 
 DeviceListWidget::~DeviceListWidget()
@@ -209,7 +210,7 @@ void DeviceListWidget::on_pushButtonStart_clicked()
     {
         term->stop();
         ui->ledComm->turnOff();
-        ui->ledGps->turnOff();
+        ui->ledCompass->turnOff();
         ui->pushButtonConfig->setEnabled(true);
         ui->pushButtonStart->setText(tr("Start"));
     }
@@ -222,9 +223,11 @@ void DeviceListWidget::on_pushButtonStart_clicked()
         else
         {
             ui->ledComm->turnOn();
-            ui->ledGps->turnOn();
+//            ui->ledCompass->turnOn();
             ui->pushButtonConfig->setEnabled(false);
             ui->pushButtonStart->setText(tr("Stop"));
+            bool ok = connect(term, SIGNAL(compassOK(bool)), this, SLOT(compassPowerOK(bool)));
+            Q_ASSERT(ok);
         }
     }
 //
@@ -241,4 +244,18 @@ void DeviceListWidget::on_alarmOffPushButton_clicked()
 {
     QTermDataHandler *term = QTermDataHandler::instance();
     term->sendAlarm(ui->comboBoxChannel->currentIndex(), false);
+}
+
+void DeviceListWidget::compassPowerOK(bool ok)
+{
+    if (ok)
+    {
+        ui->ledCompass->setColor(Qt::green);
+        ui->ledCompass->turnOn();
+    }
+    else
+    {
+        ui->ledCompass->setColor(Qt::red);
+        ui->ledCompass->turnOn();
+    }
 }
