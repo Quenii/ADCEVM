@@ -17,7 +17,7 @@ Compass * Compass::instance(QextSerialPort* term)
         _instance.term = term;
     return &_instance;
 }
-bool Compass::getMessage(QByteArray& msg, const QByteArray& hdr)
+bool Compass::getMessage(CByteArray& msg, const QByteArray& hdr)
 {
     int len = MSGLEN;
 

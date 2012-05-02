@@ -19,17 +19,17 @@
 
 //#define BYPASS
 #define HOSTID 0
+#define REMOTEID 0
+#define LOCALID 0
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
 
 
 //定义串口数据接收消息常量
 #define WM_RECV_SERIALPORT1_DATA WM_USER + 101
 #define WM_RECV_SERIALPORT2_DATA WM_USER + 102
 #define WM_RECV_SERIALPORT3_DATA WM_USER + 103
-
 
 // CGasOnlineView
 
@@ -38,7 +38,6 @@ IMPLEMENT_DYNCREATE(CGasOnlineView, CFormView)
 BEGIN_MESSAGE_MAP(CGasOnlineView, CFormView)
 	ON_MESSAGE(WM_RECV_SERIALPORT1_DATA,OnRecvSerialPort1Data)
 	ON_MESSAGE(WM_RECV_SERIALPORT2_DATA,OnRecvSerialPort2Data)
-	ON_MESSAGE(WM_RECV_SERIALPORT3_DATA,OnRecvSerialPort3Data)
 	ON_BN_CLICKED(IDC_BUTTON_EXIT, &CGasOnlineView::OnBnClickedButtonExit)
 	ON_WM_TIMER()
 	ON_WM_PAINT()
@@ -52,6 +51,8 @@ BEGIN_MESSAGE_MAP(CGasOnlineView, CFormView)
 	ON_BN_CLICKED(IDC_BUTTON_H2S, &CGasOnlineView::OnBnClickedButtonH2s)
 	ON_BN_CLICKED(IDC_BUTTON_SO2, &CGasOnlineView::OnBnClickedButtonSo2)
 	ON_BN_CLICKED(IDC_BUTTON_COMB, &CGasOnlineView::OnBnClickedButtonComb)
+	ON_BN_CLICKED(IDC_BUTTON_O2, &CGasOnlineView::OnBnClickedButtonO2)
+	ON_BN_CLICKED(IDC_BUTTON_CO, &CGasOnlineView::OnBnClickedButtonCO)
 END_MESSAGE_MAP()
 
 float String2Float(CString str)
@@ -71,10 +72,14 @@ float String2Float(CString str)
 }
 
 // CGasOnlineView 构造/析构
-SerialRcvBuffer CGasOnlineView::m_rcvBufPort1;
+//SerialRcvBuffer CGasOnlineView::m_rcvBufPort1;
 
 CGasOnlineView::CGasOnlineView()
 	: CFormView(CGasOnlineView::IDD)
+	, m_rcvBufPort1(RCVBUFLEN*4)
+	, m_rcvBufPort2(1024)
+	, localID(LOCALID)
+	, remoteID(REMOTEID)
 {
 	// TODO: 在此处添加构造代码
 
@@ -87,7 +92,8 @@ CGasOnlineView::CGasOnlineView()
 	m_SO2 = new GasType(0.07564296520423600605143721633888f);
 	m_H2S = new GasType(0.05703125f);
 	m_Fel = new GasType(0.038124285169653069004956157072055f);
-
+	m_O2 = new GasType((0xFFFF-0x0840)/30);
+	m_CO = new GasType((0xFFFF-0x0840)/1500);
 	usID = HOSTID;
 	
 	usAlarmEn = 0xFFFF;
@@ -112,15 +118,6 @@ CGasOnlineView::~CGasOnlineView()
 		delete m_pSerialPort2;
 		m_pSerialPort2 = NULL;
 	}
-
-	//if (m_pSerialPort3 != NULL)
-	//{
-	//	m_pSerialPort3->ClosePort();
-
-	//	delete m_pSerialPort3;
-	//	m_pSerialPort3 = NULL;
-	//}
-
 }
 
 void CGasOnlineView::DoDataExchange(CDataExchange* pDX)
@@ -164,17 +161,16 @@ void CGasOnlineView::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_H2S, m_H2S->set);
 	DDX_Text(pDX, IDC_EDIT_SO2, m_SO2->set);
 	DDX_Text(pDX, IDC_EDIT_COMB, m_Fel->set);
+	DDX_Text(pDX, IDC_EDIT_CO, m_CO->set);
+	DDX_Text(pDX, IDC_EDIT_O2, m_O2->set);
 }
 
 BOOL CGasOnlineView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: 在此处通过修改
 	//  CREATESTRUCT cs 来修改窗口类或样式
-
 	return CFormView::PreCreateWindow(cs);
 }
-
-
 
 void CGasOnlineView::OnInitialUpdate()
 {
@@ -198,8 +194,8 @@ void CGasOnlineView::OnInitialUpdate()
 		8,
 		ONESTOPBIT))
 	{
-		m_rcvBufPort1.valid = 0;
 		TRACE(L"SENSOR打开成功");
+		m_rcvBufPort1.valid = 0;
 	}
 	else
 	{
@@ -219,6 +215,7 @@ void CGasOnlineView::OnInitialUpdate()
 		ONESTOPBIT))
 	{
 		TRACE(L"主机通信打开");
+		m_rcvBufPort2.valid = 0;
 	}
 	else
 	{
@@ -229,7 +226,7 @@ void CGasOnlineView::OnInitialUpdate()
 	EnableWdt();
 	//DisableWdt();
 
-	SetTimer(1001,1000,NULL);
+	SetTimer(1001,61*1000,NULL);
 	SetTimer(1002,2000,NULL);
 	SetTimer(1003,3000,NULL);
 }
@@ -309,7 +306,6 @@ void CGasOnlineView::InitCtrol()
 	m_ctlCSALLOW.SetFontBold(TRUE);
 	m_ctlCSALLOW.SetBkColor(RGB(0,0,0));
 
-
 	CString strtmp;
 	m_ctlCSO2.SetTextColor(RGB(255,0,255));	
 	m_ctlCSO2.SetFontSize(16);
@@ -350,7 +346,6 @@ void CGasOnlineView::InitCtrol()
 	m_ctlCSCOValue.SetBkColor(RGB(0,0,0));
 	m_ctlCSCOValue.SetWindowText(_T(""));
 
-	//
 	m_ctlCSSO2.SetTextColor(RGB(255,0,255));	
 	m_ctlCSSO2.SetFontSize(16);
 	m_ctlCSSO2.SetFontBold(TRUE);
@@ -399,11 +394,8 @@ void CGasOnlineView::SetStatusData()
 	CString strtmp;
 
 	tm = CTime::GetCurrentTime();
-	//strtmp += tm.Format(_T("%X"));
 	SetDlgItemText(IDC_STATIC_TIME, tm.Format(_T("%X")));
-
 	SetDlgItemText(IDC_STATIC_DATE, tm.Format(_T("%Y/%m/%d")));
-
 	SetDlgItemText(IDC_STATIC_WEEK, weekday[tm.GetDayOfWeek()-1]);
 
 	strtmp = _T("");//21℃
@@ -423,12 +415,10 @@ void CGasOnlineView::SetGasInfo()
 	m_ctlCSSO2Value.SetWindowText(strtmp);
 	strtmp.Format(_T("%.2f	％LEL "), m_Fel->value());
 	m_ctlCSCOMBValue.SetWindowText(strtmp);
-
-	float lat, lng;
-	lat = String2Float(GpsPosWei);
-	lng = String2Float(GpsPosJing);
-
-	GPSdms gLat(lat), gLng(lng);
+	strtmp.Format(_T("%.2f	ppm "), m_CO->value());
+	m_ctlCSCOValue.SetWindowText(strtmp);
+	strtmp.Format(_T("%.2f	％ "), m_O2->value());
+	m_ctlCSO2Value.SetWindowText(strtmp);
 
 	strtmp.Format(_T("东经：%d°%d'%d\""), gLng.deg, gLng.min, gLng.sec);
 	SetDlgItemText(IDC_STATIC_LONGITUDE, strtmp);
@@ -468,11 +458,12 @@ void CGasOnlineView::OnTimer(UINT_PTR nIDEvent)
 	{
 	case 1001: 
 		{
-			SetStatusData();
+			SendSensorData();
 		}
 		break;
 	case 1002:
 		{
+			SetStatusData();
 			SetGasInfo();
 		}
 		break;
@@ -510,84 +501,7 @@ void CGasOnlineView::OnPaint()
 
 }
 
-//定义串口接收主站数据函数类型
-void CALLBACK CGasOnlineView::OnPort2Read(void * pOwner,BYTE* buf,DWORD bufLen)
-{
-	BYTE *pRecvBuf = NULL; //接收缓冲区
-	//得到父对象指针
-	CGasOnlineView* pThis = (CGasOnlineView*)pOwner;
-	//将接收的缓冲区拷贝到pRecvBuf种
-	pRecvBuf = new BYTE[bufLen];
-	CopyMemory(pRecvBuf, buf, bufLen);
-
-	//发送异步消息，表示收到串口数据，消息处理完，应释放内存
-	pThis->PostMessage(WM_RECV_SERIALPORT2_DATA, WPARAM(pRecvBuf), bufLen);
-}
-
-// 串口接收主站数据处理函数
-LONG CGasOnlineView::OnRecvSerialPort2Data(WPARAM wParam,LPARAM lParam)
-{
-	const int MSGLEN = 24;
-	//串口接收到的BUF长度
-	DWORD dwBufLen = lParam;
-	if (dwBufLen <4)
-	{
-		return 0;
-	}
-	//串口接收到的BUF
-	CHAR *pBuf = (char*)wParam;		//new CHAR(dwBufLen);
-	//CopyMemory(pBuf, (char*)wParam, dwBufLen);
-
-	CString strtmp;
-
-	for (int i=0; i<=dwBufLen-4; ++i)
-	{
-		if (pBuf[i] == 'G' && pBuf[i+1] == 'e' && pBuf[i+2] == 't' && pBuf[i+3] == usID)
-		{
-			BYTE sendBuf[MSGLEN];
-			memset(sendBuf, 0, MSGLEN*sizeof(BYTE));
-			float lat, lng;
-			lat = String2Float(GpsPosWei);
-			lng = String2Float(GpsPosJing);
-
-			//lat = 1534.7;
-			//lng = 13423.8;
-			//m_fH2s.value = 22.13;
-			//m_fSo2.value = 87.12;
-			//m_fComb.value = 57.9;
-			sendBuf[0] = 0x66;
-			sendBuf[1] = 0x77;
-			sendBuf[2] = usID;
-			CopyMemory(&sendBuf[4], (char *)&lat, 4);
-			CopyMemory(&sendBuf[8], (char *)&lng, 4);
-			float value = m_H2S->value();
-			CopyMemory(&sendBuf[12], (char *)&value, 4);
-			value = m_SO2->value();
-			CopyMemory(&sendBuf[16], (char *)&value, 4);
-			value = m_Fel->value();
-			CopyMemory(&sendBuf[20], (char *)&value, 4);
-
-			m_pSerialPort2->WriteSyncPort(sendBuf, MSGLEN*sizeof(BYTE));
-			break;
-		}
-		if (pBuf[i] == 'W' && pBuf[i+1] == 'N' && pBuf[i+2] == 'G' && pBuf[i+3] == usID)
-		{
-			SendADCtrolData(0x1000);
-		}
-		if (pBuf[i] == 'O' && pBuf[i+1] == 'F' && pBuf[i+2] == 'F' && pBuf[i+3] == usID)
-		{
-			SendADCtrolData(0x1100);
-		}
-	}
-
-	//释放内存
-	delete[] pBuf;
-	pBuf = NULL;
-	return 0;
-
-}
-
-void ValidateCmd(BYTE * buffer, int &valid, const BYTE* buf, const DWORD bufLen)
+void CGasOnlineView::ValidateCmd(BYTE * buffer, int &valid, const BYTE* buf, const DWORD bufLen)
 {
 	int toCopy = (valid + bufLen) > RCVBUFLEN*2 ? RCVBUFLEN*2 - valid : bufLen;
 	CopyMemory(buffer+valid, buf, toCopy);
@@ -614,142 +528,160 @@ void ValidateCmd(BYTE * buffer, int &valid, const BYTE* buf, const DWORD bufLen)
 	}
 
 }
-//定义串口接收SENSOR数据函数类型
-void CALLBACK CGasOnlineView::OnPort1Read(void * pOwner, BYTE* buf, DWORD bufLen)
-{
-	//得到父对象指针
-	CGasOnlineView* pThis = (CGasOnlineView*)pOwner;
-	
-	ValidateCmd(m_rcvBufPort1.buffer, m_rcvBufPort1.valid, buf, bufLen);
-	
-	if (m_rcvBufPort1.valid >= RCVBUFLEN)
-	{
-		pThis->PostMessage(WM_RECV_SERIALPORT1_DATA, NULL, NULL);
-	}
-}
 
-float CGasOnlineView::Average(float *array, float val, int len)
-{
-#if 0
-	return val;
-#endif // BYPASS
-#if 1
-	float sum = 0.0f;
-	array[0] = val;
-	for (int i=0; i<len; ++i)
-	{
-		sum += array[i];
-	}
-	for (int i=0; i<len-1; ++i)
-	{
-		array[i+1] = array[i];
-	}
-	return sum/len;
-#endif
-#if 0
-	float sum = 0.0f;
-	array[0] = val;
-	for (int i=0; i<len; ++i)
-	{
-		sum += array[i];
-	}
-	for (int i=0; i<len; ++i)
-	{
-		array[i] = sum/len;
-	}
-	return array[0];
-#endif
-}
-
-// 串口接收SENSOR数据处理函数
-LONG CGasOnlineView::OnRecvSerialPort1Data(WPARAM wParam, LPARAM lParam)
-{
-	//串口接收到的BUF
-	CHAR *pBuf = (CHAR *)m_rcvBufPort1.buffer;
-
-	m_SO2->setValue(pBuf[5], pBuf[6]);
-	m_H2S->setValue(pBuf[15], pBuf[16]);
-	m_Fel->setValue(pBuf[17], pBuf[18]);
-
-    m_rcvBufPort1.valid = 0;
-	return 0;
-}
-
-//定义串口接收GPS数据函数类型
-void CALLBACK CGasOnlineView::OnPort3Read(void * pOwner,BYTE* buf,DWORD bufLen)
+//定义串口接收主站数据函数类型
+void CALLBACK CGasOnlineView::OnPort2Read(void * pOwner, BYTE* buf, DWORD bufLen)
 {
 	BYTE *pRecvBuf = NULL; //接收缓冲区
 	//得到父对象指针
 	CGasOnlineView* pThis = (CGasOnlineView*)pOwner;
+
 	//将接收的缓冲区拷贝到pRecvBuf种
 	pRecvBuf = new BYTE[bufLen];
 	CopyMemory(pRecvBuf, buf, bufLen);
 
 	//发送异步消息，表示收到串口数据，消息处理完，应释放内存
-	pThis->PostMessage(WM_RECV_SERIALPORT3_DATA,WPARAM(pRecvBuf), bufLen);
-
+	pThis->PostMessage(WM_RECV_SERIALPORT2_DATA, WPARAM(pRecvBuf), bufLen);
 }
-
-// 串口接收GPS数据处理函数
-LONG CGasOnlineView::OnRecvSerialPort3Data(WPARAM wParam,LPARAM lParam)
+void CGasOnlineView::SendSensorData()
 {
-	CString strOldRecv = L"";
-	CString strRecv = L"";
-	CString strtmp;
-	//串口接收到的BUF
-	CHAR *pBuf = (CHAR*)wParam;
-	//Wendu = *pBuf;
-	//串口接收到的BUF长度
-	DWORD dwBufLen = lParam;
-    strRecv = CString(pBuf);    
-   //数据存放变量
-	//从m_str中读取时间和经纬度
-	int start = 0, end = 0;
-	if((start =strRecv.Find(_T("$GPRMC"))) >= 0) 
-	{
-		end = strRecv.Find('$', start + 1);
-		if(end > start) 
-		{
-			int index = 0;
-			//截取得数据帧
-			strtmp = strRecv.Mid(start, end - start);
-			//m_str = _T("");
-			start= end = 0;
-			while(index <=12) 
-			{
-				++ index;
-				end = strtmp.Find(',', start); //end指向第index个逗号
-				switch(index) 
-				{
-				case 2://读得格林威治时间
-					GpsTime = strtmp.Mid(start, end - start);
-					break;
-				case 4://读得纬度
-					GpsPosWei = strtmp.Mid(start, end - start);
-					break;
-				case 5://读得纬度方向
-					GpsDirWei = strtmp.Mid(start, end - start);
-					break;
-				case 6://读得经度
-					GpsPosJing = strtmp.Mid(start, end - start);
-				case 7://读得经度方向
-					GpsDirJing = strtmp.Mid(start, end - start);
-					break;
-				case 10://读得当前日期
-					GpsDate = strtmp.Mid(start, end - start);
-					break;
-				}
-				start = end + 1;
-			}
-			//SetDlgItemText(IDC_STATIC_LATITUDE,GpsPosWei);
+	const int MSGLEN = 18 + 32;
 
-		} 
+	BYTE sendBuf[MSGLEN];
+	memset(sendBuf, 0, MSGLEN*sizeof(BYTE));
+
+	//lat = 1534.7;
+	//lng = 13423.8;
+	//m_fH2s.value = 22.13;
+	//m_fSo2.value = 87.12;
+	//m_fComb.value = 57.9;
+
+	sendBuf[0] = '$'; sendBuf[1] = 'T'; sendBuf[2] = 'X';
+	sendBuf[3] = 'S'; sendBuf[4] = 'Q'; 
+	sendBuf[5] = 0;	sendBuf[6] = MSGLEN; 
+	sendBuf[7] = (localID >> 16) & 0xFF; 
+	sendBuf[8] = (localID >> 8) & 0xFF; sendBuf[9] = (localID) & 0xFF;
+	sendBuf[10] = 0x84; 
+	sendBuf[11] = (remoteID >> 16) & 0xFF; 
+	sendBuf[12] = (remoteID >> 8) & 0xFF; sendBuf[13] = (remoteID >> 0) & 0xFF;
+	sendBuf[14] = 0; sendBuf[15] = MSGLEN*8; sendBuf[16] = 0;
+	sendBuf[17] = 0x66;
+	sendBuf[18] = 0x77;
+	sendBuf[19] = usID;
+	CopyMemory(&sendBuf[21], (char *)&gLat.fDeg, 4);
+	CopyMemory(&sendBuf[25], (char *)&gLng.fDeg, 4);
+	float value = m_H2S->value();
+	CopyMemory(&sendBuf[29], (char *)&value, 4);
+	value = m_SO2->value();
+	CopyMemory(&sendBuf[33], (char *)&value, 4);
+	value = m_Fel->value();
+	CopyMemory(&sendBuf[37], (char *)&value, 4);
+	value = m_O2->value();
+	CopyMemory(&sendBuf[41], (char *)&value, 4);
+	value = m_CO->value();
+	CopyMemory(&sendBuf[45], (char *)&value, 4);
+	for (int i=0; i<MSGLEN-1; ++i)
+	{
+		sendBuf[MSGLEN-1] = sendBuf[MSGLEN-1] ^ sendBuf[i];
 	}
 
-	//strRecv = CString(pBuf);
-	//释放内存
-	delete[] pBuf;
-	pBuf = NULL;
+	m_pSerialPort2->WriteSyncPort(sendBuf, MSGLEN*sizeof(BYTE));
+
+}
+// 串口接收主站数据处理函数
+LONG CGasOnlineView::OnRecvSerialPort2Data(WPARAM wParam, LPARAM lParam)
+{
+	BYTE * buf = (BYTE*)wParam;
+	TRACE("2: valid: %d, len: %d", m_rcvBufPort2.valid, (int)lParam);
+	m_rcvBufPort2.append(buf, (int)lParam);
+	delete []buf;
+
+	int indexTx = m_rcvBufPort2.indexOf("$TXXX", 5);
+	int indexDw = m_rcvBufPort2.indexOf("$DWXX", 5);
+	int indexFk = m_rcvBufPort2.indexOf("$FKXX", 5);
+
+	if (indexFk >= 0 && m_rcvBufPort2.valid-indexFk >= 10)
+	{
+		BYTE * offset = m_rcvBufPort2.buffer + indexFk;
+		localID = (offset[7] << 16) + (offset[8] << 8) + (offset[9] << 0);
+	}
+	
+	if(indexDw >= 0 && m_rcvBufPort2.valid-indexDw >= 26)
+	{
+		BYTE * offset = m_rcvBufPort2.buffer + indexDw;
+		gLng.fromFloat(offset[18]+offset[19]/60.0f+offset[20]/3600.0f);
+		gLat.fromFloat(offset[22]+offset[23]/60.0f+offset[24]/3600.0f);
+	}
+
+	if (indexTx >= 0 && m_rcvBufPort2.valid-indexTx >= 22)
+	{
+		BYTE * offset = m_rcvBufPort2.buffer + indexTx + 18;
+
+		if (offset[0] == 'G' && offset[1] == 'e' && offset[2] == 't')
+		{
+		}
+		
+		if (offset[0] == 'W' && offset[1] == 'N' && offset[2] == 'G')
+		{
+			SendADCtrolData(0x1000);
+		}
+
+		if (offset[0] == 'O' && offset[1] == 'F' && offset[2] == 'F')
+		{
+			SendADCtrolData(0x1100);
+		}
+
+	}
+
+	m_rcvBufPort2.clear();
+	return 0;
+}
+
+//定义串口接收SENSOR数据函数类型
+void CALLBACK CGasOnlineView::OnPort1Read(void * pOwner, BYTE* buf, DWORD bufLen)
+{
+	//得到父对象指针
+	CGasOnlineView* pThis = (CGasOnlineView*)pOwner;
+
+	//将接收的缓冲区拷贝到pRecvBuf种
+	BYTE * pRecvBuf = new BYTE[bufLen];
+	CopyMemory(pRecvBuf, buf, bufLen);
+
+	//发送异步消息，表示收到串口数据，消息处理完，应释放内存
+	pThis->PostMessage(WM_RECV_SERIALPORT1_DATA, WPARAM(pRecvBuf), bufLen);
+}
+
+// 串口接收SENSOR数据处理函数
+LONG CGasOnlineView::OnRecvSerialPort1Data(WPARAM wParam, LPARAM lParam)
+{
+	const int DATALEN = 20;
+	BYTE * buf = (BYTE*)wParam;
+	TRACE("1: valid: %d, len: %d", m_rcvBufPort1.valid, (int)lParam);
+	m_rcvBufPort1.append(buf, (int)lParam);
+	delete []buf;
+
+	//串口接收到的BUF
+	CHAR *pBuf = (CHAR *)m_rcvBufPort1.buffer;
+	int t = m_rcvBufPort1.indexOf("fw", 2);
+	if ( t >= 0 )
+	{
+		m_rcvBufPort1.remove(0, t);
+	}else
+	{
+		m_rcvBufPort1.clear();
+	}
+	
+	if (m_rcvBufPort1.valid > DATALEN)
+	{
+		BYTE * offset = m_rcvBufPort1.buffer;
+		m_O2->setValue(offset[6], offset[5]);
+		m_SO2->setValue(offset[10], offset[9]);
+		m_CO->setValue(offset[12], offset[11]);
+		m_H2S->setValue(offset[16], offset[15]);
+		m_Fel->setValue(offset[18], offset[17]);
+
+		m_rcvBufPort1.clear();
+	}
 	return 0;
 }
 
@@ -765,7 +697,6 @@ void CGasOnlineView::OnBnClickedButtonSet()
 void CGasOnlineView::GetParaData()
 {
 	return;
-	
 }
 
 void CGasOnlineView::SendADCtrolData(unsigned short cmd)
@@ -780,174 +711,69 @@ void CGasOnlineView::SendADCtrolData(unsigned short cmd)
 	m_pSerialPort1->WriteSyncPort(sendBufTOAD,32*sizeof(BYTE));
 }
 
-int CGasOnlineView::String2Hex(CString str, CByteArray &hexdata)
-{
-char singlechar=0;
-    int singleResult=0;
-    int totalResult=0;
-    int nlength=str.GetLength();
-    if (nlength<1)
-    {
-        return 0;
-    }
-
-    for (int i=0;i<nlength;i++)
-    {
-        singleResult=str[i];
-        //对每个字符进行转换
-        if ((singleResult>='0') && (singleResult<='9'))
-        {
-            singleResult=(str[i]-'0');
-            
-        }
-        else
-        {
-            if ((singleResult>='a') && (singleResult<='f'))
-            {
-                singleResult=(str[i]-'a')+10;
-            }
-            else
-            {
-                if ((singleResult>='A') && (singleResult<='F'))
-                {
-                    singleResult=(str[i]-'A')+10;
-                }
-                else
-                {
-                 if ((singleResult=='.'))
-                {
-                    singleResult=str[i]+2;
-                }
-					//如果字符不为16进制则放弃处理此字符串
-                    return 0;
-                    
-                }
-                
-            }
-            
-        }
-
-        //保存16进制的每一位
-
-        hexdata.Add(singleResult);
-        
-        //计算每个字符位置的数值
-        for (int j=0;j<(nlength-1-i);j++)
-        {
-            singleResult=singleResult*16;
-        }
-        //计算总的数值
-        totalResult+=singleResult;
-        
-    }
-
-
-    return totalResult;
-}
-
-void CGasOnlineView::OnEnSetfocusEditH2s()
+void CGasOnlineView::SetEditFocus()
 {
 	RECT rect;
-    GetClientRect( &rect );
-    ClientToScreen(&rect);
-    SIPINFO    si;
+	GetClientRect( &rect );
+	ClientToScreen(&rect);
+	SIPINFO    si;
 
-    si.dwImDataSize = 0;
-    si.cbSize = sizeof(si);
-    BOOL bSip = SipGetInfo(&si);
-    if(rect.top >= 150)
-    {
-        si.rcSipRect.top = 0;
-    }
+	si.dwImDataSize = 0;
+	si.cbSize = sizeof(si);
+	BOOL bSip = SipGetInfo(&si);
+	if(rect.top >= 150)
+	{
+		si.rcSipRect.top = 0;
+	}
 	else
-    {
+	{
 		si.rcSipRect.top = 195;//half of the screen 
 
-    }
-    SipSetInfo(&si);
-    SipShowIM(SIPF_ON);
+	}
+	SipSetInfo(&si);
+	SipShowIM(SIPF_ON);
+
+}
+
+void CGasOnlineView::KillEditFocus()
+{
+	SipShowIM(SIPF_OFF);
+	SIPINFO    si;
+	si.dwImDataSize = 0;
+	si.cbSize = sizeof(si);
+
+	BOOL bSip = SipGetInfo(&si);
+	si.rcSipRect.top = 195;
+	SipSetInfo(&si);
+}
+void CGasOnlineView::OnEnSetfocusEditH2s()
+{
+	SetEditFocus();
 }
 
 void CGasOnlineView::OnEnKillfocusEditH2s()
 {
-	SipShowIM(SIPF_OFF);
-    SIPINFO    si;
-    si.dwImDataSize = 0;
-    si.cbSize = sizeof(si);
-
-    BOOL bSip = SipGetInfo(&si);
-    si.rcSipRect.top = 195;
-    SipSetInfo(&si);
+	KillEditFocus();
 }
 
 void CGasOnlineView::OnEnSetfocusEditSo2()
 {
-	RECT rect;
-    GetClientRect( &rect );
-    ClientToScreen(&rect);
-    SIPINFO    si;
-
-    si.dwImDataSize = 0;
-    si.cbSize = sizeof(si);
-    BOOL bSip = SipGetInfo(&si);
-    if(rect.top >= 150)
-    {
-        si.rcSipRect.top = 0;
-    }
-	else
-    {
-		si.rcSipRect.top = 195;//half of the screen 
-
-    }
-    SipSetInfo(&si);
-    SipShowIM(SIPF_ON);
+	SetEditFocus();
 }
 
 void CGasOnlineView::OnEnKillfocusEditSo2()
 {
-	SipShowIM(SIPF_OFF);
-    SIPINFO    si;
-    si.dwImDataSize = 0;
-    si.cbSize = sizeof(si);
-
-    BOOL bSip = SipGetInfo(&si);
-    si.rcSipRect.top = 195;
-    SipSetInfo(&si);
+	KillEditFocus();
 }
 
 void CGasOnlineView::OnEnSetfocusEditComb()
 {
-	RECT rect;
-    GetClientRect( &rect );
-    ClientToScreen(&rect);
-    SIPINFO    si;
-
-    si.dwImDataSize = 0;
-    si.cbSize = sizeof(si);
-    BOOL bSip = SipGetInfo(&si);
-    if(rect.top >= 150)
-    {
-        si.rcSipRect.top = 0;
-    }
-	else
-    {
-		si.rcSipRect.top = 195;//half of the screen 
-
-    }
-    SipSetInfo(&si);
-    SipShowIM(SIPF_ON);
+	SetEditFocus();
 }
 
 void CGasOnlineView::OnEnKillfocusEditComb()
 {
-	SipShowIM(SIPF_OFF);
-    SIPINFO    si;
-    si.dwImDataSize = 0;
-    si.cbSize = sizeof(si);
-
-    BOOL bSip = SipGetInfo(&si);
-    si.rcSipRect.top = 195;
-    SipSetInfo(&si);
+	KillEditFocus();
 }
 
 void CGasOnlineView::ReadRegPara()
@@ -996,6 +822,17 @@ void CGasOnlineView::ReadRegPara()
 		m_Fel->setDelta( (float)wcstod(szKeyValue, &strStop) );
 	}
 
+	lResult = RegQueryValueEx(m_hKeyPara,_T("氧气校准值"),0,&dwType,(LPBYTE)szKeyValue,&dwKeyValueLength);
+	if(ERROR_SUCCESS == lResult)
+	{		
+		m_O2->setDelta( (float)wcstod(szKeyValue, &strStop) );
+	}
+
+	lResult = RegQueryValueEx(m_hKeyPara,_T("一氧化氮校准值"),0,&dwType,(LPBYTE)szKeyValue,&dwKeyValueLength);
+	if(ERROR_SUCCESS == lResult)
+	{		
+		m_CO->setDelta( (float)wcstod(szKeyValue, &strStop) );
+	}
 }
 void CGasOnlineView::setKey(HKEY key, WCHAR* subKey, GasType* gas)
 {
@@ -1028,3 +865,44 @@ void CGasOnlineView::OnBnClickedButtonComb()
 	WCHAR* szKeyName = L"可燃气校准值";
 	setKey(m_hKeyPara, szKeyName, m_Fel);
 }
+
+void CGasOnlineView::OnBnClickedButtonO2()
+{
+	UpdateData(TRUE);
+	WCHAR* szKeyName = L"氧气校准值";
+	setKey(m_hKeyPara, szKeyName, m_O2);
+}
+
+void CGasOnlineView::OnBnClickedButtonCO()
+{
+	UpdateData(TRUE);
+	WCHAR* szKeyName = L"一氧化碳校准值";
+	setKey(m_hKeyPara, szKeyName, m_CO);
+}
+float CGasOnlineView::Average(float *array, float val, int len)
+{
+#if 0
+	return val;
+#endif // BYPASS
+	float sum = 0.0f;
+	array[0] = val;
+	for (int i=0; i<len; ++i)
+	{
+		sum += array[i];
+	}
+#if 1
+	for (int i=0; i<len-1; ++i)
+	{
+		array[i+1] = array[i];
+	}
+	return sum/len;
+#endif
+#if 0
+	for (int i=0; i<len; ++i)
+	{
+		array[i] = sum/len;
+	}
+	return array[0];
+#endif
+}
+
