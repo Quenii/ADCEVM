@@ -23,12 +23,14 @@ typedef struct{
 
 struct GPSdms
 {
+	float fDeg;
 	int deg;
 	int min;
 	int sec;
 
-	GPSdms(float g)
+	void fromFloat(float g)
 	{
+		fDeg = g;
 		deg = (int)g;
 		min = (int)((g - deg)*60.0);
 		sec = (int)((g - deg -min)*3600);
@@ -89,8 +91,72 @@ const int RCVBUFLEN = 32;
 
 class SerialRcvBuffer{
 public:
-	BYTE buffer[RCVBUFLEN*2];
+	SerialRcvBuffer(int size)
+	{
+		buffer = new BYTE[size];
+		valid = 0;
+		size = size;
+	}
+	~SerialRcvBuffer()
+	{
+		delete []buffer;
+	}
+	int indexOf(char * slice, int len)
+	{
+		if (len > valid)
+		{
+			return -1;
+		}
+		for (int i=0; i<=valid-len; ++i)
+		{
+			if (memcmp(buffer+i, slice, len) == 0)
+			{
+				return i;
+				TRACE("valid: %d, len: %d, index: %d", valid, len, i);
+			}
+		}
+		return -1;
+	}
+	void append(BYTE * anotherBuf, int len)
+	{
+		int overlap = valid + len - size;
+		if (overlap > 0)
+		{
+			memcpy(buffer, buffer+overlap, valid-overlap);
+			valid = valid - overlap;
+		}
+
+		memcpy(buffer+valid, anotherBuf, len);
+		valid += len;
+		TRACE("append: valid: %d, len: %d", valid, len);
+	}
+	
+	void remove(int first, int len)
+	{
+		if (first >= valid)
+		{
+			return;
+		}
+		if (first < 0)
+		{
+			first = 0;
+			len = len + first;
+		}
+		if (first + len > valid)
+		{
+			len = valid - first;
+		}
+		memcpy(buffer+first, buffer+first+len, valid-len);
+		valid -= len;
+	}
+
+	void clear()
+	{
+		valid = 0;
+	}
+	BYTE *buffer;
 	int valid;
+	int size;
 };
 typedef struct {int valid;
 				int hh;
@@ -119,31 +185,15 @@ public:
 	CGasOnlineDoc* GetDocument() const;
 
 private:
-	//RealGasType m_fO2, m_fH2s, m_fCo, m_fSo2, m_fComb, m_fVoc;
-	//RawGasType so2, h2s, fel;
-
 	GasType* m_SO2;
 	GasType* m_H2S;
 	GasType* m_Fel;
+	GasType* m_CO;
+	GasType* m_O2;
 
-	//float m_iSo2[5];
-	//float m_iH2s[5];
-	//float m_iFel[5];
-
+	GPSdms gLat, gLng;
 	HKEY m_hKeyPara;
 
-/*	int valid;
-	int hh;
-	int mm;
-	int ss;
-	int ms;
-	double longitude;
-	double latitude;
-	double height;
-	double velocity;
-	double direction;
-	int code;
-*/
 	CBitmap			m_bmpBackground;
 
 	char	usID;
@@ -152,32 +202,30 @@ private:
 	unsigned char	ucSamInterval;
 	CString			m_strMima;
 
-	ADNODE adnode[8];
-	//G_FRAME m_frame;
-	CString GpsTime, GpsPosWei, GpsDirWei, GpsPosJing, GpsDirJing, GpsDate;
 
 // 操作
 private:
 	CCESeries *m_pSerialPort1;
 	CCESeries *m_pSerialPort2;
-	CCESeries *m_pSerialPort3;
-	static SerialRcvBuffer m_rcvBufPort1;
+	SerialRcvBuffer m_rcvBufPort1, m_rcvBufPort2;
 	void SetStatusData();
 	void SetGasInfo();
 	void DisplayCommData();
 	void InitCtrol();
 	void SendADCtrolData(unsigned short);
+	void SendSensorData();
+
 	//定义串口接收数据函数类型
 	static void CALLBACK OnPort1Read(void * pOwner,BYTE* buf,DWORD bufLen);
 	static void CALLBACK OnPort2Read(void * pOwner,BYTE* buf,DWORD bufLen);
-	static void CALLBACK OnPort3Read(void * pOwner,BYTE* buf,DWORD bufLen);
 	float Average(float *array, float val, int len);
     
 	void GetParaData();
-	int String2Hex(CString str, CByteArray &hexdata);
 	void ReadRegPara();
 	void setKey(HKEY key, WCHAR* subKey, GasType* gas);
 
+	unsigned int localID;
+	unsigned int remoteID;
 	//void SendCmdToAD();
 
 // 重写
@@ -201,7 +249,6 @@ protected:
 protected:
 	DECLARE_MESSAGE_MAP()
 private:
-	CLabel m_ctlCSO2;
 	CLabel m_ctlCSID;
 	CLabel m_ctlCSGPSLANG;
 	CLabel m_ctlCSGPSLAT;
@@ -214,37 +261,39 @@ private:
 	CLabel m_ctlCSALH;
 	CLabel m_ctlCSALLOW;
 	CLabel m_ctlCSO2Value;
-	/*CLabel m_ctlCSO2ALH;
-	CLabel m_ctlCSO2ALLOW;*/
 	CLabel m_ctlCSH2SValue;
-	/*CLabel m_ctlCSH2SALH;
-	CLabel m_ctlCSH2SALLOW;*/
 	CLabel m_ctlCSCOValue;
-	/*CLabel m_ctlCSCOALH;
-	CLabel m_ctlCSCOALLOW;*/
 	CLabel m_ctlCSSO2Value;
-	/*CLabel m_ctlCSSO2ALH;
-	CLabel m_ctlCSSO2ALLOW;*/
 	CLabel m_ctlCSVOCValue;
-	/*CLabel m_ctlCSVOCALH;
-	CLabel m_ctlCSVOCALLOW;*/
 	CLabel m_ctlCSCOMBValue;
-	/*CLabel m_ctlCSCOMBALH;
-	CLabel m_ctlCSCOMBALLOW;*/
+	CLabel m_ctlCSO2;
 	CLabel m_ctlCSH2S;
 	CLabel m_ctlCSCO;
 	CLabel m_ctlCSSO2;
 	CLabel m_ctlCSVOC;
 	CLabel m_ctlCSCOMB;
+	/*CLabel m_ctlCSO2ALH;
+	CLabel m_ctlCSO2ALLOW;*/
+	/*CLabel m_ctlCSH2SALH;
+	CLabel m_ctlCSH2SALLOW;*/
+	/*CLabel m_ctlCSCOALH;
+	CLabel m_ctlCSCOALLOW;*/
+	/*CLabel m_ctlCSSO2ALH;
+	CLabel m_ctlCSSO2ALLOW;*/
+	/*CLabel m_ctlCSVOCALH;
+	CLabel m_ctlCSVOCALLOW;*/
+	/*CLabel m_ctlCSCOMBALH;
+	CLabel m_ctlCSCOMBALLOW;*/
 public:
-
+	void ValidateCmd(BYTE * buffer, int &valid, const BYTE* buf, const DWORD bufLen);
+	void SetEditFocus();
+	void KillEditFocus();
 	afx_msg void OnBnClickedButtonExit();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnPaint();
 	// 串口接收数据处理函数
 	afx_msg LONG OnRecvSerialPort1Data(WPARAM wParam,LPARAM lParam);
 	afx_msg LONG OnRecvSerialPort2Data(WPARAM wParam,LPARAM lParam);
-	afx_msg LONG OnRecvSerialPort3Data(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnBnClickedButtonSet();
 	afx_msg void OnEnSetfocusEditH2s();
 	afx_msg void OnEnKillfocusEditH2s();
@@ -255,6 +304,8 @@ public:
 	afx_msg void OnBnClickedButtonH2s();
 	afx_msg void OnBnClickedButtonSo2();
 	afx_msg void OnBnClickedButtonComb();
+	afx_msg void OnBnClickedButtonO2();
+	afx_msg void OnBnClickedButtonCO();
 };
 
 #ifndef _DEBUG  // GasOnlineView.cpp 中的调试版本
