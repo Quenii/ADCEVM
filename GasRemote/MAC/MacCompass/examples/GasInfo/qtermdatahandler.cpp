@@ -166,7 +166,7 @@ void QTermDataHandler::update(/*QTimerEvent *event*/)
         emit(compassOK(false));
     }
 
-    if (compass->getMessage(msg, QByteArray("$FKXX")))
+    while(compass->getMessage(msg, QByteArray("$FKXX")));
     {
         //simply dump the FKXX
         ;
