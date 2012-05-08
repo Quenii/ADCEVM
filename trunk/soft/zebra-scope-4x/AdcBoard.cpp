@@ -105,109 +105,109 @@ void AdcBoard::initTestParas()
 	Parameter para;
 
 	para.index = 0;
-	para.name = QString::fromLocal8Bit("Fin1_Freq");
-	para.unit = QString::fromLocal8Bit("MHz");
+	para.name = tr("Fin1_Freq");
+	para.unit = tr("MHz");
 	fdRpt.DualTonePara.push_back(para);
 	para.index = 1;
-	para.name = QString::fromLocal8Bit("Fin1_Input(dB)");
-	para.unit = QString::fromLocal8Bit("dBFS");
+	para.name = tr("Fin1_Input(dB)");
+	para.unit = tr("dBFS");
 	fdRpt.DualTonePara.push_back(para);
 
 	para.index = 2;
-	para.name = QString::fromLocal8Bit("Fin2_Freq");
-	para.unit = QString::fromLocal8Bit("MHz");
+	para.name = tr("Fin2_Freq");
+	para.unit = tr("MHz");
 	fdRpt.DualTonePara.push_back(para);
 	para.index = 3;
-	para.name = QString::fromLocal8Bit("Fin2_Input(dB)");
-	para.unit = QString::fromLocal8Bit("dBFS");
+	para.name = tr("Fin2_Input(dB)");
+	para.unit = tr("dBFS");
 	fdRpt.DualTonePara.push_back(para);
 
 	para.index = 4;
-	para.name = QString::fromLocal8Bit("SFDR");
-	para.unit = QString::fromLocal8Bit("dBc");
+	para.name = tr("SFDR");
+	para.unit = tr("dBc");
 	fdRpt.DualTonePara.push_back(para);
 	para.index = 5;
-	para.name = QString::fromLocal8Bit("SFDR_dBFS");
-	para.unit = QString::fromLocal8Bit("dBFS");
+	para.name = tr("SFDR_dBFS");
+	para.unit = tr("dBFS");
 	fdRpt.DualTonePara.push_back(para);
 
 	para.index = 6;
-	para.name = QString::fromLocal8Bit("IMD2_Worst");
-	para.unit = QString::fromLocal8Bit("dBc");
+	para.name = tr("IMD2_Worst");
+	para.unit = tr("dBc");
 	fdRpt.DualTonePara.push_back(para);
 	para.index = 7;
-	para.name = QString::fromLocal8Bit("IMD2_W_dBFS");
-	para.unit = QString::fromLocal8Bit("dBFS");
+	para.name = tr("IMD2_W_dBFS");
+	para.unit = tr("dBFS");
 	fdRpt.DualTonePara.push_back(para);
 
 	para.index = 8;
-	para.name = QString::fromLocal8Bit("IMD3_Worst");
-	para.unit = QString::fromLocal8Bit("dBc");
+	para.name = tr("IMD3_Worst");
+	para.unit = tr("dBc");
 	fdRpt.DualTonePara.push_back(para);
 	para.index = 9;
-	para.name = QString::fromLocal8Bit("IMD3_W_dBFS");
-	para.unit = QString::fromLocal8Bit("dBFS");
+	para.name = tr("IMD3_W_dBFS");
+	para.unit = tr("dBFS");
 	fdRpt.DualTonePara.push_back(para);
 
 	para.index = 0;
-	para.name = QString::fromLocal8Bit("Freq");
-	para.unit = QString::fromLocal8Bit("MHz");
+	para.name = tr("Freq");
+	para.unit = tr("MHz");
 	fdRpt.DynamicPara.push_back(para);
 	para.index = 1;
-	para.name = QString::fromLocal8Bit("Input(dB)");
-	para.unit = QString::fromLocal8Bit("dBFS");
+	para.name = tr("Input(dB)");
+	para.unit = tr("dBFS");
 	fdRpt.DynamicPara.push_back(para);
 	para.index = 2;
-	para.name = QString::fromLocal8Bit("Input(Vpp)");
-	para.unit = QString::fromLocal8Bit("V");
+	para.name = tr("Input(Vpp)");
+	para.unit = tr("V");
 	fdRpt.DynamicPara.push_back(para);
 
 	para.index = 3;
-	para.name = QString::fromLocal8Bit("SNR");
-	para.unit = QString::fromLocal8Bit("dBc");
+	para.name = tr("SNR");
+	para.unit = tr("dBc");
 	fdRpt.DynamicPara.push_back(para);
 	para.index = 4;
-	para.name = QString::fromLocal8Bit("SNR_dBFS");
-	para.unit = QString::fromLocal8Bit("dBFS");
+	para.name = tr("SNR_dBFS");
+	para.unit = tr("dBFS");
 	fdRpt.DynamicPara.push_back(para);
 	para.index = 5;
-	para.name = QString::fromLocal8Bit("SFDR");
-	para.unit = QString::fromLocal8Bit("dBc");
+	para.name = tr("SFDR");
+	para.unit = tr("dBc");
 	fdRpt.DynamicPara.push_back(para);
 	para.index = 6;
-	para.name = QString::fromLocal8Bit("SFDR_dBFS");
-	para.unit = QString::fromLocal8Bit("dBFS");
+	para.name = tr("SFDR_dBFS");
+	para.unit = tr("dBFS");
 	fdRpt.DynamicPara.push_back(para);
 
 	para.index = 7;
-	para.name = QString::fromLocal8Bit("ENOB");
-	para.unit = QString::fromLocal8Bit("Bit");
+	para.name = tr("ENOB");
+	para.unit = tr("Bit");
 	fdRpt.DynamicPara.push_back(para);
 	para.index = 8;
-	para.name = QString::fromLocal8Bit("ENOB_dBFS");
-	para.unit = QString::fromLocal8Bit("Bit");
+	para.name = tr("ENOB_dBFS");
+	para.unit = tr("Bit");
 	fdRpt.DynamicPara.push_back(para);
 
 	para.index = 9;
-	para.name = QString::fromLocal8Bit("Pn");
-	para.unit = QString::fromLocal8Bit("dBFS");
+	para.name = tr("Pn");
+	para.unit = tr("dBFS");
 	fdRpt.DynamicPara.push_back(para);
 
 	para.index = 10;
-	para.name = QString::fromLocal8Bit("SINAD");
-	para.unit = QString::fromLocal8Bit("dB");
+	para.name = tr("SINAD");
+	para.unit = tr("dB");
 	fdRpt.DynamicPara.push_back(para);
 
 	para.index = 11;
-	para.name = QString::fromLocal8Bit("THD");
-	para.unit = QString::fromLocal8Bit("dB");
+	para.name = tr("THD");
+	para.unit = tr("dB");
 	fdRpt.DynamicPara.push_back(para);
 
 	for (int i = 0; i < 9; ++ i)
 	{
 		para.index = 12 + i;
-		para.name = QString::fromLocal8Bit("HD%1").arg(i+2);
-		para.unit = QString::fromLocal8Bit("dBFS");
+		para.name = tr("HD%1").arg(i+2);
+		para.unit = tr("dBFS");
 		fdRpt.DynamicPara.push_back(para);
 
 	}
@@ -518,9 +518,9 @@ bool AdcBoard::getStaticTestData(vector<int>& samples, bool saveToFile)
 		QDate::currentDate().toString("yyMMdd"),
 		QTime::currentTime().toString("hhmmss"));
 	if (m_static.noise)
-		fileName += QString(QString::fromLocal8Bit("-Noise"));
+		fileName += QString(tr("-Noise"));
 	else
-		fileName += QString(QString::fromLocal8Bit("-Static"));
+		fileName += QString(tr("-Static"));
 
 	static char txtBuffer[20];
 	QString fileNameTxt = QDir( QApplication::applicationDirPath() ).filePath(fileName+".txt");
@@ -655,9 +655,9 @@ void AdcBoard::staticTestAlgo(vector<int> samples)
 		{
 			histogram[i] = histogram_i[i+indexMax-10];
 			if (i==10)
-				result += QString::fromLocal8Bit("<br>**%1 : %2").arg(i+indexMax-10).arg(histogram[i]);
+				result += tr("<br>**%1 : %2").arg(i+indexMax-10).arg(histogram[i]);
 			else
-				result += QString::fromLocal8Bit("<br>  %1 : %2").arg(i+indexMax-10).arg(histogram[i]);
+				result += tr("<br>  %1 : %2").arg(i+indexMax-10).arg(histogram[i]);
 		}
 		histPlot->setWindowTitle(QString::fromLocal8Bit("噪声统计测试结果"));
 		histPlot->setValueHist(histogram, indexLeft-4);

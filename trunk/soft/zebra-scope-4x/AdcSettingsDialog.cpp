@@ -9,10 +9,10 @@ AdcSettingsDialog::AdcSettingsDialog(QWidget *parent)
 	
 	codingComboBox->addItems(QStringList() << tr("Offset") << tr("Complement") << tr("Gray"));
 
-	m_adcTypeList << QString::fromLocal8Bit("自定义型号ADC")
-		<< QString::fromLocal8Bit("1.8V ADC")
-		<< QString::fromLocal8Bit("2.5V ADC")
-		<< QString::fromLocal8Bit("3.3V ADC");
+	m_adcTypeList << tr("Custom ADC")
+		<< tr("1.8V ADC")
+		<< tr("2.5V ADC")
+		<< tr("3.3V ADC");
 	adcTypeComboBox->addItems(m_adcTypeList);
 
 	const AdcTypeSettings& val = AdcAnalyzerSettings().adcTypeSettings();
