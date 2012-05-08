@@ -163,7 +163,7 @@ void ControlPanel::on_pushButtonStatisticTest_clicked()
 	if (QDialog::Accepted  == dlg.exec())
 	{
 		//QMessageBox notice;
-		//notice.setWindowTitle(QString::fromLocal8Bit("ADC-Analyzer"));
+		//notice.setWindowTitle(tr("ADC-Analyzer"));
 		//notice.setText();
 		//notice.exec();
 
