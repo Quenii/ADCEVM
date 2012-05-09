@@ -88,18 +88,15 @@ const int RCVBUFLEN = 32;
 //	BYTE buffer[RCVBUFLEN];
 //	int valid;
 //}SerialRcvBuffer;
-
 class SerialRcvBuffer{
 public:
-	SerialRcvBuffer(int size)
+	SerialRcvBuffer()
 	{
-		buffer = new BYTE[size];
 		valid = 0;
-		size = size;
+		size = 1024;
 	}
 	~SerialRcvBuffer()
 	{
-		delete []buffer;
 	}
 	int indexOf(char * slice, int len)
 	{
@@ -130,7 +127,7 @@ public:
 		valid += len;
 		TRACE("append: valid: %d, len: %d", valid, len);
 	}
-	
+
 	void remove(int first, int len)
 	{
 		if (first >= valid)
@@ -154,10 +151,12 @@ public:
 	{
 		valid = 0;
 	}
-	BYTE *buffer;
+	BYTE buffer[1024];
 	int valid;
 	int size;
 };
+
+
 typedef struct {int valid;
 				int hh;
 				int mm;
@@ -192,6 +191,7 @@ private:
 	GasType* m_O2;
 
 	GPSdms gLat, gLng;
+	bool bLocationValid;
 	HKEY m_hKeyPara;
 
 	CBitmap			m_bmpBackground;
@@ -201,7 +201,6 @@ private:
 	unsigned short	usAlarmEn;
 	unsigned char	ucSamInterval;
 	CString			m_strMima;
-
 
 // 操作
 private:
@@ -214,7 +213,7 @@ private:
 	void InitCtrol();
 	void SendADCtrolData(unsigned short);
 	void SendSensorData();
-
+	void SendDWSQ();
 	//定义串口接收数据函数类型
 	static void CALLBACK OnPort1Read(void * pOwner,BYTE* buf,DWORD bufLen);
 	static void CALLBACK OnPort2Read(void * pOwner,BYTE* buf,DWORD bufLen);
