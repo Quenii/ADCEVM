@@ -19,12 +19,11 @@
 
 //#define BYPASS
 #define HOSTID 0
-#define REMOTEID 0
+#define REMOTEID 0x040014
 #define LOCALID 0
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
 
 //定义串口数据接收消息常量
 #define WM_RECV_SERIALPORT1_DATA WM_USER + 101
@@ -76,10 +75,9 @@ float String2Float(CString str)
 
 CGasOnlineView::CGasOnlineView()
 	: CFormView(CGasOnlineView::IDD)
-	, m_rcvBufPort1(RCVBUFLEN*4)
-	, m_rcvBufPort2(1024)
 	, localID(LOCALID)
 	, remoteID(REMOTEID)
+	, bLocationValid(FALSE)
 {
 	// TODO: 在此处添加构造代码
 
@@ -87,6 +85,7 @@ CGasOnlineView::CGasOnlineView()
 
 	m_pSerialPort1 = NULL;
 	m_pSerialPort2 = NULL;
+
 	//m_pSerialPort3 = NULL;
 
 	m_SO2 = new GasType(0.07564296520423600605143721633888f);
@@ -195,7 +194,6 @@ void CGasOnlineView::OnInitialUpdate()
 		ONESTOPBIT))
 	{
 		TRACE(L"SENSOR打开成功");
-		m_rcvBufPort1.valid = 0;
 	}
 	else
 	{
@@ -215,16 +213,15 @@ void CGasOnlineView::OnInitialUpdate()
 		ONESTOPBIT))
 	{
 		TRACE(L"主机通信打开");
-		m_rcvBufPort2.valid = 0;
 	}
 	else
 	{
 		TRACE(L"主机通信失败");
 	}
 
-	SetWdtTimeOut(10);
-	EnableWdt();
-	//DisableWdt();
+	// SetWdtTimeOut(10);
+	// EnableWdt();
+	DisableWdt();
 
 	SetTimer(1001,61*1000,NULL);
 	SetTimer(1002,2000,NULL);
@@ -454,11 +451,21 @@ void CGasOnlineView::OnBnClickedButtonExit()
 
 void CGasOnlineView::OnTimer(UINT_PTR nIDEvent)
 {
+	static int cycles = 0;
 	switch(nIDEvent)
 	{
 	case 1001: 
 		{
-			SendSensorData();
+			if (cycles == 30 || (!bLocationValid))
+			{
+				cycles = 0;
+				SendDWSQ();
+			}
+			else
+			{
+				SendSensorData();
+			}
+			cycles += 1;
 		}
 		break;
 	case 1002:
@@ -543,6 +550,32 @@ void CALLBACK CGasOnlineView::OnPort2Read(void * pOwner, BYTE* buf, DWORD bufLen
 	//发送异步消息，表示收到串口数据，消息处理完，应释放内存
 	pThis->PostMessage(WM_RECV_SERIALPORT2_DATA, WPARAM(pRecvBuf), bufLen);
 }
+void CGasOnlineView::SendDWSQ()
+{
+	const int MSGLEN = 22;
+
+	BYTE sendBuf[MSGLEN];
+	memset(sendBuf, 0, MSGLEN*sizeof(BYTE));
+
+	sendBuf[0] = '$'; sendBuf[1] = 'D'; sendBuf[2] = 'W';
+	sendBuf[3] = 'S'; sendBuf[4] = 'Q'; 
+	sendBuf[5] = 0;	sendBuf[6] = MSGLEN; 
+	sendBuf[7] = (localID >> 16) & 0xFF; 
+	sendBuf[8] = (localID >> 8) & 0xFF; sendBuf[9] = (localID) & 0xFF;
+	sendBuf[10] = 0x04; 
+	sendBuf[11] = 0; sendBuf[12] = 0; sendBuf[13] = 0; sendBuf[14] = 0; 
+	sendBuf[15] = 0; sendBuf[16] = 0; sendBuf[17] = 0; sendBuf[18] = 0;
+	sendBuf[19] = 0; sendBuf[20] = 0; 
+
+	for (int i=0; i<MSGLEN-1; ++i)
+	{
+		sendBuf[MSGLEN-1] = sendBuf[MSGLEN-1] ^ sendBuf[i];
+	}
+
+	m_pSerialPort2->WriteSyncPort(sendBuf, MSGLEN*sizeof(BYTE));
+	TRACE("$DWSQ sent!");
+}
+
 void CGasOnlineView::SendSensorData()
 {
 	const int MSGLEN = 18 + 32;
@@ -561,7 +594,7 @@ void CGasOnlineView::SendSensorData()
 	sendBuf[5] = 0;	sendBuf[6] = MSGLEN; 
 	sendBuf[7] = (localID >> 16) & 0xFF; 
 	sendBuf[8] = (localID >> 8) & 0xFF; sendBuf[9] = (localID) & 0xFF;
-	sendBuf[10] = 0x84; 
+	sendBuf[10] = 0x46; 
 	sendBuf[11] = (remoteID >> 16) & 0xFF; 
 	sendBuf[12] = (remoteID >> 8) & 0xFF; sendBuf[13] = (remoteID >> 0) & 0xFF;
 	sendBuf[14] = 0; sendBuf[15] = MSGLEN*8; sendBuf[16] = 0;
@@ -587,6 +620,8 @@ void CGasOnlineView::SendSensorData()
 
 	m_pSerialPort2->WriteSyncPort(sendBuf, MSGLEN*sizeof(BYTE));
 
+	TRACE("$TXSQ sent!");
+
 }
 // 串口接收主站数据处理函数
 LONG CGasOnlineView::OnRecvSerialPort2Data(WPARAM wParam, LPARAM lParam)
@@ -608,6 +643,7 @@ LONG CGasOnlineView::OnRecvSerialPort2Data(WPARAM wParam, LPARAM lParam)
 	
 	if(indexDw >= 0 && m_rcvBufPort2.valid-indexDw >= 26)
 	{
+		bLocationValid = true;
 		BYTE * offset = m_rcvBufPort2.buffer + indexDw;
 		gLng.fromFloat(offset[18]+offset[19]/60.0f+offset[20]/3600.0f);
 		gLat.fromFloat(offset[22]+offset[23]/60.0f+offset[24]/3600.0f);
