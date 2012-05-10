@@ -47,11 +47,16 @@ BEGIN_MESSAGE_MAP(CGasOnlineView, CFormView)
 	ON_EN_KILLFOCUS(IDC_EDIT_SO2, &CGasOnlineView::OnEnKillfocusEditSo2)
 	ON_EN_SETFOCUS(IDC_EDIT_COMB, &CGasOnlineView::OnEnSetfocusEditComb)
 	ON_EN_KILLFOCUS(IDC_EDIT_COMB, &CGasOnlineView::OnEnKillfocusEditComb)
+	ON_EN_SETFOCUS(IDC_EDIT_O2, &CGasOnlineView::OnEnSetfocusEditO2)
+	ON_EN_KILLFOCUS(IDC_EDIT_O2, &CGasOnlineView::OnEnKillfocusEditO2)
+	ON_EN_SETFOCUS(IDC_EDIT_CO, &CGasOnlineView::OnEnSetfocusEditCo)
+	ON_EN_KILLFOCUS(IDC_EDIT_CO, &CGasOnlineView::OnEnKillfocusEditCo)
+
 	ON_BN_CLICKED(IDC_BUTTON_H2S, &CGasOnlineView::OnBnClickedButtonH2s)
 	ON_BN_CLICKED(IDC_BUTTON_SO2, &CGasOnlineView::OnBnClickedButtonSo2)
 	ON_BN_CLICKED(IDC_BUTTON_COMB, &CGasOnlineView::OnBnClickedButtonComb)
 	ON_BN_CLICKED(IDC_BUTTON_O2, &CGasOnlineView::OnBnClickedButtonO2)
-	ON_BN_CLICKED(IDC_BUTTON_CO, &CGasOnlineView::OnBnClickedButtonCO)
+	ON_BN_CLICKED(IDC_BUTTON_CO, &CGasOnlineView::OnBnClickedButtonCo)
 END_MESSAGE_MAP()
 
 float String2Float(CString str)
@@ -91,8 +96,8 @@ CGasOnlineView::CGasOnlineView()
 	m_SO2 = new GasType(0.07564296520423600605143721633888f);
 	m_H2S = new GasType(0.05703125f);
 	m_Fel = new GasType(0.038124285169653069004956157072055f);
-	m_O2 = new GasType((0xFFFF-0x0840)/30);
-	m_CO = new GasType((0xFFFF-0x0840)/1500);
+	m_O2 = new GasType(30/(0xFFFF-0x0840));
+	m_CO = new GasType(1500/(0xFFFF-0x0840));
 	usID = HOSTID;
 	
 	usAlarmEn = 0xFFFF;
@@ -207,7 +212,7 @@ void CGasOnlineView::OnInitialUpdate()
 	//打开串口--与主机板通信用
 	if (m_pSerialPort2->OpenPort(this,
 		2,
-		38400,
+		19200,
 		NOPARITY,
 		8,
 		ONESTOPBIT))
@@ -573,12 +578,13 @@ void CGasOnlineView::SendDWSQ()
 	}
 
 	m_pSerialPort2->WriteSyncPort(sendBuf, MSGLEN*sizeof(BYTE));
-	TRACE("$DWSQ sent!");
+	TRACE(_T("$DWSQ sent!\n"));
 }
 
 void CGasOnlineView::SendSensorData()
 {
-	const int MSGLEN = 18 + 32;
+	const int DATALEN = 32;
+	const int MSGLEN = 18 + DATALEN;
 
 	BYTE sendBuf[MSGLEN];
 	memset(sendBuf, 0, MSGLEN*sizeof(BYTE));
@@ -597,7 +603,7 @@ void CGasOnlineView::SendSensorData()
 	sendBuf[10] = 0x46; 
 	sendBuf[11] = (remoteID >> 16) & 0xFF; 
 	sendBuf[12] = (remoteID >> 8) & 0xFF; sendBuf[13] = (remoteID >> 0) & 0xFF;
-	sendBuf[14] = 0; sendBuf[15] = MSGLEN*8; sendBuf[16] = 0;
+	sendBuf[14] = (DATALEN*8) >> 8; sendBuf[15] = (DATALEN*8) & 0xFF; sendBuf[16] = 0;
 	sendBuf[17] = 0x66;
 	sendBuf[18] = 0x77;
 	sendBuf[19] = usID;
@@ -620,14 +626,14 @@ void CGasOnlineView::SendSensorData()
 
 	m_pSerialPort2->WriteSyncPort(sendBuf, MSGLEN*sizeof(BYTE));
 
-	TRACE("$TXSQ sent!");
+	TRACE(_T("$TXSQ sent!\n"));
 
 }
 // 串口接收主站数据处理函数
 LONG CGasOnlineView::OnRecvSerialPort2Data(WPARAM wParam, LPARAM lParam)
 {
 	BYTE * buf = (BYTE*)wParam;
-	TRACE("2: valid: %d, len: %d", m_rcvBufPort2.valid, (int)lParam);
+	TRACE(_T("ch2: valid: %d, len: %d\n"), m_rcvBufPort2.valid, (int)lParam);
 	m_rcvBufPort2.append(buf, (int)lParam);
 	delete []buf;
 
@@ -639,6 +645,8 @@ LONG CGasOnlineView::OnRecvSerialPort2Data(WPARAM wParam, LPARAM lParam)
 	{
 		BYTE * offset = m_rcvBufPort2.buffer + indexFk;
 		localID = (offset[7] << 16) + (offset[8] << 8) + (offset[9] << 0);
+		m_rcvBufPort2.remove(indexFk, 10);
+
 	}
 	
 	if(indexDw >= 0 && m_rcvBufPort2.valid-indexDw >= 26)
@@ -647,6 +655,8 @@ LONG CGasOnlineView::OnRecvSerialPort2Data(WPARAM wParam, LPARAM lParam)
 		BYTE * offset = m_rcvBufPort2.buffer + indexDw;
 		gLng.fromFloat(offset[18]+offset[19]/60.0f+offset[20]/3600.0f);
 		gLat.fromFloat(offset[22]+offset[23]/60.0f+offset[24]/3600.0f);
+		m_rcvBufPort2.remove(indexDw, 26);
+
 	}
 
 	if (indexTx >= 0 && m_rcvBufPort2.valid-indexTx >= 22)
@@ -660,16 +670,17 @@ LONG CGasOnlineView::OnRecvSerialPort2Data(WPARAM wParam, LPARAM lParam)
 		if (offset[0] == 'W' && offset[1] == 'N' && offset[2] == 'G')
 		{
 			SendADCtrolData(0x1000);
+			m_rcvBufPort2.remove(indexTx, 22);
 		}
 
 		if (offset[0] == 'O' && offset[1] == 'F' && offset[2] == 'F')
 		{
 			SendADCtrolData(0x1100);
+			m_rcvBufPort2.remove(indexTx, 22);
 		}
 
 	}
-
-	m_rcvBufPort2.clear();
+	
 	return 0;
 }
 
@@ -692,7 +703,7 @@ LONG CGasOnlineView::OnRecvSerialPort1Data(WPARAM wParam, LPARAM lParam)
 {
 	const int DATALEN = 20;
 	BYTE * buf = (BYTE*)wParam;
-	TRACE("1: valid: %d, len: %d", m_rcvBufPort1.valid, (int)lParam);
+	TRACE(_T("ch1: valid: %d, len: %d\n"), m_rcvBufPort1.valid, (int)lParam);
 	m_rcvBufPort1.append(buf, (int)lParam);
 	delete []buf;
 
@@ -710,11 +721,11 @@ LONG CGasOnlineView::OnRecvSerialPort1Data(WPARAM wParam, LPARAM lParam)
 	if (m_rcvBufPort1.valid > DATALEN)
 	{
 		BYTE * offset = m_rcvBufPort1.buffer;
-		m_O2->setValue(offset[6], offset[5]);
-		m_SO2->setValue(offset[10], offset[9]);
-		m_CO->setValue(offset[12], offset[11]);
-		m_H2S->setValue(offset[16], offset[15]);
-		m_Fel->setValue(offset[18], offset[17]);
+		m_O2->setValue(offset[5], offset[6]);
+		m_SO2->setValue(offset[9], offset[10]);
+		m_CO->setValue(offset[11], offset[12]);
+		m_H2S->setValue(offset[15], offset[16]);
+		m_Fel->setValue(offset[17], offset[18]);
 
 		m_rcvBufPort1.clear();
 	}
@@ -812,6 +823,26 @@ void CGasOnlineView::OnEnKillfocusEditComb()
 	KillEditFocus();
 }
 
+void CGasOnlineView::OnEnSetfocusEditCo()
+{
+	SetEditFocus();
+}
+
+void CGasOnlineView::OnEnKillfocusEditCo()
+{
+	KillEditFocus();
+}
+
+void CGasOnlineView::OnEnSetfocusEditO2()
+{
+	SetEditFocus();
+}
+
+void CGasOnlineView::OnEnKillfocusEditO2()
+{
+	KillEditFocus();
+}
+
 void CGasOnlineView::ReadRegPara()
 {
 	wchar_t *strStop;
@@ -864,7 +895,7 @@ void CGasOnlineView::ReadRegPara()
 		m_O2->setDelta( (float)wcstod(szKeyValue, &strStop) );
 	}
 
-	lResult = RegQueryValueEx(m_hKeyPara,_T("一氧化氮校准值"),0,&dwType,(LPBYTE)szKeyValue,&dwKeyValueLength);
+	lResult = RegQueryValueEx(m_hKeyPara,_T("一氧化碳校准值"),0,&dwType,(LPBYTE)szKeyValue,&dwKeyValueLength);
 	if(ERROR_SUCCESS == lResult)
 	{		
 		m_CO->setDelta( (float)wcstod(szKeyValue, &strStop) );
@@ -909,7 +940,7 @@ void CGasOnlineView::OnBnClickedButtonO2()
 	setKey(m_hKeyPara, szKeyName, m_O2);
 }
 
-void CGasOnlineView::OnBnClickedButtonCO()
+void CGasOnlineView::OnBnClickedButtonCo()
 {
 	UpdateData(TRUE);
 	WCHAR* szKeyName = L"一氧化碳校准值";
