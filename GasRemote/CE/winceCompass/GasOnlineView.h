@@ -32,8 +32,10 @@ struct GPSdms
 	{
 		fDeg = g;
 		deg = (int)g;
-		min = (int)((g - deg)*60.0);
-		sec = (int)((g - deg -min)*3600);
+		float t = (g - deg) * 60;
+		min = (int)t;
+		t = (t - min) * 60;
+		sec = (int)t;
 	}
 };
 
@@ -108,8 +110,8 @@ public:
 		{
 			if (memcmp(buffer+i, slice, len) == 0)
 			{
+				TRACE(_T("indexOf: valid: %d, len: %d, index: %d\n"), valid, len, i);
 				return i;
-				TRACE("valid: %d, len: %d, index: %d", valid, len, i);
 			}
 		}
 		return -1;
@@ -125,7 +127,7 @@ public:
 
 		memcpy(buffer+valid, anotherBuf, len);
 		valid += len;
-		TRACE("append: valid: %d, len: %d", valid, len);
+		TRACE(_T("append: valid: %d, len: %d\n"), valid, len);
 	}
 
 	void remove(int first, int len)
@@ -300,11 +302,16 @@ public:
 	afx_msg void OnEnKillfocusEditSo2();
 	afx_msg void OnEnSetfocusEditComb();
 	afx_msg void OnEnKillfocusEditComb();
+	afx_msg void OnEnSetfocusEditO2();
+	afx_msg void OnEnKillfocusEditO2();
+	afx_msg void OnEnSetfocusEditCo();
+	afx_msg void OnEnKillfocusEditCo();
+
 	afx_msg void OnBnClickedButtonH2s();
 	afx_msg void OnBnClickedButtonSo2();
 	afx_msg void OnBnClickedButtonComb();
 	afx_msg void OnBnClickedButtonO2();
-	afx_msg void OnBnClickedButtonCO();
+	afx_msg void OnBnClickedButtonCo();
 };
 
 #ifndef _DEBUG  // GasOnlineView.cpp 中的调试版本

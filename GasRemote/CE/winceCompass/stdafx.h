@@ -6,6 +6,7 @@
 
 #pragma comment(linker, "/nodefaultlib:libc.lib")
 #pragma comment(linker, "/nodefaultlib:libcd.lib")
+#pragma comment(lib, "HDI_API.lib")
 
 // 注意 - 这个值与作为目标的 Windows CE OS 版本的关联性并不强
 #define WINVER _WIN32_WCE
