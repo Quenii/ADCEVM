@@ -309,6 +309,10 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
+				RelativePath=".\res\BACKGROUND.BMP"
+				>
+			</File>
+			<File
 				RelativePath=".\res\GasOnline.ico"
 				>
 			</File>
@@ -331,5 +335,9 @@
 		</File>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="GasOnline.rc"
+		/>
 	</Globals>
 </VisualStudioProject>

@@ -50,6 +50,7 @@ BEGIN_MESSAGE_MAP(CGasOnlineView, CFormView)
 	ON_BN_CLICKED(IDC_BUTTON_H2S, &CGasOnlineView::OnBnClickedButtonH2s)
 	ON_BN_CLICKED(IDC_BUTTON_SO2, &CGasOnlineView::OnBnClickedButtonSo2)
 	ON_BN_CLICKED(IDC_BUTTON_COMB, &CGasOnlineView::OnBnClickedButtonComb)
+	ON_BN_CLICKED(IDC_BUTTON_USB, &CGasOnlineView::OnBnClickedButtonUsb)
 END_MESSAGE_MAP()
 
 // CGasOnlineView 构造/析构
@@ -186,7 +187,7 @@ void CGasOnlineView::OnInitialUpdate()
 */
 	InitCtrol();
 
-	GetDlgItem(IDC_BUTTON_USB)->EnableWindow(FALSE);
+	GetDlgItem(IDC_BUTTON_USB)->EnableWindow(TRUE);
 
 	//新建串口通讯对象
 	m_pSerialPort1 = new CCESeries();
@@ -510,7 +511,7 @@ void CGasOnlineView::OnTimer(UINT_PTR nIDEvent)
 	case 1003:
 		{
 			FeedWdt();
-			SendADCtrolData(0x02FF);
+			SendADCtrolData(0x0200);
 		}
 		break;
 	default:
@@ -719,9 +720,9 @@ LONG CGasOnlineView::OnRecvSerialPort1Data(WPARAM wParam, LPARAM lParam)
 	//串口接收到的BUF
 	CHAR *pBuf = (CHAR *)m_rcvBufPort1.buffer;
 
-	m_SO2->setValue(pBuf[5], pBuf[6]);
-	m_H2S->setValue(pBuf[15], pBuf[16]);
-	m_Fel->setValue(pBuf[17], pBuf[18]);
+	m_SO2->setValue(pBuf[9], pBuf[10]);
+	m_H2S->setValue(pBuf[3], pBuf[4]);
+	m_Fel->setValue(pBuf[11], pBuf[12]);
 
     m_rcvBufPort1.valid = 0;
 	return 0;
@@ -820,16 +821,40 @@ void CGasOnlineView::GetParaData()
 	
 }
 
+void CGasOnlineView::SendADCtrolData(unsigned short cmd, unsigned char para)
+{
+	BYTE cmdbuf[3];
+	memset(cmdbuf, 0, 3*sizeof(BYTE));
+	cmdbuf[0] = para;
+	cmdbuf[1] = 0xFF & (cmd >> 8);
+	cmdbuf[2] = 0xFF & cmd;
+	SendCmd(cmdbuf, 3);
+}
+
 void CGasOnlineView::SendADCtrolData(unsigned short cmd)
 {
+	BYTE cmdbuf[2];
+	memset(cmdbuf, 0, 2*sizeof(BYTE));
+	cmdbuf[0] = 0xFF & (cmd >> 8);
+	cmdbuf[1] = 0xFF & cmd;
+	SendCmd(cmdbuf, 2);
+}
+
+void CGasOnlineView::SendCmd(const BYTE* cmd, int len)
+{
 	BYTE sendBufTOAD[32];
-	memset(sendBufTOAD,0,32*sizeof(BYTE));
+	memset(sendBufTOAD, 0, 32*sizeof(BYTE));
+
 	sendBufTOAD[0] = 0x55;
 	sendBufTOAD[1] = 0xAA;
-	sendBufTOAD[2] = 0xFF & cmd >> 8;
-	sendBufTOAD[3] = 0xFF & cmd;
-	sendBufTOAD[4] = 0x00;
+
+	memcpy(sendBufTOAD+2, cmd, len);
+	for (int i=0; i<31; ++i)
+	{
+		sendBufTOAD[31] += sendBufTOAD[i];
+	}
 	m_pSerialPort1->WriteSyncPort(sendBufTOAD,32*sizeof(BYTE));
+
 }
 
 int CGasOnlineView::String2Hex(CString str, CByteArray &hexdata)
@@ -1063,8 +1088,13 @@ void CGasOnlineView::OnBnClickedButtonH2s()
 {
 	UpdateData(TRUE);
 	WCHAR* szKeyName = L"硫化氢校准值";
-
 	setKey(m_hKeyPara, szKeyName, m_H2S);
+
+	unsigned short cali = 0;
+	unsigned char set = m_H2S->set;
+	cali += 0 << 8;
+	cali += set;
+	SendADCtrolData(cali, 0x20);
 }
 
 void CGasOnlineView::OnBnClickedButtonSo2()
@@ -1072,6 +1102,13 @@ void CGasOnlineView::OnBnClickedButtonSo2()
 	UpdateData(TRUE);
 	WCHAR* szKeyName = L"二氧化硫校准值";
 	setKey(m_hKeyPara, szKeyName, m_SO2);
+
+	unsigned short cali = 0;
+	unsigned char set = m_SO2->set;
+	cali += 3 << 8;
+	cali += set;
+	SendADCtrolData(cali, 0x20);
+
 }
 
 void CGasOnlineView::OnBnClickedButtonComb()
@@ -1079,4 +1116,46 @@ void CGasOnlineView::OnBnClickedButtonComb()
 	UpdateData(TRUE);
 	WCHAR* szKeyName = L"可燃气校准值";
 	setKey(m_hKeyPara, szKeyName, m_Fel);
+
+	unsigned short cali = 0;
+	unsigned char set = m_Fel->set;
+	cali += 4 << 8;
+	cali += set;
+	SendADCtrolData(cali, 0x20);
+
+}
+void CGasOnlineView::OnBnClickedButtonUsb()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	const int SIZE = 21;
+	BYTE cmd[SIZE];
+	memset(cmd, 0, SIZE);
+	cmd[0] = 0x50;
+
+	cmd[1] = 0;
+	cmd[2] = 0;
+	cmd[3] = 0;
+	cmd[4] = 0;
+
+	cmd[5] = 0;
+	cmd[6] = 0;
+	cmd[7] = 0;
+	cmd[8] = 0;
+
+	cmd[9] = 0;
+	cmd[10] = 0;
+	cmd[11] = 0;
+	cmd[12] = 0;
+
+	cmd[13] = 0;
+	cmd[14] = 0;
+	cmd[15] = 0;
+	cmd[16] = 0;
+
+	cmd[17] = 0;
+	cmd[18] = 0;
+	cmd[19] = 0;
+	cmd[20] = 0;
+
+	SendCmd(cmd, SIZE);
 }

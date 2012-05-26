@@ -29,17 +29,21 @@ public:
 		m_k = k;
 		m_delta = 0.0;
 	};
-	void setValue(unsigned char hi, unsigned char low, unsigned short min = 0x0840)
+	void setValue(unsigned char integer, unsigned char decimal)
 	{
-		int raw = hi*256 + low;
-		if (raw < min)
-		{	
-			raw = min;
-		}
-		m_orignal = (raw - min) * m_k;
-		m_value = m_orignal + m_delta;
-		m_value = m_value >= 0 ? m_value : 0;
+		m_value = integer + (float)decimal / 100;
 	}
+	//void setValue(unsigned char hi, unsigned char low, unsigned short min = 0x0840)
+	//{
+	//	int raw = hi*256 + low;
+	//	if (raw < min)
+	//	{	
+	//		raw = min;
+	//	}
+	//	m_orignal = (raw - min) * m_k;
+	//	m_value = m_orignal + m_delta;
+	//	m_value = m_value >= 0 ? m_value : 0;
+	//}
 	float orignal()
 	{
 		return m_orignal;
@@ -153,6 +157,9 @@ private:
 	void DisplayCommData();
 	void InitCtrol();
 	void SendADCtrolData(unsigned short);
+	void SendADCtrolData(unsigned short, unsigned char);
+	void SendCmd(const BYTE* cmd, int len);
+
 	//定义串口接收数据函数类型
 	static void CALLBACK OnPort1Read(void * pOwner,BYTE* buf,DWORD bufLen);
 	static void CALLBACK OnPort2Read(void * pOwner,BYTE* buf,DWORD bufLen);
@@ -241,6 +248,8 @@ public:
 	afx_msg void OnBnClickedButtonH2s();
 	afx_msg void OnBnClickedButtonSo2();
 	afx_msg void OnBnClickedButtonComb();
+public:
+	afx_msg void OnBnClickedButtonUsb();
 };
 
 #ifndef _DEBUG  // GasOnlineView.cpp 中的调试版本
