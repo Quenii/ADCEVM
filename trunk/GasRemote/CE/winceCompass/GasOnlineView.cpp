@@ -17,6 +17,8 @@
 #include "QuitTipDlg.h"
 #include "HDI_API.h"
 
+#include "IniParse.h"
+
 //#define BYPASS
 #define HOSTID 0	//本机ID, 0 ~ 127
 #define REMOTEID 0x040014	//监显中断北斗ID号
@@ -81,7 +83,6 @@ float String2Float(CString str)
 CGasOnlineView::CGasOnlineView()
 	: CFormView(CGasOnlineView::IDD)
 	, localID(0)
-	, remoteID(REMOTEID)
 	, bLocationValid(FALSE)
 {
 	// TODO: 在此处添加构造代码
@@ -98,8 +99,17 @@ CGasOnlineView::CGasOnlineView()
 	m_Fel = new GasType(0.038124285169653069004956157072055f);
 	m_O2 = new GasType(30/(0xFFFF-0x0840));
 	m_CO = new GasType(1500/(0xFFFF-0x0840));
-	usID = HOSTID;
-	
+
+	//usID = HOSTID;
+
+	CString strtmp;
+	CIniParse iniParse; 
+	iniParse.Open(TEXT("\\ResidentFlash\\GasOnline.ini")); 
+	TSTRING strValue;
+
+	remoteID = iniParse.GetPrivateProfileInt(TEXT("General"),TEXT("RemoteID"));  
+	usID = iniParse.GetPrivateProfileInt(TEXT("General"),TEXT("HOSTID"));
+
 	usAlarmEn = 0xFFFF;
 	ucSamInterval = 10;	
 	m_strMima = _T("");
@@ -185,6 +195,7 @@ void CGasOnlineView::OnInitialUpdate()
 	InitCtrol();
 
 	GetDlgItem(IDC_BUTTON_USB)->EnableWindow(TRUE);
+	GetDlgItem(IDC_BUTTON_SET)->EnableWindow(FALSE);
 
 	//新建串口通讯对象
 	m_pSerialPort1 = new CCESeries();
@@ -309,12 +320,12 @@ void CGasOnlineView::InitCtrol()
 	m_ctlCSALLOW.SetBkColor(RGB(0,0,0));
 
 	CString strtmp;
-	m_ctlCSO2.SetTextColor(RGB(255,0,255));	
-	m_ctlCSO2.SetFontSize(16);
-	m_ctlCSO2.SetFontBold(TRUE);
-	m_ctlCSO2.SetBkColor(RGB(0,0,0));
-	strtmp.Format(_T("O2"));
-	m_ctlCSO2.SetWindowText(strtmp);
+	//m_ctlCSO2.SetTextColor(RGB(255,0,255));	
+	//m_ctlCSO2.SetFontSize(16);
+	//m_ctlCSO2.SetFontBold(TRUE);
+	//m_ctlCSO2.SetBkColor(RGB(0,0,0));
+	//strtmp.Format(_T("O2"));
+	//m_ctlCSO2.SetWindowText(strtmp);
 
 	m_ctlCSO2Value.SetTextColor(RGB(0,0,255));	
 	m_ctlCSO2Value.SetFontSize(16);
@@ -322,12 +333,12 @@ void CGasOnlineView::InitCtrol()
 	m_ctlCSO2Value.SetBkColor(RGB(0,0,0));
 	m_ctlCSO2Value.SetWindowText(_T(""));
 
-	m_ctlCSH2S.SetTextColor(RGB(255,0,255));	
-	m_ctlCSH2S.SetFontSize(16);
-	m_ctlCSH2S.SetFontBold(TRUE);
-	m_ctlCSH2S.SetBkColor(RGB(0,0,0));
-	strtmp.Format(_T("H2S"));
-	m_ctlCSH2S.SetWindowText(strtmp);
+	//m_ctlCSH2S.SetTextColor(RGB(255,0,255));	
+	//m_ctlCSH2S.SetFontSize(16);
+	//m_ctlCSH2S.SetFontBold(TRUE);
+	//m_ctlCSH2S.SetBkColor(RGB(0,0,0));
+	//strtmp.Format(_T("H2S"));
+	//m_ctlCSH2S.SetWindowText(strtmp);
 
 	m_ctlCSH2SValue.SetTextColor(RGB(0,0,255));	
 	m_ctlCSH2SValue.SetFontSize(16);
@@ -335,12 +346,12 @@ void CGasOnlineView::InitCtrol()
 	m_ctlCSH2SValue.SetBkColor(RGB(0,0,0));
 	m_ctlCSH2SValue.SetWindowText(_T(""));
 
-	m_ctlCSCO.SetTextColor(RGB(255,0,255));	
-	m_ctlCSCO.SetFontSize(16);
-	m_ctlCSCO.SetFontBold(TRUE);
-	m_ctlCSCO.SetBkColor(RGB(0,0,0));
-	strtmp.Format(_T("CO"));
-	m_ctlCSCO.SetWindowText(strtmp);
+	//m_ctlCSCO.SetTextColor(RGB(255,0,255));	
+	//m_ctlCSCO.SetFontSize(16);
+	//m_ctlCSCO.SetFontBold(TRUE);
+	//m_ctlCSCO.SetBkColor(RGB(0,0,0));
+	//strtmp.Format(_T("CO"));
+	//m_ctlCSCO.SetWindowText(strtmp);
 
 	m_ctlCSCOValue.SetTextColor(RGB(0,0,255));	
 	m_ctlCSCOValue.SetFontSize(16);
@@ -348,12 +359,12 @@ void CGasOnlineView::InitCtrol()
 	m_ctlCSCOValue.SetBkColor(RGB(0,0,0));
 	m_ctlCSCOValue.SetWindowText(_T(""));
 
-	m_ctlCSSO2.SetTextColor(RGB(255,0,255));	
-	m_ctlCSSO2.SetFontSize(16);
-	m_ctlCSSO2.SetFontBold(TRUE);
-	m_ctlCSSO2.SetBkColor(RGB(0,0,0));
-	strtmp.Format(_T("SO2"));
-	m_ctlCSSO2.SetWindowText(strtmp);
+	//m_ctlCSSO2.SetTextColor(RGB(255,0,255));	
+	//m_ctlCSSO2.SetFontSize(16);
+	//m_ctlCSSO2.SetFontBold(TRUE);
+	//m_ctlCSSO2.SetBkColor(RGB(0,0,0));
+	//strtmp.Format(_T("SO2"));
+	//m_ctlCSSO2.SetWindowText(strtmp);
 
 	m_ctlCSSO2Value.SetTextColor(RGB(0,0,255));	
 	m_ctlCSSO2Value.SetFontSize(16);
@@ -361,12 +372,12 @@ void CGasOnlineView::InitCtrol()
 	m_ctlCSSO2Value.SetBkColor(RGB(0,0,0));
 	m_ctlCSSO2Value.SetWindowText(_T(""));
 
-	m_ctlCSVOC.SetTextColor(RGB(255,0,255));	
-	m_ctlCSVOC.SetFontSize(16);
-	m_ctlCSVOC.SetFontBold(TRUE);
-	m_ctlCSVOC.SetBkColor(RGB(0,0,0));
-	strtmp.Format(_T("VOC"));
-	m_ctlCSVOC.SetWindowText(strtmp);
+	//m_ctlCSVOC.SetTextColor(RGB(255,0,255));	
+	//m_ctlCSVOC.SetFontSize(16);
+	//m_ctlCSVOC.SetFontBold(TRUE);
+	//m_ctlCSVOC.SetBkColor(RGB(0,0,0));
+	//strtmp.Format(_T("VOC"));
+	//m_ctlCSVOC.SetWindowText(strtmp);
 
 	m_ctlCSVOCValue.SetTextColor(RGB(0,0,255));	
 	m_ctlCSVOCValue.SetFontSize(16);
@@ -374,12 +385,12 @@ void CGasOnlineView::InitCtrol()
 	m_ctlCSVOCValue.SetBkColor(RGB(0,0,0));
 	m_ctlCSVOCValue.SetWindowText(_T(""));
 
-	m_ctlCSCOMB.SetTextColor(RGB(255,0,255));	
-	m_ctlCSCOMB.SetFontSize(12);
-	m_ctlCSCOMB.SetFontBold(TRUE);
-	m_ctlCSCOMB.SetBkColor(RGB(0,0,0));
-	strtmp.Format(_T("可燃气"));
-	m_ctlCSCOMB.SetWindowText(strtmp);
+	//m_ctlCSCOMB.SetTextColor(RGB(255,0,255));	
+	//m_ctlCSCOMB.SetFontSize(12);
+	//m_ctlCSCOMB.SetFontBold(TRUE);
+	//m_ctlCSCOMB.SetBkColor(RGB(0,0,0));
+	//strtmp.Format(_T("可燃气"));
+	//m_ctlCSCOMB.SetWindowText(strtmp);
 
 	m_ctlCSCOMBValue.SetTextColor(RGB(0,0,255));	
 	m_ctlCSCOMBValue.SetFontSize(16);
