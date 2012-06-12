@@ -18,9 +18,8 @@
 #include "HDI_API.h"
 
 //#define BYPASS
-#define HOSTID 0
-#define REMOTEID 0x040014
-#define LOCALID 0
+#define HOSTID 0	//本机ID, 0 ~ 127
+#define REMOTEID 0x040014	//监显中断北斗ID号
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -81,7 +80,7 @@ float String2Float(CString str)
 
 CGasOnlineView::CGasOnlineView()
 	: CFormView(CGasOnlineView::IDD)
-	, localID(LOCALID)
+	, localID(0)
 	, remoteID(REMOTEID)
 	, bLocationValid(FALSE)
 {
@@ -1038,30 +1037,30 @@ void CGasOnlineView::OnBnClickedButtonUsb()
 	memset(cmd, 0, SIZE);
 	cmd[0] = 0x50;
 
-	cmd[1] = 0;
+	cmd[1] = 0x07;
 	cmd[2] = 0;
-	cmd[3] = 0;
-	cmd[4] = 0;
+	cmd[3] = 0x04;
+	cmd[4] = 0x1a;
 
-	cmd[5] = 0;
-	cmd[6] = 0;
-	cmd[7] = 0;
+	cmd[5] = 0x03;
+	cmd[6] = 0xd2;
+	cmd[7] = 0x03;
 	cmd[8] = 0;
 
-	cmd[9] = 0;
+	cmd[9] = 0x07;
 	cmd[10] = 0;
-	cmd[11] = 0;
+	cmd[11] = 0x04;
 	cmd[12] = 0;
 
-	cmd[13] = 0;
+	cmd[13] = 0x07;
 	cmd[14] = 0;
-	cmd[15] = 0;
+	cmd[15] = 0x04;
 	cmd[16] = 0;
 
-	cmd[17] = 0;
-	cmd[18] = 0;
-	cmd[19] = 0;
-	cmd[20] = 0;
+	cmd[17] = 0x0f;
+	cmd[18] = 0xff;
+	cmd[19] = 0x54;
+	cmd[20] = 0x28;
 
 	SendCmd(cmd, SIZE);
 }
