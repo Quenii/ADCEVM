@@ -217,6 +217,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ParaSet.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\QuitTipDlg.cpp"
 				>
 			</File>
@@ -284,6 +288,10 @@
 			</File>
 			<File
 				RelativePath=".\MainFrm.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ParaSet.h"
 				>
 			</File>
 			<File

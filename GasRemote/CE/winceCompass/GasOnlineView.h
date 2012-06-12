@@ -8,7 +8,7 @@
 #include "CESeries.h"
 #include "stdlib.h"
 #include "string.h"
-
+#include "ParaSet.h"
 //#include "GPS_Parsor.h"
 
 //产生随机数
@@ -46,6 +46,8 @@ public:
 	{
 		m_k = k;
 		m_delta = 0.0;
+		m_value = 0.0;
+		set = 0.0;
 	};
 	void setValue(unsigned char integer, unsigned char decimal)
 	{
@@ -80,7 +82,8 @@ public:
 		return m_delta;
 	}
 	float set;
-
+	UINT32 m_coe;
+	
 private:
 	float m_value;
 	float m_orignal;
@@ -189,6 +192,7 @@ public:
 // 属性
 public:
 	CGasOnlineDoc* GetDocument() const;
+	CParaSet para;
 
 private:
 	GasType* m_SO2;
