@@ -100,9 +100,6 @@ CGasOnlineView::CGasOnlineView()
 	m_O2 = new GasType(30/(0xFFFF-0x0840));
 	m_CO = new GasType(1500/(0xFFFF-0x0840));
 
-	//usID = HOSTID;
-
-	CString strtmp;
 	CIniParse iniParse; 
 	iniParse.Open(TEXT("\\ResidentFlash\\GasOnline.ini")); 
 	TSTRING strValue;
@@ -1048,30 +1045,60 @@ void CGasOnlineView::OnBnClickedButtonUsb()
 	memset(cmd, 0, SIZE);
 	cmd[0] = 0x50;
 
-	cmd[1] = 0x07;
-	cmd[2] = 0;
-	cmd[3] = 0x04;
-	cmd[4] = 0x1a;
+	CIniParse iniParse; 
+	iniParse.Open(TEXT("\\ResidentFlash\\GasOnline.ini")); 
+	TSTRING strValue;
 
-	cmd[5] = 0x03;
-	cmd[6] = 0xd2;
-	cmd[7] = 0x03;
-	cmd[8] = 0;
+	UINT32 para = iniParse.GetPrivateProfileInt(TEXT("Gas1"),TEXT("Coe"));  
+	for (int i=0; i<4; ++i)
+	{
+		cmd[1+i] = (para >> (8*(3-i))) & 0xFF;
+	}
+	para = iniParse.GetPrivateProfileInt(TEXT("Gas2"),TEXT("Coe"));  
+	for (int i=0; i<4; ++i)
+	{
+		cmd[5+i] = (para >> (8*(3-i))) & 0xFF;
+	}
+	para = iniParse.GetPrivateProfileInt(TEXT("Gas3"),TEXT("Coe"));  
+	for (int i=0; i<4; ++i)
+	{
+		cmd[9+i] = (para >> (8*(3-i))) & 0xFF;
+	}
+	para = iniParse.GetPrivateProfileInt(TEXT("Gas4"),TEXT("Coe"));  
+	for (int i=0; i<4; ++i)
+	{
+		cmd[13+i] = (para >> (8*(3-i))) & 0xFF;
+	}
+	para = iniParse.GetPrivateProfileInt(TEXT("Gas5"),TEXT("Coe"));  
+	for (int i=0; i<4; ++i)
+	{
+		cmd[17+i] = (para >> (8*(3-i))) & 0xFF;
+	}
 
-	cmd[9] = 0x07;
-	cmd[10] = 0;
-	cmd[11] = 0x04;
-	cmd[12] = 0;
+	//cmd[1] = 0x07;
+	//cmd[2] = 0;
+	//cmd[3] = 0x04;
+	//cmd[4] = 0x1a;
 
-	cmd[13] = 0x07;
-	cmd[14] = 0;
-	cmd[15] = 0x04;
-	cmd[16] = 0;
+	//cmd[5] = 0x03;
+	//cmd[6] = 0xd2;
+	//cmd[7] = 0x03;
+	//cmd[8] = 0;
 
-	cmd[17] = 0x0f;
-	cmd[18] = 0xff;
-	cmd[19] = 0x54;
-	cmd[20] = 0x28;
+	//cmd[9] = 0x07;
+	//cmd[10] = 0;
+	//cmd[11] = 0x04;
+	//cmd[12] = 0;
+
+	//cmd[13] = 0x07;
+	//cmd[14] = 0;
+	//cmd[15] = 0x04;
+	//cmd[16] = 0;
+
+	//cmd[17] = 0x0f;
+	//cmd[18] = 0xff;
+	//cmd[19] = 0x54;
+	//cmd[20] = 0x28;
 
 	SendCmd(cmd, SIZE);
 }
