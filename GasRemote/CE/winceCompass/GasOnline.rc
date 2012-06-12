@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 中文(中华人民共和国) resources
+// Chinese (P.R.C.) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 #ifdef _WIN32
@@ -48,8 +48,8 @@ BEGIN
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
     "LANGUAGE 4, 2\r\n"
     "#pragma code_page(936)\r\n"
-    "#include ""res\\GasOnline.rc2""  // ·? Microsoft Visual C++ ±à?-μ?×ê?′\r\n"
-    "#include ""l.CHS\\afxres.rc""      // ±ê×?×é?t\r\n"
+    "#include ""res\\GasOnline.rc2""  // ?¤? Microsoft Visual C++ ?à¨¤?-|ì??á¨o???\r\n"
+    "#include ""l.CHS\\afxres.rc""      // ?à¨o?á??á¨|?t\r\n"
     "#endif\r\n"
     "\0"
 END
@@ -151,11 +151,11 @@ BEGIN
     CTEXT           "日期",IDC_STATIC_DATE,209,8,51,13
     CTEXT           "星期",IDC_STATIC_WEEK,210,21,50,14
     CTEXT           "温度",IDC_STATIC_TEMPERATURE,259,8,38,26
-    CTEXT           "O2",IDC_STATIC_O2,8,144,37,17,WS_BORDER
-    CTEXT           "SO2",IDC_STATIC_SO2,8,72,37,17,WS_BORDER
-    CTEXT           "H2S",IDC_STATIC_H2S,8,54,37,17,WS_BORDER
-    CTEXT           "CO",IDC_STATIC_CO,8,108,37,17,WS_BORDER
-    CTEXT           "VOC",IDC_STATIC_VOC,8,126,37,17,WS_DISABLED | WS_BORDER
+    CTEXT           "Ｏ２",IDC_STATIC_O2,8,144,37,17,WS_BORDER
+    CTEXT           "ＳＯ２",IDC_STATIC_SO2,8,72,37,17,WS_BORDER
+    CTEXT           "Ｈ２Ｓ",IDC_STATIC_H2S,8,54,37,17,WS_BORDER
+    CTEXT           "ＰＩＤ",IDC_STATIC_CO,8,108,37,17,WS_BORDER
+    CTEXT           "ＶＯＣ",IDC_STATIC_VOC,8,126,37,17,WS_DISABLED | WS_BORDER
     CTEXT           "可燃气体",IDC_STATIC_COMB,8,90,37,17,WS_BORDER
     CTEXT           "名称",IDC_STATIC_NAME,8,40,37,13
     CTEXT           "当前值",IDC_STATIC_VALUE,48,40,118,13
@@ -177,7 +177,7 @@ BEGIN
     PUSHBUTTON      "Ｈ２Ｓ校准",IDC_BUTTON_H2S,202,54,50,17
     PUSHBUTTON      "ＳＯ２校准",IDC_BUTTON_SO2,202,72,50,17
     PUSHBUTTON      "可燃气校准",IDC_BUTTON_COMB,202,90,50,17
-    PUSHBUTTON      "ＣＯ校准",IDC_BUTTON_CO,202,108,50,17
+    PUSHBUTTON      "ＰＩＤ校准",IDC_BUTTON_CO,202,108,50,17
     PUSHBUTTON      "ＶＯＣ校准",IDC_BUTTON_VOC,202,126,50,17,WS_DISABLED
     PUSHBUTTON      "Ｏ２校准",IDC_BUTTON_O2,202,144,50,17
     PUSHBUTTON      "关键盘",IDC_BUTTON_CLOSEKEY,261,34,36,22
@@ -399,7 +399,7 @@ BEGIN
     IDP_SOCKETS_INIT_FAILED "Windows 套接字初始化失败"
 END
 
-#endif    // 中文(中华人民共和国) resources
+#endif    // Chinese (P.R.C.) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
