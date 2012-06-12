@@ -1132,30 +1132,30 @@ void CGasOnlineView::OnBnClickedButtonUsb()
 	memset(cmd, 0, SIZE);
 	cmd[0] = 0x50;
 
-	cmd[1] = 0;
+	cmd[1] = 0x07;
 	cmd[2] = 0;
-	cmd[3] = 0;
-	cmd[4] = 0;
+	cmd[3] = 0x04;
+	cmd[4] = 0x1A;
 
-	cmd[5] = 0;
-	cmd[6] = 0;
-	cmd[7] = 0;
-	cmd[8] = 0;
+	cmd[5] = 0x0;
+	cmd[6] = 0x0;
+	cmd[7] = 0x0;
+	cmd[8] = 0x0;
 
-	cmd[9] = 0;
-	cmd[10] = 0;
-	cmd[11] = 0;
-	cmd[12] = 0;
+	cmd[9] = 0x0;
+	cmd[10] = 0x0;
+	cmd[11] = 0x0;
+	cmd[12] = 0x0;
 
-	cmd[13] = 0;
-	cmd[14] = 0;
-	cmd[15] = 0;
-	cmd[16] = 0;
+	cmd[13] = 0x07;
+	cmd[14] = 0x0;
+	cmd[15] = 0x04;
+	cmd[16] = 0x0;
 
-	cmd[17] = 0;
-	cmd[18] = 0;
-	cmd[19] = 0;
-	cmd[20] = 0;
+	cmd[17] = 0x0F;
+	cmd[18] = 0xFF;
+	cmd[19] = 0x54;
+	cmd[20] = 0x28;
 
 	SendCmd(cmd, SIZE);
 }
