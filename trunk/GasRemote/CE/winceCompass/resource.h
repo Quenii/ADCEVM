@@ -11,6 +11,7 @@
 #define IDD_DIALOG_SETUP                132
 #define IDD_DIALOG1                     133
 #define IDD_DIALOG_TIP                  133
+#define IDD_DIALOG_PARA                 135
 #define IDC_STATIC_NAME                 1000
 #define IDC_STATIC_MAIN                 1001
 #define IDC_BUTTON_SET                  1002
@@ -60,6 +61,7 @@
 #define IDC_EDIT_TIMEINT                1046
 #define IDC_EDIT_PASSWORD               1047
 #define IDC_EDIT_TIMESET                1048
+#define IDC_EDIT_RID                    1048
 #define IDC_EDIT_ID                     1049
 #define IDC_CHECK_POWERAL               1053
 #define IDC_BUTTON_DEFAULT              1055
@@ -84,6 +86,8 @@
 #define IDC_BUTTON_O2                   1074
 #define IDC_BUTTON_CLOSEKEY             1075
 #define IDC_STATIC_TIP                  1076
+#define IDC_EDIT_CID                    1078
+#define IDC_EDIT_HID                    1079
 #define IDS_NEW                         65000
 #define IDS_FILE                        65001
 #define IDS_HELP                        65002
@@ -97,9 +101,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        135
+#define _APS_NEXT_RESOURCE_VALUE        136
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1078
+#define _APS_NEXT_CONTROL_VALUE         1079
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -101,11 +101,14 @@ CGasOnlineView::CGasOnlineView()
 	m_CO = new GasType(1500/(0xFFFF-0x0840));
 
 	CIniParse iniParse; 
-	iniParse.Open(TEXT("\\ResidentFlash\\GasOnline.ini")); 
-	TSTRING strValue;
-
-	remoteID = iniParse.GetPrivateProfileInt(TEXT("General"),TEXT("RemoteID"));  
-	usID = iniParse.GetPrivateProfileInt(TEXT("General"),TEXT("HOSTID"));
+	if (!iniParse.Open(TEXT("\\ResidentFlash\\GasOnline.ini")))
+	{
+		usID = HOSTID;
+		remoteID = REMOTEID;
+	}else{
+		remoteID = iniParse.GetPrivateProfileInt(TEXT("General"),TEXT("RemoteID"));  
+		usID = iniParse.GetPrivateProfileInt(TEXT("General"),TEXT("HOSTID"));
+	}
 
 	usAlarmEn = 0xFFFF;
 	ucSamInterval = 10;	
@@ -192,7 +195,7 @@ void CGasOnlineView::OnInitialUpdate()
 	InitCtrol();
 
 	GetDlgItem(IDC_BUTTON_USB)->EnableWindow(TRUE);
-	GetDlgItem(IDC_BUTTON_SET)->EnableWindow(FALSE);
+	GetDlgItem(IDC_BUTTON_SET)->EnableWindow(TRUE);
 
 	//新建串口通讯对象
 	m_pSerialPort1 = new CCESeries();
@@ -317,12 +320,6 @@ void CGasOnlineView::InitCtrol()
 	m_ctlCSALLOW.SetBkColor(RGB(0,0,0));
 
 	CString strtmp;
-	//m_ctlCSO2.SetTextColor(RGB(255,0,255));	
-	//m_ctlCSO2.SetFontSize(16);
-	//m_ctlCSO2.SetFontBold(TRUE);
-	//m_ctlCSO2.SetBkColor(RGB(0,0,0));
-	//strtmp.Format(_T("O2"));
-	//m_ctlCSO2.SetWindowText(strtmp);
 
 	m_ctlCSO2Value.SetTextColor(RGB(0,0,255));	
 	m_ctlCSO2Value.SetFontSize(16);
@@ -330,25 +327,11 @@ void CGasOnlineView::InitCtrol()
 	m_ctlCSO2Value.SetBkColor(RGB(0,0,0));
 	m_ctlCSO2Value.SetWindowText(_T(""));
 
-	//m_ctlCSH2S.SetTextColor(RGB(255,0,255));	
-	//m_ctlCSH2S.SetFontSize(16);
-	//m_ctlCSH2S.SetFontBold(TRUE);
-	//m_ctlCSH2S.SetBkColor(RGB(0,0,0));
-	//strtmp.Format(_T("H2S"));
-	//m_ctlCSH2S.SetWindowText(strtmp);
-
 	m_ctlCSH2SValue.SetTextColor(RGB(0,0,255));	
 	m_ctlCSH2SValue.SetFontSize(16);
 	m_ctlCSH2SValue.SetFontBold(TRUE);
 	m_ctlCSH2SValue.SetBkColor(RGB(0,0,0));
 	m_ctlCSH2SValue.SetWindowText(_T(""));
-
-	//m_ctlCSCO.SetTextColor(RGB(255,0,255));	
-	//m_ctlCSCO.SetFontSize(16);
-	//m_ctlCSCO.SetFontBold(TRUE);
-	//m_ctlCSCO.SetBkColor(RGB(0,0,0));
-	//strtmp.Format(_T("CO"));
-	//m_ctlCSCO.SetWindowText(strtmp);
 
 	m_ctlCSCOValue.SetTextColor(RGB(0,0,255));	
 	m_ctlCSCOValue.SetFontSize(16);
@@ -356,38 +339,17 @@ void CGasOnlineView::InitCtrol()
 	m_ctlCSCOValue.SetBkColor(RGB(0,0,0));
 	m_ctlCSCOValue.SetWindowText(_T(""));
 
-	//m_ctlCSSO2.SetTextColor(RGB(255,0,255));	
-	//m_ctlCSSO2.SetFontSize(16);
-	//m_ctlCSSO2.SetFontBold(TRUE);
-	//m_ctlCSSO2.SetBkColor(RGB(0,0,0));
-	//strtmp.Format(_T("SO2"));
-	//m_ctlCSSO2.SetWindowText(strtmp);
-
 	m_ctlCSSO2Value.SetTextColor(RGB(0,0,255));	
 	m_ctlCSSO2Value.SetFontSize(16);
 	m_ctlCSSO2Value.SetFontBold(TRUE);
 	m_ctlCSSO2Value.SetBkColor(RGB(0,0,0));
 	m_ctlCSSO2Value.SetWindowText(_T(""));
 
-	//m_ctlCSVOC.SetTextColor(RGB(255,0,255));	
-	//m_ctlCSVOC.SetFontSize(16);
-	//m_ctlCSVOC.SetFontBold(TRUE);
-	//m_ctlCSVOC.SetBkColor(RGB(0,0,0));
-	//strtmp.Format(_T("VOC"));
-	//m_ctlCSVOC.SetWindowText(strtmp);
-
 	m_ctlCSVOCValue.SetTextColor(RGB(0,0,255));	
 	m_ctlCSVOCValue.SetFontSize(16);
 	m_ctlCSVOCValue.SetFontBold(TRUE);
 	m_ctlCSVOCValue.SetBkColor(RGB(0,0,0));
 	m_ctlCSVOCValue.SetWindowText(_T(""));
-
-	//m_ctlCSCOMB.SetTextColor(RGB(255,0,255));	
-	//m_ctlCSCOMB.SetFontSize(12);
-	//m_ctlCSCOMB.SetFontBold(TRUE);
-	//m_ctlCSCOMB.SetBkColor(RGB(0,0,0));
-	//strtmp.Format(_T("可燃气"));
-	//m_ctlCSCOMB.SetWindowText(strtmp);
 
 	m_ctlCSCOMBValue.SetTextColor(RGB(0,0,255));	
 	m_ctlCSCOMBValue.SetFontSize(16);
@@ -744,10 +706,18 @@ LONG CGasOnlineView::OnRecvSerialPort1Data(WPARAM wParam, LPARAM lParam)
 
 void CGasOnlineView::OnBnClickedButtonSet()
 {
-	CSetParaDlg dlg;
+	CSetParaDlg dlg(usID, remoteID);
 	if (dlg.DoModal()==IDOK)
 	{
-
+	}
+	CIniParse iniParse; 
+	if (!iniParse.Open(TEXT("\\ResidentFlash\\GasOnline.ini")))
+	{
+		usID = HOSTID;
+		remoteID = REMOTEID;
+	}else{
+		remoteID = iniParse.GetPrivateProfileInt(TEXT("General"),TEXT("RemoteID"));  
+		usID = iniParse.GetPrivateProfileInt(TEXT("General"),TEXT("HOSTID"));
 	}
 }
 
@@ -892,19 +862,6 @@ void CGasOnlineView::ReadRegPara()
 	DWORD dwIDLength = sizeof(DWORD);
 	lResult = RegCreateKeyEx(HKEY_CURRENT_USER,_T("WiTeamSoft\\GasOnline"),0,NULL,REG_OPTION_NON_VOLATILE,0,NULL,&m_hKeyPara,&dwDisp);
 
-	//DWORD dwID;
-	//lResult = RegQueryValueEx(m_hKeyPara,_T("本机ID"),0,&dwType,(LPBYTE)&dwID,&dwIDLength);
-	//if(ERROR_SUCCESS == lResult)
-	//{
-	//	usID = (unsigned short)dwID;
-	//}
-	//else
-	//{
-	//	usID = 2;
-	//	dwID = usID;
-	//	lResult = RegSetValueEx(m_hKeyPara,_T("本机ID"),0,REG_DWORD,(LPBYTE)&dwID,sizeof(DWORD));
-	//}
-	//
 	lResult = RegQueryValueEx(m_hKeyPara,_T("硫化氢校准值"),0,&dwType,(LPBYTE)szKeyValue,&dwKeyValueLength);
 	if(ERROR_SUCCESS == lResult)
 	{
@@ -1046,7 +1003,10 @@ void CGasOnlineView::OnBnClickedButtonUsb()
 	cmd[0] = 0x50;
 
 	CIniParse iniParse; 
-	iniParse.Open(TEXT("\\ResidentFlash\\GasOnline.ini")); 
+	if (!iniParse.Open(TEXT("\\ResidentFlash\\GasOnline.ini")))
+	{
+		return;
+	}
 	TSTRING strValue;
 
 	UINT32 para = iniParse.GetPrivateProfileInt(TEXT("Gas1"),TEXT("Coe"));  
@@ -1074,31 +1034,6 @@ void CGasOnlineView::OnBnClickedButtonUsb()
 	{
 		cmd[17+i] = (para >> (8*(3-i))) & 0xFF;
 	}
-
-	//cmd[1] = 0x07;
-	//cmd[2] = 0;
-	//cmd[3] = 0x04;
-	//cmd[4] = 0x1a;
-
-	//cmd[5] = 0x03;
-	//cmd[6] = 0xd2;
-	//cmd[7] = 0x03;
-	//cmd[8] = 0;
-
-	//cmd[9] = 0x07;
-	//cmd[10] = 0;
-	//cmd[11] = 0x04;
-	//cmd[12] = 0;
-
-	//cmd[13] = 0x07;
-	//cmd[14] = 0;
-	//cmd[15] = 0x04;
-	//cmd[16] = 0;
-
-	//cmd[17] = 0x0f;
-	//cmd[18] = 0xff;
-	//cmd[19] = 0x54;
-	//cmd[20] = 0x28;
 
 	SendCmd(cmd, SIZE);
 }

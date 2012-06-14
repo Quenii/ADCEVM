@@ -9,7 +9,7 @@ class CSetParaDlg : public CDialog
 	DECLARE_DYNAMIC(CSetParaDlg)
 
 public:
-	CSetParaDlg(CWnd* pParent = NULL);   // standard constructor
+	CSetParaDlg(UINT32 hID, UINT32 rID, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CSetParaDlg();
 
 // Dialog Data
@@ -27,15 +27,7 @@ private:
 	void SaveGasSel();
 
 public:
-	CComboBox m_ctlComboGasName;
-	BOOL m_bIsThisGasSel;
-	BOOL m_bIsPowerAlarm;
-	BOOL m_bIsZigbeeEnable;
-	BOOL m_bIsBlueTeethSel;
-	BOOL m_bIsOtherAlarmEnable;
-	CString m_strTimeIntvel;
-	CString m_strID;
-	CString m_strPassword;
+	UINT32 hostID, remoteID;
 public:
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnBnClickedButtonSet();
