@@ -63,3 +63,24 @@ set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim (Verilog)"
 set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VERILOG -section_id eda_simulation
+set_global_assignment -name LL_ENABLED ON -section_id ddc_for_asic
+set_global_assignment -name LL_AUTO_SIZE ON -section_id ddc_for_asic
+set_global_assignment -name LL_STATE FLOATING -section_id ddc_for_asic
+set_global_assignment -name LL_RESERVED OFF -section_id ddc_for_asic
+set_global_assignment -name LL_RESERVED_IS_LIMITED OFF -section_id ddc_for_asic
+set_global_assignment -name LL_SOFT OFF -section_id ddc_for_asic
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id ddc_for_asic
+set_global_assignment -name LL_HEIGHT 1 -section_id ddc_for_asic
+set_global_assignment -name LL_WIDTH 1 -section_id ddc_for_asic
+set_global_assignment -name LL_ORIGIN LAB_X1_Y1 -section_id ddc_for_asic
+set_global_assignment -name LL_ENABLED ON -section_id |
+set_global_assignment -name LL_AUTO_SIZE ON -section_id |
+set_global_assignment -name LL_STATE FLOATING -section_id |
+set_global_assignment -name LL_RESERVED OFF -section_id |
+set_global_assignment -name LL_RESERVED_IS_LIMITED OFF -section_id |
+set_global_assignment -name LL_SOFT OFF -section_id |
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id |
+set_global_assignment -name LL_HEIGHT 1 -section_id |
+set_global_assignment -name LL_WIDTH 1 -section_id |
+set_global_assignment -name LL_ORIGIN LAB_X1_Y1 -section_id |
+set_global_assignment -name LL_MEMBER_OF | -section_id |
