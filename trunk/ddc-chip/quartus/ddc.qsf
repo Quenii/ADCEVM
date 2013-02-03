@@ -1,0 +1,65 @@
+# Copyright (C) 1991-2008 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+
+
+# The default values for assignments are stored in the file
+#		ddc_assignment_defaults.qdf
+# If this file doesn't exist, and for assignments not listed, see file
+#		assignment_defaults.qdf
+
+# Altera recommends that you do not modify this file. This
+# file is updated automatically by the Quartus II software
+# and any changes you make may be lost or overwritten.
+
+
+set_global_assignment -name FAMILY "Stratix II"
+set_global_assignment -name DEVICE EP2S180F1508I4
+set_global_assignment -name TOP_LEVEL_ENTITY ddc_for_asic
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "8.0 SP1"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "16:10:33  FEBRUARY 03, 2013"
+set_global_assignment -name LAST_QUARTUS_VERSION "8.0 SP1"
+set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_palace
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/cic_comb.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/cic_decimator.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/cic_filter.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/cic_integrator.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/clk_rst_gen.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/cordic_p2r_pipe.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/ddc_dataout_cntrl.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/ddc_for_asic.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/ddc_mixer.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/dpram_1k_16b.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/fir_2mux1.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/fir_4mux1.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/fir_filter.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/fir_gain_reg.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/fir_pass_cntrl.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/hb_filter.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/nco_for_asic.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/nco_for_test.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/nco_for_test_st.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/nco_for_test_tb.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/nco_pass_cntrl.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/nco_sine_gen.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/nco_trigger_3.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/pass_cntrl.v
+set_global_assignment -name VERILOG_FILE ../src/fir_4mux1/rst_gen.v
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_COLOR 14622752 -section_id Top
+set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim (Verilog)"
+set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VERILOG -section_id eda_simulation
