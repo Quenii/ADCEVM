@@ -1,0 +1,227 @@
+vlib work
+vmap work 
+vlog 
+
+
+
+vendor_name = ModelSim
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/cic_comb.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/cic_decimator.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/cic_filter.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/cic_integrator.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/clk_rst_gen.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/cordic_p2r_pipe.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/ddc_dataout_cntrl.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/ddc_for_asic.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/ddc_mixer.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/dpram_1k_16b.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/fir_2mux1.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/fir_4mux1.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/fir_filter.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/fir_gain_reg.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/fir_pass_cntrl.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/hb_filter.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/nco_for_asic.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/nco_for_test.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/nco_for_test_st.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/nco_for_test_tb.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/nco_pass_cntrl.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/nco_sine_gen.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/nco_trigger_3.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/pass_cntrl.v
+source_file = 1, D:/Workshop/projects/ddc-chip/src/fir_4mux1/rst_gen.v
+source_file = 1, D:/Workshop/projects/ddc-chip/quartus/db/ddc.cbx.xml
+source_file = 1, i:/quartus/libraries/megafunctions/altmult_add.tdf
+source_file = 1, i:/quartus/libraries/megafunctions/aglobal80.inc
+source_file = 1, i:/quartus/libraries/megafunctions/stratix_mac_mult.inc
+source_file = 1, i:/quartus/libraries/megafunctions/stratix_mac_out.inc
+source_file = 1, i:/quartus/libraries/megafunctions/cbx.lst
+source_file = 1, D:/Workshop/projects/ddc-chip/quartus/db/mult_add_qqm3.tdf
+source_file = 1, D:/Workshop/projects/ddc-chip/quartus/db/mult_add_rqm3.tdf
+source_file = 1, i:/quartus/libraries/megafunctions/altshift_taps.tdf
+source_file = 1, i:/quartus/libraries/megafunctions/altdpram.inc
+source_file = 1, i:/quartus/libraries/megafunctions/lpm_counter.inc
+source_file = 1, i:/quartus/libraries/megafunctions/lpm_compare.inc
+source_file = 1, i:/quartus/libraries/megafunctions/lpm_constant.inc
+source_file = 1, D:/Workshop/projects/ddc-chip/quartus/db/shift_taps_0hm.tdf
+source_file = 1, D:/Workshop/projects/ddc-chip/quartus/db/altsyncram_l561.tdf
+source_file = 1, D:/Workshop/projects/ddc-chip/quartus/db/cntr_mlf.tdf
+source_file = 1, D:/Workshop/projects/ddc-chip/quartus/db/cntr_95h.tdf
+source_file = 1, i:/quartus/libraries/megafunctions/lpm_mult.tdf
+source_file = 1, i:/quartus/libraries/megafunctions/lpm_add_sub.inc
+source_file = 1, i:/quartus/libraries/megafunctions/multcore.inc
+source_file = 1, i:/quartus/libraries/megafunctions/bypassff.inc
+source_file = 1, i:/quartus/libraries/megafunctions/altshift.inc
+source_file = 1, D:/Workshop/projects/ddc-chip/quartus/db/mult_7p01.tdf
+
+
+
+
+# Generated using Python
+# by Liu Peng<liupengee@126.com>
+# Sat  May 09, 2009
+
+###############################################################
+## compiling library
+vlib work
+vlib libroc
+vlib std_xilinx
+vlib std_lib
+vlib fdk_lib
+vlib fdk_lib
+
+vcom -explicit -93 -work libroc "../xst/hy_hdr_proj/hdltext/hy_hdr/libroc/std_logic_helper.vhd"
+
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/data_spy.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/ac240_top_sysclk_struct.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/ac240_user_block_struct.vhd"
+
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_loop_filter.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_phase_detector_sgl.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_phase_detector_sgl_v2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_phase_detector.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_phase_detector_v2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/ck_manager_sysclk_struct.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/ck_rst_manager_sysclk_struct.vhd"
+
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/cs_dds.vhd"
+#vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/cs_loop_filter.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/cs_loop_filter_v2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/async_fifo_deep2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/cdc_pipe.vhd"
+
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/lb_ibtarget_io_base4x_mdf.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/lb_ibtarget_io_base4x_cdc.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/lb_ibtarget_io_base2x_mdf.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/lb_ibtarget_io_base2x_cdc.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/lb_ibtarget_io_base_mdf.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/lb_ibtarget_io_base_cdc.vhd"
+
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/loop_filter_reg_bank.vhd"
+
+
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/cs_match_filter_v3.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/cs_match_filter_v3_sgl.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/cs_match_filter_coef.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/parallel_filter_v3.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/cs_mul.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/data_spy.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/data_spy_ctrl.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/dds.vhd"
+
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/led_twinkling.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/multi_shift.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/safe_trunc.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/sincos_lut.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/user_block_example_struct.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_dds_sgl.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_dds.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/cs.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/compactor_adapter.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/compactor.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/de_diff.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/async_fifo_16k_8i32o.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/demod.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/frame_sync_core.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/frame_sync.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/ambig_resolve.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/frame_sync.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/frame_sync_core.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/frame_processor.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/rs_decoder_core.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/frame_rs_decoder_core.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/frame_rs_ififo.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/frame_rs_ofifo.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/frame_rs_decoder.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/vcdu_rs_decoder.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/vcdu_rs.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/rs_decoder.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/sync_fifo_512.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/adder_tree.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/adder_tree_with_mark.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/lb_ibtarget_bram_4k_32.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bert.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/descrambler.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/lock_detector.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/lock_detector_error_sum.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/integration_counter.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/error_accumulator.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/lock_detector_fsm.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/dpu.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/data_gen.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/polarity_correct.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/decoder.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/hy_hdr.vhd"
+
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/i_and_d_filter.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/i_and_d_filter_dual.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/i_and_d_filter_sgl.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/decision_maker.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/data_bus_expander.vhd"
+
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/cs_pd_costas_sgl.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/cs_pd_costas.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/cs_pd_tanlock.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/cs_pd_tanlock_sgl.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/arctan.vhd"
+
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_v2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_phase_detector_v2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_phase_detector_sgl_v2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_resampler_v2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_nco_v2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_nco_phase_calc_v2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_nco_u_generator_v2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_interpolator_v2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/bs_interpolator_sgl_v2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/interpolator_v2.vhd"
+vcom -explicit -93 "../xst/hy_hdr_proj/hdltext/hy_hdr/interpolator_linear_v2.vhd"
+
+
+vcom -explicit -93 "./sys_signals.vhd"
+vcom -explicit -93 "./sys_ser2par.vhd"
+vcom -explicit -93 "./sys_par2ser.vhd"
+vcom -explicit -93 "./tb_hy_hdr.vhd"
+
+###############################################################
+## start simulation
+
+vsim -t 1ps -lib work tb_hy_hdr  -foreign {simlinkserver {C:/Program Files/MATLAB/R2008a/toolbox/modelsim/windows32/liblfmhdls_vs05.dll}  ; -socket 4449 }
+#vsim -t 1ps -lib work tb_hy_hdr  -foreign {simlinkserver {d:/MATLAB/toolbox/modelsim/windows32/liblfmhdls_vs05.dll}  ; -socket 4449 }
+
+###############################################################
+## add wave 
+add wave sim:/tb_hy_hdr/*
+add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/*
+#add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_1/bs_phase_detector_1/*
+#add wave sim:/tb_hy_hdr/hy_hdr_fx/demod_1/bs_1/bs_phase_detector_1/*
+#add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_1/bs_phase_detector_1/bs_phase_detector_sgl_chi/*
+#add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_1/bs_loop_filter_1/*
+#add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_1/bs_dds_1/*
+#add wave sim:/tb_hy_hdr/hy_hdr_fx/demod_1/bs_1/bs_dds_1/*
+#add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_1/bs_loop_filter_1/*
+#add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/cs_1/cs_loop_filter_1/*
+
+#add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_1/bs_phase_detector_1/bs_phase_detector_sgl_chi/perr_o
+#add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_1/bs_phase_detector_v2_1/inst_i/perr_o
+
+#add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_1/bs_phase_detector_1/perr_o
+#add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_1/bs_phase_detector_v2_1/perr_o
+
+#add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_1/lflt_dds
+
+add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_v2_1/*
+add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_v2_1/nco/*
+add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_v2_1/interp/interpi/*
+add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_v2_1/interp/interpi/for_gen__7/interpolator_v2_inst/*
+add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_v2_1/pd/*
+add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_v2_1/pd/inst_i/*
+add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_v2_1/nco/pcalc/*
+add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_v2_1/resamp/*
+add wave sim:/tb_hy_hdr/hy_hdr_1x/demod_1/bs_v2_1/lf/*
+###############################################################
+## 
+view wave
+view structure
+view signals
