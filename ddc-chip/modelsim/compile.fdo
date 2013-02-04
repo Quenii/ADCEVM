@@ -27,3 +27,4 @@ vlog ../src/fir_4mux1/nco_trigger_3.v
 vlog ../src/fir_4mux1/pass_cntrl.v
 vlog ../src/fir_4mux1/rst_gen.v
 
+vcom -93 -explicit -work work ddc_tb.vhd
