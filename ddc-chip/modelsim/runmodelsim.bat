@@ -1,1 +1,1 @@
-vsim -do "ddc_sim.fdo"
+vsim -do "ddc_tb.fdo"
