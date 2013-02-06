@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.7"
+    ComputedModelVersion    "1.8"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,9 +45,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Feb 06 22:45:22 2013"
+  LastModifiedDate	  "Wed Feb 06 22:56:28 2013"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:7>"
+  ModelVersionFormat	  "1.%<AutoIncrement:8>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -628,7 +628,7 @@ Model {
   }
   System {
     Name		    "ddc_tb"
-    Location		    [585, 154, 1208, 679]
+    Location		    [27, 218, 650, 743]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -646,10 +646,9 @@ Model {
       BlockType		      DataTypeConversion
       Name		      "Data Type Conversion"
       Position		      [150, 248, 225, 282]
-      OutDataTypeMode	      "int16"
-      OutDataType	      "sfix(16)"
-      OutScaling	      "2^0"
-      OutDataTypeStr	      "int16"
+      OutDataTypeMode	      "Specify via dialog"
+      OutDataType	      "fixdt(1,16,15)"
+      OutDataTypeStr	      "fixdt(1,16,15)"
       RndMeth		      "Floor"
       SaturateOnIntegerOverflow	off
     }
