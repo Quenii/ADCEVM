@@ -1,12 +1,12 @@
 Model {
-  Name			  "ddc"
+  Name			  "ddc_tb"
   Version		  7.1
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.1"
+    ComputedModelVersion    "1.5"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,9 +45,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Feb 06 20:03:57 2013"
+  LastModifiedDate	  "Wed Feb 06 22:36:44 2013"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:1>"
+  ModelVersionFormat	  "1.%<AutoIncrement:5>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -580,6 +580,19 @@ Model {
       DataTypeOverride	      "UseLocalSettings"
       MinMaxOverflowLogging   "UseLocalSettings"
     }
+    Block {
+      BlockType		      Sin
+      SineType		      "Time based"
+      TimeSource	      "Use simulation time"
+      Amplitude		      "1"
+      Bias		      "0"
+      Frequency		      "1"
+      Phase		      "0"
+      Samples		      "10"
+      Offset		      "0"
+      SampleTime	      "-1"
+      VectorParams1D	      on
+    }
   }
   AnnotationDefaults {
     HorizontalAlignment	    "center"
@@ -600,8 +613,8 @@ Model {
     FontAngle		    "normal"
   }
   System {
-    Name		    "ddc"
-    Location		    [473, 215, 1009, 508]
+    Name		    "ddc_tb"
+    Location		    [648, 165, 1271, 690]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -616,10 +629,18 @@ Model {
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
     Block {
+      BlockType		      Sin
+      Name		      "Sine Wave"
+      Ports		      [0, 1]
+      Position		      [185, 250, 215, 280]
+      Frequency		      "2 * pi * 100e3"
+      SampleTime	      "1/80e6"
+    }
+    Block {
       BlockType		      Reference
-      Name		      "HDL Cosimulation1"
-      Ports		      [1, 2]
-      Position		      [160, 107, 270, 163]
+      Name		      "ddc_tb"
+      Ports		      [1, 20]
+      Position		      [270, 50, 455, 480]
       DialogController	      "hdllinkddg.CoSimBlockDialog"
       SourceBlock	      "modelsimlib/HDL Cosimulation"
       SourceType	      "Simulink and ModelSim Cosimulation"
@@ -631,25 +652,32 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      PortPaths		      "/top/sig1;/top/sig2;/top/sig3"
-      PortModes		      "[1 2 2 ]"
-      PortTimes		      "[-1,10,10]"
-      PortSigns		      "[-1 -1 -1 ]"
-      PortFracLengths	      "[0,0,0]"
+      PortPaths		      "ddc_tb/data_in;ddc_tb/nco_sine_test;ddc_tb/nco_cosine_test;ddc_tb/mixer_i_test;ddc_tb/mixer_q_test;ddc_tb/nco_i_pass_data_test;ddc_tb/nco_q_pass_data_test;ddc_tb/hb_i_test;ddc_tb/hb_q_test;ddc_tb/cic_i_test;ddc_tb/cic_q_test;ddc_tb/hb_flag;ddc_tb/cic_flag;ddc_tb/fir_i_result_test;ddc_tb/fir_q_result_test;ddc_tb/fir_flag;ddc_tb/ddc_i_data;ddc_tb/ddc_q_data;ddc_tb/ddc_flag;ddc_tb/nco_test;ddc_tb/freq_word"
+      PortModes		      "[1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 ]"
+      PortTimes		      "[-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"
+      PortSigns		      "[-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]"
+      PortFracLengths	      "[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]"
       CommLocal		      on
       CommSharedMemory	      on
       CommPortNumber	      "4449"
       CommShowInfo	      off
-      ClockModes	      "[]"
-      ClockTimes	      "[]"
+      ClockPaths	      "/ddc_tb/clk"
+      ClockModes	      "[2 ]"
+      ClockTimes	      "[1/80e6]"
       TclPreSimCommand	      "puts \"Running Simulink Cosimulation block.\""
       TclPostSimCommand	      "puts \"done\""
-      TimingMode	      "Tick"
+      TimingMode	      "s"
       TimingScaleFactor	      "1"
       idxCellArray	      "{'UNUSED_VAR'}"
       CosimBypass	      "Full Simulation"
       AllowDirectFeedthrough  off
       ProductName	      "EDA Simulator Link MQ"
+    }
+    Line {
+      SrcBlock		      "Sine Wave"
+      SrcPort		      1
+      DstBlock		      "ddc_tb"
+      DstPort		      1
     }
   }
 }

@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@PC-201210061941>
 -- Company    : 
 -- Created    : 2013-02-04
--- Last update: 2013-02-04
+-- Last update: 2013-02-06
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -26,6 +26,39 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 entity ddc_tb is
+
+  generic (
+    ADBITWIDTH     : integer := 16;
+    NCOBITWIDTH    : integer := 25;
+    FILTERBITWIDTH : integer := 18;
+    MIXBITWIDTH    : integer := 22;
+    COEBITWIDTH    : integer := 16;
+    FIRBITWIDTH    : integer := 26);
+  port (
+    clk                  : in  vl_logic;
+
+    data_in              : in  vl_logic_vector(ADBITWIDTH-1 downto 0);
+
+    nco_sine_test        : out vl_logic_vector(NCOBITWIDTH-1 downto 0);
+    nco_cosine_test      : out vl_logic_vector(NCOBITWIDTH-1 downto 0);
+    mixer_i_test         : out vl_logic_vector(MIXBITWIDTH-1 downto 0);
+    mixer_q_test         : out vl_logic_vector(MIXBITWIDTH-1 downto 0);
+    nco_i_pass_data_test : out vl_logic_vector(FILTERBITWIDTH-1 downto 0);
+    nco_q_pass_data_test : out vl_logic_vector(FILTERBITWIDTH-1 downto 0);
+    hb_i_test            : out vl_logic_vector(MIXBITWIDTH-1 downto 0);
+    hb_q_test            : out vl_logic_vector(MIXBITWIDTH-1 downto 0);
+    cic_i_test           : out vl_logic_vector(MIXBITWIDTH-1 downto 0);
+    cic_q_test           : out vl_logic_vector(MIXBITWIDTH-1 downto 0);
+    hb_flag              : out vl_logic;
+    cic_flag             : out vl_logic;
+    fir_i_result_test    : out vl_logic_vector(FIRBITWIDTH-1 downto 0);
+    fir_q_result_test    : out vl_logic_vector(FIRBITWIDTH-1 downto 0);
+    fir_flag             : out vl_logic;
+    ddc_i_data           : out vl_logic_vector(ADBITWIDTH-1 downto 0);
+    ddc_q_data           : out vl_logic_vector(ADBITWIDTH-1 downto 0);
+    ddc_flag             : out vl_logic;
+    nco_test             : out vl_logic_vector(14 downto 0);
+    freq_word            : out vl_logic_vector(31 downto 0));
 
 end ddc_tb;
 
@@ -91,14 +124,8 @@ architecture archi of ddc_tb is
       freq_word            : out vl_logic_vector(31 downto 0));
   end component;
 
-  constant ADBITWIDTH     : integer := 16;
-  constant NCOBITWIDTH    : integer := 25;
-  constant FILTERBITWIDTH : integer := 18;
-  constant MIXBITWIDTH    : integer := 22;
-  constant COEBITWIDTH    : integer := 16;
-  constant FIRBITWIDTH    : integer := 26;
 
-  signal clk                  : vl_logic;
+  --signal clk                  : vl_logic;
   signal rst_m0               : vl_logic;
   signal rst_start            : vl_logic;
   signal rst                  : vl_logic;
@@ -112,7 +139,7 @@ architecture archi of ddc_tb is
   signal fir_param            : vl_logic_vector(COEBITWIDTH-1 downto 0);
   signal firgain_param        : vl_logic_vector(COEBITWIDTH-1 downto 0);
   signal orp                  : vl_logic;
-  signal data_in              : vl_logic_vector(ADBITWIDTH-1 downto 0);
+--  signal data_in              : vl_logic_vector(ADBITWIDTH-1 downto 0);
   signal nco_indicator        : vl_logic;
   signal nco_pass_flag        : vl_logic;
   signal ncogain_indicator    : vl_logic;
@@ -127,26 +154,26 @@ architecture archi of ddc_tb is
   signal firgain_indicator    : vl_logic;
   signal sin_val              : vl_logic_vector(15 downto 0);
   signal nco_test_en          : vl_logic;
-  signal nco_sine_test        : vl_logic_vector(NCOBITWIDTH-1 downto 0);
-  signal nco_cosine_test      : vl_logic_vector(NCOBITWIDTH-1 downto 0);
-  signal mixer_i_test         : vl_logic_vector(MIXBITWIDTH-1 downto 0);
-  signal mixer_q_test         : vl_logic_vector(MIXBITWIDTH-1 downto 0);
-  signal nco_i_pass_data_test : vl_logic_vector(FILTERBITWIDTH-1 downto 0);
-  signal nco_q_pass_data_test : vl_logic_vector(FILTERBITWIDTH-1 downto 0);
-  signal hb_i_test            : vl_logic_vector(MIXBITWIDTH-1 downto 0);
-  signal hb_q_test            : vl_logic_vector(MIXBITWIDTH-1 downto 0);
-  signal cic_i_test           : vl_logic_vector(MIXBITWIDTH-1 downto 0);
-  signal cic_q_test           : vl_logic_vector(MIXBITWIDTH-1 downto 0);
-  signal hb_flag              : vl_logic;
-  signal cic_flag             : vl_logic;
-  signal fir_i_result_test    : vl_logic_vector(FIRBITWIDTH-1 downto 0);
-  signal fir_q_result_test    : vl_logic_vector(FIRBITWIDTH-1 downto 0);
-  signal fir_flag             : vl_logic;
-  signal ddc_i_data           : vl_logic_vector(ADBITWIDTH-1 downto 0);
-  signal ddc_q_data           : vl_logic_vector(ADBITWIDTH-1 downto 0);
-  signal ddc_flag             : vl_logic;
-  signal nco_test             : vl_logic_vector(14 downto 0);
-  signal freq_word            : vl_logic_vector(31 downto 0);
+  --signal nco_sine_test        : vl_logic_vector(NCOBITWIDTH-1 downto 0);
+  --signal nco_cosine_test      : vl_logic_vector(NCOBITWIDTH-1 downto 0);
+  --signal mixer_i_test         : vl_logic_vector(MIXBITWIDTH-1 downto 0);
+  --signal mixer_q_test         : vl_logic_vector(MIXBITWIDTH-1 downto 0);
+  --signal nco_i_pass_data_test : vl_logic_vector(FILTERBITWIDTH-1 downto 0);
+  --signal nco_q_pass_data_test : vl_logic_vector(FILTERBITWIDTH-1 downto 0);
+  --signal hb_i_test            : vl_logic_vector(MIXBITWIDTH-1 downto 0);
+  --signal hb_q_test            : vl_logic_vector(MIXBITWIDTH-1 downto 0);
+  --signal cic_i_test           : vl_logic_vector(MIXBITWIDTH-1 downto 0);
+  --signal cic_q_test           : vl_logic_vector(MIXBITWIDTH-1 downto 0);
+  --signal hb_flag              : vl_logic;
+  --signal cic_flag             : vl_logic;
+  --signal fir_i_result_test    : vl_logic_vector(FIRBITWIDTH-1 downto 0);
+  --signal fir_q_result_test    : vl_logic_vector(FIRBITWIDTH-1 downto 0);
+  --signal fir_flag             : vl_logic;
+  --signal ddc_i_data           : vl_logic_vector(ADBITWIDTH-1 downto 0);
+  --signal ddc_q_data           : vl_logic_vector(ADBITWIDTH-1 downto 0);
+  --signal ddc_flag             : vl_logic;
+  --signal nco_test             : vl_logic_vector(14 downto 0);
+  --signal freq_word            : vl_logic_vector(31 downto 0);
   
 begin  -- archi
 

@@ -84,3 +84,4 @@ set_global_assignment -name LL_HEIGHT 1 -section_id |
 set_global_assignment -name LL_WIDTH 1 -section_id |
 set_global_assignment -name LL_ORIGIN LAB_X1_Y1 -section_id |
 set_global_assignment -name LL_MEMBER_OF | -section_id |
+set_global_assignment -name VECTOR_WAVEFORM_FILE ddc.vwf
