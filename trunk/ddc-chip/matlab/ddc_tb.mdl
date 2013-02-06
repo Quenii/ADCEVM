@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.5"
+    ComputedModelVersion    "1.7"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,9 +45,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Feb 06 22:36:44 2013"
+  LastModifiedDate	  "Wed Feb 06 22:45:22 2013"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:5>"
+  ModelVersionFormat	  "1.%<AutoIncrement:7>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -516,6 +516,20 @@ Model {
   }
   BlockParameterDefaults {
     Block {
+      BlockType		      DataTypeConversion
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Inherit via back propagation"
+      LockScale		      off
+      ConvertRealWorld	      "Real World Value (RWV)"
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Inport
       Port		      "1"
       UseBusObject	      off
@@ -614,7 +628,7 @@ Model {
   }
   System {
     Name		    "ddc_tb"
-    Location		    [648, 165, 1271, 690]
+    Location		    [585, 154, 1208, 679]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -629,10 +643,21 @@ Model {
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
     Block {
+      BlockType		      DataTypeConversion
+      Name		      "Data Type Conversion"
+      Position		      [150, 248, 225, 282]
+      OutDataTypeMode	      "int16"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "int16"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
       BlockType		      Sin
       Name		      "Sine Wave"
       Ports		      [0, 1]
-      Position		      [185, 250, 215, 280]
+      Position		      [70, 250, 100, 280]
       Frequency		      "2 * pi * 100e3"
       SampleTime	      "1/80e6"
     }
@@ -654,7 +679,7 @@ Model {
       RTWMemSecDataParameters "Inherit from model"
       PortPaths		      "ddc_tb/data_in;ddc_tb/nco_sine_test;ddc_tb/nco_cosine_test;ddc_tb/mixer_i_test;ddc_tb/mixer_q_test;ddc_tb/nco_i_pass_data_test;ddc_tb/nco_q_pass_data_test;ddc_tb/hb_i_test;ddc_tb/hb_q_test;ddc_tb/cic_i_test;ddc_tb/cic_q_test;ddc_tb/hb_flag;ddc_tb/cic_flag;ddc_tb/fir_i_result_test;ddc_tb/fir_q_result_test;ddc_tb/fir_flag;ddc_tb/ddc_i_data;ddc_tb/ddc_q_data;ddc_tb/ddc_flag;ddc_tb/nco_test;ddc_tb/freq_word"
       PortModes		      "[1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 ]"
-      PortTimes		      "[-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"
+      PortTimes		      "[-1,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6]"
       PortSigns		      "[-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]"
       PortFracLengths	      "[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]"
       CommLocal		      on
@@ -675,6 +700,12 @@ Model {
     }
     Line {
       SrcBlock		      "Sine Wave"
+      SrcPort		      1
+      DstBlock		      "Data Type Conversion"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Data Type Conversion"
       SrcPort		      1
       DstBlock		      "ddc_tb"
       DstPort		      1
