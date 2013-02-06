@@ -2,3 +2,5 @@ vlib work
 vmap work 
 
 do "compile.fdo"
+
+vsimulink work.ddc_tb
