@@ -3,4 +3,6 @@ vmap work
 
 do "compile.fdo"
 
-vsimulink work.ddc_tb
+vsimulink  -t 1ps work.ddc_tb 
+
+add wave sim:/ddc_tb/*

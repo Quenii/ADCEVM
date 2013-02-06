@@ -2,6 +2,6 @@ open ddc_tb.mdl
 
 cd ../modelsim
 
-system runmodelsim
+vsim('tclstart','do ddc_tb.fdo')
 
 cd ../matlab
