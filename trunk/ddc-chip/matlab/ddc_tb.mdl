@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.12"
+    ComputedModelVersion    "1.15"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,9 +45,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Feb 07 21:36:15 2013"
+  LastModifiedDate	  "Thu Feb 07 21:57:59 2013"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:12>"
+  ModelVersionFormat	  "1.%<AutoIncrement:15>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -651,7 +651,7 @@ Model {
   }
   System {
     Name		    "ddc_tb"
-    Location		    [514, 129, 1249, 644]
+    Location		    [205, 183, 940, 698]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -681,6 +681,26 @@ Model {
       OutDataTypeMode	      "Specify via dialog"
       OutDataType	      "fixdt(1,16,15)"
       OutDataTypeStr	      "fixdt(1,16,15)"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      Name		      "Data Type Conversion1"
+      Position		      [145, 68, 220, 102]
+      OutDataTypeMode	      "Specify via dialog"
+      OutDataType	      "fixdt(0,21,0)"
+      OutDataTypeStr	      "fixdt(0,21,0)"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      Name		      "Data Type Conversion2"
+      Position		      [105, 243, 180, 277]
+      OutDataTypeMode	      "boolean"
+      OutDataType	      "fixdt(0,1,0)"
+      OutDataTypeStr	      "boolean"
       RndMeth		      "Floor"
       SaturateOnIntegerOverflow	off
     }
@@ -753,7 +773,25 @@ Model {
     Line {
       SrcBlock		      "Constant"
       SrcPort		      1
-      Points		      [135, 0]
+      DstBlock		      "Data Type Conversion2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "From\nWorkspace"
+      SrcPort		      1
+      DstBlock		      "Data Type Conversion1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Data Type Conversion1"
+      SrcPort		      1
+      DstBlock		      "ddc_tb"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Data Type Conversion2"
+      SrcPort		      1
+      Points		      [35, 0]
       Branch {
 	Points			[0, -55]
 	Branch {
@@ -786,12 +824,6 @@ Model {
 	  }
 	}
       }
-    }
-    Line {
-      SrcBlock		      "From\nWorkspace"
-      SrcPort		      1
-      DstBlock		      "ddc_tb"
-      DstPort		      1
     }
   }
 }
