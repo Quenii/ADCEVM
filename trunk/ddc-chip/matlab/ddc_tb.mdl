@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.8"
+    ComputedModelVersion    "1.12"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,9 +45,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Administrator"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Feb 06 22:56:28 2013"
+  LastModifiedDate	  "Thu Feb 07 21:36:15 2013"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:8>"
+  ModelVersionFormat	  "1.%<AutoIncrement:12>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -530,6 +530,14 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      FromWorkspace
+      VariableName	      "simulink_input"
+      SampleTime	      "-1"
+      Interpolate	      on
+      ZeroCross		      off
+      OutputAfterFinalValue   "Extrapolation"
+    }
+    Block {
       BlockType		      Inport
       Port		      "1"
       UseBusObject	      off
@@ -595,6 +603,21 @@ Model {
       MinMaxOverflowLogging   "UseLocalSettings"
     }
     Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      SamplingMode	      "Sample based"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "fixdt(1,16,0)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Inherit from 'Constant value'"
+      SampleTime	      "inf"
+      FramePeriod	      "inf"
+    }
+    Block {
       BlockType		      Sin
       SineType		      "Time based"
       TimeSource	      "Use simulation time"
@@ -628,7 +651,7 @@ Model {
   }
   System {
     Name		    "ddc_tb"
-    Location		    [27, 218, 650, 743]
+    Location		    [514, 129, 1249, 644]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -643,9 +666,18 @@ Model {
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
     Block {
+      BlockType		      Constant
+      Name		      "Constant"
+      Position		      [50, 245, 80, 275]
+      Value		      "0"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SampleTime	      "1/80e6"
+    }
+    Block {
       BlockType		      DataTypeConversion
       Name		      "Data Type Conversion"
-      Position		      [150, 248, 225, 282]
+      Position		      [130, 428, 205, 462]
       OutDataTypeMode	      "Specify via dialog"
       OutDataType	      "fixdt(1,16,15)"
       OutDataTypeStr	      "fixdt(1,16,15)"
@@ -653,17 +685,26 @@ Model {
       SaturateOnIntegerOverflow	off
     }
     Block {
+      BlockType		      FromWorkspace
+      Name		      "From\nWorkspace"
+      Position		      [40, 73, 105, 97]
+      VariableName	      "config"
+      SampleTime	      "1/80e6"
+      ZeroCross		      on
+      OutputAfterFinalValue   "Holding final value"
+    }
+    Block {
       BlockType		      Sin
       Name		      "Sine Wave"
       Ports		      [0, 1]
-      Position		      [70, 250, 100, 280]
+      Position		      [50, 430, 80, 460]
       Frequency		      "2 * pi * 100e3"
       SampleTime	      "1/80e6"
     }
     Block {
       BlockType		      Reference
       Name		      "ddc_tb"
-      Ports		      [1, 20]
+      Ports		      [7, 20]
       Position		      [270, 50, 455, 480]
       DialogController	      "hdllinkddg.CoSimBlockDialog"
       SourceBlock	      "modelsimlib/HDL Cosimulation"
@@ -676,11 +717,11 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      PortPaths		      "ddc_tb/data_in;ddc_tb/nco_sine_test;ddc_tb/nco_cosine_test;ddc_tb/mixer_i_test;ddc_tb/mixer_q_test;ddc_tb/nco_i_pass_data_test;ddc_tb/nco_q_pass_data_test;ddc_tb/hb_i_test;ddc_tb/hb_q_test;ddc_tb/cic_i_test;ddc_tb/cic_q_test;ddc_tb/hb_flag;ddc_tb/cic_flag;ddc_tb/fir_i_result_test;ddc_tb/fir_q_result_test;ddc_tb/fir_flag;ddc_tb/ddc_i_data;ddc_tb/ddc_q_data;ddc_tb/ddc_flag;ddc_tb/nco_test;ddc_tb/freq_word"
-      PortModes		      "[1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 ]"
-      PortTimes		      "[-1,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6]"
-      PortSigns		      "[-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]"
-      PortFracLengths	      "[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]"
+      PortPaths		      "ddc_tb/config;ddc_tb/nco_pass_flag;ddc_tb/hb_i_testpass_flag;ddc_tb/cic_pass_flag;ddc_tb/fir_pass_flag;ddc_tb/hb_pass_flag;ddc_tb/data_in;ddc_tb/nco_sine_test;ddc_tb/nco_cosine_test;ddc_tb/mixer_i_test;ddc_tb/mixer_q_test;ddc_tb/nco_i_pass_data_test;ddc_tb/nco_q_pass_data_test;ddc_tb/hb_i_test;ddc_tb/hb_q_test;ddc_tb/cic_i_test;ddc_tb/cic_q_test;ddc_tb/hb_flag;ddc_tb/cic_flag;ddc_tb/fir_i_result_test;ddc_tb/fir_q_result_test;ddc_tb/fir_flag;ddc_tb/ddc_i_data;ddc_tb/ddc_q_data;ddc_tb/ddc_flag;ddc_tb/nco_test;ddc_tb/freq_word"
+      PortModes		      "[1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 ]"
+      PortTimes		      "[-1,-1,-1,-1,-1,-1,-1,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6,1/80e6]"
+      PortSigns		      "[-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ]"
+      PortFracLengths	      "[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]"
       CommLocal		      on
       CommSharedMemory	      on
       CommPortNumber	      "4449"
@@ -705,6 +746,49 @@ Model {
     }
     Line {
       SrcBlock		      "Data Type Conversion"
+      SrcPort		      1
+      DstBlock		      "ddc_tb"
+      DstPort		      7
+    }
+    Line {
+      SrcBlock		      "Constant"
+      SrcPort		      1
+      Points		      [135, 0]
+      Branch {
+	Points			[0, -55]
+	Branch {
+	  Points		  [0, -60]
+	  DstBlock		  "ddc_tb"
+	  DstPort		  2
+	}
+	Branch {
+	  DstBlock		  "ddc_tb"
+	  DstPort		  3
+	}
+      }
+      Branch {
+	Points			[0, 5]
+	Branch {
+	  DstBlock		  "ddc_tb"
+	  DstPort		  4
+	}
+	Branch {
+	  Points		  [0, 55]
+	  Branch {
+	    Points		    [0, 5]
+	    DstBlock		    "ddc_tb"
+	    DstPort		    5
+	  }
+	  Branch {
+	    Points		    [0, 65]
+	    DstBlock		    "ddc_tb"
+	    DstPort		    6
+	  }
+	}
+      }
+    }
+    Line {
+      SrcBlock		      "From\nWorkspace"
       SrcPort		      1
       DstBlock		      "ddc_tb"
       DstPort		      1
