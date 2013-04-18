@@ -130,6 +130,8 @@ void QTermDataHandler::update(/*QTimerEvent *event*/)
         item.fel = ID*1;
         item.h2s = ID*2;
         item.so2 = ID*3;
+        item.o2 = ID*4;
+        item.co = ID*5;
         if (ID == 3)
         {
             item.location = QGeoCoordinate(40, 116.3);
@@ -197,6 +199,8 @@ void QTermDataHandler::parseMsg(QByteArray msg)
     memcpy(&item.h2s, msg.data()+12, 4);
     memcpy(&item.so2, msg.data()+16, 4);
     memcpy(&item.fel, msg.data()+20, 4);
+    memcpy(&item.o2, msg.data()+24, 4);
+    memcpy(&item.co, msg.data()+28, 4);
     float flat, flng; double lat, lng;
     memcpy(&flat, msg.data()+4, 4);
     memcpy(&flng, msg.data()+8, 4);
