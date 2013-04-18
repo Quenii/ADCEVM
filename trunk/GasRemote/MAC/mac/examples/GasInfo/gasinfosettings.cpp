@@ -19,6 +19,8 @@ static const char* defaultHostLocationKey = "option/defaulHostLocation";
 static const char* h2sAlarmThresKey = "option/h2sAlarmThres";
 static const char* so2AlarmThresKey = "option/so2AlarmThres";
 static const char* felAlarmThresKey = "option/felAlarmThres";
+static const char* o2AlarmThresKey = "option/o2AlarmThres";
+static const char* coAlarmThresKey = "option/coAlarmThres";
 
 static const char* serialPortInfoKey = "communication/serialPortInfo";
 static const char* gpsPortInfoKey = "communication/gpsPortInfo";
@@ -144,7 +146,52 @@ void GasInfoSettings::setFelAlarmThres(double val)
 {
     setValue(felAlarmThresKey, val);
 }
+//////////////////////////////////////////////
+double GasInfoSettings::o2AlarmThresF()
+{
+    Hash* h = reg();
+    if (!h->contains(o2AlarmThresKey))
+    {
+        GasInfoSettings settings;
+        (*h)[o2AlarmThresKey] = settings.o2AlarmThres();
+    }
 
+    return  (*h)[o2AlarmThresKey].toDouble();
+}
+
+double GasInfoSettings::o2AlarmThres()
+{
+    return value(o2AlarmThresKey).toDouble();
+}
+
+void GasInfoSettings::setO2AlarmThres(double val)
+{
+    setValue(o2AlarmThresKey, val);
+}
+////////////////////////////
+double GasInfoSettings::coAlarmThresF()
+{
+    Hash* h = reg();
+    if (!h->contains(coAlarmThresKey))
+    {
+        GasInfoSettings settings;
+        (*h)[coAlarmThresKey] = settings.coAlarmThres();
+    }
+
+    return  (*h)[coAlarmThresKey].toDouble();
+}
+
+double GasInfoSettings::coAlarmThres()
+{
+    return value(coAlarmThresKey).toDouble();
+}
+
+void GasInfoSettings::setCoAlarmThres(double val)
+{
+    setValue(coAlarmThresKey, val);
+}
+
+///////////////////////////////////////
 QGeoCoordinate GasInfoSettings::defaultHostLocation() const
 {
     QByteArray ba = value(defaultHostLocationKey).toByteArray();
