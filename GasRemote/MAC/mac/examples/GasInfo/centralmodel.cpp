@@ -207,7 +207,7 @@ void CentralModel::addData(const GasInfoItem& item)
     setHorizontalHeaderItem( 6, new QStandardItem( tr("O2/ppm") ));
     setHorizontalHeaderItem( 7, new QStandardItem( tr("CO/ppm") ));
     
-setHorizontalHeaderItem( 8, new QStandardItem( tr("Finger Pulse")));
+    setHorizontalHeaderItem( 8, new QStandardItem( tr("Finger Pulse")));
     setHorizontalHeaderItem( 9, new QStandardItem( tr("Wrist")));
     setHorizontalHeaderItem( 10, new QStandardItem( tr("Breathing")));
 
