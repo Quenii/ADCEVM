@@ -63,7 +63,7 @@ public:
         m_markerInfo += tr("SO2: %1 ppm<br>").arg(m_item.so2);
         m_markerInfo += tr("FEL: %1 %").arg(m_item.fel);
         m_markerInfo += tr("O2: %1 ppm<br>").arg(m_item.o2);
-        m_markerInfo += tr("CO: %1 %").arg(m_item.co);
+        m_markerInfo += tr("PID: %1 %").arg(m_item.co);
     }
 
     void setText(const QString& str)
