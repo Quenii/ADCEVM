@@ -2,6 +2,7 @@
 #define QTERMDATAHANDLER_H
 
 #include <QObject>
+#include <QMap>
 #include "compass.h"
 
 #define MSGLEN      24
@@ -23,7 +24,7 @@ public:
 
     double nmeaDegreesToDecimal(double);
     void ValidateMsg(QByteArray);
-    void parseMsg(QByteArray msg);
+    void parseMsg(QByteArray msg, QByteArray addr);
 
     void sendAlarm(int ch, bool on = true);
 
@@ -51,6 +52,10 @@ private:
     Compass* compass;
 
     uint maxID;
+
+    bool bLocationValid;
+
+    QMap<int, int> addrs;
 
 };
 

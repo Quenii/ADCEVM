@@ -12,15 +12,12 @@
 
 #include <math.h>
 
-#define REALDATA 1
-uint addr[] =
-{
-    0x040014,
-    0x040014
-};
+#define REALDATA 0
+
 QTermDataHandler::QTermDataHandler(QObject *parent) :
     QObject(parent)
   , m_bRunning(false)
+  , bLocationValid(false)
 {
 
 }
@@ -54,28 +51,12 @@ bool QTermDataHandler::start()
 
     compass = Compass::instance(term);
 
-//    uint hostID = 0;
-//    compass->getID(hostID);
-//    compass->getRFPower();
-
-//    QGeoCoordinate loc;
-//    compass->getLocation(loc);
-
-//    QByteArray dst;// = 0x03D1AE;
-//    dst[0] = 0x03; dst[1] = 0xD1; dst[2] = 0xAE;
-//    QByteArray msg = "Help me! Compass 1!";
-//    compass->sendMessage(dst, msg);
-
-//    term->close();
-//    delete term;
-//    return false;
-
     timer = new QTimer(this);
     bool ok = connect(timer, SIGNAL(timeout()), this, SLOT(query()));
     Q_ASSERT(ok);
 
     timerReceiver = new QTimer(this);
-    ok = connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    ok = connect(timerReceiver, SIGNAL(timeout()), this, SLOT(update()));
     Q_ASSERT(ok);
 
     maxID = s.maxTermCount();
@@ -84,6 +65,9 @@ bool QTermDataHandler::start()
     timerReceiver->start(t / 2 * 1000);
 
     m_bRunning = true;
+
+    compass->getLocation();
+    update();
     return true;
 }
 
@@ -122,15 +106,16 @@ void QTermDataHandler::query()
 
     if (term->isOpen() && ID < maxID)
     {
-        QByteArray msg = "Get" + (char)ID;
-        compass->sendMessage(addr[ID], msg);
+//        QByteArray msg = "Get" + (char)ID;
+//        compass->sendMessage(addr[ID], msg);
     }
+    if(!bLocationValid)
+        compass->getLocation();
 
     ID ++;
     if (ID == maxID)
     {
         ID = 0;
-        compass->getLocation();
     }
 }
 
@@ -147,12 +132,13 @@ void QTermDataHandler::update(/*QTimerEvent *event*/)
         GasInfoItem item;
         item.location = loc;
         item.ch = HOSTID;
+        bLocationValid = true;
         emit(newData(item));
     }
 
     if (compass->getMessage(msg, QByteArray("$TXXX")))
     {
-        parseMsg(msg.mid(18));
+        parseMsg(msg.mid(18), msg.mid(11, 3));
         qDebug() << msg.mid(18);
     }
 
@@ -183,28 +169,14 @@ double QTermDataHandler::nmeaDegreesToDecimal(double nmeaDegrees)
 
 void QTermDataHandler::ValidateMsg(QByteArray dat)
 {
-    buffer += dat;
-    while(buffer.size() >= MSGLEN)
-    {
-        int j = 0;
-        if ((j = buffer.indexOf("fw", j)) != -1) {
-            buffer = buffer.right(buffer.size() - j);
-        }else{
-            buffer.clear();
-        }
 
-        if (buffer.size() >= MSGLEN)
-        {
-            parseMsg(buffer.left(MSGLEN));
-            buffer = buffer.right(buffer.size()-MSGLEN);
-        }
-    }
 }
 
-void QTermDataHandler::parseMsg(QByteArray msg)
+void QTermDataHandler::parseMsg(QByteArray msg, QByteArray addr)
 {   //ch    lat         lng
     //2     3456 789    abcde f
     //n     hhmm.mmm    hhhmm.mmm
+    qDebug() << QString("Message size: %1").arg(msg.size());
     if (msg.size() < 32)
         return;
 
@@ -213,6 +185,12 @@ void QTermDataHandler::parseMsg(QByteArray msg)
         item.ch = msg.at(2);
     else
         return;
+
+    int t = addr[0];
+    t = (t << 8) + (unsigned char)addr[1];
+    t = (t << 8) + (unsigned char)addr[2];
+    if(!addrs.contains(item.ch))
+        addrs[item.ch] = t;
 
     memcpy(&item.h2s, msg.data()+12, 4);
     memcpy(&item.so2, msg.data()+16, 4);
@@ -244,6 +222,7 @@ void QTermDataHandler::sendAlarm(int ch, bool on)
             //term->write(QByteArray("OFF") + (char)ch);
             msg = "OFF";
         }
-        compass->sendMessage(addr[ch], msg);
+        int t = addrs[ch];
+        compass->sendMessage(addrs[ch], msg);
     }
 }

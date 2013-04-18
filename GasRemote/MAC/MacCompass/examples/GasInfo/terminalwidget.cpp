@@ -52,15 +52,17 @@ void TerminalWidget::setModel(CentralModel *model, int id, int row)
         ui->tableView->hideColumn(1);
         if(id < LIFEBASE)
         {
-            ui->tableView->hideColumn(6);
-            ui->tableView->hideColumn(7);
             ui->tableView->hideColumn(8);
+            ui->tableView->hideColumn(9);
+            ui->tableView->hideColumn(10);
         }
         else
         {
             ui->tableView->hideColumn(3);
             ui->tableView->hideColumn(4);
             ui->tableView->hideColumn(5);
+            ui->tableView->hideColumn(6);
+            ui->tableView->hideColumn(7);
         }
     }
 }

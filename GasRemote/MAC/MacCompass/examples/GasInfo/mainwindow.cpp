@@ -301,7 +301,7 @@ void MainWindow::addData(const GasInfoItem& item)
             warning += tr("Abnormal O2!<br>");
 
         if (item.co >= GasInfoSettings::coAlarmThresF())
-            warning += tr("Abnormal CO!<br>");
+            warning += tr("Abnormal PID!<br>");
 
     }
     if (bAlarm && (!GasInfoSettings::terminalAlarmWindowOpenF(item.ch)))
