@@ -7,7 +7,7 @@
 #include <QTimer>
 //#include <QNmeaPositionInfoSource>
 #include <QByteArray>
-
+#include <QtDebug>
 #include <math.h>
 
 #define REALDATA 1
@@ -37,39 +37,37 @@ bool QTermDataHandler::start()
     termSettings.StopBits = (StopBitsType)termPortInfo.StopBits;
     termSettings.Timeout_Millisec = (long)termPortInfo.Timeout_Millisec;
 
-    PortSettings gpsSettings;
-    gpsSettings.BaudRate = (BaudRateType)gpsPortInfo.BaudRate;
-    gpsSettings.DataBits = (DataBitsType)gpsPortInfo.DataBits;
-    gpsSettings.FlowControl = (FlowType)gpsPortInfo.FlowControl;
-    gpsSettings.Parity = (ParityType)gpsPortInfo.Parity;
-    gpsSettings.StopBits = (StopBitsType)gpsPortInfo.StopBits;
-    gpsSettings.Timeout_Millisec = (long)gpsPortInfo.Timeout_Millisec;
-
 //    PortSettings gpsSettings = {BAUD9600, DATA_8, PAR_NONE, STOP_1, FLOW_OFF, 10};
     term = new QextSerialPort(termPortInfo.name, termSettings, QextSerialPort::Polling);
-    gps = new QextSerialPort(gpsPortInfo.name, gpsSettings, QextSerialPort::Polling);
-
     if ((!term->open(QIODevice::ReadWrite)) && REALDATA)
     {
         delete term;
         delete gps;
         return false;
     }
-
-    if ((!gps->open(QIODevice::ReadOnly)) && REALDATA)
-    {
-        delete gps;
-        //!!please input current location;
-    }
-
     timer = new QTimer(this);
     bool ok = connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     Q_ASSERT(ok);
+    if(gpsPortInfo.enabled)
+    {
+        PortSettings gpsSettings;
+        gpsSettings.BaudRate = (BaudRateType)gpsPortInfo.BaudRate;
+        gpsSettings.DataBits = (DataBitsType)gpsPortInfo.DataBits;
+        gpsSettings.FlowControl = (FlowType)gpsPortInfo.FlowControl;
+        gpsSettings.Parity = (ParityType)gpsPortInfo.Parity;
+        gpsSettings.StopBits = (StopBitsType)gpsPortInfo.StopBits;
+        gpsSettings.Timeout_Millisec = (long)gpsPortInfo.Timeout_Millisec;
 
-    timerGps = new QTimer(this);
-    ok = connect(timerGps, SIGNAL(timeout()), this, SLOT(updateGps()));
-    Q_ASSERT(ok);
-
+        gps = new QextSerialPort(gpsPortInfo.name, gpsSettings, QextSerialPort::Polling);
+        if ((!gps->open(QIODevice::ReadOnly)) && REALDATA)
+        {
+            delete gps;
+            //!!please input current location;
+        }
+        timerGps = new QTimer(this);
+        ok = connect(timerGps, SIGNAL(timeout()), this, SLOT(updateGps()));
+        Q_ASSERT(ok);
+    }
     maxID = s.maxTermCount();
     timer->start(s.scanInterval());
     timerGps->start(950);
@@ -196,11 +194,17 @@ void QTermDataHandler::parseMsg(QByteArray msg)
     else
         return;
 
+    for(int i=0; i<msg.length()/4; ++i)
+    {
+        qDebug() << msg.mid(i*4, 4).toHex() << " ";
+//        qDebug() << msg.mid(i*4, 4).toFloat() << " ";
+    }
+
     memcpy(&item.h2s, msg.data()+12, 4);
     memcpy(&item.so2, msg.data()+16, 4);
     memcpy(&item.fel, msg.data()+20, 4);
-    memcpy(&item.o2, msg.data()+24, 4);
-    memcpy(&item.co, msg.data()+28, 4);
+    memcpy(&item.co, msg.data()+24, 4);
+    memcpy(&item.o2, msg.data()+28, 4);
     float flat, flng; double lat, lng;
     memcpy(&flat, msg.data()+4, 4);
     memcpy(&flng, msg.data()+8, 4);

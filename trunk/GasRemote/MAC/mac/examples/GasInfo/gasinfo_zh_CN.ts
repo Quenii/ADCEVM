@@ -36,26 +36,36 @@
     </message>
     <message>
         <location filename="centralmodel.cpp" line="207"/>
+        <source>O2/ppm</source>
+        <translation>氧气(ppm)</translation>
+    </message>
+    <message>
+        <location filename="centralmodel.cpp" line="208"/>
+        <source>CO/ppm</source>
+        <translation>一氧化碳(ppm)</translation>
+    </message>
+    <message>
+        <location filename="centralmodel.cpp" line="210"/>
         <source>Finger Pulse</source>
         <translation>指尖脉搏</translation>
     </message>
     <message>
-        <location filename="centralmodel.cpp" line="208"/>
+        <location filename="centralmodel.cpp" line="211"/>
         <source>Wrist</source>
         <translation>手腕脉搏</translation>
     </message>
     <message>
-        <location filename="centralmodel.cpp" line="209"/>
+        <location filename="centralmodel.cpp" line="212"/>
         <source>Breathing</source>
         <translation>呼吸次数</translation>
     </message>
     <message>
-        <location filename="centralmodel.cpp" line="419"/>
+        <location filename="centralmodel.cpp" line="438"/>
         <source>Offline</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="centralmodel.cpp" line="424"/>
+        <location filename="centralmodel.cpp" line="443"/>
         <source>Online</source>
         <translation>在线</translation>
     </message>
@@ -210,8 +220,19 @@
     </message>
     <message>
         <location filename="locationmanager.h" line="64"/>
-        <source>FEL: %1 %</source>
-        <translation>可燃气体: %1</translation>
+        <source>FEL: %1 %&lt;br&gt;</source>
+        <oldsource>FEL: %1 %</oldsource>
+        <translation>可燃气体: %1 %&lt;br&gt;</translation>
+    </message>
+    <message>
+        <location filename="locationmanager.h" line="65"/>
+        <source>O2: %1 ppm&lt;br&gt;</source>
+        <translation>氧气: %1 ppm&lt;br&gt;</translation>
+    </message>
+    <message>
+        <location filename="locationmanager.h" line="66"/>
+        <source>CO: %1 %</source>
+        <translation>一氧化碳: %1 %</translation>
     </message>
 </context>
 <context>
@@ -240,20 +261,21 @@
     </message>
     <message>
         <location filename="locationmanager.cpp" line="120"/>
-        <source>%1° </source>
-        <oldsource>%1°</oldsource>
-        <translation type="unfinished"></translation>
+        <source>%1 ° </source>
+        <oldsource>%1° </oldsource>
+        <translation></translation>
     </message>
     <message>
         <location filename="locationmanager.cpp" line="123"/>
-        <source>%1&apos; </source>
-        <oldsource>%1&apos;</oldsource>
-        <translation type="unfinished"></translation>
+        <source>%1 &apos; </source>
+        <oldsource>%1&apos; </oldsource>
+        <translation></translation>
     </message>
     <message>
         <location filename="locationmanager.cpp" line="126"/>
-        <source>%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <source>%1 &quot;</source>
+        <oldsource>%1&quot;</oldsource>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -289,9 +311,9 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="99"/>
-        <location filename="mainwindow.cpp" line="331"/>
-        <location filename="mainwindow.cpp" line="346"/>
-        <location filename="mainwindow.cpp" line="355"/>
+        <location filename="mainwindow.cpp" line="339"/>
+        <location filename="mainwindow.cpp" line="354"/>
+        <location filename="mainwindow.cpp" line="363"/>
         <source>Map</source>
         <translation>地图</translation>
     </message>
@@ -352,42 +374,52 @@
         <translation>GasInfo文件(*.gas)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="287"/>
+        <location filename="mainwindow.cpp" line="289"/>
         <source>Terminal %1:&lt;br&gt;&lt;br&gt;</source>
         <translation>%1号终端&lt;br&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="290"/>
+        <location filename="mainwindow.cpp" line="292"/>
         <source>Abnormal H2S!&lt;br&gt;</source>
         <translation>硫化氢含量异常!&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="293"/>
+        <location filename="mainwindow.cpp" line="295"/>
         <source>Abnormal SO2!&lt;br&gt;</source>
         <translation>二氧化硫含量异常!&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="296"/>
+        <location filename="mainwindow.cpp" line="298"/>
         <source>Abnormal FEL!&lt;br&gt;</source>
         <translation>可燃气体含量异常!&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="301"/>
+        <source>Abnormal O2!&lt;br&gt;</source>
+        <translation>氧气含量异常!</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="304"/>
+        <source>Abnormal CO!&lt;br&gt;</source>
+        <translation>一氧化碳含量异常!</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="309"/>
         <source>Alarm</source>
         <translation>报警</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="332"/>
+        <location filename="mainwindow.cpp" line="340"/>
         <source>No service providers are available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="347"/>
+        <location filename="mainwindow.cpp" line="355"/>
         <source>Error loading geoservice plugin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="356"/>
+        <location filename="mainwindow.cpp" line="364"/>
         <source>No geoservice found with mapping/search/routing</source>
         <translation type="unfinished"></translation>
     </message>
@@ -520,33 +552,45 @@
         <translation>报警阈值</translation>
     </message>
     <message>
-        <location filename="optiondialog.ui" line="380"/>
+        <location filename="optiondialog.ui" line="384"/>
         <source>H2S:</source>
         <translation>硫化氢:</translation>
     </message>
     <message>
-        <location filename="optiondialog.ui" line="394"/>
-        <location filename="optiondialog.ui" line="428"/>
+        <location filename="optiondialog.ui" line="398"/>
+        <location filename="optiondialog.ui" line="419"/>
+        <location filename="optiondialog.ui" line="457"/>
+        <location filename="optiondialog.ui" line="478"/>
         <source>ppm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="optiondialog.ui" line="414"/>
+        <location filename="optiondialog.ui" line="405"/>
+        <source>O2</source>
+        <translation>氧气</translation>
+    </message>
+    <message>
+        <location filename="optiondialog.ui" line="443"/>
         <source>SO2:</source>
         <translation>二氧化硫:</translation>
     </message>
     <message>
-        <location filename="optiondialog.ui" line="448"/>
+        <location filename="optiondialog.ui" line="464"/>
+        <source>CO</source>
+        <translation>一氧化碳</translation>
+    </message>
+    <message>
+        <location filename="optiondialog.ui" line="502"/>
         <source>FEL:</source>
         <translation>可燃气体:</translation>
     </message>
     <message>
-        <location filename="optiondialog.ui" line="462"/>
+        <location filename="optiondialog.ui" line="516"/>
         <source>%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="optiondialog.cpp" line="114"/>
+        <location filename="optiondialog.cpp" line="117"/>
         <source>Please choose save path</source>
         <translation>请选择数据保存路径</translation>
     </message>
@@ -663,12 +707,12 @@
     <message>
         <location filename="terminalalarmwidget.ui" line="71"/>
         <source>忽略</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="terminalalarmwidget.ui" line="78"/>
         <source>报警</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
