@@ -42,7 +42,7 @@ void QDeviceDialog::initDevice()
     ui.baudRateBox->addItem(QLatin1String("38400"), BAUD38400);
     ui.baudRateBox->addItem(QLatin1String("57600"), BAUD57600);
     ui.baudRateBox->addItem(QLatin1String("115200"), BAUD115200);
-    ui.baudRateBox->setCurrentIndex(7);
+    ui.baudRateBox->setCurrentIndex(4);
 
     ui.parityBox->addItem(QLatin1String("NONE"), PAR_NONE);
     ui.parityBox->addItem(QLatin1String("ODD"), PAR_ODD);
@@ -102,6 +102,7 @@ void QDeviceDialog::accept()
     info.StopBits = /*(StopBitsType)*/ui.stopBitsBox->itemData(ui.stopBitsBox->currentIndex()).toInt();
     info.Timeout_Millisec = ui.timeoutBox->value();
     info.mode = /*(QextSerialPort::QueryMode)*/ui.queryModeBox->itemData(ui.queryModeBox->currentIndex()).toInt();
+    info.enabled = true;
 
     GasInfoSettings settings;
   //  SerialSettings settings(settingFileName, QSettings::IniFormat, 0);
@@ -115,8 +116,12 @@ void QDeviceDialog::accept()
     info.StopBits = /*(StopBitsType)*/ui.stopBitsBoxGps->itemData(ui.stopBitsBoxGps->currentIndex()).toInt();
     info.Timeout_Millisec = ui.timeoutBoxGps->value();
     info.mode = /*(QextSerialPort::QueryMode)*/ui.queryModeBoxGps->itemData(ui.queryModeBoxGps->currentIndex()).toInt();
+    if(ui.checkBoxGpsEnable->isChecked())
+    {
+        info.enabled = true;
+        settings.setGpsPortInfo(info);
+    }
 
-    settings.setGpsPortInfo(info);
     QDialog::accept();
 }
 

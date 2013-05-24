@@ -43,8 +43,9 @@ struct SerialPortInfo
     int FlowControl;
     int Parity;
     int StopBits;
-        quint64 Timeout_Millisec;
+    quint64 Timeout_Millisec;
     int mode;
+    bool enabled;
 
     operator QVariant() const {    return QVariant::fromValue(*this); }
 };
@@ -61,7 +62,7 @@ inline QDataStream& operator<<(QDataStream& out, const SerialPortInfo& val)
     out << val.StopBits;
     out << val.Timeout_Millisec;
     out << val.mode;
-
+    out << val.enabled;
     return out;
 }
 
@@ -76,6 +77,7 @@ inline QDataStream& operator>>(QDataStream& in, SerialPortInfo& val)
     in >> val.StopBits;
     in >> val.Timeout_Millisec;
     in >> val.mode;
+    in >> val.enabled;
 
     return in;
 }

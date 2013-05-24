@@ -46,7 +46,7 @@ void OptionDialog::giveOptions()
     ui->minutesSpinBox->setValue(time.minute());
 
     ui->maxTermCountSpinBox->setValue(settings.maxTermCount());
-    ui->scanIntervalSecSpinBox->setValue(settings.scanInterval());
+    ui->scanIntervalMsecSpinBox->setValue(settings.scanInterval());
 
     int interval = settings.activeInterval();
     ui->activeIntervalMinutesSpinBox->setValue(interval / 60);

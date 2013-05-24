@@ -117,13 +117,13 @@ QString LocationManager::coordinateFloatToQString(float f)
 {
     QString str;
     int t = f;
-    str += tr("%1° ").arg(t);
+    str += tr("%1 ° ").arg(t);
     f = (f-t)*60.0;
     t = f;
-    str += tr("%1' ").arg(t);
+    str += tr("%1 ' ").arg(t);
     f = (f-t)*60.0;
     t = f;
-    str += tr("%1\"").arg(t);
+    str += tr("%1 \"").arg(t);
     return str;
 
 }

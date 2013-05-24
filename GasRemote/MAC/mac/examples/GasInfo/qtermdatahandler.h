@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#define MSGLEN      24
+#define MSGLEN      32
 
 class GasInfoItem;
 class QextSerialPort;
