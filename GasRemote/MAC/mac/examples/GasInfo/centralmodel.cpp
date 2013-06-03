@@ -254,7 +254,7 @@ void CentralModel::addData(const GasInfoItem& item)
         else
             itemSo2->setBackground(QBrush(Qt::white));
 
-        if (item.o2 > GasInfoSettings::o2AlarmThresF())
+        if (item.o2 < GasInfoSettings::o2AlarmThresF())
             itemO2->setBackground(QBrush(Qt::red));
         else
             itemO2->setBackground(QBrush(Qt::white));

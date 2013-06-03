@@ -630,54 +630,63 @@
     </message>
     <message>
         <location filename="DeviceDialog.ui" line="41"/>
-        <location filename="DeviceDialog.ui" line="179"/>
+        <location filename="DeviceDialog.ui" line="193"/>
         <source>Com</source>
         <translation>串口</translation>
     </message>
     <message>
         <location filename="DeviceDialog.ui" line="64"/>
-        <location filename="DeviceDialog.ui" line="202"/>
+        <location filename="DeviceDialog.ui" line="216"/>
         <source>Baudrate</source>
         <translation>波特率</translation>
     </message>
     <message>
         <location filename="DeviceDialog.ui" line="74"/>
-        <location filename="DeviceDialog.ui" line="212"/>
+        <location filename="DeviceDialog.ui" line="226"/>
         <source>Databit</source>
         <translation>数据位</translation>
     </message>
     <message>
         <location filename="DeviceDialog.ui" line="84"/>
-        <location filename="DeviceDialog.ui" line="222"/>
+        <location filename="DeviceDialog.ui" line="236"/>
         <source>Even/Odd</source>
         <translation>奇/偶</translation>
     </message>
     <message>
         <location filename="DeviceDialog.ui" line="94"/>
-        <location filename="DeviceDialog.ui" line="232"/>
+        <location filename="DeviceDialog.ui" line="246"/>
         <source>Stopbit</source>
         <translation>停止位</translation>
     </message>
     <message>
         <location filename="DeviceDialog.ui" line="104"/>
-        <location filename="DeviceDialog.ui" line="242"/>
+        <location filename="DeviceDialog.ui" line="256"/>
         <source>Timeout</source>
         <translation>超时</translation>
     </message>
     <message>
         <location filename="DeviceDialog.ui" line="130"/>
-        <location filename="DeviceDialog.ui" line="268"/>
+        <location filename="DeviceDialog.ui" line="282"/>
         <source>Mode</source>
         <translation>模式</translation>
     </message>
     <message>
-        <location filename="DeviceDialog.ui" line="164"/>
+        <location filename="DeviceDialog.ui" line="176"/>
+        <source>GPS Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="DeviceDialog.ui" line="294"/>
+        <source>GPS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>GPS Port Settings</source>
-        <translation>GPS端口设置</translation>
+        <translation type="obsolete">GPS端口设置</translation>
     </message>
     <message>
         <location filename="DeviceDialog.ui" line="111"/>
-        <location filename="DeviceDialog.ui" line="249"/>
+        <location filename="DeviceDialog.ui" line="263"/>
         <source> ms</source>
         <translation>毫秒</translation>
     </message>

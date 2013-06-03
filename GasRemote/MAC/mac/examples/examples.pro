@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 SUBDIRS = \
-    uartassistant GasInfo
+    GasInfo
 win32:SUBDIRS +=
 
