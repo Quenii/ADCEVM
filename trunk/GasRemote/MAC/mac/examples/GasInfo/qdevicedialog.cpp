@@ -119,9 +119,11 @@ void QDeviceDialog::accept()
     if(ui.checkBoxGpsEnable->isChecked())
     {
         info.enabled = true;
-        settings.setGpsPortInfo(info);
+    }else
+    {
+        info.enabled = false;
     }
-
+    settings.setGpsPortInfo(info);
     QDialog::accept();
 }
 
