@@ -57,15 +57,16 @@ bool QTermDataHandler::start()
     gpsSettings.StopBits = (StopBitsType)gpsPortInfo.StopBits;
     gpsSettings.Timeout_Millisec = (long)gpsPortInfo.Timeout_Millisec;
 
-    gps = new QextSerialPort(gpsPortInfo.name, gpsSettings, QextSerialPort::Polling);
-    if ((!gps->open(QIODevice::ReadOnly)) && REALDATA)
-    {
-        delete gps;
-        //!!please input current location;
-    }
 
     if(gpsPortInfo.enabled)
     {
+        gps = new QextSerialPort(gpsPortInfo.name, gpsSettings, QextSerialPort::Polling);
+
+        if ((!gps->open(QIODevice::ReadOnly)))
+        {
+            delete gps;
+            //!!please input current location;
+        }
 
         timerGps = new QTimer(this);
         ok = connect(timerGps, SIGNAL(timeout()), this, SLOT(updateGps()));
@@ -81,8 +82,11 @@ bool QTermDataHandler::start()
 
 void QTermDataHandler::stop()
 {
-    if (gps->isOpen())
-        gps->close();
+        GasInfoSettings s;
+SerialPortInfo gpsPortInfo = s.gpsPortInfo();
+    if(gpsPortInfo.enabled)
+        if (gps->isOpen())
+            gps->close();
     term->close();
 
     timer->stop();
