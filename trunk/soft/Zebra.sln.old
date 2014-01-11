@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QPlotLab", "QPlotLab\QPlotLab.vcproj", "{716F77FC-1A61-41F0-A15F-E97183402C0A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m2c", "3rdparty\m2c\c\m2c\m2c.vcproj", "{476CE8F9-6ED8-40D4-9AEE-83CA5687D10F}"
@@ -46,9 +46,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		QtVersion = QtSDK4.8.0VC9
 	EndGlobalSection
 	GlobalSection(Qt) = preSolution
 		Integration = True
