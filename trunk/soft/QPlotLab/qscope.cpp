@@ -6,9 +6,19 @@
 #include <QHBoxLayout>
 
 #pragma comment(lib, "VCLLoaderMS.lib")
-
+#ifdef _DEBUG
+#pragma comment(lib, "QtSolutions_MFCMigrationFramework-headd.lib")
+#pragma comment(lib, "QtCored4.lib")
+#pragma comment(lib, "QtGuid4.lib")
+#pragma comment(lib, "qwtd.lib")
+#else 
+#pragma comment(lib, "QtSolutions_MFCMigrationFramework-head.lib")
+#pragma comment(lib, "QtCore4.lib")
+#pragma comment(lib, "QtGui4.lib")
+#pragma comment(lib, "qwt.lib")
+#endif
 #include <QtGui>
-#include <qwinhost.h>
+#include <QWinHost>
 #include <windows.h>
 
 class QCTSLScope : public QWinHost

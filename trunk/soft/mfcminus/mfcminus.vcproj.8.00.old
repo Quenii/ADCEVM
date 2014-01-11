@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="gb2312"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
-	Name="mfcplus"
-	ProjectGUID="{514AA141-4C23-445D-97FB-C5F68A2691C4}"
-	RootNamespace="mfcplus"
-	Keyword="MFCDLLProj"
-	TargetFrameworkVersion="131072"
+	Version="8.00"
+	Name="mfcminus"
+	ProjectGUID="{98F01574-D58F-49AA-96A4-94A780160920}"
+	RootNamespace="mfcminus"
+	Keyword="Win32Proj"
 	>
 	<Platforms>
 		<Platform
@@ -22,7 +21,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="2"
-			UseOfATL="1"
+			UseOfATL="0"
 			CharacterSet="1"
 			>
 			<Tool
@@ -39,14 +38,12 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="false"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include;..\include\gkhy\mfcplus"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_AFXEXT"
+				AdditionalIncludeDirectories="..\include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;MFCMINUS_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -60,9 +57,6 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir)"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -70,11 +64,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
-				ModuleDefinitionFile=".\mfcplus.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -96,6 +87,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -105,8 +99,6 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="2"
-			UseOfATL="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -124,13 +116,11 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="false"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\include;..\include\gkhy\mfcplus"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_AFXEXT"
+				AdditionalIncludeDirectories="..\include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;MFCMINUS_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
@@ -142,9 +132,6 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir)"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -152,13 +139,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
-				ModuleDefinitionFile=".\mfcplus.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -180,6 +164,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -193,47 +180,67 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\BlockingTcpSocket.cpp"
+				RelativePath=".\AsyncHugeRingBuffer.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ColorEdit.cpp"
+				RelativePath=".\AsyncSocket.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\FileVersionInfo.cpp"
+				RelativePath=".\DataScan.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\FixedSplitterWnd.cpp"
+				RelativePath=".\DataScanCore.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\HighResolutionStopWatch.cpp"
+				RelativePath=".\DataScanCore_1279pack_cub32.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\IniReaderWriter.cpp"
+				RelativePath=".\DataScanCore_cul32.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\LabelEx.cpp"
+				RelativePath=".\DiskManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\MemDC.cpp"
+				RelativePath=".\FastFileWriter.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\mfcplus.cpp"
+				RelativePath=".\FileInfo.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\MMTimer.cpp"
+				RelativePath=".\FixedSizeArchive.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\NonblockingSocket.cpp"
+				RelativePath=".\HugeRingBuffer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\I_ServiceBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\mfcminus.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\NetRepository.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Repository.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RingBuffer.cpp"
 				>
 			</File>
 			<File
@@ -257,23 +264,27 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\StringEx.cpp"
+				RelativePath=".\StopWatch.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\TcpServer.cpp"
+				RelativePath=".\SystemLevelSingleton.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\TextProgressCtrl.cpp"
+				RelativePath=".\TaskRepository.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ThruputMeter.cpp"
+				RelativePath=".\TaskRepositoryPrivate.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\WorkerThread.cpp"
+				RelativePath=".\Win32App.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Win32Service.cpp"
 				>
 			</File>
 		</Filter>
@@ -283,67 +294,87 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\BlockingTcpSocket.hpp"
+				RelativePath="..\include\gkhy\mfcminus\AsyncHugeRingBuffer.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\ColorEdit.hpp"
+				RelativePath="..\include\gkhy\mfcminus\AsyncSocket.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\FileVersionInfo.hpp"
+				RelativePath="..\include\gkhy\mfcminus\DataScan.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\FixedSplitterWnd.hpp"
+				RelativePath=".\DataScanCore.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\HighResolutionStopWatch.hpp"
+				RelativePath=".\DataScanCore_1279pack_cul32.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\IniReaderWriter.hpp"
+				RelativePath=".\DataScanCore_cul32.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\LabelEx.hpp"
+				RelativePath="..\include\gkhy\mfcminus\DiskManager.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\MemDC.hpp"
+				RelativePath="..\include\gkhy\mfcminus\FastFileWriter.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\mfcplus_global.hpp"
+				RelativePath="..\include\gkhy\mfcminus\FileInfo.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\MMTimer.hpp"
+				RelativePath="..\include\gkhy\mfcminus\FixedSizeArchive.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\NonblockingSocket.hpp"
+				RelativePath="..\include\gkhy\mfcminus\HugeRingBuffer.hpp"
 				>
 			</File>
 			<File
-				RelativePath=".\resource.h"
+				RelativePath="..\include\gkhy\mfcminus\mfcminus_global.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\StringEx.hpp"
+				RelativePath="..\include\gkhy\mfcminus\NetRepository.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\TcpServer.hpp"
+				RelativePath="..\include\gkhy\mfcminus\Repository.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\TextProgressCtrl.hpp"
+				RelativePath="..\include\gkhy\mfcminus\RingBuffer.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\gkhy\mfcplus\WorkerThread.hpp"
+				RelativePath="..\include\gkhy\mfcminus\StopWatch.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\gkhy\mfcminus\SystemLevelSingleton.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\gkhy\mfcminus\TaskRepository.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\taskrepositoryprivate.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\gkhy\mfcminus\Win32App.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\gkhy\mfcminus\Win32Service.hpp"
 				>
 			</File>
 		</Filter>
@@ -353,20 +384,12 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath=".\mfcplus.rc"
-				>
-			</File>
-			<File
-				RelativePath=".\res\mfcplus.rc2"
+				RelativePath=".\mfcminus.rc"
 				>
 			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
-			>
-		</File>
-		<File
-			RelativePath="..\zebra-scope\zebra-scope.vcproj"
 			>
 		</File>
 	</Files>

@@ -12,8 +12,16 @@
 #include "CyAPI.h"
 #include "Board.h"
 
-
 #pragma comment(lib, "CyAPI.lib")
+#ifdef _DEBUG
+	#pragma comment(lib, "qtmaind.lib") 
+	#pragma comment(lib, "QtCored4.lib")
+	#pragma comment(lib, "QtGuid4.lib")
+#else
+	#pragma comment(lib, "qtmain.lib") 
+	#pragma comment(lib, "QtCore4.lib")
+	#pragma comment(lib, "QtGui4.lib")
+#endif
 
 using namespace std;
 
