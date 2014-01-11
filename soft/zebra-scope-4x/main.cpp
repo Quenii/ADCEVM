@@ -7,6 +7,19 @@
 #include <QThread>
 #include <QProcess>
 
+#ifdef _DEBUG
+	#pragma comment(lib, "qtmaind.lib")
+	#pragma comment(lib, "QtCored4.lib")
+	#pragma comment(lib, "QtGuid4.lib")
+	#pragma comment(lib, "qwtd.lib")
+	#pragma comment(lib, "QtSolutions_SingleApplication-headd.lib")
+#else
+	#pragma comment(lib, "qtmain.lib")
+	#pragma comment(lib, "QtCore4.lib")
+	#pragma comment(lib, "QtGui4.lib")
+	#pragma comment(lib, "qwt.lib")
+	#pragma comment(lib, "QtSolutions_SingleApplication-head.lib")
+#endif
 
 
 #ifdef MATLAB    //defined in AdcBoardTypes.hpp

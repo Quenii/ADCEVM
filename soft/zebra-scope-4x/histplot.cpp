@@ -2,7 +2,7 @@
 #include <qpen.h>
 #include <qwt_plot_layout.h>
 #include <qwt_legend.h>
-#include <qwt_legend_item.h>
+#include <qwt_plot_legenditem.h>
 #include <qwt_plot_grid.h>
 #include <qwt_plot_histogram.h>
 #include <qwt_column_symbol.h>
@@ -101,7 +101,8 @@ void HistPlot::populate()
 	grid->enableY(true);
 	grid->enableXMin(false);
 	grid->enableYMin(false);
-	grid->setMajPen(QPen(Qt::black, 0, Qt::SolidLine));
+//	grid->setMajorPen()
+	grid->setMajorPen(QPen(Qt::black, 0, Qt::SolidLine));
 	grid->attach(this);
 
 	const double juneValues[] = { 7, 19, 24, 32, 10, 5, 3 };
@@ -134,7 +135,7 @@ void HistPlot::setValueHist(const vector<double>& histogram, int origin)
 	grid->enableY(true);
 	grid->enableXMin(false);
 	grid->enableYMin(false);
-	grid->setMajPen(QPen(Qt::darkGreen, 0, Qt::SolidLine));
+	grid->setMajorPen(QPen(Qt::darkGreen, 0, Qt::SolidLine));
 	grid->attach(this);
 
 	Histogram *histogramJune = new Histogram("Summer", Qt::red);
