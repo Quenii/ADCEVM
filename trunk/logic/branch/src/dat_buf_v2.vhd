@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@HEAVEN>
 -- Company    : 
 -- Created    : 2011-04-19
--- Last update: 2011-04-20
+-- Last update: 2014-01-13
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -30,14 +30,15 @@ entity dat_buf_v2 is
     ADDR_WIDTH : integer);
   port (
     sys_clk_i : in std_logic;
-    rst_i : in std_logic;
+    rst_i     : in std_logic;
 
     task_start  : in std_logic;
     task_length : in std_logic_vector(15 downto 0);
 
-    fifo_rd_o  : out std_logic;
-    din_i      : in  std_logic_vector(63 downto 0);
-    rd_empty_i : in  std_logic;
+    fifo_full_o : out std_logic;
+    fifo_rd_o   : out std_logic;
+    din_i       : in  std_logic_vector(63 downto 0);
+    rd_empty_i  : in  std_logic;
 
     LB_Clk_i : in  std_logic;
     rd_i     : in  std_logic;

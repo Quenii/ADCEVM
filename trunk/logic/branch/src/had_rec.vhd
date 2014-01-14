@@ -263,6 +263,7 @@ begin  -- behave
     end if;
   end process;
 
+  dm_data_i <= rx_in_i;
   demux_1 : demux
     generic map (
       IO_TYPE => IO_TYPE)
@@ -275,9 +276,6 @@ begin  -- behave
       rd_req_i   => rd_req_i,
       rd_q_o     => rd_q_o,
       rd_empty_o => rd_empty_o);
-
-  dm_data_i <= rx_in_i;
-  sta_sw <= ctrl_sw;
 
   lb_target_data_src : lb_target_reg
     generic map (
@@ -294,6 +292,8 @@ begin  -- behave
       updated_o  => updated_sw,
       ctrl_o     => ctrl_sw,
       sta_i      => sta_sw);
+
+  sta_sw <= ctrl_sw;
 
   dat_buf_v2_1 : dat_buf_v2
     generic map (

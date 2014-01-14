@@ -348,7 +348,7 @@ begin  -- behave
 
   ssram0_clk_o   <= ssram_clk;
   ssram1_clk_o   <= ssram_clk;
-  sys_rst        <= not locked;
+  sys_rst        <= '0'; --not locked;
 -------------------------------------------------------------------------------
   -- 68013 port
   FX2FD_io       <= fifo_dout_o when fifo_adr_o(1) = '1' else (others => 'Z');
