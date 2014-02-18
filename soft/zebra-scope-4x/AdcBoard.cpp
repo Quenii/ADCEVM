@@ -27,7 +27,7 @@
 
 using namespace gkhy::QPlotLab;
 
-#define NOBOARD 1
+//#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -70,7 +70,6 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 : pi(3.141592653589793f)
 , m_timerIdDyn(0)
 , m_timerIdPower(0)
-
 {
 	AdcAnalyzerSettings m_analyzer;
 

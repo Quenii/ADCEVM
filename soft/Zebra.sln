@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QPlotLab", "QPlotLab\QPlotLab.vcproj", "{716F77FC-1A61-41F0-A15F-E97183402C0A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{98F01574-D58F-49AA-96A4-94A780160920} = {98F01574-D58F-49AA-96A4-94A780160920}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m2c", "3rdparty\m2c\c\m2c\m2c.vcproj", "{476CE8F9-6ED8-40D4-9AEE-83CA5687D10F}"
 EndProject
@@ -48,7 +51,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		QtVersion = QtSDK4.8.0VC9
+		QtVersion = 4.8.5
 	EndGlobalSection
 	GlobalSection(Qt) = preSolution
 		Integration = True

@@ -42,7 +42,8 @@ void AdcSettingsWidget::reloadSettings(bool initValue)
 			val.va = 1.8f;
 			val.vd = 1.8f;
 		}
-
+		val.va = 1.8f;
+		val.vd = 1.8f;
 		AdcBoard::instance()->setAdcSettings(val);
 	}
 	else
