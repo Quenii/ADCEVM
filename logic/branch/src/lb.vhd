@@ -25,7 +25,7 @@ use ieee.std_logic_unsigned.all;
 
 entity lb is
   generic (
-    FIFO_WR_PORT : std_logic_vector(1 downto 0) := "01";
+    FIFO_WR_PORT : std_logic_vector(1 downto 0) := "10";
     FIFO_RD_PORT : std_logic_vector(1 downto 0) := "00"
     );
   port (
