@@ -53,7 +53,7 @@ public:
 	//unsigned short getAdcData(unsigned short ch);
 	//float getVoltage(unsigned short ch);
 	//float getCurrent(unsigned short ch);
-	//int setVoltage(int adcChannel, int dacChannel, float v);
+	int setVoltage(int adcChannel, int dacChannel, float v);
 
 	//bool write(unsigned short addr, const unsigned short* buf, unsigned int len);
 /*protected:*/	

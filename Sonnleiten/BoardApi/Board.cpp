@@ -294,6 +294,35 @@ float Board::current(unsigned short ch)
 	adcValue(ch, reg);
 	return (float)reg / (1<<16) * 4.0 * 1000; //in mA
 }
+int Board::setVoltage(int adcChannel, int dacChannel, float v)
+{
+	int fine = 256;
+	int coarse = 32;
+	int regValue;
+	int i;
+	for (i=coarse; i>0; --i)
+	{
+		regValue = i*65535/coarse;
+		setDacValue(dacChannel, regValue);
+		msleep(1);
+		float t = voltage(adcChannel);
+		qDebug() << "Coarse: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
+		if (t >= v)
+			break;
+	}
+	for (int j=i*fine/coarse; j<fine; ++j)
+	{
+		regValue = j*65535/fine;
+		setDacValue(dacChannel, regValue);
+		msleep(1);
+		float t = voltage(adcChannel);
+		qDebug() << "Fine: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
+		if ( abs(t - v) <= 0.02)
+			break;
+	}
+	return regValue;
+
+}
 //bool Board::write(unsigned short addr, const unsigned short *buf, unsigned int len)
 //{	
 //	//FOR DAC DYNAMIC TEST
@@ -402,45 +431,4 @@ float Board::current(unsigned short ch)
 //	return (float(reg>>2)) * 500 * 4 / 16384;
 //}
 //
-//int Board::setVoltage(int adcChannel, int dacChannel, float v)
-//{
-//	int fine = 800;
-//	int coarse = 60;
-//	int regValue;
-//	int i;
-//	for (int i=0; i<10; ++i)
-//	{
-//		if (!writeReg(5, 32768))
-//			return false;
-//		if (!writeReg(6, dacChannel))  //执行 通道A
-//			return false;
-//	}
-//	for (i=coarse; i>0; --i)
-//	{
-//		regValue = i*65535/coarse;
-//		if (!writeReg(5, regValue))
-//			return false;
-//		if (!writeReg(6, dacChannel))  //执行 通道A
-//			return false;
-//		msleep(1);
-//		float t = getVoltage(adcChannel);
-//		qDebug() << "Coarse: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
-//		if (t >= v)
-//			break;
-//	}
-//	for (int j=i*fine/coarse; j<fine; ++j)
-//	{
-//		regValue = j*65535/fine;
-//		if (!writeReg(5, regValue))
-//			return false;
-//		if (!writeReg(6, dacChannel))  //执行 通道A
-//			return false;
-//		msleep(1);
-//		float t = getVoltage(adcChannel);
-//		qDebug() << "Fine: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
-//		if ( abs(t - v) <= 0.005)
-//			break;
-//	}
-//	return regValue;
-//
-//}
+

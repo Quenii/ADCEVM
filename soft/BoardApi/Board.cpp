@@ -182,55 +182,6 @@ bool Board::isOpen()
 	return (usbDev && usbDev->IsOpen()) ? true : false;
 }
 
-bool Board::read(unsigned short addr, unsigned short *buf, unsigned int len)
-{	
-	if (! usbDev->BulkOutEndPt)
-		return false;
-
-	long b2Read = (len * sizeof(unsigned short) + 511) / 512 * 512;
-	long w2Read = b2Read / 2;
-	if (bulkIOBuff.size() < w2Read) bulkIOBuff.resize(w2Read);
-
-	if (!writeIOCmd(addr, true, w2Read))
-	{
-		return false;
-	}
-
-	long bRead = b2Read;
-	if (!usbDev->BulkInEndPt->XferData((unsigned char*)&bulkIOBuff[0], bRead))
-		return false;
-
-	if (b2Read != bRead)
-	{
-		return false;
-	}
-
-	memcpy(buf, &bulkIOBuff[0], len * sizeof(unsigned short));
-
-	return true;
-}
-
-bool Board::write(unsigned short addr, const unsigned short *buf, unsigned int len)
-{	
-	//FOR DAC DYNAMIC TEST
-	if (! usbDev->BulkOutEndPt)
-		return false;
-
-	if (bulkIOBuff.size() < len*4 ) bulkIOBuff.resize(len*4);
-
-	for (int i=0; i<len; ++i)
-	{
-		bulkIOBuff[4*i+0] = 0xbc95;
-		bulkIOBuff[4*i+1] = addr;
-		bulkIOBuff[4*i+2] = 0x00FF;
-		bulkIOBuff[4*i+3] = buf[i];
-	}
-	long llen = len * 4 * sizeof(unsigned short);
-	if (!usbDev->BulkOutEndPt->XferData((UCHAR*)&bulkIOBuff[0], llen))
-		return false;
-
-	return true;
-}
 bool Board::writeIOCmd(unsigned short addr, bool dirRead, unsigned short data)
 {	
 	if (! usbDev->BulkOutEndPt)
@@ -239,8 +190,8 @@ bool Board::writeIOCmd(unsigned short addr, bool dirRead, unsigned short data)
 	if (bulkIOBuff.size() < 4) bulkIOBuff.resize(4);
 
 	bulkIOBuff[0] = 0xbc95;
-	bulkIOBuff[1] = addr;
-	bulkIOBuff[2] = dirRead ?  0xFF00 : 0x00FF;
+	bulkIOBuff[1] = 0x8000 | addr;
+	bulkIOBuff[2] = dirRead ?  (0x8000 | data) : (0x7FFF & data);
 	bulkIOBuff[3] = data;
 	long llen = 4 * sizeof(unsigned short);
 	if (!usbDev->BulkOutEndPt->XferData((UCHAR*)&bulkIOBuff[0], llen))
@@ -249,131 +200,112 @@ bool Board::writeIOCmd(unsigned short addr, bool dirRead, unsigned short data)
 	return true;
 }
 
+bool Board::writeReg(unsigned short addr, unsigned short val)
+{
+	if (writeIOCmd(addr, false, val))
+		return true;
+	else
+		return false;
+}
+bool readSpi(unsigned short addr,unsigned short& val)
+{
+	return true;
+}
+bool writeSpi(unsigned short addr,unsigned short val)
+{
+	return true;
+}
 bool Board::readReg(unsigned short addr, unsigned short &val)
 {
-	static unsigned short temp[1024];
+	static unsigned short temp[packet_size];
 
-	if ( !read(addr, temp, 1024) )
+	if ( !read(addr, temp, packet_size) )
 	{
 		return false;
 	}
 	val = temp[0];
 	return true;
 }
-
-bool Board::writeReg(unsigned short addr, unsigned short val)
-{
-	if (!writeIOCmd(addr, false, val))
-	{
+bool Board::read(unsigned short addr, unsigned short *buf, unsigned int len)
+{	
+	if ((!usbDev->BulkInEndPt) || (!usbDev->BulkOutEndPt))
 		return false;
-	}
+
+	long b2Read = (len * sizeof(unsigned short) + 511) / 512 * 512;
+	long w2Read = b2Read / 2;
+	if (bulkIOBuff.size() < w2Read) bulkIOBuff.resize(w2Read);
+
+	if (!writeIOCmd(addr, true, w2Read))
+		return false;
+
+	long bRead = b2Read;
+	if (!usbDev->BulkInEndPt->XferData((unsigned char*)&bulkIOBuff[0], bRead))
+		return false;
+
+	if (b2Read != bRead)
+		return false;
+
+	memcpy(buf, &bulkIOBuff[0], len * sizeof(unsigned short));
+	return true;
+}
+
+bool Board::initAdcDac()
+{
+	writeReg(DAC_BASE+1, 0x60); //init ltc2656, Select Internal Reference (Power-Up Reference)
+	writeReg(DAC_BASE, 0);
+	msleep(10);
+
+	writeReg(ADC_BASE, 0xA000); //init
+	msleep(10);
+	writeReg(ADC_BASE, 0xA204); //short conversion, binary, internal clock, internal reference
+	msleep(10);
 
 	return true;
 }
 
-bool Board::readReg24b(unsigned short addr,unsigned short& val)
-{
-	unsigned short w1 = (addr & 0xFF) << 8;
-	unsigned short w2 = (addr & 0xFF00) >> 8 | 0x80;
-	unsigned short r;
-	if (!writeReg(0x1002, w1))
-		return false;
-
-	msleep(100);
-
-	if (!writeReg(0x1003, w2))
-		return false;
-
-	msleep(300);
-
-	readReg(0x1002, val);
-
-	return 	true;
-}
-
-bool Board::writeReg24b(unsigned short addr,unsigned short val)
-{
-	unsigned short w1 = ((addr & 0xFF) << 8) | (val & 0xFF);
-	unsigned short w2 = (addr & 0xFF00) >> 8;
-	return (writeReg(0x1002, w1)  && writeReg(0x1003, w2));
-}
-
-unsigned short Board::getAdcData(unsigned short ch)
-{
-	const int cnt = 5;
-	unsigned short regs[cnt] = {0};
-	unsigned short min = 0xffff;
-	unsigned short max = 0;
-	int sum = 0;
-
-	writeReg(9, 0xA400);  //select 3548, work at default mode
-	writeReg(9, 0xA400);  //select 3548, work at default mode
-	do 
-	{
-		writeReg(9, ch);  //select 3548, select 7th channel
-		writeReg(9, ch);  //select 3548, select 7th channel
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-		readReg(0x0009, regs[0]);
-		msleep(30);
-	} while (regs[0] == 0xFFFF);
-
-	for (int i=0; i<cnt; ++i)
-	{
-		writeReg(9, ch);  //select 3548, select 7th channel
-		writeReg(9, ch);  //select 3548, select 7th channel
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
-		readReg(0x0009, regs[i]);
-		if (regs[i] >= 0xfff0)
-		{
-			msleep(30);
-			qDebug() << "Bizarre valued!" << endl;
-		}
-		sum += regs[i];
-		min = regs[i] < min ? regs[i] : min;
-		max = regs[i] > max ? regs[i] : max;
-	}
-	sum = sum - min - max;
-	return unsigned short(sum/(cnt-2));
-}
-
-float Board::getVoltage(unsigned short ch)
+bool Board::setDacValue(unsigned short ch, unsigned short val)
 {
 	unsigned short reg = 0;
-	reg = getAdcData(ch);
-	return (float(reg>>2)) * 4 / 16384;
+	reg = 0 | 0x30 | (ch & 0xF);
+	writeReg(DAC_BASE+1, reg);
+	writeReg(DAC_BASE, val);
+	msleep(10);
+	return true;
 }
-
-float Board::getCurrent(unsigned short ch)
+bool Board::adcValue(unsigned short ch, unsigned short &val)
+{
+	writeReg(ADC_BASE, ch<<12);
+	writeReg(ADC_BASE, ch<<12);
+	msleep(10);
+	readReg(ADC_BASE, val);	
+	msleep(10);
+	return true;
+}
+float Board::voltage(unsigned short ch)
 {
 	unsigned short reg = 0;
-	reg = getAdcData(ch);
-	return (float(reg>>2)) * 500 * 4 / 16384;
+	adcValue(ch, reg);
+	return (float)reg / (1<<16) * 4.0 * 2.0;
 }
 
+float Board::current(unsigned short ch)
+{
+	unsigned short reg = 0;
+	adcValue(ch, reg);
+	return (float)reg / (1<<16) * 4.0 * 1000; //in mA
+}
 int Board::setVoltage(int adcChannel, int dacChannel, float v)
 {
-	int fine = 800;
-	int coarse = 60;
+	int fine = 256;
+	int coarse = 32;
 	int regValue;
 	int i;
-	for (int i=0; i<10; ++i)
-	{
-		if (!writeReg(5, 32768))
-			return false;
-		if (!writeReg(6, dacChannel))  //执行 通道A
-			return false;
-	}
 	for (i=coarse; i>0; --i)
 	{
 		regValue = i*65535/coarse;
-		if (!writeReg(5, regValue))
-			return false;
-		if (!writeReg(6, dacChannel))  //执行 通道A
-			return false;
+		setDacValue(dacChannel, regValue);
 		msleep(1);
-		float t = getVoltage(adcChannel);
+		float t = voltage(adcChannel);
 		qDebug() << "Coarse: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
 		if (t >= v)
 			break;
@@ -381,16 +313,122 @@ int Board::setVoltage(int adcChannel, int dacChannel, float v)
 	for (int j=i*fine/coarse; j<fine; ++j)
 	{
 		regValue = j*65535/fine;
-		if (!writeReg(5, regValue))
-			return false;
-		if (!writeReg(6, dacChannel))  //执行 通道A
-			return false;
+		setDacValue(dacChannel, regValue);
 		msleep(1);
-		float t = getVoltage(adcChannel);
+		float t = voltage(adcChannel);
 		qDebug() << "Fine: ch: " << adcChannel << "reg: " << regValue << "vol: " << t;
-		if ( abs(t - v) <= 0.005)
+		if ( abs(t - v) <= 0.02)
 			break;
 	}
 	return regValue;
 
 }
+//bool Board::write(unsigned short addr, const unsigned short *buf, unsigned int len)
+//{	
+//	//FOR DAC DYNAMIC TEST
+//	if (! usbDev->BulkOutEndPt)
+//		return false;
+//
+//	if (bulkIOBuff.size() < len*4 ) bulkIOBuff.resize(len*4);
+//
+//	for (int i=0; i<len; ++i)
+//	{
+//		bulkIOBuff[4*i+0] = 0xbc95;
+//		bulkIOBuff[4*i+1] = addr;
+//		bulkIOBuff[4*i+2] = 0x00FF;
+//		bulkIOBuff[4*i+3] = buf[i];
+//	}
+//	long llen = len * 4 * sizeof(unsigned short);
+//	if (!usbDev->BulkOutEndPt->XferData((UCHAR*)&bulkIOBuff[0], llen))
+//		return false;
+//
+//	return true;
+//}
+
+//bool Board::readReg24b(unsigned short addr,unsigned short& val)
+//{
+//	unsigned short w1 = (addr & 0xFF) << 8;
+//	unsigned short w2 = (addr & 0xFF00) >> 8 | 0x80;
+//	unsigned short r;
+//	if (!writeReg(0x1002, w1))
+//		return false;
+//
+//	msleep(100);
+//
+//	if (!writeReg(0x1003, w2))
+//		return false;
+//
+//	msleep(300);
+//
+//	readReg(0x1002, val);
+//
+//	return 	true;
+//}
+//
+//bool Board::writeReg24b(unsigned short addr,unsigned short val)
+//{
+//	unsigned short w1 = ((addr & 0xFF) << 8) | (val & 0xFF);
+//	unsigned short w2 = (addr & 0xFF00) >> 8;
+//	return (writeReg(0x1002, w1)  && writeReg(0x1003, w2));
+//}
+//
+//unsigned short Board::getAdcData(unsigned short ch)
+//{
+//	const int ADC_ADDR = 9;
+//	const int cnt = 5;
+//	unsigned short regs[cnt] = {0};
+//	unsigned short min = 0xffff;
+//	unsigned short max = 0;
+//	int sum = 0;
+//
+//	writeReg(ADC_ADDR, 0xA204);  //select 3548, work at default mode
+//	writeReg(ADC_ADDR, 0xA400);  //select 3548, work at default mode
+//
+//	writeReg(ADC_ADDR, 0xb000);  //select 3548, read out 7th channel volage
+//	readReg(ADC_ADDR, regs[0]);
+//
+//	do 
+//	{
+//		writeReg(ADC_ADDR, ch<<12);  //select 3548, select 7th channel
+//		writeReg(ADC_ADDR, ch<<12);  //select 3548, select 7th channel
+//		writeReg(ADC_ADDR, 0xe000);  //select 3548, read out 7th channel volage
+//		writeReg(ADC_ADDR, 0xe000);  //select 3548, read out 7th channel volage
+//		readReg(ADC_ADDR, regs[0]);
+//		msleep(30);
+//	} while (regs[0] == 0xFFFF);
+//
+//	for (int i=0; i<cnt; ++i)
+//	{
+//		writeReg(9, ch);  //select 3548, select 7th channel
+//		writeReg(9, ch);  //select 3548, select 7th channel
+//		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+//		writeReg(9, 0xeFFF);  //select 3548, read out 7th channel volage
+//		readReg(0x0009, regs[i]);
+//		if (regs[i] >= 0xfff0)
+//		{
+//			msleep(30);
+//			qDebug() << "Bizarre valued!" << endl;
+//		}
+//		sum += regs[i];
+//		min = regs[i] < min ? regs[i] : min;
+//		max = regs[i] > max ? regs[i] : max;
+//	}
+//	sum = sum - min - max;
+//	return unsigned short(sum/(cnt-2));
+//}
+//
+//float Board::getVoltage(unsigned short ch)
+//{
+//	unsigned short reg = 0;
+//	reg = getAdcData(ch);
+//	return (float(reg>>2)) * 4 / 16384;
+//}
+//
+//float Board::getCurrent(unsigned short ch)
+//{
+//	unsigned short reg = 0;
+//	reg = getAdcData(ch);
+//	return (float(reg>>2)) * 500 * 4 / 16384;
+//}
+//
+
