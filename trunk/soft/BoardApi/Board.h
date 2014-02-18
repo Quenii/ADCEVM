@@ -39,25 +39,34 @@ public:
 	bool readReg(unsigned short addr,unsigned short& val);
 	bool writeReg(unsigned short addr,unsigned short val);
 
-	bool readReg24b(unsigned short addr,unsigned short& val);
-	bool writeReg24b(unsigned short addr,unsigned short val);
+	bool readSpi(unsigned short addr,unsigned short& val);
+	bool writeSpi(unsigned short addr,unsigned short val);
 
-	unsigned short getAdcData(unsigned short ch);
-	float getVoltage(unsigned short ch);
-	float getCurrent(unsigned short ch);
+	bool initAdcDac();
+	bool setDacValue(unsigned short ch, unsigned short val);
+	bool adcValue(unsigned short ch, unsigned short &val);
+	float voltage(unsigned short ch);
+	float current(unsigned short ch);
+	//bool readReg24b(unsigned short addr,unsigned short& val);
+	//bool writeReg24b(unsigned short addr,unsigned short val);
+
+	//unsigned short getAdcData(unsigned short ch);
+	//float getVoltage(unsigned short ch);
+	//float getCurrent(unsigned short ch);
 	int setVoltage(int adcChannel, int dacChannel, float v);
 
-	bool write(unsigned short addr, const unsigned short* buf, unsigned int len);
-
-signals:
-	void devListChanged(const QList<BoardInfo>& lst);
-
-protected:	
+	//bool write(unsigned short addr, const unsigned short* buf, unsigned int len);
+/*protected:*/	
 	// len - number of unsigned-short's
 	bool read(unsigned short addr, unsigned short* buf, unsigned int len);
 	// len - number of unsigned-short's
 	const static int buffer_cnt = 32 * 1024;
+	const static int packet_size = 256;
 	const float pi;
+
+signals:
+	void devListChanged(const QList<BoardInfo>& lst);
+
 
 private:
 	bool writeIOCmd(unsigned short addr, bool dirRead, unsigned short data);
@@ -70,5 +79,7 @@ private:
 	DummyWidget* widget;
 	std::vector<unsigned short> bulkIOBuff;
 
+	const int static ADC_BASE = 100;
+	const int static DAC_BASE = 102;
 };
 

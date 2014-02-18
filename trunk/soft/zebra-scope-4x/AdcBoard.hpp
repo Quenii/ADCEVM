@@ -19,8 +19,16 @@ class QEvent;
 
 using namespace std;
 
-#define VDADDR 0x3FFF
-#define VAADDR 0x7FFF
+#define adc_va	7
+#define adc_vd	3
+#define adc_vio 0
+#define adc_ia	4
+#define adc_id	1
+
+#define dac_va	2
+#define dac_vd	0
+#define dac_vio 4
+
 class AdcBoard : public Board
 {
 	Q_OBJECT

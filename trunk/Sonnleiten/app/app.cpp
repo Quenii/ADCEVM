@@ -2,6 +2,15 @@
 #include "app.h"
 #include "Board.h"
 
+#define adc_va	7
+#define adc_vd	3
+#define adc_vio 0
+#define adc_ia	4
+#define adc_id	1
+
+#define dac_va	2
+#define dac_vd	0
+#define dac_vio 4
 
 app::app(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
@@ -18,9 +27,13 @@ app::app(QWidget *parent, Qt::WFlags flags)
 	pBoard->writeReg(1, 1234);
 	pBoard->readReg(1, reg);
 
-	pBoard->readReg(10, reg);
+	//pBoard->readReg(10, reg);
 
 	pBoard->initAdcDac();
+
+	int adc_reg = pBoard->setVoltage(adc_va, dac_va, 2.9f);
+	adc_reg = pBoard->setVoltage(adc_vd, dac_vd, 2.2f);
+	adc_reg = pBoard->setVoltage(adc_vio, dac_vio, 1.8f);
 
 	for (int i=40; i<128; ++i)
 	{
@@ -54,6 +67,7 @@ app::app(QWidget *parent, Qt::WFlags flags)
 	}
 
 	v = pBoard->voltage(0);
+
 //
 //	for (int i=0; i<5; ++i)
 //	{

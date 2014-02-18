@@ -263,10 +263,10 @@ bool AdcBoard::updatePowerStatus(QTimerEvent* event)
 	if (event->timerId() == m_timerIdPower)
 	{
 		PowerStatus& powerStatus = report.powerStatus;
-		powerStatus.va = getVoltage(0x7FFF);
-		powerStatus.vd = getVoltage(0x3FFF);
-		powerStatus.ia = getCurrent(0x4FFF);
-		powerStatus.id = getCurrent(0x1FFF);
+		powerStatus.va = voltage(adc_va);
+		powerStatus.vd = voltage(adc_vd);
+		powerStatus.ia = current(adc_ia);
+		powerStatus.id = current(adc_id);
 		powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
 		emit powerMonitorDataUpdated(powerStatus);
 		return true;
@@ -473,19 +473,9 @@ void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
 
 bool AdcBoard::setAdcSettings(const AdcTypeSettings& adcSettings)
 {	
-	float vio = adcSettings.vd;
-	unsigned short reg = 0;
-
-	unsigned short regValue = setVoltage(VDADDR, 0, adcSettings.vd);
-	setVoltage(VAADDR, 2, adcSettings.va);
-
-	for (int i=0; i<5; ++i)
-	{
-		if (!writeReg(5, regValue)) //设置VIO = VD, VIO无法监控，故不能采用setVoltage
-			return false;
-		if (!writeReg(6, 0x0004))  //执行 通道E
-			return false;
-	}
+	setVoltage(adc_va, dac_va, adcSettings.va);
+	setVoltage(adc_vd, dac_vd, adcSettings.vd);
+	setVoltage(adc_vio, dac_vio, adcSettings.vd);
 	return true;
 }
 
