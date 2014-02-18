@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@CHINA-6C7FF0513>
 -- Company    : 
 -- Created    : 2010-05-09
--- Last update: 2011-04-29
+-- Last update: 2014-01-17
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ entity top is
     FLAGD_i   : in    std_logic;                       -- not used
     SLRD_n_o  : out   std_logic;                       -- fifo_rd
     SLWR_n_o  : out   std_logic;                       -- fifo_wr
-    SL_OE_n_o : out   std_logic;
+    SLOE_n_o  : out   std_logic;
     PKTEND_o  : out   std_logic;                       -- not used
     FIFOADR_o : out   std_logic_vector(1 downto 0);    -- fifo adr
 
@@ -330,6 +330,7 @@ architecture behave of top is
   signal ssram_clk : std_logic;
   signal sys_rst   : std_logic;
   signal locked    : std_logic;
+  
 begin  -- behave
   
   dcm_user_1 : dcm_user
@@ -343,12 +344,13 @@ begin  -- behave
       areset => '0',
       inclk0 => clk_80m,
       c0     => ssram_clk,
-      c1     => sys_clk,
+      c1     => open,
       locked => locked);
 
+  sys_clk        <= ssram_clk;
   ssram0_clk_o   <= ssram_clk;
   ssram1_clk_o   <= ssram_clk;
-  sys_rst        <= '0'; --not locked;
+  sys_rst        <= not locked;
 -------------------------------------------------------------------------------
   -- 68013 port
   FX2FD_io       <= fifo_dout_o when fifo_adr_o(1) = '1' else (others => 'Z');
@@ -360,7 +362,7 @@ begin  -- behave
   FIFOADR_o      <= fifo_adr_o;
   SLRD_n_o       <= not fifo_rd_o;
   SLWR_n_o       <= not fifo_wr_o;
-  SL_OE_n_o      <= fifo_adr_o(1);
+  SLOE_n_o       <= fifo_adr_o(1);
 
   LTC2656_clr_o <= '1';
   LTC2656_pos_o <= '1';
