@@ -236,19 +236,6 @@ void AdcBoard::setDynamicOn(bool on /* = true */)
 	}
 }
 
-bool AdcBoard::clocked()
-{
-	static unsigned short watchdog;
-	unsigned short t = 0;
-	writeReg(0x2001, 0);
-	readReg(0x2001, t);
-	if(t && (t - watchdog))
-	{
-		return true;
-	}
-	return false;
-}
-
 void AdcBoard::storeInBoard(uint len)
 {
 	writeReg(0x2002, 0);
@@ -268,6 +255,7 @@ bool AdcBoard::updatePowerStatus(QTimerEvent* event)
 		powerStatus.ia = current(adc_ia);
 		powerStatus.id = current(adc_id);
 		powerStatus.power = powerStatus.va * powerStatus.ia + powerStatus.vd * powerStatus.id;
+		powerStatus.freq = frequency();
 		emit powerMonitorDataUpdated(powerStatus);
 		return true;
 	}
@@ -331,12 +319,16 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 #ifndef NOBOARD
 	if (isOpen())
 	{
-		storeInBoard(0xFFFF);
+//		storeInBoard(0xFFFF);
 
 		unsigned short* p = &buff[0];
-		bool okay = read(0x1005, &buff[0], buffer_cnt);
+		unsigned short available;
+		readReg(201, available);
+		bool okay;
+
+		okay = read(200, &buff[0], buffer_cnt);
 		Q_ASSERT(okay);
-		okay = read(0x1005, &buff[0+buffer_cnt], buffer_cnt);
+//		okay = read(200, &buff[0+buffer_cnt], buffer_cnt);
 		Q_ASSERT(okay);
 		return true;
 	}
@@ -431,7 +423,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		setDynamicOn(false);
 		return ;
 	}
-	clocked();
+//	clocked();
 
 	if (updatePowerStatus(event))
 		return;	
@@ -475,7 +467,7 @@ bool AdcBoard::setAdcSettings(const AdcTypeSettings& adcSettings)
 {	
 	setVoltage(adc_va, dac_va, adcSettings.va);
 	setVoltage(adc_vd, dac_vd, adcSettings.vd);
-	setVoltage(adc_vio, dac_vio, adcSettings.vd);
+//	setVoltage(adc_vio, dac_vio, adcSettings.vd);
 	return true;
 }
 

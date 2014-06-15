@@ -47,6 +47,7 @@ public:
 	bool adcValue(unsigned short ch, unsigned short &val);
 	float voltage(unsigned short ch);
 	float current(unsigned short ch);
+	float frequency(void);
 	//bool readReg24b(unsigned short addr,unsigned short& val);
 	//bool writeReg24b(unsigned short addr,unsigned short val);
 
@@ -57,6 +58,7 @@ public:
 
 	//bool write(unsigned short addr, const unsigned short* buf, unsigned int len);
 /*protected:*/	
+	bool readPacket(unsigned short addr, unsigned short *buf);
 	// len - number of unsigned-short's
 	bool read(unsigned short addr, unsigned short* buf, unsigned int len);
 	// len - number of unsigned-short's
@@ -69,7 +71,7 @@ signals:
 
 
 private:
-	bool writeIOCmd(unsigned short addr, bool dirRead, unsigned short data);
+	bool writeIOCmd(unsigned short addr, bool dirRead, unsigned short data, bool reg = true);
 
 private slots:
     void devChanged();
@@ -81,5 +83,6 @@ private:
 
 	const int static ADC_BASE = 100;
 	const int static DAC_BASE = 102;
+	const int static FREQ_REG = 1;
 };
 

@@ -47,6 +47,7 @@ struct PowerStatus
 	float ia;
 	float id;
 	float power;
+	float freq;
 };
 
 struct TimeDomainReport

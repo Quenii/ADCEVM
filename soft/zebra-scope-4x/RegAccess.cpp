@@ -190,7 +190,7 @@ int RegAccess::nextStep()
 		{
 			unsigned short addr = item->lineEditAddr->text().toInt(0, 16);;
 			unsigned short val;
-			okay = board->readReg24b(addr, val);
+//			okay = board->readReg24b(addr, val);
 			if (okay)
 			{
 				item->lineEditValue->setText(QString("%1").arg(val, 0, 16));
@@ -203,7 +203,7 @@ int RegAccess::nextStep()
 		{
 			unsigned short addr = item->lineEditAddr->text().toInt(0, 16);;
 			unsigned short val = item->lineEditValue->text().toInt(0, 16);
-			okay = board->writeReg24b(addr, val);
+//			okay = board->writeReg24b(addr, val);
 		}
 		break;
 

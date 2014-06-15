@@ -166,6 +166,8 @@ bool Board::open(int usbAddr)
 	if (!(usbDev && usbDev->Open((UCHAR)usbAddr)))
 		return false;
 
+	initAdcDac();
+
 	return true;
 }
 
@@ -182,7 +184,7 @@ bool Board::isOpen()
 	return (usbDev && usbDev->IsOpen()) ? true : false;
 }
 
-bool Board::writeIOCmd(unsigned short addr, bool dirRead, unsigned short data)
+bool Board::writeIOCmd(unsigned short addr, bool dirRead, unsigned short data, bool reg)
 {	
 	if (! usbDev->BulkOutEndPt)
 		return false;
@@ -190,8 +192,8 @@ bool Board::writeIOCmd(unsigned short addr, bool dirRead, unsigned short data)
 	if (bulkIOBuff.size() < 4) bulkIOBuff.resize(4);
 
 	bulkIOBuff[0] = 0xbc95;
-	bulkIOBuff[1] = 0x8000 | addr;
-	bulkIOBuff[2] = dirRead ?  (0x8000 | data) : (0x7FFF & data);
+	bulkIOBuff[1] = reg ? (0x8000 | addr) : (0x7FFF & addr);  //reg_soace = 1; low is addr;
+	bulkIOBuff[2] = dirRead ?  (0x8000 | data) : (0x7FFF & data);  
 	bulkIOBuff[3] = data;
 	long llen = 4 * sizeof(unsigned short);
 	if (!usbDev->BulkOutEndPt->XferData((UCHAR*)&bulkIOBuff[0], llen))
@@ -217,22 +219,11 @@ bool writeSpi(unsigned short addr,unsigned short val)
 }
 bool Board::readReg(unsigned short addr, unsigned short &val)
 {
-	static unsigned short temp[packet_size];
-
-	if ( !read(addr, temp, packet_size) )
-	{
-		return false;
-	}
-	val = temp[0];
-	return true;
-}
-bool Board::read(unsigned short addr, unsigned short *buf, unsigned int len)
-{	
 	if ((!usbDev->BulkInEndPt) || (!usbDev->BulkOutEndPt))
 		return false;
 
-	long b2Read = (len * sizeof(unsigned short) + 511) / 512 * 512;
-	long w2Read = b2Read / 2;
+	long b2Read = packet_size * 2;
+	long w2Read = packet_size;
 	if (bulkIOBuff.size() < w2Read) bulkIOBuff.resize(w2Read);
 
 	if (!writeIOCmd(addr, true, w2Read))
@@ -244,8 +235,45 @@ bool Board::read(unsigned short addr, unsigned short *buf, unsigned int len)
 
 	if (b2Read != bRead)
 		return false;
+	val = bulkIOBuff[0];
+	return true;
+}
 
-	memcpy(buf, &bulkIOBuff[0], len * sizeof(unsigned short));
+bool Board::readPacket(unsigned short addr, unsigned short *buf)
+{
+	if ((!usbDev->BulkInEndPt) || (!usbDev->BulkOutEndPt))
+		return false;
+
+	long b2Read = packet_size * 2;
+	long w2Read = packet_size;
+	if (bulkIOBuff.size() < w2Read) bulkIOBuff.resize(w2Read);
+
+	if (!writeIOCmd(addr, true, w2Read, false))
+		return false;
+
+	long bRead = b2Read;
+	if (!usbDev->BulkInEndPt->XferData((unsigned char*)&bulkIOBuff[0], bRead))
+		return false;
+
+	if (b2Read != bRead)
+		return false;
+	memcpy(buf, &bulkIOBuff[0], b2Read);
+	return true;
+}
+
+bool Board::read(unsigned short addr, unsigned short *buf, unsigned int len)
+{	
+	long b2Read = (len * sizeof(unsigned short) + 511) / 512 * 512;
+	long w2Read = b2Read / 2;
+	long p2Read = b2Read / 512;
+	if (bulkIOBuff.size() < w2Read) bulkIOBuff.resize(w2Read);
+
+	for (int i=0; i<p2Read; ++i)
+	{	
+		writeReg(addr+1, packet_size);
+		readPacket(addr, buf+i*packet_size);
+	}
+
 	return true;
 }
 
@@ -262,7 +290,6 @@ bool Board::initAdcDac()
 
 	return true;
 }
-
 bool Board::setDacValue(unsigned short ch, unsigned short val)
 {
 	unsigned short reg = 0;
@@ -323,6 +350,15 @@ int Board::setVoltage(int adcChannel, int dacChannel, float v)
 	return regValue;
 
 }
+float Board::frequency(void)
+{
+	unsigned short val;
+	readReg(FREQ_REG, val);	
+
+	return val*4096;
+
+}
+
 //bool Board::write(unsigned short addr, const unsigned short *buf, unsigned int len)
 //{	
 //	//FOR DAC DYNAMIC TEST
