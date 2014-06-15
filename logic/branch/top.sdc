@@ -16,12 +16,12 @@
 # ------------------------------------------
 #
 # Create generated clocks based on PLLs
-derive_pll_clocks -use_tan_name
+derive_pll_clocks
 #
 # ------------------------------------------
 
 # Original Clock Setting Name: lvds_i:lvds_i_1|rx_inclock
-create_clock -period "3.333 ns" \
+create_clock -period "10 ns" \
              -name {rx_inclock_i} {rx_inclock_i}
 # ---------------------------------------------
 
@@ -33,8 +33,8 @@ create_clock -period "25.000 ns" \
 
 
 # Original Clock Setting Name: clk_80m
-create_clock -period "8.000 ns" \
-             -name {clk_80m} {clk_80m}
+create_clock -period "10.000 ns" \
+             -name {sys_clk_i} {sys_clk_i}
 
 
 # ** Clock Latency
