@@ -6,7 +6,7 @@
 -- Author     :   <Quenii@QUENII-NB>
 -- Company    : 
 -- Created    : 2014-01-16
--- Last update: 2014-01-17
+-- Last update: 2014-02-18
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -31,7 +31,6 @@ entity fx2local is
     RD_ADDR : std_logic_vector(1 downto 0) := "10"
     );
   port (
-    sysclk_i  : in    std_logic;
     FX_CLK_i  : in    std_logic;
     FX2FD_io  : inout std_logic_vector (15 downto 0);  -- fifo data/q
     FLAGA_i   : in    std_logic;                       -- program strobe
