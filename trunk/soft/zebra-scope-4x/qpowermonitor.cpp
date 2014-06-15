@@ -24,5 +24,5 @@ void QPowerMonitor::update(const PowerStatus& status)
 	ui.va->setText(QString("%L1").arg(status.va, 0, 'f', 2));
 	ui.vd->setText(QString("%L1").arg(status.vd, 0, 'f', 2));
 	ui.p->setText(QString("%L1").arg(status.power, 0, 'f', 2));
-
+	ui.freq->setText(QString("%L1").arg(status.freq, 0, 'f', 2));
 }
