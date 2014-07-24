@@ -276,7 +276,7 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 	AdcAnalyzerSettings m_analyzer;
 
 	std::vector<unsigned short>& buff = report.tdReport.rawSamples;
-
+	// load samples from data file
 	if (!fileNameSim.isEmpty())
 	{
 		buff.resize(0);
@@ -316,11 +316,18 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 	if (buff.size() < buffer_cnt*2)
 		buff.resize(buffer_cnt*2);
 
+	// read from board
 #ifndef NOBOARD
 	if (isOpen())
 	{
-//		storeInBoard(0xFFFF);
-
+		//buf_rst <= ctrl_reg1(0) or LB_Reset_i;
+		//ddc_mode_o <= ctrl_reg1(1);
+		//rst_dut <= ctrl_reg1(2);
+		writeReg(202, 7);
+		writeReg(202, 2);
+		unsigned short reg = 0;
+		readReg(202, reg);
+		readReg(202, reg);
 		unsigned short* p = &buff[0];
 		unsigned short available;
 		readReg(201, available);
