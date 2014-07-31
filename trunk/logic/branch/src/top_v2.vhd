@@ -6,7 +6,7 @@
 -- Author     :   <Quenii@QUENII-NB>
 -- Company    : 
 -- Created    : 2014-01-16
--- Last update: 2014-06-15
+-- Last update: 2014-07-09
 -- Platform   :  
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -24,6 +24,9 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
 entity top_v2 is
+  generic (
+    ADDR_WIDTH : integer := 15;
+    DATA_WIDTH : integer := 32);
   port (
     sys_clk_i : in std_logic;
 
@@ -52,7 +55,36 @@ entity top_v2 is
     tlc3548_sdi_i     : in  std_logic;
     tlc3548_cs_n_o    : out std_logic;
     tlc3548_eco_i     : in  std_logic;
-    tlc3548_start_n_o : out std_logic
+    tlc3548_start_n_o : out std_logic;
+
+    adc_rst_o     : out std_logic;      --- AD reset signal
+    ddc_mode_o    : out std_logic;      --- AD original data
+    fifo_i_cs_o   : out std_logic;
+    fifo_q_cs_i   : in  std_logic;
+    fifo_rd_en_o  : out std_logic;
+    fifo_rd_clk_o : out std_logic;
+    fifo_full_i   : in  std_logic;
+    fifo_empty_i  : in  std_logic;
+    dat_i         : in  std_logic_vector(31 downto 0);
+--    clk_i : in std_logic;
+--    dat_i : in std_logic_vector(15 downto 0);
+--    vld_i : in std_logic;
+
+    ssram_clk_o   : out std_logic;
+    ssram_ce1_n_o : out std_logic;
+    ssram_ce2_n_o : out std_logic;
+    ssram_ce2_o   : out std_logic;
+    ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
+    ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
+    ssram_d_t_o   : out std_logic;
+    ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+    ssram_adv_o   : out std_logic;
+    ssram_we_n_o  : out std_logic;
+    ssram_oe_n_o  : out std_logic;
+    ssram_bw_n_o  : out std_logic;
+    ssram_cke_n_o : out std_logic;
+    ssram_zz_o    : out std_logic;
+    ssram_mode_o  : out std_logic
 
     );
 end top_v2;
@@ -85,8 +117,7 @@ architecture impl of top_v2 is
   signal LB_ACK_dut   : std_logic;
   signal LB_Ready_dut : std_logic;
   signal LB_DataR_dut : std_logic_vector(15 downto 0);
-  signal fifo_rd_en_o : std_logic;
-  
+
   signal clk_div : std_logic;
 
   signal test : std_logic_vector(15 downto 0);
@@ -173,10 +204,11 @@ begin  -- impl
       counter_o => sta_reg1,
       updated_o => open);
 
-  lb_target_ififo_1: entity work.lb_target_ififo
+  dut_1 : entity work.dut
     generic map (
-      CNT_REG_ADDR_4B  => 201,
-      DATA_REG_ADDR_4B => 200)
+      ADDR_4B    => 200,
+      ADDR_WIDTH => ADDR_WIDTH,
+      DATA_WIDTH => DATA_WIDTH)
     port map (
       LB_Clk_i      => LB_Clk,
       LB_Reset_i    => LB_Reset,
@@ -189,17 +221,64 @@ begin  -- impl
       LB_DataW_i    => LB_DataW,
       LB_Ready_o    => LB_Ready_dut,
       LB_DataR_o    => LB_DataR_dut,
-      fifo_cnt_i    => x"1000",
-      fifo_q_i      => test,
+      adc_rst_o     => adc_rst_o,
+      ddc_mode_o    => ddc_mode_o,
+      fifo_i_cs_o   => fifo_i_cs_o,
+      fifo_q_cs_i   => fifo_q_cs_i,
       fifo_rd_en_o  => fifo_rd_en_o,
-      fifo_rd_ack_i => fifo_rd_en_o);
+      fifo_rd_clk_o => open, -- fifo_rd_clk_o,
+      fifo_full_i   => fifo_full_i,
+      fifo_empty_i  => fifo_empty_i,
+      dat_i         => dat_i,
+--      clk_i         => clk_i,
+--      dat_i         => dat_i,
+--      vld_i         => vld_i,
+      sys_clk_i     => sys_clk_i,
+      ssram_clk_o   => ssram_clk_o,
+      ssram_ce1_n_o => ssram_ce1_n_o,
+      ssram_ce2_n_o => ssram_ce2_n_o,
+      ssram_ce2_o   => ssram_ce2_o,
+      ssram_addr_o  => ssram_addr_o,
+      ssram_d_i     => ssram_d_i,
+      ssram_d_t_o   => ssram_d_t_o,
+      ssram_d_o     => ssram_d_o,
+      ssram_adv_o   => ssram_adv_o,
+      ssram_we_n_o  => ssram_we_n_o,
+      ssram_oe_n_o  => ssram_oe_n_o,
+      ssram_bw_n_o  => ssram_bw_n_o,
+      ssram_cke_n_o => ssram_cke_n_o,
+      ssram_zz_o    => ssram_zz_o,
+      ssram_mode_o  => ssram_mode_o);
 
-  process (LB_Clk)
-  begin  -- process
-    if rising_edge(LB_Clk) then
-      if fifo_rd_en_o = '1' then
-        test <= test + '1';
-      end if;
-    end if;
-  end process;
+  fifo_rd_clk_o <= clk_div;
+--  lb_target_ififo_1: entity work.lb_target_ififo
+--    generic map (
+--      CNT_REG_ADDR_4B  => 201,
+--      DATA_REG_ADDR_4B => 200)
+--    port map (
+--      LB_Clk_i      => LB_Clk,
+--      LB_Reset_i    => LB_Reset,
+--      LB_CS_i       => LB_CS,
+--      LB_ADS_i      => LB_ADS,
+--      LB_ACK_o      => LB_ACK_dut,
+--      LB_Addr_i     => LB_Addr,
+--      LB_Write_i    => LB_Write,
+--      LB_Valid_i    => LB_Valid,
+--      LB_DataW_i    => LB_DataW,
+--      LB_Ready_o    => LB_Ready_dut,
+--      LB_DataR_o    => LB_DataR_dut,
+--      fifo_cnt_i    => x"1000",
+--      fifo_q_i      => test,
+--      fifo_rd_en_o  => fifo_rd_en_o,
+--      fifo_rd_ack_i => fifo_rd_en_o);
+
+--  process (LB_Clk)
+--  begin  -- process
+--    if rising_edge(LB_Clk) then
+--      if fifo_rd_en_o = '1' then
+--        test <= test + '1';
+--      end if;
+--    end if;
+--  end process;
+
 end impl;
