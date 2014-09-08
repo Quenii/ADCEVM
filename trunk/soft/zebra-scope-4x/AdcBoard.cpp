@@ -323,20 +323,28 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 		//buf_rst <= ctrl_reg1(0) or LB_Reset_i;
 		//ddc_mode_o <= ctrl_reg1(1);
 		//rst_dut <= ctrl_reg1(2);
-		writeReg(202, 7);
-		writeReg(202, 2);
+		//writeReg(202, 7);
+		//writeReg(202, 6);  //de-reset dut
+		//writeReg(202, 2);  //de-reset buf
+
+		writeReg(202, 5);
+		writeReg(202, 0);  
 		unsigned short reg = 0;
-		readReg(202, reg);
-		readReg(202, reg);
+		//readReg(202, reg);
+		//readReg(202, reg);
 		unsigned short* p = &buff[0];
 		unsigned short available;
 		readReg(201, available);
 		bool okay;
+		do 
+		{
+			readReg(202, reg);
+		} while ((reg&0x8) != 0x8);
 
 		okay = read(200, &buff[0], buffer_cnt);
 		Q_ASSERT(okay);
 //		okay = read(200, &buff[0+buffer_cnt], buffer_cnt);
-		Q_ASSERT(okay);
+//		Q_ASSERT(okay);
 		return true;
 	}
 #else  //generate sine wave
@@ -442,7 +450,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		getDynTestData(strNull);
 
 		TimeDomainReport& tdReport = report.tdReport;
-		dynTest(tdReport);
+//		dynTest(tdReport);
 	}
 }
 void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
