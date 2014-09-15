@@ -450,7 +450,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 		getDynTestData(strNull);
 
 		TimeDomainReport& tdReport = report.tdReport;
-//		dynTest(tdReport);
+		dynTest(tdReport);
 	}
 }
 void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
