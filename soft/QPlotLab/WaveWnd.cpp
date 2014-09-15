@@ -31,7 +31,24 @@ void WaveWnd::update(const std::vector<float> & xdata, const std::vector<float> 
 	if (scope.Channels.Count < 1)
 		scope.Channels.Add(1);
 
+	if (scope.Channels.Count > 1)
+	{
+		scope.Channels[1].Data.Clear();
+	}
 	if (xdata.size() > 0 && ydata.size() > 0)
 		scope.Channels[0].Data.SetXYData(&xdata[0], &ydata[0], (int)xdata.size());
+
+}
+
+void WaveWnd::updateQ(const std::vector<float> & xdata, const std::vector<float> & ydata)
+{
+	CTSLScope& scope = rawScope();
+	if (scope.Channels.Count < 1)
+		scope.Channels.Add(1);
+	if (scope.Channels.Count < 2)
+		scope.Channels.Add(1);
+
+	if (xdata.size() > 0 && ydata.size() > 0)
+		scope.Channels[1].Data.SetXYData(&xdata[0], &ydata[0], (int)xdata.size());
 
 }
