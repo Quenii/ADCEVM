@@ -191,4 +191,44 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 
 }
 
+void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport, double fclk, int bitCnt, int r)
+{
+	static std::vector<double> inputI(tdReport.samples.size());
+	static std::vector<double> inputQ(tdReport.samples.size());
+
+	static std::vector<double> cADout_dB(inputI.size());
+
+	for (int i = 0; i < tdReport.samples.size(); ++i)
+	{
+		inputI[i] = tdReport.samples[i];
+		inputQ[i] = tdReport.samplesQ[i];
+	}
+
+	double cnumbit = bitCnt;
+	double cr = r;
+	double cSNR; 
+	double cSFDR; 
+	double cSINAD; 
+	double cENOB;
+
+	AlgDynTest(&inputI[0], inputI.size(), &inputQ[0], inputI.size(),
+		inputI.size(), fclk, cnumbit, cr,
+		cSNR, cSINAD, cSFDR, cENOB,	&cADout_dB[0]);
+
+	if (fdReport.Spectrum.size() != cADout_dB.size())
+	{
+		fdReport.Spectrum.resize(cADout_dB.size());
+	}
+	for (int i = 0; i < fdReport.Spectrum.size(); ++i)
+	{
+		fdReport.Spectrum[i] = cADout_dB[i];
+	}
+	fdReport.dualTone = false;
+	fdReport.DynamicPara[3].value = cSNR;
+	fdReport.DynamicPara[5].value = cSFDR;
+	fdReport.DynamicPara[7].value = cENOB; //(cSINAD - 1.76) / 6.02;
+	fdReport.DynamicPara[10].value = cSINAD;
+
+}
+
 #endif

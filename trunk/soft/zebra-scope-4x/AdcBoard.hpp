@@ -88,6 +88,7 @@ protected:
 
 private:
 	void Convert(TimeDomainReport&, float, float);
+	void Split(int* buff, int len);
 	bool updatePowerStatus(QTimerEvent* event);
 	void initTestParas();
 	void storeInBoard(uint len=0xFFFF);

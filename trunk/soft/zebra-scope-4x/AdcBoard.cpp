@@ -27,7 +27,7 @@
 
 using namespace gkhy::QPlotLab;
 
-//#define NOBOARD 1
+#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -275,46 +275,8 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 
 	AdcAnalyzerSettings m_analyzer;
 
-	std::vector<unsigned short>& buff = report.tdReport.rawSamples;
-	// load samples from data file
-	if (!fileNameSim.isEmpty())
-	{
-		buff.resize(0);
-
-		QString settingsFileName = getSettingsFileName(fileNameSim);
-
-		if (QFile::exists(settingsFileName))
-		{
-			AdcAnalyzerSettings settings(settingsFileName, AdcAnalyzerSettings::IniFormat, 0);			
-			m_signal = settings.signalSettings();
-			m_adc = settings.adcTypeSettings();
-			m_span = settings.spanSettings();
-		}
-		else
-		{
-			QMessageBox::warning(NULL, QString::fromLocal8Bit("载入动态数据"), 
-				QString::fromLocal8Bit("配置文件不存在, 将使用当前设置解析数据"), 
-				QMessageBox::Ok, QMessageBox::Ok);
-		}
-
-		QFile file(fileNameSim);
-		if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-			Q_ASSERT(false);
-		QTextStream in(&file);
-		while ((!in.atEnd()) && (buff.size()<buffer_cnt*2) ) {
-			QString line = in.readLine();
-			buff.push_back(line.toShort());
-		}
-		file.close();
-
-		TimeDomainReport& tdReport = report.tdReport;
-		dynTest(tdReport);
-
-		return true;
-	}
-
-	if (buff.size() < buffer_cnt*2)
-		buff.resize(buffer_cnt*2);
+	int* buff = new int[buffer_cnt];
+	unsigned short ps_buf = (unsigned short)buff;
 
 	// read from board
 #ifndef NOBOARD
@@ -323,16 +285,13 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 		//buf_rst <= ctrl_reg1(0) or LB_Reset_i;
 		//ddc_mode_o <= ctrl_reg1(1);
 		//rst_dut <= ctrl_reg1(2);
-		//writeReg(202, 7);
-		//writeReg(202, 6);  //de-reset dut
-		//writeReg(202, 2);  //de-reset buf
-
-		writeReg(202, 5);
-		writeReg(202, 0);  
 		unsigned short reg = 0;
-		//readReg(202, reg);
-		//readReg(202, reg);
-		unsigned short* p = &buff[0];
+		reg = 5 | (m_signal.iq ? 2 : 0);
+		writeReg(202, reg);
+		reg = (m_signal.iq ? 2 : 0);
+		writeReg(202, reg);  
+		reg = 0;
+		unsigned short* p = &ps_buf[1];
 		unsigned short available;
 		readReg(201, available);
 		bool okay;
@@ -341,10 +300,12 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 			readReg(202, reg);
 		} while ((reg&0x8) != 0x8);
 
-		okay = read(200, &buff[0], buffer_cnt);
+		okay = read(200, p, buffer_cnt);
 		Q_ASSERT(okay);
-//		okay = read(200, &buff[0+buffer_cnt], buffer_cnt);
-//		Q_ASSERT(okay);
+		okay = read(200, p, buffer_cnt);
+		Q_ASSERT(okay);
+
+		Split(buff, buffer_cnt);
 		return true;
 	}
 #else  //generate sine wave
@@ -355,7 +316,7 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 	float fc2 = m_signal.signalIIFreq;
 	int dither = (float)rand() * 8.0f / RAND_MAX;
 	int offset = rand();
-	for (int i=0; i<buff.size(); ++i)
+	for (int i=0; i<buffer_cnt; ++i)
 	{
 		buff[i] = ((int)(qSin(2*pi*i*fc/fs+offset)*max)) >> 2;
 		if (m_signal.dualToneTest)
@@ -363,10 +324,34 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 			buff[i] += ((int)(qSin(2*pi*i*fc2/fs+offset)*max)) >> 2;
 		}
 	}
+	Split(buff, buffer_cnt);
 #endif //NOBOARD
 	return true;
 }
+void AdcBoard::Split(int* buff, int len)
+{
+	TimeDomainReport& tdReport = report.tdReport;
+	tdReport.rawSamples.resize(len/2);
+	tdReport.rawSamplesQ.resize(len/2);
+	
+	if (m_signal.iq)
+	{
+		for (int i=0; i<len/2; ++i)
+		{
+			tdReport.rawSamples[i] = buff[2*i];
+			tdReport.rawSamplesQ[i] = buff[2*i+1];
+		}
+	}
+	else
+	{
+		for (int i=0; i<len/2; ++i)
+		{
+			tdReport.rawSamples[i] = buff[i];
+			tdReport.rawSamplesQ[i] = 0;
+		}
+	}
 
+}
 void AdcBoard::dynTest(TimeDomainReport& tdReport)
 {
 	float vpp = m_adc.vpp;
@@ -389,32 +374,37 @@ void AdcBoard::dynTest(TimeDomainReport& tdReport)
 	calc_dynam_params(tdReport.samples, m_adc.bitcount, fdReport);
 
 #elif defined(MATCOM) 
-	int freq_detect = m_signal.freqDetect ? 1 : 2;
-
-	if (!m_signal.dualToneTest)
+	if (m_signal.iq)
 	{
-		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, 
-			m_adc.vpp, freq_detect, m_signal.signalFreq, m_span.dc, m_span.spur, m_span.signal);
+		calc_dynam_params_iq(tdReport, fdReport, m_signal.clockFreq, m_adc.bitcount, 20);
 	}
-	else
-	{
-		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, 
-			m_adc.vpp, freq_detect, m_signal.signalFreq, m_signal.signalIIFreq, 
-			m_span.dc, m_span.spur, m_span.signal);
 
-		if (fdReport.DualTonePara[1].value < -40 
-			|| fdReport.DualTonePara[3].value < -40
-			|| abs(fdReport.DualTonePara[1].value - fdReport.DualTonePara[3].value) > 30
-			|| abs(fdReport.DualTonePara[0].value - fdReport.DualTonePara[2].value) > 3
-			|| abs(fdReport.DualTonePara[0].value - fdReport.DualTonePara[2].value) < 0.1)
-		{
-			QMessageBox::warning(NULL, QString::fromLocal8Bit("双音测试"), 
-				QString::fromLocal8Bit("信号幅度不满足双音测试需求，请确认：1、信号1和信号2幅度必须大于-40dBFS；2、2个信号绝对值之差小于30dB。\n系统将切入单音测试模式!"), 
-				QMessageBox::Ok, QMessageBox::Ok);
+	//int freq_detect = m_signal.freqDetect ? 1 : 2;
 
-			m_signal.dualToneTest = false;
-		}
-	}
+	//if (!m_signal.dualToneTest)
+	//{
+	//	calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, 
+	//		m_adc.vpp, freq_detect, m_signal.signalFreq, m_span.dc, m_span.spur, m_span.signal);
+	//}
+	//else
+	//{
+	//	calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, 
+	//		m_adc.vpp, freq_detect, m_signal.signalFreq, m_signal.signalIIFreq, 
+	//		m_span.dc, m_span.spur, m_span.signal);
+
+	//	if (fdReport.DualTonePara[1].value < -40 
+	//		|| fdReport.DualTonePara[3].value < -40
+	//		|| abs(fdReport.DualTonePara[1].value - fdReport.DualTonePara[3].value) > 30
+	//		|| abs(fdReport.DualTonePara[0].value - fdReport.DualTonePara[2].value) > 3
+	//		|| abs(fdReport.DualTonePara[0].value - fdReport.DualTonePara[2].value) < 0.1)
+	//	{
+	//		QMessageBox::warning(NULL, QString::fromLocal8Bit("双音测试"), 
+	//			QString::fromLocal8Bit("信号幅度不满足双音测试需求，请确认：1、信号1和信号2幅度必须大于-40dBFS；2、2个信号绝对值之差小于30dB。\n系统将切入单音测试模式!"), 
+	//			QMessageBox::Ok, QMessageBox::Ok);
+
+	//		m_signal.dualToneTest = false;
+	//	}
+	//}
 #else
 	memcpy( &fdReport.Spectrum[0], &tdReport.samples[0], buffer_cnt);
 
@@ -455,7 +445,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 }
 void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
 {
-	std::vector<unsigned short>& buff = report.tdReport.rawSamples;
+	std::vector<unsigned int>& buff = report.tdReport.rawSamples;
 	buff[0] = buff[1];  //滤波，去掉第一个采样点可能产生的噪声
 
 	if (tdReport.samples.size()<buff.size())
@@ -476,13 +466,41 @@ void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
 			tdReport.samples[i] = short(buff[i]) * vpp / max / 2;
 		}
 	}
+
+//	if (m_signal.iq)
+	{
+		std::vector<unsigned int>& buffQ = report.tdReport.rawSamplesQ;
+		buffQ[0] = buffQ[1];  //滤波，去掉第一个采样点可能产生的噪声
+
+		if (tdReport.samplesQ.size()<buffQ.size())
+		{
+			tdReport.samplesQ.resize(buffQ.size());
+		}
+
+		for (int i = 0; i < buffQ.size(); ++i)
+		{
+			int t = 16-m_adc.bitcount;
+
+			if (m_adc.coding == AdcCodingOffset)
+			{
+				tdReport.samplesQ[i] = short(buffQ[i] ^ 0x8000) * vpp / max / 2;
+			}
+			else
+			{
+				tdReport.samplesQ[i] = short(buffQ[i]) * vpp / max / 2;
+			}
+		}
+	
+	}
 }
 
 bool AdcBoard::setAdcSettings(const AdcTypeSettings& adcSettings)
-{	
+{
+#ifndef NOBOARD
 	setVoltage(adc_va, dac_va, adcSettings.va);
 	setVoltage(adc_vd, dac_vd, adcSettings.vd);
 //	setVoltage(adc_vio, dac_vio, adcSettings.vd);
+#endif
 	return true;
 }
 
@@ -491,8 +509,8 @@ void AdcBoard::updateXaxis(float fs)
 	TimeDomainReport &tdReport = report.tdReport;
 	FreqDomainReport& fdReport = report.fdReport;
 
-	tdReport.xaxis.resize(buffer_cnt*2);
-	fdReport.xaxis.resize(buffer_cnt);
+	tdReport.xaxis.resize(buffer_cnt/2);
+	fdReport.xaxis.resize(buffer_cnt/4);
 
 	for (int i = 0; i < tdReport.xaxis.size(); ++i)
 	{
@@ -508,6 +526,8 @@ void AdcBoard::updateXaxis(float fs)
 
 bool AdcBoard::getStaticTestData(vector<int>& samples, bool saveToFile)
 {
+#ifndef NOBOARD
+
 	std::vector<unsigned short> buff(buffer_cnt);
 
 	QString fileName = QString("%1-%2").arg(
@@ -577,6 +597,8 @@ bool AdcBoard::getStaticTestData(vector<int>& samples, bool saveToFile)
 	AdcAnalyzerSettings toSave(iniFile, QSettings::IniFormat, 0);
 	toSave.setAdcTypeSettings(m_adc);
 	toSave.setStaticTestSettings(m_static);
+
+#endif
 
 	return true;
 

@@ -54,9 +54,13 @@ struct TimeDomainReport
 {
 	std::vector<float> samples;
 	std::vector<float> xaxis;
-	std::vector<unsigned short> rawSamples;
+	std::vector<unsigned int> rawSamples;
+	std::vector<float> samplesQ;
+	std::vector<unsigned int> rawSamplesQ;
 	float min;
 	float max;	
+	float minQ;
+	float maxQ;	
 };
 
 struct Parameter
@@ -179,6 +183,7 @@ struct SignalSettings
     bool dualToneTest;
     float signalIIFreq;
     float signalIIPower;
+	bool iq;
 
 	operator QVariant() const {	return QVariant::fromValue(*this); }	
 };
@@ -196,6 +201,7 @@ inline QDataStream& operator<<(QDataStream& out, const SignalSettings& val)
     out << val.dualToneTest;
     out << val.signalIIFreq;
     out << val.signalIIPower;
+	out << val.iq;
 
 	return out;
 }
@@ -211,6 +217,7 @@ inline QDataStream& operator>>(QDataStream& in, SignalSettings& val)
     in >> val.dualToneTest;
     in >> val.signalIIFreq;
     in >> val.signalIIPower;
+	in >> val.iq;
 
 	return in;
 }

@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	QMdiArea* mdiArea = new QMdiArea;
 	setCentralWidget(mdiArea);
 
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < 1; ++i)
 	{		
 		QMdiSubWindowEx* subWindow = new QMdiSubWindowEx();
 		subWindow->setAttribute(Qt::WA_DeleteOnClose, false);
@@ -104,8 +104,11 @@ void MainWindow::readSettings()
 	foreach(QMdiSubWindowEx* w, m_mdiSubWindows)
 	{
 		s.beginGroup(w->windowTitle());
-			
-		w->setWindowState(Qt::WindowStates(s.value("windowState").toInt()));
+
+		int tmp = s.value("windowState").toInt();
+		//Qt::WindowStates st = Qt::WindowStates(tmp);
+		//w->setWindowState(st);
+		//w->setWindowState(Qt::WindowStates(s.value("windowState").toInt()));
 		w->restoreGeometry(s.value("geometry").toByteArray());	
 		QSize size = s.value("size").toSize();
 	    size.setWidth(qMax(size.width(), 100));
@@ -199,11 +202,11 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 		const AdcBoardReport &report = AdcBoard::instance()->reportRef();
 		if (report.tdReport.rawSamples.size())
 		{
-			const unsigned short* p = &report.tdReport.rawSamples[0];
+			const unsigned int* p = &report.tdReport.rawSamples[0];
 
 			for (int k=0; k<report.tdReport.samples.size(); ++k)
 			{
-				sprintf_s(txtBuffer, "%d\r\n", short(p[k]));
+				sprintf_s(txtBuffer, "%d\r\n", int(p[k]));
 				QString a = QString(txtBuffer);
 				int m = a.size();
 				outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
@@ -228,12 +231,13 @@ void MainWindow::slotShowBoardReport(const AdcBoardReport& report)
 {
 	foreach(QMdiSubWindowEx* mdi, m_mdiSubWindows)
 	{
-		ScopesWindow* w = dynamic_cast<ScopesWindow* >(mdi->window());
+		ScopesWindow* w = dynamic_cast<ScopesWindow* >(mdi->widget());
 		if (w)
 		{
 			w->waveWnd->update(report.tdReport.xaxis, report.tdReport.samples);
+			w->waveWnd->updateQ(report.tdReport.xaxis, report.tdReport.samplesQ);
 			w->fftWnd->update(report.fdReport.xaxis, report.fdReport.Spectrum, report.fdReport.markers);
-			w->logicWaveWnd->update(report.tdReport.rawSamples);
+//			w->logicWaveWnd->update(report.tdReport.rawSamples);
 		}
 	}
 

@@ -26,6 +26,7 @@ void SignalSettingsDialog::accept()
 	m_static.signalIIFreq = signalIIFreqLineEdit->text().toFloat() * 1e6;
 	m_static.signalIIPower = signalIIPowerLineEdit->text().toFloat();
 	m_static.initialized = true;
+	m_static.iq = iqCheckBox->checkState() == 2 ? true : false;
 	m_analyzer.setSignalSettings(m_static);
 	loadSettings();
 	QDialog::accept();
@@ -57,6 +58,8 @@ void SignalSettingsDialog::loadSettings()
 
 		signalIIFreqLineEdit->setText(QString("%L1").arg(m_static.signalIIFreq / 1e6, 0, 'f', 6));
 		signalIIPowerLineEdit->setText(QString("%L1").arg(m_static.signalIIPower, 0, 'f', 1));
+		iqCheckBox->setChecked(m_static.iq);
+
 	}
 	else
 	{

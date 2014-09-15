@@ -15,6 +15,8 @@ namespace gkhy
 		public:
 			//void update(const std::vector<float>& data);
 			void update(const std::vector<float> & xdata, const std::vector<float> & ydata);
+			void updateQ(const std::vector<float> & xdata, const std::vector<float> & ydata);
+
 			//void __stdcall CustomXAxesLabel(void * Sender, double Value, CString &);
 		};
 	}
