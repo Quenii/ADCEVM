@@ -27,7 +27,7 @@
 
 using namespace gkhy::QPlotLab;
 
-#define NOBOARD 1
+//#define NOBOARD 1
 
 #ifdef _DEBUG
 #endif // _DEBUG
@@ -89,6 +89,8 @@ AdcBoard::AdcBoard(QObject* parent /* = 0 */)
 	m_adc = m_analyzer.adcTypeSettings();
 	m_span = m_analyzer.spanSettings();
 	m_static = m_analyzer.staticTestSettings();
+
+	m_buff = new int[buffer_cnt];
 
 }
 
@@ -275,8 +277,8 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 
 	AdcAnalyzerSettings m_analyzer;
 
-	int* buff = new int[buffer_cnt];
-	unsigned short ps_buf = (unsigned short)buff;
+	int* buff = m_buff;
+	unsigned short *ps_buf = (unsigned short*)buff;
 
 	// read from board
 #ifndef NOBOARD
@@ -302,11 +304,10 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 
 		okay = read(200, p, buffer_cnt);
 		Q_ASSERT(okay);
-		okay = read(200, p, buffer_cnt);
+		okay = read(200, p+buffer_cnt, buffer_cnt);
 		Q_ASSERT(okay);
 
 		Split(buff, buffer_cnt);
-		return true;
 	}
 #else  //generate sine wave
 	m_signal = m_analyzer.signalSettings();
@@ -326,6 +327,7 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 	}
 	Split(buff, buffer_cnt);
 #endif //NOBOARD
+//	delete []buff;
 	return true;
 }
 void AdcBoard::Split(int* buff, int len)
@@ -355,7 +357,7 @@ void AdcBoard::Split(int* buff, int len)
 void AdcBoard::dynTest(TimeDomainReport& tdReport)
 {
 	float vpp = m_adc.vpp;
-	float max = 1 << 15;
+	float max = 1 << (m_adc.bitcount-1);
 
 	Convert(tdReport, max, vpp);
 
@@ -374,7 +376,7 @@ void AdcBoard::dynTest(TimeDomainReport& tdReport)
 	calc_dynam_params(tdReport.samples, m_adc.bitcount, fdReport);
 
 #elif defined(MATCOM) 
-	if (m_signal.iq)
+//	if (m_signal.iq)
 	{
 		calc_dynam_params_iq(tdReport, fdReport, m_signal.clockFreq, m_adc.bitcount, 20);
 	}
