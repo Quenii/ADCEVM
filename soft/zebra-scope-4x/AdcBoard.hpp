@@ -109,6 +109,7 @@ private:
 
 	int m_timerIdDyn;
 	int m_timerIdPower;
+	int *m_buff;
     float pi;
 //	std::vector<unsigned short> buff;
 
