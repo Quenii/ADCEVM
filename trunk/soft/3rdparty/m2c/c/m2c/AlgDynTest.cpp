@@ -40,8 +40,8 @@
     format(TM("long"));
     
     // y = ADout_dB
-    fpga_i = data1/mpower(2.0,(numbit-1.0));
-    fpga_q = data2/mpower(2.0,(numbit-1.0));
+    fpga_i = data1; ///mpower(2.0,(numbit-1.0));
+    fpga_q = data2; ///mpower(2.0,(numbit-1.0));
     
     // fclk = 80e6;
     // r=20;
@@ -58,7 +58,7 @@
     
     fpga_len = length(fpga_i);
     
-    ADout = V/2.0*(fpga_i+j*fpga_q);
+    ADout = V/2.0*(fpga_i-j*fpga_q);
     //-负频带 +正频带
     ad_len_N = length(ADout);
     //ref_dB = 74.666;%0dbm时候的计算值。75.25

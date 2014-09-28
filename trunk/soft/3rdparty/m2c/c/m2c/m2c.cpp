@@ -76,16 +76,14 @@ static CriticalSection cs;
 #define DECLEAR_Mm_ONE(v, d) \
 	Mm v; v = zeros(1, 1); v.r(1, 1) = d
 
-void AlgDynTest(double* cdata1, int cdata1_cnt,
-						double* cdata2, int cdata2_cnt,
-						double cnumpt, double cfclk, double cnumbit, double cr,
+void AlgDynTest(double* cdata1, double* cdata2, double cnumpt, double cfclk, double cnumbit, double cr,
 						double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o,
 						double* cy)
 {
 	SingleLock lock(&cs);
 	
-	DECLEAR_Mm_MORE(data1, cdata1, cdata1_cnt);
-	DECLEAR_Mm_MORE(data2, cdata2, cdata2_cnt);
+	DECLEAR_Mm_MORE(data1, cdata1, cnumpt);
+	DECLEAR_Mm_MORE(data2, cdata2, cnumpt);
 	DECLEAR_Mm_ONE(numpt, cnumpt);	
 	DECLEAR_Mm_ONE(fclk,cfclk);
 	DECLEAR_Mm_ONE(numbit, cnumbit); 
@@ -105,7 +103,7 @@ void AlgDynTest(double* cdata1, int cdata1_cnt,
 	cSINAD__o = SINAD__o.r(1, 1);
 	cSFDR__o = SFDR__o.r(1, 1); 
 	cENOB__o = ENOB__o.r(1, 1);
-	memcpy(cy, y__o.addr(), cdata1_cnt * sizeof(*cy));
+	memcpy(cy, y__o.addr(), cnumpt * sizeof(*cy));
 }
 
 void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
@@ -141,7 +139,7 @@ void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, doub
 	cVin__o = Vin__o.r(1, 1);
 	cTHD__o = THD__o.r(1, 1);
 
-	memcpy(cy, y__o.addr(), cdata_cnt * sizeof(*cy));
+	memcpy(cy, y__o.addr(), cdata_cnt / 2 * sizeof(*cy));
 	memcpy(cHD, HD__o.addr(), 10 * sizeof(*cHD));
 
 }

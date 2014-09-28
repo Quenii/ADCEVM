@@ -98319,6 +98319,7 @@ const double _chebwin32k[32768]=
 
 Mm chebwin(Mm n, Mm r) 
 {
+	const int len16k = 16384;
     const int len32k = 32768;
 	const int len64k = 65536;
     if(n.r(1, 1) == len32k)
@@ -98346,6 +98347,22 @@ Mm chebwin(Mm n, Mm r)
 
 			assert(sizeof(_chebwin64k)/sizeof(*_chebwin64k) == len64k);
 			memcpy(w.addr(), _chebwin64k, len64k * sizeof(*_chebwin64k));
+			inited = true;
+		}          
+
+		return w;
+
+	}
+	else if (n.r(1, 1) == len16k)
+	{
+		static Mm w;
+		static bool inited = false;
+		if (!inited)
+		{
+			w = ones(len16k, 1);
+
+			assert(sizeof(_chebwin16k)/sizeof(*_chebwin16k) == len16k);
+			memcpy(w.addr(), _chebwin16k, len16k * sizeof(*_chebwin16k));
 			inited = true;
 		}          
 

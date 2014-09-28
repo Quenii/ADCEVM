@@ -202,7 +202,7 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 		const AdcBoardReport &report = AdcBoard::instance()->reportRef();
 		if (report.tdReport.rawSamples.size())
 		{
-			const unsigned int* p = &report.tdReport.rawSamples[0];
+			const  int* p = &report.tdReport.rawSamples[0];
 
 			for (int k=0; k<report.tdReport.samples.size(); ++k)
 			{
