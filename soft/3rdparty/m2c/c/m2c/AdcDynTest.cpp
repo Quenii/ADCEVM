@@ -3,7 +3,7 @@
   
   #include "AdcDynTest.h"
   #include "chebwin.h"
-  
+#include "hanning.h"
   
   
   Mm AdcDynTest(Mm ADout, Mm fclk, Mm numbit, Mm NFFT, Mm V, Mm code, i_o_t, Mm& SNR__o, Mm& SINAD__o, Mm& SFDR__o, \
@@ -64,11 +64,11 @@
     /*[AmpMin,t2] = */min(ADout,i_o,AmpMin,t2);
     Vpp = AmpMax-AmpMin;
     
+//	ADout_w = times(ADout,hanning(ad_len_N));
     
     ADout_w = times(ADout,chebwin(ad_len_N,200.0));
-    AA = zeros(NFFT-ad_len_N,1.0);
-    ADout_w = (BR(ADout_w),semi,
-    AA);
+	AA = zeros(NFFT-ad_len_N,1.0);
+    ADout_w = (BR(ADout_w),semi,AA);
     ad_len = length(ADout_w);
     ADout_spect = fft(ADout_w,NFFT);
     ADout_dB = 20.0*log10(abs(ADout_spect));
@@ -88,8 +88,7 @@
     }
     data_ref_w = times(data_ref,chebwin(ad_len_N,200.0));
     
-    data_ref_w = (BR(data_ref_w),semi,
-    AA);
+    data_ref_w = (BR(data_ref_w),semi,AA);
     data_ref_spect = fft(data_ref_w,NFFT);
     data_ref_dB = 20.0*log10(abs(data_ref_spect));
     ref_dB = max(data_ref_dB(colon(1.0,1.0,ad_len/2.0)));

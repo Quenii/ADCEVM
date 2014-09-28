@@ -333,11 +333,11 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 void AdcBoard::Split(int* buff, int len)
 {
 	TimeDomainReport& tdReport = report.tdReport;
-	tdReport.rawSamples.resize(len/2);
-	tdReport.rawSamplesQ.resize(len/2);
 	
 	if (m_signal.iq)
 	{
+		tdReport.rawSamples.resize(len/2);
+		tdReport.rawSamplesQ.resize(len/2);
 		for (int i=0; i<len/2; ++i)
 		{
 			tdReport.rawSamples[i] = buff[2*i];
@@ -346,9 +346,11 @@ void AdcBoard::Split(int* buff, int len)
 	}
 	else
 	{
-		for (int i=0; i<len/2; ++i)
+		tdReport.rawSamples.resize(len/2);
+		tdReport.rawSamplesQ.resize(len/2);
+		for (int i=0; i<len; ++i)
 		{
-			tdReport.rawSamples[i] = buff[i];
+			tdReport.rawSamples[i] = (buff[i] & 0x3FFF) << 2;
 			tdReport.rawSamplesQ[i] = 0;
 		}
 	}
@@ -376,11 +378,14 @@ void AdcBoard::dynTest(TimeDomainReport& tdReport)
 	calc_dynam_params(tdReport.samples, m_adc.bitcount, fdReport);
 
 #elif defined(MATCOM) 
-//	if (m_signal.iq)
+	if (m_signal.iq)
 	{
-		calc_dynam_params_iq(tdReport, fdReport, m_signal.clockFreq, m_adc.bitcount, 20);
+		calc_dynam_params_iq(tdReport, fdReport, 1024, m_signal.clockFreq, /*m_adc.bitcount*/16, 1);
+	}else
+	{
+		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, m_adc.vpp*2, 1);
+//		calc_dynam_params_iq(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, );
 	}
-
 	//int freq_detect = m_signal.freqDetect ? 1 : 2;
 
 	//if (!m_signal.dualToneTest)
@@ -447,52 +452,56 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 }
 void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
 {
-	std::vector<unsigned int>& buff = report.tdReport.rawSamples;
+	std::vector< int>& buff = report.tdReport.rawSamples;
 	buff[0] = buff[1];  //滤波，去掉第一个采样点可能产生的噪声
+	std::vector< int>& buffQ = report.tdReport.rawSamplesQ;
+	buffQ[0] = buffQ[1];  //滤波，去掉第一个采样点可能产生的噪声
 
 	if (tdReport.samples.size()<buff.size())
 	{
 		tdReport.samples.resize(buff.size());
 	}
-
-	for (int i = 0; i < buff.size(); ++i)
+	if (tdReport.samplesQ.size()<buffQ.size())
 	{
-		int t = 16-m_adc.bitcount;
-
-		if (m_adc.coding == AdcCodingOffset)
-		{
-			tdReport.samples[i] = short(buff[i] ^ 0x8000) * vpp / max / 2;
-		}
-		else
-		{
-			tdReport.samples[i] = short(buff[i]) * vpp / max / 2;
-		}
+		tdReport.samplesQ.resize(buffQ.size());
 	}
 
-//	if (m_signal.iq)
+	if (m_signal.iq) //32 bit
 	{
-		std::vector<unsigned int>& buffQ = report.tdReport.rawSamplesQ;
-		buffQ[0] = buffQ[1];  //滤波，去掉第一个采样点可能产生的噪声
-
-		if (tdReport.samplesQ.size()<buffQ.size())
-		{
-			tdReport.samplesQ.resize(buffQ.size());
-		}
-
-		for (int i = 0; i < buffQ.size(); ++i)
+		max = 1<<31;
+		for (int i = 0; i < buff.size(); ++i)
 		{
 			int t = 16-m_adc.bitcount;
 
 			if (m_adc.coding == AdcCodingOffset)
 			{
+				tdReport.samples[i] = float(buff[i] ^ 0x80000000) * vpp / max / 2;
+				tdReport.samplesQ[i] = float(buffQ[i] ^ 0x80000000) * vpp / max / 2;
+			}
+			else
+			{
+				tdReport.samples[i] = float(buff[i]) * vpp / max / 2;
+				tdReport.samplesQ[i] = float(buffQ[i]) * vpp / max / 2;
+			}
+
+		}
+	}else
+	{
+		for (int i = 0; i < buff.size(); ++i)
+		{
+			int t = 16-m_adc.bitcount;
+
+			if (m_adc.coding == AdcCodingOffset)
+			{
+				tdReport.samples[i] = short(buff[i] ^ 0x8000) * vpp / max / 2;
 				tdReport.samplesQ[i] = short(buffQ[i] ^ 0x8000) * vpp / max / 2;
 			}
 			else
 			{
+				tdReport.samples[i] = short(buff[i]) * vpp / max / 2;
 				tdReport.samplesQ[i] = short(buffQ[i]) * vpp / max / 2;
 			}
 		}
-	
 	}
 }
 

@@ -59,11 +59,10 @@ void calc_dynam_params(std::vector<float> samples, int bitCount, FreqDomainRepor
 #include "../3rdparty/m2c/c/include/m2c.h"
 
 void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, FreqDomainReport& param, 
-					   float vpp, int tone_code, double fin_input, int dc, int spur, int signal)
+					   float vpp, int tone_code)
 {
 	const int hd_len = 10;
 	const int disturb_len = 19;
-	const int NFFT = 64 * 1024;
 	static std::vector<double> input(samples.size());
 	static std::vector<double> cADout_dB(input.size()/2);
 	static std::vector<double> cHD(hd_len);
@@ -81,14 +80,18 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 	double cSNR; 
 	double cSFDR; 
 	double cSINAD; 
+	double cENOB; 
 	double cTHD; 
 	double cPn_dB; 
 	int cdisturb_len; 
 	double cref_dB;
 
-	AdcDynTest64k(&input[0], fclk, bitCount, vpp, tone_code, fin_input, dc, spur, signal, 
-		cfreq_fin, cVin, cVpp, cSNR, cSFDR, cSINAD, cTHD, cPn_dB, cdisturb_len, cref_dB,
-		&cADout_dB[0], &cHD[0], &cHarbin[0], &cHarbin_disturb[0]);
+	AdcDynTest(&input[0], samples.size(), fclk, bitCount, samples.size(), vpp, tone_code, 
+		cSNR, cSINAD, cSFDR, cENOB, &cHD[0], &cADout_dB[0], cVpp, cVin, cTHD);
+
+	//void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
+	//	double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o,
+	//	double* cHD, double* cy, double& cVpp__o, double& cVin__o, double& cTHD__o)
 
 	double * harbin = &cHarbin[0];
 	double * harbin_dstb = &cHarbin_disturb[0];
@@ -108,7 +111,7 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 	param.DynamicPara[4].value = cSNR - cVin;
 	param.DynamicPara[5].value = cSFDR;
 	param.DynamicPara[6].value = cSFDR - cVin;
-	param.DynamicPara[7].value = (cSINAD - 1.76) / 6.02;
+	param.DynamicPara[7].value = //(cSINAD - 1.76) / 6.02;
 	param.DynamicPara[8].value = (cSINAD - cVin - 1.76) / 6.02;
 	param.DynamicPara[9].value = cPn_dB;
 	param.DynamicPara[10].value = cSINAD;
@@ -120,17 +123,17 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 			= cHD[i+1];
 	}
 
-	if (param.markers.size()<22)
-	{
-		param.markers.resize(22);
-	}
-	param.markers[0] = 0;  //identify dynamic or dualtone;
-	param.markers[21] = cPn_dB; //noise floor
-	for (int i=0; i<10; ++i)
-	{
-		param.markers[i+1] = cHarbin[i] - 1;
-		param.markers[i+11] = cHarbin_disturb[cdisturb_len-i-1] - 1;
-	}
+	//if (param.markers.size()<22)
+	//{
+	//	param.markers.resize(22);
+	//}
+	//param.markers[0] = 0;  //identify dynamic or dualtone;
+	//param.markers[21] = cPn_dB; //noise floor
+	//for (int i=0; i<10; ++i)
+	//{
+	//	param.markers[i+1] = cHarbin[i] - 1;
+	//	param.markers[i+11] = cHarbin_disturb[cdisturb_len-i-1] - 1;
+	//}
 }
 
 void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, FreqDomainReport& param, 
@@ -191,7 +194,7 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 
 }
 
-void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport, double fclk, int bitCnt, int r)
+void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport, int points, double fclk, int bitCnt, int r)
 {
 	static std::vector<double> inputI(tdReport.samples.size());
 	static std::vector<double> inputQ(tdReport.samples.size());
@@ -211,8 +214,7 @@ void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport
 	double cSINAD; 
 	double cENOB;
 
-	AlgDynTest(&inputI[0], inputI.size(), &inputQ[0], inputI.size(),
-		inputI.size(), fclk, cnumbit, cr,
+	AlgDynTest(&inputI[0], &inputQ[0], points, fclk, cnumbit, cr,
 		cSNR, cSINAD, cSFDR, cENOB,	&cADout_dB[0]);
 
 	if (fdReport.Spectrum.size() != cADout_dB.size())
