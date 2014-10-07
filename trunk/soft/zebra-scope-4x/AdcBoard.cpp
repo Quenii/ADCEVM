@@ -348,7 +348,7 @@ void AdcBoard::Split(int* buff, int len)
 	{
 		tdReport.rawSamples.resize(len/2);
 		tdReport.rawSamplesQ.resize(len/2);
-		for (int i=0; i<len; ++i)
+		for (int i=0; i<len/2; ++i)
 		{
 			tdReport.rawSamples[i] = (buff[i] & 0x3FFF) << 2;
 			tdReport.rawSamplesQ[i] = 0;
@@ -380,7 +380,7 @@ void AdcBoard::dynTest(TimeDomainReport& tdReport)
 #elif defined(MATCOM) 
 	if (m_signal.iq)
 	{
-		calc_dynam_params_iq(tdReport, fdReport, 1024, m_signal.clockFreq, /*m_adc.bitcount*/16, 1);
+		calc_dynam_params_iq(tdReport, fdReport, 1024/*tdReport.samples.size()*/, m_signal.clockFreq, /*m_adc.bitcount*/16, 1);
 	}else
 	{
 		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, m_adc.vpp*2, 1);
