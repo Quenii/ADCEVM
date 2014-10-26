@@ -14,12 +14,12 @@
       ; dMm(x); dMm(ADout_spect); dMm(ADout_dB); dMm(maxdB_1); dMm(maxdB_2); dMm(maxdB); dMm(fin); dMm(fin_1); dMm( \
       fin_lsb); dMm(freq_fin); dMm(data_ref_iq); dMm(n); dMm(n_AlgDynTest1k_v0); dMm(fin_angle); dMm(data_ref_w); dMm( \
       data_ref_spect); dMm(data_ref_dB); dMm(ref_dB); dMm(BW); dMm(BW_len); dMm(span); dMm(spanh_har); dMm(span_s);  \
-      dMm(spectP); dMm(Pdc); dMm(Pdc_dB); dMm(Ps); dMm(Ps_dB); dMm(Ph); dMm(Ph_1); dMm(Harbin_1); dMm(Ph_dB); dMm(Ph_dB_1) \
-      ; dMm(har_num); dMm(har_num_AlgDynTest1k_v1); dMm(tone); dMm(har_peak); dMm(har_bin); dMm(har_peak_1); dMm(har_bin_1) \
-      ; dMm(spectP_temp); dMm(i_); dMm(i_AlgDynTest1k_v2); dMm(disturb_len); dMm(spectP_disturb); dMm(Harbin_disturb) \
-      ; dMm(findSpac); dMm(findSpan); dMm(findStart); dMm(i_AlgDynTest1k_v3); dMm(spectP_disturb_peak); dMm(num); dMm( \
-      array_flag); dMm(jj); dMm(jj_AlgDynTest1k_v4); dMm(k); dMm(k_AlgDynTest1k_v5); dMm(spectP_disturb_temp); dMm( \
-      Harbin_disturb_temp); dMm(Ph_disturb); dMm(Ph_disturb_dB); dMm(Ph_disturb_BW); dMm(Fn_disturb); dMm(i_AlgDynTest1k_v6) \
+      dMm(spectP); dMm(l); dMm(u); dMm(Pdc); dMm(Pdc_dB); dMm(Ps); dMm(Ps_dB); dMm(Ph); dMm(Ph_1); dMm(Harbin_1); dMm( \
+      Ph_dB); dMm(Ph_dB_1); dMm(har_num); dMm(har_num_AlgDynTest1k_v1); dMm(tone); dMm(har_peak); dMm(har_bin); dMm( \
+      har_peak_1); dMm(har_bin_1); dMm(spectP_temp); dMm(i_); dMm(i_AlgDynTest1k_v2); dMm(disturb_len); dMm(spectP_disturb) \
+      ; dMm(Harbin_disturb); dMm(findSpac); dMm(findSpan); dMm(findStart); dMm(i_AlgDynTest1k_v3); dMm(spectP_disturb_peak) \
+      ; dMm(num); dMm(array_flag); dMm(jj); dMm(jj_AlgDynTest1k_v4); dMm(k); dMm(k_AlgDynTest1k_v5); dMm(spectP_disturb_temp) \
+      ; dMm(Harbin_disturb_temp); dMm(Ph_disturb); dMm(Ph_disturb_dB); dMm(Ph_disturb_BW); dMm(Fn_disturb); dMm(i_AlgDynTest1k_v6) \
       ; dMm(min_Harbin); dMm(max_Harbin); dMm(Pd_disturb); dMm(Pd_disturb_dB); dMm(Pd); dMm(Pd_dB); dMm(Pd_dB_1); dMm( \
       Pd_dB_2); dMm(Pn); dMm(Pn_dB); dMm(Vin); dMm(SNRFS); dMm(ENOBFS); 
     
@@ -43,8 +43,8 @@
     Vpp = AmpMax-AmpMin;
     
     ADC_complex = mcomplex(fpga_i,-fpga_q);
-    //ADout_w = blackmanharris(numpt);
     ADout_w = fpga_i;
+    //ADout_w = blackmanharris(numpt);
     ad_len = length(ADout_w);
     x = times((ADC_complex(colon(1.0,1.0,numpt))),ADout_w);
     ADout_spect = fftshift(fft(x));
@@ -98,12 +98,24 @@
     spectP = times((abs(ADout_spect)),(abs(ADout_spect)));
     
     //Find DC offset power 
-    Pdc = sum(spectP(colon(ad_len/2.0-span,1.0,ad_len/2.0+span)));
+    l = max(ad_len/2.0-span,1.0);
     
-    Pdc_dB = sum(ADout_dB(colon(ad_len/2.0-span,1.0,ad_len/2.0+span)));
+    u = min(ad_len/2.0+span,length(spectP));
+    Pdc = sum(spectP(colon(l,1.0,u)));
+    
+    
+    l = max(ad_len/2.0-span,1.0);
+    u = min(ad_len/2.0+span,length(ADout_dB));
+    Pdc_dB = sum(ADout_dB(colon(l,1.0,u)));
+    
     //Extract overall signal power 
-    Ps = sum(spectP(colon(fin-span_s,1.0,fin+span_s)));
-    Ps_dB = sum(ADout_dB(colon(fin-span_s,1.0,fin+span_s)));
+    l = max(fin-span_s,1.0);
+    u = min(fin+span_s,length(spectP));
+    Ps = sum(spectP(colon(l,1.0,u)));
+    
+    l = max(fin-span_s,1.0);
+    u = min(fin+span_s,length(ADout_dB));
+    Ps_dB = sum(ADout_dB(colon(l,1.0,u)));
     //Vector/matrix to store both frequency and power of signal and harmonics
     Fh = nop_M;
     
@@ -130,22 +142,39 @@
       Fh = (BR(Fh),tone);
       
       
-      har_peak = max(spectP(colon(round((tone+1.0/2.0)*ad_len)-spanh_har,1.0,round((tone+1.0/2.0)*ad_len)+spanh_har) ));
+      l = max(round((tone+1.0/2.0)*ad_len)-spanh_har,1.0);
+      u = min(round((tone+1.0/2.0)*ad_len)+spanh_har,length(spectP));
+      har_peak = max(spectP(colon(l,1.0,u)));
       
-      har_bin = find(spectP(colon(round((tone+1.0/2.0)*ad_len)-spanh_har,1.0,round((tone+1.0/2.0)*ad_len)+spanh_har) )==har_peak);
+      
+      l = max(round((tone+1.0/2.0)*ad_len)-spanh_har,1.0);
+      u = min(round((tone+1.0/2.0)*ad_len)+spanh_har,length(spectP));
+      har_bin = find(spectP(colon(l,1.0,u))==har_peak);
       har_bin = har_bin+round((tone+1.0/2.0)*ad_len)-spanh_har-1.0;
-      Ph = (BR(Ph),sum(spectP(colon(har_bin-spanh_har,1.0,har_bin+spanh_har))));
       
-      Ph_dB = (BR(Ph_dB),sum(ADout_dB(colon(har_bin-spanh_har,1.0,har_bin+spanh_har))));
+      l = max(har_bin-spanh_har,1.0);
+      u = min(har_bin+spanh_har,length(spectP));
+      Ph = (BR(Ph),sum(spectP(colon(l,1.0,u))));
+      
+      
+      l = max(har_bin-spanh_har,1.0);
+      u = min(har_bin+spanh_har,length(ADout_dB));
+      Ph_dB = (BR(Ph_dB),sum(ADout_dB(colon(l,1.0,u))));
+      
       Harbin = (BR(Harbin),har_bin);
       
-      har_peak_1 = max(spectP(colon(round((1.0/2.0-tone)*ad_len)-spanh_har,1.0,round((1.0/2.0-tone)*ad_len)+spanh_har) ));
+      l = max(round((1.0/2.0-tone)*ad_len)-spanh_har,1.0);
+      u = min(round((1.0/2.0-tone)*ad_len)+spanh_har,length(spectP));
+      har_peak_1 = max(spectP(colon(l,1.0,u)));
       
-      har_bin_1 = find(spectP(colon(round((1.0/2.0-tone)*ad_len)-spanh_har,1.0,round((1.0/2.0-tone)*ad_len)+spanh_har) )==har_peak_1);
+      har_bin_1 = find(spectP(colon(l,1.0,u))==har_peak_1);
+      
+      l = max(har_bin-spanh_har,1.0);
+      u = min(har_bin+spanh_har,length(spectP));
       har_bin_1 = har_bin_1+round((1.0/2.0-tone)*ad_len)-spanh_har-1.0;
-      Ph_1 = (BR(Ph_1),sum(spectP(colon(har_bin_1-spanh_har,1.0,har_bin_1+spanh_har))));
+      Ph_1 = (BR(Ph_1),sum(spectP(colon(l,1.0,u))));
       
-      Ph_dB_1 = (BR(Ph_dB_1),sum(ADout_dB(colon(har_bin_1-spanh_har,1.0,har_bin_1+spanh_har))));
+      Ph_dB_1 = (BR(Ph_dB_1),sum(ADout_dB(colon(l,1.0,u))));
       Harbin_1 = (BR(Harbin_1),har_bin_1);
     }
     
@@ -221,7 +250,7 @@
         
         max_Harbin = Harbin_disturb(i_)+spanh_har;
       }
-      if (istrue(Harbin_disturb(i_)<(ad_len/2.0+BW_len-spanh_har)) && istrue(Harbin_disturb(i_)>(ad_len/2.0-BW_len+spanh_har) \
+      if (istrue(Harbin_disturb(i_)<(ad_len/2.0+BW_len-spanh_har))&&istrue()&&istrue(Harbin_disturb(i_)>(ad_len/2.0-BW_len+spanh_har) \
         )) {
         Ph_disturb_BW = (BR(Ph_disturb_BW),sum(spectP(colon(min_Harbin,1.0,max_Harbin))));
       }
