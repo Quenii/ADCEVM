@@ -180,6 +180,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\AlgDynTest1k.h"
+				>
+			</File>
+			<File
 				RelativePath=".\hanning.h"
 				>
 			</File>
@@ -209,6 +213,10 @@
 			</File>
 			<File
 				RelativePath=".\AlgDynTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\AlgDynTest1k.cpp"
 				>
 			</File>
 			<File

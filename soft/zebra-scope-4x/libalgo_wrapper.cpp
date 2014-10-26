@@ -104,7 +104,7 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 		param.Spectrum[i] = cADout_dB[i];
 	}
 	param.dualTone = false;
-	param.DynamicPara[0].value = cfreq_fin / 1e6;
+//	param.DynamicPara[0].value = cfreq_fin / 1e6;
 	param.DynamicPara[1].value = cVin;
 	param.DynamicPara[2].value = cVpp;
 	param.DynamicPara[3].value = cSNR;
@@ -113,7 +113,7 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 	param.DynamicPara[6].value = cSFDR - cVin;
 	param.DynamicPara[7].value = //(cSINAD - 1.76) / 6.02;
 	param.DynamicPara[8].value = (cSINAD - cVin - 1.76) / 6.02;
-	param.DynamicPara[9].value = cPn_dB;
+//	param.DynamicPara[9].value = cPn_dB;
 	param.DynamicPara[10].value = cSINAD;
 	param.DynamicPara[11].value = cTHD;
 
@@ -128,7 +128,7 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 		param.markers.resize(22);
 	}
 	param.markers[0] = 0;  //identify dynamic or dualtone;
-	param.markers[21] = cPn_dB; //noise floor
+//	param.markers[21] = cPn_dB; //noise floor
 	//for (int i=0; i<10; ++i)
 	//{
 	//	param.markers[i+1] = cHarbin[i] - 1;
@@ -230,7 +230,52 @@ void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport
 	fdReport.DynamicPara[5].value = cSFDR;
 	fdReport.DynamicPara[7].value = cENOB; //(cSINAD - 1.76) / 6.02;
 	fdReport.DynamicPara[10].value = cSINAD;
+}
 
+void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport, int points, double fclk, int bitCnt, double vpp, int r)
+{
+	static std::vector<double> inputI(tdReport.samples.size());
+	static std::vector<double> inputQ(tdReport.samples.size());
+
+	static std::vector<double> cADout_dB(inputI.size());
+
+	for (int i = 0; i < tdReport.samples.size(); ++i)
+	{
+		inputI[i] = tdReport.samples[i];
+		inputQ[i] = tdReport.samplesQ[i];
+	}
+
+	double cnumbit = bitCnt;
+	double cr = r;
+	double cSNR; 
+	double cSFDR; 
+	double cSINAD; 
+	double cENOB;
+	double cTHD;
+	double cHD[9];
+	double cFh[9];
+	double cHarbin[9];
+
+	AlgDynTest1k(&inputI[0], &inputQ[0], points, fclk, cnumbit, vpp, cr,
+		cSNR, cSINAD, cSFDR, cENOB, cTHD,
+		cHD, &cADout_dB[0], cFh, cHarbin);
+	//M2C_API void AlgDynTest1k(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk, double cnumbit, double cVppFs, double cr,
+	//	double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o, double& cTHD__o,
+	//	double* cHD, double* cSpectrum, double* cFh, double* cHarbin);
+
+	if (fdReport.Spectrum.size() != cADout_dB.size())
+	{
+		fdReport.Spectrum.resize(cADout_dB.size());
+	}
+	for (int i = 0; i < fdReport.Spectrum.size(); ++i)
+	{
+		fdReport.Spectrum[i] = cADout_dB[i];
+	}
+	fdReport.dualTone = false;
+	fdReport.DynamicPara[3].value = cSNR;
+	fdReport.DynamicPara[5].value = cSFDR;
+	fdReport.DynamicPara[7].value = cENOB; //(cSINAD - 1.76) / 6.02;
+	fdReport.DynamicPara[10].value = cSINAD;
 }
 
 #endif

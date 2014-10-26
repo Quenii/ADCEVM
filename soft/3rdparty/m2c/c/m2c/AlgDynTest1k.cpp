@@ -130,22 +130,18 @@
       Fh = (BR(Fh),tone);
       
       
-      har_peak = max(spectP(colon(round((tone+1.0/2.0)*ad_len)-spanh_har,1.0,round((tone+1.0/2.0)*ad_len)+spanh_har) \
-        ));
+      har_peak = max(spectP(colon(round((tone+1.0/2.0)*ad_len)-spanh_har,1.0,round((tone+1.0/2.0)*ad_len)+spanh_har) ));
       
-      har_bin = find(spectP(colon(round((tone+1.0/2.0)*ad_len)-spanh_har,1.0,round((tone+1.0/2.0)*ad_len)+spanh_har) \
-        )==har_peak);
+      har_bin = find(spectP(colon(round((tone+1.0/2.0)*ad_len)-spanh_har,1.0,round((tone+1.0/2.0)*ad_len)+spanh_har) )==har_peak);
       har_bin = har_bin+round((tone+1.0/2.0)*ad_len)-spanh_har-1.0;
       Ph = (BR(Ph),sum(spectP(colon(har_bin-spanh_har,1.0,har_bin+spanh_har))));
       
       Ph_dB = (BR(Ph_dB),sum(ADout_dB(colon(har_bin-spanh_har,1.0,har_bin+spanh_har))));
       Harbin = (BR(Harbin),har_bin);
       
-      har_peak_1 = max(spectP(colon(round((1.0/2.0-tone)*ad_len)-spanh_har,1.0,round((1.0/2.0-tone)*ad_len)+spanh_har) \
-        ));
+      har_peak_1 = max(spectP(colon(round((1.0/2.0-tone)*ad_len)-spanh_har,1.0,round((1.0/2.0-tone)*ad_len)+spanh_har) ));
       
-      har_bin_1 = find(spectP(colon(round((1.0/2.0-tone)*ad_len)-spanh_har,1.0,round((1.0/2.0-tone)*ad_len)+spanh_har) \
-        )==har_peak_1);
+      har_bin_1 = find(spectP(colon(round((1.0/2.0-tone)*ad_len)-spanh_har,1.0,round((1.0/2.0-tone)*ad_len)+spanh_har) )==har_peak_1);
       har_bin_1 = har_bin_1+round((1.0/2.0-tone)*ad_len)-spanh_har-1.0;
       Ph_1 = (BR(Ph_1),sum(spectP(colon(har_bin_1-spanh_har,1.0,har_bin_1+spanh_har))));
       
@@ -225,7 +221,7 @@
         
         max_Harbin = Harbin_disturb(i_)+spanh_har;
       }
-      if (istrue(Harbin_disturb(i_)<(ad_len/2.0+BW_len-spanh_har))&&istrue()&&istrue(Harbin_disturb(i_)>(ad_len/2.0-BW_len+spanh_har) \
+      if (istrue(Harbin_disturb(i_)<(ad_len/2.0+BW_len-spanh_har)) && istrue(Harbin_disturb(i_)>(ad_len/2.0-BW_len+spanh_har) \
         )) {
         Ph_disturb_BW = (BR(Ph_disturb_BW),sum(spectP(colon(min_Harbin,1.0,max_Harbin))));
       }
