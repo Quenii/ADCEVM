@@ -3,6 +3,7 @@
 #include "m2c.h"
 #include "matlib.h"
 #include "AlgDynTest.h"
+#include "AlgDynTest1k.h"
 #include "AdcDynTest.h"
 #include "myfft.h"
 #include "myfft_complex.h"
@@ -85,7 +86,7 @@ void AlgDynTest(double* cdata1, double* cdata2, double cnumpt, double cfclk, dou
 	DECLEAR_Mm_MORE(data1, cdata1, cnumpt);
 	DECLEAR_Mm_MORE(data2, cdata2, cnumpt);
 	DECLEAR_Mm_ONE(numpt, cnumpt);	
-	DECLEAR_Mm_ONE(fclk,cfclk);
+	DECLEAR_Mm_ONE(fclk, cfclk);
 	DECLEAR_Mm_ONE(numbit, cnumbit); 
 	DECLEAR_Mm_ONE(r, cr);
 
@@ -106,6 +107,43 @@ void AlgDynTest(double* cdata1, double* cdata2, double cnumpt, double cfclk, dou
 	memcpy(cy, y__o.addr(), cnumpt * sizeof(*cy));
 }
 
+void AlgDynTest1k(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk, double cnumbit, double cVppFs, double cr,
+				double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o, double& cTHD__o,
+				double* cHD, double* cSpectrum, double* cFh, double* cHarbin)
+{
+	SingleLock lock(&cs);
+
+	DECLEAR_Mm_MORE(fpga_i, cfpga_i, cnumpt);
+	DECLEAR_Mm_MORE(fpga_q, cfpga_q, cnumpt);
+	DECLEAR_Mm_ONE(numpt, cnumpt);
+	DECLEAR_Mm_ONE(fclk, cfclk);	
+	DECLEAR_Mm_ONE(numbit, cnumbit);
+	DECLEAR_Mm_ONE(VppFs, cVppFs);
+	DECLEAR_Mm_ONE(r, cr);
+
+	Mm SNR__o; 
+	Mm SINAD__o;
+	Mm SFDR__o; 
+	Mm ENOB__o;
+	Mm THD__o;
+	Mm Fh__o;
+	Mm Harbin__o;
+	Mm HD__o;
+	Mm Spectrum__o;
+
+	AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, Harbin__o, THD__o, Spectrum__o);
+
+	cSNR__o = SNR__o.r(1, 1); 
+	cSINAD__o = SINAD__o.r(1, 1);
+	cSFDR__o = SFDR__o.r(1, 1); 
+	cENOB__o = ENOB__o.r(1, 1);
+	cTHD__o = THD__o.r(1, 1);
+
+	memcpy(cSpectrum, Spectrum__o.addr(), cnumpt / 2 * sizeof(*cSpectrum));
+	memcpy(cHD, HD__o.addr(), 10 * sizeof(*cHD));
+	memcpy(cFh, Fh__o.addr(), 10 * sizeof(*cFh));
+	memcpy(cHarbin, Harbin__o.addr(), 10 * sizeof(*cHarbin));
+}
 void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
 				double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o,
 				double* cHD, double* cy, double& cVpp__o, double& cVin__o, double& cTHD__o)

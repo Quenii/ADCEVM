@@ -323,6 +323,7 @@ float Board::current(unsigned short ch)
 }
 int Board::setVoltage(int adcChannel, int dacChannel, float v)
 {
+	return 1;
 	int fine = 256;
 	int coarse = 32;
 	int regValue;
