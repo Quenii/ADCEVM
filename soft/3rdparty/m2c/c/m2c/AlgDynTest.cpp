@@ -130,12 +130,12 @@
     //Find the signal bin number, DC = bin 1
     
     //Span of the DC on each side
-    span = max(6.0);
+    span = max(4.0);
     
     //Searching span for peak harmonics amp on each side  
-    spanh_har = 4.0;
+    spanh_har = 6.0;
     //Span of the signal on each side
-    span_s = 19.0;
+    span_s = 6.0;
     //Determine power spectrum
     spectP = (power(abs_ADout_spect,2.0));
     // spectP = (abs(ADout_spect)) .* (abs(ADout_spect)); 

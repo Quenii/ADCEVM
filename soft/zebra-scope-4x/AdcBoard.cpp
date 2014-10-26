@@ -468,20 +468,21 @@ void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
 
 	if (m_signal.iq) //32 bit
 	{
-		max = 1<<31;
+		max = 1<<(31-m_adc.bitcount);
 		for (int i = 0; i < buff.size(); ++i)
 		{
 			int t = 16-m_adc.bitcount;
+			float coef = vpp / 2 / 32.5832 / (1<<14); 
 
 			if (m_adc.coding == AdcCodingOffset)
 			{
-				tdReport.samples[i] = float(buff[i] ^ 0x80000000) * vpp / max / 2;
-				tdReport.samplesQ[i] = float(buffQ[i] ^ 0x80000000) * vpp / max / 2;
+				tdReport.samples[i] = float(buff[i] ^ 0x80000000) * coef;
+				tdReport.samplesQ[i] = float(buffQ[i] ^ 0x80000000) * coef;
 			}
 			else
 			{
-				tdReport.samples[i] = float(buff[i]) * vpp / max / 2;
-				tdReport.samplesQ[i] = float(buffQ[i]) * vpp / max / 2;
+				tdReport.samples[i] = float(buff[i]) * coef;
+				tdReport.samplesQ[i] = float(buffQ[i]) * coef;
 			}
 
 		}

@@ -123,12 +123,12 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 			= cHD[i+1];
 	}
 
-	//if (param.markers.size()<22)
-	//{
-	//	param.markers.resize(22);
-	//}
-	//param.markers[0] = 0;  //identify dynamic or dualtone;
-	//param.markers[21] = cPn_dB; //noise floor
+	if (param.markers.size()<22)
+	{
+		param.markers.resize(22);
+	}
+	param.markers[0] = 0;  //identify dynamic or dualtone;
+	param.markers[21] = cPn_dB; //noise floor
 	//for (int i=0; i<10; ++i)
 	//{
 	//	param.markers[i+1] = cHarbin[i] - 1;
