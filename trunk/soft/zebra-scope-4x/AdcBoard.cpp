@@ -381,7 +381,7 @@ void AdcBoard::dynTest(TimeDomainReport& tdReport)
 	if (m_signal.iq)
 	{
 		//calc_dynam_params_iq(tdReport, fdReport, 1024/*tdReport.samples.size()*/, m_signal.clockFreq, /*m_adc.bitcount*/16, 1);
-		calc_dynam_params_iq(tdReport, fdReport, 1024, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
+		calc_dynam_params_iq_fftw(tdReport, fdReport, 1024, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
 	}else
 	{
 		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, m_adc.vpp*2, 1);
@@ -473,7 +473,7 @@ void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
 		for (int i = 0; i < buff.size(); ++i)
 		{
 			int t = 16-m_adc.bitcount;
-			float coef = vpp  / 32.5832 / (1<<14); 
+			float coef = vpp / 2 / 32.5832 / (1<<14); 
 
 			if (m_adc.coding == AdcCodingOffset)
 			{

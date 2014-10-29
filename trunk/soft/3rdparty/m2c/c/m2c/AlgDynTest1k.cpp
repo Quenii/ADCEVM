@@ -1,4 +1,5 @@
   #include "matlib.h"
+#include "chebwin.h"
   #pragma hdrstop
   
   #include "AlgDynTest1k.h"
@@ -43,17 +44,18 @@
     Vpp = AmpMax-AmpMin;
     
     ADC_complex = mcomplex(fpga_i,-fpga_q);
-    ADout_w = fpga_i;
+    ADout_w = chebwin(numpt, 200.0);
     //ADout_w = blackmanharris(numpt);
     ad_len = length(ADout_w);
     x = times((ADC_complex(colon(1.0,1.0,numpt))),ADout_w);
     ADout_spect = fftshift(fft(x));
     ADout_dB = 20.0*log10(abs(fftshift(fft(x,numpt))));
     
-    maxdB_1 = max(ADout_dB(colon(1.0,1.0,ad_len/2.0-6.0)));
-    maxdB_2 = max(ADout_dB(colon(ad_len/2.0+6.0,1.0,ad_len)));
+    maxdB_1 = max(ADout_dB(colon(1.0,1.0,(ad_len/2.0-6.0) )));
+    maxdB_2 = max(ADout_dB(colon((ad_len/2.0+6.0),1.0,ad_len)));
     //直流点数与采样深度是否有关？ 后面定义了直流点位5个！
     maxdB = max(maxdB_1,maxdB_2);
+//	maxdB = max(ADout_dB(colon(ad_len/2,1.0,ad_len )));
     fin = find(ADout_dB(colon(1.0,1.0,ad_len))==maxdB);
     //排除直流点数以外的最大值
     if (istrue(fin<ad_len/2.0)) {
@@ -250,7 +252,7 @@
         
         max_Harbin = Harbin_disturb(i_)+spanh_har;
       }
-      if (istrue(Harbin_disturb(i_)<(ad_len/2.0+BW_len-spanh_har))&&istrue()&&istrue(Harbin_disturb(i_)>(ad_len/2.0-BW_len+spanh_har) \
+      if (istrue(Harbin_disturb(i_)<(ad_len/2.0+BW_len-spanh_har))&&istrue(Harbin_disturb(i_)>(ad_len/2.0-BW_len+spanh_har) \
         )) {
         Ph_disturb_BW = (BR(Ph_disturb_BW),sum(spectP(colon(min_Harbin,1.0,max_Harbin))));
       }
