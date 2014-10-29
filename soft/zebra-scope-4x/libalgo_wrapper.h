@@ -16,4 +16,5 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 					   float vpp, int tone_code, double fin1, double fin2, int dc, int spur, int signal);
 void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport, int points, double fclk, int bitCnt, int r);
 void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport, int points, double fclk, int bitCnt, double vpp, int r);
+void calc_dynam_params_iq_fftw(TimeDomainReport& tdReport, FreqDomainReport& fdReport, int points, double fclk, int bitCnt, double vpp, int r);
 #endif

@@ -139,7 +139,7 @@ void AlgDynTest1k(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk,
 	cENOB__o = ENOB__o.r(1, 1);
 	cTHD__o = THD__o.r(1, 1);
 
-	memcpy(cSpectrum, Spectrum__o.addr(), cnumpt / 2 * sizeof(*cSpectrum));
+	memcpy(cSpectrum, Spectrum__o.addr(), cnumpt /*/ 2 */* sizeof(*cSpectrum));
 	memcpy(cHD, HD__o.addr(), 10 * sizeof(*cHD));
 	memcpy(cFh, Fh__o.addr(), 10 * sizeof(*cFh));
 	memcpy(cHarbin, Harbin__o.addr(), 10 * sizeof(*cHarbin));
