@@ -1,5 +1,6 @@
 #include "AdcBoardTypes.hpp"
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -298,6 +299,12 @@ void calc_dynam_params_iq_fftw(TimeDomainReport& tdReport, FreqDomainReport& fdR
 
 	in = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N);
 	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N);
+
+	for (int i = 0; i < N; ++i)
+	{
+		in[i][0] = tdReport.samples[i] *2 / vpp;
+		in[i][i] = tdReport.samplesQ[i] *2 / vpp;
+	}
 	p = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 
 
@@ -339,6 +346,11 @@ void calc_dynam_params_iq_fftw(TimeDomainReport& tdReport, FreqDomainReport& fdR
 	fdReport.DynamicPara[5].value = cSFDR;
 	fdReport.DynamicPara[7].value = cENOB; //(cSINAD - 1.76) / 6.02;
 	fdReport.DynamicPara[10].value = cSINAD;
+
+	for (int i=0; i<N; ++i)
+	{
+		fdReport.Spectrum[i] = sqrt(out[i][0] * out[i][0] + out[i][1] * out[i][1]);
+	}
 
 	fftw_execute(p); /* repeat as needed */
 	fftw_destroy_plan(p);
