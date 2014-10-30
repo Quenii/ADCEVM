@@ -1,4 +1,5 @@
   #include "matlib.h"
+#include "chebwin.h"
   #pragma hdrstop
   
   #include "AlgDynTestv3.h"
@@ -49,7 +50,7 @@
     adc_aaa_i = transpose(fpga_i(colon(1.0,1.0,ad_len_N)));
     adc_aaa_q = -transpose(fpga_q(colon(1.0,1.0,ad_len_N)));
     // %ADout_w=blackmanharris(ad_len_N).';
-    ADout_w = adc_aaa_i;
+    ADout_w = chebwin(numpt, 200.0);
     ad_len = length(ADout_w);
     adc_aaa_i_afterwin = times(adc_aaa_i,ADout_w);
     adc_aaa_q_afterwin = times(adc_aaa_q,ADout_w);
