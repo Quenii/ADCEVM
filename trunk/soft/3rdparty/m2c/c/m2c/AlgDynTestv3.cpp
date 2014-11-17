@@ -52,8 +52,8 @@
     // %ADout_w=blackmanharris(ad_len_N).';
     ADout_w = chebwin(numpt, 200.0);
     ad_len = length(ADout_w);
-    adc_aaa_i_afterwin = times(adc_aaa_i,ADout_w);
-    adc_aaa_q_afterwin = times(adc_aaa_q,ADout_w);
+    adc_aaa_i_afterwin = times(fpga_i,ADout_w);
+    adc_aaa_q_afterwin = times(fpga_q,ADout_w);
     ADout_spect_i = fftshift(fft(adc_aaa_i_afterwin));
     ADout_spect_q = fftshift(fft(adc_aaa_q_afterwin));
     ADout_spect_real = real(ADout_spect_i)-imag(ADout_spect_q);
@@ -94,8 +94,8 @@
       data_ref_iq(n) = VppFs/2.0*(cos(fin_angle)+j*sin(fin_angle));
     }
     //data_ref_w=blackmanharris(ad_len_N).';
-    data_ref_i = transpose(real(data_ref_iq));
-    data_ref_q = transpose(real(data_ref_iq));
+    data_ref_i = /*transpose*/(real(data_ref_iq));
+    data_ref_q = /*transpose*/(real(data_ref_iq));
     data_ref_i_afterwin = times(data_ref_i,ADout_w);
     data_ref_q_afterwin = times(data_ref_q,ADout_w);
     data_ref_spect_i = fftshift(fft(data_ref_i_afterwin));
@@ -266,7 +266,7 @@
         
         max_Harbin = Harbin_disturb(i_)+spanh_har;
       }
-      if (istrue(Harbin_disturb(i_)<(ad_len/2.0+BW_len-spanh_har))&&istrue()&&istrue(Harbin_disturb(i_)>(ad_len/2.0-BW_len+spanh_har) \
+      if (istrue(Harbin_disturb(i_)<(ad_len/2.0+BW_len-spanh_har)) && istrue(Harbin_disturb(i_)>(ad_len/2.0-BW_len+spanh_har) \
         )) {
         Ph_disturb_BW = (BR(Ph_disturb_BW),sum(spectP(colon(min_Harbin,1.0,max_Harbin))));
       }

@@ -220,6 +220,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AlgDynTestv3.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\chebwin.cpp"
 				>
 			</File>

@@ -79,7 +79,7 @@ public:
 	void staticTest();
 	void dynTest(TimeDomainReport& tdReport);
 	const AdcBoardReport& reportRef() { return report; }
-	void updateXaxis(float fs);
+	void updateXaxis(float fs, bool iq=false);
 	bool getDynTestData(QString& );
 	bool loadStaticData(QString& );
 

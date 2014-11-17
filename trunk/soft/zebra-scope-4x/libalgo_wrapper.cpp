@@ -303,7 +303,7 @@ void calc_dynam_params_iq_fftw(TimeDomainReport& tdReport, FreqDomainReport& fdR
 	for (int i = 0; i < N; ++i)
 	{
 		in[i][0] = tdReport.samples[i] *2 / vpp;
-		in[i][i] = tdReport.samplesQ[i] *2 / vpp;
+		in[i][1] = -tdReport.samplesQ[i] *2 / vpp;
 	}
 	p = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 
@@ -346,13 +346,13 @@ void calc_dynam_params_iq_fftw(TimeDomainReport& tdReport, FreqDomainReport& fdR
 	fdReport.DynamicPara[5].value = cSFDR;
 	fdReport.DynamicPara[7].value = cENOB; //(cSINAD - 1.76) / 6.02;
 	fdReport.DynamicPara[10].value = cSINAD;
+	fftw_execute(p); /* repeat as needed */
 
 	for (int i=0; i<N; ++i)
 	{
-		fdReport.Spectrum[i] = sqrt(out[i][0] * out[i][0] + out[i][1] * out[i][1]);
+		fdReport.Spectrum[i] = 20* log( sqrt(out[i][0] * out[i][0] + out[i][1] * out[i][1]) );
 	}
 
-	fftw_execute(p); /* repeat as needed */
 	fftw_destroy_plan(p);
 	fftw_free(in); fftw_free(out);
 }

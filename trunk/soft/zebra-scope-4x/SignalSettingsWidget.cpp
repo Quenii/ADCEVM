@@ -38,5 +38,5 @@ void SignalSettingsWidget::reloadSettings()
 		signalIIFreqLineEdit->setText(QString("---.------"));
 	}
 	
-	AdcBoard::instance()->updateXaxis(settings.clockFreq);
+	AdcBoard::instance()->updateXaxis(settings.clockFreq, settings.iq);
 }
