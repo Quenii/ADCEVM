@@ -336,12 +336,12 @@ void AdcBoard::Split(int* buff, int len)
 	
 	if (m_signal.iq)
 	{
-		tdReport.rawSamples.resize(len/2);
-		tdReport.rawSamplesQ.resize(len/2);
-		for (int i=0; i<len/2; ++i)
+		tdReport.rawSamples.resize(1024);
+		tdReport.rawSamplesQ.resize(1024);
+		for (int i=0; i<1024; ++i)
 		{
-			tdReport.rawSamples[i] = buff[2*i];
-			tdReport.rawSamplesQ[i] = buff[2*i+1];
+			tdReport.rawSamples[i] = buff[2*i+2088];
+			tdReport.rawSamplesQ[i] = buff[2*i+1+2088];
 		}
 	}
 	else
@@ -380,8 +380,8 @@ void AdcBoard::dynTest(TimeDomainReport& tdReport)
 #elif defined(MATCOM) 
 	if (m_signal.iq)
 	{
-		//calc_dynam_params_iq(tdReport, fdReport, 1024/*tdReport.samples.size()*/, m_signal.clockFreq, /*m_adc.bitcount*/16, 1);
-		calc_dynam_params_iq_fftw(tdReport, fdReport, 1024, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
+		calc_dynam_params_iq(tdReport, fdReport, 1024/*tdReport.samples.size()*/, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
+		//calc_dynam_params_iq_fftw(tdReport, fdReport, 1024, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
 	}else
 	{
 		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, m_adc.vpp*2, 1);
@@ -454,9 +454,9 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
 {
 	std::vector< int>& buff = report.tdReport.rawSamples;
-	buff[0] = buff[1];  //滤波，去掉第一个采样点可能产生的噪声
+	buff[0] = 0;  //滤波，去掉第一个采样点可能产生的噪声
 	std::vector< int>& buffQ = report.tdReport.rawSamplesQ;
-	buffQ[0] = buffQ[1];  //滤波，去掉第一个采样点可能产生的噪声
+	buffQ[0] = 0;  //滤波，去掉第一个采样点可能产生的噪声
 
 	if (tdReport.samples.size()<buff.size())
 	{
@@ -517,24 +517,42 @@ bool AdcBoard::setAdcSettings(const AdcTypeSettings& adcSettings)
 	return true;
 }
 
-void AdcBoard::updateXaxis(float fs)
+void AdcBoard::updateXaxis(float fs, bool iq)
 {
 	TimeDomainReport &tdReport = report.tdReport;
 	FreqDomainReport& fdReport = report.fdReport;
 
-	tdReport.xaxis.resize(buffer_cnt/2);
-	fdReport.xaxis.resize(buffer_cnt/4);
-
-	for (int i = 0; i < tdReport.xaxis.size(); ++i)
+	if (iq)
 	{
-		tdReport.xaxis[i] = (float)i * (1e9 / fs);  //ns
+		tdReport.xaxis.resize(1024);
+		fdReport.xaxis.resize(1024);
+		for (int i = 0; i < 1024; ++i)
+		{
+			tdReport.xaxis[i] = (float)i * (1e6 / fs);  //ns
+		}
+
+		float k = fs / 128 / 1024 / 1e3;
+		for (int i = 0; i < 1024; ++i)
+		{
+			fdReport.xaxis[i] = (float)(i-512) * k;
+		}
+	}
+	else
+	{
+		tdReport.xaxis.resize(buffer_cnt/2);
+		fdReport.xaxis.resize(buffer_cnt/4);
+		for (int i = 0; i < tdReport.xaxis.size(); ++i)
+		{
+			tdReport.xaxis[i] = (float)i * (1e9 / fs);  //ns
+		}
+
+		float k = fs / 2 / (fdReport.xaxis.size()) / 1e6;
+		for (int i = 0; i < fdReport.xaxis.size(); ++i)
+		{
+			fdReport.xaxis[i] = (float)i * k;
+		}
 	}
 
-	float k = fs / 2 / (fdReport.xaxis.size()) / 1e6;
-	for (int i = 0; i < fdReport.xaxis.size(); ++i)
-	{
-		fdReport.xaxis[i] = (float)i * k;
-	}
 }
 
 bool AdcBoard::getStaticTestData(vector<int>& samples, bool saveToFile)
