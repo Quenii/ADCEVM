@@ -6,19 +6,20 @@
   
   
   Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
-     Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o, Mm& Harbin__o, Mm& THD__o, Mm& Spectrum__o) {
+     Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o, Mm& Harbin__o, Mm& Harbin_disturb__o, Mm& THD__o, Mm& Spectrum__o) \
+     {
     begin_scope
     fpga_i.setname("fpga_i"); fpga_q.setname("fpga_q"); numpt.setname("numpt"); fclk.setname("fclk"); VppFs.setname( \
       "VppFs"); numbit.setname("numbit"); r.setname("r"); 
-    dMm(SNR); dMm(SINAD); dMm(SFDR); dMm(ENOB); dMm(HD); dMm(Fh); dMm(Harbin); dMm(THD); dMm(Spectrum); dMm(ADout) \
-      ; dMm(maxADout); dMm(AmpMax); dMm(t1); dMm(AmpMin); dMm(t2); dMm(Vpp); dMm(ADC_complex); dMm(ADout_w); dMm(ad_len) \
-      ; dMm(x); dMm(ADout_spect); dMm(ADout_dB); dMm(maxdB_1); dMm(maxdB_2); dMm(maxdB); dMm(fin); dMm(fin_1); dMm( \
-      fin_lsb); dMm(freq_fin); dMm(data_ref_iq); dMm(n); dMm(n_AlgDynTest1k_v0); dMm(fin_angle); dMm(data_ref_w); dMm( \
-      data_ref_spect); dMm(data_ref_dB); dMm(ref_dB); dMm(BW); dMm(BW_len); dMm(span); dMm(spanh_har); dMm(span_s);  \
-      dMm(spectP); dMm(l); dMm(u); dMm(Pdc); dMm(Pdc_dB); dMm(Ps); dMm(Ps_dB); dMm(Ph); dMm(Ph_1); dMm(Harbin_1); dMm( \
-      Ph_dB); dMm(Ph_dB_1); dMm(har_num); dMm(har_num_AlgDynTest1k_v1); dMm(tone); dMm(har_peak); dMm(har_bin); dMm( \
-      har_peak_1); dMm(har_bin_1); dMm(spectP_temp); dMm(i_); dMm(i_AlgDynTest1k_v2); dMm(disturb_len); dMm(spectP_disturb) \
-      ; dMm(Harbin_disturb); dMm(findSpac); dMm(findSpan); dMm(findStart); dMm(i_AlgDynTest1k_v3); dMm(spectP_disturb_peak) \
+    dMm(SNR); dMm(SINAD); dMm(SFDR); dMm(ENOB); dMm(HD); dMm(Fh); dMm(Harbin); dMm(Harbin_disturb); dMm(THD); dMm( \
+      Spectrum); dMm(ADout); dMm(maxADout); dMm(AmpMax); dMm(t1); dMm(AmpMin); dMm(t2); dMm(Vpp); dMm(ADC_complex);  \
+      dMm(ADout_w); dMm(ad_len); dMm(x); dMm(ADout_spect); dMm(ADout_dB); dMm(maxdB_1); dMm(maxdB_2); dMm(maxdB); dMm( \
+      fin); dMm(fin_1); dMm(fin_lsb); dMm(freq_fin); dMm(data_ref_iq); dMm(n); dMm(n_AlgDynTest1k_v0); dMm(fin_angle) \
+      ; dMm(data_ref_w); dMm(data_ref_spect); dMm(data_ref_dB); dMm(ref_dB); dMm(BW); dMm(BW_len); dMm(span); dMm(spanh_har) \
+      ; dMm(span_s); dMm(spectP); dMm(l); dMm(u); dMm(Pdc); dMm(Pdc_dB); dMm(Ps); dMm(Ps_dB); dMm(Ph); dMm(Ph_1); dMm( \
+      Harbin_1); dMm(Ph_dB); dMm(Ph_dB_1); dMm(har_num); dMm(har_num_AlgDynTest1k_v1); dMm(tone); dMm(har_peak); dMm( \
+      har_bin); dMm(har_peak_1); dMm(har_bin_1); dMm(spectP_temp); dMm(i_); dMm(i_AlgDynTest1k_v2); dMm(disturb_len) \
+      ; dMm(spectP_disturb); dMm(findSpac); dMm(findSpan); dMm(findStart); dMm(i_AlgDynTest1k_v3); dMm(spectP_disturb_peak) \
       ; dMm(num); dMm(array_flag); dMm(jj); dMm(jj_AlgDynTest1k_v4); dMm(k); dMm(k_AlgDynTest1k_v5); dMm(spectP_disturb_temp) \
       ; dMm(Harbin_disturb_temp); dMm(Ph_disturb); dMm(Ph_disturb_dB); dMm(Ph_disturb_BW); dMm(Fn_disturb); dMm(i_AlgDynTest1k_v6) \
       ; dMm(min_Harbin); dMm(max_Harbin); dMm(Pd_disturb); dMm(Pd_disturb_dB); dMm(Pd); dMm(Pd_dB); dMm(Pd_dB_1); dMm( \
@@ -28,7 +29,7 @@
     // nargin, nargout entry code
     double old_nargin=nargin_val; if (!nargin_set) nargin_val=7.0;
     nargin_set=0;
-    double old_nargout=nargout_val; if (!nargout_set) nargout_val=9.0;
+    double old_nargout=nargout_val; if (!nargout_set) nargout_val=10.0;
     nargout_set=0;
     
     // translated code
@@ -44,18 +45,17 @@
     Vpp = AmpMax-AmpMin;
     
     ADC_complex = mcomplex(fpga_i,-fpga_q);
-    ADout_w = chebwin(numpt, 200.0);
-    //ADout_w = blackmanharris(numpt);
+    //ADout_w = fpga_i;
+    ADout_w = chebwin(numpt, 200);
     ad_len = length(ADout_w);
     x = times((ADC_complex(colon(1.0,1.0,numpt))),ADout_w);
     ADout_spect = fftshift(fft(x));
     ADout_dB = 20.0*log10(abs(fftshift(fft(x,numpt))));
     
-    maxdB_1 = max(ADout_dB(colon(1.0,1.0,(ad_len/2.0-6.0) )));
-    maxdB_2 = max(ADout_dB(colon((ad_len/2.0+6.0),1.0,ad_len)));
+    maxdB_1 = max(ADout_dB(colon(1.0,1.0,ad_len/2.0-6.0)));
+    maxdB_2 = max(ADout_dB(colon(ad_len/2.0+6.0,1.0,ad_len)));
     //直流点数与采样深度是否有关？ 后面定义了直流点位5个！
     maxdB = max(maxdB_1,maxdB_2);
-//	maxdB = max(ADout_dB(colon(ad_len/2,1.0,ad_len )));
     fin = find(ADout_dB(colon(1.0,1.0,ad_len))==maxdB);
     //排除直流点数以外的最大值
     if (istrue(fin<ad_len/2.0)) {
@@ -77,7 +77,6 @@
       data_ref_iq(n) = VppFs/2.0*(cos(fin_angle)+j*sin(fin_angle));
     }
     data_ref_w = times(data_ref_iq,ADout_w);
-    //data_ref_w=data_ref_iq;
     data_ref_spect = fft(data_ref_w,numpt);
     data_ref_dB = 20.0*log10(abs(data_ref_spect));
     ref_dB = max(data_ref_dB(colon(1.0,1.0,ad_len/2.0)))+3.0;
@@ -252,7 +251,7 @@
         
         max_Harbin = Harbin_disturb(i_)+spanh_har;
       }
-      if (istrue(Harbin_disturb(i_)<(ad_len/2.0+BW_len-spanh_har))&&istrue(Harbin_disturb(i_)>(ad_len/2.0-BW_len+spanh_har) \
+      if (istrue(Harbin_disturb(i_)<(ad_len/2.0+BW_len-spanh_har)) && istrue(Harbin_disturb(i_)>(ad_len/2.0-BW_len+spanh_har) \
         )) {
         Ph_disturb_BW = (BR(Ph_disturb_BW),sum(spectP(colon(min_Harbin,1.0,max_Harbin))));
       }
@@ -302,8 +301,8 @@
     // function exit code
     fpga_i.setname(NULL); fpga_q.setname(NULL); numpt.setname(NULL); fclk.setname(NULL); VppFs.setname(NULL); numbit.setname( \
       NULL); r.setname(NULL); 
-    SNR__o=SNR; SINAD__o=SINAD; SFDR__o=SFDR; ENOB__o=ENOB; HD__o=HD; Fh__o=Fh; Harbin__o=Harbin; THD__o=THD; Spectrum__o=Spectrum;  \
-      
+    SNR__o=SNR; SINAD__o=SINAD; SFDR__o=SFDR; ENOB__o=ENOB; HD__o=HD; Fh__o=Fh; Harbin__o=Harbin; Harbin_disturb__o=Harbin_disturb;  \
+      THD__o=THD; Spectrum__o=Spectrum; 
     return x_M;
     end_scope
   }
@@ -313,10 +312,10 @@
     begin_scope
     double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=1.0; nargout_set=1;
-    dMm(SNR__o); dMm(SINAD__o); dMm(SFDR__o); dMm(ENOB__o); dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(THD__o);  \
-      dMm(Spectrum__o); 
+    dMm(SNR__o); dMm(SINAD__o); dMm(SFDR__o); dMm(ENOB__o); dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o) \
+      ; dMm(THD__o); dMm(Spectrum__o); 
     AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, THD__o, Spectrum__o);
+       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return(SNR__o);
@@ -328,9 +327,10 @@
     begin_scope
     double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=2.0; nargout_set=1;
-    dMm(SFDR__o); dMm(ENOB__o); dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(THD__o); dMm(Spectrum__o); 
+    dMm(SFDR__o); dMm(ENOB__o); dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm( \
+      Spectrum__o); 
     AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, THD__o, Spectrum__o);
+       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
@@ -342,9 +342,10 @@
     begin_scope
     double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=3.0; nargout_set=1;
-    dMm(ENOB__o); dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(THD__o); dMm(Spectrum__o); 
+    dMm(ENOB__o); dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o);  \
+      
     AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, THD__o, Spectrum__o);
+       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
@@ -356,9 +357,9 @@
     begin_scope
     double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=4.0; nargout_set=1;
-    dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(THD__o); dMm(Spectrum__o); 
+    dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o); 
     AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, THD__o, Spectrum__o);
+       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
@@ -370,9 +371,9 @@
     begin_scope
     double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=5.0; nargout_set=1;
-    dMm(Fh__o); dMm(Harbin__o); dMm(THD__o); dMm(Spectrum__o); 
+    dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o); 
     AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, THD__o, Spectrum__o);
+       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
@@ -384,9 +385,9 @@
     begin_scope
     double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=6.0; nargout_set=1;
-    dMm(Harbin__o); dMm(THD__o); dMm(Spectrum__o); 
+    dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o); 
     AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, THD__o, Spectrum__o);
+       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
@@ -398,9 +399,9 @@
     begin_scope
     double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=7.0; nargout_set=1;
-    dMm(THD__o); dMm(Spectrum__o); 
+    dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o); 
     AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, THD__o, Spectrum__o);
+       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
@@ -408,13 +409,27 @@
   }
   
   Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
-     Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o, Mm& Harbin__o, Mm& THD__o) {
+     Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o, Mm& Harbin__o, Mm& Harbin_disturb__o) {
     begin_scope
     double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
     double old_nargout=nargout_val; nargout_val=8.0; nargout_set=1;
+    dMm(THD__o); dMm(Spectrum__o); 
+    AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
+       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
+    nargout_val=old_nargout;
+    nargin_val=old_nargin;
+    return x_M;
+    end_scope
+  }
+  
+  Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
+     Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o, Mm& Harbin__o, Mm& Harbin_disturb__o, Mm& THD__o) {
+    begin_scope
+    double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
+    double old_nargout=nargout_val; nargout_val=9.0; nargout_set=1;
     dMm(Spectrum__o); 
     AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, THD__o, Spectrum__o);
+       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
     nargout_val=old_nargout;
     nargin_val=old_nargin;
     return x_M;
