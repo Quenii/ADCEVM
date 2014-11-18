@@ -17,8 +17,6 @@ FFTWnd::FFTWnd(QWidget *parent /*= 0*/, Qt::WindowFlags f /*= 0*/) : QScope(pare
 	scope.YAxis.Max.Value = 5;
 	scope.YAxis.Min.Value = -140;
 	scope.YAxis.AutoScaling.Enabled = FALSE;
-
-
 }
 
 FFTWnd::~FFTWnd()
@@ -26,6 +24,18 @@ FFTWnd::~FFTWnd()
 
 }
 
+void FFTWnd::setTitle(int n)
+{
+	CTSLScope& scope = rawScope();
+	scope.Title.Visible = false;
+
+	if (n == 0)
+	{
+		scope.XAxis.AxisLabel.Text = _T("Frequency (KHz)");
+	}
+	else
+		scope.XAxis.AxisLabel.Text = _T("Frequency (MHz)");
+}
 void FFTWnd::update(const std::vector<float> & xdata, const std::vector<float> & ydata, const std::vector<int> & marker)
 {
 	CTSLScope& scope = rawScope();

@@ -237,6 +237,12 @@ void MainWindow::slotShowBoardReport(const AdcBoardReport& report)
 			w->waveWnd->update(report.tdReport.xaxis, report.tdReport.samples);
 			w->waveWnd->updateQ(report.tdReport.xaxis, report.tdReport.samplesQ);
 			w->fftWnd->update(report.fdReport.xaxis, report.fdReport.Spectrum, report.fdReport.markers);
+			if (report.fdReport.xaxis.size() == 1024)
+			{
+				w->fftWnd->setTitle(0);
+			}
+			else
+				w->fftWnd->setTitle(1);
 //			w->logicWaveWnd->update(report.tdReport.rawSamples);
 		}
 	}
