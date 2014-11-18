@@ -16,6 +16,7 @@ namespace gkhy
 
 		public:
 			//void update(const std::vector<float> & data);
+			void setTitle(int n);
 			void update(const std::vector<float> &, const std::vector<float> &, const std::vector<int> &);
 		};
 	}
