@@ -291,14 +291,14 @@ void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport
 	}
 	fdReport.markers[0] = 1;  
 
-	for (int i=0; i<cHarbin.size(); ++i)
+	for (int i=0; i<10; ++i)
 	{
 		fdReport.markers[i+1] = cHarbin[i] - 1;
 	}
 
-	for (int i=0; i<cHarbin_dis.size(); ++i)
+	for (int i=0; i<20; ++i)
 	{
-		fdReport.markers[i+1+cHarbin.size()] = cHarbin_dis[i] - 1;
+		fdReport.markers[i+1+10] = cHarbin_dis[i] - 1;
 	}
 }
 
