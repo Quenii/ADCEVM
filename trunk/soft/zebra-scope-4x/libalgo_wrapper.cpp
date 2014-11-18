@@ -307,45 +307,13 @@ void calc_dynam_params_iq_fftw(TimeDomainReport& tdReport, FreqDomainReport& fdR
 	}
 	p = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 
-
-
 	for (int i = 0; i < tdReport.samples.size(); ++i)
 	{
 		inputI[i] = tdReport.samples[i] * 2 / vpp;
 		inputQ[i] = tdReport.samplesQ[i] * 2 / vpp;
 	}
 
-	double cnumbit = bitCnt;
-	double cr = r;
-	double cSNR; 
-	double cSFDR; 
-	double cSINAD; 
-	double cENOB;
-	double cTHD;
-	double cHD[9];
-	double cFh[9];
-	double cHarbin[9];
 
-	AlgDynTest1k(&inputI[0], &inputQ[0], points, fclk, cnumbit, vpp, cr,
-		cSNR, cSINAD, cSFDR, cENOB, cTHD,
-		cHD, &cADout_dB[0], cFh, cHarbin);
-	//M2C_API void AlgDynTest1k(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk, double cnumbit, double cVppFs, double cr,
-	//	double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o, double& cTHD__o,
-	//	double* cHD, double* cSpectrum, double* cFh, double* cHarbin);
-
-	if (fdReport.Spectrum.size() != cADout_dB.size())
-	{
-		fdReport.Spectrum.resize(cADout_dB.size());
-	}
-	for (int i = 0; i < fdReport.Spectrum.size(); ++i)
-	{
-		fdReport.Spectrum[i] = cADout_dB[i];
-	}
-	fdReport.dualTone = false;
-	fdReport.DynamicPara[3].value = cSNR;
-	fdReport.DynamicPara[5].value = cSFDR;
-	fdReport.DynamicPara[7].value = cENOB; //(cSINAD - 1.76) / 6.02;
-	fdReport.DynamicPara[10].value = cSINAD;
 	fftw_execute(p); /* repeat as needed */
 
 	for (int i=0; i<N; ++i)
