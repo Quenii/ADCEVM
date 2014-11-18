@@ -110,7 +110,7 @@ void AlgDynTest(double* cdata1, double* cdata2, double cnumpt, double cfclk, dou
 
 void AlgDynTest1k(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk, double cnumbit, double cVppFs, double cr,
 				double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o, double& cTHD__o,
-				double* cHD, double* cSpectrum, double* cFh, double* cHarbin)
+				double* cHD, double* cSpectrum, double* cFh, double* cHarbin, double * cHarbin_dis)
 {
 	SingleLock lock(&cs);
 
@@ -131,8 +131,9 @@ void AlgDynTest1k(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk,
 	Mm Harbin__o;
 	Mm HD__o;
 	Mm Spectrum__o;
+	Mm Harbin_disturb__o;
 
-	AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, Harbin__o, THD__o, Spectrum__o);
+	AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
 
 	cSNR__o = SNR__o.r(1, 1); 
 	cSINAD__o = SINAD__o.r(1, 1);
@@ -144,6 +145,7 @@ void AlgDynTest1k(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk,
 	memcpy(cHD, HD__o.addr(), 10 * sizeof(*cHD));
 	memcpy(cFh, Fh__o.addr(), 10 * sizeof(*cFh));
 	memcpy(cHarbin, Harbin__o.addr(), 10 * sizeof(*cHarbin));
+	memcpy(cHarbin_dis, Harbin_disturb__o.addr(), 20*sizeof(*cHarbin_dis));
 }
 void AlgDynTestv3(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk, double cnumbit, double cVppFs, double cr,
 				  double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o, double& cTHD__o,

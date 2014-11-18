@@ -258,13 +258,14 @@ void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport
 	double cSINAD; 
 	double cENOB;
 	double cTHD;
-	double cHD[9];
-	double cFh[9];
-	double cHarbin[9];
+	double cHD[10];
+	double cFh[10];
+	double cHarbin[10];
+	double cHarbin_dis[20];
 
 	AlgDynTest1k(&inputI[0], &inputQ[0], points, fclk, cnumbit, vpp, cr,
 		cSNR, cSINAD, cSFDR, cENOB, cTHD,
-		cHD, &cADout_dB[0], cFh, cHarbin);
+		cHD, &cADout_dB[0], cFh, cHarbin, cHarbin_dis);
 
 	if (fdReport.Spectrum.size() != cADout_dB.size())
 	{
@@ -277,8 +278,10 @@ void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport
 	fdReport.dualTone = false;
 	fdReport.DynamicPara[3].value = cSNR;
 	fdReport.DynamicPara[5].value = cSFDR;
-	fdReport.DynamicPara[7].value = /*cENOB*/ (cSINAD - 1.76) / 6.02;
 	fdReport.DynamicPara[10].value = cSINAD;
+	fdReport.DynamicPara[7].value = /*cENOB*/ (cSINAD - 1.76) / 6.02;
+
+	//markers
 }
 
 
