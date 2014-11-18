@@ -284,9 +284,6 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 #ifndef NOBOARD
 	if (isOpen())
 	{
-		//buf_rst <= ctrl_reg1(0) or LB_Reset_i;
-		//ddc_mode_o <= ctrl_reg1(1);
-		//rst_dut <= ctrl_reg1(2);
 		unsigned short reg = 0;
 		reg = 5 | (m_signal.iq ? 2 : 0);
 		writeReg(202, reg);
@@ -336,12 +333,14 @@ void AdcBoard::Split(int* buff, int len)
 	
 	if (m_signal.iq)
 	{
-		tdReport.rawSamples.resize(1024);
-		tdReport.rawSamplesQ.resize(1024);
+		int offset = 0;
+		const int iqlen = 1024; 
+		tdReport.rawSamples.resize(iqlen);
+		tdReport.rawSamplesQ.resize(iqlen);
 		for (int i=0; i<1024; ++i)
 		{
-			tdReport.rawSamples[i] = buff[2*i+2088];
-			tdReport.rawSamplesQ[i] = buff[2*i+1+2088];
+			tdReport.rawSamples[i] = buff[2*i+offset];
+			tdReport.rawSamplesQ[/*i>0 ? i-1 : */i] = buff[2*i+1+offset];
 		}
 	}
 	else
