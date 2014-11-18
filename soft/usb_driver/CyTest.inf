@@ -38,7 +38,7 @@ MYDEVICE.Files = 10,System32\ADCEVM
 
 
 [ADCEVM.Files]
-CyTest.SPT
+CyUsb.spt
 
 [ADCEVM.NT]
 CopyFiles=CYUSB.Files, ADCEVM.Files
@@ -94,4 +94,4 @@ VID_0524&PID_0210.DeviceDesc="ADC EVM Platform"
 VID_0547&PID_1002.DeviceDesc="ADC EVM Platform"
 CYUSB.SvcDesc="Cypress USB Device"
 CYUSB.GUID="{AE18AA60-7F6A-11d4-97DD-00010229B959}"
-ADCEVM.EXECSCRIPT="\systemroot\system32\ADCEVM\CyTest.spt"
+ADCEVM.EXECSCRIPT="\systemroot\system32\ADCEVM\CyUsb.spt"
