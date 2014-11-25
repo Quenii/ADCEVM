@@ -280,7 +280,12 @@ void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport
 	fdReport.DynamicPara[5].value = cSFDR;
 	fdReport.DynamicPara[10].value = cSINAD;
 	fdReport.DynamicPara[7].value = /*cENOB*/ (cSINAD - 1.76) / 6.02;
+	fdReport.DynamicPara[11].value = cTHD;
 
+	for (int i=0; i<9; i++)
+	{
+		fdReport.DynamicPara[12+i].value = cHD[i];
+	}
 	//markers
 	//Fh = (Harbin-NFFT/2)/(NFFT);
 	//Fn_disturb = (Harbin_disturb-NFFT/2)/(NFFT);

@@ -12,6 +12,7 @@ ScopesWindow::ScopesWindow(QWidget *parent, Qt::WFlags flags)
 	ui.dockWidgetFFT->setWidget(fftWnd);
 	logicWaveWnd = new gkhy::QPlotLab::LogicWaveWnd();
 	ui.dockWidgetLogicWave->setWidget(logicWaveWnd);
+	ui.dockWidgetLogicWave->setVisible(false);
 
 	setCentralWidget(0);
 }

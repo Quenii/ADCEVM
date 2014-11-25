@@ -333,14 +333,14 @@ void AdcBoard::Split(int* buff, int len)
 	
 	if (m_signal.iq)
 	{
-		int offset = 0;
+		int offset = 1;
 		const int iqlen = 1024; 
 		tdReport.rawSamples.resize(iqlen);
 		tdReport.rawSamplesQ.resize(iqlen);
 		for (int i=0; i<1024; ++i)
 		{
 			tdReport.rawSamples[i] = buff[2*i+offset];
-			tdReport.rawSamplesQ[/*i>0 ? i-1 : */i] = buff[2*i+1+offset];
+			tdReport.rawSamplesQ[i] = buff[2*i+1+offset];
 		}
 	}
 	else

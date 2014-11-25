@@ -51,13 +51,13 @@ void FFTWnd::update(const std::vector<float> & xdata, const std::vector<float> &
 	CTSLScopeChannel AChannel = scope.Channels[ 0 ];
 	AChannel.Markers.Clear();
 
-	if (!marker[0])
+	if (marker[0])
 	{
 		// 0~type, 1~signal, 2~10 HD[2-10]
-		if (scope.MarkerGroups.Count != 40)
+		if (scope.MarkerGroups.Count != 11)
 		{
 			scope.MarkerGroups.Clear();
-			scope.MarkerGroups.Add(40);
+			scope.MarkerGroups.Add(11);
 			scope.MarkerGroups[0].Name = _T("Signal");
 			scope.MarkerGroups[0].Shape = msDiamond;
 			scope.MarkerGroups[0].Pen.Color = RGB(0, 192, 192);
@@ -100,15 +100,15 @@ void FFTWnd::update(const std::vector<float> & xdata, const std::vector<float> &
 			AMarker.Position = marker[i+1];
 		}
 
-	//	for (int i=10; i<20; ++i)
-	//	{
-	//		AChannel.Markers.Add();
-	//		CTSLScopeChannelMarker AMarker = AChannel.Markers[ AChannel.Markers.Count - 1 ];
-	//		AMarker.MarkerGroupIndex = 10;
-	//		AMarker.Position = marker[i+1];
-	//	}
-	//	scope.Cursors[ 0 ].Position.Y =  marker[21];
-	//}
+		for (int i=10; i<30; ++i)
+		{
+			AChannel.Markers.Add();
+			CTSLScopeChannelMarker AMarker = AChannel.Markers[ AChannel.Markers.Count - 1 ];
+			AMarker.MarkerGroupIndex = 10;
+			AMarker.Position = marker[i+1];
+		}
+//		scope.Cursors[ 0 ].Position.Y =  marker[21];
+	}
 	//else
 	//{
 	//	if (scope.MarkerGroups.Count != 8)

@@ -44,6 +44,9 @@ ControlPanel::ControlPanel(QWidget *parent, Qt::WFlags flags)
 	ui.groupBox_DeviceList->hide();
 	ui.groupBoxChSel->hide();
 
+	ui.tabWidget->setVisible(false);
+	ui.pushButtonStatisticTest->setVisible(false);
+	ui.staticTestButtons->setVisible(false);
 	
 	//AdcBoard& board = *(AdcBoard::instance());
 	//board.adcSettings(adcSettings);
@@ -123,15 +126,41 @@ void ControlPanel::updateReport(const AdcBoardReport &rpt)
 
 void ControlPanel::on_pushButtonStartDynamicTest_clicked()
 {	
+	ui.pushButtonStartAlgTest->setEnabled(false);
 	ui.pushButtonStartDynamicTest->setEnabled(false);
 	ui.pushButtonStopDynamicTest->setEnabled(true);	
 	ui.pushButtonStatisticTest->setEnabled(false);
 	ui.staticTestButtons->setEnabled(false);
+
+	AdcAnalyzerSettings m_analyzer;
+	SignalSettings m_signal = m_analyzer.signalSettings();
+	m_signal.iq = false;
+	m_analyzer.setSignalSettings(m_signal);
+	AdcBoard::instance()->updateXaxis(m_signal.clockFreq, m_signal.iq);
+
+	AdcBoard::instance()->setDynamicOn(true);
+}
+
+void ControlPanel::on_pushButtonStartAlgTest_clicked()
+{	
+	ui.pushButtonStartAlgTest->setEnabled(false);
+	ui.pushButtonStartDynamicTest->setEnabled(false);
+	ui.pushButtonStopDynamicTest->setEnabled(true);	
+	ui.pushButtonStatisticTest->setEnabled(false);
+	ui.staticTestButtons->setEnabled(false);
+
+	AdcAnalyzerSettings m_analyzer;
+	SignalSettings m_signal = m_analyzer.signalSettings();
+	m_signal.iq = true;
+	m_analyzer.setSignalSettings(m_signal);
+	AdcBoard::instance()->updateXaxis(m_signal.clockFreq, m_signal.iq);
+
 	AdcBoard::instance()->setDynamicOn(true);
 }
 
 void ControlPanel::on_pushButtonStopDynamicTest_clicked()
 {		
+	ui.pushButtonStartAlgTest->setEnabled(true);
 	ui.pushButtonStopDynamicTest->setEnabled(false);
 	ui.pushButtonStartDynamicTest->setEnabled(true);	
 	ui.pushButtonStatisticTest->setEnabled(true);
@@ -183,4 +212,9 @@ void ControlPanel::spanChanged()
 	
 	SpanSettingsDialog dlg;
 	dlg.exec();
+}
+
+void ControlPanel::on_pushButtonSetDDS_clicked()
+{
+
 }

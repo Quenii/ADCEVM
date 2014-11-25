@@ -289,131 +289,38 @@ inline QDataStream& operator>>(QDataStream& in, SpanSettings& val)
 
 	return in;
 }
+
+struct DdsSettings
+{
+	bool initialized;
+	int type; //0 for single tone;
+	float startFreq;
+	float stopFreq;
+	float stepFreq;
+	operator QVariant() const {	return QVariant::fromValue(*this); }	
+};
+
+Q_DECLARE_METATYPE(DdsSettings);
+
+inline QDataStream& operator<<(QDataStream& out, const DdsSettings& val)
+{
+	out << val.initialized;
+	out << val.type;
+	out << val.startFreq;
+	out << val.stopFreq;
+	out << val.stepFreq;
+
+	return out;
+}
+
+inline QDataStream& operator>>(QDataStream& in, DdsSettings& val)
+{
+	in >> val.initialized;
+	in >> val.type;
+	in >> val.startFreq;
+	in >> val.stopFreq;
+	in >> val.stepFreq;
+
+	return in;
+}
 ////////////////////////////////////////////////////////
-
-// struct AdcSettings
-// {
-// 	QString adcType;
-// 	float va;
-// 	float vd;
-// 	unsigned int bitcount;
-// 	float vpp;
-// 	AdcCoding coding;
-// 	float phase;
-
-// 	AdcSettings()
-// 	{
-// 		adcType = "JAD14P1";
-// 		va = 1.8f;
-// 		vd = 1.8f;  
-// 		bitcount = 14;
-// 		vpp = .72f;
-// 		coding = AdcCodingComplement;
-// 		phase = 0;
-// 	}
-
-// 	void writeSettings(QSettings& settings) const
-// 	{
-// 		settings.beginGroup("AdcSettings");
-
-// 		settings.setValue("Adc Type", adcType);
-// 		settings.setValue("Va", va);
-// 		settings.setValue("Vd", vd);
-// 		settings.setValue("Bit Count", bitcount);
-// 		settings.setValue("Vpp", vpp);
-// 		settings.setValue("Coding", (int)coding);
-// 		settings.setValue("Phase", phase);
-
-// 		settings.endGroup();
-// 	}
-
-// 	void readSettings(QSettings& settings)
-// 	{
-// 		settings.beginGroup("AdcSettings");
-
-// 		adcType = settings.value("Adc Type", adcType).toString();
-// 		va = settings.value("Va", va).toString().toFloat();
-// 		vd = settings.value("Vd", vd).toString().toFloat();
-// 		bitcount = settings.value("Bit Count", bitcount).toString().toFloat();
-// 		vpp = settings.value("Vpp", vpp).toString().toFloat();
-// 		coding = (AdcCoding) settings.value("Coding", (int)coding).toInt();
-// 		phase = settings.value("Phase", phase).toString().toFloat();
-
-// 		settings.endGroup();
-
-// 	}
-// };
-
-
-// struct SignalSettings
-// {
-// 	float clockFreq;
-// 	float signalFreq;
-// 	float signalPower;
-
-// 	SignalSettings()
-// 	{
-// 		clockFreq = 100.0e6;
-// 		signalFreq = 1.0e6;
-// 		signalPower = -10; //dBm
-// 	}
-
-// 	void writeSettings(QSettings& settings) const
-// 	{
-// 		settings.beginGroup("SignalSettings");
-
-// 		settings.setValue("Clock Freq", clockFreq);
-// 		settings.setValue("Signal Freq", signalFreq);
-// 		settings.setValue("Signal Power", signalPower);
-
-// 		settings.endGroup();
-// 	}
-
-// 	void readSettings(QSettings& settings)
-// 	{
-// 		settings.beginGroup("SignalSettings");
-
-// 		clockFreq = settings.value("Clock Freq", clockFreq).toString().toFloat();
-// 		signalFreq = settings.value("Signal Freq", signalFreq).toString().toFloat();
-// 		signalPower = settings.value("Signal Power", signalPower).toString().toFloat();
-
-// 		settings.endGroup();
-// 	}
-// };
-
-
-// struct StaticSettings
-// {
-// 	int numpt;
-// 	float vpp;
-// 	float vt;
-
-// 	StaticSettings()
-// 	{
-// 		numpt = 8;
-// 		vpp = 2.0f;
-// 		vt = 2.0f;
-// 	}
-
-// 	void writeSettings(QSettings& settings) const
-// 	{
-// 		settings.beginGroup("StaticSettings");
-
-// 		settings.setValue("Num of Points", numpt);
-// 		settings.setValue("Vpp", vpp);
-// 		settings.setValue("VT", vt);
-
-// 		settings.endGroup();
-// 	}
-
-// 	void readSettings(QSettings& settings)
-// 	{
-// 		settings.beginGroup("StaticSettings");
-
-// 		numpt = settings.value("Num of Points", numpt).toString().toInt();
-// 		vpp = settings.value("Vpp", vpp).toString().toFloat();
-// 		vt = settings.value("VT", vt).toString().toFloat();
-
-// 		settings.endGroup();
-// 	}
-// };
