@@ -49,6 +49,7 @@ int main(int argc, char *argv[])
 	REGISTER_METATYPE_HELPER(RegAccessSettings);
 	REGISTER_METATYPE_HELPER(SpanSettings);
 	REGISTER_METATYPE_HELPER(AdcTypeSettings);
+	REGISTER_METATYPE_HELPER(DdsSettings);
 
 #ifdef MATLAB
 	if (!(mclInitializeApplication(NULL, 0) && libalgoInitialize()))

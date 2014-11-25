@@ -38,6 +38,8 @@ private slots:
 	void on_pushButtonStopDynamicTest_clicked();
 	void on_pushButtonStartStaticTest_clicked();
 	void on_pushButtonStatisticTest_clicked();
+	void on_pushButtonStartAlgTest_clicked();
+	void on_pushButtonSetDDS_clicked();
 
 public:
 	Ui::ControlPanelClass ui;

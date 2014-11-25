@@ -39,6 +39,10 @@ public:
 	void setSpanSettings(const SpanSettings& val);
 	SpanSettings spanSettings() const;
 
+
+	void setDdsSettings(const DdsSettings& val);
+	DdsSettings ddsSettings() const;
+
 	//void setMdiSubWindowStatus(const QString& title, const QByteArray& ba);
 	//QByteArray mdiSubWindowStatus(const QString& title) const;
 
