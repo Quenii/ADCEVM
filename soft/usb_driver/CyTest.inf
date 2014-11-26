@@ -34,7 +34,7 @@ CyUsb.spt = 1
 
 [DestinationDirs]
 CYUSB.Files = 10,System32\Drivers
-MYDEVICE.Files = 10,System32\ADCEVM
+ADCEVM.Files= 10,System32\ADCEVM
 
 
 [ADCEVM.Files]
