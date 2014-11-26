@@ -24,7 +24,7 @@
 #include "gkhy/qplotlib/qscope.hpp"
 #include "inldnl_c.h"
 #include "histplot.h"
-
+//#include "TimeOut.h"
 using namespace gkhy::QPlotLab;
 
 //#define NOBOARD 1
@@ -98,6 +98,19 @@ AdcBoard::~AdcBoard()
 {
 }
 
+void AdcBoard::WriteDDSReg(unsigned char addr, unsigned int msb, unsigned int lsb, bool b32 /*= true*/)
+{
+	unsigned short array[5];
+	array[4] = b32 ? addr : 0x8000 | addr;
+	array[3] = (msb >> 16) & 0xFFFF; 
+	array[2] = (msb) & 0xFFFF; 
+	array[1] = (lsb >> 16) & 0xFFFF; 
+	array[0] = (lsb) & 0xFFFF; 
+	for (int i=0; i<5; ++i)
+	{
+		writeReg(203+i, array[i]);
+	}
+}
 void AdcBoard::initTestParas()
 {
 	FreqDomainReport &fdRpt = report.fdReport;
@@ -292,13 +305,14 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 		reg = 0;
 		unsigned short* p = &ps_buf[1];
 		unsigned short available;
-		readReg(201, available);
+//		TimeOut to(1000);
+		readReg(201, available);     
 		bool okay;
 		do 
 		{
-			readReg(202, reg);
-		} while ((reg&0x8) != 0x8);
-
+ 			readReg(202, reg);
+		} while ((reg&0x8) != 0x8/* && (!to.IsTimeout())*/);
+ 
 		okay = read(200, p, buffer_cnt);
 		Q_ASSERT(okay);
 		okay = read(200, p+buffer_cnt, buffer_cnt);
@@ -380,6 +394,10 @@ void AdcBoard::dynTest(TimeDomainReport& tdReport)
 	if (m_signal.iq)
 	{
 		calc_dynam_params_iq(tdReport, fdReport, 1024/*tdReport.samples.size()*/, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
+		if (fdReport.DynamicPara[3].value < 30)
+		{
+			return;
+		}
 		//calc_dynam_params_iq_fftw(tdReport, fdReport, 1024, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
 	}else
 	{

@@ -221,4 +221,24 @@ void ControlPanel::on_pushButtonSetDDS_clicked()
 	DdsSettingsDialog dlg;
 	dlg.exec();
 
+	AdcAnalyzerSettings s;
+	DdsSettings dds = s.ddsSettings();
+	SignalSettings signal = s.signalSettings();
+
+	unsigned short reg = 0;
+	reg = 8 | (signal.iq ? 2 : 0);
+	AdcBoard::instance()->writeReg(202, reg);
+	reg = (signal.iq ? 2 : 0);
+	AdcBoard::instance()->writeReg(202, reg);
+
+	AdcBoard::instance()->WriteDDSReg(0, 0, 0x00410000);
+	AdcBoard::instance()->WriteDDSReg(1, 0, 0x01400820);
+	AdcBoard::instance()->WriteDDSReg(2, 0, 0x3d1fc018);
+
+	float coef = 17.895697f;
+	unsigned int ftw = dds.startFreq * coef;
+	AdcBoard::instance()->WriteDDSReg(0xE, 0x3FFF0000, ftw, false);
+
+
+
 }
