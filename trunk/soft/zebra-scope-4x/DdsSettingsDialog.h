@@ -2,19 +2,19 @@
 #define SIGNALSETTINGSDIALOG_H
 
 #include <QDialog>
-#include "ui_SignalSettingsDialog.h"
+#include "ui_DdsSettingsDialog.h"
 #include "AdcBoardTypes.hpp"
 #include "dacanalyzersettings.h"
 
 using namespace Ui;
 
-class SignalSettingsDialog : public QDialog, public SignalSettingsDialogClass
+class DdsSettingsDialog : public QDialog, public DdsSettingsDialogClass
 {
 	Q_OBJECT
 
 public:
-	SignalSettingsDialog(QWidget *parent = 0);
-	~SignalSettingsDialog();
+	DdsSettingsDialog(QWidget *parent = 0);
+	~DdsSettingsDialog();
 
 protected:
 	void accept();
@@ -23,12 +23,12 @@ private:
 	void loadSettings();
 
 private slots:
-	void on_dualToneTestCheckBox_stateChanged( int state );
-
+//	void on_dualToneTestCheckBox_stateChanged( int state );
+	void on_comboBoxType_currentIndexChanged( int state );
 private:
-	Ui::SignalSettingsDialogClass ui;
+	Ui::DdsSettingsDialogClass ui;
 	AdcAnalyzerSettings m_analyzer;
-	SignalSettings m_static;
+	DdsSettings m_static;
 
 };
 
