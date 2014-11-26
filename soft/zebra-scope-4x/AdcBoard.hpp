@@ -65,6 +65,7 @@ private:
 
 public:
 	bool setAdcSettings(const AdcTypeSettings& adcSettings);
+	void WriteDDSReg(unsigned char addr, unsigned int msb, unsigned int lsb, bool b32 = true);
 	//bool setSignalSettings(const SignalSettings& signalSettings);	
 
 	//void adcSettings(AdcSettings& adcSettings) { adcSettings = m_adcSettings; }
@@ -111,6 +112,7 @@ private:
 	int m_timerIdPower;
 	int *m_buff;
     float pi;
+	unsigned short rst_reg;
 //	std::vector<unsigned short> buff;
 
 };
