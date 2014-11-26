@@ -427,7 +427,7 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 	{
 		open();
 	}
-	if (!isOpen())
+	if (!isOpen() && m_timerIdDyn)
 	{
 		QMessageBox::warning(NULL, QString::fromLocal8Bit("动态测试"), 
 			QString::fromLocal8Bit("连接设备失败，请检查硬件配置！"), 

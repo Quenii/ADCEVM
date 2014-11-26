@@ -10,6 +10,7 @@ static const char* staticTestSettingsKey = "StaticTestSettings";
 static const char* signalSettingsKey = "SignalSettings";
 static const char* regAccessSettingsKey = "RegAccess";
 static const char* spanSettingsKey = "SpanSettings";
+static const char* ddsSettingsKey = "DdsSettings";
 
 static const char* powerMonitorPoskey = "PowerMonitorPos";
 static const char* powerMonitorVisibleKey = "PowerMonitorVisible";
@@ -114,7 +115,15 @@ SpanSettings AdcAnalyzerSettings::spanSettings() const
 {
 	return value(spanSettingsKey).value<SpanSettings>();
 }
+void AdcAnalyzerSettings::setDdsSettings(const DdsSettings& val)
+{
+	setValue(ddsSettingsKey, val);
+}
 
+DdsSettings AdcAnalyzerSettings::ddsSettings() const
+{
+	return value(ddsSettingsKey).value<DdsSettings>();
+}
 //void AdcAnalyzerSettings::setMdiSubWindowStatus(const QString& title, const QByteArray& ba)
 //{
 //	setValue(QString("%1/%2").arg(mdiSubWindowGroupKey).arg(title), ba);

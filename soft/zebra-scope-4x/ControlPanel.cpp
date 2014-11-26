@@ -3,6 +3,8 @@
 #include "StaticSettingsDialog.h"
 #include "dacanalyzersettings.h"
 #include "SpanSettingsDialog.h"
+#include "DdsSettingsDialog.h"
+
 
 #include <QStandardItemModel>
 #include <QStringList>
@@ -216,5 +218,7 @@ void ControlPanel::spanChanged()
 
 void ControlPanel::on_pushButtonSetDDS_clicked()
 {
+	DdsSettingsDialog dlg;
+	dlg.exec();
 
 }
