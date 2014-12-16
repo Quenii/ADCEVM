@@ -19,6 +19,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QProcess>
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
@@ -196,20 +197,31 @@ void MainWindow::on_actionSaveData_triggered(bool checked /* = false */)
 
 		QString txtFileName = getTextFileName(fileName);
 		QFile fileTxt( txtFileName );
-		fileTxt.open(QIODevice::WriteOnly);
-		QDataStream outTxt(&fileTxt);   // we will serialize the data into the file
+		fileTxt.open(QIODevice::WriteOnly | QIODevice::Text);
+		QTextStream outTxt(&fileTxt);   // we will serialize the data into the file
+		outTxt.setCodec("UTF-8");
 
 		const AdcBoardReport &report = AdcBoard::instance()->reportRef();
 		if (report.tdReport.rawSamples.size())
 		{
-			const  int* p = &report.tdReport.rawSamples[0];
-
-			for (int k=0; k<report.tdReport.samples.size(); ++k)
+//			const  int* p = &report.tdReport.rawSamples[0];
+			int len = report.tdReport.samples.size();
+			if (settings.signalSettings().iq)
 			{
-				sprintf_s(txtBuffer, "%d\r\n", int(p[k]));
-				QString a = QString(txtBuffer);
-				int m = a.size();
-				outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
+				len = 1024;
+			}
+			for (int k=0; k<len; ++k)
+			{
+				//sprintf_s(txtBuffer, "%d\r\n", int(p[k]));
+				//QString a = QString(txtBuffer);
+				//int m = a.size();
+				//outTxt.writeRawData(txtBuffer, QString(txtBuffer).size());
+
+				outTxt << report.tdReport.rawSamples[k] << "\r\n";
+				if (settings.signalSettings().iq)
+				{
+					outTxt << report.tdReport.rawSamplesQ[k] << "\r\n";
+				}
 			}
 		}
 	}

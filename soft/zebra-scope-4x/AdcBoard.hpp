@@ -113,6 +113,8 @@ private:
 	int *m_buff;
     float pi;
 	unsigned short rst_reg;
+	const static int iqlen = 1024; 
+
 //	std::vector<unsigned short> buff;
 
 };
