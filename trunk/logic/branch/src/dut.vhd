@@ -6,7 +6,7 @@
 -- Author     :   <Quenii@QUENII-NB>
 -- Company    : 
 -- Created    : 2014-02-18
--- Last update: 2014-07-09
+-- Last update: 2014-12-16
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -43,9 +43,9 @@ entity dut is
     LB_Ready_o : out std_logic;
     LB_DataR_o : out std_logic_vector(15 downto 0);
 
-    adc_rst_o     : out std_logic;      --- AD reset signal
+    adc_clk_i     : in  std_logic;
     ddc_mode_o    : out std_logic;      --- AD original data
-    fifo_i_cs_o   : out std_logic;
+    fifo_i_cs_i   : in  std_logic;
     fifo_q_cs_i   : in  std_logic;
     fifo_rd_en_o  : out std_logic;
     fifo_rd_clk_o : out std_logic;
@@ -53,28 +53,32 @@ entity dut is
     fifo_empty_i  : in  std_logic;
     dat_i         : in  std_logic_vector(31 downto 0);
 
---    clk_i : in  std_logic;
---    dat_i : in  std_logic_vector(15 downto 0);
---    vld_i : in  std_logic;
---    sel_o : out std_logic;
+    sck_o    : out std_logic;
+    sdi_i    : in  std_logic;
+    sdo_o    : out std_logic;
+    cs_n_o   : out std_logic;
+    update_o : out std_logic;
+    reset_o  : out std_logic;
 
-    sys_clk_i : in std_logic;
+    sys_clk_i : in std_logic
+--    ;
 
-    ssram_clk_o   : out std_logic;
-    ssram_ce1_n_o : out std_logic;
-    ssram_ce2_n_o : out std_logic;
-    ssram_ce2_o   : out std_logic;
-    ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
-    ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
-    ssram_d_t_o   : out std_logic;
-    ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
-    ssram_adv_o   : out std_logic;
-    ssram_we_n_o  : out std_logic;
-    ssram_oe_n_o  : out std_logic;
-    ssram_bw_n_o  : out std_logic;
-    ssram_cke_n_o : out std_logic;
-    ssram_zz_o    : out std_logic;
-    ssram_mode_o  : out std_logic);
+--    ssram_clk_o   : out std_logic;
+--    ssram_ce1_n_o : out std_logic;
+--    ssram_ce2_n_o : out std_logic;
+--    ssram_ce2_o   : out std_logic;
+--    ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
+--    ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
+--    ssram_d_t_o   : out std_logic;
+--    ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+--    ssram_adv_o   : out std_logic;
+--    ssram_we_n_o  : out std_logic;
+--    ssram_oe_n_o  : out std_logic;
+--    ssram_bw_n_o  : out std_logic;
+--    ssram_cke_n_o : out std_logic;
+--    ssram_zz_o    : out std_logic;
+--    ssram_mode_o  : out std_logic
+    );
 
 end dut;
 
@@ -85,6 +89,7 @@ architecture impl of dut is
 
   signal buf_rst : std_logic;
 
+  signal ibuf_wrreq   : std_logic;
   signal ibuf_rdreq   : std_logic;
   signal ibuf_q       : std_logic_vector (31 downto 0);
   signal ibuf_rdempty : std_logic;
@@ -115,36 +120,44 @@ architecture impl of dut is
   signal LB_Ready_fifo : std_logic;
   signal LB_DataR_fifo : std_logic_vector(15 downto 0);
 
-  signal dat_o : std_logic_vector(31 downto 0);
-  signal vld_o : std_logic;
-  signal rst_dut : std_logic;
+  signal LB_ACK_dds   : std_logic;
+  signal LB_Ready_dds : std_logic;
+  signal LB_DataR_dds : std_logic_vector(15 downto 0);
+
+  signal dat_o   : std_logic_vector(31 downto 0);
+  signal vld_o   : std_logic;
+  signal dut_rst : std_logic;
 begin  -- impl
 
-  LB_ACK_o   <= LB_ACK_fifo or LB_ACK_reg1;
-  LB_Ready_o <= LB_Ready_fifo or LB_Ready_reg1;
-  LB_DataR_o <= LB_DataR_fifo or LB_DataR_reg1;
 
-  ibuf : entity work.async_w32r32d256
-    port map (
-      aclr    => buf_rst,
-      data    => dat_o,
-      wrclk   => sys_clk_i,
-      wrreq   => vld_o,
-      wrfull  => ibuf_wrfull,
-      rdclk   => sys_clk_i,
-      rdreq   => ibuf_rdreq,
-      q       => ibuf_q,
-      rdempty => ibuf_rdempty
-      );
+  LB_ACK_o   <= LB_ACK_fifo or LB_ACK_reg1 or LB_ACK_dds;
+  LB_Ready_o <= LB_Ready_fifo or LB_Ready_reg1 or LB_Ready_dds;
+  LB_DataR_o <= LB_DataR_fifo or LB_DataR_reg1 or LB_DataR_dds;
 
-  mbuf_wrreq <= (not ibuf_rdempty) when dstate = s_dump else '0';
-  ibuf_rdreq <= mbuf_wrreq;
+--  ibuf_wrreq <= vld_o when dstate = s_dump else '0';
+--  ibuf : entity work.async_w32r32d256
+--    port map (
+--      aclr    => buf_rst,
+--      data    => dat_o,
+--      wrclk   => sys_clk_i,
+--      wrreq   => ibuf_wrreq,
+--      wrfull  => ibuf_wrfull,
+--      rdclk   => sys_clk_i,
+--      rdreq   => ibuf_rdreq,
+--      q       => ibuf_q,
+--      rdempty => ibuf_rdempty
+--      );
+
+--  mbuf_wrreq <= (not ibuf_rdempty) when dstate = s_dump else '0';
+--  ibuf_rdreq <= mbuf_wrreq;
+
+  mbuf_wrreq <= vld_o when (dstate = s_dump) and (mbuf_full = '0') else '0';
 
   mbuf : entity work.sync_w32d32k
     port map (
       aclr  => buf_rst,
       clock => sys_clk_i,
-      data  => ibuf_q,
+      data  => dat_o,
       rdreq => mbuf_rdreq,
       wrreq => mbuf_wrreq,
       empty => mbuf_empty,
@@ -213,10 +226,35 @@ begin  -- impl
   sta_reg1(5 downto 0) <= ibuf_wrfull & ibuf_rdempty & mbuf_full & mbuf_empty
                           & obuf_wrfull & obuf_rdempty;
 
-  buf_rst <= ctrl_reg1(0);
+  buf_rst    <= ctrl_reg1(0);
   ddc_mode_o <= ctrl_reg1(1);
-  rst_dut <= ctrl_reg1(2);
-  
+  dut_rst    <= ctrl_reg1(2);
+  reset_o    <= ctrl_reg1(3);
+
+  lb_target_spi_64b_1 : entity work.lb_target_spi_64b
+    generic map (
+      ADDR_4B        => ADDR_4B+3,
+      CPOL           => '0',
+      CPHA           => '0',
+      SPI_2X_CLK_DIV => 5)
+    port map (
+      LB_Clk_i   => LB_Clk_i,
+      LB_Reset_i => LB_Reset_i,
+      LB_CS_i    => LB_CS_i,
+      LB_ADS_i   => LB_ADS_i,
+      LB_ACK_o   => LB_ACK_dds,
+      LB_Addr_i  => LB_Addr_i,
+      LB_Write_i => LB_Write_i,
+      LB_Valid_i => LB_Valid_i,
+      LB_DataW_i => LB_DataW_i,
+      LB_Ready_o => LB_Ready_dds,
+      LB_DataR_o => LB_DataR_dds,
+      sck_o      => sck_o,
+      sdi_i      => sdi_i,
+      sdo_o      => sdo_o,
+      cs_n_o     => cs_n_o,
+      update_o   => update_o);
+
   process (LB_Reset_i, sys_clk_i)
   begin  -- process
     if LB_Reset_i = '1' then
@@ -224,7 +262,7 @@ begin  -- impl
     elsif rising_edge(sys_clk_i) then
       case dstate is
         when s_idle =>
-          if updated_reg1 = '1' then
+          if updated_reg1 = '1' and buf_rst = '0' then
             dstate <= s_dump;
           end if;
 
@@ -238,13 +276,14 @@ begin  -- impl
     end if;
   end process;
 
-  ddc_1: entity work.ddc
+  ddc_1 : entity work.ddc_v2
     port map (
-      clk_p         => sys_clk_i,
-      rst_i         => rst_dut,
-      adc_rst_o     => adc_rst_o,
-      ddc_mode_o    => open,-- ddc_mode_o,
-      fifo_i_cs_o   => fifo_i_cs_o,
+      adc_clk       => adc_clk_i,
+      sys_clk_i     => sys_clk_i,
+      rst_i         => dut_rst,
+      buf_rst       => buf_rst,
+      ddc_mode_o    => open,            -- ddc_mode_o,
+      fifo_i_cs_i   => fifo_i_cs_i,
       fifo_q_cs_i   => fifo_q_cs_i,
       fifo_rd_en_o  => fifo_rd_en_o,
       fifo_rd_clk_o => fifo_rd_clk_o,
@@ -253,7 +292,7 @@ begin  -- impl
       dat_i         => dat_i,
       dat_o         => dat_o,
       vld_o         => vld_o);
-  
+
 --  dat_buf_v2_1 : entity work.dat_buf_v2
 --    generic map (
 --      DATA_WIDTH => DATA_WIDTH,

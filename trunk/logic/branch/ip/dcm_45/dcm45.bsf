@@ -70,7 +70,7 @@ applicable agreement for further details.
 		(text "50.00" (rect 144 120 309 251)(font "Arial" ))
 		(text "c1" (rect 62 134 131 279)(font "Arial" ))
 		(text "1/1" (rect 85 134 180 279)(font "Arial" ))
-		(text "180.00" (rect 107 134 240 279)(font "Arial" ))
+		(text "90.00" (rect 110 134 241 279)(font "Arial" ))
 		(text "50.00" (rect 144 134 309 279)(font "Arial" ))
 		(line (pt 0 0)(pt 273 0))
 		(line (pt 273 0)(pt 273 177))

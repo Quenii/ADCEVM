@@ -22,7 +22,7 @@ derive_pll_clocks
 
 # Original Clock Setting Name: lvds_i:lvds_i_1|rx_inclock
 create_clock -period "10 ns" \
-             -name {rx_inclock_i} {rx_inclock_i}
+             -name {adc_clk_i} {adc_clk_i}
 # ---------------------------------------------
 
 
