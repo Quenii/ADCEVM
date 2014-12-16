@@ -6,7 +6,7 @@
 -- Author     :   <Administrator@PC-201105271714>
 -- Company    : 
 -- Created    : 2013-08-03
--- Last update: 2014-02-09
+-- Last update: 2014-11-26
 -- Platform   : 
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ entity lb_target_spi is
     CPOL           : std_logic := '0';  -- SPI mode selection (mode 0 default)
     CPHA           : std_logic := '0';  -- CPOL = clock polarity, CPHA = clock phase.
     SPI_2X_CLK_DIV : integer;
-    C_REG_WIDTH    : integer);
+    C_REG_WIDTH    : integer := 64);
 
   port (
     LB_Clk_i   : in  std_logic;

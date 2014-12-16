@@ -6,7 +6,7 @@
 -- Author     :   <Quenii@QUENII-NB>
 -- Company    : 
 -- Created    : 2014-01-16
--- Last update: 2014-07-09
+-- Last update: 2014-11-26
 -- Platform   :  
 -- Standard   : VHDL'87
 -------------------------------------------------------------------------------
@@ -57,34 +57,39 @@ entity top_v2 is
     tlc3548_eco_i     : in  std_logic;
     tlc3548_start_n_o : out std_logic;
 
-    adc_rst_o     : out std_logic;      --- AD reset signal
+    adc_clk_i     : in  std_logic;
     ddc_mode_o    : out std_logic;      --- AD original data
-    fifo_i_cs_o   : out std_logic;
+    fifo_i_cs_i   : in  std_logic;
     fifo_q_cs_i   : in  std_logic;
     fifo_rd_en_o  : out std_logic;
     fifo_rd_clk_o : out std_logic;
     fifo_full_i   : in  std_logic;
     fifo_empty_i  : in  std_logic;
     dat_i         : in  std_logic_vector(31 downto 0);
---    clk_i : in std_logic;
---    dat_i : in std_logic_vector(15 downto 0);
---    vld_i : in std_logic;
 
-    ssram_clk_o   : out std_logic;
-    ssram_ce1_n_o : out std_logic;
-    ssram_ce2_n_o : out std_logic;
-    ssram_ce2_o   : out std_logic;
-    ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
-    ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
-    ssram_d_t_o   : out std_logic;
-    ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
-    ssram_adv_o   : out std_logic;
-    ssram_we_n_o  : out std_logic;
-    ssram_oe_n_o  : out std_logic;
-    ssram_bw_n_o  : out std_logic;
-    ssram_cke_n_o : out std_logic;
-    ssram_zz_o    : out std_logic;
-    ssram_mode_o  : out std_logic
+    dds_sck_o    : out std_logic;
+    dds_sdi_i    : in  std_logic;
+    dds_sdo_o    : out std_logic;
+    dds_cs_n_o   : out std_logic;
+    dds_update_o : out std_logic;
+    dds_reset_o  : out std_logic
+
+--    ;
+--    ssram_clk_o   : out std_logic;
+--    ssram_ce1_n_o : out std_logic;
+--    ssram_ce2_n_o : out std_logic;
+--    ssram_ce2_o   : out std_logic;
+--    ssram_addr_o  : out std_logic_vector(ADDR_WIDTH - 1 downto 0);
+--    ssram_d_i     : in  std_logic_vector(DATA_WIDTH - 1 downto 0);
+--    ssram_d_t_o   : out std_logic;
+--    ssram_d_o     : out std_logic_vector(DATA_WIDTH - 1 downto 0);
+--    ssram_adv_o   : out std_logic;
+--    ssram_we_n_o  : out std_logic;
+--    ssram_oe_n_o  : out std_logic;
+--    ssram_bw_n_o  : out std_logic;
+--    ssram_cke_n_o : out std_logic;
+--    ssram_zz_o    : out std_logic;
+--    ssram_mode_o  : out std_logic
 
     );
 end top_v2;
@@ -200,7 +205,7 @@ begin  -- impl
       WIDTH    => 16)
     port map (
       sys_clk_i => sys_clk,
-      clk_i     => FX_CLK_i,
+      clk_i     => adc_clk_i,
       counter_o => sta_reg1,
       updated_o => open);
 
@@ -221,36 +226,42 @@ begin  -- impl
       LB_DataW_i    => LB_DataW,
       LB_Ready_o    => LB_Ready_dut,
       LB_DataR_o    => LB_DataR_dut,
-      adc_rst_o     => adc_rst_o,
+      adc_clk_i     => adc_clk_i,
       ddc_mode_o    => ddc_mode_o,
-      fifo_i_cs_o   => fifo_i_cs_o,
+      fifo_i_cs_i   => fifo_i_cs_i,
       fifo_q_cs_i   => fifo_q_cs_i,
       fifo_rd_en_o  => fifo_rd_en_o,
-      fifo_rd_clk_o => open, -- fifo_rd_clk_o,
+      fifo_rd_clk_o => fifo_rd_clk_o,
       fifo_full_i   => fifo_full_i,
       fifo_empty_i  => fifo_empty_i,
       dat_i         => dat_i,
---      clk_i         => clk_i,
---      dat_i         => dat_i,
---      vld_i         => vld_i,
-      sys_clk_i     => sys_clk_i,
-      ssram_clk_o   => ssram_clk_o,
-      ssram_ce1_n_o => ssram_ce1_n_o,
-      ssram_ce2_n_o => ssram_ce2_n_o,
-      ssram_ce2_o   => ssram_ce2_o,
-      ssram_addr_o  => ssram_addr_o,
-      ssram_d_i     => ssram_d_i,
-      ssram_d_t_o   => ssram_d_t_o,
-      ssram_d_o     => ssram_d_o,
-      ssram_adv_o   => ssram_adv_o,
-      ssram_we_n_o  => ssram_we_n_o,
-      ssram_oe_n_o  => ssram_oe_n_o,
-      ssram_bw_n_o  => ssram_bw_n_o,
-      ssram_cke_n_o => ssram_cke_n_o,
-      ssram_zz_o    => ssram_zz_o,
-      ssram_mode_o  => ssram_mode_o);
+      sys_clk_i     => sys_clk,
 
-  fifo_rd_clk_o <= clk_div;
+      sck_o     => dds_sck_o,
+      sdi_i     => dds_sdi_i,
+      sdo_o     => dds_sdo_o,
+      cs_n_o    => dds_cs_n_o,
+      update_o => dds_update_o,
+      reset_o   => dds_reset_o
+
+--      ,
+--      ssram_clk_o   => ssram_clk_o,
+--      ssram_ce1_n_o => ssram_ce1_n_o,
+--      ssram_ce2_n_o => ssram_ce2_n_o,
+--      ssram_ce2_o   => ssram_ce2_o,
+--      ssram_addr_o  => ssram_addr_o,
+--      ssram_d_i     => ssram_d_i,
+--      ssram_d_t_o   => ssram_d_t_o,
+--      ssram_d_o     => ssram_d_o,
+--      ssram_adv_o   => ssram_adv_o,
+--      ssram_we_n_o  => ssram_we_n_o,
+--      ssram_oe_n_o  => ssram_oe_n_o,
+--      ssram_bw_n_o  => ssram_bw_n_o,
+--      ssram_cke_n_o => ssram_cke_n_o,
+--      ssram_zz_o    => ssram_zz_o,
+--      ssram_mode_o  => ssram_mode_o
+      );
+
 --  lb_target_ififo_1: entity work.lb_target_ififo
 --    generic map (
 --      CNT_REG_ADDR_4B  => 201,
