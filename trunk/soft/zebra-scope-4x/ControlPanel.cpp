@@ -102,6 +102,7 @@ void ControlPanel::updateReport(const AdcBoardReport &rpt)
 	const TimeDomainReport& tdRpt = rpt.tdReport;
 	const FreqDomainReport& fdRpt = rpt.fdReport;
 
+
 	tdReportModel->removeRows(0, tdReportModel->rowCount());
 	int len = fdRpt.dualTone ? fdRpt.DualTonePara.size() : fdRpt.DynamicPara.size();
 	if (fdRpt.dualTone)
@@ -233,7 +234,8 @@ void ControlPanel::on_pushButtonSetDDS_clicked()
 
 	AdcBoard::instance()->WriteDDSReg(0, 0, 0x00410000);
 	AdcBoard::instance()->WriteDDSReg(1, 0, 0x01400820);
-	AdcBoard::instance()->WriteDDSReg(2, 0, 0x3d1fc018);
+//	AdcBoard::instance()->WriteDDSReg(2, 0, 0x3d1fc018);
+	AdcBoard::instance()->WriteDDSReg(2, 0, 0x3d1fc118);
 
 	float coef = 17.895697f;
 	unsigned int ftw = dds.startFreq * coef;

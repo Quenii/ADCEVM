@@ -240,12 +240,12 @@ void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport
 
 void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport, int points, double fclk, int bitCnt, double vpp, int r)
 {
-	static std::vector<double> inputI(tdReport.samples.size());
-	static std::vector<double> inputQ(tdReport.samples.size());
+	static std::vector<double> inputI(points);
+	static std::vector<double> inputQ(points);
 
 	static std::vector<double> cADout_dB(inputI.size());
 
-	for (int i = 0; i < tdReport.samples.size(); ++i)
+	for (int i = 0; i < points; ++i)
 	{
 		inputI[i] = tdReport.samples[i] * 2 / vpp;
 		inputQ[i] = tdReport.samplesQ[i] * 2 / vpp;

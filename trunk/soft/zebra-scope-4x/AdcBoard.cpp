@@ -300,10 +300,12 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 		unsigned short reg = 0;
 		reg = 5 | (m_signal.iq ? 2 : 0);
 		writeReg(202, reg);
+		reg = 1 | (m_signal.iq ? 2 : 0);
+		writeReg(202, reg);
 		reg = (m_signal.iq ? 2 : 0);
 		writeReg(202, reg);  
 		reg = 0;
-		unsigned short* p = &ps_buf[1];
+		unsigned short* p = &ps_buf[0];
 		unsigned short available;
 //		TimeOut to(1000);
 		readReg(201, available);     
@@ -318,6 +320,8 @@ bool AdcBoard::getDynTestData(QString& fileNameSim)
 		okay = read(200, p+buffer_cnt, buffer_cnt);
 		Q_ASSERT(okay);
 
+		reg = 1 | (m_signal.iq ? 2 : 0);
+		writeReg(202, reg);
 		Split(buff, buffer_cnt);
 	}
 #else  //generate sine wave
@@ -347,11 +351,10 @@ void AdcBoard::Split(int* buff, int len)
 	
 	if (m_signal.iq)
 	{
-		int offset = 1;
-		const int iqlen = 1024; 
+		int offset = 2;
 		tdReport.rawSamples.resize(iqlen);
 		tdReport.rawSamplesQ.resize(iqlen);
-		for (int i=0; i<1024; ++i)
+		for (int i=0; i<iqlen; ++i)
 		{
 			tdReport.rawSamples[i] = buff[2*i+offset];
 			tdReport.rawSamplesQ[i] = buff[2*i+1+offset];
@@ -393,10 +396,11 @@ void AdcBoard::dynTest(TimeDomainReport& tdReport)
 #elif defined(MATCOM) 
 	if (m_signal.iq)
 	{
-		calc_dynam_params_iq(tdReport, fdReport, 1024/*tdReport.samples.size()*/, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
+		calc_dynam_params_iq(tdReport, fdReport, iqlen/*tdReport.samples.size()*/, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
 		if (fdReport.DynamicPara[3].value < 30)
 		{
 			return;
+			//fdReport.DynamicPara[3].value = 50;
 		}
 		//calc_dynam_params_iq_fftw(tdReport, fdReport, 1024, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
 	}else
@@ -461,6 +465,12 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 
 	if (event->timerId() == m_timerIdDyn)
 	{
+		//if (report.fdReport.DynamicPara[3].value == 50)
+		//{
+		//	report.fdReport.DynamicPara[3].value = 0;
+		//	setDynamicOn(false);
+		//	return;
+		//}
 		QString strNull;
 		getDynTestData(strNull);
 
@@ -471,15 +481,15 @@ void AdcBoard::timerEvent(QTimerEvent* event)
 void AdcBoard::Convert(TimeDomainReport& tdReport, float max, float vpp)
 {
 	std::vector< int>& buff = report.tdReport.rawSamples;
-	buff[0] = 0;  //滤波，去掉第一个采样点可能产生的噪声
+//	buff[0] = 0;  //滤波，去掉第一个采样点可能产生的噪声
 	std::vector< int>& buffQ = report.tdReport.rawSamplesQ;
-	buffQ[0] = 0;  //滤波，去掉第一个采样点可能产生的噪声
+//	buffQ[0] = 0;  //滤波，去掉第一个采样点可能产生的噪声
 
-	if (tdReport.samples.size()<buff.size())
+	if (tdReport.samples.size()!=buff.size())
 	{
 		tdReport.samples.resize(buff.size());
 	}
-	if (tdReport.samplesQ.size()<buffQ.size())
+	if (tdReport.samplesQ.size()!=buffQ.size())
 	{
 		tdReport.samplesQ.resize(buffQ.size());
 	}
@@ -541,15 +551,15 @@ void AdcBoard::updateXaxis(float fs, bool iq)
 
 	if (iq)
 	{
-		tdReport.xaxis.resize(1024);
-		fdReport.xaxis.resize(1024);
-		for (int i = 0; i < 1024; ++i)
+		tdReport.xaxis.resize(iqlen);
+		fdReport.xaxis.resize(iqlen);
+		for (int i = 0; i < iqlen; ++i)
 		{
 			tdReport.xaxis[i] = (float)i * (1e6 / fs);  //ns
 		}
 
-		float k = fs / 128 / 1024 / 1e3;
-		for (int i = 0; i < 1024; ++i)
+		float k = fs / 128 / iqlen / 1e3;
+		for (int i = 0; i < iqlen; ++i)
 		{
 			fdReport.xaxis[i] = (float)(i-512) * k;
 		}
