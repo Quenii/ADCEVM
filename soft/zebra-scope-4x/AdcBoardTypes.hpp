@@ -297,6 +297,7 @@ struct DdsSettings
 	float startFreq;
 	float stopFreq;
 	float stepFreq;
+	float clockPower;
 	operator QVariant() const {	return QVariant::fromValue(*this); }	
 };
 
@@ -309,6 +310,7 @@ inline QDataStream& operator<<(QDataStream& out, const DdsSettings& val)
 	out << val.startFreq;
 	out << val.stopFreq;
 	out << val.stepFreq;
+	out << val.clockPower;
 
 	return out;
 }
@@ -320,6 +322,7 @@ inline QDataStream& operator>>(QDataStream& in, DdsSettings& val)
 	in >> val.startFreq;
 	in >> val.stopFreq;
 	in >> val.stepFreq;
+	in >> val.clockPower;
 
 	return in;
 }

@@ -119,6 +119,18 @@ void MainWindow::readSettings()
 		
 		s.endGroup();
 	}
+
+	AdcTypeSettings adc = s.adcTypeSettings();
+	adc.bitcount = 16;
+	adc.coding = AdcCodingComplement;
+	adc.vpp = 1.4f; 
+
+	s.setAdcTypeSettings(adc);
+
+	SignalSettings signal = s.signalSettings();
+	signal.clockFreq = 80e6;
+	
+	s.setSignalSettings(signal);
 }
 
 void MainWindow::createMenus()
@@ -235,8 +247,8 @@ void MainWindow::slotShowControlPanel()
 
 void MainWindow::slotShowAbout()
 {
-	QMessageBox::about(this, tr("About CETC58 ADC Analyzer"),
-		tr("<br><b>ADC Analyzer</b> is designed to work with the USB-ADC evaluation board.<br><br><div align=center>Copyright (c) CETC58, 2012</div><br> "));
+	QMessageBox::about(this, tr("About CETC58 TSV TEST SOFT v1.0"),
+		tr("<br><b>TSV TEST</b> is designed to work with the USB-TSV evaluation board.<br><br><div align=center>Copyright (c) CETC58, 2012</div><br> "));
 }
 
 void MainWindow::slotShowBoardReport(const AdcBoardReport& report)

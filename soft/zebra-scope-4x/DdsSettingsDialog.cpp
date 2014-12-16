@@ -20,7 +20,7 @@ void DdsSettingsDialog::accept()
 	m_static.startFreq = clockStartMHzLineEdit->text().toFloat() * 1e6;
 	m_static.stopFreq = clockStopMHzLineEdit->text().toFloat() * 1e6;
 	m_static.stepFreq = clockStepMHzLineEdit->text().toFloat() * 1e6;
-//	m_static.clockPower = clockPowerLineEdit->text().toFloat();
+	m_static.clockPower = clockPowerLineEdit->text().toFloat();
 
 	m_static.initialized = true;
 	m_analyzer.setDdsSettings(m_static);
@@ -39,7 +39,7 @@ void DdsSettingsDialog::loadSettings()
 		clockStartMHzLineEdit->setText(QString("%L1").arg(m_static.startFreq / 1e6, 0, 'f', 6));
 		clockStopMHzLineEdit->setText(QString("%L1").arg(m_static.stopFreq / 1e6, 0, 'f', 6));
 		clockStepMHzLineEdit->setText(QString("%L1").arg(m_static.stepFreq / 1e6, 0, 'f', 6));
-//		clockPowerLineEdit->setText(QString("%L1").arg(m_static.clockPower, 0, 'f', 1));
+		clockPowerLineEdit->setText(QString("%L1").arg(m_static.clockPower, 0, 'f', 1));
 		if (m_static.type == 0)
 		{
 			clockStopMHzLineEdit->setEnabled(false);
