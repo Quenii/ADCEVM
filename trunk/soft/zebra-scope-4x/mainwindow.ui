@@ -39,7 +39,7 @@
      <x>0</x>
      <y>0</y>
      <width>662</width>
-     <height>20</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -141,6 +141,9 @@
    </property>
   </action>
   <action name="actionSpiCtrl">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>SPI控制(C)</string>
    </property>
@@ -185,21 +188,33 @@
    </property>
   </action>
   <action name="actionADC">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>ADC类型</string>
    </property>
   </action>
   <action name="actionSIGNAL">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>时钟和信号</string>
    </property>
   </action>
   <action name="actionSPAN">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>SPAN</string>
    </property>
   </action>
   <action name="actionLoadStaticData">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>读入静态数据</string>
    </property>
