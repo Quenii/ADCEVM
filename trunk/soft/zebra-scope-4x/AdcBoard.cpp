@@ -399,7 +399,7 @@ void AdcBoard::dynTest(TimeDomainReport& tdReport)
 		calc_dynam_params_iq(tdReport, fdReport, iqlen/*tdReport.samples.size()*/, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
 		if (fdReport.DynamicPara[3].value < 30)
 		{
-			return;
+			//return;
 			//fdReport.DynamicPara[3].value = 50;
 		}
 		//calc_dynam_params_iq_fftw(tdReport, fdReport, 1024, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
