@@ -239,7 +239,8 @@ void ControlPanel::on_pushButtonSetDDS_clicked()
 
 	float coef = 17.895697f;
 	unsigned int ftw = dds.startFreq * coef;
-	AdcBoard::instance()->WriteDDSReg(0xE, 0x3FFF0000, ftw, false);
+	unsigned int asf = (unsigned int)( dds.clockPower * 0x3FFF0000 ) & 0x3FFF0000;
+	AdcBoard::instance()->WriteDDSReg(0xE, asf, ftw, false);
 
 
 
