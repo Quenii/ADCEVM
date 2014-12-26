@@ -197,10 +197,10 @@ void AdcBoard::initTestParas()
 	para.name = tr("ENOB");
 	para.unit = tr("Bit");
 	fdRpt.DynamicPara.push_back(para);
-	para.index = 8;
-	para.name = tr("ENOB_dBFS");
-	para.unit = tr("Bit");
-	fdRpt.DynamicPara.push_back(para);
+	//para.index = 8;
+	//para.name = tr("ENOB_dBFS");
+	//para.unit = tr("Bit");
+	//fdRpt.DynamicPara.push_back(para);
 
 	para.index = 9;
 	para.name = tr("Pn");
@@ -356,8 +356,8 @@ void AdcBoard::Split(int* buff, int len)
 		tdReport.rawSamplesQ.resize(iqlen);
 		for (int i=0; i<iqlen; ++i)
 		{
-			tdReport.rawSamples[i] = buff[2*i+offset];
-			tdReport.rawSamplesQ[i] = buff[2*i+1+offset];
+			tdReport.rawSamplesQ[i] = buff[2*i+offset];
+			tdReport.rawSamples[i] = buff[2*i+1+offset];
 		}
 	}
 	else
@@ -397,15 +397,15 @@ void AdcBoard::dynTest(TimeDomainReport& tdReport)
 	if (m_signal.iq)
 	{
 		calc_dynam_params_iq(tdReport, fdReport, iqlen/*tdReport.samples.size()*/, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
-		if (fdReport.DynamicPara[3].value < 30)
+		if (fdReport.DynamicPara[3].value < 30 && fdReport.DynamicPara[3].value > 0)
 		{
-			//return;
+			return;
 			//fdReport.DynamicPara[3].value = 50;
 		}
 		//calc_dynam_params_iq_fftw(tdReport, fdReport, 1024, m_signal.clockFreq, m_adc.bitcount, m_adc.vpp, 128);
 	}else
 	{
-		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, m_adc.vpp*2, 1);
+		calc_dynam_params(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, m_adc.vpp, 1);
 //		calc_dynam_params_iq(tdReport.samples, m_signal.clockFreq, m_adc.bitcount, fdReport, );
 	}
 	//int freq_detect = m_signal.freqDetect ? 1 : 2;

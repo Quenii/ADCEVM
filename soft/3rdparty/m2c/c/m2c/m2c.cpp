@@ -84,8 +84,8 @@ void AlgDynTest(double* cdata1, double* cdata2, double cnumpt, double cfclk, dou
 {
 	SingleLock lock(&cs);
 	
-	DECLEAR_Mm_MORE(data1, cdata1, cnumpt);
-	DECLEAR_Mm_MORE(data2, cdata2, cnumpt);
+	DECLEAR_Mm_MORE(data1, cdata1, (size_t)cnumpt);
+	DECLEAR_Mm_MORE(data2, cdata2, (size_t)cnumpt);
 	DECLEAR_Mm_ONE(numpt, cnumpt);	
 	DECLEAR_Mm_ONE(fclk, cfclk);
 	DECLEAR_Mm_ONE(numbit, cnumbit); 
@@ -105,17 +105,19 @@ void AlgDynTest(double* cdata1, double* cdata2, double cnumpt, double cfclk, dou
 	cSINAD__o = SINAD__o.r(1, 1);
 	cSFDR__o = SFDR__o.r(1, 1); 
 	cENOB__o = ENOB__o.r(1, 1);
-	memcpy(cy, y__o.addr(), cnumpt * sizeof(*cy));
+	memcpy(cy, y__o.addr(), (size_t)cnumpt * sizeof(*cy));
 }
 
-void AlgDynTest1k(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk, double cnumbit, double cVppFs, double cr,
-				double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o, double& cTHD__o,
-				double* cHD, double* cSpectrum, double* cFh, double* cHarbin, double * cHarbin_dis)
+void AlgDynTest1k(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk, double cnumbit, double cVppFs, double cr
+				, double& cSNR__o, double& cSINAD__o, double& cSFDR__o, /*double& cENOB__o, */double& cTHD__o
+				, double* cHD, double* cSpectrum, double* cFh, double* cHarbin, double * cHarbin_dis
+				, double& cfreq_fin, double& cVin, double& cVpp, double& cPn_dB
+				)
 {
 	SingleLock lock(&cs);
 
-	DECLEAR_Mm_MORE(fpga_i, cfpga_i, cnumpt);
-	DECLEAR_Mm_MORE(fpga_q, cfpga_q, cnumpt);
+	DECLEAR_Mm_MORE(fpga_i, cfpga_i, (size_t)cnumpt);
+	DECLEAR_Mm_MORE(fpga_q, cfpga_q, (size_t)cnumpt);
 	DECLEAR_Mm_ONE(numpt, cnumpt);
 	DECLEAR_Mm_ONE(fclk, cfclk);	
 	DECLEAR_Mm_ONE(numbit, cnumbit);
@@ -133,15 +135,27 @@ void AlgDynTest1k(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk,
 	Mm Spectrum__o;
 	Mm Harbin_disturb__o;
 
-	AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
+	Mm freq_fin;
+	Mm Vin;
+	Mm Vpp;
+	Mm Pn_dB;
+
+	AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, 
+		Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o
+		, freq_fin, Vin, Vpp, Pn_dB
+		);
 
 	cSNR__o = SNR__o.r(1, 1); 
 	cSINAD__o = SINAD__o.r(1, 1);
 	cSFDR__o = SFDR__o.r(1, 1); 
-	cENOB__o = ENOB__o.r(1, 1);
+//	cENOB__o = ENOB__o.r(1, 1);
 	cTHD__o = THD__o.r(1, 1);
+	cfreq_fin = freq_fin.r(1, 1);
+	cVin = Vin.r(1, 1);
+	cVpp = Vpp.r(1, 1);
+	cPn_dB = Pn_dB.r(1, 1);
 
-	memcpy(cSpectrum, Spectrum__o.addr(), cnumpt /*/ 2 */* sizeof(*cSpectrum));
+	memcpy(cSpectrum, Spectrum__o.addr(), (size_t)cnumpt /*/ 2 */* sizeof(*cSpectrum));
 	memcpy(cHD, HD__o.addr(), 10 * sizeof(*cHD));
 	memcpy(cFh, Fh__o.addr(), 10 * sizeof(*cFh));
 	memcpy(cHarbin, Harbin__o.addr(), 10 * sizeof(*cHarbin));
@@ -153,8 +167,8 @@ void AlgDynTestv3(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk,
 {
 	SingleLock lock(&cs);
 
-	DECLEAR_Mm_MORE(fpga_i, cfpga_i, cnumpt);
-	DECLEAR_Mm_MORE(fpga_q, cfpga_q, cnumpt);
+	DECLEAR_Mm_MORE(fpga_i, cfpga_i, (size_t)cnumpt);
+	DECLEAR_Mm_MORE(fpga_q, cfpga_q, (size_t)cnumpt);
 	DECLEAR_Mm_ONE(numpt, cnumpt);
 	DECLEAR_Mm_ONE(fclk, cfclk);	
 	DECLEAR_Mm_ONE(numbit, cnumbit);
@@ -179,14 +193,15 @@ void AlgDynTestv3(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk,
 	cENOB__o = ENOB__o.r(1, 1);
 	cTHD__o = THD__o.r(1, 1);
 
-	memcpy(cSpectrum, Spectrum__o.addr(), cnumpt /*/ 2 */* sizeof(*cSpectrum));
+	memcpy(cSpectrum, Spectrum__o.addr(), (size_t)cnumpt /*/ 2 */* sizeof(*cSpectrum));
 	memcpy(cHD, HD__o.addr(), 10 * sizeof(*cHD));
 	memcpy(cFh, Fh__o.addr(), 10 * sizeof(*cFh));
 	memcpy(cHarbin, Harbin__o.addr(), 10 * sizeof(*cHarbin));
 }
 void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
-				double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o,
-				double* cHD, double* cy, double& cVpp__o, double& cVin__o, double& cTHD__o)
+				double& cSNR, double& cSINAD, double& cSFDR, double& cENOB,
+				double* cHD, double* cy, double& cVpp, double& cVin, double& cTHD, double& cfreq_fin, double& cPn_dB,
+				double* cHarbin, double* cHarbin_disturb)
 {
 	SingleLock lock(&cs);
 	
@@ -197,28 +212,36 @@ void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, doub
 	DECLEAR_Mm_ONE(V, cV);
 	DECLEAR_Mm_ONE(code, ccode);
 
-	Mm SNR__o; 
-	Mm SINAD__o;
-	Mm SFDR__o; 
-	Mm ENOB__o;
-	Mm HD__o;
-	Mm y__o;
-	Mm Vpp__o;
-	Mm Vin__o;
-	Mm THD__o;
+	Mm SNR; 
+	Mm SINAD;
+	Mm SFDR; 
+	Mm ENOB;
+	Mm HD;
+	Mm y;
+	Mm Vpp;
+	Mm Vin;
+	Mm THD;
+	Mm freq_fin;
+	Mm Pn_dB;
+	Mm Harbin;
+	Mm Harbin_disturb;
 	
-	AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, y__o, Vpp__o, Vin__o, THD__o);
+	AdcDynTest(ADout, fclk, numbit, NFFT, V, code, i_o, SNR, SINAD, SFDR, ENOB, HD, y, Vpp, Vin, THD, Pn_dB, freq_fin, Harbin, Harbin_disturb);
 
-	cSNR__o = SNR__o.r(1, 1); 
-	cSINAD__o = SINAD__o.r(1, 1);
-	cSFDR__o = SFDR__o.r(1, 1); 
-	cENOB__o = ENOB__o.r(1, 1);
-	cVpp__o = Vpp__o.r(1, 1);
-	cVin__o = Vin__o.r(1, 1);
-	cTHD__o = THD__o.r(1, 1);
+	cSNR = SNR.r(1, 1); 
+	cSINAD = SINAD.r(1, 1);
+	cSFDR = SFDR.r(1, 1); 
+	cENOB = ENOB.r(1, 1);
+	cVpp = Vpp.r(1, 1);
+	cVin = Vin.r(1, 1);
+	cTHD = THD.r(1, 1);
+	cPn_dB = Pn_dB.r(1, 1);
+	cfreq_fin = freq_fin.r(1, 1);
 
-	memcpy(cy, y__o.addr(), cdata_cnt / 2 * sizeof(*cy));
-	memcpy(cHD, HD__o.addr(), 10 * sizeof(*cHD));
+	memcpy(cy, y.addr(), cdata_cnt / 2 * sizeof(*cy));
+	memcpy(cHD, HD.addr(), 10 * sizeof(*cHD));
+	memcpy(cHarbin, Harbin.addr(), 10 * sizeof(*cHarbin) );
+	memcpy(cHarbin_disturb, Harbin_disturb.addr(), 19 * sizeof(*cHarbin_disturb) );
 
 }
 
@@ -342,13 +365,13 @@ void AdcDynTest64k(double* cADout, double cfclk, int cnumbit, double cV, int cto
 	DECLEAR_Mm_ONE(span_s, cspan_s);
 
 	Mm freq_fin__o;
+	Mm Pn_dB__o;
 	Mm Vin__o;
 	Mm Vpp__o;
 	Mm SNR__o;
 	Mm SFDR__o;
 	Mm SINAD__o;
 	Mm THD__o;
-	Mm Pn_dB__o;
 	Mm disturb_len__o;
 	Mm ref_dB__o;
 	Mm ADout_dB__o;

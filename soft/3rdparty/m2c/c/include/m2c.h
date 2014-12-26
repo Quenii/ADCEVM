@@ -28,9 +28,11 @@ extern "C" {
 M2C_API void AlgDynTest(double* cdata1, double* cdata2, double cnumpt, double cfclk, double cnumbit, double cr,
 						double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o, double* cy);
 
-M2C_API void AlgDynTest1k(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk, double cnumbit, double cVppFs, double cr,
-				  double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o, double& cTHD__o,
-				  double* cHD, double* cSpectrum, double* cFh, double* cHarbin, double* cHarbin_dis);
+M2C_API void AlgDynTest1k(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk, double cnumbit, double cVppFs, double cr
+				  , double& cSNR__o, double& cSINAD__o, double& cSFDR__o, /*double& cENOB__o, */double& cTHD__o
+				  , double* cHD, double* cSpectrum, double* cFh, double* cHarbin, double* cHarbin_dis
+				  , double& cfreq_fin, double& cVin, double& cVpp, double& cPn_dB
+				  );
 
 M2C_API void AlgDynTestv3(double* cfpga_i, double* cfpga_q, double cnumpt, double cfclk, double cnumbit, double cVppFs, double cr,
 						  double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o, double& cTHD__o,
@@ -39,7 +41,8 @@ M2C_API void AlgDynTestv3(double* cfpga_i, double* cfpga_q, double cnumpt, doubl
 //						double& cSNR__o, double& cSFDR__o, double& cSNRFS__o, double& cSINAD__o, double* cy);
 M2C_API void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
                         double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o,
-                        double* cHD, double* cy, double& cVpp__o, double& cVin__o, double& cTHD__o);
+                        double* cHD, double* cy, double& cVpp__o, double& cVin__o, double& cTHD__o, double& Pn_dB__o, double& freq_fin__o,
+						double* cHarbin, double* cHarbin_disturb);
 
 M2C_API void inldnl(double* csamples, int cnumbit, int cnumpt, double cT1, double cT2, 
                     double cT_ideal_1, double cT_ideal_2, double* cINLar__o, double* cDNLar__o,

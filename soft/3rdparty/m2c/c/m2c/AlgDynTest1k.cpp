@@ -6,7 +6,8 @@
   
   
   Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
-     Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o, Mm& Harbin__o, Mm& Harbin_disturb__o, Mm& THD__o, Mm& Spectrum__o) \
+     Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o, Mm& Harbin__o, Mm& Harbin_disturb__o, Mm& THD__o, Mm& Spectrum__o, \
+	 Mm& freq_fin__o, Mm& Vin__o, Mm& Vpp__o, Mm& Pn_dB__o) \
      {
     begin_scope
     fpga_i.setname("fpga_i"); fpga_q.setname("fpga_q"); numpt.setname("numpt"); fclk.setname("fclk"); VppFs.setname( \
@@ -302,137 +303,137 @@
     fpga_i.setname(NULL); fpga_q.setname(NULL); numpt.setname(NULL); fclk.setname(NULL); VppFs.setname(NULL); numbit.setname( \
       NULL); r.setname(NULL); 
     SNR__o=SNR; SINAD__o=SINAD; SFDR__o=SFDR; ENOB__o=ENOB; HD__o=HD; Fh__o=Fh; Harbin__o=Harbin; Harbin_disturb__o=Harbin_disturb;  \
-      THD__o=THD; Spectrum__o=Spectrum; 
+      THD__o=THD; Spectrum__o=Spectrum; freq_fin__o = freq_fin; Vin__o = Vin; Vpp__o = Vpp; Pn_dB__o = Pn_dB;
     return x_M;
     end_scope
   }
   
   
-  Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r) {
-    begin_scope
-    double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
-    double old_nargout=nargout_val; nargout_val=1.0; nargout_set=1;
-    dMm(SNR__o); dMm(SINAD__o); dMm(SFDR__o); dMm(ENOB__o); dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o) \
-      ; dMm(THD__o); dMm(Spectrum__o); 
-    AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
-    nargout_val=old_nargout;
-    nargin_val=old_nargin;
-    return(SNR__o);
-    end_scope
-  }
-  
-  Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o) \
-     {
-    begin_scope
-    double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
-    double old_nargout=nargout_val; nargout_val=2.0; nargout_set=1;
-    dMm(SFDR__o); dMm(ENOB__o); dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm( \
-      Spectrum__o); 
-    AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
-    nargout_val=old_nargout;
-    nargin_val=old_nargin;
-    return x_M;
-    end_scope
-  }
-  
-  Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
-     Mm& SFDR__o) {
-    begin_scope
-    double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
-    double old_nargout=nargout_val; nargout_val=3.0; nargout_set=1;
-    dMm(ENOB__o); dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o);  \
-      
-    AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
-    nargout_val=old_nargout;
-    nargin_val=old_nargin;
-    return x_M;
-    end_scope
-  }
-  
-  Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
-     Mm& SFDR__o, Mm& ENOB__o) {
-    begin_scope
-    double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
-    double old_nargout=nargout_val; nargout_val=4.0; nargout_set=1;
-    dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o); 
-    AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
-    nargout_val=old_nargout;
-    nargin_val=old_nargin;
-    return x_M;
-    end_scope
-  }
-  
-  Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
-     Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o) {
-    begin_scope
-    double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
-    double old_nargout=nargout_val; nargout_val=5.0; nargout_set=1;
-    dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o); 
-    AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
-    nargout_val=old_nargout;
-    nargin_val=old_nargin;
-    return x_M;
-    end_scope
-  }
-  
-  Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
-     Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o) {
-    begin_scope
-    double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
-    double old_nargout=nargout_val; nargout_val=6.0; nargout_set=1;
-    dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o); 
-    AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
-    nargout_val=old_nargout;
-    nargin_val=old_nargin;
-    return x_M;
-    end_scope
-  }
-  
-  Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
-     Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o, Mm& Harbin__o) {
-    begin_scope
-    double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
-    double old_nargout=nargout_val; nargout_val=7.0; nargout_set=1;
-    dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o); 
-    AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
-    nargout_val=old_nargout;
-    nargin_val=old_nargin;
-    return x_M;
-    end_scope
-  }
-  
-  Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
-     Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o, Mm& Harbin__o, Mm& Harbin_disturb__o) {
-    begin_scope
-    double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
-    double old_nargout=nargout_val; nargout_val=8.0; nargout_set=1;
-    dMm(THD__o); dMm(Spectrum__o); 
-    AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
-    nargout_val=old_nargout;
-    nargin_val=old_nargin;
-    return x_M;
-    end_scope
-  }
-  
-  Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
-     Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o, Mm& Harbin__o, Mm& Harbin_disturb__o, Mm& THD__o) {
-    begin_scope
-    double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
-    double old_nargout=nargout_val; nargout_val=9.0; nargout_set=1;
-    dMm(Spectrum__o); 
-    AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
-       Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
-    nargout_val=old_nargout;
-    nargin_val=old_nargin;
-    return x_M;
-    end_scope
-  }
-  
+  //Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r) {
+  //  begin_scope
+  //  double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
+  //  double old_nargout=nargout_val; nargout_val=1.0; nargout_set=1;
+  //  dMm(SNR__o); dMm(SINAD__o); dMm(SFDR__o); dMm(ENOB__o); dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o) \
+  //    ; dMm(THD__o); dMm(Spectrum__o); 
+  //  AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
+  //     Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
+  //  nargout_val=old_nargout;
+  //  nargin_val=old_nargin;
+  //  return(SNR__o);
+  //  end_scope
+  //}
+  //
+  //Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o) \
+  //   {
+  //  begin_scope
+  //  double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
+  //  double old_nargout=nargout_val; nargout_val=2.0; nargout_set=1;
+  //  dMm(SFDR__o); dMm(ENOB__o); dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm( \
+  //    Spectrum__o); 
+  //  AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
+  //     Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
+  //  nargout_val=old_nargout;
+  //  nargin_val=old_nargin;
+  //  return x_M;
+  //  end_scope
+  //}
+  //
+  //Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
+  //   Mm& SFDR__o) {
+  //  begin_scope
+  //  double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
+  //  double old_nargout=nargout_val; nargout_val=3.0; nargout_set=1;
+  //  dMm(ENOB__o); dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o);  \
+  //    
+  //  AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
+  //     Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
+  //  nargout_val=old_nargout;
+  //  nargin_val=old_nargin;
+  //  return x_M;
+  //  end_scope
+  //}
+  //
+  //Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
+  //   Mm& SFDR__o, Mm& ENOB__o) {
+  //  begin_scope
+  //  double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
+  //  double old_nargout=nargout_val; nargout_val=4.0; nargout_set=1;
+  //  dMm(HD__o); dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o); 
+  //  AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
+  //     Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
+  //  nargout_val=old_nargout;
+  //  nargin_val=old_nargin;
+  //  return x_M;
+  //  end_scope
+  //}
+  //
+  //Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
+  //   Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o) {
+  //  begin_scope
+  //  double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
+  //  double old_nargout=nargout_val; nargout_val=5.0; nargout_set=1;
+  //  dMm(Fh__o); dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o); 
+  //  AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
+  //     Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
+  //  nargout_val=old_nargout;
+  //  nargin_val=old_nargin;
+  //  return x_M;
+  //  end_scope
+  //}
+  //
+  //Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
+  //   Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o) {
+  //  begin_scope
+  //  double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
+  //  double old_nargout=nargout_val; nargout_val=6.0; nargout_set=1;
+  //  dMm(Harbin__o); dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o); 
+  //  AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
+  //     Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
+  //  nargout_val=old_nargout;
+  //  nargin_val=old_nargin;
+  //  return x_M;
+  //  end_scope
+  //}
+  //
+  //Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
+  //   Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o, Mm& Harbin__o) {
+  //  begin_scope
+  //  double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
+  //  double old_nargout=nargout_val; nargout_val=7.0; nargout_set=1;
+  //  dMm(Harbin_disturb__o); dMm(THD__o); dMm(Spectrum__o); 
+  //  AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
+  //     Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
+  //  nargout_val=old_nargout;
+  //  nargin_val=old_nargin;
+  //  return x_M;
+  //  end_scope
+  //}
+  //
+  //Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
+  //   Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o, Mm& Harbin__o, Mm& Harbin_disturb__o) {
+  //  begin_scope
+  //  double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
+  //  double old_nargout=nargout_val; nargout_val=8.0; nargout_set=1;
+  //  dMm(THD__o); dMm(Spectrum__o); 
+  //  AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
+  //     Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
+  //  nargout_val=old_nargout;
+  //  nargin_val=old_nargin;
+  //  return x_M;
+  //  end_scope
+  //}
+  //
+  //Mm AlgDynTest1k(Mm fpga_i, Mm fpga_q, Mm numpt, Mm fclk, Mm VppFs, Mm numbit, Mm r, i_o_t, Mm& SNR__o, Mm& SINAD__o, \
+  //   Mm& SFDR__o, Mm& ENOB__o, Mm& HD__o, Mm& Fh__o, Mm& Harbin__o, Mm& Harbin_disturb__o, Mm& THD__o) {
+  //  begin_scope
+  //  double old_nargin=nargin_val; nargin_val=7.0; nargin_set=1;
+  //  double old_nargout=nargout_val; nargout_val=9.0; nargout_set=1;
+  //  dMm(Spectrum__o); 
+  //  AlgDynTest1k(fpga_i, fpga_q, numpt, fclk, VppFs, numbit, r, i_o, SNR__o, SINAD__o, SFDR__o, ENOB__o, HD__o, Fh__o, \
+  //     Harbin__o, Harbin_disturb__o, THD__o, Spectrum__o);
+  //  nargout_val=old_nargout;
+  //  nargin_val=old_nargin;
+  //  return x_M;
+  //  end_scope
+  //}
+  //

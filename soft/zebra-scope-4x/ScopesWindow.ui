@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>CETC58 ADC Analyzer Ver2.0</string>
+   <string>CETC58 TSV TEST SOFT v1.0</string>
   </property>
   <property name="dockNestingEnabled">
    <bool>false</bool>
