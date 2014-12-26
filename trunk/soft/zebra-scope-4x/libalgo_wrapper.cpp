@@ -4,10 +4,6 @@
 
 using namespace std;
 
-#include "fftw3.h"
-#pragma comment(lib, "libfftw3-3.lib")
-#pragma comment(lib, "libfftw3l-3.lib")
-#pragma comment(lib, "libfftw3f-3.lib")
 #ifdef MATLAB 
 
 #include "libalgo_wrapper.h"
@@ -77,7 +73,7 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 
 	for (int i = 0; i < samples.size(); ++i)
 	{
-		input[i] = samples[i];
+		input[i] = samples[i];// * 2 / vpp;
 	}
 
 	double cfreq_fin; 
@@ -89,18 +85,18 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 	double cENOB; 
 	double cTHD; 
 	double cPn_dB; 
-	int cdisturb_len; 
+	int cdisturb_len = 19; 
 	double cref_dB;
 
 	AdcDynTest(&input[0], samples.size(), fclk, bitCount, samples.size(), vpp, tone_code, 
-		cSNR, cSINAD, cSFDR, cENOB, &cHD[0], &cADout_dB[0], cVpp, cVin, cTHD);
+		cSNR, cSINAD, cSFDR, cENOB, &cHD[0], &cADout_dB[0], cVpp, cVin, cTHD, cfreq_fin, cPn_dB, &cHarbin[0], &cHarbin_disturb[0]);
 
 	//void AdcDynTest(double* cdata, int cdata_cnt, double cfclk, double cnumbit, double cNFFT, double cV, double ccode,
 	//	double& cSNR__o, double& cSINAD__o, double& cSFDR__o, double& cENOB__o,
 	//	double* cHD, double* cy, double& cVpp__o, double& cVin__o, double& cTHD__o)
 
-	double * harbin = &cHarbin[0];
-	double * harbin_dstb = &cHarbin_disturb[0];
+//	double * harbin = &cHarbin[0];
+//	double * harbin_dstb = &cHarbin_disturb[0];
 	if (param.Spectrum.size() != cADout_dB.size())
 	{
 		param.Spectrum.resize(cADout_dB.size());
@@ -110,23 +106,22 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 		param.Spectrum[i] = cADout_dB[i];
 	}
 	param.dualTone = false;
-//	param.DynamicPara[0].value = cfreq_fin / 1e6;
+	param.DynamicPara[0].value = cfreq_fin / 1e6;
 	param.DynamicPara[1].value = cVin;
 	param.DynamicPara[2].value = cVpp;
 	param.DynamicPara[3].value = cSNR;
 	param.DynamicPara[4].value = cSNR - cVin;
 	param.DynamicPara[5].value = cSFDR;
 	param.DynamicPara[6].value = cSFDR - cVin;
-	param.DynamicPara[7].value = //(cSINAD - 1.76) / 6.02;
-	param.DynamicPara[8].value = (cSINAD - cVin - 1.76) / 6.02;
-//	param.DynamicPara[9].value = cPn_dB;
-	param.DynamicPara[10].value = cSINAD;
-	param.DynamicPara[11].value = cTHD;
+	param.DynamicPara[7].value = (cSINAD - 1.76) / 6.02;
+//	param.DynamicPara[8].value = (cSINAD - cVin - 1.76) / 6.02;
+	param.DynamicPara[8].value = cPn_dB;
+	param.DynamicPara[9].value = cSINAD;
+	param.DynamicPara[10].value = cTHD;
 
 	for (int i=0; i<cHD.size()-1; ++i)
 	{
-		param.DynamicPara[12+i].value 
-			= cHD[i+1];
+		param.DynamicPara[11+i].value = cHD[i+1];
 	}
 
 	if (param.markers.size()<22)
@@ -134,12 +129,12 @@ void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, Fr
 		param.markers.resize(22);
 	}
 	param.markers[0] = 0;  //identify dynamic or dualtone;
-//	param.markers[21] = cPn_dB; //noise floor
-	//for (int i=0; i<10; ++i)
-	//{
-	//	param.markers[i+1] = cHarbin[i] - 1;
-	//	param.markers[i+11] = cHarbin_disturb[cdisturb_len-i-1] - 1;
-	//}
+	param.markers[21] = cPn_dB; //noise floor
+	for (int i=0; i<10; ++i)
+	{
+		param.markers[i+1] = cHarbin[i] - 1;
+		param.markers[i+11] = cHarbin_disturb[cdisturb_len-i-1] - 1;
+	}
 }
 
 void calc_dynam_params(std::vector<float> samples, double fclk, int bitCount, FreqDomainReport& param, 
@@ -256,16 +251,23 @@ void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport
 	double cSNR; 
 	double cSFDR; 
 	double cSINAD; 
-	double cENOB;
+//	double cENOB;
 	double cTHD;
 	double cHD[10];
 	double cFh[10];
 	double cHarbin[10];
 	double cHarbin_dis[20];
 
-	AlgDynTest1k(&inputI[0], &inputQ[0], points, fclk, cnumbit, vpp, cr,
-		cSNR, cSINAD, cSFDR, cENOB, cTHD,
-		cHD, &cADout_dB[0], cFh, cHarbin, cHarbin_dis);
+	double cfreq_fin; 
+	double cVin; 
+	double cVpp; 		
+	double cPn_dB; 
+
+	AlgDynTest1k(&inputI[0], &inputQ[0], points, fclk, cnumbit, vpp, cr
+		,cSNR, cSINAD, cSFDR, cTHD
+		,&cHD[0], &cADout_dB[0], &cFh[0], &cHarbin[0], &cHarbin_dis[0]
+		,cfreq_fin, cVin, cVpp, cPn_dB
+		);
 
 	if (fdReport.Spectrum.size() != cADout_dB.size())
 	{
@@ -278,13 +280,25 @@ void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport
 	fdReport.dualTone = false;
 	fdReport.DynamicPara[3].value = cSNR;
 	fdReport.DynamicPara[5].value = cSFDR;
-	fdReport.DynamicPara[10].value = cSINAD;
 	fdReport.DynamicPara[7].value = /*cENOB*/ (cSINAD - 1.76) / 6.02;
-	fdReport.DynamicPara[11].value = cTHD;
+	fdReport.DynamicPara[9].value = cSINAD;
+	fdReport.DynamicPara[10].value = cTHD;
+
+	fdReport.DynamicPara[0].value = cfreq_fin / 1e6;
+	fdReport.DynamicPara[1].value = cVin;
+	fdReport.DynamicPara[2].value = cVpp;
+	fdReport.DynamicPara[3].value = cSNR;
+	fdReport.DynamicPara[4].value = cSNR - cVin;
+	fdReport.DynamicPara[5].value = cSFDR;
+	fdReport.DynamicPara[6].value = cSFDR - cVin;
+	fdReport.DynamicPara[7].value = (cSINAD - 1.76) / 6.02;
+	fdReport.DynamicPara[8].value = cPn_dB;
+	fdReport.DynamicPara[9].value = cSINAD;
+	fdReport.DynamicPara[10].value = cTHD;
 
 	for (int i=0; i<9; i++)
 	{
-		fdReport.DynamicPara[12+i].value = cHD[i];
+		fdReport.DynamicPara[11+i].value = cHD[i];
 	}
 	//markers
 	//Fh = (Harbin-NFFT/2)/(NFFT);
@@ -308,43 +322,4 @@ void calc_dynam_params_iq(TimeDomainReport& tdReport, FreqDomainReport& fdReport
 }
 
 
-void calc_dynam_params_iq_fftw(TimeDomainReport& tdReport, FreqDomainReport& fdReport, int points, double fclk, int bitCnt, double vpp, int r)
-{
-	static std::vector<double> inputI(tdReport.samples.size());
-	static std::vector<double> inputQ(tdReport.samples.size());
-
-	static std::vector<double> cADout_dB(inputI.size());
-
-	const int N = 1024;
-
-	fftw_complex *in, *out;
-	fftw_plan p;
-
-	in = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N);
-	out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N);
-
-	for (int i = 0; i < N; ++i)
-	{
-		in[i][0] = tdReport.samples[i] *2 / vpp;
-		in[i][1] = -tdReport.samplesQ[i] *2 / vpp;
-	}
-	p = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
-
-	for (int i = 0; i < tdReport.samples.size(); ++i)
-	{
-		inputI[i] = tdReport.samples[i] * 2 / vpp;
-		inputQ[i] = tdReport.samplesQ[i] * 2 / vpp;
-	}
-
-
-	fftw_execute(p); /* repeat as needed */
-
-	for (int i=0; i<N; ++i)
-	{
-		fdReport.Spectrum[i] = 20* log( sqrt(out[i][0] * out[i][0] + out[i][1] * out[i][1]) );
-	}
-
-	fftw_destroy_plan(p);
-	fftw_free(in); fftw_free(out);
-}
 #endif
